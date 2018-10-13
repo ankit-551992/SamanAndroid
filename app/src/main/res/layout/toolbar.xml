@@ -1,0 +1,40 @@
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/actionBarSize"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:maxLines="1"
+        android:text="@string/Login"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_normal"/>
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/toolbar_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cross"
+        android:contentDescription="@string/contentDescription" />
+
+    <ImageView
+        android:visibility="gone"
+        android:padding="10dp"
+        android:background="@drawable/ic_style_border"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="end|center_vertical"
+        android:id="@+id/toolbar_settings"
+        android:src="@drawable/ic_settings_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/contentDescription" />
+
+</android.support.v7.widget.Toolbar>

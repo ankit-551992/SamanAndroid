@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FEC831</color>
+    <color name="colorPrimaryDark">#FEC831</color>
+    <color name="colorPrimaryDarkPressed">#aaFEC831</color>
+    <color name="colorAccent">#FEC831</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="grey">#9e9e9e</color>
+    <color name="light_grey">#B6B6B6</color>
+    <color name="off_grey">#f1ecec</color>
+    <color name="off_white">#FAFAFA</color>
+
+    <color name="search_bg">#d8d8d8</color>
+
+    <color name="indigo_button_pressed">#aa7E236A</color>
+    <color name="indigo_button_focused">#aa7E236A</color>
+    <color name="indigo_button_default">#7E236A</color>
+</resources>
