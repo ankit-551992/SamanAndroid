@@ -235,7 +235,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
             // Draw Text
             p.setColor(Color.WHITE);
-            p.setTextSize(50);
+            p.setTextSize(40);
 
             Rect r = new Rect();
             float cHeight = rect.height();
@@ -247,11 +247,11 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
             float height = (float) view.getBottom() - (float) view.getTop();
             float width = height / 3;
-            RectF icon_dest = new RectF((float) view.getRight() - 2*width ,(float) view.getTop() + width,(float) view.getRight() - width,(float)view.getBottom() - width);
+            RectF icon_dest = new RectF((float) rect.left + x ,(float) view.getTop() + width,(float) rect.right - x,(float)view.getBottom() - width);
             if(imageResId!=null) {
                 c.drawBitmap(imageResId, null, icon_dest, p);
             }
-            c.drawText(text, rect.left + x, view.getTop() + width + y, p);
+            c.drawText(text, rect.left + x, view.getTop() + width/2 + y+25, p);
 
             clickRegion = rect;
             this.pos = pos;

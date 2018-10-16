@@ -262,7 +262,7 @@
 
             <Button
                 android:layout_marginTop="5dp"
-                android:id="@+id/button_login"
+                android:id="@+id/button_place_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow_button"

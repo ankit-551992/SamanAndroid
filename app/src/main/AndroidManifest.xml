@@ -23,6 +23,7 @@
         <activity android:name=".ui.activities.login.LoginActivity"/>
         <activity android:name=".ui.activities.register.RegisterActivity"/>
         <activity android:name=".ui.activities.order.checkout.CheckOutActivity"/>
+        <activity android:name=".ui.activities.order.checkout.CheckoutOrderActivity"/>
         <activity android:name=".ui.activities.home.DashboardActivity"/>
         <activity android:name=".ui.activities.password.ChangePasswordActivity"/>
         <activity android:name=".ui.activities.password.ForgotPasswordActivity"/>
@@ -33,6 +34,7 @@
         <activity android:name=".ui.activities.myaccount.payment.MyPaymentActivity"/>
         <activity android:name=".ui.activities.myaccount.messages.MessagesListActivity"/>
         <activity android:name=".ui.activities.myaccount.messages.MessagingActivity"/>
+        <activity android:name=".ui.activities.myaccount.myorders.MyOrdersActivity"/>
         <activity android:name=".ui.activities.myaccount.customersupports.CustomerSupportActivity"/>
         <activity android:name=".ui.activities.settings.SettingsActivity"/>
         <activity android:name=".ui.activities.order.cart.ShoppingCartActivity"/>

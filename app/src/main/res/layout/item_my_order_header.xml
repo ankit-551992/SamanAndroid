@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="20dp"
+    android:background="@color/order_header_bg"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_order"
+        android:textColor="@color/grey"
+        android:text="Order #"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_order_d"
+        android:layout_below="@id/tv_order"
+        android:textColor="@color/grey"
+        android:text="@string/order_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toEndOf="@id/tv_order"
+        android:layout_toRightOf="@id/tv_order"
+        android:text="546789087654"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_order_date"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/tv_order"
+        android:layout_toEndOf="@id/tv_order_d"
+        android:layout_toRightOf="@id/tv_order_d"
+        android:text="3/3/2017"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -28,6 +28,7 @@ import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.ui.activities.search.SearchActivity;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
 import com.algorepublic.saman.ui.adapters.PaymentAdapter;
+import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SwipeHelper;
 
 import java.util.ArrayList;
@@ -52,7 +53,6 @@ public class MyPaymentActivity extends BaseActivity {
     RecyclerView.LayoutManager layoutManager;
     List<Payment> paymentList = new ArrayList<>();
     PaymentAdapter paymentAdapter;
-    Bitmap icon;
 
     Dialog dialog;
 
@@ -90,13 +90,12 @@ public class MyPaymentActivity extends BaseActivity {
 
         getExistingPaymentMethods();
 
-        icon = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_button_bg);
         SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
             @Override
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        "Delete",
-                        icon,
+                        getString(R.string.delete),
+                        ResourceUtil.getBitmap(MyPaymentActivity.this,R.drawable.ic_delete),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override

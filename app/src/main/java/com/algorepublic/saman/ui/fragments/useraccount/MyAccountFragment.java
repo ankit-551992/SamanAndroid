@@ -11,6 +11,7 @@ import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.ui.activities.myaccount.customersupports.CustomerSupportActivity;
 import com.algorepublic.saman.ui.activities.myaccount.messages.MessagesListActivity;
 import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
+import com.algorepublic.saman.ui.activities.myaccount.myorders.MyOrdersActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 
 import butterknife.ButterKnife;
@@ -29,6 +30,12 @@ public class MyAccountFragment extends BaseFragment {
     @OnClick(R.id.my_details)
     void myDetails() {
         Intent intent = new Intent(getActivity(), MyDetailsActivity.class);
+        getActivity().startActivity(intent);
+    }
+
+    @OnClick(R.id.my_orders)
+    void myOrders() {
+        Intent intent = new Intent(getActivity(), MyOrdersActivity.class);
         getActivity().startActivity(intent);
     }
 

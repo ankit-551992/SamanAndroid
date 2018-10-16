@@ -18,6 +18,64 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <TextView
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:paddingLeft="25dp"
+                    android:paddingStart="25dp"
+                    android:paddingRight="25dp"
+                    android:paddingEnd="25dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:text="Swipe"
+                    android:textStyle="bold"
+                    android:background="@drawable/button_border"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:paddingLeft="25dp"
+                    android:paddingStart="25dp"
+                    android:paddingRight="25dp"
+                    android:paddingEnd="25dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:text="Click"
+                    android:background="@drawable/button_border"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:src="@drawable/bingo"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -121,19 +179,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.RecyclerView
+            <android.support.v4.view.ViewPager
                 android:layout_below="@+id/tv_best_sellers_see_all"
-                android:id="@+id/best_sellers_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:id="@+id/bestSellersPager"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:id="@+id/brands_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="50dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 

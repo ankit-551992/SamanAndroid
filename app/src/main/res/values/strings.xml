@@ -84,6 +84,19 @@
     <string name="cart_dummy">Mr. Jesus\nMusqat\nMusqat\nOman\115\n77777</string>
     <!--Shopping cart-->
 
+    <!--Checkout-->
+    <string name="check_out_thank_you">Thank You For Your Order</string>
+    <string name="check_out_email_msg">Please check your email for your confirmation</string>
+    <string name="check_out">Checkout</string>
+    <string name="order_total">Order Total</string>
+    <string name="order_reference">Order Reference</string>
+    <string name="order_status">Order Status</string>
+    <string name="delivery_date">Delivery Date</string>
+    <string name="return_policy"><u>Return Policy</u></string>
+    <string name="received">Received</string>
+    <string name="Cancel_order_before_24h">Cancel Order (before 24h)</string>
+    <!--Checkout-->
+
     <!--Payment-->
     <string name="add_payment">Add Payment</string>
     <string name="add_new_card">Credit/Debit\n Card\nAdd New</string>
@@ -97,6 +110,10 @@
     <string name="VAT">VAT  : </string>
     <string name="total">Total: </string>
     <string name="proceed">Proceed to CHECKOUT</string>
+    <string name="order_date">Order Date</string>
+    <string name="delete">Delete</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="add_to_fav">Add to Fav</string>
     <!--Bag-->
 
     <!--Search-->

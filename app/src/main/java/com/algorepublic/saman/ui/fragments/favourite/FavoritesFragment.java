@@ -20,6 +20,7 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
+import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SwipeHelper;
 
 import java.util.ArrayList;
@@ -37,7 +38,6 @@ public class FavoritesFragment extends BaseFragment {
     List<Product> productArrayList = new ArrayList<>();
     FavoritesAdapter favoritesAdapter;
     private Paint p = new Paint();
-    Bitmap icon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,18 +52,16 @@ public class FavoritesFragment extends BaseFragment {
         favoritesAdapter = new FavoritesAdapter(getContext(), productArrayList);
         favoritesRecyclerView.setAdapter(favoritesAdapter);
 
-
         getfavorites();
 
 //        enableSwipe();
 
-        icon = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_button_bg);
         SwipeHelper swipeHelper = new SwipeHelper(getContext(), favoritesRecyclerView) {
             @Override
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        "Delete",
-                        icon,
+                        getString(R.string.delete),
+                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_delete),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
@@ -74,8 +72,8 @@ public class FavoritesFragment extends BaseFragment {
                 ));
 
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        "Share",
-                        null,
+                        getString(R.string.add_to_cart),
+                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_add_shopping_cart),
                         Color.parseColor("#FF9502"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
