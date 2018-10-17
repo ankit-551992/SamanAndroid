@@ -16,13 +16,16 @@ import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.adapters.BagCartAdapter;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CheckoutOrderActivity extends BaseActivity {
 
@@ -61,6 +64,11 @@ public class CheckoutOrderActivity extends BaseActivity {
 
         setBag();
 
+    }
+
+    @OnClick(R.id.tv_return_policy)
+    void policy(){
+        new FinestWebView.Builder(CheckoutOrderActivity.this).show(Constants.URLS.returnPolicy);
     }
 
 

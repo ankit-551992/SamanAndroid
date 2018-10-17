@@ -21,6 +21,10 @@ public class Constants {
     public interface URLS {
 //        String BaseApis = "https://petradiamond.herokuapp.com/";
         String BaseApis = "http://algorepublic-001-site2.etempurl.com/api/";
+        String returnPolicy = "https://www.algorepublic.com/";
+        String terms = "https://www.algorepublic.com/services/";
+        String privacyPolicy = "https://www.algorepublic.com/services/";
+        String contactUs = "https://www.algorepublic.com/contact-us/";
     }
 
     public static boolean isNetworkAvailable(Context c) {

@@ -13,6 +13,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:padding="5dp"
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:src="@drawable/dummy_mobile" />

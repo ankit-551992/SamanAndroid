@@ -23,6 +23,7 @@ import com.algorepublic.saman.data.model.Payment;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.adapters.MessagesAdapter;
 import com.algorepublic.saman.ui.adapters.PaymentAdapter;
+import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SwipeHelper;
 
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ public class MessagesListActivity extends BaseActivity {
     RecyclerView.LayoutManager layoutManager;
     List<Message> messageArrayList = new ArrayList<>();
     MessagesAdapter messagesAdapter;
-    Bitmap icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +71,13 @@ public class MessagesListActivity extends BaseActivity {
 
         getMessages();
 
-        icon = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_button_bg);
-        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
+
+        new SwipeHelper(this, mRecyclerView) {
             @Override
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        "Delete",
-                        icon,
+                        getString(R.string.delete),
+                        ResourceUtil.getBitmap(MessagesListActivity.this,R.drawable.ic_delete),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override

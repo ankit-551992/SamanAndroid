@@ -90,7 +90,7 @@ public class MyPaymentActivity extends BaseActivity {
 
         getExistingPaymentMethods();
 
-        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
+        new SwipeHelper(this, mRecyclerView) {
             @Override
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
@@ -106,7 +106,6 @@ public class MyPaymentActivity extends BaseActivity {
                 ));
             }
         };
-
 
     }
 

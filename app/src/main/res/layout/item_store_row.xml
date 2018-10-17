@@ -6,19 +6,26 @@
 
     <android.support.v7.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@drawable/ic_edit_text_background"
         android:layout_width="match_parent"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="5dp"
         android:layout_height="0dp"
         android:layout_weight="0.8">
 
-        <ImageView
-            android:id="@+id/iv_store_image"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:src="@drawable/earth_top"
+        <FrameLayout
+            android:background="@drawable/store_image_background"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/iv_store_image"
+                android:src="@drawable/earth_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+
 
     </android.support.v7.widget.CardView>
 

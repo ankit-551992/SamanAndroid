@@ -37,7 +37,8 @@
                     android:id="@+id/iv_country_flag"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_camera" />
+                    android:src="@drawable/ic_camera"
+                    android:contentDescription="@string/contentDescription" />
 
             </LinearLayout>
 
@@ -86,7 +87,6 @@
                 android:background="@drawable/ic_edit_text_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
 
             <LinearLayout
                 android:layout_marginTop="20dp"
@@ -219,15 +219,17 @@
 
                 <ImageView
                     android:padding="10dp"
-                    android:src="@drawable/ic_visa"
+                    android:src="@drawable/visa_card"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/contentDescription" />
 
                 <ImageView
-                    android:padding="10dp"
-                    android:src="@drawable/ic_visa"
+                    android:padding="15dp"
+                    android:src="@drawable/master_card"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/contentDescription" />
 
             </LinearLayout>
 

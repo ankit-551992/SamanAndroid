@@ -21,6 +21,7 @@ import com.algorepublic.saman.ui.adapters.BrandsAdapter;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
 import com.algorepublic.saman.ui.adapters.StoresAdapter;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
+import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,8 @@ public class HomeFragment extends BaseFragment {
     //BestSellers
     @BindView(R.id.bestSellersPager)
     ViewPager  bestSellersPager;
+    @BindView(R.id.indicators)
+    LinePageIndicator pageIndicator;
     ArrayList<String> bestSellersURLs;
     CustomPagerAdapter bestSellersAdapter;
     //BestSellers
@@ -145,10 +148,22 @@ public class HomeFragment extends BaseFragment {
         bestSellersPager.setPadding(100,0,100,0);
 
         bestSellersURLs.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
+        bestSellersURLs.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
         bestSellersURLs.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYzcXT8JvYjG5IEYf-rzzklrzvOqG66atU-oyXPWlCZX7_luqU");
         bestSellersURLs.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
         bestSellersURLs.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYzcXT8JvYjG5IEYf-rzzklrzvOqG66atU-oyXPWlCZX7_luqU");
         bestSellersAdapter.notifyDataSetChanged();
+
+
+        int median;
+        if (bestSellersURLs.size() % 2 == 0)
+            median = (bestSellersURLs.size()/2 + bestSellersURLs.size()/2 - 1)/2;
+        else
+            median = bestSellersURLs.size()/2;
+
+        bestSellersPager.setCurrentItem(median);
+        pageIndicator.setViewPager(bestSellersPager);
+        pageIndicator.setCurrentItem(median);
     }
 
     private void setBrand() {

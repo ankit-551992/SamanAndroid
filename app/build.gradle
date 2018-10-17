@@ -101,5 +101,11 @@ dependencies {
     //PayPal
     implementation 'com.paypal.sdk:paypal-android-sdk:2.14.2'
 
+    //ViewPagerIndicator
+    implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+
+    //WebView
+    implementation 'com.thefinestartist:finestwebview:1.2.7'
+
 }
 apply plugin: 'com.google.gms.google-services'

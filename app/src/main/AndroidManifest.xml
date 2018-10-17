@@ -39,6 +39,13 @@
         <activity android:name=".ui.activities.settings.SettingsActivity"/>
         <activity android:name=".ui.activities.order.cart.ShoppingCartActivity"/>
 
+
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/TheFinestWebViewTheme" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA5da6atc-sJ_Zzvw4flqZ-XnDtv5aT3ms" />

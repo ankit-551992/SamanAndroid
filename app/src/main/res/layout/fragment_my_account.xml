@@ -23,7 +23,7 @@
         <ImageView
             android:layout_below="@id/iv_profile_background"
             android:id="@+id/iv_profile"
-            android:src="@drawable/ic_profile"
+            android:src="@drawable/photo"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"

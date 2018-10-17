@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.ui.activities.order.checkout.CheckoutOrderActivity;
 import com.algorepublic.saman.ui.activities.password.ChangePasswordActivity;
+import com.algorepublic.saman.utils.Constants;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +48,16 @@ public class SettingsActivity extends BaseActivity {
     void changePassword(){
         Intent intent=new Intent(SettingsActivity.this, ChangePasswordActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.tv_privacy_policy)
+    void privacy(){
+        new FinestWebView.Builder(SettingsActivity.this).show(Constants.URLS.privacyPolicy);
+    }
+
+    @OnClick(R.id.tv_terms_of_uses)
+    void termsOfUses(){
+        new FinestWebView.Builder(SettingsActivity.this).show(Constants.URLS.terms);
     }
 
 }

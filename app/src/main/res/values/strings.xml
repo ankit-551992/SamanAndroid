@@ -23,6 +23,8 @@
     <string name="dummy">Lige Brand Men Watches Automatic</string>
     <string name="write_here">Write your message here</string>
     <string name="search">Search</string>
+    <string name="swipe">Swipe</string>
+    <string name="click">Click</string>
     <string name="back">Back</string>
     <string name="currency_omr">OMR</string>
     <string name="logout_message">Are you sure want to logout from the app?</string>

@@ -50,6 +50,7 @@ public class SearchActivity extends BaseActivity{
     List<Product> originalData = new ArrayList<>();
     List<Product> displayData = new ArrayList<>();
     ProductAdapter productAdapter;
+    Dialog dialog;
 
     String[] d={"PHONE FINDER","SAMSUNG","APPLE","NOKIA","SONY","LG","MOTOROLA","GOOGLE","BLACKBERRY"};
 
@@ -101,7 +102,6 @@ public class SearchActivity extends BaseActivity{
 
     @OnClick(R.id.toolbar_settings)
     void filter(){
-        final Dialog dialog;
         dialog = new Dialog(SearchActivity.this,R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_filter);

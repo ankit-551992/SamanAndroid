@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,11 +22,15 @@
 
 
             <ImageView
+                android:padding="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/ic_visa" />
+                android:background="@drawable/ic_off_green_bg"
+                android:tint="@android:color/holo_green_dark"
+                android:src="@drawable/ic_check"
+                android:contentDescription="@string/contentDescription" />
 
             <TextView
                 android:gravity="center"
@@ -181,7 +184,8 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/dummy_mobile" />
+                android:src="@drawable/dummy_mobile"
+                android:contentDescription="@string/contentDescription" />
 
             <TextView
                 android:id="@+id/tv_quantity"
@@ -209,6 +213,7 @@
                 android:textAllCaps="false" />
 
             <TextView
+                android:id="@+id/tv_return_policy"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
