@@ -10,19 +10,27 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <EditText
-        android:id="@+id/editText_search"
+    <RelativeLayout
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/search_border"
-        android:drawableLeft="@drawable/ic_search_grey"
-        android:drawablePadding="10dp"
-        android:inputType="text"
-        android:drawableStart="@drawable/ic_search_grey"
-        android:padding="8dp"
-        android:hint="@string/search"
-        android:textColor="@color/grey" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_margin="15dp"
+            android:id="@+id/editText_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_background"
+            android:drawableLeft="@drawable/ic_search_grey"
+            android:drawablePadding="5dp"
+            android:inputType="text"
+            android:drawableStart="@drawable/ic_search_grey"
+            android:padding="10dp"
+            android:hint="@string/search"
+            android:textColor="@color/grey" />
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

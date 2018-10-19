@@ -43,6 +43,9 @@ public class SamanApp extends MultiDexApplication {
         GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()),getApplicationContext());
 
 
+//        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "font/neo_sans.ttf");
+
+
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET))

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
 
 import butterknife.BindView;
@@ -49,6 +50,7 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         presenter=new PasswordPresenter(this);
         newPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        newPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         toolbarTitle.setText(getString(R.string.reset_password));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -101,10 +103,12 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
         if(!isShowing){
             isShowing=true;
             newPasswordEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            newPasswordEditText.setTransformationMethod(null);
             newPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_view));
         }else {
             isShowing=false;
             newPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            newPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             newPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
         newPasswordEditText.setSelection(newPasswordEditText.length());

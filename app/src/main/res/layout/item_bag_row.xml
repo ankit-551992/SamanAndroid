@@ -72,11 +72,13 @@
                 <TextView
                     android:layout_centerVertical="true"
                     android:id="@+id/tv_quantity"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingStart="5dp"
-                    android:background="@drawable/favorites_background"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:paddingEnd="7dp"
+                    android:paddingStart="7dp"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:background="@drawable/text_bg"
                     android:text="5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -84,7 +86,7 @@
                 <ImageView
                     android:layout_centerVertical="true"
                     android:id="@+id/iv_add_quantity"
-                    android:tint="@color/light_grey"
+                    android:tint="@color/black"
                     android:layout_above="@+id/tv_quantity"
                     android:src="@drawable/ic_add"
                     android:layout_width="20dp"
@@ -93,7 +95,7 @@
                 <ImageView
                     android:layout_centerVertical="true"
                     android:id="@+id/iv_remove_quantity"
-                    android:tint="@color/light_grey"
+                    android:tint="@color/black"
                     android:layout_below="@+id/tv_quantity"
                     android:src="@drawable/ic_remove"
                     android:layout_width="20dp"

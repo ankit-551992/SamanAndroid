@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import butterknife.BindView;
@@ -53,6 +54,9 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
         presenter=new PasswordPresenter(this);
         oldPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         newPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        oldPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+        newPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+
         toolbarTitle.setText(getString(R.string.change_password));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -106,10 +110,12 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
         if(!isOldShowing){
             isOldShowing=true;
             oldPasswordEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            oldPasswordEditText.setTransformationMethod(null);
             oldPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_view));
         }else {
             isOldShowing=false;
             oldPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            oldPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             oldPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
 
@@ -121,10 +127,12 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
         if(!isNewShowing){
             isNewShowing=true;
             newPasswordEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            newPasswordEditText.setTransformationMethod(null);
             newPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_view));
         }else {
             isNewShowing=false;
             newPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            newPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             newPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
         newPasswordEditText.setSelection(newPasswordEditText.length());

@@ -63,6 +63,7 @@ public class SearchActivity extends BaseActivity{
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.search));
+        toolbarTitle.setAllCaps(true);
         toolbarBack.setVisibility(View.VISIBLE);
         filter.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

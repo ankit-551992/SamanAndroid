@@ -5,27 +5,42 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
+import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.myaccount.customersupports.CustomerSupportActivity;
 import com.algorepublic.saman.ui.activities.myaccount.messages.MessagesListActivity;
 import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.ui.activities.myaccount.myorders.MyOrdersActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
+import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.GlobalValues;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MyAccountFragment extends BaseFragment {
 
+    @BindView(R.id.user_name)
+    TextView userName;
+    @BindView(R.id.user_email)
+    TextView userEmail;
+
+    User authenticatedUser;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_account, container, false);
         ButterKnife.bind(this, view);
+        authenticatedUser = GlobalValues.getUser(getContext());
+        userName.setText(getContext().getString(R.string.Welcome)+"," +authenticatedUser.getFirstName());
+        userEmail.setText(authenticatedUser.getEmail());
         return view;
     }
-
 
     @OnClick(R.id.my_details)
     void myDetails() {

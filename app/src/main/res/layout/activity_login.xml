@@ -84,6 +84,7 @@
                 android:gravity="center"
                 android:background="@drawable/circle"
                 android:text="@string/OR"
+                android:padding="15dp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -140,7 +141,6 @@
                     android:id="@+id/editText_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/password_hint"
                     android:inputType="textPassword"
                     android:textColor="@color/black" />
 
@@ -174,6 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Button
+                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

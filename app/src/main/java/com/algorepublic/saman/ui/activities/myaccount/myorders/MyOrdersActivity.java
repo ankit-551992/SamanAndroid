@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.activities.myaccount.myorders;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,6 +15,8 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Order;
 import com.algorepublic.saman.ui.adapters.MyOrdersAdapter;
+import com.algorepublic.saman.utils.ResourceUtil;
+import com.algorepublic.saman.utils.SwipeHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +57,24 @@ public class MyOrdersActivity extends BaseActivity{
         }else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
+
+
+        new SwipeHelper(this, ordersRecyclerView) {
+            @Override
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new SwipeHelper.UnderlayButton(
+                        getString(R.string.cancel),
+                        ResourceUtil.getBitmap(MyOrdersActivity.this,R.drawable.ic_cross),
+                        Color.parseColor("#FF3C30"),
+                        new SwipeHelper.UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                // TODO: onDelete
+                            }
+                        }
+                ));
+            }
+        };
 
         setData();
     }

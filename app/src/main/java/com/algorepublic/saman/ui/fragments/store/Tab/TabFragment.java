@@ -105,7 +105,7 @@ public class TabFragment extends BaseFragment {
         for (int i = 0; i < 9; i++) {
             Store store = new Store();
             storeArrayList.add(store);
-//            isGetAll = true;
+            isGetAll = true;
             progressBar.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
             adapter.setLoaded();

@@ -19,6 +19,7 @@ import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
 import com.algorepublic.saman.ui.activities.password.ForgotPasswordActivity;
 import com.algorepublic.saman.ui.activities.register.RegisterActivity;
+import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.facebook.CallbackManager;
@@ -92,8 +93,8 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         mPresenter=new LoginPresenterImpl(this,new LoginDataInteractor());
-
 
         // Social Login
         mTwitterAuthClient= new TwitterAuthClient();
@@ -161,10 +162,12 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
         if(!isShowing){
             isShowing=true;
             passwordEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            passwordEditText.setTransformationMethod(null);
             passwordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_view));
         }else {
             isShowing=false;
             passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             passwordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
 

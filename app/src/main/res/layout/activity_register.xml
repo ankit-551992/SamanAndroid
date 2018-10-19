@@ -86,8 +86,8 @@
                     android:background="@drawable/circle"
                     android:gravity="center"
                     android:text="@string/OR"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:padding="15dp"
+                    android:textColor="@color/white"/>
 
                 <View
                     android:layout_width="0dp"
@@ -292,6 +292,7 @@
                 android:visibility="invisible" />
 
             <Button
+                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/button_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

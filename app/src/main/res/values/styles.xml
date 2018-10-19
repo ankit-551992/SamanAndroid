@@ -6,13 +6,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/neo_sans</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorPrimaryDark">#00ffffff</item>
         <item name="android:windowIsFloating">false</item>
+        <item name="fontFamily">@font/neo_sans</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
+    <!--<item name="android:typeface">serif</item>-->
 
     <style name="TheFinestWebViewTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>

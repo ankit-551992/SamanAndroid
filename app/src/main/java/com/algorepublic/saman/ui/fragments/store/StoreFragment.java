@@ -57,35 +57,35 @@ public class StoreFragment extends BaseFragment {
         setUpCustomTabs();
 //        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.beginFakeDrag();
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-                if (tab != null) {
-                    View customView = tab.getCustomView();
-                    if (customView != null) {
-                        LinearLayout bg = (LinearLayout)customView.findViewById(R.id.tab_layout);
-                        bg.setBackground(getActivity().getResources().getDrawable(R.drawable.tab_selector));
-                    }
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                if (tab != null) {
-                    View customView = tab.getCustomView();
-                    if (customView != null) {
-                        LinearLayout bg = (LinearLayout)customView.findViewById(R.id.tab_layout);
-                        bg.setBackground(null);
-                    }
-                }
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//                if (tab != null) {
+//                    View customView = tab.getCustomView();
+//                    if (customView != null) {
+//                        LinearLayout bg = (LinearLayout)customView.findViewById(R.id.tab_layout);
+//                        bg.setBackground(getActivity().getResources().getDrawable(R.drawable.tab_selector));
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//                if (tab != null) {
+//                    View customView = tab.getCustomView();
+//                    if (customView != null) {
+//                        LinearLayout bg = (LinearLayout)customView.findViewById(R.id.tab_layout);
+//                        bg.setBackground(null);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
     }
 
     private void setupTabIcons() {
@@ -104,9 +104,9 @@ public class StoreFragment extends BaseFragment {
             ImageView imageView=(ImageView) customTab.findViewById(R.id.iv_tab);
             LinearLayout bg = (LinearLayout)customTab.findViewById(R.id.tab_layout);
             textView.setText(adapter.mFragmentTitleList.get(i));
-            if(i==0){
-                bg.setBackground(getActivity().getResources().getDrawable(R.drawable.tab_selector));
-            }
+//            if(i==0){
+//                bg.setBackground(getActivity().getResources().getDrawable(R.drawable.tab_selector));
+//            }
 
             switch (i){
                 case 0:

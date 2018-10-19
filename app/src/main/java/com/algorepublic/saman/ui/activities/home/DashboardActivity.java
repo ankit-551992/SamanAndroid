@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -58,7 +59,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     private ImageView imgProfile;
     private TextView txtName, txtWebsite;
     public static boolean isAppRunning;
-    String title="Home";
+    String title = "Home";
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -71,6 +72,14 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_drawer);
         ButterKnife.bind(this);
+
+        settings.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setImageDrawable(getDrawable(R.drawable.ic_logout_));
+        } else {
+            settings.setImageDrawable(getResources().getDrawable(R.drawable.ic_logout_));
+        }
+
         mHandler = new Handler();
         mPresenter = new DashboardPresenter(this);
         mPresenter.getUserData();
@@ -94,10 +103,12 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
 
     @OnClick(R.id.toolbar_settings)
-    void settingButton(){
-        if(navItemIndex==4){
-            Intent intent=new Intent(DashboardActivity.this, SettingsActivity.class);
+    void settingButton() {
+        if (navItemIndex == 4) {
+            Intent intent = new Intent(DashboardActivity.this, SettingsActivity.class);
             startActivity(intent);
+        }else {
+            show_logout_dialog();
         }
     }
 
@@ -121,7 +132,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 navItemIndex = 4;
                 break;
             case R.id.nav_settings:
-                Intent intent=new Intent(DashboardActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(DashboardActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 navItemIndex = -1;
                 break;
@@ -134,10 +145,19 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         }
         // close drawer when item is tapped
         mDrawerLayout.closeDrawers();
-        if(navItemIndex==4){
-            settings.setVisibility(View.VISIBLE);
-        }else {
+        if (navItemIndex == 3) {
             settings.setVisibility(View.GONE);
+        } else {
+            if(navItemIndex==4) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    settings.setImageDrawable(getDrawable(R.drawable.ic_settings));
+                    settings.setColorFilter(Color.argb(255, 255, 255, 255));
+                } else {
+                    settings.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings));
+                    settings.setColorFilter(Color.argb(255, 255, 255, 255));
+                }
+            }
+            settings.setVisibility(View.VISIBLE);
         }
         // Add code here to update the UI based on the item selected
         // For example, swap UI fragments here
@@ -160,6 +180,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        ActionBar actionbar = getSupportActionBar();
+//        actionbar.setHomeButtonEnabled(true);
 //        actionbar.setDisplayHomeAsUpEnabled(true);
 //        actionbar.setHomeAsUpIndicator(R.drawable.ic_cross);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -245,23 +266,23 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         switch (navItemIndex) {
             case 0:
                 fragment = new HomeFragment();
-                title=getString(R.string.title_home);
+                title = getString(R.string.title_home);
                 break;
             case 1:
                 fragment = new StoreFragment();
-                title=getString(R.string.title_store);
+                title = getString(R.string.title_store);
                 break;
             case 2:
                 fragment = new FavoritesFragment();
-                title=getString(R.string.title_favorite);
+                title = getString(R.string.title_favorite);
                 break;
             case 3:
                 fragment = new BagFragment();
-                title=getString(R.string.shopping_cart);
+                title = getString(R.string.shopping_cart);
                 break;
             case 4:
                 fragment = new MyAccountFragment();
-                title=getString(R.string.title_my_account);
+                title = getString(R.string.title_my_account);
                 break;
             default:
                 fragment = new HomeFragment();

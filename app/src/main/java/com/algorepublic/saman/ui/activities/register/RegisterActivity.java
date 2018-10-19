@@ -23,6 +23,7 @@ import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
+import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.facebook.CallbackManager;
@@ -122,6 +123,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText("Sign Up");
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         mPresenter=new RegisterPresenterImpl(this,new RegisterDataInteractor());
         mPresenter.getCountries();
 
@@ -168,7 +170,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
     };
 
     private void updateLabel() {
-        String myFormat = "dd/MM/YYYY"; //In which you need put here
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         birthdayEditText.setText(sdf.format(myCalendar.getTime()));

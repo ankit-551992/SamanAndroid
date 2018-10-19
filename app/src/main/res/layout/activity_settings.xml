@@ -105,6 +105,8 @@
             android:textSize="20sp"
             android:textColor="@color/black"
             android:text="@string/change_password"
+            android:drawableEnd="@drawable/ic_navigate_next"
+            android:drawableRight="@drawable/ic_navigate_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <View

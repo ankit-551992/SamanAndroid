@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:layout_marginTop="5dp"
             android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="15sp"
@@ -39,7 +40,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="5dp"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:textColor="@color/black"

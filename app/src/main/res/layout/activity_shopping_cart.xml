@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_bag"
+                    android:text="@string/title_my_bag"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -82,7 +82,7 @@
             </RelativeLayout>
 
             <EditText
-                android:padding="15dp"
+                android:padding="10dp"
                 android:hint="@string/promo"
                 android:background="@drawable/ic_edit_text_background"
                 android:layout_width="match_parent"
@@ -107,6 +107,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/change"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:textSize="12sp"/>
 
                 <ImageView
@@ -148,6 +150,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/pick_up_seller"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:textSize="12sp"/>
 
                 <ImageView
@@ -183,6 +187,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/change"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:textSize="12sp"/>
 
                 <ImageView
@@ -263,6 +269,7 @@
                 android:layout_height="wrap_content" />
 
             <Button
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_marginTop="5dp"
                 android:id="@+id/button_place_order"
                 android:layout_width="match_parent"

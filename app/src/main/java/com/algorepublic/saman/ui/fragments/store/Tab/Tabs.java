@@ -46,7 +46,7 @@ public class Tabs extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         storeArrayList = new ArrayList<>();
-        adapter = new StoresAdapter(getContext(),storeArrayList);
+        adapter = new StoresAdapter(getContext(), storeArrayList);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
@@ -58,7 +58,7 @@ public class Tabs extends BaseFragment {
             @Override
             public void onRefresh() {
                 storeArrayList = new ArrayList<>();
-                adapter = new StoresAdapter(getContext(),storeArrayList);
+                adapter = new StoresAdapter(getContext(), storeArrayList);
                 recyclerView.setAdapter(adapter);
                 currentPage = 1;
                 getData();
@@ -79,13 +79,11 @@ public class Tabs extends BaseFragment {
         for (int i = 0; i < 9; i++) {
             Store store = new Store();
             storeArrayList.add(store);
-            if(currentPage==5) {
-              isGetAll = true;
-            }
+            isGetAll = true;
             progressBar.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
-            isLoading=false;
+            isLoading = false;
         }
     }
 

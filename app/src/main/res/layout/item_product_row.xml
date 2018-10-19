@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -69,6 +70,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/iv_favorite"
                     android:layout_width="20dp"
