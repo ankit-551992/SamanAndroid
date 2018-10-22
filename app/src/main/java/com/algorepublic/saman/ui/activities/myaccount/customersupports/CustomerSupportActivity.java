@@ -10,6 +10,7 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CustomerSupportActivity extends BaseActivity {
 
@@ -34,6 +35,13 @@ public class CustomerSupportActivity extends BaseActivity {
         }else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
+    }
+
+
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
     }
 
 }

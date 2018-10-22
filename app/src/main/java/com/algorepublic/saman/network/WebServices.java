@@ -1,6 +1,7 @@
 package com.algorepublic.saman.network;
 
 import com.algorepublic.saman.data.model.SimpleSuccess;
+import com.algorepublic.saman.data.model.StoreCategories;
 import com.algorepublic.saman.data.model.UserResponse;
 
 import java.util.Map;
@@ -32,5 +33,10 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("User/ChangePassword")
     Call<SimpleSuccess> resetPassword(@FieldMap Map<String, String> parameters);
+
+
+    @FormUrlEncoded
+    @POST("User/ChangePassword")
+    Call<StoreCategories> getStoreCategories();
 
 }

@@ -29,12 +29,15 @@ public class SamanApp extends MultiDexApplication {
     public final String TWITTER_KEY = "zYtdb8neQYt8ph1XoyPmwNWIR";
     public final String TWITTER_SECRET = "a5Jo7xEwsNh4BhuHodycFOILfV0OEBkNOHNikt5Cf3VhABSxnp";
 
+    public static TinyDB db;
+
     @Override
     public void onCreate() {
         super.onCreate();
         CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
         Crashlytics crashlytics=new Crashlytics.Builder().core(core).build();
         Fabric.with(this, crashlytics);
+        db=new TinyDB(this);
 
 //        if(GlobalValues.getAppLanguage(getApplicationContext()).equals("")){
             GlobalValues.setAppLanguage(getApplicationContext(), Locale.getDefault().getLanguage());

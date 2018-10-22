@@ -54,6 +54,11 @@ public class ProductDetailActivity extends BaseActivity {
     }
 
 
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
+
     @OnClick(R.id.left_nav)
     void left(){
         mPager.arrowScroll(View.FOCUS_LEFT);

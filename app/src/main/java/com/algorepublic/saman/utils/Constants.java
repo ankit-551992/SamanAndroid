@@ -14,6 +14,8 @@ import java.util.Locale;
 public class Constants {
 
 
+    public static String CARD_LIST="Payment_methods";
+
     public enum Fragment {
         Home,Store,Favorite,Bag,MyAccount;
     }

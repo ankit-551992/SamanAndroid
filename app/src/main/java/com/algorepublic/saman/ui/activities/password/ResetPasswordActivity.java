@@ -72,9 +72,10 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
     }
 
     @OnClick(R.id.toolbar_back)
-    public void back(){
-        finish();
+    public void back() {
+        super.onBackPressed();
     }
+
 
     @OnClick(R.id.button_resetPassword)
     public void resetPasswordButton(){

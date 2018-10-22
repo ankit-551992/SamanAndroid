@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.CardDs;
 import com.algorepublic.saman.data.model.Payment;
 import com.algorepublic.saman.ui.adapters.PaymentAdapter;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MessagingActivity  extends BaseActivity {
 
@@ -33,7 +35,7 @@ public class MessagingActivity  extends BaseActivity {
     @BindView(R.id.recycler)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    List<Payment> paymentList = new ArrayList<>();
+    List<CardDs> paymentList = new ArrayList<>();
     PaymentAdapter paymentAdapter;
 
 
@@ -72,5 +74,10 @@ public class MessagingActivity  extends BaseActivity {
     }
 
 
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
 
 }

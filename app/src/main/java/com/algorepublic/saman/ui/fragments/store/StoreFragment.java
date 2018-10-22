@@ -47,6 +47,7 @@ public class StoreFragment extends BaseFragment {
     @OnClick(R.id.search)
     void search(){
         Intent intent=new Intent(getContext(), SearchActivity.class);
+        intent.putExtra("Function",0); //0 for Search Products
         startActivity(intent);
     }
 

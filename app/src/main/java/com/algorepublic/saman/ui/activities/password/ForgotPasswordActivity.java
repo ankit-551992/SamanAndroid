@@ -57,6 +57,11 @@ public class ForgotPasswordActivity  extends BaseActivity implements PasswordCon
     }
 
 
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -66,12 +71,6 @@ public class ForgotPasswordActivity  extends BaseActivity implements PasswordCon
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-    }
-
-
-    @OnClick(R.id.toolbar_back)
-    public void back(){
-        finish();
     }
 
     @OnClick(R.id.button_recoveryEmail)

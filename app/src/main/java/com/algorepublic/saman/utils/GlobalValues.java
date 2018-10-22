@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 import com.algorepublic.saman.data.model.User;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -67,5 +69,14 @@ public class GlobalValues {
         Configuration config = new Configuration();
         config.locale = locale;
         context.getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
+    }
+
+    public static Object fromJson(String jsonString, Type type) {
+        return new Gson().fromJson(jsonString, type);
+    }
+    public static String convertListToString(List myLit){
+        Gson gson=new Gson();
+        String Json=gson.toJson(myLit);
+        return Json;
     }
 }

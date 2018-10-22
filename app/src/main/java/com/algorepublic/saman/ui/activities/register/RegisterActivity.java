@@ -67,7 +67,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterActivity extends BaseActivity implements RegisterView,GoogleApiClient.OnConnectionFailedListener {
+public class RegisterActivity extends BaseActivity implements RegisterView, GoogleApiClient.OnConnectionFailedListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -83,21 +83,26 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
     EditText emailEditText;
     @BindView(R.id.editText_password)
     EditText passwordEditText;
+    @BindView(R.id.editText_confirmPassword)
+    EditText confirmPasswordEditText;
     @BindView(R.id.iv_password_visible)
     ImageView passwordVisibilityImageView;
+    @BindView(R.id.iv_confirm_password_visible)
+    ImageView confirmPasswordVisibilityImageView;
     @BindView(R.id.spinner_gender)
     Spinner genderSpinner;
     @BindView(R.id.spinner_country)
     Spinner countriesSpinner;
     @BindView(R.id.editText_address)
     EditText addressEditText;
-    @BindView(R.id.editText_Birthday)
-    EditText birthdayEditText;
+    @BindView(R.id.editText_day)
+    EditText dayEditText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    boolean isShowing=false;
+    boolean isShowing = false;
+    boolean isConfirmShowing = false;
 
     RegisterPresenterImpl mPresenter;
     ArrayAdapter<String> arrayAdapter;
@@ -124,12 +129,13 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
         toolbarTitle.setText("Sign Up");
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
-        mPresenter=new RegisterPresenterImpl(this,new RegisterDataInteractor());
+        confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+        mPresenter = new RegisterPresenterImpl(this, new RegisterDataInteractor());
         mPresenter.getCountries();
 
         //Social Login
 
-        mTwitterAuthClient= new TwitterAuthClient();
+        mTwitterAuthClient = new TwitterAuthClient();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -142,18 +148,18 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
 
 
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager,mFacebookCallback);
+        LoginManager.getInstance().registerCallback(callbackManager, mFacebookCallback);
         //Social Login
 
-        myCalendar= Calendar.getInstance();
+        myCalendar = Calendar.getInstance();
     }
 
-    @OnClick(R.id.editText_Birthday)
-    void setDOB(){
-        new DatePickerDialog(RegisterActivity.this, date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
+//    @OnClick(R.id.editText_Birthday)
+//    void setDOB() {
+//        new DatePickerDialog(RegisterActivity.this, date, myCalendar
+//                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+//                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+//    }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -173,7 +179,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        birthdayEditText.setText(sdf.format(myCalendar.getTime()));
+        dayEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
     @Override
@@ -187,63 +193,79 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
         mPresenter.onDestroy();
     }
 
-    @OnClick(R.id.editText_address)
-    public void userAddress(){
-        try {
-            Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                            .build(this);
-            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException e) {
-            // TODO: Handle the error.
-        } catch (GooglePlayServicesNotAvailableException e) {
-            // TODO: Handle the error.
-        }
-    }
+//    @OnClick(R.id.editText_address)
+//    public void userAddress(){
+//        try {
+//            Intent intent =
+//                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+//                            .build(this);
+//            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+//        } catch (GooglePlayServicesRepairableException e) {
+//            // TODO: Handle the error.
+//        } catch (GooglePlayServicesNotAvailableException e) {
+//            // TODO: Handle the error.
+//        }
+//    }
 
     @OnClick(R.id.button_signIn)
-    public void buttonSignUp(){
+    public void buttonSignUp() {
         finish();
     }
 
     @OnClick(R.id.button_register)
-    public void registerButton(){
-        String firstName=firstNameEditText.getText().toString();
-        String lastName=lastNameEditText.getText().toString();
-        String email=emailEditText.getText().toString();
-        String password=passwordEditText.getText().toString();
-        String gender=genderSpinner.getSelectedItem().toString();
-        String country=countriesSpinner.getSelectedItem().toString();
-        String dob=birthdayEditText.getText().toString();
-        String address=addressEditText.getText().toString();
-        if(isDataValid(firstName,lastName,email,password,gender,country,address,dob)) {
-            mPresenter.registerUser(firstName,lastName,email,password,"Token",gender,country,address);
+    public void registerButton() {
+        String firstName = firstNameEditText.getText().toString();
+        String lastName = lastNameEditText.getText().toString();
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        String confirmPassword = confirmPasswordEditText.getText().toString();
+        String gender = genderSpinner.getSelectedItem().toString();
+        String country = countriesSpinner.getSelectedItem().toString();
+        String dob = dayEditText.getText().toString();
+        dob = "1/1/1999";
+        String address = addressEditText.getText().toString();
+        if (isDataValid(firstName, lastName, email, password, gender, country, address, dob)) {
+            mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address);
         }
     }
 
     @OnClick(R.id.toolbar_back)
-    public void back(){
+    public void back() {
         super.onBackPressed();
     }
 
     @OnClick(R.id.iv_email_cross)
-    public void emailCross(){
+    public void emailCross() {
         emailEditText.setText("");
     }
 
     @OnClick(R.id.iv_password_visible)
-    public void setPasswordVisibility(){
-        if(!isShowing){
-            isShowing=true;
-            passwordEditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+    public void setPasswordVisibility() {
+        if (!isShowing) {
+            isShowing = true;
+            passwordEditText.setTransformationMethod(null);
             passwordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_view));
-        }else {
-            isShowing=false;
-            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        } else {
+            isShowing = false;
+            passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             passwordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
 
         passwordEditText.setSelection(passwordEditText.length());
+    }
+
+    @OnClick(R.id.iv_confirm_password_visible)
+    public void setConfirmPasswordVisibility() {
+        if (!isConfirmShowing) {
+            isConfirmShowing = true;
+            confirmPasswordEditText.setTransformationMethod(null);
+            confirmPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_view));
+        } else {
+            isConfirmShowing = false;
+            confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+            confirmPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
+        }
+        confirmPasswordEditText.setSelection(confirmPasswordEditText.length());
     }
 
     @Override
@@ -258,23 +280,23 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
 
     @Override
     public void registerResponse(User user) {
-        GlobalValues.saveUser(RegisterActivity.this,user);
-        GlobalValues.setUserLoginStatus(RegisterActivity.this,true);
-        Intent mainIntent = new Intent(RegisterActivity.this,DashboardActivity.class);
+        GlobalValues.saveUser(RegisterActivity.this, user);
+        GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
+        Intent mainIntent = new Intent(RegisterActivity.this, DashboardActivity.class);
         startActivity(mainIntent);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         finish();
     }
 
     @Override
     public void registerError(String message) {
-        Constants.showAlert(getString(R.string.sign_up),message,getString(R.string.try_again),RegisterActivity.this);
+        Constants.showAlert(getString(R.string.sign_up), message, getString(R.string.try_again), RegisterActivity.this);
     }
 
     @Override
     public void countries(ArrayList<String> countriesList) {
-        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, countriesList);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, countriesList);
         countriesSpinner.setAdapter(arrayAdapter);
     }
 
@@ -290,7 +312,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
-        }else {
+        } else {
 
             callbackManager.onActivityResult(requestCode, resultCode, data);
 
@@ -308,8 +330,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
     }
 
 
-
-    private boolean isDataValid(String fName,String lName,String email,String password,String gender,String country,String address,String dob) {
+    private boolean isDataValid(String fName, String lName, String email, String password, String gender, String country, String address, String dob) {
         if (TextUtils.isEmpty(fName)) {
             firstNameEditText.setError(getString(R.string.first_name_required));
             return false;
@@ -319,7 +340,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
         } else if (TextUtils.isEmpty(email)) {
             emailEditText.setError(getString(R.string.email_required));
             return false;
-        }else if (TextUtils.isEmpty(dob)) {
+        } else if (TextUtils.isEmpty(dob)) {
 //            emailEditText.setError(getString(R.string.email_required));
             return false;
         } else if (TextUtils.isEmpty(password)) {
@@ -328,12 +349,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
         } else if (password.length() < 6) {
             passwordEditText.setError(getString(R.string.password_short));
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
-
 
 
     //Social Login
@@ -421,6 +440,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
 //            }
 //        });
     }
+
     //The login function accepting the result object
     public void login(Result<TwitterSession> result) {
 
@@ -431,7 +451,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
         final String username = session.getUserName();
 
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
-        twitterApiClient.getAccountService().verifyCredentials(true, false,false).enqueue(new Callback<com.twitter.sdk.android.core.models.User>(){
+        twitterApiClient.getAccountService().verifyCredentials(true, false, false).enqueue(new Callback<com.twitter.sdk.android.core.models.User>() {
             @Override
             public void failure(TwitterException e) {
             }
@@ -474,7 +494,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
     //Facebook Region
 
     @OnClick(R.id.facebook_signIn)
-    public void facebookSignIn(){
+    public void facebookSignIn() {
 
 //        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
@@ -484,7 +504,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
 //        );
     }
 
-    private FacebookCallback<LoginResult> mFacebookCallback= new FacebookCallback<LoginResult>() {
+    private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
             // App code
@@ -501,7 +521,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView,Googl
                                 String name = object.getString("name");
 //                                    String birthday = object.getString("birthday"); // 01/31/1980 format
 
-                                Log.e("LoginResult",name);
+                                Log.e("LoginResult", name);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.activities.order.checkout;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,10 +15,13 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Store;
+import com.algorepublic.saman.ui.activities.myaccount.myorders.MyOrdersActivity;
 import com.algorepublic.saman.ui.adapters.BagCartAdapter;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
+import com.algorepublic.saman.utils.ResourceUtil;
+import com.algorepublic.saman.utils.SwipeHelper;
 import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.util.ArrayList;
@@ -64,6 +68,29 @@ public class CheckoutOrderActivity extends BaseActivity {
 
         setBag();
 
+        new SwipeHelper(this, cartRecyclerView) {
+            @Override
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new SwipeHelper.UnderlayButton(
+                        getString(R.string.cancel),
+                        ResourceUtil.getBitmap(CheckoutOrderActivity.this,R.drawable.ic_cross),
+                        Color.parseColor("#FF3C30"),
+                        new SwipeHelper.UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                // TODO: onDelete
+                            }
+                        }
+                ));
+            }
+        };
+
+    }
+
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
     }
 
     @OnClick(R.id.tv_return_policy)

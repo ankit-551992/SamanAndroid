@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.fragments.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,7 +16,9 @@ import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Brand;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Store;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.productdetail.CustomPagerAdapter;
+import com.algorepublic.saman.ui.activities.search.SearchActivity;
 import com.algorepublic.saman.ui.adapters.BestSellersAdapter;
 import com.algorepublic.saman.ui.adapters.BrandsAdapter;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
@@ -28,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HomeFragment extends BaseFragment {
 
@@ -87,6 +91,21 @@ public class HomeFragment extends BaseFragment {
         header();
         setBestSellers();
         return view;
+    }
+
+
+    @OnClick(R.id.tv_latest_products_see_all)
+    void products(){
+        Intent intent=new Intent(getContext(), SearchActivity.class);
+        intent.putExtra("Function",1); //1 for Latest Products
+        startActivity(intent);
+    }
+
+
+
+    @OnClick(R.id.tv_stores_see_all)
+    void stores(){
+        ((DashboardActivity)getContext()).callStoresNav();
     }
 
     private void setStore() {

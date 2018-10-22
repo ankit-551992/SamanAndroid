@@ -31,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MessagesListActivity extends BaseActivity {
 
@@ -88,6 +89,12 @@ public class MessagesListActivity extends BaseActivity {
                 ));
             }
         };
+    }
+
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
     }
 
     private void getMessages(){

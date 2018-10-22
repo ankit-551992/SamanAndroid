@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/tv_card_holder_name"
             android:textSize="18sp"
             android:text="Name"
             android:layout_width="match_parent"

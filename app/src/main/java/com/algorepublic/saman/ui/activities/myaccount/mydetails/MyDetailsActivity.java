@@ -40,8 +40,6 @@ public class MyDetailsActivity extends BaseActivity{
     Spinner countriesSpinner;
     @BindView(R.id.editText_address)
     EditText addressEditText;
-    @BindView(R.id.editText_Birthday)
-    EditText birthdayEditText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
@@ -65,11 +63,10 @@ public class MyDetailsActivity extends BaseActivity{
         myCalendar= Calendar.getInstance();
     }
 
-    @OnClick(R.id.editText_Birthday)
-    void setDOB(){
-        new DatePickerDialog(MyDetailsActivity.this, date, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
     }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -88,7 +85,5 @@ public class MyDetailsActivity extends BaseActivity{
     private void updateLabel() {
         String myFormat = "dd/MM/YYYY"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        birthdayEditText.setText(sdf.format(myCalendar.getTime()));
     }
 }

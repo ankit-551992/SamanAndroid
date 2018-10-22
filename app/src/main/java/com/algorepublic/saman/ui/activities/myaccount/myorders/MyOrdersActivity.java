@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyOrdersActivity extends BaseActivity{
 
@@ -79,6 +80,11 @@ public class MyOrdersActivity extends BaseActivity{
         setData();
     }
 
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
 
 
     private void setData(){

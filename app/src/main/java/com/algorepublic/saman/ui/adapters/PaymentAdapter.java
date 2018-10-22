@@ -9,35 +9,39 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.data.model.CardDs;
 import com.algorepublic.saman.data.model.Payment;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    List<Payment> paymentList = new ArrayList<>();
+    List<CardDs> cardDsList = new ArrayList<>();
     private OnLoadMoreListener mOnLoadMoreListener;
     private Context mContext;
 
 
 
-    public PaymentAdapter(Context mContext,List<Payment> paymentList){
-        this.paymentList=paymentList;
+    public PaymentAdapter(Context mContext,List<CardDs> cardDsList){
+        this.cardDsList=cardDsList;
         this.mContext=mContext;
     }
 
 
     public void removeItem(int position) {
-        paymentList.remove(position);
+        cardDsList.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, paymentList.size());
+        notifyItemRangeChanged(position, cardDsList.size());
     }
-    public void restoreItem(Payment payment, int position) {
-        paymentList.add(position, payment);
+    public void restoreItem(CardDs cardDs, int position) {
+        cardDsList.add(position, cardDs);
         notifyItemInserted(position);
     }
 
@@ -47,7 +51,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return paymentList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        return cardDsList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
@@ -67,6 +71,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof PaymentViewHolder) {
             PaymentViewHolder paymentViewHolder = (PaymentViewHolder) holder;
+            paymentViewHolder.cardHolderName.setText(cardDsList.get(position).getCardHolder());
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -75,15 +80,17 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return paymentList == null ? 0 : paymentList.size();
+        return cardDsList == null ? 0 : cardDsList.size();
     }
 
 
 
     static class PaymentViewHolder extends RecyclerView.ViewHolder {
-        private TextView storeName;
+        @BindView(R.id.tv_card_holder_name)
+        TextView cardHolderName;
         public PaymentViewHolder(View v) {
             super(v);
+            ButterKnife.bind(this,v);
         }
     }
 

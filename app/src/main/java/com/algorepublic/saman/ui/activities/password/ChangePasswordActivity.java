@@ -66,6 +66,12 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
         }
     }
 
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -75,11 +81,6 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-    }
-
-    @OnClick(R.id.toolbar_back)
-    public void back(){
-        finish();
     }
 
     @OnClick(R.id.button_changePassword)

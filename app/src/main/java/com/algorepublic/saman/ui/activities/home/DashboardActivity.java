@@ -49,6 +49,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.iv_logo)
+    ImageView homeLogo;
     @BindView(R.id.toolbar_settings)
     ImageView settings;
     @BindView(R.id.drawer_layout)
@@ -59,7 +61,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     private ImageView imgProfile;
     private TextView txtName, txtWebsite;
     public static boolean isAppRunning;
-    String title = "Home";
+    String title = "Saman";
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -247,8 +249,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 // update the main content by replacing fragments
                 Fragment fragment = getSelectedFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left,
-                        android.R.anim.slide_out_right);
+                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,
+                        R.anim.exit_to_left);
                 fragmentTransaction.replace(R.id.frame, fragment, fragment.getClass().getSimpleName());
                 fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
                 fragmentTransaction.commitAllowingStateLoss();
@@ -266,7 +268,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         switch (navItemIndex) {
             case 0:
                 fragment = new HomeFragment();
-                title = getString(R.string.title_home);
+                title = getString(R.string.app_name);
                 break;
             case 1:
                 fragment = new StoreFragment();
@@ -303,6 +305,13 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     }
 
     private void setToolbarTitle() {
+        if(navItemIndex==0){
+            toolbarTitle.setVisibility(View.GONE);
+            homeLogo.setVisibility(View.VISIBLE);
+        }else {
+            toolbarTitle.setVisibility(View.VISIBLE);
+            homeLogo.setVisibility(View.GONE);
+        }
         toolbarTitle.setText(title);
     }
 
@@ -329,4 +338,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         builder.show();
     }
 
+    public void callStoresNav(){
+        onNavigationItemSelected(navigationView.getMenu().getItem(1));
+    }
 }

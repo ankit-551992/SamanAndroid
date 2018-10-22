@@ -69,6 +69,13 @@ public class ShoppingCartActivity extends BaseActivity {
 
     }
 
+
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
+
     @OnClick(R.id.button_place_order)
     void placeOrder(){
         Intent intent=new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);

@@ -2,6 +2,7 @@ package com.algorepublic.saman.network;
 
 
 import com.algorepublic.saman.data.model.SimpleSuccess;
+import com.algorepublic.saman.data.model.StoreCategories;
 import com.algorepublic.saman.data.model.UserResponse;
 import com.algorepublic.saman.utils.Constants;
 import java.util.HashMap;
@@ -88,5 +89,15 @@ public class WebServicesHandler {
         call.enqueue(callback);
 
     }
+
+
+
+    public void getStoreCategories(Callback<StoreCategories> callback) {
+
+        Call<StoreCategories> call = webServices.getStoreCategories();
+        call.enqueue(callback);
+
+    }
+
 
 }

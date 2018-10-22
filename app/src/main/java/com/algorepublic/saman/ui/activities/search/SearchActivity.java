@@ -52,6 +52,11 @@ public class SearchActivity extends BaseActivity{
     ProductAdapter productAdapter;
     Dialog dialog;
 
+    int function=0;
+    int storeID=0;
+    String storeName="";
+    String storeNameAr="";
+
     String[] d={"PHONE FINDER","SAMSUNG","APPLE","NOKIA","SONY","LG","MOTOROLA","GOOGLE","BLACKBERRY"};
 
 
@@ -60,9 +65,26 @@ public class SearchActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        Bundle bundle= getIntent().getExtras();
+        if(bundle!=null){
+            function=bundle.getInt("Function");
+            if(function==2){
+                storeID=bundle.getInt("StoreID");
+                storeName=bundle.getString("StoreName");
+                storeNameAr=bundle.getString("StoreNameAr");
+            }
+        }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText(getString(R.string.search));
+
+        if(function==0){
+            toolbarTitle.setText(getString(R.string.search));
+        }else if (function==1){
+            toolbarTitle.setText(getString(R.string.latest_product));
+        }else if (function==2){
+            toolbarTitle.setText(storeName);
+        }
+
         toolbarTitle.setAllCaps(true);
         toolbarBack.setVisibility(View.VISIBLE);
         filter.setVisibility(View.VISIBLE);
@@ -100,6 +122,11 @@ public class SearchActivity extends BaseActivity{
         });
     }
 
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
 
     @OnClick(R.id.toolbar_settings)
     void filter(){
