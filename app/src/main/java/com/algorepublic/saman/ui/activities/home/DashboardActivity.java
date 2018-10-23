@@ -29,6 +29,7 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
+import com.algorepublic.saman.ui.activities.search.SearchActivity;
 import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.ui.fragments.bag.BagFragment;
 import com.algorepublic.saman.ui.fragments.favourite.FavoritesFragment;
@@ -53,6 +54,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     ImageView homeLogo;
     @BindView(R.id.toolbar_settings)
     ImageView settings;
+    @BindView(R.id.toolbar_search)
+    ImageView search;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
@@ -74,13 +77,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_drawer);
         ButterKnife.bind(this);
-
-        settings.setVisibility(View.VISIBLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            settings.setImageDrawable(getDrawable(R.drawable.ic_logout_));
-        } else {
-            settings.setImageDrawable(getResources().getDrawable(R.drawable.ic_logout_));
-        }
+        search.setVisibility(View.GONE);
 
         mHandler = new Handler();
         mPresenter = new DashboardPresenter(this);
@@ -103,6 +100,12 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         return super.onOptionsItemSelected(item);
     }
 
+    @OnClick(R.id.toolbar_search)
+    void search(){
+        Intent intent=new Intent(DashboardActivity.this, SearchActivity.class);
+        intent.putExtra("Function",0); //0 for Search Products
+        startActivity(intent);
+    }
 
     @OnClick(R.id.toolbar_settings)
     void settingButton() {
@@ -147,20 +150,16 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         }
         // close drawer when item is tapped
         mDrawerLayout.closeDrawers();
-        if (navItemIndex == 3) {
-            settings.setVisibility(View.GONE);
-        } else {
-            if(navItemIndex==4) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    settings.setImageDrawable(getDrawable(R.drawable.ic_settings));
-                    settings.setColorFilter(Color.argb(255, 255, 255, 255));
-                } else {
-                    settings.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings));
-                    settings.setColorFilter(Color.argb(255, 255, 255, 255));
-                }
-            }
-            settings.setVisibility(View.VISIBLE);
-        }
+       if(navItemIndex==4){
+           settings.setVisibility(View.VISIBLE);
+           search.setVisibility(View.GONE);
+       }else if(navItemIndex==1){
+           search.setVisibility(View.VISIBLE);
+           settings.setVisibility(View.GONE);
+       }else {
+           search.setVisibility(View.GONE);
+           settings.setVisibility(View.GONE);
+       }
         // Add code here to update the UI based on the item selected
         // For example, swap UI fragments here
         if (navItemIndex != -1) {
@@ -276,7 +275,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 break;
             case 2:
                 fragment = new FavoritesFragment();
-                title = getString(R.string.title_favorite);
+                title = getString(R.string.title_fav);
                 break;
             case 3:
                 fragment = new BagFragment();

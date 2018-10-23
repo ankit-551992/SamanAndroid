@@ -19,6 +19,7 @@ import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.productdetail.CustomPagerAdapter;
 import com.algorepublic.saman.ui.activities.search.SearchActivity;
+import com.algorepublic.saman.ui.activities.store.StoreActivity;
 import com.algorepublic.saman.ui.adapters.BestSellersAdapter;
 import com.algorepublic.saman.ui.adapters.BrandsAdapter;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
@@ -105,7 +106,9 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.tv_stores_see_all)
     void stores(){
-        ((DashboardActivity)getContext()).callStoresNav();
+        Intent intent=new Intent(getContext(), StoreActivity.class);
+        startActivity(intent);
+//        ((DashboardActivity)getContext()).callStoresNav();
     }
 
     private void setStore() {
@@ -117,8 +120,9 @@ public class HomeFragment extends BaseFragment {
         storesRecyclerView.setAdapter(storesAdapter);
         storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 6; i++) {
             Store store = new Store();
+            store.setStoreName("Store Name");
             storeArrayList.add(store);
             storesAdapter.notifyDataSetChanged();
         }
@@ -193,7 +197,7 @@ public class HomeFragment extends BaseFragment {
         brandsAdapter = new BrandsAdapter(getContext(), brandsArrayList);
         brandsRecyclerView.setAdapter(brandsAdapter);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 6; i++) {
             Brand brand = new Brand();
             brandsArrayList.add(brand);
             brandsAdapter.notifyDataSetChanged();

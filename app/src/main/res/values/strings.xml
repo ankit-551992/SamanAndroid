@@ -3,6 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_store">Store</string>
     <string name="title_favorite">Favorite</string>
+    <string name="title_fav">Wish List</string>
     <string name="title_bag">Bag</string>
     <string name="title_my_bag">My Bag</string>
     <string name="title_settings">Settings</string>
@@ -72,7 +73,7 @@
     <string name="character">300 Character</string>
     
     <!--Shopping cart-->
-    <string name="shopping_cart">Shopping Cart</string>
+    <string name="shopping_cart">Shopping Bag</string>
     <string name="delivery_to">Delivery To</string>
     <string name="delivery_options">Delivery Options</string>
     <string name="delivery_cost">Delivery Cost</string>
@@ -112,20 +113,23 @@
     <string name="subtotal">Subtotal: </string>
     <string name="VAT">VAT  : </string>
     <string name="total">Total: </string>
-    <string name="proceed">Proceed to CHECKOUT</string>
+    <string name="proceed">CHECKOUT</string>
     <string name="order_date">Order Date</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Remove</string>
     <string name="cancel">Cancel</string>
-    <string name="add_to_cart">Add to Cart</string>
-    <string name="add_to_fav">Add to Fav</string>
+    <string name="add_to_cart">Move To Bag</string>
+    <string name="add_to_fav">Move To Wishlist</string>
     <!--Bag-->
 
     <!--Search-->
     <string name="best_rate">Best Rate</string>
-    <string name="low_price">Low Price</string>
+    <string name="price_high">Price High</string>
+    <string name="low_price">Price Low</string>
+    <string name="new_in">New In</string>
     <string name="order_number">Order Number</string>
     <string name="categories">Categories</string>
     <string name="Done">Done</string>
+    <string name="best_sell">Best Sell</string>
     <string name="sort_by">Sort By</string>
     <!--Search-->
 

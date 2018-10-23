@@ -3,24 +3,14 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class StoreCategory {
+public class Owner {
 
-
-    @SerializedName("Title")
+    @SerializedName("FirstName")
     @Expose
-    private String title;
-    @SerializedName("Title_AR")
+    private String firstName;
+    @SerializedName("LastName")
     @Expose
-    private String titleAR;
-    @SerializedName("SortOrder")
-    @Expose
-    private Integer sortOrder;
-    @SerializedName("isActive")
-    @Expose
-    private Boolean isActive;
-    @SerializedName("LogoURL")
-    @Expose
-    private String logoURL;
+    private String lastName;
     @SerializedName("CreatedAt")
     @Expose
     private String createdAt;
@@ -40,44 +30,20 @@ public class StoreCategory {
     @Expose
     private Integer iD;
 
-    public String getTitle() {
-        return title;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getTitleAR() {
-        return titleAR;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setTitleAR(String titleAR) {
-        this.titleAR = titleAR;
-    }
-
-    public Integer getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(Integer sortOrder) {
-        this.sortOrder = sortOrder;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public String getLogoURL() {
-        return logoURL;
-    }
-
-    public void setLogoURL(String logoURL) {
-        this.logoURL = logoURL;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getCreatedAt() {

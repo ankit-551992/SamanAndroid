@@ -14,6 +14,9 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.activities.search.SearchActivity;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
+import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.GlobalValues;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,14 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof StoreViewHolder) {
             StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
-            storeViewHolder.storeName.setText("Store Name"+position);
+            storeViewHolder.storeName.setText(storeArrayList.get(position).getStoreName());
+
+            String url=Constants.URLS.BaseApis+storeArrayList.get(position).getLogoURL();
+            Picasso.get().load(url)
+                    .placeholder(R.drawable.earth_top)
+                    .error(R.drawable.earth_top)
+                    .into(((StoreViewHolder) holder).storeImage);
+
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,9 +72,9 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                         Intent intent=new Intent(mContext, SearchActivity.class);
                         intent.putExtra("Function",2); //2 for Store Products
-                        intent.putExtra("StoreName","Store Name"+position);
-                        intent.putExtra("StoreNameAr","Store Name"+position);
-                        intent.putExtra("StoreID",storeArrayList.get(position).getId());
+                        intent.putExtra("StoreName",storeArrayList.get(position).getStoreName());
+                        intent.putExtra("StoreNameAr",storeArrayList.get(position).getStoreNameAR());
+                        intent.putExtra("StoreID",storeArrayList.get(position).getID());
                         mContext.startActivity(intent);
                 }
             });

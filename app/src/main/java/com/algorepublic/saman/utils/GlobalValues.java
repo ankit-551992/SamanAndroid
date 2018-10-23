@@ -7,10 +7,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
+import com.algorepublic.saman.data.model.StoreCategory;
 import com.algorepublic.saman.data.model.User;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,6 +21,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class GlobalValues {
 
 
+
+    public static List<StoreCategory> storeCategories;
 
     public static void setUserLoginStatus(Context ctx, boolean isLogin){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);

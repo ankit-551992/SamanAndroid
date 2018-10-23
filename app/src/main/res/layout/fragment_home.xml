@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -31,6 +30,7 @@
             </FrameLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:background="@color/colorPrimary"
@@ -88,7 +88,6 @@
 
             <TextView
                 android:textColor="@color/black"
-                android:textSize="20sp"
                 android:text="@string/Stores"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -99,7 +98,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
                 android:text="@string/see_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -130,7 +128,6 @@
 
             <TextView
                 android:textColor="@color/black"
-                android:textSize="20sp"
                 android:text="@string/latest_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -140,14 +137,12 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
                 android:text="@string/see_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.RecyclerView
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_below="@+id/tv_latest_products_see_all"
                 android:id="@+id/latest_products_recyclerView"
                 android:layout_width="match_parent"
@@ -162,7 +157,6 @@
             <TextView
                 android:layout_margin="10dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
                 android:text="@string/best_sellers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -173,7 +167,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
                 android:text="@string/see_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

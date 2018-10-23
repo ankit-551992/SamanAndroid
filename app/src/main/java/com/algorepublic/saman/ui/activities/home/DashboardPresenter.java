@@ -3,9 +3,9 @@ package com.algorepublic.saman.ui.activities.home;
 
 import android.util.Log;
 
-import com.algorepublic.saman.data.model.SimpleSuccess;
-import com.algorepublic.saman.data.model.StoreCategories;
+import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.utils.GlobalValues;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,13 +32,20 @@ public class DashboardPresenter implements DashboardContractor.Presenter {
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
 
-        apiClient.getStoreCategories( new Callback<StoreCategories>() {
+        apiClient.getStoreCategories( new Callback<GetCategoriesList>() {
             @Override
-            public void onResponse(Call<StoreCategories> call, Response<StoreCategories> response) {
-                StoreCategories storeCategories = response.body();
+            public void onResponse(Call<GetCategoriesList> call, Response<GetCategoriesList> response) {
+                GetCategoriesList getCategoriesList = response.body();
+                if(getCategoriesList!=null) {
+                    if(getCategoriesList.getSuccess()==1) {
+                        if (getCategoriesList.getCategories() != null) {
+                            GlobalValues.storeCategories=getCategoriesList.getCategories();
+                        }
+                    }
+                }
             }
             @Override
-            public void onFailure(Call<StoreCategories> call, Throwable t) {
+            public void onFailure(Call<GetCategoriesList> call, Throwable t) {
                 Log.e("onFailure", "" + t.getMessage());
             }
         });

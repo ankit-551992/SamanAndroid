@@ -16,7 +16,7 @@
         android:text="@string/Login"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_large"/>
+        android:textSize="20sp"/>
 
     <ImageView
         android:visibility="gone"
@@ -43,8 +43,20 @@
         android:layout_gravity="end|center_vertical"
         android:id="@+id/toolbar_settings"
         android:src="@drawable/ic_settings_white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:contentDescription="@string/contentDescription" />
+
+    <ImageView
+        android:visibility="gone"
+        android:tint="@color/white"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="end|center_vertical"
+        android:id="@+id/toolbar_search"
+        android:src="@drawable/ic_search_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:contentDescription="@string/contentDescription" />
 
 </android.support.v7.widget.Toolbar>

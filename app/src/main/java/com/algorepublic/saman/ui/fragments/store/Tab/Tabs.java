@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Store;
+import com.algorepublic.saman.data.model.apis.GetStores;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.adapters.StoresAdapter;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 
@@ -21,6 +23,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class Tabs extends BaseFragment {
 
@@ -37,11 +41,31 @@ public class Tabs extends BaseFragment {
     boolean isGetAll = false;
 
 
+    private int categoryID;
+
+    public static Tabs newInstance(int categoryID) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("CategoryID", categoryID);
+
+        Tabs fragment = new Tabs();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            categoryID = bundle.getInt("CategoryID");
+        }
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_store_tabs, container, false);
         ButterKnife.bind(this, view);
+        readBundle(getArguments());
         layoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
@@ -52,7 +76,7 @@ public class Tabs extends BaseFragment {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
-        getData();
+        getStores();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -61,7 +85,7 @@ public class Tabs extends BaseFragment {
                 adapter = new StoresAdapter(getContext(), storeArrayList);
                 recyclerView.setAdapter(adapter);
                 currentPage = 1;
-                getData();
+                getStores();
             }
         });
 
@@ -69,22 +93,39 @@ public class Tabs extends BaseFragment {
     }
 
 
-    private void getData() {
+    private void getStores() {
 
-        if (storeArrayList.size() > 0) {
-            storeArrayList.remove(storeArrayList.size() - 1);
-            adapter.notifyItemRemoved(storeArrayList.size());
-        }
+        WebServicesHandler.instance.getStoresByCategory(String.valueOf(categoryID), new retrofit2.Callback<GetStores>() {
+            @Override
+            public void onResponse(Call<GetStores> call, Response<GetStores> response) {
 
-        for (int i = 0; i < 9; i++) {
-            Store store = new Store();
-            storeArrayList.add(store);
-            isGetAll = true;
-            progressBar.setVisibility(View.GONE);
-            adapter.notifyDataSetChanged();
-            swipeRefreshLayout.setRefreshing(false);
-            isLoading = false;
-        }
+                if (storeArrayList.size() > 0) {
+                    storeArrayList.remove(storeArrayList.size() - 1);
+                    adapter.notifyItemRemoved(storeArrayList.size());
+                }
+                GetStores getStores = response.body();
+                if (getStores != null) {
+                    if (getStores.getSuccess() == 1) {
+                        isGetAll = true;
+//                if(getStores.getLastPage()==currentPage){
+//                    isGetAll=true;
+//                }else {
+//                    currentPage++;
+//                }
+                        progressBar.setVisibility(View.GONE);
+                        storeArrayList.addAll(getStores.getStores());
+                        progressBar.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                        isLoading = false;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetStores> call, Throwable t) {
+            }
+        });
     }
 
     @Override
@@ -112,7 +153,7 @@ public class Tabs extends BaseFragment {
                 adapter.notifyItemInserted(storeArrayList.size() - 1);
                 isLoading = true;
                 currentPage++;
-                getData();
+                getStores();
             }
         }
     };

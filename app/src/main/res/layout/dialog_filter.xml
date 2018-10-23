@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/neo_sans"
-                android:text="@string/best_rate"/>
+                android:text="@string/price_high"/>
 
             <View
                 android:layout_margin="5dp"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
 
                 android:fontFamily="@font/neo_sans"
-                android:text="@string/order_number"/>
+                android:text="@string/new_in"/>
 
             <View
                 android:layout_margin="5dp"
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/neo_sans"
-                android:text="@string/categories"/>
+                android:text="@string/best_sell"/>
 
         </LinearLayout>
 

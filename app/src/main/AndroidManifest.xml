@@ -39,6 +39,7 @@
         <activity android:name=".ui.activities.settings.SettingsActivity"/>
         <activity android:name=".ui.activities.order.cart.ShoppingCartActivity"/>
         <activity android:name=".ui.activities.myaccount.payment.AddCardActivity"/>
+        <activity android:name=".ui.activities.store.StoreActivity"/>
 
 
         <activity

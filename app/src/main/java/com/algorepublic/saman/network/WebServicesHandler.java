@@ -2,14 +2,14 @@ package com.algorepublic.saman.network;
 
 
 import com.algorepublic.saman.data.model.SimpleSuccess;
-import com.algorepublic.saman.data.model.StoreCategories;
+import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.UserResponse;
+import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.utils.Constants;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -67,9 +67,7 @@ public class WebServicesHandler {
 
         Call<UserResponse> call = webServices.register(parameters);
         call.enqueue(callback);
-
     }
-
 
     public void forgetPassword(String email,Callback<SimpleSuccess> callback) {
         Map<String, String> parameters = new HashMap<>();
@@ -78,25 +76,28 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-
     public void resetPassword(String email, String password, Callback<SimpleSuccess> callback) {
-
         Map<String, String> parameters = new HashMap<>();
         parameters.put("token", email);
         parameters.put("password", password);
 
         Call<SimpleSuccess> call = webServices.resetPassword(parameters);
         call.enqueue(callback);
+    }
 
+    public void getStoreCategories(Callback<GetCategoriesList> callback) {
+        Call<GetCategoriesList> call = webServices.getStoreCategories();
+        call.enqueue(callback);
     }
 
 
-
-    public void getStoreCategories(Callback<StoreCategories> callback) {
-
-        Call<StoreCategories> call = webServices.getStoreCategories();
+    public void getStoresByCategory(String categoryID,Callback<GetStores> callback) {
+        Call<GetStores> call = webServices.getStoresByCategoryID(categoryID);
         call.enqueue(callback);
-
+    }
+    public void getAllStores(Callback<GetStores> callback) {
+        Call<GetStores> call = webServices.getAllStores();
+        call.enqueue(callback);
     }
 
 
