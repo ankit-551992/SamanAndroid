@@ -9,9 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.Country;
+import com.algorepublic.saman.ui.activities.PoliciesActivity;
+import com.algorepublic.saman.ui.activities.country.CountriesActivity;
+import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.ui.activities.order.checkout.CheckoutOrderActivity;
 import com.algorepublic.saman.ui.activities.password.ChangePasswordActivity;
+import com.algorepublic.saman.ui.activities.register.RegisterActivity;
+import com.algorepublic.saman.utils.CircleTransform;
 import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.GlobalValues;
+import com.squareup.picasso.Picasso;
 import com.thefinestartist.finestwebview.FinestWebView;
 
 import butterknife.BindView;
@@ -26,6 +34,11 @@ public class SettingsActivity extends BaseActivity {
     TextView toolbarTitle;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
+    @BindView(R.id.iv_country_flag)
+    ImageView countryFlag;
+
+
+    Country selectedCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +54,19 @@ public class SettingsActivity extends BaseActivity {
         }else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
+
+        for (int i = 0; i<GlobalValues.countries.size(); i++){
+            if(GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))){
+                selectedCountry=GlobalValues.countries.get(i);
+                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+            }
+        }
+    }
+
+    @OnClick(R.id.layout_countrySelection)
+    public void countrySelection() {
+        Intent intent=new Intent(SettingsActivity.this,CountriesActivity.class);
+        startActivityForResult(intent,1299);
     }
 
     @OnClick(R.id.toolbar_back)
@@ -56,12 +82,32 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.tv_privacy_policy)
     void privacy(){
-        new FinestWebView.Builder(SettingsActivity.this).show(Constants.URLS.privacyPolicy);
+        Intent intent=new Intent(SettingsActivity.this,PoliciesActivity.class);
+        intent.putExtra("type",0);
+        startActivity(intent);
+//        new FinestWebView.Builder(SettingsActivity.this).show(Constants.URLS.privacyPolicy);
     }
 
     @OnClick(R.id.tv_terms_of_uses)
     void termsOfUses(){
-        new FinestWebView.Builder(SettingsActivity.this).show(Constants.URLS.terms);
+        Intent intent=new Intent(SettingsActivity.this,PoliciesActivity.class);
+        intent.putExtra("type",1);
+        startActivity(intent);
+//        new FinestWebView.Builder(SettingsActivity.this).show(Constants.URLS.terms);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1299) {
+            if (resultCode == RESULT_OK) {
+                for (int i = 0; i<GlobalValues.countries.size(); i++){
+                    if(GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))){
+                        selectedCountry=GlobalValues.countries.get(i);
+                        Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                    }
+                }
+            }
+        }
+    }
 }

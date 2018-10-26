@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,8 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.2"
                     android:text="@string/delivery_to"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textColor="@color/black" />
 
                 <ImageView
                     android:id="@+id/iv_country_flag"
@@ -45,8 +43,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/light_grey" />
 
             <RelativeLayout
@@ -58,18 +56,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_my_bag"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/tv_bag_see_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:text="@string/see_all"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp" />
+                    android:textColor="@color/colorPrimary"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/bag_recyclerView"
@@ -155,6 +152,7 @@
                     android:textSize="12sp"/>
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_navigate_next"
@@ -183,15 +181,26 @@
                     android:textColor="@color/black"/>
 
                 <TextView
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@color/off_grey"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/change"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
                     android:textSize="12sp"/>
 
+
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_navigate_next"
@@ -199,10 +208,48 @@
 
             </LinearLayout>
 
-            <TextView
-                android:text="@string/cart_dummy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:padding="5dp"
+                    android:src="@drawable/ic_visa"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/contentDescription" />
+
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:id="@+id/tv_store_name"
+                        android:text="VISA (1242)"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_card_holder_name"
+                        android:text="Exp: 06/2020"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="Name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
             <View
@@ -213,6 +260,7 @@
                 android:background="@color/light_grey" />
 
             <TextView
+                android:visibility="gone"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:text="@string/we_accept"
@@ -220,6 +268,7 @@
                 android:layout_height="wrap_content"/>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -240,6 +289,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginTop="10dp"

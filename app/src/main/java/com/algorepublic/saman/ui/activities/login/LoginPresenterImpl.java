@@ -1,8 +1,6 @@
 package com.algorepublic.saman.ui.activities.login;
 
-import com.algorepublic.saman.data.model.UserResponse;
-import com.algorepublic.saman.utils.Constants;
-import com.algorepublic.saman.utils.GlobalValues;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 
 public class LoginPresenterImpl implements LoginPresenter,LoginData.OnResponseListener {
 
@@ -18,10 +16,14 @@ public class LoginPresenterImpl implements LoginPresenter,LoginData.OnResponseLi
     public void onResponse(UserResponse response) {
         if (loginView != null) {
             loginView.hideProgress();
-            if(response.getSuccess()==1) {
-                loginView.loginResponse(response.getUser());
-            }else if(response.getSuccess()==0){
-                loginView.loginError(response.getMessage());
+            if(response!=null) {
+                if (response.getSuccess() == 1) {
+                    loginView.loginResponse(response.getUser());
+                } else if (response.getSuccess() == 0) {
+                    loginView.loginError(response.getMessage());
+                }
+            }else {
+                loginView.loginError("Internal Server Error");
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.algorepublic.saman.ui.activities.myaccount.mydetails;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.Country;
+import com.algorepublic.saman.ui.activities.country.CountriesActivity;
+import com.algorepublic.saman.ui.activities.register.RegisterActivity;
+import com.algorepublic.saman.utils.GlobalValues;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -36,14 +42,15 @@ public class MyDetailsActivity extends BaseActivity{
     EditText emailEditText;
     @BindView(R.id.spinner_gender)
     Spinner genderSpinner;
-    @BindView(R.id.spinner_country)
-    Spinner countriesSpinner;
+    @BindView(R.id.tv_country_name)
+    TextView countryName;
     @BindView(R.id.editText_address)
     EditText addressEditText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
     Calendar myCalendar;
+    Country selectedCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +68,22 @@ public class MyDetailsActivity extends BaseActivity{
         }
 
         myCalendar= Calendar.getInstance();
+
+        for (int i=0;i<GlobalValues.countries.size();i++){
+            if(GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))){
+                selectedCountry=GlobalValues.countries.get(i);
+                countryName.setText(selectedCountry.getName());
+            }
+        }
     }
 
+
+
+    @OnClick(R.id.layout_countrySelection)
+    public void countrySelection() {
+        Intent intent=new Intent(MyDetailsActivity.this,CountriesActivity.class);
+        startActivityForResult(intent,1299);
+    }
 
     @OnClick(R.id.toolbar_back)
     public void back() {
@@ -85,5 +106,16 @@ public class MyDetailsActivity extends BaseActivity{
     private void updateLabel() {
         String myFormat = "dd/MM/YYYY"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1299) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                countryName.setText(returnedResult);
+            }
+        }
     }
 }

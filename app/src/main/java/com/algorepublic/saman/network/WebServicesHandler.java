@@ -1,9 +1,10 @@
 package com.algorepublic.saman.network;
 
 
-import com.algorepublic.saman.data.model.SimpleSuccess;
+import com.algorepublic.saman.data.model.apis.GetProduct;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
-import com.algorepublic.saman.data.model.UserResponse;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.utils.Constants;
 import java.util.HashMap;
@@ -95,8 +96,15 @@ public class WebServicesHandler {
         Call<GetStores> call = webServices.getStoresByCategoryID(categoryID);
         call.enqueue(callback);
     }
+
+
     public void getAllStores(Callback<GetStores> callback) {
         Call<GetStores> call = webServices.getAllStores();
+        call.enqueue(callback);
+    }
+
+    public void getProductDetail(String productId,Callback<GetProduct> callback) {
+        Call<GetProduct> call = webServices.getProductDetail(productId);
         call.enqueue(callback);
     }
 

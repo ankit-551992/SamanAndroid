@@ -73,7 +73,7 @@ public class FavoritesFragment extends BaseFragment {
 
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.add_to_cart),
-                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_add_shopping_cart),
+                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_logo),
                         Color.parseColor("#FF9502"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override

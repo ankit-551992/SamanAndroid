@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.activities.order.checkout;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +16,11 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Store;
+import com.algorepublic.saman.ui.activities.PoliciesActivity;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.myaccount.myorders.MyOrdersActivity;
+import com.algorepublic.saman.ui.activities.search.SearchActivity;
+import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.ui.adapters.BagCartAdapter;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
 import com.algorepublic.saman.utils.Constants;
@@ -39,6 +44,8 @@ public class CheckoutOrderActivity extends BaseActivity {
     TextView toolbarTitle;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
+    @BindView(R.id.toolbar_search)
+    ImageView cross;
 
     //Bag
     @BindView(R.id.tv_quantity)
@@ -59,10 +66,17 @@ public class CheckoutOrderActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.check_out));
         toolbarBack.setVisibility(View.VISIBLE);
+        cross.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         }else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cross.setImageDrawable(getDrawable(R.drawable.ic_cross));
+        }else {
+            cross.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
         }
 
 
@@ -87,6 +101,11 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     }
 
+    @OnClick(R.id.toolbar_search)
+    void search(){
+        super.onBackPressed();
+    }
+
 
     @OnClick(R.id.toolbar_back)
     public void back() {
@@ -95,7 +114,10 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @OnClick(R.id.tv_return_policy)
     void policy(){
-        new FinestWebView.Builder(CheckoutOrderActivity.this).show(Constants.URLS.returnPolicy);
+        Intent intent=new Intent(CheckoutOrderActivity.this,PoliciesActivity.class);
+        intent.putExtra("type",2);
+        startActivity(intent);
+//        new FinestWebView.Builder(CheckoutOrderActivity.this).show(Constants.URLS.returnPolicy);
     }
 
 

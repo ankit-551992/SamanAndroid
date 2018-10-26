@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
@@ -54,6 +56,7 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,8 +94,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     ImageView confirmPasswordVisibilityImageView;
     @BindView(R.id.spinner_gender)
     Spinner genderSpinner;
-    @BindView(R.id.spinner_country)
-    Spinner countriesSpinner;
+    @BindView(R.id.tv_country_name)
+    TextView countryName;
     @BindView(R.id.editText_address)
     EditText addressEditText;
     @BindView(R.id.editText_day)
@@ -212,6 +215,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         finish();
     }
 
+    @OnClick(R.id.layout_countrySelection)
+    public void countrySelection() {
+        Intent intent=new Intent(RegisterActivity.this,CountriesActivity.class);
+        startActivityForResult(intent,1299);
+    }
+
     @OnClick(R.id.button_register)
     public void registerButton() {
         String firstName = firstNameEditText.getText().toString();
@@ -220,7 +229,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String password = passwordEditText.getText().toString();
         String confirmPassword = confirmPasswordEditText.getText().toString();
         String gender = genderSpinner.getSelectedItem().toString();
-        String country = countriesSpinner.getSelectedItem().toString();
+        String country = countryName.getText().toString();
         String dob = dayEditText.getText().toString();
         dob = "1/1/1999";
         String address = addressEditText.getText().toString();
@@ -296,13 +305,40 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @Override
     public void countries(ArrayList<String> countriesList) {
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, countriesList);
-        countriesSpinner.setAdapter(arrayAdapter);
+
+        if(GlobalValues.countries==null || GlobalValues.countries.size()==0) {
+            GlobalValues.countries = new ArrayList<>();
+            try {
+                JSONObject obj = new JSONObject(Constants.loadJSONFromAsset(getApplicationContext()));
+                JSONArray jsonArray = obj.getJSONArray("countries");
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Country country = new Country();
+
+                    country.setId(jsonObject.getInt("id"));
+                    country.setSortname(jsonObject.getString("sortname"));
+                    country.setName(jsonObject.getString("name"));
+                    country.setFlag("http://algorepublic-001-site2.etempurl.com/Flags/flag_"+jsonObject.getString("sortname").toLowerCase()+".png");
+                    country.setPhoneCode(jsonObject.getInt("phoneCode"));
+
+                    GlobalValues.countries.add(country);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+
+        if(requestCode==1299){
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                countryName.setText(returnedResult);
+            }
+        }else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 addressEditText.setText(place.getAddress());

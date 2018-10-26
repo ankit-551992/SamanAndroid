@@ -10,12 +10,18 @@ import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.data.model.apis.GetProduct;
+import com.algorepublic.saman.data.model.apis.GetStores;
+import com.algorepublic.saman.network.WebServicesHandler;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class ProductDetailActivity extends BaseActivity {
 
@@ -30,6 +36,8 @@ public class ProductDetailActivity extends BaseActivity {
 
     ArrayList<String> urls;
     CustomPagerAdapter customPagerAdapter;
+
+    Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,7 @@ public class ProductDetailActivity extends BaseActivity {
         mPager.setAdapter(customPagerAdapter);
 
         setPagerData();
+        getProductDetail();
     }
 
 
@@ -77,5 +86,29 @@ public class ProductDetailActivity extends BaseActivity {
         urls.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
         urls.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYzcXT8JvYjG5IEYf-rzzklrzvOqG66atU-oyXPWlCZX7_luqU");
         customPagerAdapter.notifyDataSetChanged();
+    }
+
+
+    private void getProductDetail() {
+
+        WebServicesHandler.instance.getProductDetail("1", new retrofit2.Callback<GetProduct>() {
+            @Override
+            public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
+                GetProduct getProduct = response.body();
+                if(getProduct!=null){
+                    if(getProduct.getSuccess()==1){
+                        product=getProduct.getProduct();
+                        for (int i=0;i<product.getProductImagesURLs().size();i++) {
+//                            urls.add(product.getProductImagesURLs().get(i));
+                        }
+//                        customPagerAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetProduct> call, Throwable t) {
+            }
+        });
     }
 }

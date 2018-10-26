@@ -5,31 +5,31 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-    @SerializedName("firstName")
+    @SerializedName("FirstName")
     @Expose
     private String firstName;
-    @SerializedName("password")
+    @SerializedName("Password")
     @Expose
     private Object password;
-    @SerializedName("email")
+    @SerializedName("Email")
     @Expose
     private String email;
-    @SerializedName("gender")
+    @SerializedName("Gender")
     @Expose
     private String gender;
-    @SerializedName("apiToken")
+    @SerializedName("ApiToken")
     @Expose
     private Object apiToken;
-    @SerializedName("lastName")
+    @SerializedName("LastName")
     @Expose
     private String lastName;
-    @SerializedName("phoneNumber")
+    @SerializedName("PhoneNumber")
     @Expose
     private Object phoneNumber;
-    @SerializedName("languageID")
+    @SerializedName("LanguageID")
     @Expose
     private Integer languageID;
-    @SerializedName("profilePictureID")
+    @SerializedName("ProfileImagePath")
     @Expose
     private Integer profilePictureID;
     @SerializedName("roleID")
@@ -38,37 +38,37 @@ public class User {
     @SerializedName("profileImagePath")
     @Expose
     private String profileImagePath;
-    @SerializedName("country")
+    @SerializedName("Country")
     @Expose
     private Object country;
-    @SerializedName("address")
+    @SerializedName("Address")
     @Expose
     private Object address;
-    @SerializedName("devicetoken")
+    @SerializedName("Devicetoken")
     @Expose
     private Object devicetoken;
-    @SerializedName("deviceType")
+    @SerializedName("DeviceType")
     @Expose
     private Object deviceType;
-    @SerializedName("dateOfBirth")
+    @SerializedName("DateOfBirth")
     @Expose
     private String dateOfBirth;
-    @SerializedName("createdAt")
+    @SerializedName("CreatedAt")
     @Expose
     private String createdAt;
-    @SerializedName("updatedAt")
+    @SerializedName("UpdatedAt")
     @Expose
     private String updatedAt;
-    @SerializedName("createBy")
+    @SerializedName("CreateBy")
     @Expose
     private Integer createBy;
-    @SerializedName("updateBy")
+    @SerializedName("UpdateBy")
     @Expose
     private Integer updateBy;
-    @SerializedName("isDeleted")
+    @SerializedName("IsDeleted")
     @Expose
     private Boolean isDeleted;
-    @SerializedName("id")
+    @SerializedName("ID")
     @Expose
     private Integer id;
 

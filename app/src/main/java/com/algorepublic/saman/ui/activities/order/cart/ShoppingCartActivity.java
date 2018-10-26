@@ -57,7 +57,7 @@ public class ShoppingCartActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText(getString(R.string.shopping_cart));
+        toolbarTitle.setText(getString(R.string.check_out));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
@@ -80,6 +80,7 @@ public class ShoppingCartActivity extends BaseActivity {
     void placeOrder(){
         Intent intent=new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void setBag() {

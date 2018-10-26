@@ -2,8 +2,8 @@ package com.algorepublic.saman.ui.activities.password;
 
 import android.util.Log;
 
-import com.algorepublic.saman.data.model.SimpleSuccess;
-import com.algorepublic.saman.data.model.UserResponse;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
 
 import retrofit2.Call;
@@ -36,10 +36,14 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
                     UserResponse userResponse = response.body();
                     if (view != null) {
                         view.hideProgress();
-                        if (userResponse.getSuccess() == 1) {
-                            view.changeResponse(userResponse.getUser());
-                        } else if (userResponse.getSuccess() == 0) {
-                            view.error(userResponse.getMessage());
+                        if(userResponse!=null) {
+                            if (userResponse.getSuccess() == 1) {
+                                view.changeResponse(userResponse.getUser());
+                            } else if (userResponse.getSuccess() == 0) {
+                                view.error(userResponse.getMessage());
+                            }
+                        }else {
+                            view.error("Internal Server Error");
                         }
                     }
                 }

@@ -2,10 +2,9 @@ package com.algorepublic.saman.ui.activities.login;
 
 import android.util.Log;
 
-import com.algorepublic.saman.data.model.UserResponse;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

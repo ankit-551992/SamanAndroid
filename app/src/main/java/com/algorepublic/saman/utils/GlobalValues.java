@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
+import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.StoreCategory;
 import com.algorepublic.saman.data.model.User;
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ public class GlobalValues {
 
 
     public static List<StoreCategory> storeCategories;
+    public static List<Country> countries;
 
     public static void setUserLoginStatus(Context ctx, boolean isLogin){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -64,6 +66,19 @@ public class GlobalValues {
     public static String getAppLanguage(Context ctx){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sharedPreferences.getString("AppLanguage", "");
+    }
+
+
+    public static void setSelectedCountry(Context ctx, String countryCode){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("SelectedCountry",countryCode);
+        editor.apply();
+    }
+
+    public static String getSelectedCountry(Context ctx){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPreferences.getString("SelectedCountry", "OM");
     }
 
     public static void changeLanguage(String language,Context context){

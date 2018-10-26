@@ -1,5 +1,6 @@
-package com.algorepublic.saman.data.model;
+package com.algorepublic.saman.data.model.apis;
 
+import com.algorepublic.saman.data.model.User;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +11,7 @@ public class UserResponse {
     private User user;
     @SerializedName("success")
     @Expose
-    private Integer success;
+    private int success;
     @SerializedName("message")
     @Expose
     private String message;
@@ -23,15 +24,18 @@ public class UserResponse {
         this.user = user;
     }
 
-    public Integer getSuccess() {
+    public int getSuccess() {
         return success;
     }
 
-    public void setSuccess(Integer success) {
+    public void setSuccess(int success) {
         this.success = success;
     }
 
     public String getMessage() {
+        if(message==null){
+            message="Internal Server Error";
+        }
         return message;
     }
 

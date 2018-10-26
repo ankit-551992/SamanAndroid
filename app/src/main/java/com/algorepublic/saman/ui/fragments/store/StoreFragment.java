@@ -72,7 +72,8 @@ public class StoreFragment extends BaseFragment {
             textView.setText(GlobalValues.storeCategories.get(i).getTitle());
 
 
-            String url=Constants.URLS.BaseApis+GlobalValues.storeCategories.get(i).getLogoURL();
+//            String url=Constants.URLS.BaseApis+GlobalValues.storeCategories.get(i).getLogoURL();
+            String url=GlobalValues.storeCategories.get(i).getLogoURL();
             Picasso.get().load(url)
                     .placeholder(R.drawable.ic_logo)
                     .error(R.drawable.ic_logo)

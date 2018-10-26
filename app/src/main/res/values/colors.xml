@@ -6,6 +6,7 @@
     <color name="colorAccent">#FEC831</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="off_black">#5b5b5b</color>
     <color name="grey">#9e9e9e</color>
     <color name="light_grey">#B6B6B6</color>
     <color name="off_grey">#e6e6e6</color>

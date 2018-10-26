@@ -40,6 +40,8 @@
         <activity android:name=".ui.activities.order.cart.ShoppingCartActivity"/>
         <activity android:name=".ui.activities.myaccount.payment.AddCardActivity"/>
         <activity android:name=".ui.activities.store.StoreActivity"/>
+        <activity android:name=".ui.activities.country.CountriesActivity"/>
+        <activity android:name=".ui.activities.PoliciesActivity"/>
 
 
         <activity

@@ -1,4 +1,4 @@
-package com.algorepublic.saman.data.model;
+package com.algorepublic.saman.data.model.apis;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,7 +10,7 @@ public class SimpleSuccess {
     private Boolean result;
     @SerializedName("success")
     @Expose
-    private Integer success;
+    private int success;
     @SerializedName("message")
     @Expose
     private String message;
@@ -23,15 +23,18 @@ public class SimpleSuccess {
         this.result = result;
     }
 
-    public Integer getSuccess() {
+    public int getSuccess() {
         return success;
     }
 
-    public void setSuccess(Integer success) {
+    public void setSuccess(int success) {
         this.success = success;
     }
 
     public String getMessage() {
+        if(message==null){
+            message="Server Error";
+        }
         return message;
     }
 

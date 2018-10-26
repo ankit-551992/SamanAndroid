@@ -102,9 +102,15 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     @OnClick(R.id.toolbar_search)
     void search(){
-        Intent intent=new Intent(DashboardActivity.this, SearchActivity.class);
-        intent.putExtra("Function",0); //0 for Search Products
-        startActivity(intent);
+        if(navItemIndex==1) {
+            Intent intent = new Intent(DashboardActivity.this, SearchActivity.class);
+            intent.putExtra("Function", 0); //0 for Search Products
+            startActivity(intent);
+        }
+
+        if(navItemIndex==2){
+            onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        }
     }
 
     @OnClick(R.id.toolbar_settings)
@@ -153,9 +159,22 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
        if(navItemIndex==4){
            settings.setVisibility(View.VISIBLE);
            search.setVisibility(View.GONE);
-       }else if(navItemIndex==1){
+       }else if(navItemIndex==1 || navItemIndex==2){
            search.setVisibility(View.VISIBLE);
            settings.setVisibility(View.GONE);
+           if(navItemIndex==2){
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   search.setImageDrawable(getDrawable(R.drawable.ic_cross));
+               }else {
+                   search.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
+               }
+           }else {
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   search.setImageDrawable(getDrawable(R.drawable.ic_search_image));
+               }else {
+                   search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_image));
+               }
+           }
        }else {
            search.setVisibility(View.GONE);
            settings.setVisibility(View.GONE);

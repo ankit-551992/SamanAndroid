@@ -1,7 +1,7 @@
 package com.algorepublic.saman.ui.activities.register;
 
 
-import com.algorepublic.saman.data.model.UserResponse;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 
 import java.util.ArrayList;
 
@@ -25,10 +25,14 @@ public class RegisterPresenterImpl implements RegisterPresenter,RegisterData.OnR
     public void onResponse(UserResponse response) {
         if (registerView != null) {
             registerView.hideProgress();
-            if(response.getSuccess()==1) {
-                registerView.registerResponse(response.getUser());
-            }else if(response.getSuccess()==0){
-                registerView.registerError(response.getMessage());
+            if(response!=null) {
+                if (response.getSuccess() == 1) {
+                    registerView.registerResponse(response.getUser());
+                } else if (response.getSuccess() == 0) {
+                    registerView.registerError(response.getMessage());
+                }
+            }else {
+                registerView.registerError("Internal Server Error");
             }
         }
     }

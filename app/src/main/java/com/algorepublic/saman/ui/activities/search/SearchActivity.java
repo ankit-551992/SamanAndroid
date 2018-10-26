@@ -40,8 +40,8 @@ public class SearchActivity extends BaseActivity{
     TextView toolbarTitle;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
-    @BindView(R.id.toolbar_settings)
-    ImageView filter;
+    @BindView(R.id.toolbar_search)
+    ImageView search;
     @BindView(R.id.editText_search)
     EditText searchEditText;
     @BindView(R.id.recyclerView)
@@ -87,18 +87,13 @@ public class SearchActivity extends BaseActivity{
 
         toolbarTitle.setAllCaps(true);
         toolbarBack.setVisibility(View.VISIBLE);
-        filter.setVisibility(View.VISIBLE);
+        search.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         }else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            filter.setImageDrawable(getDrawable(R.drawable.ic_filter_list));
-        }else {
-            filter.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_list));
-        }
 
         getProducts();
 
@@ -108,7 +103,7 @@ public class SearchActivity extends BaseActivity{
                     displayData.clear();
 
                     for (int i=0;i<originalData.size();i++){
-                        if(originalData.get(i).getName().toLowerCase().contains(searchEditText.getText().toString().toLowerCase())){
+                        if(originalData.get(i).getProductName().toLowerCase().contains(searchEditText.getText().toString().toLowerCase())){
                             displayData.add(originalData.get(i));
                         }
                     }
@@ -128,7 +123,7 @@ public class SearchActivity extends BaseActivity{
         super.onBackPressed();
     }
 
-    @OnClick(R.id.toolbar_settings)
+    @OnClick(R.id.iv_filer)
     void filter(){
         dialog = new Dialog(SearchActivity.this,R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -175,7 +170,7 @@ public class SearchActivity extends BaseActivity{
 
         for (int i = 0; i < d.length; i++) {
             Product product = new Product();
-            product.setName(d[i]);
+            product.setProductName(d[i]);
             originalData.add(product);
         }
     }

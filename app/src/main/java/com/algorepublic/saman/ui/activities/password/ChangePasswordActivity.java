@@ -36,12 +36,18 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
     EditText newPasswordEditText;
     @BindView(R.id.iv_newPassword_visible)
     ImageView newPasswordVisibilityImageView;
+    @BindView(R.id.editText_confirmPassword)
+    EditText confirmPasswordEditText;
+    @BindView(R.id.iv_confirm_password_visible)
+    ImageView confirmPasswordVisibilityImageView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     boolean isOldShowing=false;
     boolean isNewShowing=false;
 
     PasswordPresenter presenter;
+
+    boolean isConfirmShowing = false;
 
 
     @Override
@@ -52,10 +58,9 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         presenter=new PasswordPresenter(this);
-        oldPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        newPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         oldPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         newPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+        confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
 
         toolbarTitle.setText(getString(R.string.change_password));
         toolbarBack.setVisibility(View.VISIBLE);
@@ -137,6 +142,20 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
             newPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
         newPasswordEditText.setSelection(newPasswordEditText.length());
+    }
+
+    @OnClick(R.id.iv_confirm_password_visible)
+    public void setConfirmPasswordVisibility() {
+        if (!isConfirmShowing) {
+            isConfirmShowing = true;
+            confirmPasswordEditText.setTransformationMethod(null);
+            confirmPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_view));
+        } else {
+            isConfirmShowing = false;
+            confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+            confirmPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
+        }
+        confirmPasswordEditText.setSelection(confirmPasswordEditText.length());
     }
 
     @Override

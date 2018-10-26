@@ -1,7 +1,6 @@
 package com.algorepublic.saman.ui.activities.register;
 
-import com.algorepublic.saman.data.model.User;
-import com.algorepublic.saman.data.model.UserResponse;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 
 import java.util.ArrayList;
 

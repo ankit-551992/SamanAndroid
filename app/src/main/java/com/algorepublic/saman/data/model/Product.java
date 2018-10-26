@@ -1,36 +1,276 @@
 package com.algorepublic.saman.data.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class Product {
 
-    int id;
-    String name;
-    String image;
+    int cartID;
+    int cartCategory;
+    int cartAttributeID;
+    int cartAttributeGroupID;
+    int colorID;
 
+    @SerializedName("ProductName")
+    @Expose
+    private String productName;
+    @SerializedName("ProductName_AR")
+    @Expose
+    private String productNameAR;
+    @SerializedName("Description")
+    @Expose
+    private String description;
+    @SerializedName("Description_AR")
+    @Expose
+    private String descriptionAR;
+    @SerializedName("Price")
+    @Expose
+    private Integer price;
+    @SerializedName("Quantity")
+    @Expose
+    private Integer quantity;
+    @SerializedName("SizeLength")
+    @Expose
+    private Integer sizeLength;
+    @SerializedName("SizeWidth")
+    @Expose
+    private Integer sizeWidth;
+    @SerializedName("SizeHeight")
+    @Expose
+    private Integer sizeHeight;
+    @SerializedName("Pictures")
+    @Expose
+    private List<String> pictures = null;
+    @SerializedName("isActive")
+    @Expose
+    private Boolean isActive;
+    @SerializedName("ProductImagesURLs")
+    @Expose
+    private List<String> productImagesURLs = null;
+    @SerializedName("ProductCategories")
+    @Expose
+    private List<ProductCategory> productCategories = null;
+    @SerializedName("ProductAttributes")
+    @Expose
+    private List<ProductAttribute> productAttributes = null;
+    @SerializedName("CreatedAt")
+    @Expose
+    private String createdAt;
+    @SerializedName("UpdatedAt")
+    @Expose
+    private String updatedAt;
+    @SerializedName("CreateBy")
+    @Expose
+    private Integer createBy;
+    @SerializedName("UpdateBy")
+    @Expose
+    private Integer updateBy;
+    @SerializedName("IsDeleted")
+    @Expose
+    private Boolean isDeleted;
+    @SerializedName("ID")
+    @Expose
+    private Integer iD;
 
-    public Product() {
+    public String getProductName() {
+        return productName;
     }
 
-    public int getId() {
-        return id;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getProductNameAR() {
+        return productNameAR;
     }
 
-    public String getName() {
-        return name;
+    public void setProductNameAR(String productNameAR) {
+        this.productNameAR = productNameAR;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getDescription() {
+        return description;
     }
 
-    public String getImage() {
-        return image;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getDescriptionAR() {
+        return descriptionAR;
+    }
+
+    public void setDescriptionAR(String descriptionAR) {
+        this.descriptionAR = descriptionAR;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Integer getSizeLength() {
+        return sizeLength;
+    }
+
+    public void setSizeLength(Integer sizeLength) {
+        this.sizeLength = sizeLength;
+    }
+
+    public Integer getSizeWidth() {
+        return sizeWidth;
+    }
+
+    public void setSizeWidth(Integer sizeWidth) {
+        this.sizeWidth = sizeWidth;
+    }
+
+    public Integer getSizeHeight() {
+        return sizeHeight;
+    }
+
+    public void setSizeHeight(Integer sizeHeight) {
+        this.sizeHeight = sizeHeight;
+    }
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public List<String> getProductImagesURLs() {
+        return productImagesURLs;
+    }
+
+    public void setProductImagesURLs(List<String> productImagesURLs) {
+        this.productImagesURLs = productImagesURLs;
+    }
+
+    public List<ProductCategory> getProductCategories() {
+        return productCategories;
+    }
+
+    public void setProductCategories(List<ProductCategory> productCategories) {
+        this.productCategories = productCategories;
+    }
+
+    public List<ProductAttribute> getProductAttributes() {
+        return productAttributes;
+    }
+
+    public void setProductAttributes(List<ProductAttribute> productAttributes) {
+        this.productAttributes = productAttributes;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Integer getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(Integer createBy) {
+        this.createBy = createBy;
+    }
+
+    public Integer getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(Integer updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Integer getID() {
+        return iD;
+    }
+
+    public void setID(Integer iD) {
+        this.iD = iD;
+    }
+
+    public int getCartID() {
+        return cartID;
+    }
+
+    public void setCartID(int cartID) {
+        this.cartID = cartID;
+    }
+
+    public int getCartCategory() {
+        return cartCategory;
+    }
+
+    public void setCartCategory(int cartCategory) {
+        this.cartCategory = cartCategory;
+    }
+
+    public int getCartAttributeID() {
+        return cartAttributeID;
+    }
+
+    public void setCartAttributeID(int cartAttributeID) {
+        this.cartAttributeID = cartAttributeID;
+    }
+
+    public int getCartAttributeGroupID() {
+        return cartAttributeGroupID;
+    }
+
+    public void setCartAttributeGroupID(int cartAttributeGroupID) {
+        this.cartAttributeGroupID = cartAttributeGroupID;
+    }
+
+    public int getColorID() {
+        return colorID;
+    }
+
+    public void setColorID(int colorID) {
+        this.colorID = colorID;
     }
 }

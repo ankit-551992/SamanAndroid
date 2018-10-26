@@ -1,10 +1,9 @@
 package com.algorepublic.saman.ui.activities.register;
 
-import com.algorepublic.saman.data.model.UserResponse;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.utils.Constants;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +30,6 @@ public class RegisterDataInteractor implements RegisterData {
 
     @Override
     public void getCountries(OnResponseListener responseListener) {
-        responseListener.setCountries(Constants.countriesList());
+//        responseListener.setCountries(Constants.countriesList());
     }
 }

@@ -1,14 +1,14 @@
 package com.algorepublic.saman.data.model.apis;
 
-import com.algorepublic.saman.data.model.StoreCategory;
+import com.algorepublic.saman.data.model.Product;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
-public class GetCategoriesList{
+public class GetProduct{
+
     @SerializedName("result")
     @Expose
-    private List<StoreCategory> categories = null;
+    private Product product;
     @SerializedName("success")
     @Expose
     private int success;
@@ -16,12 +16,12 @@ public class GetCategoriesList{
     @Expose
     private String message;
 
-    public List<StoreCategory> getCategories() {
-        return categories;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setResult(List<StoreCategory> categories) {
-        this.categories = categories;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getSuccess() {
@@ -42,4 +42,5 @@ public class GetCategoriesList{
     public void setMessage(String message) {
         this.message = message;
     }
+
 }

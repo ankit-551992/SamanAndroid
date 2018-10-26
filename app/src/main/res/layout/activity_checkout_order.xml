@@ -70,16 +70,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.2"
-                    android:text="@string/delivery_options"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:text="@string/order_total"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/pick_up_seller"
-                    android:textStyle="bold" />
+                    android:text="10000 OMR"/>
 
             </LinearLayout>
 
@@ -103,7 +101,7 @@
                     android:layout_weight="0.2"
                     android:text="@string/order_reference"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -132,8 +130,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.2"
                     android:text="@string/order_status"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -162,8 +159,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.2"
                     android:text="@string/delivery_date"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -181,10 +177,9 @@
                 android:background="@color/light_grey" />
 
             <ImageView
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/dummy_mobile"
+                android:src="@drawable/ads"
                 android:contentDescription="@string/contentDescription" />
 
             <TextView

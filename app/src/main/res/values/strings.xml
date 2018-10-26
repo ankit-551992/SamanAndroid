@@ -70,8 +70,9 @@
     <string name="term">Terms of Use</string>
     <string name="description">Description</string>
     <string name="create_ticket">Create Ticket</string>
+    <string name="submit">Submit</string>
     <string name="character">300 Character</string>
-    
+
     <!--Shopping cart-->
     <string name="shopping_cart">Shopping Bag</string>
     <string name="delivery_to">Delivery To</string>
@@ -116,6 +117,7 @@
     <string name="proceed">CHECKOUT</string>
     <string name="order_date">Order Date</string>
     <string name="delete">Remove</string>
+    <string name="default_">Default</string>
     <string name="cancel">Cancel</string>
     <string name="add_to_cart">Move To Bag</string>
     <string name="add_to_fav">Move To Wishlist</string>
@@ -154,7 +156,8 @@
     <string name="day">DD</string>
     <string name="month">MM</string>
     <string name="year">YYYY</string>
-    <string name="address_hint">Oman</string>
+    <string name="select_country">Country Selection</string>
+    <string name="address_hint">House street area</string>
     <string name="have_account">Have Account?</string>
     <!--Sign Up-->
 
@@ -219,4 +222,5 @@
         <item quantity="one">Item</item>
         <item quantity="other">Items</item>
     </plurals>
+    
 </resources>

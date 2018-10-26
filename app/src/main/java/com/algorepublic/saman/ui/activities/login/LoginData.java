@@ -1,6 +1,6 @@
 package com.algorepublic.saman.ui.activities.login;
 
-import com.algorepublic.saman.data.model.UserResponse;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 
 public interface LoginData {
 

@@ -13,7 +13,7 @@ public class GetStores {
     private List<Store> stores = null;
     @SerializedName("success")
     @Expose
-    private Integer success;
+    private int success;
     @SerializedName("message")
     @Expose
     private String message;
@@ -26,15 +26,18 @@ public class GetStores {
         this.stores = stores;
     }
 
-    public Integer getSuccess() {
+    public int getSuccess() {
         return success;
     }
 
-    public void setSuccess(Integer success) {
+    public void setSuccess(int success) {
         this.success = success;
     }
 
     public String getMessage() {
+        if(message==null){
+            message="Server Error";
+        }
         return message;
     }
 

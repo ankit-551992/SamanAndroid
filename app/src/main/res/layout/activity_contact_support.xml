@@ -17,7 +17,7 @@
         android:layout_height="match_parent">
 
         <Spinner
-            android:padding="15dp"
+            android:padding="10dp"
             android:id="@+id/spinner_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:prompt="@string/subject_prompt" />
 
         <View
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:background="@color/light_grey"/>
@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow_button"
-                android:text="@string/create_ticket"
+                android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textColor="#fff" />
 

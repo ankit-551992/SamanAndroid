@@ -48,7 +48,6 @@ public class MessagingActivity  extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.title_store));
         toolbarBack.setVisibility(View.VISIBLE);
-        settings.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         }else {
