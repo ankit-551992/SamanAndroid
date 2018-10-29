@@ -48,8 +48,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
-                    mContext.startActivity(intent);
+
                 }
             });
 
@@ -64,8 +63,20 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof ProductViewHolder) {
-            ProductViewHolder productViewHolder = (ProductViewHolder) holder;
-            productViewHolder.productDescription.setText("Lige Brand Men Watches Automatic "+position);
+            final ProductViewHolder productViewHolder = (ProductViewHolder) holder;
+            Product product=productArrayList.get(position);
+            productViewHolder.productDescription.setText(product.getProductName());
+            productViewHolder.productPrice.setText(product.getPrice()+" OMR");
+
+            productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID",productArrayList.get(position).getID());
+                    mContext.startActivity(intent);
+                }
+            });
+
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -78,15 +89,16 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         private TextView productDescription;
+        private TextView productPrice;
         private ImageView productImageView;
 
         public ProductViewHolder(View v) {
             super(v);
             productImageView = (ImageView) v.findViewById(R.id.iv_product);
             productDescription = (TextView) v.findViewById(R.id.tv_product_description);
+            productPrice = (TextView) v.findViewById(R.id.tv_product_price);
         }
     }
 

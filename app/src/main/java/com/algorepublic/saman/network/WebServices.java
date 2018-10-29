@@ -1,6 +1,7 @@
 package com.algorepublic.saman.network;
 
 import com.algorepublic.saman.data.model.apis.GetProduct;
+import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
@@ -44,6 +45,9 @@ public interface WebServices {
     @GET("Seller/GetByCategory?")
 //    Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID, @Query("page") String page);
     Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID);
+
+    @GET("Product/GetListByStore?")
+    Call<GetProducts> getProductsByStore(@Query("storeID") String storeID);
 
     @GET("Seller")
     Call<GetStores> getAllStores();

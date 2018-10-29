@@ -17,9 +17,12 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
+import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.adapters.BagAdapter;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.ResourceUtil;
+import com.algorepublic.saman.utils.SamanApp;
 import com.algorepublic.saman.utils.SwipeHelper;
 
 import java.util.ArrayList;
@@ -34,10 +37,23 @@ public class BagFragment extends BaseFragment {
     @BindView(R.id.tv_quantity)
     TextView quantity;
     @BindView(R.id.recycler)
-    RecyclerView favoritesRecyclerView;
+    RecyclerView bagRecyclerView;
     RecyclerView.LayoutManager layoutManager;
     List<Product> productArrayList = new ArrayList<>();
     BagAdapter bagAdapter;
+
+
+    //Total
+    @BindView(R.id.tv_products_total)
+    TextView productsTotal;
+    @BindView(R.id.tv_products_subtotal)
+    TextView productsSubTotal;
+    @BindView(R.id.tv_vat)
+    TextView productsVAT;
+    @BindView(R.id.tv_grand_total)
+    TextView productsGrandTotal;
+    //Total
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,17 +62,17 @@ public class BagFragment extends BaseFragment {
 
 
         layoutManager = new LinearLayoutManager(getActivity());
-        favoritesRecyclerView.setLayoutManager(layoutManager);
-        favoritesRecyclerView.setNestedScrollingEnabled(false);
+        bagRecyclerView.setLayoutManager(layoutManager);
+        bagRecyclerView.setNestedScrollingEnabled(false);
         productArrayList = new ArrayList<>();
-        bagAdapter = new BagAdapter(getContext(), productArrayList);
-        favoritesRecyclerView.setAdapter(bagAdapter);
+        bagAdapter = new BagAdapter(getContext(), productArrayList,this);
+        bagRecyclerView.setAdapter(bagAdapter);
 
 
         getData();
 
 
-        SwipeHelper swipeHelper = new SwipeHelper(getContext(), favoritesRecyclerView) {
+        new SwipeHelper(getContext(), bagRecyclerView) {
             @Override
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
@@ -67,6 +83,13 @@ public class BagFragment extends BaseFragment {
                             @Override
                             public void onClick(int pos) {
                                 // TODO: onDelete
+                                Product p=productArrayList.get(pos);
+                                if(SamanApp.localDB.deleteItemFromCart(p)){
+                                    Constants.showAlert("REMOVE FROM BAG","Product Removed successfully","Okay",getActivity());
+                                    productArrayList.remove(p);
+                                    bagAdapter.updateNotify();
+                                }
+                                quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
                             }
                         }
                 ));
@@ -96,13 +119,20 @@ public class BagFragment extends BaseFragment {
     }
 
     private void getData(){
-        for (int i = 0; i < 3; i++) {
-            Product product = new Product();
-            productArrayList.add(product);
+
+        if(SamanApp.localDB!=null){
+            productArrayList.addAll(SamanApp.localDB.getCartProducts());
             bagAdapter.notifyDataSetChanged();
         }
-
         quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+    }
+
+    public void updateTotal(int total,int vat){
+        int grandTotal=total+vat;
+        productsTotal.setText(getString(R.string.total)+" "+total+".0 OMR");
+        productsSubTotal.setText(getString(R.string.subtotal)+" "+total+".0 OMR");
+        productsVAT.setText(getString(R.string.VAT)+" "+vat+".0 OMR");
+        productsGrandTotal.setText(getString(R.string.total)+" "+grandTotal+".0 OMR");
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.algorepublic.saman.BuildConfig;
+import com.algorepublic.saman.db.MySQLiteHelper;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.facebook.FacebookSdk;
@@ -30,6 +31,7 @@ public class SamanApp extends MultiDexApplication {
     public final String TWITTER_SECRET = "a5Jo7xEwsNh4BhuHodycFOILfV0OEBkNOHNikt5Cf3VhABSxnp";
 
     public static TinyDB db;
+    public static MySQLiteHelper localDB;
 
     @Override
     public void onCreate() {
@@ -38,6 +40,7 @@ public class SamanApp extends MultiDexApplication {
         Crashlytics crashlytics=new Crashlytics.Builder().core(core).build();
         Fabric.with(this, crashlytics);
         db=new TinyDB(this);
+        localDB=new MySQLiteHelper(this);
 
 //        if(GlobalValues.getAppLanguage(getApplicationContext()).equals("")){
             GlobalValues.setAppLanguage(getApplicationContext(), Locale.getDefault().getLanguage());

@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
@@ -44,6 +45,8 @@ public class SearchActivity extends BaseActivity{
     ImageView search;
     @BindView(R.id.editText_search)
     EditText searchEditText;
+    @BindView(R.id.search_bar)
+    RelativeLayout searchBar;
     @BindView(R.id.recyclerView)
     RecyclerView searchRecyclerView;
     RecyclerView.LayoutManager productLayoutManager;
@@ -58,7 +61,6 @@ public class SearchActivity extends BaseActivity{
     String storeNameAr="";
 
     String[] d={"PHONE FINDER","SAMSUNG","APPLE","NOKIA","SONY","LG","MOTOROLA","GOOGLE","BLACKBERRY"};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +78,22 @@ public class SearchActivity extends BaseActivity{
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        search.setVisibility(View.VISIBLE);
         if(function==0){
             toolbarTitle.setText(getString(R.string.search));
         }else if (function==1){
+            search.setVisibility(View.GONE);
+            searchBar.setVisibility(View.GONE);
             toolbarTitle.setText(getString(R.string.latest_product));
         }else if (function==2){
+            search.setVisibility(View.GONE);
+            searchBar.setVisibility(View.GONE);
             toolbarTitle.setText(storeName);
         }
 
         toolbarTitle.setAllCaps(true);
         toolbarBack.setVisibility(View.VISIBLE);
-        search.setVisibility(View.VISIBLE);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         }else {

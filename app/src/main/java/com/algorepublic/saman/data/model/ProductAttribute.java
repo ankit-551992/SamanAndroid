@@ -73,4 +73,9 @@ public class ProductAttribute {
     }
 
 
+    @Override
+    public String toString() {
+        return title;
+    }
+
 }

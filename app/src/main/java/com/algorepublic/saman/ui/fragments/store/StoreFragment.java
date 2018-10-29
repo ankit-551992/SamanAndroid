@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
-import com.algorepublic.saman.ui.activities.search.SearchActivity;
 import com.algorepublic.saman.ui.fragments.store.Tab.TabFragment;
 import com.algorepublic.saman.ui.fragments.store.Tab.Tabs;
 import com.algorepublic.saman.utils.Constants;
@@ -47,12 +46,12 @@ public class StoreFragment extends BaseFragment {
         return view;
     }
 
-    @OnClick(R.id.search)
-    void search(){
-        Intent intent=new Intent(getContext(), SearchActivity.class);
-        intent.putExtra("Function",0); //0 for Search Products
-        startActivity(intent);
-    }
+//    @OnClick(R.id.search)
+//    void search(){
+//        Intent intent=new Intent(getContext(), SearchActivity.class);
+//        intent.putExtra("Function",0); //0 for Search Products
+//        startActivity(intent);
+//    }
 
     public void tab() {
         setupViewPager(viewPager);

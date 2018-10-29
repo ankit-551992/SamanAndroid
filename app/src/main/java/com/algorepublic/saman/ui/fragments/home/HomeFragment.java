@@ -18,7 +18,7 @@ import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.productdetail.CustomPagerAdapter;
-import com.algorepublic.saman.ui.activities.search.SearchActivity;
+import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
 import com.algorepublic.saman.ui.activities.store.StoreActivity;
 import com.algorepublic.saman.ui.adapters.BestSellersAdapter;
 import com.algorepublic.saman.ui.adapters.BrandsAdapter;
@@ -97,7 +97,7 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.tv_latest_products_see_all)
     void products(){
-        Intent intent=new Intent(getContext(), SearchActivity.class);
+        Intent intent=new Intent(getContext(), ProductListingActivity.class);
         intent.putExtra("Function",1); //1 for Latest Products
         startActivity(intent);
     }

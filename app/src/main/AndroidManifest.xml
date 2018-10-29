@@ -29,6 +29,7 @@
         <activity android:name=".ui.activities.password.ForgotPasswordActivity"/>
         <activity android:name=".ui.activities.password.ResetPasswordActivity"/>
         <activity android:name=".ui.activities.search.SearchActivity"/>
+        <activity android:name=".ui.activities.search.ProductListingActivity"/>
         <activity android:name=".ui.activities.productdetail.ProductDetailActivity"/>
         <activity android:name=".ui.activities.myaccount.mydetails.MyDetailsActivity"/>
         <activity android:name=".ui.activities.myaccount.payment.MyPaymentActivity"/>

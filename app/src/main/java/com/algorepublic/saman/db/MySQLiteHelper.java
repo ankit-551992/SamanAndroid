@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.utils.GlobalValues;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     //********************************************************************************
 
     // Tables Names
-    public static final String TABLE_CART= "CART";
+    public static final String TABLE_CART = "CART";
 
     //CART Table Columns
     public static final String CART_COLUMN_ID = "CART_ID";                                          //0
@@ -70,61 +71,61 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     //Table CART CREATE STATEMENT
     private static final String CREATE_CART_TABLE = "CREATE TABLE "
-            + TABLE_CART+ "(" + CART_COLUMN_ID
+            + TABLE_CART + "(" + CART_COLUMN_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            +CART_PRODUCT_ID+" INTEGER,"
-            +CART_PRODUCT_NAME+" TEXT,"
-            +CART_PRODUCT_NAME_AR+" TEXT,"
-            +CART_PRODUCT_DESCRIPTION+" TEXT,"
-            +CART_PRODUCT_DESCRIPTION_AR+" TEXT,"
-            +CART_PRODUCT_PRICE+" INTEGER,"
-            +CART_PRODUCT_QUANTITY+" INTEGER,"
-            +CART_PRODUCT_SIZE_LENGTH+" INTEGER,"
-            +CART_PRODUCT_SIZE_WIDTH+" INTEGER,"
-            +CART_PRODUCT_SIZE_HEIGHT+" INTEGER,"
-            +CART_PRODUCT_PICTURES+" TEXT,"
-            +CART_PRODUCT_IMAGES+" TEXT,"
-            +CART_PRODUCT_COLOR+" TEXT,"
-            +CART_PRODUCT_IS_ACTIVE+" INTEGER,"
-            +CART_PRODUCT_IS_DELETED+" INTEGER,"
-            +CART_PRODUCT_CATEGORY_ID+" INTEGER,"
-            +CART_PRODUCT_ATTRIBUTE_ID+" INTEGER,"
-            +CART_PRODUCT_ATTRIBUTE_GROUP_ID+" INTEGER,"
-            +CART_PRODUCT_CREATED_AT+" TEXT,"
-            +CART_PRODUCT_CREATED_BY+" TEXT,"
-            +CART_PRODUCT_UPDATED_AT+" TEXT,"
-            +CART_PRODUCT_UPDATED_BY+" TEXT"+ ")";
+            + CART_PRODUCT_ID + " INTEGER,"
+            + CART_PRODUCT_NAME + " TEXT,"
+            + CART_PRODUCT_NAME_AR + " TEXT,"
+            + CART_PRODUCT_DESCRIPTION + " TEXT,"
+            + CART_PRODUCT_DESCRIPTION_AR + " TEXT,"
+            + CART_PRODUCT_PRICE + " INTEGER,"
+            + CART_PRODUCT_QUANTITY + " INTEGER,"
+            + CART_PRODUCT_SIZE_LENGTH + " INTEGER,"
+            + CART_PRODUCT_SIZE_WIDTH + " INTEGER,"
+            + CART_PRODUCT_SIZE_HEIGHT + " INTEGER,"
+            + CART_PRODUCT_PICTURES + " TEXT,"
+            + CART_PRODUCT_IMAGES + " TEXT,"
+            + CART_PRODUCT_COLOR + " TEXT,"
+            + CART_PRODUCT_IS_ACTIVE + " INTEGER,"
+            + CART_PRODUCT_IS_DELETED + " INTEGER,"
+            + CART_PRODUCT_CATEGORY_ID + " INTEGER,"
+            + CART_PRODUCT_ATTRIBUTE_ID + " INTEGER,"
+            + CART_PRODUCT_ATTRIBUTE_GROUP_ID + " INTEGER,"
+            + CART_PRODUCT_CREATED_AT + " TEXT,"
+            + CART_PRODUCT_CREATED_BY + " TEXT,"
+            + CART_PRODUCT_UPDATED_AT + " TEXT,"
+            + CART_PRODUCT_UPDATED_BY + " TEXT" + ")";
 
-    public boolean addToCart(Product product,int categoryID,int attributeID,int attributeGroupID,int colorID) {
+    public boolean addToCart(Product product, int categoryID, int attributeID, int attributeGroupID, int colorID, int quantity) {
 
         ContentValues values = new ContentValues();
         // Check Product already in cart
-        if(!CheckProductAlreadyExit(product,attributeID,attributeGroupID)) {
+        if (!CheckProductAlreadyExit(product, attributeID, attributeGroupID)) {
             values.put(CART_PRODUCT_ID, product.getID());
             values.put(CART_PRODUCT_NAME, product.getProductName());
             values.put(CART_PRODUCT_NAME_AR, product.getProductNameAR());
             values.put(CART_PRODUCT_DESCRIPTION, product.getDescription());
             values.put(CART_PRODUCT_DESCRIPTION_AR, product.getDescriptionAR());
             values.put(CART_PRODUCT_PRICE, product.getPrice());
-            values.put(CART_PRODUCT_QUANTITY,1);
+            values.put(CART_PRODUCT_QUANTITY, quantity);
             values.put(CART_PRODUCT_SIZE_LENGTH, product.getSizeLength());
             values.put(CART_PRODUCT_SIZE_WIDTH, product.getSizeWidth());
             values.put(CART_PRODUCT_SIZE_HEIGHT, product.getSizeHeight());
-            values.put(CART_PRODUCT_PICTURES, product.getPictures().get(0));
-            values.put(CART_PRODUCT_IMAGES, product.getProductImagesURLs().get(0));
-            values.put(CART_PRODUCT_COLOR, ""+colorID);
+            values.put(CART_PRODUCT_PICTURES, GlobalValues.convertListToString(product.getPictures()));
+            values.put(CART_PRODUCT_IMAGES, GlobalValues.convertListToString(product.getProductImagesURLs()));
+            values.put(CART_PRODUCT_COLOR, "" + colorID);
 
 
-            int isActive=0;
-            if(product.getIsActive()){
-                isActive=1;
+            int isActive = 0;
+            if (product.getIsActive()) {
+                isActive = 1;
             }
             values.put(CART_PRODUCT_IS_ACTIVE, isActive);
 
 
-            int isDeleted=0;
-            if(product.getIsDeleted()){
-                isDeleted=1;
+            int isDeleted = 0;
+            if (product.getIsDeleted()) {
+                isDeleted = 1;
             }
             values.put(CART_PRODUCT_IS_DELETED, isDeleted);
 
@@ -146,13 +147,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             }
         }
         // IF Product already in cart
-        else
-        {
+        else {
             values.put(CART_PRODUCT_QUANTITY,
-                    (getCartProductCount(product,attributeID,attributeGroupID)+1));
+                    (getCartProductCount(product, attributeID, attributeGroupID) + quantity));
             SQLiteDatabase db = this.getWritableDatabase();
-            long rowUpdate = db.update(TABLE_CART,values, CART_PRODUCT_ID +" = ? AND " +CART_PRODUCT_IS_ACTIVE +" = ? AND " +CART_PRODUCT_SIZE_LENGTH+" = ?",
-                    new String[]{""+product.getID(),""+product.getIsActive(),""+product.getSizeLength()});
+            long rowUpdate = db.update(TABLE_CART, values, CART_PRODUCT_ID + " = ? AND " + CART_PRODUCT_ATTRIBUTE_ID + " = ? AND " + CART_PRODUCT_ATTRIBUTE_GROUP_ID + " = ?",
+                    new String[]{"" + product.getID(), "" + attributeID, "" + attributeGroupID});
             db.close();
             if (rowUpdate != -1) {
                 return true;
@@ -163,7 +163,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Product> getCartProducts(){
+    public ArrayList<Product> getCartProducts() {
 
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_CART;
@@ -173,7 +173,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product=new Product();
+                Product product = new Product();
                 product.setCartID(cursor.getInt(0));
                 product.setID(cursor.getInt(1));
                 product.setProductName(cursor.getString(2));
@@ -188,21 +188,20 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 //                product.setPictures(cursor.getInt(11));
 //                product.setProductImagesURLs(cursor.getInt(12));
 //                product.setColor(cursor.getString(13));
-                boolean isActive=false;
-                if(cursor.getInt(14)==1){
-                    isActive=true;
+                boolean isActive = false;
+                if (cursor.getInt(14) == 1) {
+                    isActive = true;
                 }
 
-                boolean isDeleted=false;
-                if(cursor.getInt(15)==1){
-                    isDeleted=true;
+                boolean isDeleted = false;
+                if (cursor.getInt(15) == 1) {
+                    isDeleted = true;
                 }
                 product.setIsActive(isDeleted);
 
                 product.setCartCategory(cursor.getInt(16));
                 product.setCartAttributeID(cursor.getInt(17));
                 product.setCartAttributeGroupID(cursor.getInt(18));
-
 
 
                 product.setCreatedAt(cursor.getString(19));
@@ -219,15 +218,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return cartArrayList;
     }
 
-    public boolean editCartItem(Product product,int newAttributeID,int newQuantity)throws SQLException {
+
+    public boolean editCartItem(Product product, int newAttributeID, int newQuantity) throws SQLException {
 
         // Check if AttributeID is same and Just Product Quantity changed
-        if(product.getCartAttributeID()==newAttributeID && product.getQuantity()!=newQuantity){
+        if (product.getCartAttributeID() == newAttributeID && product.getQuantity() != newQuantity) {
             ContentValues values = new ContentValues();
             values.put(CART_PRODUCT_QUANTITY, newQuantity);
             SQLiteDatabase db = this.getWritableDatabase();
-            long rowUpdate = db.update(TABLE_CART,values, CART_PRODUCT_ID +" = ? AND " +CART_PRODUCT_IS_ACTIVE +" = ? AND " +CART_PRODUCT_SIZE_LENGTH+" = ?",
-                    new String[]{""+product.getID(),""+product.getIsActive(),""+product.getSizeLength()});
+            long rowUpdate = db.update(TABLE_CART, values, CART_PRODUCT_ID + " = ? AND " + CART_PRODUCT_IS_ACTIVE + " = ? AND " + CART_PRODUCT_SIZE_LENGTH + " = ?",
+                    new String[]{"" + product.getID(), "" + product.getIsActive(), "" + product.getSizeLength()});
             db.close();
             if (rowUpdate != -1) {
                 return true;
@@ -236,12 +236,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             }
         }
         // Check if AttributeID not same
-        else if(product.getCartAttributeID()!=newAttributeID){
-            deleteItemFromCart(product);
+        else if (product.getCartAttributeID() != newAttributeID) {
+//            deleteItemFromCart(product);
             ContentValues values = new ContentValues();
             // Check if product already exit with AttributeID
             //if product already not exit with AttributeID
-            if(!CheckProductAlreadyExit(product,newAttributeID,product.getCartAttributeGroupID())) {
+            if (!CheckProductAlreadyExit(product, newAttributeID, product.getCartAttributeGroupID())) {
 
                 values.put(CART_PRODUCT_ID, product.getID());
                 values.put(CART_PRODUCT_NAME, product.getProductName());
@@ -249,7 +249,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 values.put(CART_PRODUCT_DESCRIPTION, product.getDescription());
                 values.put(CART_PRODUCT_DESCRIPTION_AR, product.getDescriptionAR());
                 values.put(CART_PRODUCT_PRICE, product.getPrice());
-                values.put(CART_PRODUCT_QUANTITY,1);
+                values.put(CART_PRODUCT_QUANTITY, 1);
                 values.put(CART_PRODUCT_SIZE_LENGTH, product.getSizeLength());
                 values.put(CART_PRODUCT_SIZE_WIDTH, product.getSizeWidth());
                 values.put(CART_PRODUCT_SIZE_HEIGHT, product.getSizeHeight());
@@ -258,16 +258,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 values.put(CART_PRODUCT_COLOR, "Random");
 
 
-                int isActive=0;
-                if(product.getIsActive()){
-                    isActive=1;
+                int isActive = 0;
+                if (product.getIsActive()) {
+                    isActive = 1;
                 }
                 values.put(CART_PRODUCT_IS_ACTIVE, isActive);
 
 
-                int isDeleted=0;
-                if(product.getIsDeleted()){
-                    isDeleted=1;
+                int isDeleted = 0;
+                if (product.getIsDeleted()) {
+                    isDeleted = 1;
                 }
                 values.put(CART_PRODUCT_IS_DELETED, isDeleted);
 
@@ -289,13 +289,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 }
             }
             // if product already exit with AttributeID
-            else
-            {
+            else {
                 values.put(CART_PRODUCT_QUANTITY,
-                        (getCartProductCount(product,newAttributeID,product.getCartAttributeGroupID())+newQuantity));
+                        (getCartProductCount(product, newAttributeID, product.getCartAttributeGroupID()) + newQuantity));
                 SQLiteDatabase db = this.getWritableDatabase();
-                long rowUpdate = db.update(TABLE_CART,values, CART_PRODUCT_ID +" = ? AND " +CART_PRODUCT_ATTRIBUTE_ID +" = ? AND " +CART_PRODUCT_ATTRIBUTE_GROUP_ID+" = ?",
-                        new String[]{""+product.getID(),""+product.getCartAttributeID(),""+product.getCartAttributeGroupID()});
+                long rowUpdate = db.update(TABLE_CART, values, CART_PRODUCT_ID + " = ? AND " + CART_PRODUCT_ATTRIBUTE_ID + " = ? AND " + CART_PRODUCT_ATTRIBUTE_GROUP_ID + " = ?",
+                        new String[]{"" + product.getID(), "" + product.getCartAttributeID(), "" + product.getCartAttributeGroupID()});
                 db.close();
                 if (rowUpdate != -1) {
                     return true;
@@ -307,25 +306,29 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public boolean deleteItemFromCart(Product product)throws SQLException {
+    public boolean deleteItemFromCart(Product product) throws SQLException {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CART,  CART_PRODUCT_ID +" = ? AND " +CART_PRODUCT_ATTRIBUTE_ID +" = ? AND " +CART_PRODUCT_ATTRIBUTE_GROUP_ID+" = ?",
-                new String[]{""+product.getID(),""+product.getCartAttributeID(),""+product.getCartAttributeGroupID()});
+        long rowDelete = db.delete(TABLE_CART, CART_PRODUCT_ID + " = ? AND " + CART_PRODUCT_ATTRIBUTE_ID + " = ? AND " + CART_PRODUCT_ATTRIBUTE_GROUP_ID + " = ?",
+                new String[]{"" + product.getID(), "" + product.getCartAttributeID(), "" + product.getCartAttributeGroupID()});
         db.close();
+        if (rowDelete != -1)
+            return true;
+
         return false;
+
     }
 
 
-    public int getCartProductCount(Product product,int attributeID,int attributeGroupID){
-        int cnt=0;
-        String countQuery = "Select * from " + TABLE_CART+ " WHERE "+ CART_PRODUCT_ID+ " = "+ product.getID()+
-                " AND " + CART_PRODUCT_ATTRIBUTE_ID + " =  \"" + attributeID + "\""+
+    public int getCartProductCount(Product product, int attributeID, int attributeGroupID) {
+        int cnt = 0;
+        String countQuery = "Select * from " + TABLE_CART + " WHERE " + CART_PRODUCT_ID + " = " + product.getID() +
+                " AND " + CART_PRODUCT_ATTRIBUTE_ID + " =  \"" + attributeID + "\"" +
                 " AND " + CART_PRODUCT_ATTRIBUTE_GROUP_ID + " =  \"" + attributeGroupID + "\"";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        if(cursor!=null) {
+        if (cursor != null) {
             if (cursor.moveToFirst()) {
-                do{
+                do {
                     cnt = cursor.getInt(7);
                 } while (cursor.moveToNext());
             }
@@ -334,14 +337,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return cnt;
     }
 
-    public int getCartAllProductsCount(){
-        int cnt=0;
+    public int getCartAllProductsCount() {
+        int cnt = 0;
         String countQuery = "Select * from " + TABLE_CART;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        if(cursor!=null) {
+        if (cursor != null) {
             if (cursor.moveToFirst()) {
-                do{
+                do {
                     cnt = cnt + cursor.getInt(7);
                 } while (cursor.moveToNext());
             }
@@ -351,13 +354,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean CheckProductAlreadyExit(Product product,int attributeID,int attributeGroupID) {
-        String Query = "Select * from " + TABLE_CART+ " WHERE "+ CART_PRODUCT_ID+ " = "+ product.getID()+
-                " AND " + CART_PRODUCT_ATTRIBUTE_ID + " =  \"" + attributeID + "\""+
+    private boolean CheckProductAlreadyExit(Product product, int attributeID, int attributeGroupID) {
+        String Query = "Select * from " + TABLE_CART + " WHERE " + CART_PRODUCT_ID + " = " + product.getID() +
+                " AND " + CART_PRODUCT_ATTRIBUTE_ID + " =  \"" + attributeID + "\"" +
                 " AND " + CART_PRODUCT_ATTRIBUTE_GROUP_ID + " =  \"" + attributeGroupID + "\"";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(Query, null);
-        if(cursor.getCount() <= 0){
+        if (cursor.getCount() <= 0) {
             cursor.close();
             return false;
         }

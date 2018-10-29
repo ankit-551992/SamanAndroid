@@ -6,7 +6,9 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
     android:paddingLeft="5dp"
-    android:paddingRight="5dp"
+    android:paddingStart="5dp"
+    android:paddingEnd="2dp"
+    android:paddingRight="2dp"
     android:layout_marginBottom="5dp"
     android:layout_marginLeft="10dp"
     android:layout_marginStart="10dp"
@@ -53,21 +55,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:id="@+id/tv_product_description"
+                    android:id="@+id/tv_product_name"
                     android:textColor="@color/black"
                     android:layout_marginTop="5dp"
                     android:text="@string/dummy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:text="6000 OMR"
+                    android:id="@+id/tv_product_description"
+                    android:text="@string/description"
+                    android:lines="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
 
             <RelativeLayout
-                android:padding="10dp"
                 android:layout_gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_weight="0.25"
@@ -106,23 +109,31 @@
                     android:layout_height="20dp" />
 
                 <TextView
+                    android:gravity="center"
+                    android:id="@+id/tv_product_price"
+                    android:layout_toRightOf="@id/tv_quantity"
+                    android:layout_toEndOf="@id/tv_quantity"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:textSize="12sp"
                     android:layout_centerVertical="true"
                     android:textColor="@color/black"
-                    android:text="@string/currency_omr"
+                    android:text="10 OMR"
                     android:paddingBottom="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:gravity="center"
+                    android:id="@+id/tv_product_total"
+                    android:layout_toRightOf="@id/tv_quantity"
+                    android:layout_toEndOf="@id/tv_quantity"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:paddingTop="20dp"
                     android:textSize="12sp"
                     android:layout_centerVertical="true"
-                    android:text="@string/currency_omr"
+                    android:text="100 OMR"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

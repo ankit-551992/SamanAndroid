@@ -9,6 +9,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
+import com.algorepublic.saman.ui.fragments.bag.BagFragment;
+import com.algorepublic.saman.utils.SamanApp;
+
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +24,13 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_LOADING = 1;
     private List<Product> productArrayList;
     private Context mContext;
+    private BagFragment bagFragment;
+    int grandTotal=0;
 
-    public BagAdapter(Context mContext,List<Product> productArrayList){
+    public BagAdapter(Context mContext, List<Product> productArrayList, BagFragment bagFragment){
         this.productArrayList=productArrayList;
         this.mContext=mContext;
+        this.bagFragment=bagFragment;
     }
 
 //    public void removeItem(int position) {
@@ -59,6 +66,17 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof BagViewHolder) {
             BagViewHolder bagViewHolder = (BagViewHolder) holder;
             bagViewHolder.getPosition = holder.getAdapterPosition();
+            Product product=productArrayList.get(bagViewHolder.getPosition);
+            bagViewHolder.name.setText(product.getProductName());
+            bagViewHolder.description.setText(product.getDescription());
+            bagViewHolder.price.setText(product.getPrice()+" OMR");
+            int total=product.getPrice()*product.getQuantity();
+            grandTotal=grandTotal+total;
+            bagViewHolder.total.setText(total+" OMR");
+            bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
+
+            bagFragment.updateTotal(grandTotal,1);
+
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -75,6 +93,10 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         int getPosition;
         @BindView(R.id.tv_quantity) TextView quantity;
+        @BindView(R.id.tv_product_name) TextView name;
+        @BindView(R.id.tv_product_description) TextView description;
+        @BindView(R.id.tv_product_price) TextView price;
+        @BindView(R.id.tv_product_total) TextView total;
 
         BagViewHolder(View v) {
             super(v);
@@ -83,9 +105,17 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @OnClick(R.id.iv_add_quantity)
         void addItem() {
-            int current=Integer.parseInt(quantity.getText().toString());
-            current++;
-            quantity.setText(String.valueOf(current));
+            SamanApp.localDB.addToCart(
+                    productArrayList.get(getPosition),
+                    1,
+                    productArrayList.get(getPosition).getCartAttributeID(),
+                    1,
+                    1,
+                    1);
+
+
+            productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity()+1);
+            updateNotify();
         }
 
         @OnClick(R.id.iv_remove_quantity)
@@ -93,9 +123,25 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             int current=Integer.parseInt(quantity.getText().toString());
             if(current>1) {
                 current--;
+
+                SamanApp.localDB.addToCart(
+                        productArrayList.get(getPosition),
+                        1,
+                        productArrayList.get(getPosition).getCartAttributeID(),
+                        1,
+                        1,
+                        -1);
             }
-            quantity.setText(String.valueOf(current));
+
+            productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity()-1);
+            updateNotify();
         }
+    }
+
+
+    public void updateNotify(){
+        grandTotal=0;
+        notifyDataSetChanged();
     }
 
     class LoadingViewHolder extends RecyclerView.ViewHolder {

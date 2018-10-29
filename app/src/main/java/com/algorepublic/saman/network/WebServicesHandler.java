@@ -2,6 +2,7 @@ package com.algorepublic.saman.network;
 
 
 import com.algorepublic.saman.data.model.apis.GetProduct;
+import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
@@ -105,6 +106,12 @@ public class WebServicesHandler {
 
     public void getProductDetail(String productId,Callback<GetProduct> callback) {
         Call<GetProduct> call = webServices.getProductDetail(productId);
+        call.enqueue(callback);
+    }
+
+
+    public void getProductsByStore(String StoreId,Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getProductsByStore(StoreId);
         call.enqueue(callback);
     }
 
