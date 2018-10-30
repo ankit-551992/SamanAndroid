@@ -26,6 +26,8 @@ public class GlobalValues {
     public static List<StoreCategory> storeCategories;
     public static List<Country> countries;
 
+    public static boolean orderPlaced=false;
+
     public static void setUserLoginStatus(Context ctx, boolean isLogin){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor editor = sharedPreferences.edit();

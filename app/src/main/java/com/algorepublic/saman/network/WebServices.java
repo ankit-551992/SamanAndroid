@@ -2,6 +2,7 @@ package com.algorepublic.saman.network;
 
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
+import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
@@ -37,6 +38,11 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("User/ChangePassword")
     Call<SimpleSuccess> resetPassword(@FieldMap Map<String, String> parameters);
+
+
+    @FormUrlEncoded
+    @POST("Order/PlaceOrder")
+    Call<PlaceOrderResponse> placeOrder(@FieldMap Map<String, String> parameters);
 
 
     @GET("Catalog/Categories")

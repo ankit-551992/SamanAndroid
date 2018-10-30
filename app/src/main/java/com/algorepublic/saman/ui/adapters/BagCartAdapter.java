@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
 
@@ -20,23 +21,19 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    List<Store> storeArrayList = new ArrayList<>();
-    private OnLoadMoreListener mOnLoadMoreListener;
+    List<Product> products = new ArrayList<>();
     private Context mContext;
 
 
-    public BagCartAdapter(Context mContext,List<Store> storeArrayList){
-        this.storeArrayList=storeArrayList;
+    public BagCartAdapter(Context mContext,List<Product> products){
+        this.products=products;
         this.mContext=mContext;
     }
 
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
-    }
 
     @Override
     public int getItemViewType(int position) {
-        return storeArrayList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        return products.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
@@ -55,7 +52,6 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof BagViewHolder) {
             BagViewHolder bagViewHolder = (BagViewHolder) holder;
-
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -64,20 +60,17 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return storeArrayList == null ? 0 : storeArrayList.size();
+        return products == null ? 0 : products.size();
     }
 
 
 
     static class BagViewHolder extends RecyclerView.ViewHolder {
-        private TextView storeName;
         private ImageView storeImage;
 
         public BagViewHolder(View v) {
             super(v);
-
-            storeImage = (ImageView) v.findViewById(R.id.iv_store_image);
-            storeName = (TextView) v.findViewById(R.id.tv_store_name);
+            storeImage = (ImageView) v.findViewById(R.id.iv_image);
         }
     }
 

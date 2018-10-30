@@ -44,6 +44,8 @@ public class BagFragment extends BaseFragment {
 
 
     //Total
+    @BindView(R.id.tv_empty_bag)
+    TextView tv_empty_bag;
     @BindView(R.id.tv_products_total)
     TextView productsTotal;
     @BindView(R.id.tv_products_subtotal)
@@ -53,6 +55,8 @@ public class BagFragment extends BaseFragment {
     @BindView(R.id.tv_grand_total)
     TextView productsGrandTotal;
     //Total
+
+    int grandTotal;
 
 
     @Override
@@ -90,6 +94,13 @@ public class BagFragment extends BaseFragment {
                                     bagAdapter.updateNotify();
                                 }
                                 quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+
+
+                                if(productArrayList.size()>0){
+                                    tv_empty_bag.setVisibility(View.GONE);
+                                }else{
+                                    tv_empty_bag.setVisibility(View.VISIBLE);
+                                }
                             }
                         }
                 ));
@@ -114,8 +125,12 @@ public class BagFragment extends BaseFragment {
 
     @OnClick(R.id.button_proceed_to_checkout)
     void proceedCheckout(){
-        Intent intent=new Intent(getContext(), ShoppingCartActivity.class);
-        startActivity(intent);
+        if(productArrayList.size()>0) {
+            Intent intent = new Intent(getContext(), ShoppingCartActivity.class);
+            intent.putExtra("Price", grandTotal);
+            startActivity(intent);
+        }else {
+        }
     }
 
     private void getData(){
@@ -123,12 +138,18 @@ public class BagFragment extends BaseFragment {
         if(SamanApp.localDB!=null){
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
             bagAdapter.notifyDataSetChanged();
+
+            if(productArrayList.size()>0){
+                tv_empty_bag.setVisibility(View.GONE);
+            }else {
+                tv_empty_bag.setVisibility(View.VISIBLE);
+            }
         }
         quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
     }
 
     public void updateTotal(int total,int vat){
-        int grandTotal=total+vat;
+        grandTotal=total+vat;
         productsTotal.setText(getString(R.string.total)+" "+total+".0 OMR");
         productsSubTotal.setText(getString(R.string.subtotal)+" "+total+".0 OMR");
         productsVAT.setText(getString(R.string.VAT)+" "+vat+".0 OMR");

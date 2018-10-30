@@ -43,13 +43,13 @@ public class User {
     private Object country;
     @SerializedName("Address")
     @Expose
-    private Object address;
+    private String address;
     @SerializedName("Devicetoken")
     @Expose
-    private Object devicetoken;
+    private String devicetoken;
     @SerializedName("DeviceType")
     @Expose
-    private Object deviceType;
+    private String deviceType;
     @SerializedName("DateOfBirth")
     @Expose
     private String dateOfBirth;
@@ -71,6 +71,9 @@ public class User {
     @SerializedName("ID")
     @Expose
     private Integer id;
+//    @SerializedName("ID")
+//    @Expose
+    private Integer addressID;
 
     public String getFirstName() {
         return firstName;
@@ -168,27 +171,27 @@ public class User {
         this.country = country;
     }
 
-    public Object getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Object address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public Object getDevicetoken() {
+    public String getDevicetoken() {
         return devicetoken;
     }
 
-    public void setDevicetoken(Object devicetoken) {
+    public void setDevicetoken(String devicetoken) {
         this.devicetoken = devicetoken;
     }
 
-    public Object getDeviceType() {
+    public String getDeviceType() {
         return deviceType;
     }
 
-    public void setDeviceType(Object deviceType) {
+    public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
     }
 
@@ -248,5 +251,11 @@ public class User {
         this.id = id;
     }
 
+    public Integer getAddressID() {
+        return addressID;
+    }
 
+    public void setAddressID(Integer addressID) {
+        this.addressID = addressID;
+    }
 }

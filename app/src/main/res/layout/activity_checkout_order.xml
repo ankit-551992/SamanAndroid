@@ -74,6 +74,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tv_order_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -104,6 +105,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_order_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -133,6 +135,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tv_order_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -165,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Tues, 7 Oct 2018" />
+                    android:text="7 days" />
 
             </LinearLayout>
 

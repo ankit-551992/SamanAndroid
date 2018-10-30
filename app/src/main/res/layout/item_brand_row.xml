@@ -1,38 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+<android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/ic_edit_text_background"
+    android:layout_width="170dp"
+    app:cardCornerRadius="10dp"
+    android:paddingBottom="20dp"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content">
 
-
-    <android.support.v7.widget.CardView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/view2"
-        app:cardCornerRadius="50dp"
-        android:innerRadius="0dp"
-        android:shape="ring">
+    <RelativeLayout
+        android:paddingBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@+id/imageView1"
-            android:src="@drawable/ic_apple_brand"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
-        </ImageView>
-    </android.support.v7.widget.CardView>
-    <TextView
-        android:layout_marginTop="3dp"
-        android:id="@+id/tv_brand_name"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.2"
-        android:gravity="center"
-        android:text="Brand Name" />
+            android:id="@+id/iv_product"
+            android:adjustViewBounds="true"
+            android:src="@drawable/dummy_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:contentDescription="@string/customer_service" />
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_below="@id/iv_product"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RatingBar
+                android:visibility="gone"
+                android:rating="5"
+                android:layout_width="wrap_content"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_product_description"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:text="@string/dummy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/iv_tab"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/contentDescription"
+                    android:src="@drawable/cart" />
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/iv_favorite"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/contentDescription"
+                    android:src="@drawable/ic_fav_b" />
 
 
-</LinearLayout>
+                <TextView
+                    android:gravity="end"
+                    android:id="@+id/tv_product_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.1"
+                    android:text="6000 OMR"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

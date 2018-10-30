@@ -1,79 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:ignore="RelativeOverlap"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="RelativeOverlap">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/headerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <FrameLayout
+                android:background="@color/grey"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="wrap_content"
-                    android:layout_height="200dp" />
+                    android:layout_height="220dp" />
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:padding="5dip"
+                    app:radius="5dp"
+                    app:fillColor="@color/colorPrimary"
+                    app:pageColor="@color/white"/>
 
             </FrameLayout>
 
+            <ImageView
+                android:background="@drawable/home_banner"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
+
             <LinearLayout
-                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:background="@color/colorPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="70dp">
+                android:visibility="gone">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:background="@drawable/button_border"
                     android:gravity="center"
-                    android:textColor="@color/white"
-                    android:paddingLeft="25dp"
                     android:paddingStart="25dp"
-                    android:paddingRight="25dp"
-                    android:paddingEnd="25dp"
+                    android:paddingLeft="25dp"
                     android:paddingTop="5dp"
+                    android:paddingEnd="25dp"
+                    android:paddingRight="25dp"
                     android:paddingBottom="5dp"
                     android:text="@string/swipe"
-                    android:textStyle="bold"
-                    android:background="@drawable/button_border"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_border"
                     android:gravity="center"
-                    android:textColor="@color/white"
-                    android:paddingLeft="25dp"
                     android:paddingStart="25dp"
-                    android:paddingRight="25dp"
-                    android:paddingEnd="25dp"
+                    android:paddingLeft="25dp"
                     android:paddingTop="5dp"
+                    android:paddingEnd="25dp"
+                    android:paddingRight="25dp"
                     android:paddingBottom="5dp"
                     android:text="@string/click"
-                    android:background="@drawable/button_border"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:src="@drawable/bingo"
                     android:layout_width="0dp"
-                    android:layout_weight="0.1"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/contentDescription" />
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/contentDescription"
+                    android:src="@drawable/bingo" />
 
             </LinearLayout>
 
@@ -81,120 +99,102 @@
 
 
         <RelativeLayout
-            android:layout_margin="10dp"
             android:id="@+id/stores"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
 
             <TextView
-                android:textColor="@color/black"
-                android:text="@string/Stores"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/Stores"
+                android:textColor="@color/black" />
 
 
             <TextView
                 android:id="@+id/tv_stores_see_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/colorPrimary"
                 android:text="@string/see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/colorPrimary" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@+id/tv_stores_see_all"
                 android:id="@+id/stores_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_stores_see_all"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
 
             <View
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/stores_recyclerView"
-                android:background="@color/grey"
                 android:layout_width="match_parent"
-                android:layout_height="0.7dp" />
+                android:layout_height="0.7dp"
+                android:layout_below="@+id/stores_recyclerView"
+                android:layout_marginTop="5dp"
+                android:background="@color/grey" />
 
         </RelativeLayout>
 
 
         <RelativeLayout
-            android:layout_margin="10dp"
             android:id="@+id/latest_products"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
 
             <TextView
-                android:textColor="@color/black"
-                android:text="@string/latest_product"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/new_in"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_latest_products_see_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/colorPrimary"
                 android:text="@string/see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/colorPrimary" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/tv_latest_products_see_all"
                 android:id="@+id/latest_products_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_latest_products_see_all"
+                android:layout_marginTop="10dp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/best_sellers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_margin="10dp"
-                android:textColor="@color/black"
-                android:text="@string/best_sellers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_margin="10dp"
-                android:id="@+id/tv_best_sellers_see_all"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/colorPrimary"
-                android:text="@string/see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <android.support.v4.view.ViewPager
-                android:layout_below="@+id/tv_best_sellers_see_all"
-                android:id="@+id/bestSellersPager"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp" />
-        </RelativeLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/bestSellersPager"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp" />
 
         <com.viewpagerindicator.LinePageIndicator
-            android:layout_margin="10dp"
             android:id="@+id/indicators"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            app:selectedColor="@color/colorPrimary"
+            app:selectedColor="@color/colorPrimary" />
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/hot_pick"
+            android:textColor="@color/black" />
 
         <android.support.v7.widget.RecyclerView
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
             android:id="@+id/brands_recyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 

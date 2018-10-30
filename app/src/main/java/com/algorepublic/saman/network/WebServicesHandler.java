@@ -3,11 +3,16 @@ package com.algorepublic.saman.network;
 
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
+import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.utils.Constants;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -84,6 +89,34 @@ public class WebServicesHandler {
         parameters.put("password", password);
 
         Call<SimpleSuccess> call = webServices.resetPassword(parameters);
+        call.enqueue(callback);
+    }
+
+
+    public void placeOrder(String CustomerID,
+                           String BillingAddressID,
+                           String ShippingAddressID,
+                           String ShippingTotal,
+                           String TotalPrice,
+                           String PaymentType,
+                           JSONArray array,
+                           Callback<PlaceOrderResponse> callback) {
+
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("CustomerID", CustomerID);
+        parameters.put("BillingAddressID", BillingAddressID);
+        parameters.put("ShippingAddressID", ShippingAddressID);
+        parameters.put("PaymentType", PaymentType);
+        parameters.put("ShippingTotal", ShippingTotal);
+        parameters.put("TotalPrice", TotalPrice);
+        parameters.put("OrderItems", array.toString());
+        //Optional Remove later
+        parameters.put("CreatedAt", "10/30/2018");
+        parameters.put("UpdatedAt", "10/30/2018");
+        parameters.put("CreatedBy", "1");
+        parameters.put("UpdatedBy", "1");
+
+        Call<PlaceOrderResponse> call = webServices.placeOrder(parameters);
         call.enqueue(callback);
     }
 

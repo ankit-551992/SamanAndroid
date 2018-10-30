@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layout_countrySelection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -32,11 +33,23 @@
                     android:textColor="@color/black" />
 
                 <ImageView
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:id="@+id/iv_country_flag"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_camera"
                     android:contentDescription="@string/contentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_country_name"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pakistan"
+                    android:textColor="@color/off_black"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"/>
 
             </LinearLayout>
 
@@ -118,6 +131,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_shipment_address"
                 android:text="@string/cart_dummy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -296,12 +310,14 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/light_grey" />
             <TextView
+                android:id="@+id/tv_products_subtotal"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:text="@string/subtotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_delivery_cost"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="2dp"
@@ -309,7 +325,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+
             <TextView
+                android:id="@+id/tv_promo_saved"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/price_to_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_price_to_pay"
                 android:textColor="@color/black"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"

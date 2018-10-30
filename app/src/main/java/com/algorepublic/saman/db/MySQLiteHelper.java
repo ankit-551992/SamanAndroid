@@ -318,6 +318,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     }
 
+    public void clearCart(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_CART);
+        db.close();
+    }
+
 
     public int getCartProductCount(Product product, int attributeID, int attributeGroupID) {
         int cnt = 0;

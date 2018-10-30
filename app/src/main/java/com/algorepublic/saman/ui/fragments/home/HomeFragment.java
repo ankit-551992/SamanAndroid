@@ -25,6 +25,7 @@ import com.algorepublic.saman.ui.adapters.BrandsAdapter;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
 import com.algorepublic.saman.ui.adapters.StoresAdapter;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
+import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
@@ -69,6 +70,8 @@ public class HomeFragment extends BaseFragment {
     ViewPager mPager;
     ArrayList<String> urls;
     CustomPagerAdapter customPagerAdapter;
+    @BindView(R.id.indicator)
+    CirclePageIndicator circlePageIndicator;
     //Header
 
     //product
@@ -149,6 +152,7 @@ public class HomeFragment extends BaseFragment {
         urls=new ArrayList<>();
         customPagerAdapter= new CustomPagerAdapter(getContext(),urls);
         mPager.setAdapter(customPagerAdapter);
+        circlePageIndicator.setViewPager(mPager);
 
         setPagerData();
     }
@@ -159,6 +163,9 @@ public class HomeFragment extends BaseFragment {
         urls.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
         urls.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYzcXT8JvYjG5IEYf-rzzklrzvOqG66atU-oyXPWlCZX7_luqU");
         customPagerAdapter.notifyDataSetChanged();
+
+        circlePageIndicator.setViewPager(mPager);
+
     }
 
     private void setBestSellers() {

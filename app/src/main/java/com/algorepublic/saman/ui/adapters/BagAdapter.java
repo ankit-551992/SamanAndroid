@@ -75,7 +75,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             bagViewHolder.total.setText(total+" OMR");
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
 
-            bagFragment.updateTotal(grandTotal,1);
+            bagFragment.updateTotal(grandTotal,0);
 
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;

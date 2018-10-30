@@ -85,6 +85,15 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     }
 
     @Override
+    protected void onResume() {
+        if(GlobalValues.orderPlaced){
+            onNavigationItemSelected(navigationView.getMenu().getItem(1));
+            GlobalValues.orderPlaced=false;
+        }
+        super.onResume();
+    }
+
+    @Override
     protected void onDestroy() {
         mPresenter.destroy();
         super.onDestroy();
