@@ -131,9 +131,8 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         1,
                         1,
                         -1);
+                productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity()-1);
             }
-
-            productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity()-1);
             updateNotify();
         }
     }

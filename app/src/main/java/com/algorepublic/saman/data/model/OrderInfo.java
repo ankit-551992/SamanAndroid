@@ -10,12 +10,15 @@ public class OrderInfo implements Serializable{
     @SerializedName("ID")
     @Expose
     private Integer id;
-    @SerializedName("OrderStatus")
+    @SerializedName("Status")
     @Expose
-    private Integer OrderStatus;
+    private String OrderStatus;
     @SerializedName("OrderNumber")
     @Expose
     private String OrderNumber;
+    @SerializedName("DeliveryDate")
+    @Expose
+    private String DeliveryDate;
 
 
     public Integer getId() {
@@ -26,11 +29,11 @@ public class OrderInfo implements Serializable{
         this.id = id;
     }
 
-    public Integer getOrderStatus() {
+    public String getOrderStatus() {
         return OrderStatus;
     }
 
-    public void setOrderStatus(Integer orderStatus) {
+    public void setOrderStatus(String orderStatus) {
         OrderStatus = orderStatus;
     }
 
@@ -40,5 +43,13 @@ public class OrderInfo implements Serializable{
 
     public void setOrderNumber(String orderNumber) {
         OrderNumber = orderNumber;
+    }
+
+    public String getDeliveryDate() {
+        return DeliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        DeliveryDate = deliveryDate;
     }
 }

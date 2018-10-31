@@ -3,6 +3,7 @@ package com.algorepublic.saman.network;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
+import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
@@ -54,6 +55,10 @@ public interface WebServices {
 
     @GET("Product/GetListByStore?")
     Call<GetProducts> getProductsByStore(@Query("storeID") String storeID);
+
+
+    @GET("Coupon/Verify?")
+    Call<PromoVerify> applyPromo(@Query("code") String code);
 
     @GET("Seller")
     Call<GetStores> getAllStores();

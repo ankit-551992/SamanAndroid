@@ -12,7 +12,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:text="My Payment"
@@ -24,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:gravity="center"
-                android:text="My PaymentContent"
+                android:text="My Payment Content"
                 android:textColor="@color/black"/>
 
             <EditText
@@ -92,12 +91,6 @@
                     android:textSize="14sp" />
 
             </LinearLayout>
-
-
-
-
-
-
 
 
         </LinearLayout>

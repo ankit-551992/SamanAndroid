@@ -86,6 +86,7 @@ public class MyPaymentActivity extends BaseActivity {
         mRecyclerView.setAdapter(paymentAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
 
+        cards.add(codCard());
         getCards();
 
         new SwipeHelper(this, mRecyclerView) {
@@ -99,7 +100,11 @@ public class MyPaymentActivity extends BaseActivity {
                             @Override
                             public void onClick(int pos) {
                                 // TODO: onDelete
-                                deleteCard(pos);
+                                if (pos!=0) {
+                                    deleteCard(pos);
+                                }else {
+                                    Constants.showAlert("Payment Method","Its defualt you can't delete it.","close",MyPaymentActivity.this);
+                                }
                             }
                         }
                 ));
@@ -157,6 +162,7 @@ public class MyPaymentActivity extends BaseActivity {
         }.getType());
         if (obj != null) {
             cards.clear();
+            cards.add(codCard());
             cards.addAll((ArrayList<CardDs>) obj);
         }
 
@@ -167,6 +173,7 @@ public class MyPaymentActivity extends BaseActivity {
         Object obj = GlobalValues.fromJson(SamanApp.db.getString(Constants.CARD_LIST), new TypeToken<ArrayList<CardDs>>() {
         }.getType());
         cards.clear();
+        cards.add(codCard());
         cards.addAll((Collection<? extends CardDs>) obj);
 
         paymentAdapter.notifyDataSetChanged();
@@ -188,5 +195,11 @@ public class MyPaymentActivity extends BaseActivity {
                 updateCards();
             }
         }
+    }
+
+    private CardDs codCard(){
+        CardDs cardDs=new CardDs();
+        cardDs.setCardNumber("Cash on delivery");
+        return cardDs;
     }
 }

@@ -4,6 +4,7 @@ package com.algorepublic.saman.network;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
+import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
@@ -148,5 +149,9 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void applyPromo(String promo,Callback<PromoVerify> callback) {
+        Call<PromoVerify> call = webServices.applyPromo(promo);
+        call.enqueue(callback);
+    }
 
 }

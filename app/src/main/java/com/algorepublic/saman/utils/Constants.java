@@ -1,6 +1,7 @@
 package com.algorepublic.saman.utils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
@@ -95,5 +96,25 @@ public class Constants {
             return null;
         }
         return json;
+    }
+
+
+    public static ProgressDialog mSpinner;
+
+    public static void showSpinner(String title,Context context) {
+        if(context!=null) {
+            mSpinner = new ProgressDialog(context);
+            mSpinner.setTitle(title);
+            mSpinner.setMessage("Please wait....");
+            mSpinner.show();
+            mSpinner.setCancelable(false);
+            mSpinner.setCanceledOnTouchOutside(false);
+        }
+    }
+
+    public static void dismissSpinner(){
+        if(mSpinner!=null){
+            mSpinner.dismiss();
+        }
     }
 }

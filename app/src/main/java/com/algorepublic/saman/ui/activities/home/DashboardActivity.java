@@ -37,8 +37,12 @@ import com.algorepublic.saman.ui.fragments.home.HomeFragment;
 import com.algorepublic.saman.ui.fragments.store.StoreFragment;
 import com.algorepublic.saman.ui.fragments.useraccount.MyAccountFragment;
 import com.algorepublic.saman.utils.CircleTransform;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +82,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         setContentView(R.layout.activity_home_drawer);
         ButterKnife.bind(this);
         search.setVisibility(View.GONE);
-
+        GlobalValues.storeCategories=new ArrayList<>();
         mHandler = new Handler();
         mPresenter = new DashboardPresenter(this);
         mPresenter.getUserData();
@@ -350,6 +354,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 //                presenter.logoutUser();
+                SamanApp.db.putString(Constants.CARD_LIST, "");
                 GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
                 Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
                 startActivity(mainIntent);

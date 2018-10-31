@@ -91,12 +91,43 @@
 
             </RelativeLayout>
 
-            <EditText
-                android:padding="10dp"
-                android:hint="@string/promo"
-                android:background="@drawable/ic_edit_text_background"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/editText_promo"
+                    android:padding="10dp"
+                    android:hint="@string/promo"
+                    android:background="@drawable/ic_edit_text_background"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/button_apply"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingRight="20dp"
+                    android:gravity="center"
+                    android:background="@color/off_grey"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/apply"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp"/>
+
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_marginTop="20dp"
@@ -195,22 +226,23 @@
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="10dp"
+                    android:id="@+id/button_change_payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/off_grey"
                     android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
                     android:paddingEnd="10dp"
                     android:paddingRight="10dp"
-                    android:background="@color/off_grey"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
                     android:text="@string/change"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
 
                 <ImageView
@@ -229,8 +261,9 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/iv_card"
                     android:padding="5dp"
-                    android:src="@drawable/ic_visa"
+                    android:src="@drawable/cash_delivery"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:contentDescription="@string/contentDescription" />
@@ -245,18 +278,19 @@
 
                     <TextView
                         android:textColor="@color/black"
-                        android:id="@+id/tv_store_name"
+                        android:id="@+id/tv_card_number"
                         android:text="VISA (1242)"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:id="@+id/tv_card_holder_name"
-                        android:text="Exp: 06/2020"
+                        android:id="@+id/tv_card_expiry"
+                        android:text="Cash On Delivery"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/tv_card_holder_name"
                         android:text="Name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -344,6 +378,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/progress_bar"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <Button
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_marginTop="5dp"
@@ -354,7 +395,6 @@
                 android:text="@string/place_order"
                 android:textAllCaps="false"
                 android:textColor="#fff" />
-
 
             <TextView
                 android:layout_marginBottom="20dp"

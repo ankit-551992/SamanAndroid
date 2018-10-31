@@ -65,7 +65,7 @@ public class CheckoutOrderActivity extends BaseActivity {
     //Bag
 
     PlaceOrderResponse placeOrderResponse;
-    int orderTotal=0;
+    float orderTotal=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             placeOrderResponse = (PlaceOrderResponse)getIntent().getSerializableExtra("Response");
-            orderTotal = getIntent().getIntExtra("OrderTotal",0);
+            orderTotal = getIntent().getFloatExtra("OrderTotal",0);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -95,13 +95,13 @@ public class CheckoutOrderActivity extends BaseActivity {
             cross.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
         }
 
-        orderTotalTextView.setText(String.valueOf(orderTotal));
+        orderTotalTextView.setText(String.valueOf(orderTotal)+ " OMR");
         if(placeOrderResponse.getResult().getOrderNumber()!=null) {
-            orderTotalTextView.setText(placeOrderResponse.getResult().getOrderNumber());
+            orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber());
         }
 
         if(placeOrderResponse.getResult().getOrderStatus()!=null) {
-            if (placeOrderResponse.getResult().getOrderStatus() == 0) {
+            if (placeOrderResponse.getResult().getOrderStatus().equals("0")) {
                 orderStatusTextView.setText(getString(R.string.pending));
             }
         }
@@ -190,6 +190,9 @@ public class CheckoutOrderActivity extends BaseActivity {
         }
 
         quantity.setText(productArrayList.size()+ " " +getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        if(SamanApp.localDB!=null){
+            SamanApp.localDB.clearCart();
+        }
     }
 
 }

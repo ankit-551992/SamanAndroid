@@ -170,6 +170,7 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="change">Change</string>
+    <string name="apply">Apply</string>
     <string name="change_password">Change Password</string>
     <string name="reset_password">Reset Password</string>
     <string name="forgot_pass">Forgot Password</string>
