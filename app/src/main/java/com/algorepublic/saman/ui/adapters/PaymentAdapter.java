@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.CardDs;
 import com.algorepublic.saman.data.model.Payment;
+import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
+import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
@@ -97,6 +99,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 paymentViewHolder.edit.setVisibility(View.GONE);
             }else {
                 paymentViewHolder.cardHolderName.setText(cardDsList.get(position).getCardHolder());
+                paymentViewHolder.cardExpiry.setText(cardDsList.get(position).getExpireDate());
+                paymentViewHolder.cardNumber.setText("Visa ("+cardDsList.get(position).getOtp()+")");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     paymentViewHolder.cardImageView.setImageDrawable(mContext.getDrawable(R.drawable.visa_card));
                     paymentViewHolder.cardImageView.getLayoutParams().height = 200;
@@ -106,9 +110,19 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     paymentViewHolder.cardImageView.getLayoutParams().width = 200;
                     paymentViewHolder.cardImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.visa_card));
                 }
+
                 paymentViewHolder.cardExpiry.setVisibility(View.VISIBLE);
                 paymentViewHolder.cardNumber.setVisibility(View.VISIBLE);
                 paymentViewHolder.edit.setVisibility(View.VISIBLE);
+
+                paymentViewHolder.edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent(mContext,AddCardActivity.class);
+                        intent.putExtra("Obj",cardDsList.get(position));
+                        ((Activity)mContext).startActivityForResult(intent,1010);
+                    }
+                });
             }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {

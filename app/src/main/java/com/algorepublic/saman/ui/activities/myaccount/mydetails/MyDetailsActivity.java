@@ -1,15 +1,23 @@
 package com.algorepublic.saman.ui.activities.myaccount.mydetails;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
@@ -40,8 +48,8 @@ public class MyDetailsActivity extends BaseActivity{
     EditText lastNameEditText;
     @BindView(R.id.editText_email)
     EditText emailEditText;
-    @BindView(R.id.spinner_gender)
-    Spinner genderSpinner;
+    @BindView(R.id.editText_gender)
+    EditText genderEditText;
     @BindView(R.id.tv_country_name)
     TextView countryName;
     @BindView(R.id.editText_address)
@@ -77,7 +85,10 @@ public class MyDetailsActivity extends BaseActivity{
         }
     }
 
-
+    @OnClick(R.id.editText_gender)
+    public void selectGenderClick() {
+        selectGender();
+    }
 
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
@@ -117,5 +128,64 @@ public class MyDetailsActivity extends BaseActivity{
                 countryName.setText(returnedResult);
             }
         }
+    }
+
+
+    Dialog dialog;
+    String selectedGender = "";
+
+    private void selectGender() {
+        dialog = new Dialog(MyDetailsActivity.this, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_gender_selection);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get selected radio button from radioGroup
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+                if(radioButton.isChecked()) {
+                    selectedGender = radioButton.getText().toString();
+                    genderEditText.setText(radioButton.getText().toString());
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(MyDetailsActivity.this,
+                R.anim.slide_bottom_to_top);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -255,14 +256,12 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/gender" />
 
-            <Spinner
-                android:id="@+id/spinner_gender"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
+            <EditText
+                android:focusable="false"
+                android:hint="@string/female"
+                android:id="@+id/editText_gender"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/genders"
-                android:prompt="@string/gender_prompt" />
-
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:id="@+id/layout_countrySelection"

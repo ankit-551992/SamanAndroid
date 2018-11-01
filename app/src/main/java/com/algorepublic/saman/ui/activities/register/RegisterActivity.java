@@ -1,7 +1,9 @@
 package com.algorepublic.saman.ui.activities.register;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -9,11 +11,18 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -24,6 +33,8 @@ import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
+import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
+import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
 import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
@@ -92,8 +103,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     ImageView passwordVisibilityImageView;
     @BindView(R.id.iv_confirm_password_visible)
     ImageView confirmPasswordVisibilityImageView;
-    @BindView(R.id.spinner_gender)
-    Spinner genderSpinner;
+    @BindView(R.id.editText_gender)
+    EditText genderEditText;
     @BindView(R.id.tv_country_name)
     TextView countryName;
     @BindView(R.id.editText_address)
@@ -109,6 +120,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     RegisterPresenterImpl mPresenter;
     ArrayAdapter<String> arrayAdapter;
+
 
     //Social Login
     private static final String TAG = WelcomeActivity.class.getSimpleName();
@@ -185,6 +197,65 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         dayEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
+    Dialog dialog;
+    String selectedGender = "";
+
+    private void selectGender() {
+        dialog = new Dialog(RegisterActivity.this, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_gender_selection);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get selected radio button from radioGroup
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+                if(radioButton.isChecked()) {
+                    selectedGender = radioButton.getText().toString();
+                    genderEditText.setText(radioButton.getText().toString());
+                    dialog.dismiss();
+                }
+
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(RegisterActivity.this,
+                R.anim.slide_bottom_to_top);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -215,10 +286,15 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         finish();
     }
 
+    @OnClick(R.id.editText_gender)
+    public void selectGenderClick() {
+       selectGender();
+    }
+
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
-        Intent intent=new Intent(RegisterActivity.this,CountriesActivity.class);
-        startActivityForResult(intent,1299);
+        Intent intent = new Intent(RegisterActivity.this, CountriesActivity.class);
+        startActivityForResult(intent, 1299);
     }
 
     @OnClick(R.id.button_register)
@@ -228,7 +304,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String confirmPassword = confirmPasswordEditText.getText().toString();
-        String gender = genderSpinner.getSelectedItem().toString();
+        String gender = selectedGender;
         String country = countryName.getText().toString();
         String dob = dayEditText.getText().toString();
         dob = "1/1/1999";
@@ -306,7 +382,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     @Override
     public void countries(ArrayList<String> countriesList) {
 
-        if(GlobalValues.countries==null || GlobalValues.countries.size()==0) {
+        if (GlobalValues.countries == null || GlobalValues.countries.size() == 0) {
             GlobalValues.countries = new ArrayList<>();
             try {
                 JSONObject obj = new JSONObject(Constants.loadJSONFromAsset(getApplicationContext()));
@@ -319,7 +395,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                     country.setId(jsonObject.getInt("id"));
                     country.setSortname(jsonObject.getString("sortname"));
                     country.setName(jsonObject.getString("name"));
-                    country.setFlag("http://algorepublic-001-site2.etempurl.com/Flags/flag_"+jsonObject.getString("sortname").toLowerCase()+".png");
+                    country.setFlag("http://algorepublic-001-site2.etempurl.com/Flags/flag_" + jsonObject.getString("sortname").toLowerCase() + ".png");
                     country.setPhoneCode(jsonObject.getInt("phoneCode"));
 
                     GlobalValues.countries.add(country);
@@ -333,12 +409,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode==1299){
+        if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
                 countryName.setText(returnedResult);
             }
-        }else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 addressEditText.setText(place.getAddress());
@@ -376,7 +452,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         } else if (TextUtils.isEmpty(email)) {
             emailEditText.setError(getString(R.string.email_required));
             return false;
-        } else if (TextUtils.isEmpty(dob)) {
+        } else if (TextUtils.isEmpty(gender)) {
+            emailEditText.setError(getString(R.string.gender_prompt));
+            return false;
+        }
+        else if (TextUtils.isEmpty(dob)) {
 //            emailEditText.setError(getString(R.string.email_required));
             return false;
         } else if (TextUtils.isEmpty(password)) {

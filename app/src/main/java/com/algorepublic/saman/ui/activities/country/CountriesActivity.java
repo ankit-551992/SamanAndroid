@@ -31,8 +31,6 @@ public class CountriesActivity extends BaseActivity{
     RecyclerView.LayoutManager layoutManager;
     CountriesAdapter countriesAdapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +45,6 @@ public class CountriesActivity extends BaseActivity{
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
-
         setData();
     }
 

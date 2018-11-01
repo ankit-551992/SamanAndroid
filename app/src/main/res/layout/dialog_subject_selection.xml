@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="RelativeOverlap">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/round_corners"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:id="@+id/iv_filer_close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/contentDescription"
+                android:src="@drawable/ic_cross"
+                android:tint="@color/grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/subject_prompt"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/neo_sans"
+                android:text="@string/Done"
+                android:textColor="@color/colorPrimary" />
+
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/radio_report_issue"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radio_report_issue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/report_issue"
+                android:textSize="20sp"
+                android:buttonTint="@color/colorPrimary"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/grey" />
+
+            <RadioButton
+                android:id="@+id/radio_ask_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/ask_help"
+                android:textSize="20sp"
+                android:buttonTint="@color/colorPrimary" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/grey" />
+
+            <RadioButton
+                android:id="@+id/radio_report_prodcut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/report_prodcut"
+                android:textSize="20sp"
+                android:buttonTint="@color/colorPrimary" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/grey" />
+
+            <RadioButton
+                android:id="@+id/radio_report_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/report_store"
+                android:textSize="20sp"
+                android:buttonTint="@color/colorPrimary" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</RelativeLayout>

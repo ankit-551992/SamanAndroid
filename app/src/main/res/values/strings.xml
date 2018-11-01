@@ -44,6 +44,17 @@
         <item>Other</item>
     </string-array>
 
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <string name="english">English</string>
+    <string name="arabic">عربى</string>
+
+    <string name="report_issue">Reporting issue</string>
+    <string name="ask_help">Ask for help</string>
+    <string name="report_prodcut">Report Product</string>
+    <string name="report_store">Report Store</string>
+
     <string-array name="subjects">
         <item>Reporting issue</item>
         <item>Ask for help</item>

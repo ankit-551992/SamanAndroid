@@ -1,11 +1,19 @@
 package com.algorepublic.saman.ui.activities.settings;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
@@ -36,6 +44,8 @@ public class SettingsActivity extends BaseActivity {
     ImageView toolbarBack;
     @BindView(R.id.iv_country_flag)
     ImageView countryFlag;
+    @BindView(R.id.tv_language)
+    TextView languageTextView;
 
 
     Country selectedCountry;
@@ -67,6 +77,11 @@ public class SettingsActivity extends BaseActivity {
     public void countrySelection() {
         Intent intent=new Intent(SettingsActivity.this,CountriesActivity.class);
         startActivityForResult(intent,1299);
+    }
+
+    @OnClick(R.id.layout_language)
+    public void languageSelection() {
+        selectLanguage();
     }
 
     @OnClick(R.id.toolbar_back)
@@ -109,5 +124,63 @@ public class SettingsActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    Dialog dialog;
+    String selectedLanguage = "";
+
+    private void selectLanguage(){
+        dialog = new Dialog(SettingsActivity.this, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_language_selection);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get selected radio button from radioGroup
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+                if(radioButton.isChecked()) {
+                    selectedLanguage = radioButton.getText().toString();
+                    languageTextView.setText(radioButton.getText().toString());
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(SettingsActivity.this,
+                R.anim.slide_bottom_to_top);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 }

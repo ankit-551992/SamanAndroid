@@ -16,13 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Spinner
+        <EditText
+            android:focusable="false"
             android:padding="10dp"
-            android:id="@+id/spinner_gender"
+            android:hint="@string/subject_prompt"
+            android:background="@android:color/transparent"
+            android:id="@+id/editText_subject"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/subjects"
-            android:prompt="@string/subject_prompt" />
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_marginBottom="15dp"

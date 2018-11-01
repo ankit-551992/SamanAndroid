@@ -19,6 +19,10 @@ public class CardDs implements Serializable {
     @SerializedName("cvc")
     String cvc;
 
+
+    @SerializedName("otp")
+    String otp;
+
     @SerializedName("month")
     int month;
 
@@ -30,13 +34,22 @@ public class CardDs implements Serializable {
 
     }
 
-    public CardDs(String cardHolder, String cardNumber, String expireDate, String cvc, int month, int year) {
+    public CardDs(String cardHolder, String cardNumber, String expireDate, String cvc,String otp, int month, int year) {
         this.cardHolder = cardHolder;
         this.cardNumber = cardNumber;
         this.expireDate = expireDate;
         this.cvc = cvc;
+        this.otp = otp;
         this.month = month;
         this.year = year;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
     public void setCardHolder(String cardHolder) {
