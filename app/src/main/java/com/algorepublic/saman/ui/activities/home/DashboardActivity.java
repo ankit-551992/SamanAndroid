@@ -2,9 +2,7 @@ package com.algorepublic.saman.ui.activities.home;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,7 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,7 +43,6 @@ import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,8 +86,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         mHandler = new Handler();
         mPresenter = new DashboardPresenter(this);
         mPresenter.getUserData();
-
-        getApps();
     }
 
     @Override
@@ -378,14 +372,5 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     public void callStoresNav(){
         onNavigationItemSelected(navigationView.getMenu().getItem(1));
-    }
-
-    public void getApps(){
-        List<PackageInfo> apps = getPackageManager().getInstalledPackages(0);
-
-        for(int i=0;i<apps.size();i++) {
-            PackageInfo p = apps.get(i);
-            Log.e("Package",p.packageName);
-        }
     }
 }
