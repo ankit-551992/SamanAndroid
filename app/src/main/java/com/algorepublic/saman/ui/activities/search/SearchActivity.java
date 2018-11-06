@@ -22,8 +22,10 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
+import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ public class SearchActivity extends BaseActivity{
     int storeID=0;
     String storeName="";
     String storeNameAr="";
+    User authenticatedUser;
 
     String[] d={"PHONE FINDER","SAMSUNG","APPLE","NOKIA","SONY","LG","MOTOROLA","GOOGLE","BLACKBERRY"};
 
@@ -67,6 +70,7 @@ public class SearchActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        authenticatedUser = GlobalValues.getUser(this);
         Bundle bundle= getIntent().getExtras();
         if(bundle!=null){
             function=bundle.getInt("Function");
@@ -170,7 +174,7 @@ public class SearchActivity extends BaseActivity{
         searchRecyclerView.setNestedScrollingEnabled(false);
         originalData = new ArrayList<>();
         displayData = new ArrayList<>();
-        productAdapter = new ProductAdapter(this, displayData);
+        productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId());
         searchRecyclerView.setAdapter(productAdapter);
         searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 50, false));
 

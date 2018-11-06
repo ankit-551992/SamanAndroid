@@ -14,14 +14,15 @@ import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomPagerAdapter extends PagerAdapter {
 
     private Context mContext;
-    private ArrayList<String> urls;
+    private List<String> urls;
     private LayoutInflater inflater;
 
-    public CustomPagerAdapter(Context mContext,ArrayList<String> urls) {
+    public CustomPagerAdapter(Context mContext,List<String> urls) {
         this.mContext = mContext;
         this.urls = urls;
         inflater = LayoutInflater.from(this.mContext);
@@ -33,8 +34,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         assert imageLayout != null;
         ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
 
-
-        Picasso.get().load(urls.get(position)).fit().centerCrop()
+        Picasso.get().load(Constants.URLS.BaseURLImages+urls.get(position)).fit().centerCrop()
                 .placeholder(R.drawable.ic_account_img)
                 .error(R.drawable.ic_account_img)
                 .into(imageView);

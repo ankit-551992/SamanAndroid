@@ -10,12 +10,17 @@ import android.preference.PreferenceManager;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.StoreCategory;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -99,5 +104,32 @@ public class GlobalValues {
         Gson gson=new Gson();
         String Json=gson.toJson(myLit);
         return Json;
+    }
+
+
+    public static void markFavourite(int userID,int productId){
+        WebServicesHandler.instance.markFavourite(userID,productId,new retrofit2.Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+
+            }
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public static void markUnFavourite(int userID,int productId){
+        WebServicesHandler.instance.markUnFavourite(userID,productId,new retrofit2.Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+
+            }
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+
+            }
+        });
     }
 }

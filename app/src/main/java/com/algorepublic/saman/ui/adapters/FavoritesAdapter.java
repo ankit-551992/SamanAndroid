@@ -1,7 +1,9 @@
 package com.algorepublic.saman.ui.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,9 @@ import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -67,7 +72,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof FavoritesViewHolder) {
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
-//            favoritesViewHolder.storeName.setText("Store Name"+position);
+            favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
+            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice()+" OMR");
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -82,9 +88,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     static class FavoritesViewHolder extends RecyclerView.ViewHolder {
-        private TextView storeName;
+        @BindView(R.id.tv_product_name) TextView name;
+        @BindView(R.id.tv_price) TextView price;
         public FavoritesViewHolder(View v) {
             super(v);
+            ButterKnife.bind(this, v);
         }
     }
 

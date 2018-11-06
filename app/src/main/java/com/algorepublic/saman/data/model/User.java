@@ -29,7 +29,7 @@ public class User {
     @SerializedName("LanguageID")
     @Expose
     private Integer languageID;
-    @SerializedName("ProfileImagePath")
+    @SerializedName("ProfilePictureID")
     @Expose
     private Integer profilePictureID;
     @SerializedName("roleID")

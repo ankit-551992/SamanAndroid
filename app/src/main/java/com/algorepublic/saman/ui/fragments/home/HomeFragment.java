@@ -1,22 +1,31 @@
 package com.algorepublic.saman.ui.fragments.home;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Brand;
+import com.algorepublic.saman.data.model.HomeScreenData;
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.data.model.Slider;
 import com.algorepublic.saman.data.model.Store;
+import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
 import com.algorepublic.saman.ui.activities.productdetail.CustomPagerAdapter;
 import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
 import com.algorepublic.saman.ui.activities.store.StoreActivity;
@@ -24,7 +33,10 @@ import com.algorepublic.saman.ui.adapters.BestSellersAdapter;
 import com.algorepublic.saman.ui.adapters.BrandsAdapter;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
 import com.algorepublic.saman.ui.adapters.StoresAdapter;
+import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
+import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.LinePageIndicator;
 
@@ -35,7 +47,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements HomeContractor.View {
+
+    HomeContractor.Presenter presenter;
+    @BindView(R.id.loading)
+    RelativeLayout loading;
+    @BindView(R.id.iv_header_below_banner)
+    ImageView headerBelowBanner;
 
     //stores
     @BindView(R.id.stores_recyclerView)
@@ -43,7 +61,6 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.tv_stores_see_all)
     TextView storeSeeAllTextView;
     RecyclerView.LayoutManager layoutManager;
-    List<Store> storeArrayList = new ArrayList<>();
     StoresAdapter storesAdapter;
     //stores
 
@@ -51,7 +68,6 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.brands_recyclerView)
     RecyclerView brandsRecyclerView;
     RecyclerView.LayoutManager brandsLayoutManager;
-    List<Brand> brandsArrayList = new ArrayList<>();
     BrandsAdapter brandsAdapter;
     //Brand
 
@@ -61,14 +77,12 @@ public class HomeFragment extends BaseFragment {
     ViewPager  bestSellersPager;
     @BindView(R.id.indicators)
     LinePageIndicator pageIndicator;
-    ArrayList<String> bestSellersURLs;
     CustomPagerAdapter bestSellersAdapter;
     //BestSellers
 
     //Header
     @BindView(R.id.viewpager)
     ViewPager mPager;
-    ArrayList<String> urls;
     CustomPagerAdapter customPagerAdapter;
     @BindView(R.id.indicator)
     CirclePageIndicator circlePageIndicator;
@@ -80,23 +94,26 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.tv_latest_products_see_all)
     TextView productSeeAllTextView;
     RecyclerView.LayoutManager productLayoutManager;
-    List<Product> productArrayList = new ArrayList<>();
     ProductAdapter productAdapter;
     //product
+
+    User authenticatedUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-
-        setStore();
-        setBrand();
-        setProduct();
-        header();
-        setBestSellers();
+        authenticatedUser = GlobalValues.getUser(getContext());
+        presenter=new HomePresenter(this);
+        presenter.getHomeData(authenticatedUser.getId());
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.destroy();
+    }
 
     @OnClick(R.id.tv_latest_products_see_all)
     void products(){
@@ -105,8 +122,6 @@ public class HomeFragment extends BaseFragment {
         startActivity(intent);
     }
 
-
-
     @OnClick(R.id.tv_stores_see_all)
     void stores(){
         Intent intent=new Intent(getContext(), StoreActivity.class);
@@ -114,76 +129,45 @@ public class HomeFragment extends BaseFragment {
 //        ((DashboardActivity)getContext()).callStoresNav();
     }
 
-    private void setStore() {
+    private void setStore(List<Store> storeArrayList) {
         layoutManager = new GridLayoutManager(getActivity(), 3);
         storesRecyclerView.setLayoutManager(layoutManager);
         storesRecyclerView.setNestedScrollingEnabled(false);
-        storeArrayList = new ArrayList<>();
         storesAdapter = new StoresAdapter(getContext(), storeArrayList);
         storesRecyclerView.setAdapter(storesAdapter);
         storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
-
-        for (int i = 0; i < 6; i++) {
-            Store store = new Store();
-            store.setStoreName("Store Name");
-            storeArrayList.add(store);
-            storesAdapter.notifyDataSetChanged();
-        }
     }
 
-    private void setProduct() {
+    private void setProduct(List<Product> productArrayList) {
         productLayoutManager = new GridLayoutManager(getActivity(), 2);
         productRecyclerView.setLayoutManager(productLayoutManager);
         productRecyclerView.setNestedScrollingEnabled(false);
-        productArrayList = new ArrayList<>();
-        productAdapter = new ProductAdapter(getContext(), productArrayList);
+        productAdapter = new ProductAdapter(getContext(), productArrayList,authenticatedUser.getId());
         productRecyclerView.setAdapter(productAdapter);
         productRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 50, false));
-
-        for (int i = 0; i < 2; i++) {
-            Product product = new Product();
-            productArrayList.add(product);
-            productAdapter.notifyDataSetChanged();
-        }
     }
 
 
-    private void header(){
-        urls=new ArrayList<>();
+    private void header(List<String> urls){
         customPagerAdapter= new CustomPagerAdapter(getContext(),urls);
         mPager.setAdapter(customPagerAdapter);
         circlePageIndicator.setViewPager(mPager);
-
-        setPagerData();
     }
 
-    private void setPagerData(){
-        urls.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
-        urls.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYzcXT8JvYjG5IEYf-rzzklrzvOqG66atU-oyXPWlCZX7_luqU");
-        urls.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
-        urls.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYzcXT8JvYjG5IEYf-rzzklrzvOqG66atU-oyXPWlCZX7_luqU");
-        customPagerAdapter.notifyDataSetChanged();
+    private void setBestSellers(List<Slider> bestSellersURLs) {
 
-        circlePageIndicator.setViewPager(mPager);
+        List<String> slide=new ArrayList<>();
 
-    }
+        for (int i=0;i<bestSellersURLs.size();i++){
+            slide.add(bestSellersURLs.get(i).getBannerURL());
+        }
 
-    private void setBestSellers() {
-        bestSellersURLs=new ArrayList<>();
-        bestSellersAdapter= new CustomPagerAdapter(getContext(),bestSellersURLs);
+        bestSellersAdapter= new CustomPagerAdapter(getContext(),slide);
         bestSellersPager.setAdapter(bestSellersAdapter);
 
         bestSellersPager.setPageMargin(10);
         bestSellersPager.setClipToPadding(false);
         bestSellersPager.setPadding(100,0,100,0);
-
-        bestSellersURLs.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
-        bestSellersURLs.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
-        bestSellersURLs.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYzcXT8JvYjG5IEYf-rzzklrzvOqG66atU-oyXPWlCZX7_luqU");
-        bestSellersURLs.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
-        bestSellersURLs.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYzcXT8JvYjG5IEYf-rzzklrzvOqG66atU-oyXPWlCZX7_luqU");
-        bestSellersAdapter.notifyDataSetChanged();
-
 
         int median;
         if (bestSellersURLs.size() % 2 == 0)
@@ -196,23 +180,97 @@ public class HomeFragment extends BaseFragment {
         pageIndicator.setCurrentItem(median);
     }
 
-    private void setBrand() {
+    private void hotPicks(List<Product> hotPicks) {
         brandsLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         brandsRecyclerView.setLayoutManager(brandsLayoutManager);
         brandsRecyclerView.setNestedScrollingEnabled(false);
-        brandsArrayList = new ArrayList<>();
-        brandsAdapter = new BrandsAdapter(getContext(), brandsArrayList);
+        brandsAdapter = new BrandsAdapter(getContext(), hotPicks,authenticatedUser.getId());
         brandsRecyclerView.setAdapter(brandsAdapter);
-
-        for (int i = 0; i < 6; i++) {
-            Brand brand = new Brand();
-            brandsArrayList.add(brand);
-            brandsAdapter.notifyDataSetChanged();
-        }
     }
 
     @Override
     public String getName() {
         return "Home Fragment";
+    }
+
+    @Override
+    public void showProgress() {
+        loading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        loading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void response(HomeScreenData screenApi) {
+
+        if(screenApi.getStores()!=null) {
+            setStore(screenApi.getStores());
+        }else {
+            storesRecyclerView.setVisibility(View.GONE);
+            storeSeeAllTextView.setVisibility(View.GONE);
+        }
+
+        if(screenApi.getBannerURL()!=null && !screenApi.getBannerURL().equals("")){
+            Picasso.get().load(Constants.URLS.BaseURLImages+screenApi.getBannerURL()).fit().centerCrop()
+                    .placeholder(R.drawable.home_banner)
+                    .error(R.drawable.home_banner)
+                    .into(headerBelowBanner);
+        }
+
+        if(screenApi.getLatestProducts()!=null) {
+            setProduct(screenApi.getLatestProducts());
+        }else {
+            productRecyclerView.setVisibility(View.GONE);
+            productSeeAllTextView.setVisibility(View.GONE);
+        }
+
+        if(screenApi.getHeaderURLs()!=null){
+            header(screenApi.getHeaderURLs());
+        }else {
+            List<String> dummyHeaders=new ArrayList<>();
+            dummyHeaders.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
+            header(dummyHeaders);
+        }
+
+        if(screenApi.getHotPicks()!=null){
+            hotPicks(screenApi.getHotPicks());
+        }
+
+        if(screenApi.getBannerSliderURLs()!=null) {
+            setBestSellers(screenApi.getBannerSliderURLs());
+        }else {
+            bestSellersPager.setVisibility(View.GONE);
+            pageIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void error(String message) {
+        if(message.equalsIgnoreCase("null")){
+            showAlert("Server Error","Please check you internet connection and try again",getString(R.string.try_again),getContext());
+        }
+    }
+
+    public void showAlert(String title,String message,String buttonText,Context context){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        presenter.getHomeData(authenticatedUser.getId());
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Close",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

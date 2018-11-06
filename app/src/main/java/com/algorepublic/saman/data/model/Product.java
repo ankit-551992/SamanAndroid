@@ -46,6 +46,9 @@ public class Product {
     @SerializedName("isActive")
     @Expose
     private Boolean isActive;
+    @SerializedName("isFavorite")
+    @Expose
+    private Boolean isFavorite;
     @SerializedName("ProductImagesURLs")
     @Expose
     private List<String> productImagesURLs = null;
@@ -272,5 +275,16 @@ public class Product {
 
     public void setColorID(int colorID) {
         this.colorID = colorID;
+    }
+
+    public Boolean getFavorite() {
+        if(isFavorite==null){
+            isFavorite=false;
+        }
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
     }
 }

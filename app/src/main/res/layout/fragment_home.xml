@@ -1,201 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="RelativeOverlap">
-
-    <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v4.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        tools:ignore="RelativeOverlap">
 
         <LinearLayout
-            android:id="@+id/headerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="220dp" />
-
-                <com.viewpagerindicator.CirclePageIndicator
-                    android:id="@+id/indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:padding="5dip"
-                    app:radius="5dp"
-                    app:fillColor="@color/colorPrimary"
-                    app:pageColor="@color/white"/>
-
-            </FrameLayout>
-
-            <ImageView
-                android:background="@drawable/home_banner"
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
-
             <LinearLayout
+                android:id="@+id/headerView"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/button_border"
-                    android:gravity="center"
-                    android:paddingStart="25dp"
-                    android:paddingLeft="25dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="25dp"
-                    android:paddingRight="25dp"
-                    android:paddingBottom="5dp"
-                    android:text="@string/swipe"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:background="@color/grey">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_border"
-                    android:gravity="center"
-                    android:paddingStart="25dp"
-                    android:paddingLeft="25dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="25dp"
-                    android:paddingRight="25dp"
-                    android:paddingBottom="5dp"
-                    android:text="@string/click"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="220dp" />
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/indicator"
+                        app:fillColor="@color/colorPrimary"
+                        app:pageColor="@color/white"
+                        app:radius="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_margin="20dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:padding="5dip" />
+
+                </FrameLayout>
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:contentDescription="@string/contentDescription"
-                    android:src="@drawable/bingo" />
+                    android:id="@+id/iv_header_below_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/home_banner" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/button_border"
+                        android:gravity="center"
+                        android:paddingStart="25dp"
+                        android:paddingLeft="25dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="25dp"
+                        android:paddingRight="25dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/swipe"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_border"
+                        android:gravity="center"
+                        android:paddingStart="25dp"
+                        android:paddingLeft="25dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="25dp"
+                        android:paddingRight="25dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/click"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:contentDescription="@string/contentDescription"
+                        android:src="@drawable/bingo" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
+
+            <RelativeLayout
+                android:id="@+id/stores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Stores"
+                    android:textColor="@color/black" />
+
+
+                <TextView
+                    android:id="@+id/tv_stores_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/see_all"
+                    android:textColor="@color/colorPrimary" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/stores_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_stores_see_all"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_below="@+id/stores_recyclerView"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/grey" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/latest_products"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_in"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_latest_products_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/see_all"
+                    android:textColor="@color/colorPrimary" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/latest_products_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_latest_products_see_all"
+                    android:layout_marginTop="10dp" />
+            </RelativeLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/bestSellersPager"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp" />
+
+            <com.viewpagerindicator.LinePageIndicator
+                android:id="@+id/indicators"
+                app:selectedColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/hot_pick"
+                android:textColor="@color/black" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/brands_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp" />
+
         </LinearLayout>
 
+    </android.support.v4.widget.NestedScrollView>
 
-        <RelativeLayout
-            android:id="@+id/stores"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+    <include layout="@layout/loading_layout"
+        android:id="@+id/loading"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Stores"
-                android:textColor="@color/black" />
-
-
-            <TextView
-                android:id="@+id/tv_stores_see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:text="@string/see_all"
-                android:textColor="@color/colorPrimary" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/stores_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_stores_see_all"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:layout_below="@+id/stores_recyclerView"
-                android:layout_marginTop="5dp"
-                android:background="@color/grey" />
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/latest_products"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_in"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/tv_latest_products_see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:text="@string/see_all"
-                android:textColor="@color/colorPrimary" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/latest_products_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_latest_products_see_all"
-                android:layout_marginTop="10dp" />
-        </RelativeLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/bestSellersPager"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp" />
-
-        <com.viewpagerindicator.LinePageIndicator
-            android:id="@+id/indicators"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            app:selectedColor="@color/colorPrimary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/hot_pick"
-            android:textColor="@color/black" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/brands_recyclerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp" />
-
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

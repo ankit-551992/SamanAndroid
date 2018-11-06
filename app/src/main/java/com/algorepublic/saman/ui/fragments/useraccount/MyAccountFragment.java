@@ -48,6 +48,11 @@ public class MyAccountFragment extends BaseFragment {
         getActivity().startActivity(intent);
     }
 
+    @OnClick(R.id.layout_wishlist)
+    void wishlist() {
+        ((DashboardActivity)getActivity()).callFavNav();
+    }
+
     @OnClick(R.id.my_orders)
     void myOrders() {
         Intent intent = new Intent(getActivity(), MyOrdersActivity.class);

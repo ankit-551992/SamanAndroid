@@ -122,7 +122,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         }
 
         if(navItemIndex==2){
-            onNavigationItemSelected(navigationView.getMenu().getItem(0));
+            onNavigationItemSelected(navigationView.getMenu().getItem(1));
         }
     }
 
@@ -370,7 +370,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         builder.show();
     }
 
-    public void callStoresNav(){
-        onNavigationItemSelected(navigationView.getMenu().getItem(1));
+    public void callFavNav(){
+        onNavigationItemSelected(navigationView.getMenu().getItem(2));
     }
 }

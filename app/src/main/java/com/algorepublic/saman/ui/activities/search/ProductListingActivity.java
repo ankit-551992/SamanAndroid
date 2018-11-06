@@ -13,9 +13,11 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
+import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
@@ -48,12 +50,15 @@ public class ProductListingActivity  extends BaseActivity {
     String storeName="";
     String storeNameAr="";
 
+    User authenticatedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         Bundle bundle= getIntent().getExtras();
+        authenticatedUser = GlobalValues.getUser(this);
         if(bundle!=null){
             function=bundle.getInt("Function");
             if(function==2){
@@ -95,41 +100,39 @@ public class ProductListingActivity  extends BaseActivity {
         searchRecyclerView.setLayoutManager(productLayoutManager);
         searchRecyclerView.setNestedScrollingEnabled(false);
         displayData = new ArrayList<>();
-        productAdapter = new ProductAdapter(this, displayData);
+        productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId());
         searchRecyclerView.setAdapter(productAdapter);
         searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 50, false));
 
         if(function==2) {
             getProductsByStoreID(storeID);
         }else {
-            getLatestProducts(storeID);
+            getLatestProducts();
         }
     }
 
-
     private void getProductsByStoreID(int storeID) {
 
-        WebServicesHandler.instance.getProductsByStore(""+storeID,new retrofit2.Callback<GetProducts>() {
+        WebServicesHandler.instance.getProductsByStore(storeID,authenticatedUser.getId(),0,100000,new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 GetProducts getProducts = response.body();
                 if (getProducts != null) {
-                    if (getProducts.getSuccess() == 1) {
+                    if (getProducts.getSuccess() == 1){
                         displayData.addAll(getProducts.getProduct());
                         productAdapter.notifyDataSetChanged();
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<GetProducts> call, Throwable t) {
             }
         });
     }
 
-    private void getLatestProducts(int storeID) {
+    private void getLatestProducts() {
 
-        WebServicesHandler.instance.getProductsByStore(""+storeID,new retrofit2.Callback<GetProducts>() {
+        WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(),0,100000,new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
 

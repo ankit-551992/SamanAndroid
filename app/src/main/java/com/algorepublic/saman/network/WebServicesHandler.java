@@ -3,6 +3,8 @@ package com.algorepublic.saman.network;
 
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
+import com.algorepublic.saman.data.model.HomeScreenData;
+import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
@@ -10,7 +12,6 @@ import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.utils.Constants;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 
@@ -38,7 +39,7 @@ public class WebServicesHandler {
         httpClient.writeTimeout(120, TimeUnit.SECONDS);
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(Constants.URLS.BaseApis)
+                .baseUrl(Constants.URLS.BaseURLApis)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build());
 
@@ -51,7 +52,7 @@ public class WebServicesHandler {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("username", email);
         parameters.put("password", password);
-        parameters.put("deviceType", "0");
+        parameters.put("deviceType", "2");
         parameters.put("deviceToken", deviceToken);
 
         Call<UserResponse> call = webServices.login(parameters);
@@ -67,7 +68,7 @@ public class WebServicesHandler {
         parameters.put("LastName", lName);
         parameters.put("Email", email);
         parameters.put("Password", password);
-        parameters.put("deviceType", "0");
+        parameters.put("deviceType", "2");
         parameters.put("deviceToken", deviceToken);
         parameters.put("Gender", gender);
         parameters.put("Country", country);
@@ -121,6 +122,18 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getHomeScreenData(int userID,Callback<HomeScreenAPI> callback) {
+        Call<HomeScreenAPI> call = webServices.getHomeScreenData(userID);
+        call.enqueue(callback);
+    }
+
+
+
+    public void getFavoriteList(int userID,int pageIndex,int pageSize,Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getFavoriteList(userID,pageIndex,pageSize);
+        call.enqueue(callback);
+    }
+
     public void getStoreCategories(Callback<GetCategoriesList> callback) {
         Call<GetCategoriesList> call = webServices.getStoreCategories();
         call.enqueue(callback);
@@ -144,13 +157,28 @@ public class WebServicesHandler {
     }
 
 
-    public void getProductsByStore(String StoreId,Callback<GetProducts> callback) {
-        Call<GetProducts> call = webServices.getProductsByStore(StoreId);
+    public void getProductsByStore(int StoreId,int userID,int pageIndex,int pageSize,Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getProductsByStore(StoreId,userID,pageIndex,pageSize);
+        call.enqueue(callback);
+    }
+
+    public void getLatestProducts(int userID,int pageIndex,int pageSize,Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getLatestProducts(userID,pageIndex,pageSize);
         call.enqueue(callback);
     }
 
     public void applyPromo(String promo,Callback<PromoVerify> callback) {
         Call<PromoVerify> call = webServices.applyPromo(promo);
+        call.enqueue(callback);
+    }
+
+    public void markFavourite(int userID,int productId,Callback<SimpleSuccess> callback) {
+        Call<SimpleSuccess> call = webServices.markFavorite(userID,productId);
+        call.enqueue(callback);
+    }
+
+    public void markUnFavourite(int userID,int productId,Callback<SimpleSuccess> callback) {
+        Call<SimpleSuccess> call = webServices.markUnFavorite(userID,productId);
         call.enqueue(callback);
     }
 

@@ -13,15 +13,11 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
-import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
 import com.algorepublic.saman.utils.Constants;
-import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.OnClick;
 
 public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -59,7 +55,7 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
             storeViewHolder.storeName.setText(storeArrayList.get(position).getStoreName());
 
-            String url=Constants.URLS.BaseApis+storeArrayList.get(position).getLogoURL();
+            String url=Constants.URLS.BaseURLImages +storeArrayList.get(position).getLogoURL();
             Picasso.get().load(url)
                     .placeholder(R.drawable.earth_top)
                     .error(R.drawable.earth_top)

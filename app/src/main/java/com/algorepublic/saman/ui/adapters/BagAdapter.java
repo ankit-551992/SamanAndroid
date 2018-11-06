@@ -1,12 +1,15 @@
 package com.algorepublic.saman.ui.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
@@ -14,6 +17,7 @@ import com.algorepublic.saman.ui.fragments.bag.BagFragment;
 import com.algorepublic.saman.utils.SamanApp;
 
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,12 +29,12 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Product> productArrayList;
     private Context mContext;
     private BagFragment bagFragment;
-    int grandTotal=0;
+    int grandTotal = 0;
 
-    public BagAdapter(Context mContext, List<Product> productArrayList, BagFragment bagFragment){
-        this.productArrayList=productArrayList;
-        this.mContext=mContext;
-        this.bagFragment=bagFragment;
+    public BagAdapter(Context mContext, List<Product> productArrayList, BagFragment bagFragment) {
+        this.productArrayList = productArrayList;
+        this.mContext = mContext;
+        this.bagFragment = bagFragment;
     }
 
 //    public void removeItem(int position) {
@@ -66,16 +70,20 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof BagViewHolder) {
             BagViewHolder bagViewHolder = (BagViewHolder) holder;
             bagViewHolder.getPosition = holder.getAdapterPosition();
-            Product product=productArrayList.get(bagViewHolder.getPosition);
+            Product product = productArrayList.get(bagViewHolder.getPosition);
             bagViewHolder.name.setText(product.getProductName());
-            bagViewHolder.description.setText(product.getDescription());
-            bagViewHolder.price.setText(product.getPrice()+" OMR");
-            int total=product.getPrice()*product.getQuantity();
-            grandTotal=grandTotal+total;
-            bagViewHolder.total.setText(total+" OMR");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bagViewHolder.description.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                bagViewHolder.description.setText(Html.fromHtml(product.getDescription()));
+            }
+            bagViewHolder.price.setText(product.getPrice() + " OMR");
+            int total = product.getPrice() * product.getQuantity();
+            grandTotal = grandTotal + total;
+            bagViewHolder.total.setText(total + " OMR");
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
 
-            bagFragment.updateTotal(grandTotal,0);
+            bagFragment.updateTotal(grandTotal, 0);
 
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
@@ -92,11 +100,16 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class BagViewHolder extends RecyclerView.ViewHolder {
 
         int getPosition;
-        @BindView(R.id.tv_quantity) TextView quantity;
-        @BindView(R.id.tv_product_name) TextView name;
-        @BindView(R.id.tv_product_description) TextView description;
-        @BindView(R.id.tv_product_price) TextView price;
-        @BindView(R.id.tv_product_total) TextView total;
+        @BindView(R.id.tv_quantity)
+        TextView quantity;
+        @BindView(R.id.tv_product_name)
+        TextView name;
+        @BindView(R.id.tv_product_description)
+        TextView description;
+        @BindView(R.id.tv_product_price)
+        TextView price;
+        @BindView(R.id.tv_product_total)
+        TextView total;
 
         BagViewHolder(View v) {
             super(v);
@@ -114,14 +127,14 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     1);
 
 
-            productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity()+1);
+            productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
             updateNotify();
         }
 
         @OnClick(R.id.iv_remove_quantity)
         void removeItem() {
-            int current=Integer.parseInt(quantity.getText().toString());
-            if(current>1) {
+            int current = Integer.parseInt(quantity.getText().toString());
+            if (current > 1) {
                 current--;
 
                 SamanApp.localDB.addToCart(
@@ -131,20 +144,21 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         1,
                         1,
                         -1);
-                productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity()-1);
+                productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() - 1);
             }
             updateNotify();
         }
     }
 
 
-    public void updateNotify(){
-        grandTotal=0;
+    public void updateNotify() {
+        grandTotal = 0;
         notifyDataSetChanged();
     }
 
     class LoadingViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.native_progress_bar) ProgressBar progressBar;
+        @BindView(R.id.native_progress_bar)
+        ProgressBar progressBar;
 
         LoadingViewHolder(View itemView) {
             super(itemView);

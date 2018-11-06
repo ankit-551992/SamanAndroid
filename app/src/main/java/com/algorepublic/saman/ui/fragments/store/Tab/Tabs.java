@@ -39,8 +39,6 @@ public class Tabs extends BaseFragment {
     StoresAdapter adapter;
     int currentPage = 1;
     boolean isGetAll = false;
-
-
     private int categoryID;
 
     public static Tabs newInstance(int categoryID) {

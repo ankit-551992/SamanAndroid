@@ -2,6 +2,8 @@ package com.algorepublic.saman.network;
 
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
+import com.algorepublic.saman.data.model.HomeScreenData;
+import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
@@ -41,6 +43,12 @@ public interface WebServices {
     Call<SimpleSuccess> resetPassword(@FieldMap Map<String, String> parameters);
 
 
+    @GET("Home/GetHomeScreenData?")
+    Call<HomeScreenAPI> getHomeScreenData(@Query("userID") int userID);
+
+    @GET("Product/GetFavoriteList")
+    Call<GetProducts> getFavoriteList(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
+
     @FormUrlEncoded
     @POST("Order/PlaceOrder")
     Call<PlaceOrderResponse> placeOrder(@FieldMap Map<String, String> parameters);
@@ -53,12 +61,23 @@ public interface WebServices {
 //    Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID, @Query("page") String page);
     Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID);
 
+
     @GET("Product/GetListByStore?")
-    Call<GetProducts> getProductsByStore(@Query("storeID") String storeID);
+    Call<GetProducts> getProductsByStore(@Query("storeID") int storeID,@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
+
+
+    @GET("Product/GetLatestProducts?")
+    Call<GetProducts> getLatestProducts(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
 
     @GET("Coupon/Verify?")
     Call<PromoVerify> applyPromo(@Query("code") String code);
+
+    @POST("Product/MarkAsFavorite")
+    Call<SimpleSuccess> markFavorite(@Query("userID") int userID,@Query("productID") int productID);
+
+    @POST("Product/MarkAsUnfavorite")
+    Call<SimpleSuccess> markUnFavorite(@Query("userID") int userID,@Query("productID") int productID);
 
     @GET("Seller")
     Call<GetStores> getAllStores();
