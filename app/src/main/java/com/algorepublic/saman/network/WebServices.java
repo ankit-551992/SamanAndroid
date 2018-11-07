@@ -14,9 +14,13 @@ import com.algorepublic.saman.data.model.apis.GetStores;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -35,6 +39,11 @@ public interface WebServices {
 
 
     @FormUrlEncoded
+    @POST("User/UpdateProfile")
+    Call<SimpleSuccess> updateProfile(@FieldMap Map<String, Object> parameters);
+
+
+    @FormUrlEncoded
     @POST("User/ForgetPassword")
     Call<SimpleSuccess> forgetPassword(@FieldMap Map<String, String> parameters);
 
@@ -49,9 +58,10 @@ public interface WebServices {
     @GET("Product/GetFavoriteList")
     Call<GetProducts> getFavoriteList(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
+
     @FormUrlEncoded
     @POST("Order/PlaceOrder")
-    Call<PlaceOrderResponse> placeOrder(@FieldMap Map<String, String> parameters);
+    Call<PlaceOrderResponse> placeOrder(@FieldMap Map<String, Object> parameters);
 
 
     @GET("Catalog/Categories")

@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <include
@@ -206,6 +205,7 @@
 
 
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -231,10 +231,26 @@
             </RelativeLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_margin="10dp"
                 android:background="@color/light_grey" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/options_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:padding="5dp">
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -261,6 +277,8 @@
     </ScrollView>
 
 
-    <include layout="@layout/loading_layout"/>
+    <include
+        android:visibility="gone"
+        layout="@layout/loading_layout"/>
 
 </RelativeLayout>

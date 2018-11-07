@@ -14,6 +14,8 @@ import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.utils.Constants;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +34,6 @@ public class WebServicesHandler {
     private WebServices webServices;
 
     private WebServicesHandler() {
-
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.readTimeout(120, TimeUnit.SECONDS);
         httpClient.connectTimeout(120, TimeUnit.SECONDS);
@@ -78,6 +79,22 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+
+    public void updateUser(int id,String fName,String lName,String gender,String country,
+                         String address,Callback<SimpleSuccess> callback) {
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("ID", id);
+        parameters.put("FirstName", fName);
+        parameters.put("LastName", lName);
+        parameters.put("Gender", gender);
+        parameters.put("Country", country);
+        parameters.put("Address", address);
+
+        Call<SimpleSuccess> call = webServices.updateProfile(parameters);
+        call.enqueue(callback);
+    }
+
     public void forgetPassword(String email,Callback<SimpleSuccess> callback) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("email", email);
@@ -95,28 +112,39 @@ public class WebServicesHandler {
     }
 
 
-    public void placeOrder(String CustomerID,
-                           String BillingAddressID,
-                           String ShippingAddressID,
-                           String ShippingTotal,
-                           String TotalPrice,
+    public void placeOrder(int CustomerID,
+                           int BillingAddressID,
+                           int ShippingAddressID,
+                           float ShippingTotal,
+                           float TotalPrice,
                            String PaymentType,
                            JSONArray array,
                            Callback<PlaceOrderResponse> callback) {
 
-        Map<String, String> parameters = new HashMap<>();
+        Map<String, Object> parameters = new HashMap<>();
         parameters.put("CustomerID", CustomerID);
         parameters.put("BillingAddressID", BillingAddressID);
         parameters.put("ShippingAddressID", ShippingAddressID);
         parameters.put("PaymentType", PaymentType);
         parameters.put("ShippingTotal", ShippingTotal);
         parameters.put("TotalPrice", TotalPrice);
-        parameters.put("OrderItems", array.toString());
-        //Optional Remove later
-        parameters.put("CreatedAt", "10/30/2018");
-        parameters.put("UpdatedAt", "10/30/2018");
-        parameters.put("CreatedBy", "1");
-        parameters.put("UpdatedBy", "1");
+
+        for(int i=0;i<array.length();i++){
+            try {
+                JSONObject jsonObject=array.getJSONObject(i);
+                parameters.put("OrderItems["+i+"].ProductID",jsonObject.getInt("ProductID"));
+                parameters.put("OrderItems["+i+"].ProductQuantity",jsonObject.getInt("ProductQuantity"));
+                JSONArray optionsArray=jsonObject.getJSONArray("OrderOptionValue");
+                for(int j=0;j<optionsArray.length();j++){
+                    JSONObject jsonObj=optionsArray.getJSONObject(j);
+                    parameters.put("OrderItems["+i+"].OrderOptionValue["+j+"].ID",jsonObj.getInt("ID"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+//        parameters.put("OrderItems", array);
+
 
         Call<PlaceOrderResponse> call = webServices.placeOrder(parameters);
         call.enqueue(callback);

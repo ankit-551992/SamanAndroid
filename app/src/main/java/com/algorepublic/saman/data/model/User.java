@@ -40,10 +40,13 @@ public class User {
     private String profileImagePath;
     @SerializedName("Country")
     @Expose
-    private Object country;
+    private String country;
     @SerializedName("Address")
     @Expose
     private String address;
+    @SerializedName("ShippingAddress")
+    @Expose
+    private ShippingAddress shippingAddress;
     @SerializedName("Devicetoken")
     @Expose
     private String devicetoken;
@@ -163,11 +166,11 @@ public class User {
         this.profileImagePath = profileImagePath;
     }
 
-    public Object getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(Object country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
@@ -257,5 +260,14 @@ public class User {
 
     public void setAddressID(Integer addressID) {
         this.addressID = addressID;
+    }
+
+
+    public ShippingAddress getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(ShippingAddress shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 }

@@ -453,7 +453,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             emailEditText.setError(getString(R.string.email_required));
             return false;
         } else if (TextUtils.isEmpty(gender)) {
-            emailEditText.setError(getString(R.string.gender_prompt));
+            genderEditText.setError(getString(R.string.gender_prompt));
             return false;
         }
         else if (TextUtils.isEmpty(dob)) {

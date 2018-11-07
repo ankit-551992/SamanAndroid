@@ -1,23 +1,28 @@
 package com.algorepublic.saman.ui.activities.productdetail;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.OptionValue;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.ProductAttribute;
+import com.algorepublic.saman.data.model.ProductOption;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetStores;
@@ -30,6 +35,8 @@ import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.SamanApp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +54,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     ImageView toolbarBack;
     @BindView(R.id.viewpager)
     ViewPager mPager;
+    @BindView(R.id.options_layout)
+    LinearLayout optionsLinearLayout;
 
     //Product
     @BindView(R.id.tv_product_name)
@@ -57,13 +66,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     TextView productPrice;
     @BindView(R.id.tv_product_count)
     TextView productCount;
-    @BindView(R.id.spinner_attributes)
-    Spinner attributesSpinner;
     @BindView(R.id.iv_favorite)
     ImageView favoriteImageView;
 
-    ArrayAdapter attributesAdapter;
-    ProductAttribute selectedAttribute;
     //Product
 
     int productID;
@@ -77,6 +82,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @BindView(R.id.loading)
     RelativeLayout loading;
 
+    LayoutInflater inflater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +94,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         authenticatedUser = GlobalValues.getUser(this);
         productID = getIntent().getIntExtra("ProductID", 1);
 
+        inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         presenter=new ProductPresenter(this);
 
 
@@ -103,19 +111,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         mPager.setAdapter(customPagerAdapter);
 
         presenter.getProductData(productID);
-
-        attributesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                productCount.setText("1");
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-
-        });
     }
 
     @Override
@@ -152,9 +147,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.iv_add_to_cart)
     public void addToCart() {
-        selectedAttribute = (ProductAttribute) attributesSpinner.getSelectedItem();
+        getOptionsData();
         if (SamanApp.localDB != null) {
-            if (SamanApp.localDB.addToCart(product, 1, selectedAttribute.getID(), 1, 1, Integer.parseInt(productCount.getText().toString()))) {
+            if (SamanApp.localDB.addToCart(product, getOptionsData(), Integer.parseInt(productCount.getText().toString()))) {
                 Constants.showAlertWithActivityFinish("ADD TO BAG", "Product Added successfully, Check Your Bag", "Okay", ProductDetailActivity.this);
             }
         }
@@ -211,9 +206,22 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         productPrice.setText(product.getPrice() + " OMR");
-        if (product.getProductAttributes() != null) {
-            attributesAdapter = new ArrayAdapter(ProductDetailActivity.this, android.R.layout.simple_spinner_item, product.getProductAttributes());
-            attributesSpinner.setAdapter(attributesAdapter);
+
+        if(product.getProductOptions()!=null){
+            for (int p=0;p<product.getProductOptions().size();p++){
+                ProductOption productOption=product.getProductOptions().get(p);
+                View child = inflater.inflate(R.layout.item_options_row, null);
+                TextView optionName = (TextView) child.findViewById(R.id.tv_option_name);
+                Spinner optionValuesSpinner = (Spinner) child.findViewById(R.id.spinner_option_value);
+
+                optionName.setText(productOption.getTitle());
+
+                if(productOption.getOptionValues()!=null){
+                    ArrayAdapter valuesAdapter = new ArrayAdapter(ProductDetailActivity.this, android.R.layout.simple_spinner_item, productOption.getOptionValues());
+                    optionValuesSpinner.setAdapter(valuesAdapter);
+                }
+                optionsLinearLayout.addView(child);
+            }
         }
 
         if(product.getFavorite()){
@@ -270,5 +278,26 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_b));
             }
         }
+    }
+
+    private String getOptionsData(){
+        View v = null;
+        OptionValue optionValue=null;
+        String ids="";
+        if(product.getProductOptions()!=null) {
+            for (int i = 0; i < product.getProductOptions().size(); i++) {
+                v = optionsLinearLayout.getChildAt(i);
+                Spinner spinner = (Spinner) ((RelativeLayout) v).getChildAt(1);
+                optionValue = (OptionValue) spinner.getSelectedItem();
+
+                if (ids.equals("")) {
+                    ids = "" + optionValue.getID();
+                } else {
+                    ids = "," + optionValue.getID();
+                }
+            }
+        }
+
+        return ids;
     }
 }

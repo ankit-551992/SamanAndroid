@@ -13,9 +13,11 @@ import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -106,6 +108,17 @@ public class GlobalValues {
         return Json;
     }
 
+    public static String convertHashToString(HashMap<String, Object> hashMap){
+        Gson gson=new Gson();
+        String Json=gson.toJson(hashMap);
+        return Json;
+    }
+
+    public static HashMap<String,Object> stringToHashMap(String storedHashMapString){
+        java.lang.reflect.Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+        HashMap<String, Object> hashMap = new Gson().fromJson(storedHashMapString, type);
+        return hashMap;
+    }
 
     public static void markFavourite(int userID,int productId){
         WebServicesHandler.instance.markFavourite(userID,productId,new retrofit2.Callback<SimpleSuccess>() {

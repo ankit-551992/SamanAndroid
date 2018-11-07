@@ -3,6 +3,7 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Product {
@@ -12,6 +13,8 @@ public class Product {
     int cartAttributeID;
     int cartAttributeGroupID;
     int colorID;
+
+    String optionValues;
 
     @SerializedName("ProductName")
     @Expose
@@ -58,6 +61,9 @@ public class Product {
     @SerializedName("ProductAttributes")
     @Expose
     private List<ProductAttribute> productAttributes = null;
+    @SerializedName("ProductOption")
+    @Expose
+    private List<ProductOption> productOptions = null;
     @SerializedName("CreatedAt")
     @Expose
     private String createdAt;
@@ -76,6 +82,7 @@ public class Product {
     @SerializedName("ID")
     @Expose
     private Integer iD;
+
 
     public String getProductName() {
         return productName;
@@ -286,5 +293,21 @@ public class Product {
 
     public void setFavorite(Boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public List<ProductOption> getProductOptions() {
+        return productOptions;
+    }
+
+    public void setProductOptions(List<ProductOption> productOptions) {
+        this.productOptions = productOptions;
+    }
+
+    public String getOptionValues() {
+        return optionValues;
+    }
+
+    public void setOptionValues(String optionValues) {
+        this.optionValues = optionValues;
     }
 }

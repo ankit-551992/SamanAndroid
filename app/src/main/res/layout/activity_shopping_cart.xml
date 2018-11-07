@@ -144,6 +144,7 @@
                     android:textColor="@color/black"/>
 
                 <TextView
+                    android:id="@+id/tv_delivery_address_change"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -153,6 +154,7 @@
                     android:textSize="12sp"/>
 
                 <ImageView
+                    android:id="@+id/iv_delivery_address_change"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

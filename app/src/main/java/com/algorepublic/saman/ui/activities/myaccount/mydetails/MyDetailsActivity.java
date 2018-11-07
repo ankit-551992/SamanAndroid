@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,8 +24,9 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
+import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
-import com.algorepublic.saman.ui.activities.register.RegisterActivity;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 
 import java.text.SimpleDateFormat;
@@ -34,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyDetailsActivity extends BaseActivity{
+public class MyDetailsActivity extends BaseActivity implements DetailContractor.View{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -54,18 +56,31 @@ public class MyDetailsActivity extends BaseActivity{
     TextView countryName;
     @BindView(R.id.editText_address)
     EditText addressEditText;
+    @BindView(R.id.editText_day)
+    EditText dayEditText;
+    @BindView(R.id.editText_month)
+    EditText monthEditText;
+    @BindView(R.id.editText_year)
+    EditText yearEditText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
     Calendar myCalendar;
     Country selectedCountry;
 
+    User authenticatedUser;
+    MyDetailsPresenter presenter;
+    boolean isRequest=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_details);
         ButterKnife.bind(this);
+        presenter=new MyDetailsPresenter(this);
         setSupportActionBar(toolbar);
+        isRequest=getIntent().getBooleanExtra("Request",false);
+        authenticatedUser = GlobalValues.getUser(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.my_details));
         toolbarBack.setVisibility(View.VISIBLE);
@@ -83,6 +98,19 @@ public class MyDetailsActivity extends BaseActivity{
                 countryName.setText(selectedCountry.getName());
             }
         }
+        setProfile();
+    }
+
+
+    private void setProfile(){
+        firstNameEditText.setText(authenticatedUser.getFirstName());
+        lastNameEditText.setText(authenticatedUser.getLastName());
+        emailEditText.setText(authenticatedUser.getEmail());
+        emailEditText.setEnabled(false);
+        genderEditText.setText(authenticatedUser.getGender());
+        selectedGender=authenticatedUser.getGender();
+        countryName.setText(authenticatedUser.getCountry());
+        addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1());
     }
 
     @OnClick(R.id.editText_gender)
@@ -119,6 +147,17 @@ public class MyDetailsActivity extends BaseActivity{
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
     }
 
+    @OnClick(R.id.button_update)
+    public void registerButton() {
+        String firstName = firstNameEditText.getText().toString();
+        String lastName = lastNameEditText.getText().toString();
+        String gender = selectedGender;
+        String country = countryName.getText().toString();
+        String address = addressEditText.getText().toString();
+        if (isDataValid(firstName, lastName, gender, address)) {
+            presenter.updateUser(authenticatedUser.getId(),firstName,lastName,gender,country,address);
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -187,5 +226,63 @@ public class MyDetailsActivity extends BaseActivity{
         ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
+    }
+
+
+
+    private boolean isDataValid(String fName, String lName, String gender, String address) {
+        if (TextUtils.isEmpty(fName)) {
+            firstNameEditText.setError(getString(R.string.first_name_required));
+            return false;
+        } else if (TextUtils.isEmpty(lName)) {
+            lastNameEditText.setError(getString(R.string.last_name_required));
+            return false;
+        } else if (TextUtils.isEmpty(gender)) {
+            genderEditText.setError(getString(R.string.gender_prompt));
+            return false;
+        }
+        else if (TextUtils.isEmpty(address)) {
+            addressEditText.setError(getString(R.string.address_req));
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void updateResponse(boolean success) {
+        if(success){
+            authenticatedUser.setFirstName(firstNameEditText.getText().toString());
+            authenticatedUser.setLastName(lastNameEditText.getText().toString());
+            authenticatedUser.setGender(genderEditText.getText().toString());
+            authenticatedUser.setCountry(countryName.getText().toString());
+            authenticatedUser.getShippingAddress().setAddressLine1(addressEditText.getText().toString());
+
+            GlobalValues.saveUser(MyDetailsActivity.this, authenticatedUser);
+
+            if(isRequest){
+                setResult(RESULT_OK);
+                finish();
+            }else {
+                Constants.showAlert("Update Profile","Profile Updated Successfully",getString(R.string.okay),MyDetailsActivity.this);
+            }
+        }else {
+
+            if(isRequest){
+                Constants.showAlertWithActivityFinish("Update Profile","Profile Update Failed",getString(R.string.try_again),MyDetailsActivity.this);
+            }else {
+                Constants.showAlert("Update Profile","Profile Update Failed",getString(R.string.try_again),MyDetailsActivity.this);
+            }
+        }
     }
 }
