@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -58,6 +60,14 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Product product=brandArrayList.get(position);
             brandViewHolder.productDescription.setText(product.getProductName());
             brandViewHolder.productPrice.setText(product.getPrice()+" OMR");
+
+            if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
+                Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
+                        .placeholder(R.drawable.dummy_mobile)
+                        .error(R.drawable.dummy_mobile)
+                        .into(brandViewHolder.productImageView);
+            }
+
 
             brandViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -7,6 +7,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -14,7 +15,9 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.fragments.bag.BagFragment;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.SamanApp;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -77,6 +80,15 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else {
                 bagViewHolder.description.setText(Html.fromHtml(product.getDescription()));
             }
+
+            if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
+                Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
+                        .placeholder(R.drawable.dummy_mobile)
+                        .error(R.drawable.dummy_mobile)
+                        .into(bagViewHolder.productImageView);
+            }
+
+
             bagViewHolder.price.setText(product.getPrice() + " OMR");
             int total = product.getPrice() * product.getQuantity();
             grandTotal = grandTotal + total;
@@ -110,6 +122,8 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView price;
         @BindView(R.id.tv_product_total)
         TextView total;
+        @BindView(R.id.iv_product)
+        ImageView productImageView;
 
         BagViewHolder(View v) {
             super(v);

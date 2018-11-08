@@ -4,6 +4,7 @@ import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.HomeScreenData;
 import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
+import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
@@ -48,12 +49,22 @@ public interface WebServices {
     Call<SimpleSuccess> forgetPassword(@FieldMap Map<String, String> parameters);
 
     @FormUrlEncoded
-    @POST("User/ChangePassword")
+    @POST("User/ResetPassword")
     Call<SimpleSuccess> resetPassword(@FieldMap Map<String, String> parameters);
+
+
+    @FormUrlEncoded
+    @POST("User/ChangePassword")
+    Call<UserResponse> changePassword(@FieldMap Map<String, Object> parameters);
+
 
 
     @GET("Home/GetHomeScreenData?")
     Call<HomeScreenAPI> getHomeScreenData(@Query("userID") int userID);
+
+
+    @GET("Order/GetByUserID/{id}")
+    Call<OrderHistoryAPI> getOrders(@Path("id") int productId);
 
     @GET("Product/GetFavoriteList")
     Call<GetProducts> getFavoriteList(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);

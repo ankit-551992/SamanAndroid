@@ -15,7 +15,9 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +66,13 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Product product=productArrayList.get(position);
             productViewHolder.productDescription.setText(product.getProductName());
             productViewHolder.productPrice.setText(product.getPrice()+" OMR");
+
+            if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
+                Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
+                        .placeholder(R.drawable.dummy_mobile)
+                        .error(R.drawable.dummy_mobile)
+                        .into(productViewHolder.productImageView);
+            }
 
             productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

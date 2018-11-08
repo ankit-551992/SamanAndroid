@@ -1,15 +1,16 @@
 package com.algorepublic.saman.ui.activities.myaccount.myorders;
 
 import com.algorepublic.saman.data.model.Order;
+import com.algorepublic.saman.data.model.OrderHistory;
 
 public class GeneralItem extends ListItem {
-    private Order order;
+    private OrderHistory order;
 
-    public Order getOrder() {
+    public OrderHistory getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(OrderHistory order) {
         this.order = order;
     }
 

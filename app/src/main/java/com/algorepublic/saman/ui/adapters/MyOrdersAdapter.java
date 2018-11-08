@@ -1,110 +1,113 @@
 package com.algorepublic.saman.ui.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.algorepublic.saman.R;
-import com.algorepublic.saman.ui.activities.myaccount.myorders.DateItem;
-import com.algorepublic.saman.ui.activities.myaccount.myorders.GeneralItem;
-import com.algorepublic.saman.ui.activities.myaccount.myorders.ListItem;
-
-import java.util.ArrayList;
+import com.algorepublic.saman.data.model.OrderHistory;
+import com.algorepublic.saman.data.model.OrderItem;
+import com.algorepublic.saman.utils.Constants;
+import com.squareup.picasso.Picasso;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-public class MyOrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHolder> {
+
+    private List<OrderHistory> orderHistoryList;
     private Context mContext;
-    List<ListItem> consolidatedList = new ArrayList<>();
+    LayoutInflater inflater;
 
-    public MyOrdersAdapter(Context context, List<ListItem> consolidatedList) {
-        this.consolidatedList = consolidatedList;
-        this.mContext = context;
+    public MyOrdersAdapter(Context mContext, List<OrderHistory> orderHistoryList) {
+        this.orderHistoryList = orderHistoryList;
+        this.mContext = mContext;
+        inflater = (LayoutInflater)this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
-
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,  int viewType) {
-
-        RecyclerView.ViewHolder viewHolder = null;
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-        switch (viewType) {
-
-            case ListItem.TYPE_GENERAL:
-                View v1 = inflater.inflate(R.layout.item_my_order_row, parent,
-                        false);
-                viewHolder = new GeneralViewHolder(v1);
-                break;
-
-            case ListItem.TYPE_DATE:
-                View v2 = inflater.inflate(R.layout.item_my_order_header, parent, false);
-                viewHolder = new DateViewHolder(v2);
-                break;
-        }
-
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ViewHolder viewHolder;
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_my_order_header, parent, false);
+        viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        OrderHistory orderHistory = orderHistoryList.get(position);
 
-        switch (viewHolder.getItemViewType()) {
+        Long datetimestamp = Long.parseLong(orderHistory.getCreatedAt().replaceAll("\\D", ""));
+        Date date = new Date(datetimestamp);
+//        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy G 'at' HH:mm:ss z");
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm");
+        String dateFormatted = formatter.format(date);
+        holder.dateTextView.setText(dateFormatted.toString());
+        holder.orderNUmberTextView.setText(orderHistory.getOrderNumber());
+        for (int i =0; i<orderHistory.getOrderItems().size(); i++) {
+            OrderItem orderItem = orderHistory.getOrderItems().get(i);
+            View child = inflater.inflate(R.layout.item_my_order_row, null);
+            TextView productName = (TextView) child.findViewById(R.id.tv_product_name);
+            TextView productPrice = (TextView) child.findViewById(R.id.tv_product_price);
+            ImageView productImageView = (ImageView) child.findViewById(R.id.iv_product);
 
-            case ListItem.TYPE_GENERAL:
+            if(orderItem.getProduct()!=null) {
+                productName.setText(orderItem.getProduct().getProductName());
+                productPrice.setText(orderItem.getProduct().getPrice()+ " OMR");
 
-                GeneralItem generalItem   = (GeneralItem) consolidatedList.get(position);
-                GeneralViewHolder generalViewHolder= (GeneralViewHolder) viewHolder;
-                generalViewHolder.txtTitle.setText(generalItem.getOrder().getName());
-                generalViewHolder.textViewSubDescription.setText(generalItem.getOrder().getDate());
-
-                break;
-
-            case ListItem.TYPE_DATE:
-                DateItem dateItem = (DateItem) consolidatedList.get(position);
-                DateViewHolder dateViewHolder = (DateViewHolder) viewHolder;
-
-                dateViewHolder.txtTitle.setText(dateItem.getDate());
-
-                break;
+                if(orderItem.getProduct().getLogoURL()!=null && !orderItem.getProduct().getLogoURL().isEmpty()) {
+                    Picasso.get().load(Constants.URLS.BaseURLImages + orderItem.getProduct().getLogoURL())
+                            .placeholder(R.drawable.dummy_mobile)
+                            .error(R.drawable.dummy_mobile)
+                            .into(productImageView);
+                }
+                holder.orderItemsLayout.addView(child);
+            }
         }
-    }
 
+        holder.orderItemsLayout.setVisibility(View.GONE);
 
-
-    class DateViewHolder extends RecyclerView.ViewHolder {
-        protected TextView txtTitle;
-
-        public DateViewHolder(View v) {
-            super(v);
-            this.txtTitle = (TextView) v.findViewById(R.id.tv_order_date);
-
-        }
-    }
-
-
-    class GeneralViewHolder extends RecyclerView.ViewHolder {
-        protected TextView txtTitle;
-        protected TextView textViewSubDescription;
-
-        public GeneralViewHolder(View v) {
-            super(v);
-            txtTitle = (TextView) v.findViewById(R.id.tv_product_description);
-            textViewSubDescription = (TextView) v.findViewById(R.id.tv_sub_description);
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return consolidatedList.get(position).getType();
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.orderItemsLayout.getVisibility()==View.VISIBLE){
+                    holder.orderItemsLayout.setVisibility(View.GONE);
+                }else {
+                    holder.orderItemsLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return consolidatedList != null ? consolidatedList.size() : 0;
+        return orderHistoryList == null ? 0 : orderHistoryList.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_order_date)
+        TextView dateTextView;
+        @BindView(R.id.tv_order_number)
+        TextView orderNUmberTextView;
+        @BindView(R.id.order_items_layout)
+        LinearLayout orderItemsLayout;
+        @BindView(R.id.relative_layout)
+        RelativeLayout relativeLayout;
+        ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }

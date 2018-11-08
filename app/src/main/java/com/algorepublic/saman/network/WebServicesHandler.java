@@ -5,6 +5,7 @@ import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.HomeScreenData;
 import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
+import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
@@ -112,6 +113,19 @@ public class WebServicesHandler {
     }
 
 
+    public void ChangePassword(int userID,String password,String oldPassword, Callback<UserResponse> callback) {
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userID", userID);
+        parameters.put("password", password);
+        parameters.put("oldPassword", oldPassword);
+
+        Call<UserResponse> call = webServices.changePassword(parameters);
+        call.enqueue(callback);
+
+    }
+
+
     public void placeOrder(int CustomerID,
                            int BillingAddressID,
                            int ShippingAddressID,
@@ -155,7 +169,10 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-
+    public void getOrderHistory(int userID,Callback<OrderHistoryAPI> callback) {
+        Call<OrderHistoryAPI> call = webServices.getOrders(userID);
+        call.enqueue(callback);
+    }
 
     public void getFavoriteList(int userID,int pageIndex,int pageSize,Callback<GetProducts> callback) {
         Call<GetProducts> call = webServices.getFavoriteList(userID,pageIndex,pageSize);

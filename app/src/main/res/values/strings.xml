@@ -80,6 +80,8 @@
     <string name="notifications">Notifications</string>
     <string name="term">Terms of Use</string>
     <string name="description">Description</string>
+    <string name="specifications">Specifications</string>
+    <string name="no_specifications">No Specifications</string>
     <string name="create_ticket">Create Ticket</string>
     <string name="submit">Submit</string>
     <string name="character">300 Character</string>
@@ -226,6 +228,8 @@
     <string name="okay">Okay</string>
     <string name="old_password_required">Please Enter Old Password</string>
     <string name="new_password_required">Please Enter New Password</string>
+    <string name="confirm_new_password_required">Please Confirm New Password</string>
+    <string name="not_matched">Password should be matched</string>
     <string name="enter_token">Please Enter Token</string>
     <!--Required-->
 

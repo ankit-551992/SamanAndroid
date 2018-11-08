@@ -115,7 +115,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put(CART_PRODUCT_SIZE_LENGTH, product.getSizeLength());
             values.put(CART_PRODUCT_SIZE_WIDTH, product.getSizeWidth());
             values.put(CART_PRODUCT_SIZE_HEIGHT, product.getSizeHeight());
-            values.put(CART_PRODUCT_PICTURES, GlobalValues.convertListToString(product.getPictures()));
+            values.put(CART_PRODUCT_PICTURES, product.getLogoURL());
             values.put(CART_PRODUCT_IMAGES, GlobalValues.convertListToString(product.getProductImagesURLs()));
 //            values.put(CART_PRODUCT_COLOR, "" + colorID);
 
@@ -190,7 +190,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setSizeLength(cursor.getInt(8));
                 product.setSizeWidth(cursor.getInt(9));
                 product.setSizeHeight(cursor.getInt(10));
-//                product.setPictures(cursor.getInt(11));
+                product.setLogoURL(cursor.getString(11));
 //                product.setProductImagesURLs(cursor.getInt(12));
 //                product.setColor(cursor.getString(13));
                 boolean isActive = false;

@@ -49,19 +49,20 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
 
     boolean isConfirmShowing = false;
 
+    User authenticatedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         ButterKnife.bind(this);
+        authenticatedUser = GlobalValues.getUser(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         presenter=new PasswordPresenter(this);
         oldPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         newPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
-
         toolbarTitle.setText(getString(R.string.change_password));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -92,17 +93,24 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
     public void changePasswordButton(){
         String oldPassword=oldPasswordEditText.getText().toString();
         String newPassword=newPasswordEditText.getText().toString();
-        if(isDataValid(oldPassword,newPassword)) {
-            presenter.changePassword(oldPassword, newPassword);
+        String confirm=confirmPasswordEditText.getText().toString();
+        if(isDataValid(oldPassword,newPassword,confirm)) {
+            presenter.changePassword(authenticatedUser.getId(),oldPassword, newPassword);
         }
     }
 
-    private boolean isDataValid(String oldPassword, String newPassword) {
+    private boolean isDataValid(String oldPassword, String newPassword,String confrim) {
         if (TextUtils.isEmpty(oldPassword)) {
             oldPasswordEditText.setError(getString(R.string.old_password_required));
             return false;
         } else if (TextUtils.isEmpty(newPassword)) {
             newPasswordEditText.setError(getString(R.string.new_password_required));
+            return false;
+        }else if (TextUtils.isEmpty(confrim)) {
+            confirmPasswordEditText.setError(getString(R.string.confirm_new_password_required));
+            return false;
+        }else if (!confrim.equals(newPassword)) {
+            confirmPasswordEditText.setError(getString(R.string.not_matched));
             return false;
         }
         else {

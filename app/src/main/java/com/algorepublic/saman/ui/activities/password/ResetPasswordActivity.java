@@ -35,9 +35,14 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
     EditText newPasswordEditText;
     @BindView(R.id.iv_newPassword_visible)
     ImageView newPasswordVisibilityImageView;
+    @BindView(R.id.editText_confirmPassword)
+    EditText confirmNewPasswordEditText;
+    @BindView(R.id.iv_confirm_password_visible)
+    ImageView confirmNewPasswordVisibilityImageView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     boolean isShowing=false;
+    boolean isConfirmShowing = false;
 
     PasswordPresenter presenter;
 
@@ -49,8 +54,8 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         presenter=new PasswordPresenter(this);
-        newPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         newPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+        confirmNewPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         toolbarTitle.setText(getString(R.string.reset_password));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -76,22 +81,28 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
         super.onBackPressed();
     }
 
-
     @OnClick(R.id.button_resetPassword)
     public void resetPasswordButton(){
         String token=tokenEditText.getText().toString();
         String newPassword=newPasswordEditText.getText().toString();
-        if(isDataValid(token,newPassword)){
-            presenter.resetPassword(token, newPassword);
+        String confirmPassword = confirmNewPasswordEditText.getText().toString();
+        if(isDataValid(token,newPassword,confirmPassword)){
+            presenter.resetPassword(token,newPassword);
         }
     }
 
-    private boolean isDataValid(String oldPassword, String newPassword) {
+    private boolean isDataValid(String oldPassword, String newPassword,String confirm) {
         if (TextUtils.isEmpty(oldPassword)) {
             tokenEditText.setError(getString(R.string.enter_token));
             return false;
         }else if (TextUtils.isEmpty(newPassword)) {
             newPasswordEditText.setError(getString(R.string.new_password_required));
+            return false;
+        }else if (TextUtils.isEmpty(confirm)) {
+            confirmNewPasswordEditText.setError(getString(R.string.confirm_new_password_required));
+            return false;
+        }else if (!confirm.equals(newPassword)) {
+            confirmNewPasswordEditText.setError(getString(R.string.not_matched));
             return false;
         }
         else {
@@ -113,6 +124,20 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
             newPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
         newPasswordEditText.setSelection(newPasswordEditText.length());
+    }
+
+    @OnClick(R.id.iv_confirm_password_visible)
+    public void setConfirmPasswordVisibility() {
+        if (!isConfirmShowing) {
+            isConfirmShowing = true;
+            confirmNewPasswordEditText.setTransformationMethod(null);
+            confirmNewPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_view));
+        } else {
+            isConfirmShowing = false;
+            confirmNewPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+            confirmNewPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
+        }
+        confirmNewPasswordEditText.setSelection(confirmNewPasswordEditText.length());
     }
 
     @Override

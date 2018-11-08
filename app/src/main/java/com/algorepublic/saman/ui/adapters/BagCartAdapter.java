@@ -13,6 +13,8 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
+import com.algorepublic.saman.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,14 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof BagViewHolder) {
             BagViewHolder bagViewHolder = (BagViewHolder) holder;
+            Product product = products.get(position);
+            if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
+                Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
+                        .placeholder(R.drawable.dummy_mobile)
+                        .error(R.drawable.dummy_mobile)
+                        .into(bagViewHolder.storeImage);
+            }
+
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

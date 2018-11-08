@@ -20,7 +20,7 @@ public class PasswordContractor {
 
 
     interface Presenter{
-        void changePassword(String oldPassword, String newPassword);
+        void changePassword(int userId,String oldPassword, String newPassword);
         void resetPassword(String token, String newPassword);
         void recoveryEmail(String email);
         void onDestroy();

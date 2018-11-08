@@ -55,6 +55,9 @@ public class Product {
     @SerializedName("ProductImagesURLs")
     @Expose
     private List<String> productImagesURLs = null;
+    @SerializedName("LogoURL")
+    @Expose
+    private String LogoURL = null;
     @SerializedName("ProductCategories")
     @Expose
     private List<ProductCategory> productCategories = null;
@@ -309,5 +312,13 @@ public class Product {
 
     public void setOptionValues(String optionValues) {
         this.optionValues = optionValues;
+    }
+
+    public String getLogoURL() {
+        return LogoURL;
+    }
+
+    public void setLogoURL(String logoURL) {
+        LogoURL = logoURL;
     }
 }

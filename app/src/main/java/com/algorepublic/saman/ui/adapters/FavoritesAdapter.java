@@ -1,18 +1,23 @@
 package com.algorepublic.saman.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
+import com.algorepublic.saman.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +79,23 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
             favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
             favoritesViewHolder.price.setText(productArrayList.get(position).getPrice()+" OMR");
+
+            if(productArrayList.get(position).getLogoURL()!=null && !productArrayList.get(position).getLogoURL().isEmpty()) {
+                Picasso.get().load(Constants.URLS.BaseURLImages + productArrayList.get(position).getLogoURL())
+                        .placeholder(R.drawable.dummy_mobile)
+                        .error(R.drawable.dummy_mobile)
+                        .into(favoritesViewHolder.productImageView);
+            }
+
+            favoritesViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID",productArrayList.get(position).getID());
+                    mContext.startActivity(intent);
+                }
+            });
+
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -90,6 +112,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     static class FavoritesViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_product_name) TextView name;
         @BindView(R.id.tv_price) TextView price;
+        @BindView(R.id.iv_product) ImageView productImageView;
         public FavoritesViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);

@@ -58,6 +58,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     LinearLayout optionsLinearLayout;
 
     //Product
+    @BindView(R.id.tv_attributes)
+    TextView attributes;
     @BindView(R.id.tv_product_name)
     TextView productName;
     @BindView(R.id.tv_product_description)
@@ -203,6 +205,22 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
         } else {
             productDescription.setText(Html.fromHtml(product.getDescription()));
+        }
+
+        String atributes="";
+        for (int i=0;i<product.getProductAttributes().size();i++){
+
+            if(atributes.equals("")){
+                atributes=product.getProductAttributes().get(i).getTitle();
+            }else {
+
+                atributes=atributes+"\n"+product.getProductAttributes().get(i).getTitle();
+            }
+        }
+        if (!atributes.equals("")) {
+            attributes.setText(atributes);
+        }else {
+            attributes.setText(getString(R.string.no_specifications));
         }
 
         productPrice.setText(product.getPrice() + " OMR");

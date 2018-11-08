@@ -22,17 +22,16 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
 
 
     @Override
-    public void changePassword(String oldPassword, String newPassword) {
+    public void changePassword(int userID,String oldPassword, String newPassword) {
 
         if(view!=null) {
 
             view.showProgress();
             WebServicesHandler apiClient = WebServicesHandler.instance;
 
-            apiClient.login(oldPassword, newPassword, "Test", new Callback<UserResponse>() {
+            apiClient.ChangePassword(userID,newPassword, oldPassword, new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-
                     UserResponse userResponse = response.body();
                     if (view != null) {
                         view.hideProgress();

@@ -22,6 +22,9 @@ public class ProductOption {
     @SerializedName("OptionValues")
     @Expose
     private List<OptionValue> optionValues = null;
+    @SerializedName("OptionValue")
+    @Expose
+    private OptionValue optionValue = null;
     @SerializedName("ID")
     @Expose
     private Integer iD;
@@ -74,5 +77,11 @@ public class ProductOption {
         this.iD = iD;
     }
 
+    public OptionValue getOptionValue() {
+        return optionValue;
+    }
 
+    public void setOptionValue(OptionValue optionValue) {
+        this.optionValue = optionValue;
+    }
 }

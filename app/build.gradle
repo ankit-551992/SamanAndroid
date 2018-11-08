@@ -107,5 +107,9 @@ dependencies {
     //WebView
     implementation 'com.thefinestartist:finestwebview:1.2.7'
 
+
+    //swipelayout
+    implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
+
 }
 apply plugin: 'com.google.gms.google-services'
