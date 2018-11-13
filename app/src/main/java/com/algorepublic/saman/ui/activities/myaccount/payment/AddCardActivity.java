@@ -67,7 +67,7 @@ public class AddCardActivity extends BaseActivity{
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText("Card");
+        toolbarTitle.setText(getString(R.string.Card));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
@@ -135,7 +135,7 @@ public class AddCardActivity extends BaseActivity{
         otpEt.setText(obj.getOtp());
         month.setText(String.valueOf(obj.getMonth()));
         year.setText(String.valueOf(obj.getYear()));
-        addBt.setText("Update Card");
+        addBt.setText(getString(R.string.Update_Card));
     }
 
     public boolean validate() {
@@ -144,37 +144,37 @@ public class AddCardActivity extends BaseActivity{
 
 
         if (cardNumberEt.getText().toString().isEmpty()) {
-            cardNumberEt.setError("Please enter card number!");
+            cardNumberEt.setError(getString(R.string.card_number_req));
             valid = false;
         }
 
         if (cardNumberEt.getText().toString().length() < 16) {
-            cardNumberEt.setError("Please enter valid card number!");
+            cardNumberEt.setError(getString(R.string.card_number_validation));
             valid = false;
         }
 
         if (month.getText().toString().isEmpty()) {
-            month.setError("Please add card expire month!");
+            month.setError(getString(R.string.card_month_validation));
             valid = false;
         }
 
         if (year.getText().toString().isEmpty()) {
-            year.setError("Please add card expire year!");
+            year.setError(getString(R.string.card_year_validation));
             valid = false;
         }
 
         if (cardHolderEt.getText().toString().isEmpty()) {
-            cardHolderEt.setError("Please enter card holder name!");
+            cardHolderEt.setError(getString(R.string.card_name));
             valid = false;
         }
 
         if (cvcEt.getText().toString().isEmpty()) {
-            cvcEt.setError("Please enter CVC!");
+            cvcEt.setError(getString(R.string.card_cvc));
             valid = false;
         }
 
         if (otpEt.getText().toString().isEmpty()) {
-            otpEt.setError("Please enter OTP!");
+            otpEt.setError(getString(R.string.card_otp));
             valid = false;
         }
 

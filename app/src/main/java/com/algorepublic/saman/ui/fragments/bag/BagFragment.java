@@ -89,7 +89,7 @@ public class BagFragment extends BaseFragment {
                                 // TODO: onDelete
                                 Product p=productArrayList.get(pos);
                                 if(SamanApp.localDB.deleteItemFromCart(p)){
-                                    Constants.showAlert("REMOVE FROM BAG","Product Removed successfully","Okay",getActivity());
+                                    Constants.showAlert(getString(R.string.remove_from_bag),getString(R.string.removed_from_bag),getString(R.string.okay),getActivity());
                                     productArrayList.remove(p);
                                     bagAdapter.updateNotify();
                                 }

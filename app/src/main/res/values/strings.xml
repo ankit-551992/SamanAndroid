@@ -47,6 +47,8 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
 
+    <string name="press_again">Please click back again to exit</string>
+
     <string name="english">English</string>
     <string name="arabic">عربى</string>
 
@@ -86,8 +88,13 @@
     <string name="submit">Submit</string>
     <string name="character">300 Character</string>
 
+    <string name="please_wait">Please wait....</string>
+    <string name="OMR">OMR</string>
     <!--Shopping cart-->
     <string name="shopping_cart">Shopping Bag</string>
+    <string name="apply_coupon">Apply Coupon</string>
+    <string name="invalid_coupon">Invalid Coupon</string>
+    <string name="already_apply">Already Applied</string>
     <string name="delivery_to">Delivery To</string>
     <string name="delivery_options">Delivery Options</string>
     <string name="delivery_cost">Delivery Cost</string>
@@ -134,8 +141,12 @@
     <string name="delete">Remove</string>
     <string name="default_">Default</string>
     <string name="cancel">Cancel</string>
+    <string name="product_added_in_bag">Product Added successfully, Check Your Bag</string>
     <string name="add_to_cart">Move To Bag</string>
     <string name="add_to_fav">Move To Wishlist</string>
+    <string name="add_to_bag">Add to bag</string>
+    <string name="remove_from_bag">Remove from bag</string>
+    <string name="removed_from_bag">Product Removed successfully</string>
     <!--Bag-->
 
     <!--Search-->
@@ -169,8 +180,11 @@
     <string name="Birthday">Birthday</string>
     <string name="date">DD/MM/YYYY</string>
     <string name="day">DD</string>
+    <string name="day_missing">Please Select Day</string>
     <string name="month">MM</string>
+    <string name="month_missing">Please Select Month</string>
     <string name="year">YYYY</string>
+    <string name="year_missing">Please Select Year</string>
     <string name="select_country">Country Selection</string>
     <string name="address_hint">House street area</string>
     <string name="address_req">Address Required</string>
@@ -216,22 +230,47 @@
     <string name="my_details">My Details</string>
     <string name="my_orders">My Orders</string>
     <string name="my_favorites">My Favorites</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="update_profile_success">Profile Updated Successfully</string>
+    <string name="update_profile_fail">Profile Update Failed</string>
     <!--My Account-->
 
     <!--Required-->
     <string name="first_name_required">First name required</string>
     <string name="last_name_required">Last name required</string>
     <string name="email_required">Email is required</string>
+    <string name="email_invalid">Invalid Email</string>
     <string name="password_required">Password is required</string>
     <string name="password_short">Password is too short</string>
     <string name="try_again">Try Again</string>
     <string name="okay">Okay</string>
+    <string name="close">Close</string>
     <string name="old_password_required">Please Enter Old Password</string>
     <string name="new_password_required">Please Enter New Password</string>
     <string name="confirm_new_password_required">Please Confirm New Password</string>
     <string name="not_matched">Password should be matched</string>
     <string name="enter_token">Please Enter Token</string>
     <!--Required-->
+
+    <!--Card-->
+    <string name="Card_Number">Card Number</string>
+    <string name="Card_expiry">Valid Thru - Expiry Date</string>
+    <string name="Card">Card</string>
+    <string name="default_card_msg">Its defualt you can\'t delete it.</string>
+    <string name="Add_Card">Add Card</string>
+    <string name="Card_cvv_cvc">Card Secure Code (CVV/CVC)</string>
+    <string name="Card_otp_msg">Please use OTP 5548 to complete your transaction with card ending code 7078. If you have not initiated this payment. Any queries, please contact Card Issuer</string>
+    <string name="Update_Card">Update Card</string>
+    <string name="card_number_req">Please enter card number!</string>
+    <string name="card_number_validation">Please enter valid card number!</string>
+    <string name="card_month_validation">Please add card expire month!</string>
+    <string name="card_year_validation">Please add card expire year!</string>
+    <string name="card_name">Please enter card holder name!</string>
+    <string name="card_name_text">Cardholder Name</string>
+    <string name="card_cvc">Please enter CVC!</string>
+    <string name="card_otp">Please enter OTP!</string>
+    <string name="card_delivery">Cash on delivery</string>
+    <!--Card-->
 
     <string name="notifications_admin_channel_name">Global channel</string>
     <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>

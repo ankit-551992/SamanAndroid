@@ -131,7 +131,7 @@ public class ShoppingCartActivity extends BaseActivity {
         toolbarTitle.setText(getString(R.string.check_out));
         promoSavedTextView.setVisibility(View.GONE);
         price = (float) getIntent().getIntExtra("Price", 0);
-        subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " OMR");
+        subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " "+getString(R.string.OMR));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
@@ -152,7 +152,7 @@ public class ShoppingCartActivity extends BaseActivity {
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
         shipmentAddress.setText(authenticatedUser.getShippingAddress().getAddressLine1().replace(" ", "\n\n"));
 
-        cardNameTextView.setText("Cash On delivery");
+        cardNameTextView.setText(getString(R.string.card_delivery));
         cardExpiryTextView.setVisibility(View.GONE);
         cardNumberTextView.setVisibility(View.GONE);
     }
@@ -168,14 +168,14 @@ public class ShoppingCartActivity extends BaseActivity {
     public void applyPromo() {
 
         if (promoApplied) {
-            Constants.showAlert("Apply Coupon", "Already Applied", "Close", ShoppingCartActivity.this);
+            Constants.showAlert(getString(R.string.apply_coupon),getString(R.string.already_apply), getString(R.string.close), ShoppingCartActivity.this);
             return;
         }
 
         if (promoEditText.getText().toString().equals("")) {
             return;
         }
-        Constants.showSpinner("Applying Coupon", ShoppingCartActivity.this);
+        Constants.showSpinner(getString(R.string.apply_coupon), ShoppingCartActivity.this);
         WebServicesHandler.instance.applyPromo(promoEditText.getText().toString(), new retrofit2.Callback<PromoVerify>() {
             @Override
             public void onResponse(Call<PromoVerify> call, Response<PromoVerify> response) {
@@ -186,11 +186,11 @@ public class ShoppingCartActivity extends BaseActivity {
                         promoApplied = true;
                         promoSaved = (float) promoVerify.getResult().getDiscount();
                         promoSavedTextView.setVisibility(View.VISIBLE);
-                        promoSavedTextView.setText("Promo Saved : " + promoSaved + " OMR");
+                        promoSavedTextView.setText(getString(R.string.promo_saved)+": " + promoSaved + " "+getString(R.string.OMR));
                         priceToPay = priceToPay - promoSaved;
-                        priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " OMR");
+                        priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " "+getString(R.string.OMR));
                     } else {
-                        Constants.showAlert("Apply Coupon", "Invalid Coupon", getString(R.string.try_again), ShoppingCartActivity.this);
+                        Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.invalid_coupon), getString(R.string.try_again), ShoppingCartActivity.this);
                     }
                 }
             }
@@ -308,7 +308,7 @@ public class ShoppingCartActivity extends BaseActivity {
                         cardImage.getLayoutParams().width = 200;
                         cardImage.setImageDrawable(getResources().getDrawable(R.drawable.cash_delivery));
                     }
-                    cardNameTextView.setText("Cash On delivery");
+                    cardNameTextView.setText(getString(R.string.card_delivery));
                     cardExpiryTextView.setVisibility(View.GONE);
                     cardNumberTextView.setVisibility(View.GONE);
                 } else {
@@ -391,8 +391,8 @@ public class ShoppingCartActivity extends BaseActivity {
             }
             priceToPay = deliveryCost + price;
             priceToPay = priceToPay - promoSaved;
-            deliveryCostTextView.setText(getString(R.string.delivery_cost) + " : " + deliveryCost + " OMR");
-            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " OMR");
+            deliveryCostTextView.setText(getString(R.string.delivery_cost) + " : " + deliveryCost + " "+getString(R.string.OMR));
+            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " "+getString(R.string.OMR));
         }
     }
 }

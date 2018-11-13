@@ -9,6 +9,8 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.algorepublic.saman.R;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -106,7 +108,7 @@ public class Constants {
         if(context!=null) {
             mSpinner = new ProgressDialog(context);
             mSpinner.setTitle(title);
-            mSpinner.setMessage("Please wait....");
+            mSpinner.setMessage(context.getString(R.string.please_wait));
             mSpinner.show();
             mSpinner.setCancelable(false);
             mSpinner.setCanceledOnTouchOutside(false);

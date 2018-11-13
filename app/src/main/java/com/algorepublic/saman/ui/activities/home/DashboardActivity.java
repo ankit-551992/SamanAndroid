@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
@@ -70,6 +71,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     public static boolean isAppRunning;
     String title = "Saman";
 
+    private boolean doubleBackToExitPressedOnce = false;
+
     // index to identify current nav menu item
     public static int navItemIndex = 0;
     private Handler mHandler;
@@ -82,7 +85,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         setContentView(R.layout.activity_home_drawer);
         ButterKnife.bind(this);
         search.setVisibility(View.GONE);
-        GlobalValues.storeCategories=new ArrayList<>();
+        GlobalValues.storeCategories = new ArrayList<>();
         mHandler = new Handler();
         mPresenter = new DashboardPresenter(this);
         mPresenter.getUserData();
@@ -90,9 +93,9 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     @Override
     protected void onResume() {
-        if(GlobalValues.orderPlaced){
+        if (GlobalValues.orderPlaced) {
             onNavigationItemSelected(navigationView.getMenu().getItem(1));
-            GlobalValues.orderPlaced=false;
+            GlobalValues.orderPlaced = false;
         }
         super.onResume();
     }
@@ -114,14 +117,14 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     }
 
     @OnClick(R.id.toolbar_search)
-    void search(){
-        if(navItemIndex==1) {
+    void search() {
+        if (navItemIndex == 1) {
             Intent intent = new Intent(DashboardActivity.this, SearchActivity.class);
             intent.putExtra("Function", 0); //0 for Search Products
             startActivity(intent);
         }
 
-        if(navItemIndex==2){
+        if (navItemIndex == 2) {
             onNavigationItemSelected(navigationView.getMenu().getItem(1));
         }
     }
@@ -131,7 +134,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         if (navItemIndex == 4) {
             Intent intent = new Intent(DashboardActivity.this, SettingsActivity.class);
             startActivity(intent);
-        }else {
+        } else {
             show_logout_dialog();
         }
     }
@@ -169,29 +172,29 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         }
         // close drawer when item is tapped
         mDrawerLayout.closeDrawers();
-       if(navItemIndex==4){
-           settings.setVisibility(View.VISIBLE);
-           search.setVisibility(View.GONE);
-       }else if(navItemIndex==1 || navItemIndex==2){
-           search.setVisibility(View.VISIBLE);
-           settings.setVisibility(View.GONE);
-           if(navItemIndex==2){
-               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                   search.setImageDrawable(getDrawable(R.drawable.ic_cross));
-               }else {
-                   search.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
-               }
-           }else {
-               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                   search.setImageDrawable(getDrawable(R.drawable.ic_search_image));
-               }else {
-                   search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_image));
-               }
-           }
-       }else {
-           search.setVisibility(View.GONE);
-           settings.setVisibility(View.GONE);
-       }
+        if (navItemIndex == 4) {
+            settings.setVisibility(View.VISIBLE);
+            search.setVisibility(View.GONE);
+        } else if (navItemIndex == 1 || navItemIndex == 2) {
+            search.setVisibility(View.VISIBLE);
+            settings.setVisibility(View.GONE);
+            if (navItemIndex == 2) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    search.setImageDrawable(getDrawable(R.drawable.ic_cross));
+                } else {
+                    search.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    search.setImageDrawable(getDrawable(R.drawable.ic_search_image));
+                } else {
+                    search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_image));
+                }
+            }
+        } else {
+            search.setVisibility(View.GONE);
+            settings.setVisibility(View.GONE);
+        }
         // Add code here to update the UI based on the item selected
         // For example, swap UI fragments here
         if (navItemIndex != -1) {
@@ -331,15 +334,26 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             mDrawerLayout.closeDrawers();
             return;
         }
-        finish();
-//        super.onBackPressed();
+
+        if (doubleBackToExitPressedOnce) {
+            finish();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, getString(R.string.press_again), Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
     private void setToolbarTitle() {
-        if(navItemIndex==0){
+        if (navItemIndex == 0) {
             toolbarTitle.setVisibility(View.GONE);
             homeLogo.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             toolbarTitle.setVisibility(View.VISIBLE);
             homeLogo.setVisibility(View.GONE);
         }
@@ -370,7 +384,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         builder.show();
     }
 
-    public void callFavNav(){
+    public void callFavNav() {
         onNavigationItemSelected(navigationView.getMenu().getItem(2));
     }
 }

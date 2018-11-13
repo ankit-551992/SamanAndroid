@@ -95,7 +95,7 @@ public class CheckoutOrderActivity extends BaseActivity {
             cross.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
         }
 
-        orderTotalTextView.setText(String.valueOf(orderTotal)+ " OMR");
+        orderTotalTextView.setText(String.valueOf(orderTotal)+ " "+getString(R.string.OMR));
         if(placeOrderResponse.getResult().getOrderNumber()!=null) {
             orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber());
         }

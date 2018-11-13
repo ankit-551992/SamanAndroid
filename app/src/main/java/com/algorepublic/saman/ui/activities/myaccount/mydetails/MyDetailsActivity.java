@@ -274,14 +274,14 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 setResult(RESULT_OK);
                 finish();
             }else {
-                Constants.showAlert("Update Profile","Profile Updated Successfully",getString(R.string.okay),MyDetailsActivity.this);
+                Constants.showAlert(getString(R.string.update_profile),getString(R.string.update_profile_success),getString(R.string.okay),MyDetailsActivity.this);
             }
         }else {
 
             if(isRequest){
-                Constants.showAlertWithActivityFinish("Update Profile","Profile Update Failed",getString(R.string.try_again),MyDetailsActivity.this);
+                Constants.showAlertWithActivityFinish(getString(R.string.update_profile),getString(R.string.update_profile_fail),getString(R.string.try_again),MyDetailsActivity.this);
             }else {
-                Constants.showAlert("Update Profile","Profile Update Failed",getString(R.string.try_again),MyDetailsActivity.this);
+                Constants.showAlert(getString(R.string.update_profile),getString(R.string.update_profile_fail),getString(R.string.try_again),MyDetailsActivity.this);
             }
         }
     }

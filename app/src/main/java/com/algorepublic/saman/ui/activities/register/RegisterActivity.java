@@ -76,6 +76,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,6 +112,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     EditText addressEditText;
     @BindView(R.id.editText_day)
     EditText dayEditText;
+    @BindView(R.id.editText_month)
+    EditText monthEditText;
+    @BindView(R.id.editText_year)
+    EditText yearEditText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
@@ -141,7 +146,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText("Sign Up");
+        toolbarTitle.setText(getString(R.string.sign_up));
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
@@ -238,7 +243,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 // find the radiobutton by returned id
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
 
-                if(radioButton.isChecked()) {
+                if (radioButton.isChecked()) {
                     selectedGender = radioButton.getText().toString();
                     genderEditText.setText(radioButton.getText().toString());
                     dialog.dismiss();
@@ -288,7 +293,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @OnClick(R.id.editText_gender)
     public void selectGenderClick() {
-       selectGender();
+        selectGender();
     }
 
     @OnClick(R.id.layout_countrySelection)
@@ -306,12 +311,24 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String confirmPassword = confirmPasswordEditText.getText().toString();
         String gender = selectedGender;
         String country = countryName.getText().toString();
-        String dob = dayEditText.getText().toString();
-        dob = "1/1/1999";
+        String day = dayEditText.getText().toString();
+        String month = monthEditText.getText().toString();
+        String year = yearEditText.getText().toString();
         String address = addressEditText.getText().toString();
-        if (isDataValid(firstName, lastName, email, password, gender, country, address, dob)) {
+        if (isDataValid(firstName, lastName, email, password,confirmPassword,gender, country, address, day,month,year)) {
+            String dob=day+"/"+month+"/"+year;
             mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address);
         }
+    }
+
+    private boolean isValidEmailId(String email) {
+
+        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
     }
 
     @OnClick(R.id.toolbar_back)
@@ -442,28 +459,42 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     }
 
 
-    private boolean isDataValid(String fName, String lName, String email, String password, String gender, String country, String address, String dob) {
+    private boolean isDataValid(String fName, String lName, String email, String password,String confrim, String gender, String country, String address, String day,String month,String year) {
         if (TextUtils.isEmpty(fName)) {
-            firstNameEditText.setError(getString(R.string.first_name_required));
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.first_name_required), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(lName)) {
-            lastNameEditText.setError(getString(R.string.last_name_required));
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.last_name_required), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(email)) {
-            emailEditText.setError(getString(R.string.email_required));
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.email_required), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (!isValidEmailId(email)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.email_invalid), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(gender)) {
-            genderEditText.setError(getString(R.string.gender_prompt));
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.gender_prompt), getString(R.string.okay), RegisterActivity.this);
             return false;
-        }
-        else if (TextUtils.isEmpty(dob)) {
-//            emailEditText.setError(getString(R.string.email_required));
+        } else if (TextUtils.isEmpty(day)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.day_missing), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(month)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.month_missing), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(year)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.year_missing), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError(getString(R.string.password_required));
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.password_required), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (password.length() < 6) {
-            passwordEditText.setError(getString(R.string.password_short));
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.password_short), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        }else if (TextUtils.isEmpty(confrim)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.confirm_new_password_required), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        }else if (!confrim.equals(password)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.not_matched), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else {
             return true;

@@ -152,7 +152,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         getOptionsData();
         if (SamanApp.localDB != null) {
             if (SamanApp.localDB.addToCart(product, getOptionsData(), Integer.parseInt(productCount.getText().toString()))) {
-                Constants.showAlertWithActivityFinish("ADD TO BAG", "Product Added successfully, Check Your Bag", "Okay", ProductDetailActivity.this);
+                Constants.showAlertWithActivityFinish(getString(R.string.add_to_bag), getString(R.string.product_added_in_bag), getString(R.string.okay), ProductDetailActivity.this);
             }
         }
     }
@@ -223,7 +223,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             attributes.setText(getString(R.string.no_specifications));
         }
 
-        productPrice.setText(product.getPrice() + " OMR");
+        productPrice.setText(product.getPrice() + " "+getString(R.string.OMR));
 
         if(product.getProductOptions()!=null){
             for (int p=0;p<product.getProductOptions().size();p++){

@@ -103,7 +103,7 @@ public class MyPaymentActivity extends BaseActivity {
                                 if (pos!=0) {
                                     deleteCard(pos);
                                 }else {
-                                    Constants.showAlert("Payment Method","Its defualt you can't delete it.","close",MyPaymentActivity.this);
+                                    Constants.showAlert(getString(R.string.payment_method),getString(R.string.default_card_msg),getString(R.string.close),MyPaymentActivity.this);
                                 }
                             }
                         }
@@ -199,7 +199,7 @@ public class MyPaymentActivity extends BaseActivity {
 
     private CardDs codCard(){
         CardDs cardDs=new CardDs();
-        cardDs.setCardNumber("Cash on delivery");
+        cardDs.setCardNumber(getString(R.string.card_delivery));
         return cardDs;
     }
 }

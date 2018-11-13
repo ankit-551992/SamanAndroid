@@ -108,10 +108,8 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,mFacebookCallback);
-
         //Social Login
     }
 
@@ -170,7 +168,6 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
             passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             passwordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
-
         passwordEditText.setSelection(passwordEditText.length());
     }
 
@@ -200,10 +197,10 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
 
     private boolean isDataValid(String userName, String password) {
         if (TextUtils.isEmpty(userName)) {
-            emailEditText.setError(getString(R.string.email_required));
+            Constants.showAlert(getString(R.string.Login),getString(R.string.email_required),getString(R.string.okay),LoginActivity.this);
             return false;
         } else if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError(getString(R.string.password_required));
+            Constants.showAlert(getString(R.string.Login),getString(R.string.password_required),getString(R.string.okay),LoginActivity.this);
             return false;
         }
         else {
