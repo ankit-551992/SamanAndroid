@@ -232,6 +232,7 @@ public class ShoppingCartActivity extends BaseActivity {
                 obj.put("ProductID", bagArrayList.get(p).getID());
 //                obj.put("AttributeID", bagArrayList.get(p).getCartAttributeID());
                 obj.put("ProductQuantity", bagArrayList.get(p).getQuantity());
+                obj.put("ProductPrice", bagArrayList.get(p).getPrice());
 
                 JSONArray optionsArray = new JSONArray();
                 JSONObject optionsObj;

@@ -133,7 +133,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             product.setFavorite(false);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 favoriteImageView.setImageDrawable(getDrawable(R.drawable.ic_fav_b));
-            }else {
+            }else{
                 favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_b));
             }
         }else {
@@ -141,7 +141,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             product.setFavorite(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));
-            }else {
+            }else{
                 favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
             }
         }
@@ -149,6 +149,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.iv_add_to_cart)
     public void addToCart() {
+        if(product==null){
+            return;
+        }
         getOptionsData();
         if (SamanApp.localDB != null) {
             if (SamanApp.localDB.addToCart(product, getOptionsData(), Integer.parseInt(productCount.getText().toString()))) {

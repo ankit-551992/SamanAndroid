@@ -104,8 +104,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     ImageView passwordVisibilityImageView;
     @BindView(R.id.iv_confirm_password_visible)
     ImageView confirmPasswordVisibilityImageView;
-    @BindView(R.id.editText_gender)
-    EditText genderEditText;
+    @BindView(R.id.tv_gender)
+    TextView genderText;
     @BindView(R.id.tv_country_name)
     TextView countryName;
     @BindView(R.id.editText_address)
@@ -245,7 +245,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
                 if (radioButton.isChecked()) {
                     selectedGender = radioButton.getText().toString();
-                    genderEditText.setText(radioButton.getText().toString());
+                    genderText.setText(radioButton.getText().toString());
                     dialog.dismiss();
                 }
 
@@ -291,7 +291,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         finish();
     }
 
-    @OnClick(R.id.editText_gender)
+    @OnClick(R.id.layout_GenderSelection)
     public void selectGenderClick() {
         selectGender();
     }
@@ -496,7 +496,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         }else if (!confrim.equals(password)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.not_matched), getString(R.string.okay), RegisterActivity.this);
             return false;
-        } else {
+        } else if (TextUtils.isEmpty(address)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.address_req), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        }else {
             return true;
         }
     }

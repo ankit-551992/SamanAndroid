@@ -50,8 +50,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     EditText lastNameEditText;
     @BindView(R.id.editText_email)
     EditText emailEditText;
-    @BindView(R.id.editText_gender)
-    EditText genderEditText;
+    @BindView(R.id.tv_gender)
+    TextView genderText;
     @BindView(R.id.tv_country_name)
     TextView countryName;
     @BindView(R.id.editText_address)
@@ -107,13 +107,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         lastNameEditText.setText(authenticatedUser.getLastName());
         emailEditText.setText(authenticatedUser.getEmail());
         emailEditText.setEnabled(false);
-        genderEditText.setText(authenticatedUser.getGender());
+        genderText.setText(authenticatedUser.getGender());
         selectedGender=authenticatedUser.getGender();
         countryName.setText(authenticatedUser.getCountry());
         addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1());
     }
 
-    @OnClick(R.id.editText_gender)
+    @OnClick(R.id.layout_GenderSelection)
     public void selectGenderClick() {
         selectGender();
     }
@@ -213,7 +213,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
                 if(radioButton.isChecked()) {
                     selectedGender = radioButton.getText().toString();
-                    genderEditText.setText(radioButton.getText().toString());
+                    genderText.setText(radioButton.getText().toString());
                     dialog.dismiss();
                 }
             }
@@ -238,7 +238,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             lastNameEditText.setError(getString(R.string.last_name_required));
             return false;
         } else if (TextUtils.isEmpty(gender)) {
-            genderEditText.setError(getString(R.string.gender_prompt));
+            genderText.setError(getString(R.string.gender_prompt));
             return false;
         }
         else if (TextUtils.isEmpty(address)) {
@@ -264,7 +264,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         if(success){
             authenticatedUser.setFirstName(firstNameEditText.getText().toString());
             authenticatedUser.setLastName(lastNameEditText.getText().toString());
-            authenticatedUser.setGender(genderEditText.getText().toString());
+            authenticatedUser.setGender(genderText.getText().toString());
             authenticatedUser.setCountry(countryName.getText().toString());
             authenticatedUser.getShippingAddress().setAddressLine1(addressEditText.getText().toString());
 

@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.StoreCategory;
@@ -124,7 +125,9 @@ public class GlobalValues {
         WebServicesHandler.instance.markFavourite(userID,productId,new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-
+                if (response!=null) {
+                    Log.e("RES", response.toString());
+                }
             }
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
@@ -137,7 +140,9 @@ public class GlobalValues {
         WebServicesHandler.instance.markUnFavourite(userID,productId,new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-
+                if (response!=null) {
+                    Log.e("RES", response.toString());
+                }
             }
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {

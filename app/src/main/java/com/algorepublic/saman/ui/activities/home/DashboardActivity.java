@@ -238,17 +238,17 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
         // showing dot next to notifications label
-        MenuItem element = navigationView.getMenu().findItem(R.id.nav_bag);
-        String before = element.getTitle().toString();
-        String counter = Integer.toString(5);
-        String s = before + "   " + counter + " ";
-        SpannableString sColored = new SpannableString(s);
+//        MenuItem element = navigationView.getMenu().findItem(R.id.nav_bag);
+//        String before = element.getTitle().toString();
+//        String counter = Integer.toString(5);
+//        String s = before + "   " + counter + " ";
+//        SpannableString sColored = new SpannableString(s);
 
-        sColored.setSpan(new BackgroundColorSpan(Color.YELLOW), s.length() - (counter.length() + 2), s.length(), 0);
-        sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
-
-
-        element.setTitle(sColored);
+//        sColored.setSpan(new BackgroundColorSpan(Color.YELLOW), s.length() - (counter.length() + 2), s.length(), 0);
+//        sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
+//
+//
+//        element.setTitle(sColored);
 
         navItemIndex = 0;
         loadFragment();

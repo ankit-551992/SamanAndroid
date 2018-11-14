@@ -102,10 +102,12 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
                     SimpleSuccess simpleSuccess = response.body();
                     if (view != null) {
                         view.hideProgress();
-                        if (simpleSuccess.getSuccess() == 1) {
-                            view.forgotResponse(simpleSuccess.getMessage());
-                        } else if (simpleSuccess.getSuccess() == 0) {
-                            view.error(simpleSuccess.getMessage());
+                        if(simpleSuccess!=null) {
+                            if (simpleSuccess.getSuccess() == 1) {
+                                view.forgotResponse(simpleSuccess.getMessage());
+                            } else if (simpleSuccess.getSuccess() == 0) {
+                                view.error(simpleSuccess.getMessage());
+                            }
                         }
                     }
                 }

@@ -94,11 +94,13 @@ public interface WebServices {
     @GET("Coupon/Verify?")
     Call<PromoVerify> applyPromo(@Query("code") String code);
 
+    @FormUrlEncoded
     @POST("Product/MarkAsFavorite")
-    Call<SimpleSuccess> markFavorite(@Query("userID") int userID,@Query("productID") int productID);
+    Call<SimpleSuccess> markFavorite(@FieldMap Map<String, Object> parameters);
 
+    @FormUrlEncoded
     @POST("Product/MarkAsUnfavorite")
-    Call<SimpleSuccess> markUnFavorite(@Query("userID") int userID,@Query("productID") int productID);
+    Call<SimpleSuccess> markUnFavorite(@FieldMap Map<String, Object> parameters);
 
     @GET("Seller")
     Call<GetStores> getAllStores();

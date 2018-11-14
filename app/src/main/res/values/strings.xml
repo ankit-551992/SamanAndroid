@@ -186,7 +186,7 @@
     <string name="year">YYYY</string>
     <string name="year_missing">Please Select Year</string>
     <string name="select_country">Country Selection</string>
-    <string name="address_hint">House street area</string>
+    <string name="address_hint">Oman, Street name, Building, Floor...</string>
     <string name="address_req">Address Required</string>
     <string name="have_account">Have Account?</string>
     <!--Sign Up-->
@@ -264,6 +264,8 @@
     <string name="card_number_req">Please enter card number!</string>
     <string name="card_number_validation">Please enter valid card number!</string>
     <string name="card_month_validation">Please add card expire month!</string>
+    <string name="card_month_invalid">Invalid month!</string>
+    <string name="card_year_invalid">Invalid year!</string>
     <string name="card_year_validation">Please add card expire year!</string>
     <string name="card_name">Please enter card holder name!</string>
     <string name="card_name_text">Cardholder Name</string>

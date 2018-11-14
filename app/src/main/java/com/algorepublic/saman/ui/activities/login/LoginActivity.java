@@ -49,6 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -150,6 +151,17 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
         mPresenter.onDestroy();
     }
 
+
+    private boolean isValidEmailId(String email) {
+
+        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
+    }
+
     @OnClick(R.id.iv_email_cross)
     public void emailCross(){
         emailEditText.setText("");
@@ -199,7 +211,12 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
         if (TextUtils.isEmpty(userName)) {
             Constants.showAlert(getString(R.string.Login),getString(R.string.email_required),getString(R.string.okay),LoginActivity.this);
             return false;
-        } else if (TextUtils.isEmpty(password)) {
+        }
+//        else if (!isValidEmailId(userName)) {
+//            Constants.showAlert(getString(R.string.sign_up), getString(R.string.email_invalid), getString(R.string.okay), RegisterActivity.this);
+//            return false;
+//        }
+        else if (TextUtils.isEmpty(password)) {
             Constants.showAlert(getString(R.string.Login),getString(R.string.password_required),getString(R.string.okay),LoginActivity.this);
             return false;
         }

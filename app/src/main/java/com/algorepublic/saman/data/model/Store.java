@@ -11,9 +11,6 @@ public class Store {
     @SerializedName("StoreName_AR")
     @Expose
     private String storeNameAR;
-    @SerializedName("Owner")
-    @Expose
-    private Owner owner;
     @SerializedName("LogoURL")
     @Expose
     private String logoURL;
@@ -53,14 +50,6 @@ public class Store {
 
     public void setStoreNameAR(String storeNameAR) {
         this.storeNameAR = storeNameAR;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
     }
 
     public String getLogoURL() {

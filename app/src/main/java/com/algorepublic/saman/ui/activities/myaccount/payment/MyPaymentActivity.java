@@ -184,7 +184,11 @@ public class MyPaymentActivity extends BaseActivity {
         if (paymentAdapter != null) {
             paymentAdapter.notifyDataSetChanged();
         }
-        SamanApp.db.putString(Constants.CARD_LIST, GlobalValues.convertListToString(cards));
+        if (cards.size()!=1) {
+            SamanApp.db.putString(Constants.CARD_LIST, GlobalValues.convertListToString(cards));
+        }else {
+            SamanApp.db.putString(Constants.CARD_LIST, "");
+        }
     }
 
     @Override

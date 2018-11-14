@@ -56,7 +56,7 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             storeViewHolder.storeName.setText(storeArrayList.get(position).getStoreName());
 
             String url=Constants.URLS.BaseURLImages +storeArrayList.get(position).getLogoURL();
-            Picasso.get().load(url)
+            Picasso.get().load(url).fit()
                     .placeholder(R.drawable.earth_top)
                     .error(R.drawable.earth_top)
                     .into(((StoreViewHolder) holder).storeImage);

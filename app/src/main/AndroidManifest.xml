@@ -12,37 +12,62 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.SplashActivity">
+        <activity android:name=".ui.activities.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activities.onboarding.WelcomeActivity"/>
-        <activity android:name=".ui.activities.login.LoginActivity"/>
-        <activity android:name=".ui.activities.register.RegisterActivity"/>
-        <activity android:name=".ui.activities.order.checkout.CheckOutActivity"/>
-        <activity android:name=".ui.activities.order.checkout.CheckoutOrderActivity"/>
-        <activity android:name=".ui.activities.home.DashboardActivity"/>
-        <activity android:name=".ui.activities.password.ChangePasswordActivity"/>
-        <activity android:name=".ui.activities.password.ForgotPasswordActivity"/>
-        <activity android:name=".ui.activities.password.ResetPasswordActivity"/>
-        <activity android:name=".ui.activities.search.SearchActivity"/>
-        <activity android:name=".ui.activities.search.ProductListingActivity"/>
-        <activity android:name=".ui.activities.productdetail.ProductDetailActivity"/>
-        <activity android:name=".ui.activities.myaccount.mydetails.MyDetailsActivity"/>
-        <activity android:name=".ui.activities.myaccount.payment.MyPaymentActivity"/>
-        <activity android:name=".ui.activities.myaccount.messages.MessagesListActivity"/>
-        <activity android:name=".ui.activities.myaccount.messages.MessagingActivity"/>
-        <activity android:name=".ui.activities.myaccount.myorders.MyOrdersActivity"/>
-        <activity android:name=".ui.activities.myaccount.customersupports.CustomerSupportActivity"/>
-        <activity android:name=".ui.activities.settings.SettingsActivity"/>
-        <activity android:name=".ui.activities.order.cart.ShoppingCartActivity"/>
-        <activity android:name=".ui.activities.myaccount.payment.AddCardActivity"/>
-        <activity android:name=".ui.activities.store.StoreActivity"/>
-        <activity android:name=".ui.activities.country.CountriesActivity"/>
-        <activity android:name=".ui.activities.PoliciesActivity"/>
+        <activity android:name=".ui.activities.onboarding.WelcomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.login.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.register.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.order.checkout.CheckOutActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.order.checkout.CheckoutOrderActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.home.DashboardActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.password.ChangePasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.password.ForgotPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.password.ResetPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.search.SearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.search.ProductListingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.productdetail.ProductDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.myaccount.mydetails.MyDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.myaccount.payment.MyPaymentActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.myaccount.messages.MessagesListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.myaccount.messages.MessagingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.myaccount.myorders.MyOrdersActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.myaccount.customersupports.CustomerSupportActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.settings.SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.order.cart.ShoppingCartActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.myaccount.payment.AddCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.store.StoreActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.country.CountriesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activities.PoliciesActivity"
+            android:screenOrientation="portrait"/>
 
 
         <activity

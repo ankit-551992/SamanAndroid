@@ -148,6 +148,7 @@ public class WebServicesHandler {
                 JSONObject jsonObject=array.getJSONObject(i);
                 parameters.put("OrderItems["+i+"].ProductID",jsonObject.getInt("ProductID"));
                 parameters.put("OrderItems["+i+"].ProductQuantity",jsonObject.getInt("ProductQuantity"));
+                parameters.put("OrderItems["+i+"].ProductPrice",jsonObject.getInt("ProductPrice"));
                 JSONArray optionsArray=jsonObject.getJSONArray("OrderOptionValue");
                 for(int j=0;j<optionsArray.length();j++){
                     JSONObject jsonObj=optionsArray.getJSONObject(j);
@@ -218,12 +219,20 @@ public class WebServicesHandler {
     }
 
     public void markFavourite(int userID,int productId,Callback<SimpleSuccess> callback) {
-        Call<SimpleSuccess> call = webServices.markFavorite(userID,productId);
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userID", userID);
+        parameters.put("productID", productId);
+        Call<SimpleSuccess> call = webServices.markFavorite(parameters);
         call.enqueue(callback);
     }
 
     public void markUnFavourite(int userID,int productId,Callback<SimpleSuccess> callback) {
-        Call<SimpleSuccess> call = webServices.markUnFavorite(userID,productId);
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userID", userID);
+        parameters.put("productID", productId);
+        Call<SimpleSuccess> call = webServices.markUnFavorite(parameters);
         call.enqueue(callback);
     }
 

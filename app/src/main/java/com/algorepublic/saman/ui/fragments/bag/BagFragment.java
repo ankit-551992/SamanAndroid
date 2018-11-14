@@ -16,11 +16,13 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.adapters.BagAdapter;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
 import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SamanApp;
 import com.algorepublic.saman.utils.SwipeHelper;
@@ -57,7 +59,7 @@ public class BagFragment extends BaseFragment {
     //Total
 
     int grandTotal;
-
+    User authenticatedUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class BagFragment extends BaseFragment {
         bagRecyclerView.setLayoutManager(layoutManager);
         bagRecyclerView.setNestedScrollingEnabled(false);
         productArrayList = new ArrayList<>();
+        authenticatedUser = GlobalValues.getUser(getContext());
         bagAdapter = new BagAdapter(getContext(), productArrayList,this);
         bagRecyclerView.setAdapter(bagAdapter);
 
@@ -114,6 +117,7 @@ public class BagFragment extends BaseFragment {
                             @Override
                             public void onClick(int pos) {
                                 // TODO: OnTransfer
+                                GlobalValues.markFavourite(authenticatedUser.getId(),productArrayList.get(pos).getID());
                             }
                         }
                 ));

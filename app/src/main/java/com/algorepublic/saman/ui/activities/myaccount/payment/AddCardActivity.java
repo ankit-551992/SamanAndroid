@@ -21,6 +21,7 @@ import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.SamanApp;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -148,19 +149,46 @@ public class AddCardActivity extends BaseActivity{
             valid = false;
         }
 
-        if (cardNumberEt.getText().toString().length() < 16) {
+        if (cardNumberEt.getText().toString().length() !=16) {
             cardNumberEt.setError(getString(R.string.card_number_validation));
             valid = false;
         }
+        Calendar c = Calendar.getInstance();
+        int calenderYear = c.get(Calendar.YEAR);
+        int calenderMonth = c.get(Calendar.MONTH);
+        calenderMonth=calenderMonth+1;
+
 
         if (month.getText().toString().isEmpty()) {
             month.setError(getString(R.string.card_month_validation));
             valid = false;
+        }else {
+            if (Integer.parseInt(month.getText().toString())<1 || Integer.parseInt(month.getText().toString())>12) {
+                month.setError(getString(R.string.card_month_invalid));
+                valid = false;
+            }
         }
+
 
         if (year.getText().toString().isEmpty()) {
             year.setError(getString(R.string.card_year_validation));
             valid = false;
+        }else {
+            if (Integer.parseInt(year.getText().toString())<calenderYear) {
+                year.setError(getString(R.string.card_year_invalid));
+                valid = false;
+            }
+        }
+
+        if(!year.getText().toString().isEmpty()) {
+            if (Integer.parseInt(year.getText().toString()) == calenderYear) {
+                if (!month.getText().toString().isEmpty()) {
+                    if (Integer.parseInt(month.getText().toString()) <= calenderMonth) {
+                        month.setError(getString(R.string.card_month_invalid));
+                        valid = false;
+                    }
+                }
+            }
         }
 
         if (cardHolderEt.getText().toString().isEmpty()) {
