@@ -84,7 +84,7 @@ public class BagFragment extends BaseFragment {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.delete),
-                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_delete),
+                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_ddelete),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
@@ -111,7 +111,7 @@ public class BagFragment extends BaseFragment {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.add_to_fav),
 //                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_heart),
-                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_favorite_border),
+                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_heart),
                         Color.parseColor("#FF9502"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override

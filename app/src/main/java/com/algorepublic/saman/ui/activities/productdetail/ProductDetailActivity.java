@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -99,7 +100,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         presenter=new ProductPresenter(this);
 
-
         toolbarTitle.setVisibility(View.GONE);
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -112,7 +112,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         customPagerAdapter = new CustomPagerAdapter(this, urls);
         mPager.setAdapter(customPagerAdapter);
 
-        presenter.getProductData(productID);
+        presenter.getProductData(productID,authenticatedUser.getId());
     }
 
     @Override
@@ -152,12 +152,16 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if(product==null){
             return;
         }
-        getOptionsData();
         if (SamanApp.localDB != null) {
             if (SamanApp.localDB.addToCart(product, getOptionsData(), Integer.parseInt(productCount.getText().toString()))) {
-                Constants.showAlertWithActivityFinish(getString(R.string.add_to_bag), getString(R.string.product_added_in_bag), getString(R.string.okay), ProductDetailActivity.this);
+                Constants.showAlert(getString(R.string.add_to_bag), getString(R.string.product_added_in_bag), getString(R.string.okay), ProductDetailActivity.this);
             }
         }
+    }
+
+    @OnClick(R.id.iv_share)
+    public void share() {
+        Constants.showAlert(getString(R.string.sorry), getString(R.string.no_implemented), getString(R.string.close), ProductDetailActivity.this);
     }
 
     @OnClick(R.id.left_nav)
@@ -314,11 +318,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 if (ids.equals("")) {
                     ids = "" + optionValue.getID();
                 } else {
-                    ids = "," + optionValue.getID();
+                    ids = ids+"," + optionValue.getID();
                 }
             }
         }
-
         return ids;
     }
 }

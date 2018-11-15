@@ -18,7 +18,7 @@
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         app:cardBackgroundColor="#ffffff"
         card_view:cardCornerRadius="1dp">
@@ -33,7 +33,7 @@
                 android:padding="5dp"
                 android:src="@drawable/dummy_mobile"
                 android:layout_width="110dp"
-                android:layout_height="110dp" />
+                android:layout_height="100dp" />
 
             <LinearLayout
                 android:gravity="center_vertical"
@@ -54,6 +54,7 @@
                     android:id="@+id/tv_product_name"
                     android:textColor="@color/black"
                     android:layout_marginTop="5dp"
+                    android:lineSpacingMultiplier="1.2"
                     android:text="@string/dummy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

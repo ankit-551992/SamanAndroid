@@ -15,10 +15,10 @@ public class ProductPresenter implements ProductContractor.Presenter {
     }
 
     @Override
-    public void getProductData(int productID) {
+    public void getProductData(int productID,int userID) {
 
         view.showProgress();
-        WebServicesHandler.instance.getProductDetail(String.valueOf(productID), new retrofit2.Callback<GetProduct>() {
+        WebServicesHandler.instance.getProductDetail(String.valueOf(productID),String.valueOf(userID), new retrofit2.Callback<GetProduct>() {
             @Override
             public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
                 GetProduct getProduct = response.body();

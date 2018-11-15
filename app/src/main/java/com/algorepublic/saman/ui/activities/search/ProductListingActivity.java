@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ public class ProductListingActivity  extends BaseActivity {
     RelativeLayout searchBar;
     @BindView(R.id.recyclerView)
     RecyclerView searchRecyclerView;
+    @BindView(R.id.native_progress_bar)
+    ProgressBar progressBar;
     RecyclerView.LayoutManager productLayoutManager;
     List<Product> displayData = new ArrayList<>();
     ProductAdapter productAdapter;
@@ -104,6 +107,7 @@ public class ProductListingActivity  extends BaseActivity {
         searchRecyclerView.setAdapter(productAdapter);
         searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 50, false));
 
+        progressBar.setVisibility(View.VISIBLE);
         if(function==2) {
             getProductsByStoreID(storeID);
         }else {
@@ -117,6 +121,7 @@ public class ProductListingActivity  extends BaseActivity {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 GetProducts getProducts = response.body();
+                progressBar.setVisibility(View.GONE);
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1){
                         displayData.addAll(getProducts.getProduct());
@@ -135,7 +140,7 @@ public class ProductListingActivity  extends BaseActivity {
         WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(),0,100000,new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
-
+                progressBar.setVisibility(View.GONE);
                 GetProducts getProducts = response.body();
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1) {

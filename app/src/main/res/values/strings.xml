@@ -144,7 +144,7 @@
     <string name="product_added_in_bag">Product Added successfully, Check Your Bag</string>
     <string name="add_to_cart">Move To Bag</string>
     <string name="add_to_fav">Move To Wishlist</string>
-    <string name="add_to_bag">Add to bag</string>
+    <string name="add_to_bag">Added to bag</string>
     <string name="remove_from_bag">Remove from bag</string>
     <string name="removed_from_bag">Product Removed successfully</string>
     <!--Bag-->
@@ -209,6 +209,8 @@
     <string name="token_hint">Received on email</string>
     <!--Password-->
 
+    <string name="select_method">Please Select payment method</string>
+    <string name="cash_method">Cash on delivery method already added</string>
 
     <!--Home-->
     <string name="Stores">Stores</string>
@@ -220,6 +222,7 @@
 
     <!--Messaging-->
     <string name="type_message">Type your message here ...</string>
+    <string name="no_message">No Message Found!</string>
     <!--Messaging-->
 
     <!--My Account-->
@@ -245,6 +248,8 @@
     <string name="try_again">Try Again</string>
     <string name="okay">Okay</string>
     <string name="close">Close</string>
+    <string name="sorry">Sorry</string>
+    <string name="no_implemented">Not implemented yet!</string>
     <string name="old_password_required">Please Enter Old Password</string>
     <string name="new_password_required">Please Enter New Password</string>
     <string name="confirm_new_password_required">Please Confirm New Password</string>

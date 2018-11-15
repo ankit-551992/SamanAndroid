@@ -15,7 +15,7 @@ public class ProductContractor {
 
 
     interface Presenter {
-        void getProductData(int productID);
+        void getProductData(int productID,int userID);
         void destroy();
         void markFavorite(int userID,int productID);
         void markUnFavorite(int userID,int productID);

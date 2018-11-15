@@ -8,10 +8,29 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_empty"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:text="@string/no_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

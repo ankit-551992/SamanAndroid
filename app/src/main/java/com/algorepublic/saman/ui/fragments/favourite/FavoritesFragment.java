@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.fragments.favourite;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.HomeScreenData;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.ResourceUtil;
@@ -65,7 +67,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.delete),
-                        ResourceUtil.getBitmap(getContext(), R.drawable.ic_delete),
+                        ResourceUtil.getBitmap(getContext(), R.drawable.ic_ddelete),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
@@ -87,12 +89,15 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.add_to_cart),
-                        ResourceUtil.getBitmap(getContext(), R.drawable.ic_logo),
+                        ResourceUtil.getBitmap(getContext(), R.drawable.ic_app_logo),
                         Color.parseColor("#FF9502"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
                                 // TODO: OnTransfer
+                                Intent intent=new Intent(getContext(), ProductDetailActivity.class);
+                                intent.putExtra("ProductID",productArrayList.get(pos).getID());
+                                getContext().startActivity(intent);
                             }
                         }
                 ));

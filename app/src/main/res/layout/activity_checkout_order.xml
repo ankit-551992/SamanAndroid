@@ -47,6 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:lineSpacingMultiplier="1.2"
                 android:text="@string/check_out_email_msg"
                 android:textColor="@color/black"
                 android:textSize="18sp" />

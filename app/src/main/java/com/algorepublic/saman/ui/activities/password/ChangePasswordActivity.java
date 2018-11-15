@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -106,6 +107,9 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
         } else if (TextUtils.isEmpty(newPassword)) {
             newPasswordEditText.setError(getString(R.string.new_password_required));
             return false;
+        }else if (newPassword.length() < 6) {
+            Constants.showAlert(getString(R.string.change_password), getString(R.string.password_short), getString(R.string.okay), ChangePasswordActivity.this);
+            return false;
         }else if (TextUtils.isEmpty(confrim)) {
             confirmPasswordEditText.setError(getString(R.string.confirm_new_password_required));
             return false;
@@ -178,7 +182,7 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
 
     @Override
     public void changeResponse(User user) {
-        GlobalValues.saveUser(ChangePasswordActivity.this,user);
+//        GlobalValues.saveUser(ChangePasswordActivity.this,user);
         Constants.showAlertWithActivityFinish(getString(R.string.change_password),getString(R.string.password_changed),getString(R.string.Okay),ChangePasswordActivity.this);
     }
 

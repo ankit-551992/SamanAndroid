@@ -18,10 +18,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -49,7 +54,7 @@ public class WebServicesHandler {
         webServices = retrofit.create(WebServices.class);
     }
 
-    public void login(String email, String password,String deviceToken, Callback<UserResponse> callback) {
+    public void login(String email, String password, String deviceToken, Callback<UserResponse> callback) {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("username", email);
@@ -62,8 +67,8 @@ public class WebServicesHandler {
 
     }
 
-    public void register(String fName,String lName,String email,String password,String deviceToken,String gender,String country,
-                         String address,Callback<UserResponse> callback) {
+    public void register(String fName, String lName, String email, String password, String deviceToken, String gender, String country,
+                         String address, Callback<UserResponse> callback) {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("FirstName", fName);
@@ -81,8 +86,8 @@ public class WebServicesHandler {
     }
 
 
-    public void updateUser(int id,String fName,String lName,String gender,String country,
-                         String address,Callback<SimpleSuccess> callback) {
+    public void updateUser(int id, String fName, String lName, String gender, String country,
+                           String address, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("ID", id);
@@ -96,7 +101,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void forgetPassword(String email,Callback<SimpleSuccess> callback) {
+    public void forgetPassword(String email, Callback<SimpleSuccess> callback) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("email", email);
         Call<SimpleSuccess> call = webServices.forgetPassword(parameters);
@@ -113,7 +118,7 @@ public class WebServicesHandler {
     }
 
 
-    public void ChangePassword(int userID,String password,String oldPassword, Callback<UserResponse> callback) {
+    public void ChangePassword(int userID, String password, String oldPassword, Callback<UserResponse> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
@@ -143,16 +148,16 @@ public class WebServicesHandler {
         parameters.put("ShippingTotal", ShippingTotal);
         parameters.put("TotalPrice", TotalPrice);
 
-        for(int i=0;i<array.length();i++){
+        for (int i = 0; i < array.length(); i++) {
             try {
-                JSONObject jsonObject=array.getJSONObject(i);
-                parameters.put("OrderItems["+i+"].ProductID",jsonObject.getInt("ProductID"));
-                parameters.put("OrderItems["+i+"].ProductQuantity",jsonObject.getInt("ProductQuantity"));
-                parameters.put("OrderItems["+i+"].ProductPrice",jsonObject.getInt("ProductPrice"));
-                JSONArray optionsArray=jsonObject.getJSONArray("OrderOptionValue");
-                for(int j=0;j<optionsArray.length();j++){
-                    JSONObject jsonObj=optionsArray.getJSONObject(j);
-                    parameters.put("OrderItems["+i+"].OrderOptionValue["+j+"].ID",jsonObj.getInt("ID"));
+                JSONObject jsonObject = array.getJSONObject(i);
+                parameters.put("OrderItems[" + i + "].ProductID", jsonObject.getInt("ProductID"));
+                parameters.put("OrderItems[" + i + "].ProductQuantity", jsonObject.getInt("ProductQuantity"));
+                parameters.put("OrderItems[" + i + "].ProductPrice", jsonObject.getInt("ProductPrice"));
+                JSONArray optionsArray = jsonObject.getJSONArray("OrderOptionValue");
+                for (int j = 0; j < optionsArray.length(); j++) {
+                    JSONObject jsonObj = optionsArray.getJSONObject(j);
+                    parameters.put("OrderItems[" + i + "].OrderOptionValue[" + j + "].ID", jsonObj.getInt("ID"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -165,18 +170,18 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void getHomeScreenData(int userID,Callback<HomeScreenAPI> callback) {
+    public void getHomeScreenData(int userID, Callback<HomeScreenAPI> callback) {
         Call<HomeScreenAPI> call = webServices.getHomeScreenData(userID);
         call.enqueue(callback);
     }
 
-    public void getOrderHistory(int userID,Callback<OrderHistoryAPI> callback) {
+    public void getOrderHistory(int userID, Callback<OrderHistoryAPI> callback) {
         Call<OrderHistoryAPI> call = webServices.getOrders(userID);
         call.enqueue(callback);
     }
 
-    public void getFavoriteList(int userID,int pageIndex,int pageSize,Callback<GetProducts> callback) {
-        Call<GetProducts> call = webServices.getFavoriteList(userID,pageIndex,pageSize);
+    public void getFavoriteList(int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getFavoriteList(userID, pageIndex, pageSize);
         call.enqueue(callback);
     }
 
@@ -186,7 +191,7 @@ public class WebServicesHandler {
     }
 
 
-    public void getStoresByCategory(String categoryID,Callback<GetStores> callback) {
+    public void getStoresByCategory(String categoryID, Callback<GetStores> callback) {
         Call<GetStores> call = webServices.getStoresByCategoryID(categoryID);
         call.enqueue(callback);
     }
@@ -197,29 +202,28 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void getProductDetail(String productId,Callback<GetProduct> callback) {
-        Call<GetProduct> call = webServices.getProductDetail(productId);
+    public void getProductDetail(String productId, String userID, Callback<GetProduct> callback) {
+        Call<GetProduct> call = webServices.getProductDetail(productId, userID);
         call.enqueue(callback);
     }
 
 
-    public void getProductsByStore(int StoreId,int userID,int pageIndex,int pageSize,Callback<GetProducts> callback) {
-        Call<GetProducts> call = webServices.getProductsByStore(StoreId,userID,pageIndex,pageSize);
+    public void getProductsByStore(int StoreId, int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getProductsByStore(StoreId, userID, pageIndex, pageSize);
         call.enqueue(callback);
     }
 
-    public void getLatestProducts(int userID,int pageIndex,int pageSize,Callback<GetProducts> callback) {
-        Call<GetProducts> call = webServices.getLatestProducts(userID,pageIndex,pageSize);
+    public void getLatestProducts(int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getLatestProducts(userID, pageIndex, pageSize);
         call.enqueue(callback);
     }
 
-    public void applyPromo(String promo,Callback<PromoVerify> callback) {
+    public void applyPromo(String promo, Callback<PromoVerify> callback) {
         Call<PromoVerify> call = webServices.applyPromo(promo);
         call.enqueue(callback);
     }
 
-    public void markFavourite(int userID,int productId,Callback<SimpleSuccess> callback) {
-
+    public void markFavourite(int userID, int productId, Callback<SimpleSuccess> callback) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
         parameters.put("productID", productId);
@@ -227,12 +231,18 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void markUnFavourite(int userID,int productId,Callback<SimpleSuccess> callback) {
-
+    public void markUnFavourite(int userID, int productId, Callback<SimpleSuccess> callback) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
         parameters.put("productID", productId);
         Call<SimpleSuccess> call = webServices.markUnFavorite(parameters);
+        call.enqueue(callback);
+    }
+
+    public void uploadImage(File file, Callback<SimpleSuccess> callback) {
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
+        Call<SimpleSuccess> call = webServices.postImage(body);
         call.enqueue(callback);
     }
 

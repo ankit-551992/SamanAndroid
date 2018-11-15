@@ -472,18 +472,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         } else if (!isValidEmailId(email)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.email_invalid), getString(R.string.okay), RegisterActivity.this);
             return false;
-        } else if (TextUtils.isEmpty(gender)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.gender_prompt), getString(R.string.okay), RegisterActivity.this);
-            return false;
-        } else if (TextUtils.isEmpty(day)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.day_missing), getString(R.string.okay), RegisterActivity.this);
-            return false;
-        } else if (TextUtils.isEmpty(month)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.month_missing), getString(R.string.okay), RegisterActivity.this);
-            return false;
-        } else if (TextUtils.isEmpty(year)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.year_missing), getString(R.string.okay), RegisterActivity.this);
-            return false;
         } else if (TextUtils.isEmpty(password)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.password_required), getString(R.string.okay), RegisterActivity.this);
             return false;
@@ -495,6 +483,18 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             return false;
         }else if (!confrim.equals(password)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.not_matched), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(gender)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.gender_prompt), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(day)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.day_missing), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(month)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.month_missing), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(year)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.year_missing), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(address)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.address_req), getString(R.string.okay), RegisterActivity.this);

@@ -98,14 +98,16 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
         }else if (TextUtils.isEmpty(newPassword)) {
             newPasswordEditText.setError(getString(R.string.new_password_required));
             return false;
+        }else if (newPassword.length() < 6) {
+            Constants.showAlert(getString(R.string.reset_password), getString(R.string.password_short), getString(R.string.okay), ResetPasswordActivity.this);
+            return false;
         }else if (TextUtils.isEmpty(confirm)) {
             confirmNewPasswordEditText.setError(getString(R.string.confirm_new_password_required));
             return false;
         }else if (!confirm.equals(newPassword)) {
             confirmNewPasswordEditText.setError(getString(R.string.not_matched));
             return false;
-        }
-        else {
+        }else {
             return true;
         }
     }

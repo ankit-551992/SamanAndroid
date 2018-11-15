@@ -39,6 +39,8 @@ public class MessagesListActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.tv_empty)
+    TextView empty;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
     @BindView(R.id.recycler)
@@ -98,10 +100,10 @@ public class MessagesListActivity extends BaseActivity {
     }
 
     private void getMessages(){
-        for (int i = 0; i < 3; i++) {
-            Message message = new Message();
-            messageArrayList.add(message);
-            messagesAdapter.notifyDataSetChanged();
+        if(messageArrayList.size()==0){
+            empty.setVisibility(View.VISIBLE);
+        }else {
+            empty.setVisibility(View.GONE);
         }
     }
 }

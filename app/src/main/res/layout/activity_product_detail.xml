@@ -49,6 +49,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/tv_store_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
@@ -75,9 +76,11 @@
                     android:layout_toStartOf="@+id/rating"
                     android:text="@string/dummy"
                     android:textColor="@color/black"
+                    android:lineSpacingMultiplier="1.2"
                     android:textSize="18sp" />
 
                 <RatingBar
+                    android:visibility="gone"
                     android:id="@+id/rating"
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
@@ -108,8 +111,8 @@
 
                 <ImageView
                     android:id="@+id/iv_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:contentDescription="@string/contentDescription"
@@ -117,8 +120,8 @@
 
                 <ImageView
                     android:id="@+id/iv_favorite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:contentDescription="@string/contentDescription"
@@ -126,8 +129,8 @@
 
                 <ImageView
                     android:id="@+id/iv_add_to_cart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/contentDescription"
                     android:src="@drawable/cart" />
@@ -246,8 +249,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginStart="10dp"
-                android:padding="5dp">
-
+                android:layout_marginBottom="10dp">
             </LinearLayout>
 
 
@@ -270,6 +272,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginStart="10dp"
+                android:lineSpacingMultiplier="1.2"
                 android:text="Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic Lige Brand Men Watches Automatic" />
 
             <TextView

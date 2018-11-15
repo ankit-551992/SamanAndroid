@@ -17,10 +17,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.CardDs;
+import com.algorepublic.saman.ui.activities.password.ChangePasswordActivity;
 import com.algorepublic.saman.ui.adapters.PaymentAdapter;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -53,6 +55,8 @@ public class MyPaymentActivity extends BaseActivity {
     List<CardDs> cards = new ArrayList<>();
     PaymentAdapter paymentAdapter;
     Dialog dialog;
+    boolean isCashSelected=false;
+    boolean isCardSelected=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +126,7 @@ public class MyPaymentActivity extends BaseActivity {
     @OnClick(R.id.toolbar_settings)
     void addPayment(){
 
+
         dialog = new Dialog(MyPaymentActivity.this,R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_payment_method);
@@ -129,6 +134,8 @@ public class MyPaymentActivity extends BaseActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
+        final LinearLayout layoutCard = (LinearLayout) dialog.findViewById(R.id.layout_card);
+        final LinearLayout layoutCash = (LinearLayout) dialog.findViewById(R.id.layout_cash);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,14 +146,54 @@ public class MyPaymentActivity extends BaseActivity {
 
         Button add=(Button) dialog.findViewById(R.id.button_add_card);
 
+        layoutCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isCashSelected=false;
+                layoutCash.setBackground(getResources().getDrawable(R.drawable.favorites_background));
+                if(!isCardSelected) {
+                    isCardSelected=true;
+                    layoutCard.setBackground(getResources().getDrawable(R.drawable.selected_bg));
+                }else {
+                    isCardSelected=false;
+                    layoutCard.setBackground(getResources().getDrawable(R.drawable.favorites_background));
+                }
+            }
+        });
+
+        layoutCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isCardSelected=false;
+                layoutCard.setBackground(getResources().getDrawable(R.drawable.favorites_background));
+                if(!isCashSelected) {
+                    isCashSelected=true;
+                    layoutCash.setBackground(getResources().getDrawable(R.drawable.selected_bg));
+                }else {
+                    isCashSelected=false;
+                    layoutCash.setBackground(getResources().getDrawable(R.drawable.favorites_background));
+                }
+            }
+        });
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MyPaymentActivity.this,AddCardActivity.class);
-                startActivityForResult(intent,1010);
-                dialog.dismiss();
+                if(isCardSelected) {
+                    Intent intent = new Intent(MyPaymentActivity.this, AddCardActivity.class);
+                    startActivityForResult(intent, 1010);
+                    dialog.dismiss();
+                    isCardSelected=false;
+                }else{
+                    if(!isCashSelected) {
+                        Constants.showAlert(getString(R.string.payment_method), getString(R.string.select_method), getString(R.string.okay), MyPaymentActivity.this);
+                    }else {
+                        Constants.showAlert(getString(R.string.payment_method), getString(R.string.cash_method), getString(R.string.close), MyPaymentActivity.this);
+                    }
+                }
             }
         });
+
         Animation animation;
         animation = AnimationUtils.loadAnimation(MyPaymentActivity.this,
                 R.anim.slide_bottom_to_top);

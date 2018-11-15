@@ -109,6 +109,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.2"
             android:text="@string/Card_otp_msg" />
 
         <EditText

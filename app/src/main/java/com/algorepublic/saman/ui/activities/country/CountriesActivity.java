@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
@@ -28,8 +29,12 @@ public class CountriesActivity extends BaseActivity{
     ImageView toolbarBack;
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.loading)
+    RelativeLayout loading;
     RecyclerView.LayoutManager layoutManager;
     CountriesAdapter countriesAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,7 @@ public class CountriesActivity extends BaseActivity{
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
+        loading.setVisibility(View.GONE);
         setData();
     }
 
