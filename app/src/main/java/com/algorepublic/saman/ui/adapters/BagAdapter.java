@@ -1,6 +1,7 @@
 package com.algorepublic.saman.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -69,7 +70,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
         if (holder instanceof BagViewHolder) {
             BagViewHolder bagViewHolder = (BagViewHolder) holder;
             bagViewHolder.getPosition = holder.getAdapterPosition();
@@ -94,6 +95,15 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             grandTotal = grandTotal + total;
             bagViewHolder.total.setText(total + " OMR");
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
+
+            bagViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID",productArrayList.get(position).getID());
+                    mContext.startActivity(intent);
+                }
+            });
 
             bagFragment.updateTotal(grandTotal, 0);
 

@@ -113,14 +113,16 @@
     <!--Checkout-->
     <string name="check_out_thank_you">Thank You For Your Order</string>
     <string name="check_out_email_msg">Please check your email for your confirmation</string>
-    <string name="check_out">Checkout</string>
+    <string name="check_out">Order confirmation</string>
+    <string name="check_out_success">Order Successful</string>
+    <string name="order_cancel_msg">Some items can’t be change! please message us </string>
     <string name="order_total">Order Total</string>
     <string name="order_reference">Order Reference</string>
     <string name="order_status">Order Status</string>
     <string name="delivery_date">Delivery Date</string>
     <string name="return_policy"><u>Return Policy</u></string>
     <string name="received">Received</string>
-    <string name="pending">Pending</string>
+    <string name="pending">Processing</string>
     <string name="Cancel_order_before_24h">Cancel Order (before 24h)</string>
     <!--Checkout-->
 
@@ -147,6 +149,7 @@
     <string name="add_to_bag">Added to bag</string>
     <string name="remove_from_bag">Remove from bag</string>
     <string name="removed_from_bag">Product Removed successfully</string>
+    <string name="move_to_fav">Product moved to wish list successfully</string>
     <!--Bag-->
 
     <!--Search-->
@@ -247,6 +250,8 @@
     <string name="password_short">Password is too short</string>
     <string name="try_again">Try Again</string>
     <string name="okay">Okay</string>
+    <string name="continue_shopping">Continue Shopping</string>
+    <string name="go_to_check_out">Go to bag</string>
     <string name="close">Close</string>
     <string name="sorry">Sorry</string>
     <string name="no_implemented">Not implemented yet!</string>

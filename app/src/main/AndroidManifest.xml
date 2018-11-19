@@ -4,19 +4,20 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name=".utils.SamanApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".utils.SamanApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.SplashActivity"
+        <activity
+            android:name=".ui.activities.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,54 +25,81 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activities.onboarding.WelcomeActivity"
+        <activity
+            android:name=".ui.activities.onboarding.WelcomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.register.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.order.checkout.CheckOutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.order.checkout.CheckoutOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.home.DashboardActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.login.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.register.RegisterActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.order.checkout.CheckOutActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.order.checkout.CheckoutOrderActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.home.DashboardActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.password.ChangePasswordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.password.ForgotPasswordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.password.ResetPasswordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.search.SearchActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.search.ProductListingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.productdetail.ProductDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.myaccount.mydetails.MyDetailsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.myaccount.payment.MyPaymentActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.myaccount.messages.MessagesListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.myaccount.messages.MessagingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.myaccount.myorders.MyOrdersActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.myaccount.customersupports.CustomerSupportActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.settings.SettingsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.order.cart.ShoppingCartActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.myaccount.payment.AddCardActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.store.StoreActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.country.CountriesActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.PoliciesActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activities.password.ChangePasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.password.ForgotPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.password.ResetPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.search.ProductListingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.productdetail.ProductDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.myaccount.mydetails.MyDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.myaccount.payment.MyPaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.myaccount.messages.MessagesListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.myaccount.messages.MessagingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.myaccount.myorders.MyOrdersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.myaccount.customersupports.CustomerSupportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.settings.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.order.cart.ShoppingCartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.myaccount.payment.AddCardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.store.StoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.country.CountriesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.PoliciesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.imagesview.FullScreenImagesActivity"
+            android:screenOrientation="portrait" />
 
 
         <activity
@@ -84,12 +112,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA5da6atc-sJ_Zzvw4flqZ-XnDtv5aT3ms" />
         <!--Facebook Region-->
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
 
         <activity
@@ -97,8 +126,10 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
@@ -111,18 +142,20 @@
             </intent-filter>
         </service>
 
-        <meta-data android:name="firebase_crash_collection_enabled" android:value="false" />
+        <meta-data
+            android:name="firebase_crash_collection_enabled"
+            android:value="false" />
         <!--<meta-data-->
-            <!--android:name="com.google.firebase.messaging.default_notification_icon"-->
-            <!--android:resource="@mipmap/ic_launcher_round" />-->
+        <!--android:name="com.google.firebase.messaging.default_notification_icon"-->
+        <!--android:resource="@mipmap/ic_launcher_round" />-->
         <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
         <!--<meta-data-->
-            <!--android:name="com.google.firebase.messaging.default_notification_color"-->
-            <!--android:resource="@color/colorAccent" />-->
+        <!--android:name="com.google.firebase.messaging.default_notification_color"-->
+        <!--android:resource="@color/colorAccent" />-->
         <!--<meta-data-->
-            <!--android:name="com.google.firebase.messaging.default_notification_color"-->
-            <!--android:resource="@android:color/transparent" />-->
+        <!--android:name="com.google.firebase.messaging.default_notification_color"-->
+        <!--android:resource="@android:color/transparent" />-->
         <!--Firebase Region End-->
 
         <meta-data
@@ -137,7 +170,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
     </application>

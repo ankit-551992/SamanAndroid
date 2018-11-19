@@ -1,9 +1,14 @@
 package com.algorepublic.saman.ui.activities.productdetail;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
@@ -29,6 +34,8 @@ import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.db.MySQLiteHelper;
 import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
 import com.algorepublic.saman.ui.fragments.home.HomeContractor;
 import com.algorepublic.saman.ui.fragments.home.HomePresenter;
 import com.algorepublic.saman.utils.Constants;
@@ -38,6 +45,8 @@ import com.algorepublic.saman.utils.SamanApp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,6 +95,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     RelativeLayout loading;
 
     LayoutInflater inflater;
+    int currentPage = 0;
+    Timer timer;
+    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
+    final long PERIOD_MS = 5*1000; // time in milliseconds between successive task executions.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,9 +168,35 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
         if (SamanApp.localDB != null) {
             if (SamanApp.localDB.addToCart(product, getOptionsData(), Integer.parseInt(productCount.getText().toString()))) {
-                Constants.showAlert(getString(R.string.add_to_bag), getString(R.string.product_added_in_bag), getString(R.string.okay), ProductDetailActivity.this);
+                showAlert(getString(R.string.add_to_bag), getString(R.string.product_added_in_bag), getString(R.string.continue_shopping),getString(R.string.go_to_check_out), ProductDetailActivity.this);
             }
         }
+    }
+
+
+    public void showAlert(String title, String message, String buttonText, String buttonText2, final Context context){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, buttonText2,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent=new Intent(ProductDetailActivity.this,DashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("NavItem",3);
+                        ((Activity)context).startActivity(intent);
+                    }
+                }
+        );
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     @OnClick(R.id.iv_share)
@@ -259,6 +299,28 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         for (int i = 0; i < product.getProductImagesURLs().size(); i++) {
             urls.add(product.getProductImagesURLs().get(i));
         }
+        if(urls.size()==0){
+            urls.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
+        }
+        /*After setting the adapter use the timer */
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                mPager.setCurrentItem(currentPage, true);
+                currentPage++;
+                if (currentPage == urls.size()) {
+                    currentPage = 0;
+                }
+            }
+        };
+
+        timer = new Timer(); // This will create a new Thread
+        timer .schedule(new TimerTask() { // task to be scheduled
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
         customPagerAdapter.notifyDataSetChanged();
     }
 

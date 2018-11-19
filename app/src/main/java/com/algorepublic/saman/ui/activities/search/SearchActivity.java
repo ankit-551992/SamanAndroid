@@ -14,6 +14,8 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -57,10 +59,15 @@ public class SearchActivity extends BaseActivity{
     ProductAdapter productAdapter;
     Dialog dialog;
 
-    int function=0;
-    int storeID=0;
-    String storeName="";
-    String storeNameAr="";
+    CheckBox highPrice;
+    CheckBox lowPrice;
+    CheckBox newIn;
+    CheckBox bestSell;
+    boolean isHighPrice;
+    boolean isLowPrice;
+    boolean isNewIn;
+    boolean isBestSell;
+
     User authenticatedUser;
 
     String[] d={"PHONE FINDER","SAMSUNG","APPLE","NOKIA","SONY","LG","MOTOROLA","GOOGLE","BLACKBERRY"};
@@ -71,30 +78,10 @@ public class SearchActivity extends BaseActivity{
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         authenticatedUser = GlobalValues.getUser(this);
-        Bundle bundle= getIntent().getExtras();
-        if(bundle!=null){
-            function=bundle.getInt("Function");
-            if(function==2){
-                storeID=bundle.getInt("StoreID");
-                storeName=bundle.getString("StoreName");
-                storeNameAr=bundle.getString("StoreNameAr");
-            }
-        }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         search.setVisibility(View.VISIBLE);
-        if(function==0){
-            toolbarTitle.setText(getString(R.string.search));
-        }else if (function==1){
-            search.setVisibility(View.GONE);
-            searchBar.setVisibility(View.GONE);
-            toolbarTitle.setText(getString(R.string.latest_product));
-        }else if (function==2){
-            search.setVisibility(View.GONE);
-            searchBar.setVisibility(View.GONE);
-            toolbarTitle.setText(storeName);
-        }
-
+        toolbarTitle.setText(getString(R.string.search));
         toolbarTitle.setAllCaps(true);
         toolbarBack.setVisibility(View.VISIBLE);
 
@@ -143,6 +130,60 @@ public class SearchActivity extends BaseActivity{
 
         ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
         TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+
+        highPrice = (CheckBox) dialog.findViewById(R.id.checkbox_high_price);
+        lowPrice  = (CheckBox) dialog.findViewById(R.id.checkbox_low_price);
+        newIn     = (CheckBox) dialog.findViewById(R.id.checkbox_new_in);
+        bestSell  = (CheckBox) dialog.findViewById(R.id.checkbox_best_sell);
+
+
+        highPrice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    isHighPrice=b;
+                    bestSell.setChecked(false);
+                    lowPrice.setChecked(false);
+                    newIn.setChecked(false);
+                }
+            }
+        });
+
+        lowPrice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    isLowPrice=b;
+                    bestSell.setChecked(false);
+                    highPrice.setChecked(false);
+                    newIn.setChecked(false);
+                }
+            }
+        });
+
+        newIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    isNewIn=b;
+                    highPrice.setChecked(false);
+                    lowPrice.setChecked(false);
+                    bestSell.setChecked(false);
+                }
+            }
+        });
+
+        bestSell.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    isBestSell=b;
+                    highPrice.setChecked(false);
+                    lowPrice.setChecked(false);
+                    newIn.setChecked(false);
+                }
+            }
+        });
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override

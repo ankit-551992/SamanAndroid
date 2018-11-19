@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -42,6 +43,8 @@ import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -124,9 +127,9 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
     @OnClick(R.id.tv_stores_see_all)
     void stores(){
-        Intent intent=new Intent(getContext(), StoreActivity.class);
-        startActivity(intent);
-//        ((DashboardActivity)getContext()).callStoresNav();
+//        Intent intent=new Intent(getContext(), StoreActivity.class);
+//        startActivity(intent);
+        ((DashboardActivity)getContext()).callStoreNav();
     }
 
     private void setStore(List<Store> storeArrayList) {
@@ -135,7 +138,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         storesRecyclerView.setNestedScrollingEnabled(false);
         storesAdapter = new StoresAdapter(getContext(), storeArrayList);
         storesRecyclerView.setAdapter(storesAdapter);
-        storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
+        storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false));
     }
 
     private void setProduct(List<Product> productArrayList) {
@@ -144,14 +147,40 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         productRecyclerView.setNestedScrollingEnabled(false);
         productAdapter = new ProductAdapter(getContext(), productArrayList,authenticatedUser.getId());
         productRecyclerView.setAdapter(productAdapter);
-        productRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 50, false));
+        productRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false));
     }
 
 
-    private void header(List<String> urls){
+
+    int currentPage = 0;
+    Timer timer;
+    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
+    final long PERIOD_MS = 5*1000; // time in milliseconds between successive task executions.
+
+    private void header(final List<String> urls){
         customPagerAdapter= new CustomPagerAdapter(getContext(),urls);
         mPager.setAdapter(customPagerAdapter);
         circlePageIndicator.setViewPager(mPager);
+
+        /*After setting the adapter use the timer */
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                mPager.setCurrentItem(currentPage, true);
+                currentPage++;
+                if (currentPage == urls.size()) {
+                    currentPage = 0;
+                }
+            }
+        };
+
+        timer = new Timer(); // This will create a new Thread
+        timer .schedule(new TimerTask() { // task to be scheduled
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
     }
 
     private void setBestSellers(List<Slider> bestSellersURLs) {

@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.activities.search;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,6 +18,7 @@ import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
@@ -38,6 +40,8 @@ public class ProductListingActivity  extends BaseActivity {
     TextView toolbarTitle;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
+    @BindView(R.id.toolbar_search)
+    ImageView search;
     @BindView(R.id.search_bar)
     RelativeLayout searchBar;
     @BindView(R.id.recyclerView)
@@ -72,9 +76,9 @@ public class ProductListingActivity  extends BaseActivity {
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        search.setVisibility(View.VISIBLE);
         if (function==1){
-            toolbarTitle.setText(getString(R.string.latest_product));
+            toolbarTitle.setText(getString(R.string.new_in));
         }else if (function==2){
             toolbarTitle.setText(storeName);
         }
@@ -91,6 +95,11 @@ public class ProductListingActivity  extends BaseActivity {
 
     }
 
+    @OnClick(R.id.toolbar_search)
+    void search() {
+            Intent intent = new Intent(ProductListingActivity.this, SearchActivity.class);
+            startActivity(intent);
+    }
 
     @OnClick(R.id.toolbar_back)
     public void back() {

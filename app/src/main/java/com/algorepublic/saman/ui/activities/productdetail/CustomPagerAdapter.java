@@ -1,6 +1,8 @@
 package com.algorepublic.saman.ui.activities.productdetail;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.ui.activities.imagesview.FullScreenImagesActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
@@ -29,7 +32,7 @@ public class CustomPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup collection, int position) {
+    public Object instantiateItem(ViewGroup collection, final int position) {
         View imageLayout = inflater.inflate(R.layout.slider_image_view, collection, false);
         assert imageLayout != null;
         ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
@@ -39,6 +42,16 @@ public class CustomPagerAdapter extends PagerAdapter {
                 .error(R.drawable.ic_account_img)
                 .into(imageView);
         collection.addView(imageLayout, 0);
+
+        imageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(mContext,FullScreenImagesActivity.class);
+                intent.putStringArrayListExtra("urls",(ArrayList<String>) urls);
+                intent.putExtra("index",position);
+                ((Activity)mContext).startActivity(intent);
+            }
+        });
 
         return imageLayout;
     }

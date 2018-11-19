@@ -1,6 +1,7 @@
 package com.algorepublic.saman.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Store;
+import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
 import com.algorepublic.saman.utils.Constants;
 import com.squareup.picasso.Picasso;
@@ -62,6 +64,14 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         .into(bagViewHolder.storeImage);
             }
 
+            bagViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID",products.get(position).getID());
+                    mContext.startActivity(intent);
+                }
+            });
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

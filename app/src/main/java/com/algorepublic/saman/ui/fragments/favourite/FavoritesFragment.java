@@ -17,6 +17,7 @@ import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.HomeScreenData;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -76,7 +77,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                                 GlobalValues.markUnFavourite(authenticatedUser.getId(), productArrayList.get(pos).getID());
                                 productArrayList.remove(pos);
                                 favoritesAdapter.notifyDataSetChanged();
-
+                                ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
                                 quantity.setText(productArrayList.size() + " " + getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
                                 if (productArrayList.size() > 0) {
                                     tv_empty_bag.setVisibility(View.GONE);

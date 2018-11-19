@@ -357,7 +357,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
-                    cnt = cnt + cursor.getInt(7);
+//                    cnt = cnt + cursor.getInt(7);
+                    cnt = cnt + 1;
                 } while (cursor.moveToNext());
             }
         }

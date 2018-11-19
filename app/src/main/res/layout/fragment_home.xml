@@ -46,6 +46,7 @@
                 </FrameLayout>
 
                 <ImageView
+                    android:layout_marginTop="2dp"
                     android:id="@+id/iv_header_below_banner"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
@@ -130,13 +131,12 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_stores_see_all"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginBottom="5dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.7dp"
                     android:layout_below="@+id/stores_recyclerView"
-                    android:layout_marginTop="5dp"
                     android:background="@color/grey" />
 
             </RelativeLayout>
@@ -146,7 +146,11 @@
                 android:id="@+id/latest_products"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="2dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -182,15 +186,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
                 android:focusable="true"
+                android:layout_marginTop="3dp"
                 android:focusableInTouchMode="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:text="@string/hot_pick"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:textColor="@color/black" />
 
             <android.support.v7.widget.RecyclerView
@@ -204,7 +211,9 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <include layout="@layout/loading_layout"
+    <include
+        android:visibility="gone"
+        layout="@layout/loading_layout"
         android:id="@+id/loading"/>
 
 </RelativeLayout>

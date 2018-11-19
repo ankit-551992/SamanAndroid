@@ -52,7 +52,7 @@
 
             </RelativeLayout>
 
-            <CheckBox android:id="@+id/checkbox_best_rate"
+            <CheckBox android:id="@+id/checkbox_high_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/neo_sans"
@@ -75,10 +75,9 @@
                 android:layout_height="0.5dp"
                 android:background="@color/light_grey"/>
 
-            <CheckBox android:id="@+id/checkbox_order_number"
+            <CheckBox android:id="@+id/checkbox_new_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:fontFamily="@font/neo_sans"
                 android:text="@string/new_in"/>
 
@@ -88,7 +87,7 @@
                 android:layout_height="0.5dp"
                 android:background="@color/light_grey"/>
 
-            <CheckBox android:id="@+id/checkbox_categories"
+            <CheckBox android:id="@+id/checkbox_best_sell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/neo_sans"

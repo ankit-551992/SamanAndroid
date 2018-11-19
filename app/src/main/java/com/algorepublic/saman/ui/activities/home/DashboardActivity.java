@@ -13,13 +13,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.GetProducts;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
 import com.algorepublic.saman.ui.activities.search.SearchActivity;
 import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
@@ -48,6 +50,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardActivity extends BaseActivity implements DashboardContractor.View, NavigationView.OnNavigationItemSelectedListener {
 
@@ -71,6 +76,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     public static boolean isAppRunning;
     String title = "Saman";
 
+    User authenticatedUser;
     private boolean doubleBackToExitPressedOnce = false;
 
     // index to identify current nav menu item
@@ -78,14 +84,15 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     private Handler mHandler;
 
     DashboardPresenter mPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_drawer);
         ButterKnife.bind(this);
+        authenticatedUser = GlobalValues.getUser(this);
         search.setVisibility(View.GONE);
         GlobalValues.storeCategories = new ArrayList<>();
+        navItemIndex=getIntent().getIntExtra("NavItem",0);
         mHandler = new Handler();
         mPresenter = new DashboardPresenter(this);
         mPresenter.getUserData();
@@ -97,6 +104,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             onNavigationItemSelected(navigationView.getMenu().getItem(1));
             GlobalValues.orderPlaced = false;
         }
+        updateBagCount();
         super.onResume();
     }
 
@@ -118,9 +126,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     @OnClick(R.id.toolbar_search)
     void search() {
-        if (navItemIndex == 1) {
+        if (navItemIndex == 1 || navItemIndex == 0) {
             Intent intent = new Intent(DashboardActivity.this, SearchActivity.class);
-            intent.putExtra("Function", 0); //0 for Search Products
             startActivity(intent);
         }
 
@@ -167,15 +174,13 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 show_logout_dialog();
                 navItemIndex = -1;
                 break;
-            default:
-                navItemIndex = 0;
         }
         // close drawer when item is tapped
         mDrawerLayout.closeDrawers();
         if (navItemIndex == 4) {
             settings.setVisibility(View.VISIBLE);
             search.setVisibility(View.GONE);
-        } else if (navItemIndex == 1 || navItemIndex == 2) {
+        } else if (navItemIndex == 1 || navItemIndex == 2 || navItemIndex == 0) {
             search.setVisibility(View.VISIBLE);
             settings.setVisibility(View.GONE);
             if (navItemIndex == 2) {
@@ -235,23 +240,10 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         imgProfile = (ImageView) navHeader.findViewById(R.id.iv_profile);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        onNavigationItemSelected(navigationView.getMenu().getItem(navItemIndex));
 
-        // showing dot next to notifications label
-//        MenuItem element = navigationView.getMenu().findItem(R.id.nav_bag);
-//        String before = element.getTitle().toString();
-//        String counter = Integer.toString(5);
-//        String s = before + "   " + counter + " ";
-//        SpannableString sColored = new SpannableString(s);
-
-//        sColored.setSpan(new BackgroundColorSpan(Color.YELLOW), s.length() - (counter.length() + 2), s.length(), 0);
-//        sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
-//
-//
-//        element.setTitle(sColored);
-
-        navItemIndex = 0;
         loadFragment();
+        getFavCount();
     }
 
     @Override
@@ -386,5 +378,71 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     public void callFavNav() {
         onNavigationItemSelected(navigationView.getMenu().getItem(2));
+    }
+
+    public void callStoreNav() {
+        onNavigationItemSelected(navigationView.getMenu().getItem(1));
+    }
+
+    public void updateBagCount() {
+        if(SamanApp.localDB.getCartAllProductsCount()>0) {
+            // showing dot next to notifications label
+            MenuItem element = navigationView.getMenu().findItem(R.id.nav_bag);
+            String before = getString(R.string.shopping_cart);
+            String counter = Integer.toString(SamanApp.localDB.getCartAllProductsCount());
+            String s = before + "   " + counter + " ";
+            SpannableString sColored = new SpannableString(s);
+
+            sColored.setSpan(new BackgroundColorSpan(Color.GRAY), s.length() - (counter.length() + 2), s.length(), 0);
+            sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
+
+            element.setTitle(sColored);
+        }else {
+            MenuItem element = navigationView.getMenu().findItem(R.id.nav_bag);
+            String before = getString(R.string.shopping_cart);
+            element.setTitle(before);
+        }
+    }
+
+    public void updateFavCount(int count) {
+        if(count>0) {
+            // showing dot next to notifications label
+            MenuItem element = navigationView.getMenu().findItem(R.id.nav_favorite);
+            String before = getString(R.string.title_fav);
+            String counter = Integer.toString(count);
+            String s = before + "   " + counter + " ";
+            SpannableString sColored = new SpannableString(s);
+            sColored.setSpan(new BackgroundColorSpan(Color.GRAY), s.length() - (counter.length() + 2), s.length(), 0);
+            sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
+
+            element.setTitle(sColored);
+        }else {
+            MenuItem element = navigationView.getMenu().findItem(R.id.nav_favorite);
+            String before = getString(R.string.title_fav);
+            element.setTitle(before);
+        }
+    }
+
+
+    public void getFavCount(){
+
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+        apiClient.getFavoriteList(authenticatedUser.getId(),0,100000,new Callback<GetProducts>() {
+            @Override
+            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                GetProducts getProducts = response.body();
+                if(getProducts !=null) {
+                    if(getProducts.getSuccess()==1) {
+                        if (getProducts.getProduct() != null) {
+                            updateFavCount(getProducts.getProduct().size());
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<GetProducts> call, Throwable t) {
+                Log.e("onFailure", "" + t.getMessage());
+            }
+        });
     }
 }

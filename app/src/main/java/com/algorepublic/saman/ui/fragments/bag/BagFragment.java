@@ -17,6 +17,7 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.adapters.BagAdapter;
@@ -95,9 +96,9 @@ public class BagFragment extends BaseFragment {
                                     Constants.showAlert(getString(R.string.remove_from_bag),getString(R.string.removed_from_bag),getString(R.string.okay),getActivity());
                                     productArrayList.remove(p);
                                     bagAdapter.updateNotify();
+                                    ((DashboardActivity)getContext()).updateBagCount();
                                 }
                                 quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
-
 
                                 if(productArrayList.size()>0){
                                     tv_empty_bag.setVisibility(View.GONE);
@@ -118,6 +119,22 @@ public class BagFragment extends BaseFragment {
                             public void onClick(int pos) {
                                 // TODO: OnTransfer
                                 GlobalValues.markFavourite(authenticatedUser.getId(),productArrayList.get(pos).getID());
+                                Product p=productArrayList.get(pos);
+                                if(SamanApp.localDB.deleteItemFromCart(p)){
+                                    Constants.showAlert(getString(R.string.add_to_fav),getString(R.string.removed_from_bag),getString(R.string.okay),getActivity());
+                                    productArrayList.remove(p);
+                                    bagAdapter.updateNotify();
+                                    ((DashboardActivity)getContext()).updateBagCount();
+                                }
+
+                                quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+
+                                if(productArrayList.size()>0){
+                                    tv_empty_bag.setVisibility(View.GONE);
+                                }else{
+                                    tv_empty_bag.setVisibility(View.VISIBLE);
+                                }
+
                             }
                         }
                 ));

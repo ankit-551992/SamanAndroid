@@ -74,7 +74,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText(getString(R.string.check_out));
+        toolbarTitle.setText(getString(R.string.check_out_success));
 //        toolbarBack.setVisibility(View.VISIBLE);
         cross.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -167,6 +167,11 @@ public class CheckoutOrderActivity extends BaseActivity {
         intent.putExtra("type",2);
         startActivity(intent);
 //        new FinestWebView.Builder(CheckoutOrderActivity.this).show(Constants.URLS.returnPolicy);
+    }
+
+    @OnClick(R.id.button_cancel_order)
+    void cancelOrder(){
+        Constants.showAlert(getString(R.string.check_out_success),getString(R.string.order_cancel_msg),getString(R.string.okay),CheckoutOrderActivity.this);
     }
 
 
