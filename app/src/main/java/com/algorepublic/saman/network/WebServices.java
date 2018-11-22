@@ -11,6 +11,7 @@ import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.data.model.apis.GetStores;
+import com.algorepublic.saman.ui.activities.login.LoginData;
 
 import java.util.Map;
 
@@ -94,6 +95,9 @@ public interface WebServices {
     @GET("Product/GetLatestProducts?")
     Call<GetProducts> getLatestProducts(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
+    @GET("Product/Search?")
+    Call<GetProducts> getSearchProducts(@Query("userID") int userID,@Query("q") String q,@Query("sortType") int sortType,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
+
 
     @GET("Coupon/Verify?")
     Call<PromoVerify> applyPromo(@Query("code") String code);
@@ -112,9 +116,15 @@ public interface WebServices {
     @GET("Product/Get/{id}?")
     Call<GetProduct> getProductDetail(@Path("id") String productId,@Query("userID") String userID);
 
+    @Multipart
+    @POST("User/UpdateProfilePicture?")
+    Call<UserResponse> postImage(@Query("userID") int userID, @Part MultipartBody.Part image);
 
     @Multipart
-    @POST("/yourEndPoint")
-    Call<SimpleSuccess> postImage(@Part MultipartBody.Part image);
+    @POST("User/UpdateProfilePicture?")
+    Call<SimpleSuccess> uploadToSupport(@Query("userID") int userID,
+                                        @Query("subject") String subject,
+                                        @Query("message") String message,
+                                        @Part MultipartBody.Part[] images);
 
 }

@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <!--<include-->
+        <!--android:id="@+id/toolbar"-->
+        <!--layout="@layout/toolbar" />-->
+
 
     <ScrollView
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,18 +20,17 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="wrap_content"
-                    android:layout_height="200dp" />
+                    android:layout_height="300dp" />
 
                 <ImageView
                     android:id="@+id/left_nav"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center_vertical|start"
                     android:contentDescription="@string/contentDescription"
                     android:src="@drawable/ic_navigate_before"
@@ -39,12 +38,20 @@
 
                 <ImageView
                     android:id="@+id/right_nav"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center_vertical|end"
                     android:contentDescription="@string/contentDescription"
                     android:src="@drawable/ic_navigate_next"
                     android:tint="@color/white" />
+
+                <ImageView
+                    android:layout_margin="10dp"
+                    android:id="@+id/toolbar_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back"
+                    android:contentDescription="@string/contentDescription" />
 
             </FrameLayout>
 

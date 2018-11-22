@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -25,8 +26,11 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
-import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
+import com.algorepublic.saman.data.model.apis.GetProducts;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
+import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 
@@ -36,6 +40,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class SearchActivity extends BaseActivity{
 
@@ -54,7 +60,6 @@ public class SearchActivity extends BaseActivity{
     @BindView(R.id.recyclerView)
     RecyclerView searchRecyclerView;
     RecyclerView.LayoutManager productLayoutManager;
-    List<Product> originalData = new ArrayList<>();
     List<Product> displayData = new ArrayList<>();
     ProductAdapter productAdapter;
     Dialog dialog;
@@ -63,7 +68,7 @@ public class SearchActivity extends BaseActivity{
     CheckBox lowPrice;
     CheckBox newIn;
     CheckBox bestSell;
-    boolean isHighPrice;
+    boolean isHighPrice=true;
     boolean isLowPrice;
     boolean isNewIn;
     boolean isBestSell;
@@ -71,6 +76,12 @@ public class SearchActivity extends BaseActivity{
     User authenticatedUser;
 
     String[] d={"PHONE FINDER","SAMSUNG","APPLE","NOKIA","SONY","LG","MOTOROLA","GOOGLE","BLACKBERRY"};
+
+    int currentPage = 0;
+    int pageSize = 20;
+    int sortType = 1;
+    boolean isGetAll = false;
+    String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,26 +101,48 @@ public class SearchActivity extends BaseActivity{
         }else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
-
-
-        getProducts();
-
+        setProductAdapter();
         searchEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
-                    displayData.clear();
-
-                    for (int i=0;i<originalData.size();i++){
-                        if(originalData.get(i).getProductName().toLowerCase().contains(searchEditText.getText().toString().toLowerCase())){
-                            displayData.add(originalData.get(i));
-                        }
+                    if(searchEditText.getText()!=null && !searchEditText.getText().toString().isEmpty()) {
+                        query = searchEditText.getText().toString();
+                        searchProduct(query, currentPage, pageSize,sortType);
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        return true;
+                    }else {
+                        Constants.showAlert(getString(R.string.search),getString(R.string.search_query),getString(R.string.okay),SearchActivity.this);
                     }
-                    productAdapter.notifyDataSetChanged();
-                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    return true;
                 }
                 return false;
+            }
+        });
+    }
+
+    private void searchProduct(String query,int pageIndex,int pageSize,int sortType) {
+        WebServicesHandler.instance.getSearchProducts(authenticatedUser.getId(),query,sortType,pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
+            @Override
+            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                GetProducts getProducts = response.body();
+                if (getProducts != null) {
+                    if (getProducts.getSuccess() == 1){
+                        if (displayData.size() > 0) {
+                            displayData.remove(displayData.size() - 1);
+                            productAdapter.notifyItemRemoved(displayData.size());
+                        }
+                        if(getProducts.getProduct()!=null && getProducts.getProduct().size()>0) {
+                            displayData.addAll(getProducts.getProduct());
+                            productAdapter.notifyDataSetChanged();
+                        }else {
+                            isGetAll=true;
+                        }
+                        isLoading = false;
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<GetProducts> call, Throwable t) {
             }
         });
     }
@@ -136,6 +169,7 @@ public class SearchActivity extends BaseActivity{
         newIn     = (CheckBox) dialog.findViewById(R.id.checkbox_new_in);
         bestSell  = (CheckBox) dialog.findViewById(R.id.checkbox_best_sell);
 
+        highPrice.setChecked(true);
 
         highPrice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -195,6 +229,19 @@ public class SearchActivity extends BaseActivity{
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(isHighPrice){
+                    sortType=1;
+                }else if (isLowPrice){
+                    sortType=2;
+                }else if (isNewIn){
+                    sortType=3;
+                }else if (isBestSell){
+                    sortType=4;
+                }
+                isLoading = true;
+                currentPage=0;
+                isGetAll=false;
+                searchProduct(query,currentPage,pageSize,sortType);
                 dialog.dismiss();
             }
         });
@@ -209,20 +256,43 @@ public class SearchActivity extends BaseActivity{
         dialog.show();
     }
 
-    private void getProducts() {
+    private void setProductAdapter() {
         productLayoutManager = new GridLayoutManager(this, 2);
         searchRecyclerView.setLayoutManager(productLayoutManager);
         searchRecyclerView.setNestedScrollingEnabled(false);
-        originalData = new ArrayList<>();
         displayData = new ArrayList<>();
         productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId());
         searchRecyclerView.setAdapter(productAdapter);
-        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 50, false));
-
-        for (int i = 0; i < d.length; i++) {
-            Product product = new Product();
-            product.setProductName(d[i]);
-            originalData.add(product);
-        }
+        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false));
+        searchRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
     }
+
+    private boolean isLoading;
+
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+            int visibleThreshold = 5;
+            int lastVisibleItem, totalItemCount;
+            totalItemCount = linearLayoutManager.getItemCount();
+            lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+            if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                displayData.add(null);
+                productAdapter.notifyItemInserted(displayData.size() - 1);
+                isLoading = true;
+                currentPage++;
+                searchProduct(query,currentPage,pageSize,sortType);
+            }
+        }
+    };
+
+//    HighToLow = 1,
+//    LowToHigh = 2,
+//    Latest = 3,
+//    BestSell = 4
 }

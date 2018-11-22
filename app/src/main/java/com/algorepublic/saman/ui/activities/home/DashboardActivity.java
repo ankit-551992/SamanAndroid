@@ -243,7 +243,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         onNavigationItemSelected(navigationView.getMenu().getItem(navItemIndex));
 
         loadFragment();
-        getFavCount();
     }
 
     @Override
@@ -253,7 +252,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         txtWebsite.setText(authenticatedUser.getEmail());
         if (authenticatedUser.getProfileImagePath() != null) {
             Picasso.get()
-                    .load(authenticatedUser.getProfileImagePath())
+                    .load(Constants.URLS.BaseURLImages+authenticatedUser.getProfileImagePath())
                     .transform(new CircleTransform())
                     .placeholder(R.drawable.ic_profile)
                     .into(imgProfile);
@@ -424,25 +423,4 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     }
 
 
-    public void getFavCount(){
-
-        WebServicesHandler apiClient = WebServicesHandler.instance;
-        apiClient.getFavoriteList(authenticatedUser.getId(),0,100000,new Callback<GetProducts>() {
-            @Override
-            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
-                GetProducts getProducts = response.body();
-                if(getProducts !=null) {
-                    if(getProducts.getSuccess()==1) {
-                        if (getProducts.getProduct() != null) {
-                            updateFavCount(getProducts.getProduct().size());
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<GetProducts> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
-            }
-        });
-    }
 }

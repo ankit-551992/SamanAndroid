@@ -1,9 +1,17 @@
 package com.algorepublic.saman.ui.activities.myaccount.customersupports;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +23,22 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.algorepublic.saman.BuildConfig;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
+import com.algorepublic.saman.ui.adapters.CustomerSupportAdapter;
+import com.algorepublic.saman.utils.CircleTransform;
+import com.algorepublic.saman.utils.GridSpacingItemDecoration;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +55,17 @@ public class CustomerSupportActivity extends BaseActivity {
     @BindView(R.id.editText_subject)
     EditText subjectSelectionEditText;
 
+    @BindView(R.id.photos)
+    RecyclerView photos;
+    RecyclerView.LayoutManager layoutManager;
+    CustomerSupportAdapter customerSupportAdapter;
+    private List<File> files;
+
+    File file = null;
+    String mCurrentPhotoPath;
+    private int REQUEST_TAKE_PHOTO = 1;
+    private int REQUEST_CHOOSE_PHOTO = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +80,93 @@ public class CustomerSupportActivity extends BaseActivity {
         }else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
+
+        files=new ArrayList<>();
+        files.add(null);
+        layoutManager = new GridLayoutManager(CustomerSupportActivity.this, 3);
+        photos.setLayoutManager(layoutManager);
+        photos.setNestedScrollingEnabled(false);
+        customerSupportAdapter = new CustomerSupportAdapter(CustomerSupportActivity.this, files);
+        photos.setAdapter(customerSupportAdapter);
+        photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false));
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_TAKE_PHOTO) {
+                // Show the thumbnail on ImageView
+                Uri imageUri = Uri.parse(mCurrentPhotoPath);
+                if (imageUri != null) {
+                    if (imageUri.getPath() != null) {
+                        file = new File(imageUri.getPath());
+                        files.add(file);
+                        customerSupportAdapter.notifyDataSetChanged();
+                    }
+                }
+            } else if (requestCode == REQUEST_CHOOSE_PHOTO) {
+                if (data != null) {
+                    Uri selectedImageUri = data.getData();
+                    if (selectedImageUri != null) {
+                        if (selectedImageUri.getPath() != null) {
+                            file = new File(selectedImageUri.getPath());
+                            files.add(file);
+                            customerSupportAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void removeImage(int position){
+        files.remove(position);
+        customerSupportAdapter.notifyDataSetChanged();
+    }
+
+
+    public void dispatchTakePictureIntent() throws IOException {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(CustomerSupportActivity.this.getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                return;
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(CustomerSupportActivity.this,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        createImageFile());
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "Camera");
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
 
 
     @OnClick(R.id.toolbar_back)

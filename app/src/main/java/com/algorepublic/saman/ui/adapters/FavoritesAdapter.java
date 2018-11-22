@@ -30,7 +30,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     List<Product> productArrayList = new ArrayList<>();
-    private OnLoadMoreListener mOnLoadMoreListener;
     private Context mContext;
 
 
@@ -49,10 +48,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void restoreItem(Product product, int position) {
         productArrayList.add(position, product);
         notifyItemInserted(position);
-    }
-
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
     }
 
     @Override

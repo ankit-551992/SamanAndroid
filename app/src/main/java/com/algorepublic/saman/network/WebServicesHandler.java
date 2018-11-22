@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -218,6 +219,11 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getSearchProducts(int userID,String query,int sortType, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getSearchProducts(userID,query,sortType,pageIndex, pageSize);
+        call.enqueue(callback);
+    }
+
     public void applyPromo(String promo, Callback<PromoVerify> callback) {
         Call<PromoVerify> call = webServices.applyPromo(promo);
         call.enqueue(callback);
@@ -239,11 +245,24 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void uploadImage(File file, Callback<SimpleSuccess> callback) {
+    public void uploadImage(int userId,File file, Callback<UserResponse> callback) {
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
-        Call<SimpleSuccess> call = webServices.postImage(body);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+        Call<UserResponse> call = webServices.postImage(userId,body);
         call.enqueue(callback);
     }
 
+
+    private void uploadToSupport(int userID,String subject,String message,List<File> files,Callback<SimpleSuccess> callback) {
+
+        MultipartBody.Part[] surveyImagesParts = new MultipartBody.Part[files.size()];
+
+        for (int index = 0; index < files.size(); index++) {
+            RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), files.get(index));
+            surveyImagesParts[index] = MultipartBody.Part.createFormData("SurveyImage", files.get(index).getName(), surveyBody);
+        }
+        Call<SimpleSuccess> call = webServices.uploadToSupport(userID,subject,message,surveyImagesParts);
+        call.enqueue(callback);
+
+    }
 }

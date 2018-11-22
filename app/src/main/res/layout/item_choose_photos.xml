@@ -1,0 +1,16 @@
+<RelativeLayout
+    android:id="@+id/layout"
+    android:background="@drawable/grey_background"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:drawableTop="@drawable/ic_camera"
+        android:textColor="@color/white"
+        android:text="@string/upload_photos"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

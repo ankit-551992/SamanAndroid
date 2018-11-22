@@ -27,7 +27,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     List<Product> productArrayList = new ArrayList<>();
-    private OnLoadMoreListener mOnLoadMoreListener;
     private Context mContext;
     private int userID;
 
@@ -35,10 +34,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.productArrayList=productArrayList;
         this.mContext=mContext;
         this.userID=userID;
-    }
-
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
     }
 
     @Override

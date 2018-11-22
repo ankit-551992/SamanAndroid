@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -58,6 +59,11 @@ public class ProductListingActivity  extends BaseActivity {
     String storeNameAr="";
 
     User authenticatedUser;
+
+    int currentPage = 0;
+    int pageSize = 20;
+    boolean isGetAll = false;
+    private boolean isLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,27 +120,37 @@ public class ProductListingActivity  extends BaseActivity {
         displayData = new ArrayList<>();
         productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId());
         searchRecyclerView.setAdapter(productAdapter);
-        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 50, false));
+        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false));
+        searchRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
         progressBar.setVisibility(View.VISIBLE);
         if(function==2) {
-            getProductsByStoreID(storeID);
+            getProductsByStoreID(storeID,currentPage,pageSize);
         }else {
-            getLatestProducts();
+            getLatestProducts(currentPage,pageSize);
         }
     }
 
-    private void getProductsByStoreID(int storeID) {
+    private void getProductsByStoreID(int storeID,int pageIndex,int pageSize) {
 
-        WebServicesHandler.instance.getProductsByStore(storeID,authenticatedUser.getId(),0,100000,new retrofit2.Callback<GetProducts>() {
+        WebServicesHandler.instance.getProductsByStore(storeID,authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 GetProducts getProducts = response.body();
                 progressBar.setVisibility(View.GONE);
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1){
-                        displayData.addAll(getProducts.getProduct());
-                        productAdapter.notifyDataSetChanged();
+                        if (displayData.size() > 0) {
+                            displayData.remove(displayData.size() - 1);
+                            productAdapter.notifyItemRemoved(displayData.size());
+                        }
+                        if(getProducts.getProduct()!=null && getProducts.getProduct().size()>0) {
+                            displayData.addAll(getProducts.getProduct());
+                            productAdapter.notifyDataSetChanged();
+                        }else {
+                            isGetAll=true;
+                        }
+                        isLoading = false;
                     }
                 }
             }
@@ -144,17 +160,26 @@ public class ProductListingActivity  extends BaseActivity {
         });
     }
 
-    private void getLatestProducts() {
+    private void getLatestProducts(int pageIndex,int pageSize) {
 
-        WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(),0,100000,new retrofit2.Callback<GetProducts>() {
+        WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 progressBar.setVisibility(View.GONE);
                 GetProducts getProducts = response.body();
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1) {
-                        displayData.addAll(getProducts.getProduct());
-                        productAdapter.notifyDataSetChanged();
+                        if (displayData.size() > 0) {
+                            displayData.remove(displayData.size() - 1);
+                            productAdapter.notifyItemRemoved(displayData.size());
+                        }
+                        if(getProducts.getProduct()!=null && getProducts.getProduct().size()>0) {
+                            displayData.addAll(getProducts.getProduct());
+                            productAdapter.notifyDataSetChanged();
+                        }else {
+                            isGetAll=true;
+                        }
+                        isLoading = false;
                     }
                 }
             }
@@ -164,4 +189,30 @@ public class ProductListingActivity  extends BaseActivity {
             }
         });
     }
+
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+            int visibleThreshold = 5;
+            int lastVisibleItem, totalItemCount;
+            totalItemCount = linearLayoutManager.getItemCount();
+            lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+            if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                displayData.add(null);
+                productAdapter.notifyItemInserted(displayData.size() - 1);
+                isLoading = true;
+                currentPage++;
+                if(function==2) {
+                    getProductsByStoreID(storeID,currentPage,pageSize);
+                }else {
+                    getLatestProducts(currentPage,pageSize);
+                }
+            }
+        }
+    };
 }

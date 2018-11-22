@@ -28,14 +28,14 @@ public class FavoritesPresenter implements FavoritesContractor.Presenter {
 
 
     @Override
-    public void getFavoritesData(int userID) {
-        if (view != null) {
+    public void getFavoritesData(int userID,int pageIndex,int pageSize,boolean showProgress) {
+        if (view != null && showProgress) {
             view.showProgress();
         }
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
 
-        apiClient.getFavoriteList(userID,0,100000,new Callback<GetProducts>() {
+        apiClient.getFavoriteList(userID,pageIndex,pageSize,new Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 GetProducts getProducts = response.body();

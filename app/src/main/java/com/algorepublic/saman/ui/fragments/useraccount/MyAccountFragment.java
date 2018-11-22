@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,11 @@ import com.algorepublic.saman.BuildConfig;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.data.model.apis.UserResponse;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.login.LoginActivity;
 import com.algorepublic.saman.ui.activities.myaccount.customersupports.CustomerSupportActivity;
 import com.algorepublic.saman.ui.activities.myaccount.messages.MessagesListActivity;
 import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
@@ -51,6 +56,9 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -79,9 +87,9 @@ public class MyAccountFragment extends BaseFragment {
         userName.setText(getContext().getString(R.string.Welcome) + "," + authenticatedUser.getFirstName());
         userEmail.setText(authenticatedUser.getEmail());
 
-        if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty()) {
+        if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty() && !authenticatedUser.getProfileImagePath().equalsIgnoreCase("path")) {
             Picasso.get()
-                    .load(authenticatedUser.getProfileImagePath())
+                    .load(Constants.URLS.BaseURLImages + authenticatedUser.getProfileImagePath())
                     .transform(new CircleTransform())
                     .placeholder(R.drawable.ic_profile)
                     .into(profile);
@@ -236,19 +244,21 @@ public class MyAccountFragment extends BaseFragment {
                                 .transform(new CircleTransform())
                                 .placeholder(R.drawable.ic_profile)
                                 .into(profile);
+                        uploadToServer(file);
                     }
                 }
             } else if (requestCode == 2) {
                 if (data != null) {
                     Uri selectedImageUri = data.getData();
                     if (selectedImageUri != null) {
-                        if(selectedImageUri.getPath()!=null) {
+                        if (selectedImageUri.getPath() != null) {
                             file = new File(selectedImageUri.getPath());
                             Picasso.get()
                                     .load(file)
                                     .transform(new CircleTransform())
                                     .placeholder(R.drawable.ic_profile)
                                     .into(profile);
+                            uploadToServer(file);
                         }
                     }
                 }
@@ -256,12 +266,50 @@ public class MyAccountFragment extends BaseFragment {
         }
     }
 
+    private void uploadToServer(File file) {
+        Constants.showSpinner("Picture Uploading", getContext());
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+        apiClient.uploadImage(authenticatedUser.getId(), file, new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                Constants.dismissSpinner();
+                UserResponse userResponse = response.body();
+
+                if (userResponse != null) {
+                    if (userResponse.getSuccess() == 1) {
+                        if (userResponse.getUser() != null) {
+                            GlobalValues.saveUser(getContext(), userResponse.getUser());
+                            authenticatedUser = GlobalValues.getUser(getContext());
+                            if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty()) {
+                                Picasso.get()
+                                        .load(Constants.URLS.BaseURLImages + authenticatedUser.getProfileImagePath())
+                                        .transform(new CircleTransform())
+                                        .placeholder(R.drawable.ic_profile)
+                                        .into(profile);
+                            } else {
+                                Picasso.get()
+                                        .load("https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1")
+                                        .transform(new CircleTransform())
+                                        .placeholder(R.drawable.ic_profile)
+                                        .into(profile);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
 
-    private String convertImage(){
+    private String convertImage() {
 
         String convert = null;
-        if(file!=null) {
+        if (file != null) {
             Bitmap bitmap = decodeFile(file.toString());
             if (bitmap != null) {
                 ByteArrayOutputStream byteArrayOutputStreamObject = new ByteArrayOutputStream();

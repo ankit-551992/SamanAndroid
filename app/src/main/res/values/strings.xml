@@ -25,6 +25,7 @@
     <string name="dummy">Lige Brand Men Watches Automatic</string>
     <string name="write_here">Write your message here</string>
     <string name="search">Search</string>
+    <string name="search_query">Search Field Empty, Please write something to search</string>
     <string name="swipe">Swipe</string>
     <string name="click">Click</string>
     <string name="back">Back</string>
@@ -240,6 +241,8 @@
     <string name="update_profile_success">Profile Updated Successfully</string>
     <string name="update_profile_fail">Profile Update Failed</string>
     <!--My Account-->
+
+    <string name="images_limit">You can select 5 images only</string>
 
     <!--Required-->
     <string name="first_name_required">First name required</string>

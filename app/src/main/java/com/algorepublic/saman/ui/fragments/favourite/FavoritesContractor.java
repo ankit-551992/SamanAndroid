@@ -17,7 +17,7 @@ public class FavoritesContractor {
     }
 
     interface Presenter {
-        void getFavoritesData(int userID);
+        void getFavoritesData(int userID,int pageIndex,int pageSize,boolean showProgress);
         void destroy();
     }
 

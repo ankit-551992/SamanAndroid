@@ -48,6 +48,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     FavoritesPresenter presenter;
     User authenticatedUser;
 
+
+    int currentPage = 0;
+    int pageSize = 20;
+    boolean isGetAll = false;
+    private boolean isLoading;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
@@ -59,9 +65,10 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         productArrayList = new ArrayList<>();
         favoritesAdapter = new FavoritesAdapter(getContext(), productArrayList);
         favoritesRecyclerView.setAdapter(favoritesAdapter);
+        favoritesRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
         presenter = new FavoritesPresenter(this);
-        presenter.getFavoritesData(authenticatedUser.getId());
+        presenter.getFavoritesData(authenticatedUser.getId(),currentPage,pageSize,true);
 
         new SwipeHelper(getContext(), favoritesRecyclerView) {
             @Override
@@ -132,9 +139,21 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     @Override
     public void response(List<Product> product) {
+
+        if (productArrayList.size() > 0) {
+            productArrayList.remove(productArrayList.size() - 1);
+            favoritesAdapter.notifyItemRemoved(productArrayList.size());
+        }
+
+        if(product.size()==0){
+            isGetAll=true;
+        }
+
+        isLoading=false;
         productArrayList.addAll(product);
         favoritesAdapter.notifyDataSetChanged();
         quantity.setText(productArrayList.size() + " " + getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
         if (productArrayList.size() > 0) {
             tv_empty_bag.setVisibility(View.GONE);
         } else {
@@ -146,4 +165,26 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     public void error(String message) {
 
     }
+
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+            int visibleThreshold = 5;
+            int lastVisibleItem, totalItemCount;
+            totalItemCount = linearLayoutManager.getItemCount();
+            lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+            if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                productArrayList.add(null);
+                favoritesAdapter.notifyItemInserted(productArrayList.size() - 1);
+                isLoading = true;
+                currentPage++;
+                presenter.getFavoritesData(authenticatedUser.getId(),currentPage,pageSize,false);
+            }
+        }
+    };
 }

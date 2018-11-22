@@ -35,7 +35,7 @@ public class User {
     @SerializedName("roleID")
     @Expose
     private Integer roleID;
-    @SerializedName("profileImagePath")
+    @SerializedName("ProfileImagePath")
     @Expose
     private String profileImagePath;
     @SerializedName("Country")

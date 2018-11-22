@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -56,12 +58,12 @@ import retrofit2.Response;
 
 public class ProductDetailActivity extends BaseActivity implements ProductContractor.View {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.toolbar_back)
-    ImageView toolbarBack;
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
+//    @BindView(R.id.toolbar_title)
+//    TextView toolbarTitle;
+//    @BindView(R.id.toolbar_back)
+//    ImageView toolbarBack;
     @BindView(R.id.viewpager)
     ViewPager mPager;
     @BindView(R.id.options_layout)
@@ -104,23 +106,27 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
         authenticatedUser = GlobalValues.getUser(this);
         productID = getIntent().getIntExtra("ProductID", 1);
 
         inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         presenter=new ProductPresenter(this);
 
-        toolbarTitle.setVisibility(View.GONE);
-        toolbarBack.setVisibility(View.VISIBLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-        } else {
-            toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
-        }
+//        toolbarTitle.setVisibility(View.GONE);
+//        toolbarBack.setVisibility(View.VISIBLE);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
+//        } else {
+//            toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
+//        }
 
         urls = new ArrayList<>();
         customPagerAdapter = new CustomPagerAdapter(this, urls);

@@ -67,7 +67,6 @@ public class BagFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_bag, container, false);
         ButterKnife.bind(this, view);
 
-
         layoutManager = new LinearLayoutManager(getActivity());
         bagRecyclerView.setLayoutManager(layoutManager);
         bagRecyclerView.setNestedScrollingEnabled(false);
@@ -121,12 +120,11 @@ public class BagFragment extends BaseFragment {
                                 GlobalValues.markFavourite(authenticatedUser.getId(),productArrayList.get(pos).getID());
                                 Product p=productArrayList.get(pos);
                                 if(SamanApp.localDB.deleteItemFromCart(p)){
-                                    Constants.showAlert(getString(R.string.add_to_fav),getString(R.string.removed_from_bag),getString(R.string.okay),getActivity());
+                                    Constants.showAlert(getString(R.string.add_to_fav),getString(R.string.move_to_fav),getString(R.string.okay),getActivity());
                                     productArrayList.remove(p);
                                     bagAdapter.updateNotify();
                                     ((DashboardActivity)getContext()).updateBagCount();
                                 }
-
                                 quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
 
                                 if(productArrayList.size()>0){

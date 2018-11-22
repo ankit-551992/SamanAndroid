@@ -4,7 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.algorepublic.saman.ui.fragments.store.Tab.TabFragment;
+import com.algorepublic.saman.ui.fragments.store.Tab.Tabs;
+
 
 public class PagerAdapter  extends FragmentStatePagerAdapter {
     int mNumOfTabs;
@@ -19,13 +20,13 @@ public class PagerAdapter  extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                TabFragment tab1 = new TabFragment();
+                Tabs tab1 = new Tabs();
                 return tab1;
             case 1:
-                TabFragment tab2 = new TabFragment();
+                Tabs tab2 = new Tabs();
                 return tab2;
             case 2:
-                TabFragment tab3 = new TabFragment();
+                Tabs tab3 = new Tabs();
                 return tab3;
             default:
                 return null;

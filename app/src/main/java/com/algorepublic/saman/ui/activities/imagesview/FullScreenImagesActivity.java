@@ -8,7 +8,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
-import com.algorepublic.saman.ui.activities.productdetail.CustomPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
