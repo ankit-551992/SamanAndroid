@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseDashboardActivity;
-import com.algorepublic.saman.ui.activities.order.checkout.CheckOutActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.google.android.gms.auth.api.Auth;
@@ -73,8 +72,6 @@ public class DummyActivity extends BaseDashboardActivity implements  GoogleApiCl
 
             case R.id.cont_nav_my_account:
 
-                Intent intent=new Intent(DummyActivity.this, CheckOutActivity.class);
-                startActivity(intent);
 //                changeFragment(Constants.Fragment.MyAccount);
                 break;
         }

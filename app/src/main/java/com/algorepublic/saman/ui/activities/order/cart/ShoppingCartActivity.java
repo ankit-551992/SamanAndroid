@@ -45,7 +45,6 @@ import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 import com.algorepublic.saman.utils.SamanApp;
 import com.google.gson.reflect.TypeToken;
-import com.paypal.android.sdk.payments.PaymentActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;

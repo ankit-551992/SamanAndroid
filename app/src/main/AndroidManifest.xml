@@ -34,9 +34,7 @@
         <activity
             android:name=".ui.activities.register.RegisterActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.order.checkout.CheckOutActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activities.order.checkout.CheckoutOrderActivity"
             android:screenOrientation="portrait" />
