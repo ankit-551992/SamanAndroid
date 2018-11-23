@@ -140,7 +140,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     @Override
     public void response(List<Product> product) {
 
-        if (productArrayList.size() > 0) {
+        if (productArrayList.size() > 0 && productArrayList.get(productArrayList.size() - 1)==null) {
             productArrayList.remove(productArrayList.size() - 1);
             favoritesAdapter.notifyItemRemoved(productArrayList.size());
         }

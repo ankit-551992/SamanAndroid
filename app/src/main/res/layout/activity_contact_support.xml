@@ -39,6 +39,7 @@
 
 
             <EditText
+                android:id="@+id/editText_message"
                 android:padding="10dp"
                 android:gravity="top"
                 android:hint="@string/write_here"
@@ -61,7 +62,7 @@
             <Button
                 android:layout_marginTop="10dp"
                 style="?android:attr/borderlessButtonStyle"
-                android:id="@+id/button_register"
+                android:id="@+id/button_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow_button"

@@ -140,7 +140,7 @@ public class ProductListingActivity  extends BaseActivity {
                 progressBar.setVisibility(View.GONE);
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1){
-                        if (displayData.size() > 0) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1)==null) {
                             displayData.remove(displayData.size() - 1);
                             productAdapter.notifyItemRemoved(displayData.size());
                         }
@@ -169,7 +169,7 @@ public class ProductListingActivity  extends BaseActivity {
                 GetProducts getProducts = response.body();
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1) {
-                        if (displayData.size() > 0) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1)==null) {
                             displayData.remove(displayData.size() - 1);
                             productAdapter.notifyItemRemoved(displayData.size());
                         }

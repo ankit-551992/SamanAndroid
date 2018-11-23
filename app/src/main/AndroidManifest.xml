@@ -21,10 +21,10 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activities.onboarding.WelcomeActivity"
             android:screenOrientation="portrait" />
@@ -34,13 +34,12 @@
         <activity
             android:name=".ui.activities.register.RegisterActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.activities.order.checkout.CheckoutOrderActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.home.DashboardActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.password.ChangePasswordActivity"
             android:screenOrientation="portrait" />
@@ -96,10 +95,17 @@
             android:name=".ui.activities.PoliciesActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activities.myaccount.addresses.AddShippingAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.myaccount.addresses.ShippingAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activities.imagesview.FullScreenImagesActivity"
             android:screenOrientation="portrait" />
-
-
+        <activity
+            android:name=".ui.activities.store.StoreDetailActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -109,7 +115,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA5da6atc-sJ_Zzvw4flqZ-XnDtv5aT3ms" />
-        <!--Facebook Region-->
+        <!-- Facebook Region -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -118,7 +124,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -131,9 +136,10 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <!--Facebook Region End-->
+        <!-- Facebook Region End -->
 
-        <!--Firebase Region-->
+
+        <!-- Firebase Region -->
         <service android:name=".services.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -143,23 +149,24 @@
         <meta-data
             android:name="firebase_crash_collection_enabled"
             android:value="false" />
-        <!--<meta-data-->
-        <!--android:name="com.google.firebase.messaging.default_notification_icon"-->
-        <!--android:resource="@mipmap/ic_launcher_round" />-->
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <!--<meta-data-->
-        <!--android:name="com.google.firebase.messaging.default_notification_color"-->
-        <!--android:resource="@color/colorAccent" />-->
-        <!--<meta-data-->
-        <!--android:name="com.google.firebase.messaging.default_notification_color"-->
-        <!--android:resource="@android:color/transparent" />-->
-        <!--Firebase Region End-->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_icon" -->
+        <!-- android:resource="@mipmap/ic_launcher_round" /> -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_color" -->
+        <!-- android:resource="@color/colorAccent" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_color" -->
+        <!-- android:resource="@android:color/transparent" /> -->
+        <!-- Firebase Region End -->
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="23f05e93332ffd0a6e8bc93246aeb499be37d4a5" />
-
 
         <provider
             android:name="android.support.v4.content.FileProvider"

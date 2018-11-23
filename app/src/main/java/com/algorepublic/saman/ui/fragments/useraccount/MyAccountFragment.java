@@ -31,6 +31,7 @@ import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
+import com.algorepublic.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
 import com.algorepublic.saman.ui.activities.myaccount.customersupports.CustomerSupportActivity;
 import com.algorepublic.saman.ui.activities.myaccount.messages.MessagesListActivity;
 import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
@@ -119,6 +120,12 @@ public class MyAccountFragment extends BaseFragment {
     @OnClick(R.id.my_details)
     void myDetails() {
         Intent intent = new Intent(getActivity(), MyDetailsActivity.class);
+        getActivity().startActivity(intent);
+    }
+
+    @OnClick(R.id.shipping_address)
+    void shippingAddress() {
+        Intent intent = new Intent(getActivity(), ShippingAddressActivity.class);
         getActivity().startActivity(intent);
     }
 

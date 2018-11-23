@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
+import com.algorepublic.saman.ui.activities.store.StoreDetailActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -66,7 +67,7 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View view) {
 
-                        Intent intent=new Intent(mContext, ProductListingActivity.class);
+                        Intent intent=new Intent(mContext, StoreDetailActivity.class);
                         intent.putExtra("Function",2); //2 for Store Products
                         intent.putExtra("StoreName",storeArrayList.get(position).getStoreName());
                         intent.putExtra("StoreNameAr",storeArrayList.get(position).getStoreNameAR());

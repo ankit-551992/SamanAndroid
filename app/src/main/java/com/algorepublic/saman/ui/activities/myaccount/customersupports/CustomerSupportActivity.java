@@ -27,9 +27,16 @@ import android.widget.TextView;
 import com.algorepublic.saman.BuildConfig;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.CustomerSupport;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.data.model.apis.UserResponse;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.ui.adapters.CustomerSupportAdapter;
 import com.algorepublic.saman.utils.CircleTransform;
+import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 import com.squareup.picasso.Picasso;
 
@@ -43,6 +50,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CustomerSupportActivity extends BaseActivity {
 
@@ -54,12 +64,16 @@ public class CustomerSupportActivity extends BaseActivity {
     ImageView toolbarBack;
     @BindView(R.id.editText_subject)
     EditText subjectSelectionEditText;
+    @BindView(R.id.editText_message)
+    EditText messageSelectionEditText;
 
     @BindView(R.id.photos)
     RecyclerView photos;
     RecyclerView.LayoutManager layoutManager;
     CustomerSupportAdapter customerSupportAdapter;
     private List<File> files;
+
+    User authenticatedUser;
 
     File file = null;
     String mCurrentPhotoPath;
@@ -71,6 +85,7 @@ public class CustomerSupportActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_support);
         ButterKnife.bind(this);
+        authenticatedUser = GlobalValues.getUser(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.customer_service));
@@ -127,6 +142,16 @@ public class CustomerSupportActivity extends BaseActivity {
         customerSupportAdapter.notifyDataSetChanged();
     }
 
+    @OnClick(R.id.button_upload)
+    public void upload(){
+        if(files.size()>1) {
+            List<File> uFiles=new ArrayList<>();
+            for (int i=1;i<files.size();i++) {
+                uFiles.add(files.get(i));
+            }
+            uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
+        }
+    }
 
     public void dispatchTakePictureIntent() throws IOException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -237,4 +262,25 @@ public class CustomerSupportActivity extends BaseActivity {
         dialog.show();
     }
 
+
+
+    private void uploadToServer(int userID,String subject,String message,List<File> files) {
+        Constants.showSpinner(getString(R.string.submit_request), CustomerSupportActivity.this);
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+        apiClient.uploadToSupport(userID,subject,message,files, new Callback<CustomerSupport>() {
+            @Override
+            public void onResponse(Call<CustomerSupport> call, Response<CustomerSupport> response) {
+                Constants.dismissSpinner();
+                CustomerSupport customerSupport=response.body();
+                if(customerSupport.getSuccess()==1){
+                    Constants.showAlertWithActivityFinish(getString(R.string.customer_service),getString(R.string.request_sent),getString(R.string.close),CustomerSupportActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CustomerSupport> call, Throwable t) {
+                Constants.dismissSpinner();
+            }
+        });
+    }
 }

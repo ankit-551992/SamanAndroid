@@ -1,6 +1,7 @@
 package com.algorepublic.saman.network;
 
 
+import com.algorepublic.saman.data.model.apis.CustomerSupport;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.HomeScreenData;
@@ -253,15 +254,15 @@ public class WebServicesHandler {
     }
 
 
-    private void uploadToSupport(int userID,String subject,String message,List<File> files,Callback<SimpleSuccess> callback) {
+    public void uploadToSupport(int userID,String subject,String message,List<File> files,Callback<CustomerSupport> callback) {
 
-        MultipartBody.Part[] surveyImagesParts = new MultipartBody.Part[files.size()];
+        MultipartBody.Part[] SupportImages = new MultipartBody.Part[files.size()];
 
         for (int index = 0; index < files.size(); index++) {
             RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), files.get(index));
-            surveyImagesParts[index] = MultipartBody.Part.createFormData("SurveyImage", files.get(index).getName(), surveyBody);
+            SupportImages[index] = MultipartBody.Part.createFormData("SupportImages["+index+"]", files.get(index).getName(), surveyBody);
         }
-        Call<SimpleSuccess> call = webServices.uploadToSupport(userID,subject,message,surveyImagesParts);
+        Call<CustomerSupport> call = webServices.uploadToSupport(userID,subject,message,SupportImages);
         call.enqueue(callback);
 
     }

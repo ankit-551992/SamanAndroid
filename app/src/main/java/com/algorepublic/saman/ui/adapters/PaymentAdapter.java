@@ -155,8 +155,6 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return cardDsList == null ? 0 : cardDsList.size();
     }
 
-
-
     static class PaymentViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_card_holder_name)
         TextView cardHolderName;

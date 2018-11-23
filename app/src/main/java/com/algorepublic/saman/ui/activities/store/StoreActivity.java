@@ -109,7 +109,7 @@ public class StoreActivity extends BaseActivity {
             @Override
             public void onResponse(Call<GetStores> call, Response<GetStores> response) {
 
-                if (storeArrayList.size() > 0) {
+                if (storeArrayList.size() > 0 && storeArrayList.get(storeArrayList.size()-1)==null) {
                     storeArrayList.remove(storeArrayList.size() - 1);
                     adapter.notifyItemRemoved(storeArrayList.size());
                 }

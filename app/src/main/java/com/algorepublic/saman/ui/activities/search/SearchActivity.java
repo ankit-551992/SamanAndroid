@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,8 @@ public class SearchActivity extends BaseActivity{
     RelativeLayout searchBar;
     @BindView(R.id.recyclerView)
     RecyclerView searchRecyclerView;
+    @BindView(R.id.native_progress_bar)
+    ProgressBar progressBar;
     RecyclerView.LayoutManager productLayoutManager;
     List<Product> displayData = new ArrayList<>();
     ProductAdapter productAdapter;
@@ -106,6 +109,10 @@ public class SearchActivity extends BaseActivity{
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
                     if(searchEditText.getText()!=null && !searchEditText.getText().toString().isEmpty()) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        currentPage=0;
+                        isGetAll=false;
+                        displayData.clear();
                         query = searchEditText.getText().toString();
                         searchProduct(query, currentPage, pageSize,sortType);
                         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -124,10 +131,11 @@ public class SearchActivity extends BaseActivity{
         WebServicesHandler.instance.getSearchProducts(authenticatedUser.getId(),query,sortType,pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                progressBar.setVisibility(View.GONE);
                 GetProducts getProducts = response.body();
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1){
-                        if (displayData.size() > 0) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1)==null) {
                             displayData.remove(displayData.size() - 1);
                             productAdapter.notifyItemRemoved(displayData.size());
                         }
@@ -140,9 +148,12 @@ public class SearchActivity extends BaseActivity{
                         isLoading = false;
                     }
                 }
+                searchRecyclerView.setVisibility(View.GONE);
+                searchRecyclerView.setVisibility(View.VISIBLE);
             }
             @Override
             public void onFailure(Call<GetProducts> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -169,13 +180,24 @@ public class SearchActivity extends BaseActivity{
         newIn     = (CheckBox) dialog.findViewById(R.id.checkbox_new_in);
         bestSell  = (CheckBox) dialog.findViewById(R.id.checkbox_best_sell);
 
-        highPrice.setChecked(true);
+        if(isHighPrice) {
+            highPrice.setChecked(true);
+        }else if (isLowPrice){
+            lowPrice.setChecked(true);
+        }else if (isNewIn){
+            newIn.setChecked(true);
+        }else if (isBestSell){
+            bestSell.setChecked(true);
+        }
 
         highPrice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    isHighPrice=b;
+                    isHighPrice=true;
+                    isNewIn=false;
+                    isBestSell=false;
+                    isLowPrice=false;
                     bestSell.setChecked(false);
                     lowPrice.setChecked(false);
                     newIn.setChecked(false);
@@ -187,7 +209,10 @@ public class SearchActivity extends BaseActivity{
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    isLowPrice=b;
+                    isHighPrice=false;
+                    isNewIn=false;
+                    isBestSell=false;
+                    isLowPrice=true;
                     bestSell.setChecked(false);
                     highPrice.setChecked(false);
                     newIn.setChecked(false);
@@ -199,7 +224,10 @@ public class SearchActivity extends BaseActivity{
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    isNewIn=b;
+                    isHighPrice=false;
+                    isNewIn=true;
+                    isBestSell=false;
+                    isLowPrice=false;
                     highPrice.setChecked(false);
                     lowPrice.setChecked(false);
                     bestSell.setChecked(false);
@@ -211,7 +239,10 @@ public class SearchActivity extends BaseActivity{
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    isBestSell=b;
+                    isHighPrice=false;
+                    isNewIn=false;
+                    isBestSell=true;
+                    isLowPrice=false;
                     highPrice.setChecked(false);
                     lowPrice.setChecked(false);
                     newIn.setChecked(false);
@@ -238,9 +269,12 @@ public class SearchActivity extends BaseActivity{
                 }else if (isBestSell){
                     sortType=4;
                 }
+                progressBar.setVisibility(View.VISIBLE);
+                displayData.clear();
                 isLoading = true;
                 currentPage=0;
                 isGetAll=false;
+                productAdapter.notifyDataSetChanged();
                 searchProduct(query,currentPage,pageSize,sortType);
                 dialog.dismiss();
             }
@@ -276,7 +310,7 @@ public class SearchActivity extends BaseActivity{
             super.onScrolled(recyclerView, dx, dy);
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
-            int visibleThreshold = 5;
+            int visibleThreshold = 2;
             int lastVisibleItem, totalItemCount;
             totalItemCount = linearLayoutManager.getItemCount();
             lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();

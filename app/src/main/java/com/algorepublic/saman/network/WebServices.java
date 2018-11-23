@@ -1,5 +1,6 @@
 package com.algorepublic.saman.network;
 
+import com.algorepublic.saman.data.model.apis.CustomerSupport;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.HomeScreenData;
@@ -121,10 +122,10 @@ public interface WebServices {
     Call<UserResponse> postImage(@Query("userID") int userID, @Part MultipartBody.Part image);
 
     @Multipart
-    @POST("User/UpdateProfilePicture?")
-    Call<SimpleSuccess> uploadToSupport(@Query("userID") int userID,
-                                        @Query("subject") String subject,
-                                        @Query("message") String message,
-                                        @Part MultipartBody.Part[] images);
+    @POST("Support/CreateTicket?")
+    Call<CustomerSupport> uploadToSupport(@Query("UserID") int userID,
+                                          @Query("Subject") String subject,
+                                          @Query("Message") String message,
+                                          @Part MultipartBody.Part[] images);
 
 }
