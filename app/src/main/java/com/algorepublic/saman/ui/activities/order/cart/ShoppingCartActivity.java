@@ -33,6 +33,7 @@ import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
 import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.activities.order.checkout.CheckoutOrderActivity;
@@ -120,6 +121,8 @@ public class ShoppingCartActivity extends BaseActivity {
 
     boolean promoApplied = false;
 
+    int addressID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +153,7 @@ public class ShoppingCartActivity extends BaseActivity {
 
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
         shipmentAddress.setText(authenticatedUser.getShippingAddress().getAddressLine1().replace(" ", "\n\n"));
-
+        addressID=authenticatedUser.getShippingAddress().getID();
         cardNameTextView.setText(getString(R.string.card_delivery));
         cardExpiryTextView.setVisibility(View.GONE);
         cardNumberTextView.setVisibility(View.GONE);
@@ -203,7 +206,7 @@ public class ShoppingCartActivity extends BaseActivity {
 
     @OnClick({R.id.tv_delivery_address_change, R.id.iv_delivery_address_change})
     public void changeDeliveryAddress() {
-        Intent intent = new Intent(ShoppingCartActivity.this, MyDetailsActivity.class);
+        Intent intent = new Intent(ShoppingCartActivity.this, ShippingAddressActivity.class);
         intent.putExtra("Request", true);
         startActivityForResult(intent, 1204);
     }
@@ -252,8 +255,8 @@ public class ShoppingCartActivity extends BaseActivity {
         WebServicesHandler apiClient = WebServicesHandler.instance;
 
         apiClient.placeOrder(authenticatedUser.getId(),
-                authenticatedUser.getShippingAddress().getID(),
-                authenticatedUser.getShippingAddress().getID(),
+                addressID,
+                addressID,
                 deliveryCost,
                 priceToPay,
                 "COD",
@@ -345,8 +348,9 @@ public class ShoppingCartActivity extends BaseActivity {
             }
         } else if (requestCode == 1204) {
             if (resultCode == RESULT_OK) {
-                authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
-                shipmentAddress.setText(authenticatedUser.getShippingAddress().getAddressLine1().replace(" ", "\n\n"));
+                String d = data.getExtras().getString("DATA");
+                addressID = data.getExtras().getInt("ID");
+                shipmentAddress.setText(d.replace(" ", "\n\n"));
             }
         }
     }

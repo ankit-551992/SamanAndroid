@@ -1,9 +1,13 @@
 package com.algorepublic.saman.network;
 
+import com.algorepublic.saman.data.model.ShippingAddress;
+import com.algorepublic.saman.data.model.apis.AddAddressApi;
 import com.algorepublic.saman.data.model.apis.CustomerSupport;
+import com.algorepublic.saman.data.model.apis.GetAddressApi;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.HomeScreenData;
+import com.algorepublic.saman.data.model.apis.GetStore;
 import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
 import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
@@ -84,6 +88,9 @@ public interface WebServices {
     @GET("Catalog/Categories")
     Call<GetCategoriesList> getStoreCategories();
 
+    @GET("Seller/Get/{id}")
+    Call<GetStore> getStore(@Path("id") int storeId);
+
     @GET("Seller/GetByCategory?")
 //    Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID, @Query("page") String page);
     Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID);
@@ -92,13 +99,14 @@ public interface WebServices {
     @GET("Product/GetListByStore?")
     Call<GetProducts> getProductsByStore(@Query("storeID") int storeID,@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
+    @GET("Product/GetListByStoreAndCategory?")
+    Call<GetProducts> getProductsByStoreAndCategory(@Query("storeID") int storeID,@Query("categoryID") int categoryID,@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
     @GET("Product/GetLatestProducts?")
     Call<GetProducts> getLatestProducts(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
     @GET("Product/Search?")
     Call<GetProducts> getSearchProducts(@Query("userID") int userID,@Query("q") String q,@Query("sortType") int sortType,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
-
 
     @GET("Coupon/Verify?")
     Call<PromoVerify> applyPromo(@Query("code") String code);
@@ -111,11 +119,27 @@ public interface WebServices {
     @POST("Product/MarkAsUnfavorite")
     Call<SimpleSuccess> markUnFavorite(@FieldMap Map<String, Object> parameters);
 
+
+    @FormUrlEncoded
+    @POST("Address/Insert")
+    Call<AddAddressApi> insertAddress(@FieldMap Map<String, Object> parameters);
+
+    @FormUrlEncoded
+    @POST("Address/Update")
+    Call<SimpleSuccess> updateAddress(@FieldMap Map<String, Object> parameters);
+
+    @FormUrlEncoded
+    @POST("Address/Delete")
+    Call<SimpleSuccess> deleteAddress(@FieldMap Map<String, Object> parameters);
+
     @GET("Seller")
     Call<GetStores> getAllStores();
 
     @GET("Product/Get/{id}?")
     Call<GetProduct> getProductDetail(@Path("id") String productId,@Query("userID") String userID);
+
+    @GET("Address/GetListByUserID?")
+    Call<GetAddressApi> getAddresses(@Query("userID") int userID);
 
     @Multipart
     @POST("User/UpdateProfilePicture?")

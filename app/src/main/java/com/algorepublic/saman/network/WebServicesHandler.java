@@ -1,10 +1,13 @@
 package com.algorepublic.saman.network;
 
 
+import com.algorepublic.saman.data.model.apis.AddAddressApi;
 import com.algorepublic.saman.data.model.apis.CustomerSupport;
+import com.algorepublic.saman.data.model.apis.GetAddressApi;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.HomeScreenData;
+import com.algorepublic.saman.data.model.apis.GetStore;
 import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
 import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
@@ -33,6 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Query;
 
 
 public class WebServicesHandler {
@@ -89,7 +93,7 @@ public class WebServicesHandler {
 
 
     public void updateUser(int id, String fName, String lName, String gender, String country,
-                           String address, Callback<SimpleSuccess> callback) {
+                           JSONObject address, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("ID", id);
@@ -97,7 +101,7 @@ public class WebServicesHandler {
         parameters.put("LastName", lName);
         parameters.put("Gender", gender);
         parameters.put("Country", country);
-        parameters.put("Address", address);
+        parameters.put("ShippingAddress", address);
 
         Call<SimpleSuccess> call = webServices.updateProfile(parameters);
         call.enqueue(callback);
@@ -192,6 +196,11 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getStore(int storeId,Callback<GetStore> callback) {
+        Call<GetStore> call = webServices.getStore(storeId);
+        call.enqueue(callback);
+    }
+
 
     public void getStoresByCategory(String categoryID, Callback<GetStores> callback) {
         Call<GetStores> call = webServices.getStoresByCategoryID(categoryID);
@@ -212,6 +221,11 @@ public class WebServicesHandler {
 
     public void getProductsByStore(int StoreId, int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
         Call<GetProducts> call = webServices.getProductsByStore(StoreId, userID, pageIndex, pageSize);
+        call.enqueue(callback);
+    }
+
+    public void getProductsByStoreAndCategory(int StoreId,int categoryId,int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getProductsByStoreAndCategory(StoreId,categoryId,userID, pageIndex, pageSize);
         call.enqueue(callback);
     }
 
@@ -246,13 +260,46 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getAddressList(int userId, Callback<GetAddressApi> callback) {
+        Call<GetAddressApi> call = webServices.getAddresses(userId);
+        call.enqueue(callback);
+    }
+
+    public void addAddress(int userID,String addressLine,boolean isDefault, Callback<AddAddressApi> callback) {
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userID", userID);
+        parameters.put("AddressLine1", addressLine);
+        parameters.put("isDefault", isDefault);
+
+        Call<AddAddressApi> call = webServices.insertAddress(parameters);
+        call.enqueue(callback);
+    }
+
+    public void updateAddress(int ID,String addressLine,boolean isDefault, Callback<SimpleSuccess> callback) {
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("ID", ID);
+        parameters.put("AddressLine1", addressLine);
+        parameters.put("isDefault", isDefault);
+
+        Call<SimpleSuccess> call = webServices.updateAddress(parameters);
+        call.enqueue(callback);
+    }
+
+    public void deleteAddress(int ID, Callback<SimpleSuccess> callback) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("addressID", ID);
+        Call<SimpleSuccess> call = webServices.deleteAddress(parameters);
+        call.enqueue(callback);
+    }
+
     public void uploadImage(int userId,File file, Callback<UserResponse> callback) {
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
         Call<UserResponse> call = webServices.postImage(userId,body);
         call.enqueue(callback);
     }
-
 
     public void uploadToSupport(int userID,String subject,String message,List<File> files,Callback<CustomerSupport> callback) {
 

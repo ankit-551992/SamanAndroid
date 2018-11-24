@@ -33,21 +33,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    public void removeItem(int position) {
-        messages.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, messages.size());
-    }
-
-    public void restoreItem(Message message, int position) {
-        messages.add(position, message);
-        notifyItemInserted(position);
-    }
-
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
-    }
-
     @Override
     public int getItemViewType(int position) {
         return messages.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;

@@ -39,6 +39,8 @@ public class ProductListingActivity  extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.tv_empty)
+    TextView empty;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
     @BindView(R.id.toolbar_search)
@@ -55,6 +57,7 @@ public class ProductListingActivity  extends BaseActivity {
 
     int function=0;
     int storeID=0;
+    int categoryID=0;
     String storeName="";
     String storeNameAr="";
 
@@ -76,6 +79,7 @@ public class ProductListingActivity  extends BaseActivity {
             function=bundle.getInt("Function");
             if(function==2){
                 storeID=bundle.getInt("StoreID");
+                categoryID=bundle.getInt("categoryID");
                 storeName=bundle.getString("StoreName");
                 storeNameAr=bundle.getString("StoreNameAr");
             }
@@ -125,15 +129,15 @@ public class ProductListingActivity  extends BaseActivity {
 
         progressBar.setVisibility(View.VISIBLE);
         if(function==2) {
-            getProductsByStoreID(storeID,currentPage,pageSize);
+            getProductsByStoreID(storeID,categoryID,currentPage,pageSize);
         }else {
             getLatestProducts(currentPage,pageSize);
         }
     }
 
-    private void getProductsByStoreID(int storeID,int pageIndex,int pageSize) {
+    private void getProductsByStoreID(int storeID,int categoryId,int pageIndex,int pageSize) {
 
-        WebServicesHandler.instance.getProductsByStore(storeID,authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
+        WebServicesHandler.instance.getProductsByStoreAndCategory(storeID,categoryId,authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 GetProducts getProducts = response.body();
@@ -152,6 +156,11 @@ public class ProductListingActivity  extends BaseActivity {
                         }
                         isLoading = false;
                     }
+                }
+                if(displayData.size()>0){
+                    empty.setVisibility(View.GONE);
+                }else {
+                    empty.setVisibility(View.VISIBLE);
                 }
             }
             @Override
@@ -182,6 +191,11 @@ public class ProductListingActivity  extends BaseActivity {
                         isLoading = false;
                     }
                 }
+                if(displayData.size()>0){
+                    empty.setVisibility(View.GONE);
+                }else {
+                    empty.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -208,7 +222,7 @@ public class ProductListingActivity  extends BaseActivity {
                 isLoading = true;
                 currentPage++;
                 if(function==2) {
-                    getProductsByStoreID(storeID,currentPage,pageSize);
+                    getProductsByStoreID(storeID,categoryID,currentPage,pageSize);
                 }else {
                     getLatestProducts(currentPage,pageSize);
                 }

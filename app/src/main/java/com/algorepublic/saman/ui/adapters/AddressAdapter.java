@@ -20,6 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.app.Activity.RESULT_OK;
+
 public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
@@ -56,7 +58,20 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof MessageViewHolder) {
             MessageViewHolder messageViewHolder = (MessageViewHolder) holder;
 
-            messageViewHolder.address.setText("Lahore Punjab Pakistan");
+            messageViewHolder.address.setText(shippingAddresses.get(position).getAddressLine1());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                        Intent data = new Intent();
+                        int id = shippingAddresses.get(position).getID();
+                        String text = shippingAddresses.get(position).getAddressLine1();
+                        data.putExtra("ID",id);
+                        data.putExtra("DATA",text);
+                        ((Activity) mContext).setResult(RESULT_OK, data);
+                        ((Activity) mContext).finish();
+                }
+            });
 
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;

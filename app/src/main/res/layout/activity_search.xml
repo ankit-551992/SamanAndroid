@@ -74,6 +74,18 @@
             android:clipToPadding="false"
             android:padding="@dimen/item_margin" />
 
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_empty"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:text="No items found!"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </RelativeLayout>
 
 </LinearLayout>

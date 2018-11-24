@@ -50,6 +50,8 @@ public class SearchActivity extends BaseActivity{
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.tv_empty)
+    TextView empty;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
     @BindView(R.id.toolbar_search)
@@ -150,6 +152,12 @@ public class SearchActivity extends BaseActivity{
                 }
                 searchRecyclerView.setVisibility(View.GONE);
                 searchRecyclerView.setVisibility(View.VISIBLE);
+
+                if(displayData.size()>0){
+                    empty.setVisibility(View.GONE);
+                }else {
+                    empty.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public void onFailure(Call<GetProducts> call, Throwable t) {

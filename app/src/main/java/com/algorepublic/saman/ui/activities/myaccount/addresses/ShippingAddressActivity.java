@@ -17,10 +17,16 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.CardDs;
 import com.algorepublic.saman.data.model.ShippingAddress;
+import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.GetAddressApi;
+import com.algorepublic.saman.data.model.apis.GetStores;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.adapters.AddressAdapter;
 import com.algorepublic.saman.ui.adapters.PaymentAdapter;
 import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SwipeHelper;
 
@@ -30,6 +36,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class ShippingAddressActivity extends BaseActivity {
 
@@ -47,11 +55,14 @@ public class ShippingAddressActivity extends BaseActivity {
     List<ShippingAddress> shippingAddresses;
     AddressAdapter addressAdapter;
 
+    User authenticatedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payments);
         ButterKnife.bind(this);
+        authenticatedUser = GlobalValues.getUser(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.shipping_address));
@@ -84,12 +95,13 @@ public class ShippingAddressActivity extends BaseActivity {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.delete),
-                        ResourceUtil.getBitmap(ShippingAddressActivity.this,R.drawable.ic_ddelete),
+                        ResourceUtil.getBitmap(ShippingAddressActivity.this, R.drawable.ic_ddelete),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
                                 // TODO: onDelete
+                                deleteAddress(shippingAddresses.get(pos).getID());
                                 shippingAddresses.remove(pos);
                                 addressAdapter.notifyDataSetChanged();
                             }
@@ -98,16 +110,15 @@ public class ShippingAddressActivity extends BaseActivity {
 
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.edit),
-                        ResourceUtil.getBitmap(ShippingAddressActivity.this,R.drawable.ic_edit),
+                        ResourceUtil.getBitmap(ShippingAddressActivity.this, R.drawable.ic_edit),
                         Color.parseColor("#FEC831"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
                                 // TODO: onDelete
-                                Intent intent=new Intent(ShippingAddressActivity.this,AddShippingAddressActivity.class);
-//                                intent.putExtra("Address",shippingAddresses.get(pos).getAddressLine1());
-                                intent.putExtra("Address","Testing ok okay okay");
-                                intent.putExtra("Type",1);
+                                Intent intent = new Intent(ShippingAddressActivity.this, AddShippingAddressActivity.class);
+                                intent.putExtra("ShippingAddress", shippingAddresses.get(pos));
+                                intent.putExtra("Type", 1);
                                 startActivity(intent);
                             }
                         }
@@ -130,20 +141,53 @@ public class ShippingAddressActivity extends BaseActivity {
 
     @OnClick(R.id.toolbar_settings)
     public void addAddress() {
-        Intent intent=new Intent(ShippingAddressActivity.this,AddShippingAddressActivity.class);
+        Intent intent = new Intent(ShippingAddressActivity.this, AddShippingAddressActivity.class);
         startActivity(intent);
     }
 
-    private void getAddresses(){
+    private void getAddresses() {
 
         shippingAddresses.clear();
 
-        for (int i=0;i<5;i++){
-            ShippingAddress shippingAddress=new ShippingAddress();
-            shippingAddresses.add(shippingAddress);
-        }
+//        shippingAddresses.add(authenticatedUser.getShippingAddress());
+
         addressAdapter.notifyDataSetChanged();
 
+        WebServicesHandler.instance.getAddressList(authenticatedUser.getId(), new retrofit2.Callback<GetAddressApi>() {
+            @Override
+            public void onResponse(Call<GetAddressApi> call, Response<GetAddressApi> response) {
+                GetAddressApi addressApi = response.body();
+                if (addressApi != null) {
+                    if (addressApi.getSuccess() == 1) {
+                        if (addressApi.getResult() != null) {
+                            shippingAddresses.addAll(addressApi.getResult());
+                        }
+
+                        addressAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetAddressApi> call, Throwable t) {
+                addressAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void deleteAddress(int Id) {
+
+        WebServicesHandler.instance.deleteAddress(Id, new retrofit2.Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+                SimpleSuccess simpleSuccess = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+                getAddresses();
+            }
+        });
     }
 
 }

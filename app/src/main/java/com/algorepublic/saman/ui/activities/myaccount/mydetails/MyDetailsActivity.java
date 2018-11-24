@@ -29,6 +29,9 @@ import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -155,7 +158,14 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String country = countryName.getText().toString();
         String address = addressEditText.getText().toString();
         if (isDataValid(firstName, lastName, gender, address)) {
-            presenter.updateUser(authenticatedUser.getId(),firstName,lastName,gender,country,address);
+            JSONObject jsonObject=new JSONObject();
+            try {
+                jsonObject.put("ID",authenticatedUser.getId());
+                jsonObject.put("AddressLine1",address);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            presenter.updateUser(authenticatedUser.getId(),firstName,lastName,gender,country,jsonObject);
         }
     }
 

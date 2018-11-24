@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.CardDs;
+import com.algorepublic.saman.data.model.Message;
 import com.algorepublic.saman.data.model.Payment;
+import com.algorepublic.saman.ui.adapters.ChatAdapter;
 import com.algorepublic.saman.ui.adapters.PaymentAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +37,8 @@ public class MessagingActivity  extends BaseActivity {
     @BindView(R.id.recycler)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    List<CardDs> paymentList = new ArrayList<>();
-    PaymentAdapter paymentAdapter;
+    List<Message> messages = new ArrayList<>();
+    ChatAdapter chatAdapter;
 
 
     @Override
@@ -65,12 +67,23 @@ public class MessagingActivity  extends BaseActivity {
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
-        paymentList = new ArrayList<>();
-        paymentAdapter = new PaymentAdapter(this,paymentList);
-        mRecyclerView.setAdapter(paymentAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+        messages = new ArrayList<>();
+        chatAdapter = new ChatAdapter(this,messages);
+        mRecyclerView.setAdapter(chatAdapter);
+
+        getMessages();
+    }
+
+    private void getMessages(){
+        messages.add(new Message());
+        messages.add(new Message());
+        messages.add(new Message());
+
+        chatAdapter.notifyDataSetChanged();
 
     }
+
+
 
 
 

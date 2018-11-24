@@ -3,6 +3,9 @@ package com.algorepublic.saman.ui.activities.myaccount.mydetails;
 import android.util.Log;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.network.WebServicesHandler;
+
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,7 +19,7 @@ public class MyDetailsPresenter implements DetailContractor.Presenter {
     }
 
     @Override
-    public void updateUser(int id, String fName, String lName, String gender, String country, String address) {
+    public void updateUser(int id, String fName, String lName, String gender, String country, JSONObject address) {
         if (view != null) {
             view.showProgress();
         }

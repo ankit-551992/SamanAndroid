@@ -100,6 +100,8 @@ public class MessagesListActivity extends BaseActivity {
     }
 
     private void getMessages(){
+        messageArrayList.add(new Message());
+
         if(messageArrayList.size()==0){
             empty.setVisibility(View.VISIBLE);
         }else {

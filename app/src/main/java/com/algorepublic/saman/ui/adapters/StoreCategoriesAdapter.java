@@ -8,13 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.algorepublic.saman.R;
-import com.algorepublic.saman.data.model.ProductCategory;
-import com.algorepublic.saman.data.model.ShippingAddress;
 import com.algorepublic.saman.data.model.StoreCategory;
 import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
-import com.algorepublic.saman.ui.activities.store.StoreDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +68,7 @@ public class StoreCategoriesAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Intent intent=new Intent(mContext, ProductListingActivity.class);
                     intent.putExtra("Function",2); //2 for Store Products
                     intent.putExtra("StoreName",storeName);
+                    intent.putExtra("categoryID",categories.get(position).getID());
                     intent.putExtra("StoreNameAr",storeNameAr);
                     intent.putExtra("StoreID",storeID);
                     mContext.startActivity(intent);

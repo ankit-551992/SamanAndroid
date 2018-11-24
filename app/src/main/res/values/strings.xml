@@ -246,6 +246,8 @@
     <string name="update_profile_success">Profile Updated Successfully</string>
     <string name="update_profile_fail">Profile Update Failed</string>
     <string name="request_sent">Request Sent Successfully</string>
+    <string name="address_added">Address Added Successfully</string>
+    <string name="address_edit">Address Updated Successfully</string>
     <!--My Account-->
 
     <string name="images_limit">You can select 5 images only</string>

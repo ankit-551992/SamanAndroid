@@ -3,6 +3,8 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Store {
 
     @SerializedName("StoreName")
@@ -29,6 +31,9 @@ public class Store {
     @SerializedName("UpdateBy")
     @Expose
     private Integer updateBy;
+    @SerializedName("Category")
+    @Expose
+    private List<StoreCategory> storeCategoryList;
     @SerializedName("IsDeleted")
     @Expose
     private Boolean isDeleted;
@@ -116,5 +121,11 @@ public class Store {
         this.iD = iD;
     }
 
+    public List<StoreCategory> getStoreCategoryList() {
+        return storeCategoryList;
+    }
 
+    public void setStoreCategoryList(List<StoreCategory> storeCategoryList) {
+        this.storeCategoryList = storeCategoryList;
+    }
 }

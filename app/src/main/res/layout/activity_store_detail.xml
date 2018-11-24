@@ -21,7 +21,7 @@
             android:src="@drawable/home_banner" />
 
         <ImageView
-            android:id="@+id/iv_profile"
+            android:id="@+id/iv_logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/iv_store_background"
@@ -34,7 +34,7 @@
             android:id="@+id/tv_store_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_profile"
+            android:layout_below="@id/iv_logo"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"

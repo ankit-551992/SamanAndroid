@@ -3,7 +3,9 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ShippingAddress {
+import java.io.Serializable;
+
+public class ShippingAddress implements Serializable {
 
 
     @SerializedName("AddressLine1")
@@ -24,6 +26,9 @@ public class ShippingAddress {
     @SerializedName("Country")
     @Expose
     private Object country;
+    @SerializedName("isDefault")
+    @Expose
+    private boolean isDefault;
     @SerializedName("ID")
     @Expose
     private Integer iD;
@@ -84,5 +89,11 @@ public class ShippingAddress {
         this.iD = iD;
     }
 
+    public boolean isDefault() {
+        return isDefault;
+    }
 
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
 }

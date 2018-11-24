@@ -201,6 +201,7 @@
                 android:background="@color/off_grey"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/shipping_address"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -230,6 +231,7 @@
             </RelativeLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.9dp"
                 android:background="@color/off_grey"/>
