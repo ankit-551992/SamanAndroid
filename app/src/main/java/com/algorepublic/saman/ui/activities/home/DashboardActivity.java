@@ -132,7 +132,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         }
 
         if (navItemIndex == 2) {
-            onNavigationItemSelected(navigationView.getMenu().getItem(1));
+            onNavigationItemSelected(navigationView.getMenu().getItem(0));
         }
     }
 
@@ -323,6 +323,11 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
+            return;
+        }
+
+        if(navItemIndex!=0){
+            onNavigationItemSelected(navigationView.getMenu().getItem(0));
             return;
         }
 
