@@ -124,12 +124,21 @@ public class CustomerSupportActivity extends BaseActivity {
                 }
             } else if (requestCode == REQUEST_CHOOSE_PHOTO) {
                 if (data != null) {
-                    Uri selectedImageUri = data.getData();
-                    if (selectedImageUri != null) {
-                        if (selectedImageUri.getPath() != null) {
-                            file = new File(selectedImageUri.getPath());
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        String path = GlobalValues.getRealPathFromURI(CustomerSupportActivity.this,data.getData());
+                        if (path!= null) {
+                            file = new File(path);
                             files.add(file);
                             customerSupportAdapter.notifyDataSetChanged();
+                        }
+                    }else {
+                        Uri selectedImageUri = data.getData();
+                        if (selectedImageUri != null) {
+                            if (selectedImageUri.getPath() != null) {
+                                file = new File(selectedImageUri.getPath());
+                                files.add(file);
+                                customerSupportAdapter.notifyDataSetChanged();
+                            }
                         }
                     }
                 }

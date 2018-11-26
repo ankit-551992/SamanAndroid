@@ -388,10 +388,12 @@
                 android:inputType="text" />
 
             <TextView
+                android:id="@+id/tv_terms_policies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
+                android:textColor="@color/grey"
                 android:lineSpacingMultiplier="1.2"
                 android:text="@string/sign_up_agreement" />
 

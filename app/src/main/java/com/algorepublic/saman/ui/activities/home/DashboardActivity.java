@@ -106,6 +106,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         }
         updateBagCount();
         super.onResume();
+        updateUserDetails();
     }
 
     @Override
@@ -365,6 +366,9 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             public void onClick(DialogInterface dialogInterface, int i) {
 //                presenter.logoutUser();
                 SamanApp.db.putString(Constants.CARD_LIST, "");
+                if(SamanApp.localDB!=null){
+                    SamanApp.localDB.clearCart();
+                }
                 GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
                 Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
                 startActivity(mainIntent);

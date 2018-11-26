@@ -296,7 +296,7 @@ public class WebServicesHandler {
 
     public void uploadImage(int userId,File file, Callback<UserResponse> callback) {
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), reqFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getPath(), reqFile);
         Call<UserResponse> call = webServices.postImage(userId,body);
         call.enqueue(callback);
     }

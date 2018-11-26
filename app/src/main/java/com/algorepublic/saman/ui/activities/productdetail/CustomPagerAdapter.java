@@ -37,10 +37,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         assert imageLayout != null;
         ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
 
-        Picasso.get().load(Constants.URLS.BaseURLImages+urls.get(position)).fit().centerCrop()
-                .placeholder(R.drawable.ic_account_img)
-                .error(R.drawable.ic_account_img)
-                .into(imageView);
+        Picasso.get().load(Constants.URLS.BaseURLImages+urls.get(position)).fit().centerCrop().into(imageView);
         collection.addView(imageLayout, 0);
 
         imageLayout.setOnClickListener(new View.OnClickListener() {

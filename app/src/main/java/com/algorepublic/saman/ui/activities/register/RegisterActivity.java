@@ -3,12 +3,17 @@ package com.algorepublic.saman.ui.activities.register;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +30,20 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.ui.activities.PoliciesActivity;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
+import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -118,6 +126,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     EditText yearEditText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.tv_terms_policies)
+    TextView termPolicy;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     boolean isShowing = false;
@@ -172,6 +182,35 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         //Social Login
 
         myCalendar = Calendar.getInstance();
+
+        customTextView(termPolicy);
+    }
+
+    private void customTextView(TextView view) {
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                getString(R.string.sign_up_agreement));
+        spanTxt.append(getString(R.string.term));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent=new Intent(RegisterActivity.this,PoliciesActivity.class);
+                intent.putExtra("type",1);
+                startActivity(intent);
+            }
+        }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
+        spanTxt.append(" & ");
+        spanTxt.append(getString(R.string.privacy));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent=new Intent(RegisterActivity.this,PoliciesActivity.class);
+                intent.putExtra("type",0);
+                startActivity(intent);
+            }
+        }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
+        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
+        view.setMovementMethod(LinkMovementMethod.getInstance());
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE);
     }
 
 //    @OnClick(R.id.editText_Birthday)
@@ -317,7 +356,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String address = addressEditText.getText().toString();
         if (isDataValid(firstName, lastName, email, password,confirmPassword,gender, country, address, day,month,year)) {
             String dob=day+"/"+month+"/"+year;
-            mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address);
+            Intent intent=new Intent(RegisterActivity.this,PoliciesActivity.class);
+            intent.putExtra("type",1);
+            startActivityForResult(intent,1401);
         }
     }
 
@@ -431,7 +472,22 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String returnedResult = data.getData().toString();
                 countryName.setText(returnedResult);
             }
-        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+        } else if(requestCode==1401){
+            if (resultCode == RESULT_OK) {
+                String firstName = firstNameEditText.getText().toString();
+                String lastName = lastNameEditText.getText().toString();
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                String confirmPassword = confirmPasswordEditText.getText().toString();
+                String gender = selectedGender;
+                String country = countryName.getText().toString();
+                String day = dayEditText.getText().toString();
+                String month = monthEditText.getText().toString();
+                String year = yearEditText.getText().toString();
+                String address = addressEditText.getText().toString();
+                mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address);
+            }
+        }else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 addressEditText.setText(place.getAddress());

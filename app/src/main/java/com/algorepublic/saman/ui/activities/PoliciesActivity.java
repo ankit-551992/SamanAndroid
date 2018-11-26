@@ -8,6 +8,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ public class PoliciesActivity extends BaseActivity {
     ImageView toolbarBack;
     @BindView(R.id.button_done)
     Button buttonDone;
+    @BindView(R.id.checkbox)
+    CheckBox checkbox;
 
     int type=0;
 
@@ -76,7 +79,10 @@ public class PoliciesActivity extends BaseActivity {
 
     @OnClick(R.id.button_done)
     public void done() {
-        super.onBackPressed();
+        if(checkbox.isChecked()){
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
 

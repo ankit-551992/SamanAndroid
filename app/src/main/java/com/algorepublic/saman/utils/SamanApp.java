@@ -1,6 +1,5 @@
 package com.algorepublic.saman.utils;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,8 +7,6 @@ import android.content.pm.Signature;
 import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
 import android.util.Log;
-
-import com.algorepublic.saman.BuildConfig;
 import com.algorepublic.saman.db.MySQLiteHelper;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;

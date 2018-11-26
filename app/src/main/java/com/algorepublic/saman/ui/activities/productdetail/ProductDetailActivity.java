@@ -247,7 +247,13 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @Override
     public void hideProgress() {
-        loading.setVisibility(View.GONE);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loading.setVisibility(View.GONE);
+            }
+        }, 1500);
     }
 
     @Override

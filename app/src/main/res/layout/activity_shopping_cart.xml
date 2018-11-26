@@ -399,6 +399,7 @@
                 android:textColor="#fff" />
 
             <TextView
+                android:id="@+id/tv_agreement_order"
                 android:layout_marginBottom="20dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"

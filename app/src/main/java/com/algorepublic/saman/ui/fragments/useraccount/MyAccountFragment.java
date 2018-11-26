@@ -1,6 +1,7 @@
 package com.algorepublic.saman.ui.fragments.useraccount;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -102,6 +104,13 @@ public class MyAccountFragment extends BaseFragment {
                     .into(profile);
         }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        authenticatedUser = GlobalValues.getUser(getContext());
+        userName.setText(getContext().getString(R.string.Welcome) + "," + authenticatedUser.getFirstName());
     }
 
     @OnClick(R.id.iv_profile)
@@ -256,16 +265,29 @@ public class MyAccountFragment extends BaseFragment {
                 }
             } else if (requestCode == 2) {
                 if (data != null) {
-                    Uri selectedImageUri = data.getData();
-                    if (selectedImageUri != null) {
-                        if (selectedImageUri.getPath() != null) {
-                            file = new File(selectedImageUri.getPath());
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        String path = GlobalValues.getRealPathFromURI(getActivity(),data.getData());
+                        if (path!= null) {
+                            file = new File(path);
                             Picasso.get()
                                     .load(file)
                                     .transform(new CircleTransform())
                                     .placeholder(R.drawable.ic_profile)
                                     .into(profile);
                             uploadToServer(file);
+                        }
+                    }else {
+                        Uri selectedImageUri = data.getData();
+                        if (selectedImageUri != null) {
+                            if (selectedImageUri.getPath() != null) {
+                                file = new File(selectedImageUri.getPath());
+                                Picasso.get()
+                                        .load(file)
+                                        .transform(new CircleTransform())
+                                        .placeholder(R.drawable.ic_profile)
+                                        .into(profile);
+                                uploadToServer(file);
+                            }
                         }
                     }
                 }
@@ -300,6 +322,7 @@ public class MyAccountFragment extends BaseFragment {
                                         .placeholder(R.drawable.ic_profile)
                                         .into(profile);
                             }
+                            ((DashboardActivity) getActivity()).updateUserDetails();
                         }
                     }
                 }
@@ -307,7 +330,7 @@ public class MyAccountFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-
+                Constants.dismissSpinner();
             }
         });
     }

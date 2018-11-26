@@ -12,6 +12,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -31,12 +35,14 @@ import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.ui.activities.PoliciesActivity;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
 import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.activities.order.checkout.CheckoutOrderActivity;
+import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.ui.adapters.BagCartAdapter;
 import com.algorepublic.saman.ui.adapters.StoresAdapter;
@@ -100,6 +106,8 @@ public class ShoppingCartActivity extends BaseActivity {
     TextView cardNameTextView;
     @BindView(R.id.tv_card_expiry)
     TextView cardExpiryTextView;
+    @BindView(R.id.tv_agreement_order)
+    TextView agreementOrder;
     //CARD
 
     //Bag
@@ -157,6 +165,36 @@ public class ShoppingCartActivity extends BaseActivity {
         cardNameTextView.setText(getString(R.string.card_delivery));
         cardExpiryTextView.setVisibility(View.GONE);
         cardNumberTextView.setVisibility(View.GONE);
+
+        customTextView(agreementOrder);
+    }
+
+
+    private void customTextView(TextView view) {
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                getString(R.string.agreement_order));
+        spanTxt.append(getString(R.string.term));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent=new Intent(ShoppingCartActivity.this,PoliciesActivity.class);
+                intent.putExtra("type",1);
+                startActivity(intent);
+            }
+        }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
+        spanTxt.append(" & ");
+        spanTxt.append(getString(R.string.privacy));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent=new Intent(ShoppingCartActivity.this,PoliciesActivity.class);
+                intent.putExtra("type",0);
+                startActivity(intent);
+            }
+        }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
+        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
+        view.setMovementMethod(LinkMovementMethod.getInstance());
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE);
     }
 
     @OnClick(R.id.layout_countrySelection)
@@ -376,16 +414,13 @@ public class ShoppingCartActivity extends BaseActivity {
                         deliveryCost = 1.0f;
                         break;
                     case 2:
-                        deliveryCost = 0.5f;
+                        deliveryCost = 1.0f;
                         break;
                     case 3:
-                        deliveryCost = 0.5f;
+                        deliveryCost = 1.5f;
                         break;
                     case 4:
-                        deliveryCost = 0.4f;
-                        break;
-                    case 5:
-                        deliveryCost = 0.4f;
+                        deliveryCost = 1.6f;
                         break;
                     default:
                         deliveryCost = 2.0f;
