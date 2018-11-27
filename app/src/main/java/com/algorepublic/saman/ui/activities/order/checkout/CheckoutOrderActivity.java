@@ -121,7 +121,7 @@ public class CheckoutOrderActivity extends BaseActivity {
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
-
+                                Constants.showAlert(getString(R.string.sorry),getString(R.string.order_cancel_msg),getString(R.string.okay),CheckoutOrderActivity.this);
                             }
                         }
                 ));
@@ -201,9 +201,8 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @OnClick(R.id.button_cancel_order)
     void cancelOrder(){
-        Constants.showAlert(getString(R.string.check_out_success),getString(R.string.order_cancel_msg),getString(R.string.okay),CheckoutOrderActivity.this);
+        Constants.showAlert(getString(R.string.sorry),getString(R.string.order_cancel_msg),getString(R.string.okay),CheckoutOrderActivity.this);
     }
-
 
     private void setBag() {
         layoutManager = new LinearLayoutManager(CheckoutOrderActivity.this);

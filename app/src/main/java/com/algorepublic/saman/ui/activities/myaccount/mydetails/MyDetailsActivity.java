@@ -26,6 +26,8 @@ import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
+import com.algorepublic.saman.ui.activities.map.GoogleMapActivity;
+import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 
@@ -121,6 +123,22 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         selectGender();
     }
 
+    @OnClick(R.id.iv_pin)
+    public void userAddress(){
+//        try {
+//            Intent intent =
+//                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+//                            .build(this);
+//            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+//        } catch (GooglePlayServicesRepairableException e) {
+//            // TODO: Handle the error.
+//        } catch (GooglePlayServicesNotAvailableException e) {
+//            // TODO: Handle the error.
+//        }
+        Intent intent = new Intent(MyDetailsActivity.this, GoogleMapActivity.class);
+        startActivityForResult(intent, 1414);
+    }
+
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
         Intent intent=new Intent(MyDetailsActivity.this,CountriesActivity.class);
@@ -175,6 +193,11 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
                 countryName.setText(returnedResult);
+            }
+        }else if (requestCode == 1414) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                addressEditText.setText(returnedResult);
             }
         }
     }

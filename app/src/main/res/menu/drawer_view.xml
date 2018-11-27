@@ -3,7 +3,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home"
+            android:icon="@drawable/ic_c_home"
             android:title="@string/title_home" />
         <item
             android:id="@+id/nav_store"
@@ -11,15 +11,15 @@
             android:title="@string/title_store" />
         <item
             android:id="@+id/nav_favorite"
-            android:icon="@drawable/ic_favorite"
+            android:icon="@drawable/ic_c_fav"
             android:title="@string/title_fav" />
         <item
             android:id="@+id/nav_bag"
-            android:icon="@drawable/ic_bag"
+            android:icon="@drawable/ic_c_bag"
             android:title="@string/shopping_cart" />
         <item
             android:id="@+id/nav_my_account"
-            android:icon="@drawable/ic_person"
+            android:icon="@drawable/ic_c_account"
             android:title="@string/title_my_account" />
         <item
             android:id="@+id/nav_settings"

@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.activities.myaccount.addresses;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,8 @@ import com.algorepublic.saman.data.model.apis.AddAddressApi;
 import com.algorepublic.saman.data.model.apis.GetAddressApi;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.ui.activities.map.GoogleMapActivity;
+import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 
@@ -80,6 +83,32 @@ public class AddShippingAddressActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1414) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                address.setText(returnedResult);
+            }
+        }
+    }
+
+    @OnClick(R.id.iv_pin)
+    public void userAddress(){
+//        try {
+//            Intent intent =
+//                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+//                            .build(this);
+//            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+//        } catch (GooglePlayServicesRepairableException e) {
+//            // TODO: Handle the error.
+//        } catch (GooglePlayServicesNotAvailableException e) {
+//            // TODO: Handle the error.
+//        }
+        Intent intent = new Intent(AddShippingAddressActivity.this, GoogleMapActivity.class);
+        startActivityForResult(intent, 1414);
+    }
+
     @OnClick(R.id.toolbar_back)
     public void back() {
         super.onBackPressed();
@@ -120,7 +149,6 @@ public class AddShippingAddressActivity extends BaseActivity {
                         }
                     }
                 }
-
                 @Override
                 public void onFailure(Call<SimpleSuccess> call, Throwable t) {
                     progressBar.setVisibility(View.GONE);

@@ -40,6 +40,7 @@ import com.algorepublic.saman.ui.activities.PoliciesActivity;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
+import com.algorepublic.saman.ui.activities.map.GoogleMapActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
@@ -311,8 +312,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         mPresenter.onDestroy();
     }
 
-//    @OnClick(R.id.editText_address)
-//    public void userAddress(){
+    @OnClick(R.id.iv_pin)
+    public void userAddress(){
 //        try {
 //            Intent intent =
 //                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
@@ -323,7 +324,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 //        } catch (GooglePlayServicesNotAvailableException e) {
 //            // TODO: Handle the error.
 //        }
-//    }
+        Intent intent = new Intent(RegisterActivity.this, GoogleMapActivity.class);
+        startActivityForResult(intent, 1414);
+    }
 
     @OnClick(R.id.button_signIn)
     public void buttonSignUp() {
@@ -486,6 +489,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String year = yearEditText.getText().toString();
                 String address = addressEditText.getText().toString();
                 mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address);
+            }
+        }if (requestCode == 1414) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                addressEditText.setText(returnedResult);
             }
         }else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {

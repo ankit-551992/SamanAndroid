@@ -1,5 +1,6 @@
 package com.algorepublic.saman.utils;
 
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -7,6 +8,8 @@ import android.content.pm.Signature;
 import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
 import android.util.Log;
+
+import com.algorepublic.saman.BuildConfig;
 import com.algorepublic.saman.db.MySQLiteHelper;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -27,19 +30,23 @@ public class SamanApp extends MultiDexApplication {
     public final String TWITTER_KEY = "zYtdb8neQYt8ph1XoyPmwNWIR";
     public final String TWITTER_SECRET = "a5Jo7xEwsNh4BhuHodycFOILfV0OEBkNOHNikt5Cf3VhABSxnp";
 
+    private static SamanApp instance;
     public static TinyDB db;
     public static MySQLiteHelper localDB;
 
+    public static SamanApp getInstance() {
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
-//        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
-        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(false).build();
+        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
+//        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(false).build();
         Crashlytics crashlytics=new Crashlytics.Builder().core(core).build();
         Fabric.with(this, crashlytics);
         db=new TinyDB(this);
         localDB=new MySQLiteHelper(this);
-
+        instance = this;
 //        if(GlobalValues.getAppLanguage(getApplicationContext()).equals("")){
             GlobalValues.setAppLanguage(getApplicationContext(), Locale.getDefault().getLanguage());
 //        }

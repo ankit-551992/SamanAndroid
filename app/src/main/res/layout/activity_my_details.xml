@@ -242,13 +242,37 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/address" />
 
-            <EditText
-                android:id="@+id/editText_address"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/address_hint"
-                android:imeOptions="actionDone"
-                android:inputType="text" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_gravity="bottom"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/editText_address"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:hint="@string/address_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+
+                <ImageView
+                    android:id="@+id/iv_pin"
+                    android:src="@drawable/pin"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:background="@color/black" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"

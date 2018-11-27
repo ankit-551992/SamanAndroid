@@ -33,7 +33,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class GlobalValues {
 
 
-
+    private static double lat= 23.5859;
+    private static double lng= 58.4059;
     public static List<StoreCategory> storeCategories;
     public static List<Country> countries;
 
@@ -170,5 +171,38 @@ public class GlobalValues {
                 cursor.close();
             }
         }
+    }
+
+
+    public static void setUserLat(Context ctx, String lat){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UserLat",lat);
+        editor.commit();
+    }
+
+    public static String getUserLat(Context ctx){
+        if(ctx!=null) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+            String lat = sharedPreferences.getString("UserLat", "" + GlobalValues.lat);
+            return lat;
+        }
+        return Double.toString(lat);
+    }
+
+    public static void setUserLng(Context ctx, String lng){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UserLng",lng);
+        editor.commit();
+    }
+
+    public static String getUserLng(Context ctx){
+        if(ctx!=null) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+            String lng = sharedPreferences.getString("UserLng", "" + GlobalValues.lng);
+            return lng;
+        }
+        return Double.toString(lng);
     }
 }

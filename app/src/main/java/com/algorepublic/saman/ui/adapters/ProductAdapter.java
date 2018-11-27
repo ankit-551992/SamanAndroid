@@ -64,7 +64,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
-                        .placeholder(R.drawable.dummy_mobile)
                         .error(R.drawable.dummy_mobile)
                         .into(productViewHolder.productImageView);
             }

@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "54793067170",
-    "firebase_url": "https://samanapp-1537853151399.firebaseio.com",
-    "project_id": "samanapp-1537853151399",
-    "storage_bucket": "samanapp-1537853151399.appspot.com"
+    "project_number": "930864532797",
+    "firebase_url": "https://saman-223808.firebaseio.com",
+    "project_id": "saman-223808",
+    "storage_bucket": "saman-223808.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:54793067170:android:37e476a6d2fee18f",
+        "mobilesdk_app_id": "1:930864532797:android:37e476a6d2fee18f",
         "android_client_info": {
           "package_name": "com.algorepublic.saman"
         }
       },
       "oauth_client": [
         {
-          "client_id": "54793067170-e8he24qg8gftukduuu1n4vfm3r4r9mrc.apps.googleusercontent.com",
+          "client_id": "930864532797-l1k2749qo15vcviaf392vuo2oemb4ocg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.algorepublic.saman",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "54793067170-nolk9cc3gd2dsifmj1toqn6h71sqivn6.apps.googleusercontent.com",
+          "client_id": "930864532797-msn707sijbitrjhsul749ekpog4q7ssu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCB6aNG3jC3na6woCHLCC-bhZsBYYfwFz4"
+          "current_key": "AIzaSyAqMyOVxCKRFWmijDm78rWCmJ_V04zFw_U"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "54793067170-nolk9cc3gd2dsifmj1toqn6h71sqivn6.apps.googleusercontent.com",
+              "client_id": "930864532797-msn707sijbitrjhsul749ekpog4q7ssu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

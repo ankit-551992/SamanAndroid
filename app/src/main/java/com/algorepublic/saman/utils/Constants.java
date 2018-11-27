@@ -29,6 +29,7 @@ public class Constants {
     public interface URLS {
 //        String BaseURLApis = "https://petradiamond.herokuapp.com/";
         String BaseURLApis = "https://www.saman.om/api/";
+        String GeoCodeApis = "https://maps.googleapis.com/maps/api/geocode/";
         String BaseURLImages = "https://www.saman.om";
         String returnPolicy = "https://www.algorepublic.com/";
         String terms = "https://www.algorepublic.com/services/";
@@ -120,7 +121,6 @@ public class Constants {
             mSpinner.dismiss();
         }
     }
-
 
     public static String strSeparator = ",";
     public static String convertArrayToString(String[] array){
