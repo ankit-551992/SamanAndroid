@@ -28,9 +28,11 @@
                 android:scaleType="centerCrop" />
 
             <ImageView
+                android:background="@drawable/store_image_circle"
                 android:id="@+id/iv_store_logo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:padding="2dp"
                 android:layout_below="@id/iv_store_background"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="-55dp"
@@ -43,10 +45,20 @@
                 android:layout_below="@id/iv_store_logo"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:text="Store Name"
+                android:layout_marginTop="2dp"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
+            <TextView
+                android:id="@+id/tv_store_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_store_name"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:maxLines="3"
+                android:padding="10dp"
+                android:gravity="center"
+                android:textColor="@color/black" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -55,7 +67,6 @@
             android:id="@+id/recyclerView_categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
 
         <include
             android:visibility="gone"

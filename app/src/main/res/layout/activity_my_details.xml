@@ -173,7 +173,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pakistan"
                     android:textColor="@color/off_black"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"/>
@@ -207,6 +206,7 @@
 
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/editText_day"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -216,6 +216,7 @@
                     android:inputType="number" />
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/editText_month"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -225,6 +226,7 @@
                     android:inputType="number" />
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/editText_year"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

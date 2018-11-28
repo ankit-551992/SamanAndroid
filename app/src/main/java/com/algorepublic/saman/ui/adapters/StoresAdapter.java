@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Store;
-import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
 import com.algorepublic.saman.ui.activities.store.StoreDetailActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.squareup.picasso.Picasso;

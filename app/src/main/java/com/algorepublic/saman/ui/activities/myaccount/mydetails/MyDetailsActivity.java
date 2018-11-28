@@ -21,12 +21,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.map.GoogleMapActivity;
+import com.algorepublic.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
 import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -37,11 +39,12 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyDetailsActivity extends BaseActivity implements DetailContractor.View{
+public class MyDetailsActivity extends BaseActivity implements DetailContractor.View {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -73,33 +76,34 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     Calendar myCalendar;
     Country selectedCountry;
 
+    int addressID=0;
     User authenticatedUser;
     MyDetailsPresenter presenter;
-    boolean isRequest=false;
+    boolean isRequest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_details);
         ButterKnife.bind(this);
-        presenter=new MyDetailsPresenter(this);
+        presenter = new MyDetailsPresenter(this);
         setSupportActionBar(toolbar);
-        isRequest=getIntent().getBooleanExtra("Request",false);
+        isRequest = getIntent().getBooleanExtra("Request", false);
         authenticatedUser = GlobalValues.getUser(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.my_details));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-        }else {
+        } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
-        myCalendar= Calendar.getInstance();
+        myCalendar = Calendar.getInstance();
 
-        for (int i=0;i<GlobalValues.countries.size();i++){
-            if(GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))){
-                selectedCountry=GlobalValues.countries.get(i);
+        for (int i = 0; i < GlobalValues.countries.size(); i++) {
+            if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
+                selectedCountry = GlobalValues.countries.get(i);
                 countryName.setText(selectedCountry.getName());
             }
         }
@@ -107,13 +111,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
 
-    private void setProfile(){
+    private void setProfile() {
         firstNameEditText.setText(authenticatedUser.getFirstName());
         lastNameEditText.setText(authenticatedUser.getLastName());
         emailEditText.setText(authenticatedUser.getEmail());
         emailEditText.setEnabled(false);
         genderText.setText(authenticatedUser.getGender());
-        selectedGender=authenticatedUser.getGender();
+        selectedGender = authenticatedUser.getGender();
         countryName.setText(authenticatedUser.getCountry());
         addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1());
     }
@@ -124,7 +128,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
     @OnClick(R.id.iv_pin)
-    public void userAddress(){
+    public void userAddress() {
 //        try {
 //            Intent intent =
 //                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
@@ -135,19 +139,27 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 //        } catch (GooglePlayServicesNotAvailableException e) {
 //            // TODO: Handle the error.
 //        }
-        Intent intent = new Intent(MyDetailsActivity.this, GoogleMapActivity.class);
+        Intent intent = new Intent(MyDetailsActivity.this, ShippingAddressActivity.class);
         startActivityForResult(intent, 1414);
     }
 
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
-        Intent intent=new Intent(MyDetailsActivity.this,CountriesActivity.class);
-        startActivityForResult(intent,1299);
+        Intent intent = new Intent(MyDetailsActivity.this, CountriesActivity.class);
+        startActivityForResult(intent, 1299);
     }
 
     @OnClick(R.id.toolbar_back)
     public void back() {
         super.onBackPressed();
+    }
+
+
+    @OnClick({R.id.editText_day,R.id.editText_month,R.id.editText_year})
+    void setDOB() {
+        new DatePickerDialog(MyDetailsActivity.this, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -166,6 +178,11 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     private void updateLabel() {
         String myFormat = "dd/MM/YYYY"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String dateSelected=sdf.format(myCalendar.getTime());
+        String sepDate[]=dateSelected.split("/");
+        dayEditText.setText(sepDate[0]);
+        monthEditText.setText(sepDate[1]);
+        yearEditText.setText(sepDate[2]);
     }
 
     @OnClick(R.id.button_update)
@@ -176,14 +193,18 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String country = countryName.getText().toString();
         String address = addressEditText.getText().toString();
         if (isDataValid(firstName, lastName, gender, address)) {
-            JSONObject jsonObject=new JSONObject();
+            JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("ID",authenticatedUser.getId());
-                jsonObject.put("AddressLine1",address);
+                if(addressID==0) {
+                    jsonObject.put("ID", authenticatedUser.getShippingAddress().getID());
+                }else {
+                    jsonObject.put("ID", addressID);
+                }
+                jsonObject.put("AddressLine1", address);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            presenter.updateUser(authenticatedUser.getId(),firstName,lastName,gender,country,jsonObject);
+            presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject);
         }
     }
 
@@ -194,10 +215,11 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 String returnedResult = data.getData().toString();
                 countryName.setText(returnedResult);
             }
-        }else if (requestCode == 1414) {
+        } else if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
-                String returnedResult = data.getData().toString();
-                addressEditText.setText(returnedResult);
+                String d = data.getExtras().getString("DATA");
+                addressID = data.getExtras().getInt("ID");
+                addressEditText.setText(d.replace(" ", "\n\n"));
             }
         }
     }
@@ -244,7 +266,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 // find the radiobutton by returned id
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
 
-                if(radioButton.isChecked()) {
+                if (radioButton.isChecked()) {
                     selectedGender = radioButton.getText().toString();
                     genderText.setText(radioButton.getText().toString());
                     dialog.dismiss();
@@ -262,7 +284,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
 
-
     private boolean isDataValid(String fName, String lName, String gender, String address) {
         if (TextUtils.isEmpty(fName)) {
             firstNameEditText.setError(getString(R.string.first_name_required));
@@ -273,11 +294,10 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         } else if (TextUtils.isEmpty(gender)) {
             genderText.setError(getString(R.string.gender_prompt));
             return false;
-        }
-        else if (TextUtils.isEmpty(address)) {
+        } else if (TextUtils.isEmpty(address)) {
             addressEditText.setError(getString(R.string.address_req));
             return false;
-        }else {
+        } else {
             return true;
         }
     }
@@ -294,27 +314,31 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
     @Override
     public void updateResponse(boolean success) {
-        if(success){
+        if (success) {
             authenticatedUser.setFirstName(firstNameEditText.getText().toString());
             authenticatedUser.setLastName(lastNameEditText.getText().toString());
             authenticatedUser.setGender(genderText.getText().toString());
             authenticatedUser.setCountry(countryName.getText().toString());
             authenticatedUser.getShippingAddress().setAddressLine1(addressEditText.getText().toString());
+            if(addressID!=0) {
+                authenticatedUser.getShippingAddress().setID(addressID);
+                addressID=0;
+            }
 
             GlobalValues.saveUser(MyDetailsActivity.this, authenticatedUser);
 
-            if(isRequest){
+            if (isRequest) {
                 setResult(RESULT_OK);
                 finish();
-            }else {
-                Constants.showAlert(getString(R.string.update_profile),getString(R.string.update_profile_success),getString(R.string.okay),MyDetailsActivity.this);
+            } else {
+                Constants.showAlert(getString(R.string.update_profile), getString(R.string.update_profile_success), getString(R.string.okay), MyDetailsActivity.this);
             }
-        }else {
+        } else {
 
-            if(isRequest){
-                Constants.showAlertWithActivityFinish(getString(R.string.update_profile),getString(R.string.update_profile_fail),getString(R.string.try_again),MyDetailsActivity.this);
-            }else {
-                Constants.showAlert(getString(R.string.update_profile),getString(R.string.update_profile_fail),getString(R.string.try_again),MyDetailsActivity.this);
+            if (isRequest) {
+                Constants.showAlertWithActivityFinish(getString(R.string.update_profile), getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
+            } else {
+                Constants.showAlert(getString(R.string.update_profile), getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
             }
         }
     }

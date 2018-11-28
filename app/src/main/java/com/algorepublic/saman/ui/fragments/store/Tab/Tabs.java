@@ -70,7 +70,7 @@ public class Tabs extends BaseFragment {
         storeArrayList = new ArrayList<>();
         adapter = new StoresAdapter(getContext(), storeArrayList);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 

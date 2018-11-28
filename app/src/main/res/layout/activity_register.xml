@@ -269,7 +269,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/female"
                     android:textColor="@color/off_black"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"/>
@@ -309,7 +308,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="oman"
+                    android:textAllCaps="true"
                     android:textColor="@color/off_black"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"/>
@@ -341,33 +340,80 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
-                <EditText
-                    android:id="@+id/editText_day"
+                <LinearLayout
+                    android:layout_marginRight="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:orientation="vertical"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:hint="@string/day"
-                    android:imeOptions="actionDone"
-                    android:inputType="number" />
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/editText_day"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/day"
+                        android:background="@null"
+                        android:imeOptions="actionDone"
+                        android:prompt="@string/month"
+                        android:inputType="date" />
+                    <View
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:background="@color/grey" />
 
-                <EditText
-                    android:id="@+id/editText_month"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:hint="@string/month"
-                    android:imeOptions="actionDone"
-                    android:inputType="number" />
+                </LinearLayout>
 
-                <EditText
-                    android:id="@+id/editText_year"
+                <LinearLayout
+                    android:layout_marginRight="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:orientation="vertical"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:hint="@string/year"
-                    android:imeOptions="actionDone"
-                    android:inputType="number" />
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/editText_month"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/month"
+                        android:background="@null"
+                        android:imeOptions="actionDone"
+                        android:inputType="date" />
+                    <View
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:background="@color/grey" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_marginRight="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/editText_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/year"
+                        android:background="@null"
+                        android:imeOptions="actionDone"
+                        android:inputType="date" />
+                    <View
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:background="@color/grey"/>
+                </LinearLayout>
+
+
 
 
             </LinearLayout>
@@ -409,7 +455,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_gravity="center"
-                android:background="@color/black" />
+                android:background="@color/grey" />
 
             <TextView
                 android:id="@+id/tv_terms_policies"

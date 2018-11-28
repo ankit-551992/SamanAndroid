@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -120,11 +121,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     @BindView(R.id.editText_address)
     EditText addressEditText;
     @BindView(R.id.editText_day)
-    EditText dayEditText;
+    Spinner dayEditText;
     @BindView(R.id.editText_month)
-    EditText monthEditText;
+    Spinner monthEditText;
     @BindView(R.id.editText_year)
-    EditText yearEditText;
+    Spinner yearEditText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.tv_terms_policies)
@@ -136,7 +137,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     RegisterPresenterImpl mPresenter;
     ArrayAdapter<String> arrayAdapter;
-
 
     //Social Login
     private static final String TAG = WelcomeActivity.class.getSimpleName();
@@ -185,6 +185,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         myCalendar = Calendar.getInstance();
 
         customTextView(termPolicy);
+
+        addSpinner();
     }
 
     private void customTextView(TextView view) {
@@ -194,8 +196,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(RegisterActivity.this,PoliciesActivity.class);
-                intent.putExtra("type",1);
+                Intent intent = new Intent(RegisterActivity.this, PoliciesActivity.class);
+                intent.putExtra("type", 1);
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
@@ -204,42 +206,14 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(RegisterActivity.this,PoliciesActivity.class);
-                intent.putExtra("type",0);
+                Intent intent = new Intent(RegisterActivity.this, PoliciesActivity.class);
+                intent.putExtra("type", 0);
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
         spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
         view.setText(spanTxt, TextView.BufferType.SPANNABLE);
-    }
-
-//    @OnClick(R.id.editText_Birthday)
-//    void setDOB() {
-//        new DatePickerDialog(RegisterActivity.this, date, myCalendar
-//                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-//                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-//    }
-
-    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            // TODO Auto-generated method stub
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-        }
-
-    };
-
-    private void updateLabel() {
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        dayEditText.setText(sdf.format(myCalendar.getTime()));
     }
 
     Dialog dialog;
@@ -313,7 +287,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     }
 
     @OnClick(R.id.iv_pin)
-    public void userAddress(){
+    public void userAddress() {
 //        try {
 //            Intent intent =
 //                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
@@ -353,15 +327,21 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String confirmPassword = confirmPasswordEditText.getText().toString();
         String gender = selectedGender;
         String country = countryName.getText().toString();
-        String day = dayEditText.getText().toString();
-        String month = monthEditText.getText().toString();
-        String year = yearEditText.getText().toString();
+
+        int date = Integer.parseInt(dayEditText.getSelectedItem().toString());
+        int mon = monthEditText.getSelectedItemPosition() + 1;
+        int yr = Integer.parseInt(yearEditText.getSelectedItem().toString());
+
+        String day = String.valueOf(date);
+        String month = String.valueOf(mon);
+        String year = String.valueOf(yr);
+
         String address = addressEditText.getText().toString();
-        if (isDataValid(firstName, lastName, email, password,confirmPassword,gender, country, address, day,month,year)) {
-            String dob=day+"/"+month+"/"+year;
-            Intent intent=new Intent(RegisterActivity.this,PoliciesActivity.class);
-            intent.putExtra("type",1);
-            startActivityForResult(intent,1401);
+        if (isDataValid(firstName, lastName, email, password, confirmPassword, gender, country, address, day, month, year)) {
+            String dob = day + "/" + month + "/" + year;
+            Intent intent = new Intent(RegisterActivity.this, PoliciesActivity.class);
+            intent.putExtra("type", 1);
+            startActivityForResult(intent, 1401);
         }
     }
 
@@ -475,7 +455,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String returnedResult = data.getData().toString();
                 countryName.setText(returnedResult);
             }
-        } else if(requestCode==1401){
+        } else if (requestCode == 1401) {
             if (resultCode == RESULT_OK) {
                 String firstName = firstNameEditText.getText().toString();
                 String lastName = lastNameEditText.getText().toString();
@@ -484,18 +464,16 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String confirmPassword = confirmPasswordEditText.getText().toString();
                 String gender = selectedGender;
                 String country = countryName.getText().toString();
-                String day = dayEditText.getText().toString();
-                String month = monthEditText.getText().toString();
-                String year = yearEditText.getText().toString();
                 String address = addressEditText.getText().toString();
                 mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address);
             }
-        }if (requestCode == 1414) {
+        }
+        if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
                 addressEditText.setText(returnedResult);
             }
-        }else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 addressEditText.setText(place.getAddress());
@@ -523,7 +501,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     }
 
 
-    private boolean isDataValid(String fName, String lName, String email, String password,String confrim, String gender, String country, String address, String day,String month,String year) {
+    private boolean isDataValid(String fName, String lName, String email, String password, String confrim, String gender, String country, String address, String day, String month, String year) {
         if (TextUtils.isEmpty(fName)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.first_name_required), getString(R.string.okay), RegisterActivity.this);
             return false;
@@ -542,14 +520,17 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         } else if (password.length() < 6) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.password_short), getString(R.string.okay), RegisterActivity.this);
             return false;
-        }else if (TextUtils.isEmpty(confrim)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.confirm_new_password_required), getString(R.string.okay), RegisterActivity.this);
+        } else if (TextUtils.isEmpty(confrim)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.confirm_password_required), getString(R.string.okay), RegisterActivity.this);
             return false;
-        }else if (!confrim.equals(password)) {
+        } else if (!confrim.equals(password)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.not_matched), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(gender)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.gender_prompt), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(country)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.select_country_req), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(day)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.day_missing), getString(R.string.okay), RegisterActivity.this);
@@ -563,7 +544,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         } else if (TextUtils.isEmpty(address)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.address_req), getString(R.string.okay), RegisterActivity.this);
             return false;
-        }else {
+        } else {
             return true;
         }
     }
@@ -763,4 +744,93 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
 
     //Social Login
+
+
+    void addSpinner() {
+        ArrayList<String> yearList = new ArrayList<>();
+
+        for (int i = 0; i <= 9; i++) {
+            yearList.add("190" + i);
+        }
+
+        for (int i = 10; i <= 99; i++) {
+            yearList.add("19" + i);
+        }
+        for (int i = 0; i <= 9; i++) {
+            yearList.add("200" + i);
+        }
+
+        for (int i = 10; i <= 99; i++) {
+            yearList.add("20" + i);
+        }
+
+        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, yearList);
+        dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearEditText.setAdapter(dataAdapter1);
+
+        yearEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        ArrayList<String> monthList = new ArrayList<>();
+        monthList.add("Jan");
+        monthList.add("Feb");
+        monthList.add("Mar");
+        monthList.add("Apr");
+        monthList.add("May");
+        monthList.add("Jun");
+        monthList.add("Jul");
+        monthList.add("Aug");
+        monthList.add("Sep");
+        monthList.add("Oct");
+        monthList.add("Nov");
+        monthList.add("Dec");
+
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, monthList);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        monthEditText.setAdapter(dataAdapter2);
+
+        monthEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                yearEditText.performClick();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        ArrayList<String> dayList = new ArrayList<>();
+        for (int i = 1; i <= 31; i++) {
+            dayList.add("" + i);
+        }
+
+        ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, dayList);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dayEditText.setAdapter(dataAdapter3);
+
+        dayEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    monthEditText.performClick();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 }

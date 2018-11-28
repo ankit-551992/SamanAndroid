@@ -69,6 +69,8 @@ public class StoreCategoriesAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     intent.putExtra("Function",2); //2 for Store Products
                     intent.putExtra("StoreName",storeName);
                     intent.putExtra("categoryID",categories.get(position).getID());
+                    intent.putExtra("categoryName",categories.get(position).getTitle());
+                    intent.putExtra("categoryNameAr",categories.get(position).getTitleAR());
                     intent.putExtra("StoreNameAr",storeNameAr);
                     intent.putExtra("StoreID",storeID);
                     mContext.startActivity(intent);

@@ -60,6 +60,8 @@ public class ProductListingActivity  extends BaseActivity {
     int categoryID=0;
     String storeName="";
     String storeNameAr="";
+    String categoryName="";
+    String categoryNameAr="";
 
     User authenticatedUser;
 
@@ -82,6 +84,8 @@ public class ProductListingActivity  extends BaseActivity {
                 categoryID=bundle.getInt("categoryID");
                 storeName=bundle.getString("StoreName");
                 storeNameAr=bundle.getString("StoreNameAr");
+                categoryName=bundle.getString("categoryName");
+                categoryNameAr=bundle.getString("categoryNameAr");
             }
         }
         setSupportActionBar(toolbar);
@@ -90,7 +94,7 @@ public class ProductListingActivity  extends BaseActivity {
         if (function==1){
             toolbarTitle.setText(getString(R.string.new_in));
         }else if (function==2){
-            toolbarTitle.setText(storeName);
+            toolbarTitle.setText(storeName+" / "+categoryName);
         }
 
         toolbarTitle.setAllCaps(true);

@@ -49,6 +49,8 @@ public class StoreDetailActivity extends AppCompatActivity {
     ImageView logo;
     @BindView(R.id.tv_store_name)
     TextView storeNameTextView;
+    @BindView(R.id.tv_store_description)
+    TextView storeDescriptionTextView;
     @BindView(R.id.recyclerView_categories)
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -56,7 +58,6 @@ public class StoreDetailActivity extends AppCompatActivity {
     StoreCategoriesAdapter storeCategoriesAdapter;
 
     Store store;
-
 
     int function = 0;
     int storeID = 0;
@@ -117,13 +118,13 @@ public class StoreDetailActivity extends AppCompatActivity {
                             store = getStore.getStore();
 
                             String url=Constants.URLS.BaseURLImages + store.getLogoURL();
-                            Picasso.get().load(url)
+                            Picasso.get().load(url).fit().centerCrop()
                                       .transform(new CircleTransform())
                                       .into(logo);
 
                             Picasso.get().load(Constants.URLS.BaseURLImages + store.getBannerURL()).fit().centerCrop()
                                     .into(bg);
-
+                            storeDescriptionTextView.setText(store.getStoreName());
                             storeCategoryList.addAll(store.getStoreCategoryList());
                             storeCategoriesAdapter.notifyDataSetChanged();
                         }

@@ -191,6 +191,9 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
                 markedLocation = point;
             }
         });
+        if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            gmap.setMyLocationEnabled(true);
+        }
     }
 
     @Override
@@ -200,6 +203,25 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
             case REQUEST_LOCATION_CODE: {
                 if (grantResults.length > 0 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     checkGPSEnable();
+                    mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                                GlobalValues.setUserLat(GoogleMapActivity.this, "" + location.getLatitude());
+                                GlobalValues.setUserLng(GoogleMapActivity.this, "" + location.getLongitude());
+                                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                                if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                    gmap.setMyLocationEnabled(true);
+                                }
+                                gmap.animateCamera(cameraUpdate);
+                                search.setVisibility(View.VISIBLE);
+                                markedLocation = latLng;
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -274,6 +296,8 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
                 gmap.setMyLocationEnabled(true);
             }
             gmap.animateCamera(cameraUpdate);
+            search.setVisibility(View.VISIBLE);
+            markedLocation = latLng;
         } else {
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
@@ -289,6 +313,8 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
                             gmap.setMyLocationEnabled(true);
                         }
                         gmap.animateCamera(cameraUpdate);
+                        search.setVisibility(View.VISIBLE);
+                        markedLocation = latLng;
                     } else {
                         double lati = Double.parseDouble(GlobalValues.getUserLat(GoogleMapActivity.this));
                         double lngi = Double.parseDouble(GlobalValues.getUserLng(GoogleMapActivity.this));
@@ -298,6 +324,8 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
                             gmap.setMyLocationEnabled(true);
                         }
                         gmap.animateCamera(cameraUpdate);
+                        search.setVisibility(View.VISIBLE);
+                        markedLocation = latLng;
                     }
                 }
             });
