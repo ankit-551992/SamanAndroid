@@ -20,6 +20,7 @@ import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
+import com.algorepublic.saman.ui.adapters.SwipeFavoritesAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SwipeHelper;
@@ -43,7 +44,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     RecyclerView favoritesRecyclerView;
     RecyclerView.LayoutManager layoutManager;
     List<Product> productArrayList = new ArrayList<>();
-    FavoritesAdapter favoritesAdapter;
+    SwipeFavoritesAdapter favoritesAdapter;
 
     FavoritesPresenter presenter;
     User authenticatedUser;
@@ -63,54 +64,13 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesRecyclerView.setLayoutManager(layoutManager);
         favoritesRecyclerView.setNestedScrollingEnabled(false);
         productArrayList = new ArrayList<>();
-        favoritesAdapter = new FavoritesAdapter(getContext(), productArrayList);
+        favoritesAdapter = new SwipeFavoritesAdapter(getContext(), productArrayList,this);
         favoritesRecyclerView.setAdapter(favoritesAdapter);
         favoritesRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
         presenter = new FavoritesPresenter(this);
         presenter.getFavoritesData(authenticatedUser.getId(),currentPage,pageSize,true);
 
-        new SwipeHelper(getContext(), favoritesRecyclerView) {
-            @Override
-            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        getString(R.string.delete),
-                        ResourceUtil.getBitmap(getContext(), R.drawable.ic_ddelete),
-                        Color.parseColor("#FF3C30"),
-                        new SwipeHelper.UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: onDelete
-                                GlobalValues.markUnFavourite(authenticatedUser.getId(), productArrayList.get(pos).getID());
-                                productArrayList.remove(pos);
-                                favoritesAdapter.notifyDataSetChanged();
-                                ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
-                                quantity.setText(productArrayList.size() + " " + getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
-                                if (productArrayList.size() > 0) {
-                                    tv_empty_bag.setVisibility(View.GONE);
-                                } else {
-                                    tv_empty_bag.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
-                ));
-
-                underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        getString(R.string.add_to_cart),
-                        ResourceUtil.getBitmap(getContext(), R.drawable.ic_app_logo),
-                        Color.parseColor("#FF9502"),
-                        new SwipeHelper.UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: OnTransfer
-                                Intent intent=new Intent(getContext(), ProductDetailActivity.class);
-                                intent.putExtra("ProductID",productArrayList.get(pos).getID());
-                                getContext().startActivity(intent);
-                            }
-                        }
-                ));
-            }
-        };
 
         return view;
     }
@@ -163,6 +123,16 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     @Override
     public void error(String message) {
+
+    }
+
+    public void updateCount(int size){
+        if(size>0){
+            tv_empty_bag.setVisibility(View.GONE);
+        }else{
+            tv_empty_bag.setVisibility(View.VISIBLE);
+        }
+        quantity.setText(size+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
 
     }
 

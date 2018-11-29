@@ -22,6 +22,7 @@ import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.adapters.BagAdapter;
 import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
+import com.algorepublic.saman.ui.adapters.SwipeBagAdapter;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.ResourceUtil;
@@ -43,8 +44,7 @@ public class BagFragment extends BaseFragment {
     RecyclerView bagRecyclerView;
     RecyclerView.LayoutManager layoutManager;
     List<Product> productArrayList = new ArrayList<>();
-    BagAdapter bagAdapter;
-
+    SwipeBagAdapter bagAdapter;
 
     //Total
     @BindView(R.id.tv_empty_bag)
@@ -72,72 +72,11 @@ public class BagFragment extends BaseFragment {
         bagRecyclerView.setNestedScrollingEnabled(false);
         productArrayList = new ArrayList<>();
         authenticatedUser = GlobalValues.getUser(getContext());
-        bagAdapter = new BagAdapter(getContext(), productArrayList,this);
+        bagAdapter = new SwipeBagAdapter(getContext(), productArrayList,this);
         bagRecyclerView.setAdapter(bagAdapter);
 
 
         getData();
-
-
-        new SwipeHelper(getContext(), bagRecyclerView) {
-            @Override
-            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        getString(R.string.delete),
-                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_ddelete),
-                        Color.parseColor("#FF3C30"),
-                        new SwipeHelper.UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: onDelete
-                                Product p=productArrayList.get(pos);
-                                if(SamanApp.localDB.deleteItemFromCart(p)){
-                                    Constants.showAlert(getString(R.string.remove_from_bag),getString(R.string.removed_from_bag),getString(R.string.okay),getActivity());
-                                    productArrayList.remove(p);
-                                    bagAdapter.updateNotify();
-                                    ((DashboardActivity)getContext()).updateBagCount();
-                                }
-                                quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
-
-                                if(productArrayList.size()>0){
-                                    tv_empty_bag.setVisibility(View.GONE);
-                                }else{
-                                    tv_empty_bag.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
-                ));
-
-                underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        getString(R.string.add_to_fav),
-//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_heart),
-                        ResourceUtil.getBitmap(getContext(),R.drawable.ic_heart),
-                        Color.parseColor("#FF9502"),
-                        new SwipeHelper.UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: OnTransfer
-                                GlobalValues.markFavourite(authenticatedUser.getId(),productArrayList.get(pos).getID());
-                                Product p=productArrayList.get(pos);
-                                if(SamanApp.localDB.deleteItemFromCart(p)){
-                                    Constants.showAlert(getString(R.string.add_to_fav),getString(R.string.move_to_fav),getString(R.string.okay),getActivity());
-                                    productArrayList.remove(p);
-                                    bagAdapter.updateNotify();
-                                    ((DashboardActivity)getContext()).updateBagCount();
-                                }
-                                quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
-
-                                if(productArrayList.size()>0){
-                                    tv_empty_bag.setVisibility(View.GONE);
-                                }else{
-                                    tv_empty_bag.setVisibility(View.VISIBLE);
-                                }
-
-                            }
-                        }
-                ));
-            }
-        };
 
         return view;
     }
@@ -180,6 +119,15 @@ public class BagFragment extends BaseFragment {
         productsGrandTotal.setText(getString(R.string.total)+" "+grandTotal+".0 OMR");
     }
 
+    public void updateCount(int size){
+        if(size>0){
+            tv_empty_bag.setVisibility(View.GONE);
+        }else{
+            tv_empty_bag.setVisibility(View.VISIBLE);
+        }
+        quantity.setText(size+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+
+    }
     @Override
     public String getName() {
         return null;
