@@ -30,6 +30,7 @@ import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
 import com.algorepublic.saman.ui.activities.productdetail.CustomPagerAdapter;
 import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
 import com.algorepublic.saman.ui.activities.store.StoreActivity;
+import com.algorepublic.saman.ui.adapters.BestSellerPagerAdapter;
 import com.algorepublic.saman.ui.adapters.BestSellersAdapter;
 import com.algorepublic.saman.ui.adapters.BrandsAdapter;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
@@ -80,7 +81,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     ViewPager  bestSellersPager;
     @BindView(R.id.indicators)
     LinePageIndicator pageIndicator;
-    CustomPagerAdapter bestSellersAdapter;
+    BestSellerPagerAdapter bestSellersAdapter;
     //BestSellers
 
     //Header
@@ -183,26 +184,21 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         }, DELAY_MS, PERIOD_MS);
     }
 
-    private void setBestSellers(List<Slider> bestSellersURLs) {
+    private void setBestSellers(List<Slider> sliderList) {
 
-        List<String> slide=new ArrayList<>();
 
-        for (int i=0;i<bestSellersURLs.size();i++){
-            slide.add(bestSellersURLs.get(i).getBannerURL());
-        }
-
-        bestSellersAdapter= new CustomPagerAdapter(getContext(),slide);
+        bestSellersAdapter= new BestSellerPagerAdapter(getContext(),sliderList);
         bestSellersPager.setAdapter(bestSellersAdapter);
 
-        bestSellersPager.setPageMargin(10);
-        bestSellersPager.setClipToPadding(false);
-        bestSellersPager.setPadding(100,0,100,0);
+//        bestSellersPager.setPageMargin(10);
+//        bestSellersPager.setClipToPadding(false);
+//        bestSellersPager.setPadding(100,0,100,0);
 
         int median;
-        if (bestSellersURLs.size() % 2 == 0)
-            median = (bestSellersURLs.size()/2 + bestSellersURLs.size()/2 - 1)/2;
+        if (sliderList.size() % 2 == 0)
+            median = (sliderList.size()/2 + sliderList.size()/2 - 1)/2;
         else
-            median = bestSellersURLs.size()/2;
+            median = sliderList.size()/2;
 
         bestSellersPager.setCurrentItem(median);
         pageIndicator.setViewPager(bestSellersPager);

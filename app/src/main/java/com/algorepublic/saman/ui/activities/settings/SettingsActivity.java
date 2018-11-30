@@ -20,8 +20,6 @@ import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.ui.activities.PoliciesActivity;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
-import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
-import com.algorepublic.saman.ui.activities.order.checkout.CheckoutOrderActivity;
 import com.algorepublic.saman.ui.activities.password.ChangePasswordActivity;
 import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.utils.CircleTransform;

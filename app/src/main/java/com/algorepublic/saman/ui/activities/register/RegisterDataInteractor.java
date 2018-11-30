@@ -12,10 +12,10 @@ public class RegisterDataInteractor implements RegisterData {
 
 
     @Override
-    public void registerUser(String fName,String lName,String email,String password,String deviceToken,String gender,String country,String address,final OnResponseListener responseListener) {
+    public void registerUser(String fName,String lName,String email,String password,String deviceToken,String gender,String country,String address,String dob,final OnResponseListener responseListener) {
         WebServicesHandler apiClient = WebServicesHandler.instance;
 
-        apiClient.register(fName,lName,email,password,deviceToken,gender,country,address,new Callback<UserResponse>() {
+        apiClient.register(fName,lName,email,password,deviceToken,gender,country,address,dob,new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 responseListener.onResponse(response.body());

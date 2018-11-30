@@ -36,8 +36,10 @@ import com.algorepublic.saman.utils.GlobalValues;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -120,6 +122,16 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         selectedGender = authenticatedUser.getGender();
         countryName.setText(authenticatedUser.getCountry());
         addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1());
+
+        Long datetimestamp = Long.parseLong(authenticatedUser.getDateOfBirth().replaceAll("\\D", ""));
+        Date date = new Date(datetimestamp);
+        DateFormat formatter = new SimpleDateFormat("dd/MM/YYY");
+        String dateFormatted = formatter.format(date);
+        String sepDate[]=dateFormatted.split("/");
+        dayEditText.setText(sepDate[0]);
+        monthEditText.setText(sepDate[1]);
+        yearEditText.setText(sepDate[2]);
+
     }
 
     @OnClick(R.id.layout_GenderSelection)

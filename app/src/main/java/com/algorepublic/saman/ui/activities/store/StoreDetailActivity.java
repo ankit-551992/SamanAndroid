@@ -84,10 +84,11 @@ public class StoreDetailActivity extends AppCompatActivity {
         if (bundle != null) {
             function = bundle.getInt("Function");
             storeID = bundle.getInt("StoreID");
-            storeName = bundle.getString("StoreName");
-            storeNameAr = bundle.getString("StoreNameAr");
-
-            storeNameTextView.setText(storeName);
+            if(bundle.containsKey("StoreName")) {
+                storeName = bundle.getString("StoreName");
+                storeNameAr = bundle.getString("StoreNameAr");
+                storeNameTextView.setText(storeName);
+            }
         }
 
         layoutManager = new LinearLayoutManager(this);
@@ -124,9 +125,13 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                             Picasso.get().load(Constants.URLS.BaseURLImages + store.getBannerURL()).fit().centerCrop()
                                     .into(bg);
+                            storeName=store.getStoreName();
+                            storeNameAr=store.getStoreNameAR();
+                            storeNameTextView.setText(store.getStoreName());
                             storeDescriptionTextView.setText(store.getStoreName());
                             storeCategoryList.addAll(store.getStoreCategoryList());
                             storeCategoriesAdapter.notifyDataSetChanged();
+                            storeCategoriesAdapter.setNames(storeName,storeNameAr);
                         }
                     }
                 }

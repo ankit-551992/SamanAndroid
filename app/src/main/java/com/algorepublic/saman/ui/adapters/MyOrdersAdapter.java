@@ -52,7 +52,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
         Long datetimestamp = Long.parseLong(orderHistory.getCreatedAt().replaceAll("\\D", ""));
         Date date = new Date(datetimestamp);
 //        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy G 'at' HH:mm:ss z");
-        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm");
+        DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy 'at' HH:mm");
         String dateFormatted = formatter.format(date);
         holder.dateTextView.setText(dateFormatted.toString());
         holder.orderNUmberTextView.setText(orderHistory.getOrderNumber());

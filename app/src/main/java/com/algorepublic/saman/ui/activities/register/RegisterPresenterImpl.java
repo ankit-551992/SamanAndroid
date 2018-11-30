@@ -45,12 +45,12 @@ public class RegisterPresenterImpl implements RegisterPresenter,RegisterData.OnR
     }
 
     @Override
-    public void registerUser(String fName,String lName,String email,String password,String deviceToken,String gender,String country,String address) {
+    public void registerUser(String fName,String lName,String email,String password,String deviceToken,String gender,String country,String address,String dob) {
         if (registerView != null) {
             registerView.showProgress();
         }
 
-        registerDataInteractor.registerUser(fName,lName,email,password,deviceToken,gender,country,address,this);
+        registerDataInteractor.registerUser(fName,lName,email,password,deviceToken,gender,country,address,dob,this);
     }
 
     @Override

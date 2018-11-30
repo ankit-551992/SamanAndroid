@@ -98,7 +98,7 @@ public class MyPaymentActivity extends BaseActivity {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.delete),
-                        ResourceUtil.getBitmap(MyPaymentActivity.this,R.drawable.ic_delete),
+                        ResourceUtil.getBitmap(MyPaymentActivity.this,R.drawable.ic_delete_ic),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override

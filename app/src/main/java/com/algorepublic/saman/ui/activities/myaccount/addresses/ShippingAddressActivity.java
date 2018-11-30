@@ -89,43 +89,6 @@ public class ShippingAddressActivity extends BaseActivity {
         addressAdapter = new AddressAdapter(this, shippingAddresses);
         mRecyclerView.setAdapter(addressAdapter);
 
-
-        new SwipeHelper(this, mRecyclerView) {
-            @Override
-            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        getString(R.string.delete),
-                        ResourceUtil.getBitmap(ShippingAddressActivity.this, R.drawable.ic_ddelete),
-                        Color.parseColor("#FF3C30"),
-                        new SwipeHelper.UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: onDelete
-                                deleteAddress(shippingAddresses.get(pos).getID());
-                                shippingAddresses.remove(pos);
-                                addressAdapter.notifyDataSetChanged();
-                            }
-                        }
-                ));
-
-                underlayButtons.add(new SwipeHelper.UnderlayButton(
-                        getString(R.string.edit),
-                        ResourceUtil.getBitmap(ShippingAddressActivity.this, R.drawable.ic_edit),
-                        Color.parseColor("#FEC831"),
-                        new SwipeHelper.UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: onDelete
-                                Intent intent = new Intent(ShippingAddressActivity.this, AddShippingAddressActivity.class);
-                                intent.putExtra("ShippingAddress", shippingAddresses.get(pos));
-                                intent.putExtra("Type", 1);
-                                startActivity(intent);
-                            }
-                        }
-                ));
-            }
-        };
-
     }
 
     @Override
@@ -145,12 +108,9 @@ public class ShippingAddressActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    private void getAddresses() {
+    public void getAddresses() {
 
         shippingAddresses.clear();
-
-//        shippingAddresses.add(authenticatedUser.getShippingAddress());
-
         addressAdapter.notifyDataSetChanged();
 
         WebServicesHandler.instance.getAddressList(authenticatedUser.getId(), new retrofit2.Callback<GetAddressApi>() {
@@ -177,20 +137,4 @@ public class ShippingAddressActivity extends BaseActivity {
             }
         });
     }
-
-    private void deleteAddress(int Id) {
-
-        WebServicesHandler.instance.deleteAddress(Id, new retrofit2.Callback<SimpleSuccess>() {
-            @Override
-            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-                SimpleSuccess simpleSuccess = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-                getAddresses();
-            }
-        });
-    }
-
 }

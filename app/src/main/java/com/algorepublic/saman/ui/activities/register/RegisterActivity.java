@@ -338,7 +338,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
         String address = addressEditText.getText().toString();
         if (isDataValid(firstName, lastName, email, password, confirmPassword, gender, country, address, day, month, year)) {
-            String dob = day + "/" + month + "/" + year;
+            String dob = day + "-" + month + "-" + year;
             Intent intent = new Intent(RegisterActivity.this, PoliciesActivity.class);
             intent.putExtra("type", 1);
             startActivityForResult(intent, 1401);
@@ -465,7 +465,16 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String gender = selectedGender;
                 String country = countryName.getText().toString();
                 String address = addressEditText.getText().toString();
-                mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address);
+                int date = Integer.parseInt(dayEditText.getSelectedItem().toString());
+                int mon = monthEditText.getSelectedItemPosition() + 1;
+                int yr = Integer.parseInt(yearEditText.getSelectedItem().toString());
+
+                String day = String.valueOf(date);
+                String month = String.valueOf(mon);
+                String year = String.valueOf(yr);
+
+                String dob =month+"-" +day+ "-" + year;
+                mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address,dob);
             }
         }
         if (requestCode == 1414) {

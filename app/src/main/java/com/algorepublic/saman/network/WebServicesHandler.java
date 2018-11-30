@@ -74,7 +74,8 @@ public class WebServicesHandler {
     }
 
     public void register(String fName, String lName, String email, String password, String deviceToken, String gender, String country,
-                         String address, Callback<UserResponse> callback) {
+                         String address,
+                         String dob, Callback<UserResponse> callback) {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("FirstName", fName);
@@ -86,6 +87,7 @@ public class WebServicesHandler {
         parameters.put("Gender", gender);
         parameters.put("Country", country);
         parameters.put("Address", address);
+        parameters.put("DateOfBirth", dob);
 
         Call<UserResponse> call = webServices.register(parameters);
         call.enqueue(callback);

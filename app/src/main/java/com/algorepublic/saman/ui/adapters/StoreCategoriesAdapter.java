@@ -106,4 +106,9 @@ public class StoreCategoriesAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             progressBar = (ProgressBar) itemView.findViewById(R.id.native_progress_bar);
         }
     }
+
+    public void setNames(String storeName,String storeNameAr){
+        this.storeName=storeName;
+        this.storeNameAr=storeNameAr;
+    }
 }

@@ -3,26 +3,35 @@ package com.algorepublic.saman.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.ShippingAddress;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
+import com.algorepublic.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -60,18 +69,48 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             messageViewHolder.address.setText(shippingAddresses.get(position).getAddressLine1());
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            // Drag From Right
+            messageViewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, messageViewHolder.swipeLayout.findViewById(R.id.bottom_wrapper));
+
+            messageViewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                        Intent data = new Intent();
-                        int id = shippingAddresses.get(position).getID();
-                        String text = shippingAddresses.get(position).getAddressLine1();
-                        data.putExtra("ID",id);
-                        data.putExtra("DATA",text);
-                        ((Activity) mContext).setResult(RESULT_OK, data);
-                        ((Activity) mContext).finish();
+                public void onClick(View v) {
+                    Intent data = new Intent();
+                    int id = shippingAddresses.get(position).getID();
+                    String text = shippingAddresses.get(position).getAddressLine1();
+                    data.putExtra("ID",id);
+                    data.putExtra("DATA",text);
+                    ((Activity) mContext).setResult(RESULT_OK, data);
+                    ((Activity) mContext).finish();
                 }
             });
+
+            messageViewHolder.editIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_edit_ic));
+            messageViewHolder.textView1.setText(mContext.getString(R.string.edit));
+            messageViewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+
+
+            messageViewHolder.layout1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, AddShippingAddressActivity.class);
+                    intent.putExtra("ShippingAddress", shippingAddresses.get(position));
+                    intent.putExtra("Type", 1);
+                    mContext.startActivity(intent);
+                }
+            });
+
+            messageViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deleteAddress(shippingAddresses.get(position).getID());
+                    shippingAddresses.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+
+            // mItemManger is member in RecyclerSwipeAdapter Class
+            mItemManger.bindView(messageViewHolder.itemView, position);
 
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
@@ -84,7 +123,28 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return shippingAddresses == null ? 0 : shippingAddresses.size();
     }
 
+    @Override
+    public int getSwipeLayoutResourceId(int position) {
+        return R.id.swipe;
+    }
+
     static class MessageViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.swipe)
+        SwipeLayout swipeLayout;
+
+        @BindView(R.id.layout1)
+        LinearLayout layout1;
+
+        @BindView(R.id.layout2)
+        LinearLayout layout2;
+
+        @BindView(R.id.iv_icon1)
+        ImageView editIcon;
+
+        @BindView(R.id.tv_1)
+        TextView textView1;
+
         @BindView(R.id.tv_address)
         TextView address;
 
@@ -101,5 +161,21 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
             progressBar = (ProgressBar) itemView.findViewById(R.id.native_progress_bar);
         }
+    }
+
+
+    private void deleteAddress(int Id) {
+
+        WebServicesHandler.instance.deleteAddress(Id, new retrofit2.Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+                SimpleSuccess simpleSuccess = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+                ((ShippingAddressActivity)mContext).getAddresses();
+            }
+        });
     }
 }

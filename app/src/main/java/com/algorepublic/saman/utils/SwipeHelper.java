@@ -249,7 +249,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
             float height = (float) view.getBottom() - (float) view.getTop();
             float width = height / 3;
-            RectF icon_dest = new RectF((float) rect.left + x ,(float) view.getTop() + width,(float) rect.right - x,(float)view.getBottom() - width);
+            RectF icon_dest = new RectF((float) rect.left + x+15 ,(float) view.getTop() + width,(float) rect.right - x -15,(float)view.getBottom() - width);
             if(imageResId!=null) {
                 c.drawBitmap(imageResId, null, icon_dest, p);
             }
