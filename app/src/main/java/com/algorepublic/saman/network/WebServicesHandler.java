@@ -1,6 +1,7 @@
 package com.algorepublic.saman.network;
 
 
+import com.algorepublic.saman.data.model.ShippingAddress;
 import com.algorepublic.saman.data.model.apis.AddAddressApi;
 import com.algorepublic.saman.data.model.apis.CustomerSupport;
 import com.algorepublic.saman.data.model.apis.GetAddressApi;
@@ -17,6 +18,7 @@ import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.utils.Constants;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,6 +79,8 @@ public class WebServicesHandler {
                          String address,
                          String dob, Callback<UserResponse> callback) {
 
+        ShippingAddress obj = new Gson().fromJson(address, ShippingAddress.class);
+
         Map<String, String> parameters = new HashMap<>();
         parameters.put("FirstName", fName);
         parameters.put("LastName", lName);
@@ -87,6 +91,12 @@ public class WebServicesHandler {
         parameters.put("Gender", gender);
         parameters.put("Country", country);
         parameters.put("Address", address);
+//        parameters.put("ShippingAddress", address);
+        parameters.put("ShippingAddress[AddressLine1]", obj.getAddressLine1());
+        parameters.put("ShippingAddress[AddressLine2]", obj.getAddressLine2());
+        parameters.put("ShippingAddress[City]", obj.getCity());
+        parameters.put("ShippingAddress[Country]", obj.getCountry());
+        parameters.put("ShippingAddress[State]", obj.getState());
         parameters.put("DateOfBirth", dob);
 
         Call<UserResponse> call = webServices.register(parameters);
@@ -95,7 +105,7 @@ public class WebServicesHandler {
 
 
     public void updateUser(int id, String fName, String lName, String gender, String country,
-                           JSONObject address, Callback<SimpleSuccess> callback) {
+                           JSONObject address,String dob, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("ID", id);
@@ -104,6 +114,7 @@ public class WebServicesHandler {
         parameters.put("Gender", gender);
         parameters.put("Country", country);
         parameters.put("ShippingAddress", address);
+        parameters.put("DateOfBirth", dob);
 
         Call<SimpleSuccess> call = webServices.updateProfile(parameters);
         call.enqueue(callback);
@@ -267,22 +278,30 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void addAddress(int userID,String addressLine,boolean isDefault, Callback<AddAddressApi> callback) {
+    public void addAddress(int userID,String addressLine,String addressLine2,String city,String state,String country,boolean isDefault, Callback<AddAddressApi> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
         parameters.put("AddressLine1", addressLine);
+        parameters.put("AddressLine2", addressLine2);
+        parameters.put("City", city);
+        parameters.put("State", state);
+        parameters.put("Country", country);
         parameters.put("isDefault", isDefault);
 
         Call<AddAddressApi> call = webServices.insertAddress(parameters);
         call.enqueue(callback);
     }
 
-    public void updateAddress(int ID,String addressLine,boolean isDefault, Callback<SimpleSuccess> callback) {
+    public void updateAddress(int ID,String addressLine,String addressLine2,String city,String state,String country,boolean isDefault, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("ID", ID);
         parameters.put("AddressLine1", addressLine);
+        parameters.put("AddressLine2", addressLine2);
+        parameters.put("City", city);
+        parameters.put("State", state);
+        parameters.put("Country", country);
         parameters.put("isDefault", isDefault);
 
         Call<SimpleSuccess> call = webServices.updateAddress(parameters);

@@ -277,6 +277,12 @@
     <string name="enter_token">Please Enter Token</string>
     <!--Required-->
 
+    <string name="street_no">Street #</string>
+    <string name="building_no">Building #</string>
+    <string name="landmark">Landmark</string>
+    <string name="required">Required</string>
+    <string name="landmark_optional">Landmark (Optional)</string>
+    <string name="city">City</string>
     <!--Card-->
     <string name="Card_Number">Card Number</string>
     <string name="Card_expiry">Valid Thru - Expiry Date</string>

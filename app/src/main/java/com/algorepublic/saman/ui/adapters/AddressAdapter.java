@@ -67,7 +67,9 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
         if (holder instanceof MessageViewHolder) {
             MessageViewHolder messageViewHolder = (MessageViewHolder) holder;
 
-            messageViewHolder.address.setText(shippingAddresses.get(position).getAddressLine1());
+            ShippingAddress address =shippingAddresses.get(position);
+
+            messageViewHolder.address.setText(address.getAddressLine1()+","+address.getCity()+","+address.getCountry());
 
             // Drag From Right
             messageViewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, messageViewHolder.swipeLayout.findViewById(R.id.bottom_wrapper));
@@ -76,8 +78,8 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     Intent data = new Intent();
-                    int id = shippingAddresses.get(position).getID();
-                    String text = shippingAddresses.get(position).getAddressLine1();
+                    int id = shippingAddresses.get(position).getiD();
+                    String text = shippingAddresses.get(position).getAddressLine1()+","+shippingAddresses.get(position).getCity()+","+shippingAddresses.get(position).getCountry();
                     data.putExtra("ID",id);
                     data.putExtra("DATA",text);
                     ((Activity) mContext).setResult(RESULT_OK, data);
@@ -103,7 +105,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             messageViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    deleteAddress(shippingAddresses.get(position).getID());
+                    deleteAddress(shippingAddresses.get(position).getiD());
                     shippingAddresses.remove(position);
                     notifyDataSetChanged();
                 }
@@ -170,6 +172,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 SimpleSuccess simpleSuccess = response.body();
+                ((ShippingAddressActivity)mContext).call();
             }
 
             @Override

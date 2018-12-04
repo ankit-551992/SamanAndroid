@@ -19,14 +19,14 @@ public class MyDetailsPresenter implements DetailContractor.Presenter {
     }
 
     @Override
-    public void updateUser(int id, String fName, String lName, String gender, String country, JSONObject address) {
+    public void updateUser(int id, String fName, String lName, String gender, String country, JSONObject address,String dob) {
         if (view != null) {
             view.showProgress();
         }
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
 
-        apiClient.updateUser(id, fName, lName, gender, country, address, new Callback<SimpleSuccess>() {
+        apiClient.updateUser(id, fName, lName, gender, country, address,dob, new Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 SimpleSuccess simpleSuccess = response.body();

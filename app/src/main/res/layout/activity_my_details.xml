@@ -238,11 +238,39 @@
             </LinearLayout>
 
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/layout_addressSelection"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/address" />
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address" />
+
+                <TextView
+                    android:id="@+id/button_change_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/off_grey"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/change"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -256,12 +284,13 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
+                    android:focusable="false"
                     android:hint="@string/address_hint"
                     android:imeOptions="actionDone"
-                    android:inputType="text" />
+                    android:inputType="text"/>
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_pin"
                     android:src="@drawable/pin"
                     android:layout_width="30dp"

@@ -161,7 +161,7 @@ public class ShoppingCartActivity extends BaseActivity {
 
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
         shipmentAddress.setText(authenticatedUser.getShippingAddress().getAddressLine1().replace(" ", "\n\n"));
-        addressID=authenticatedUser.getShippingAddress().getID();
+        addressID=authenticatedUser.getShippingAddress().getiD();
         cardNameTextView.setText(getString(R.string.card_delivery));
         cardExpiryTextView.setVisibility(View.GONE);
         cardNumberTextView.setVisibility(View.GONE);

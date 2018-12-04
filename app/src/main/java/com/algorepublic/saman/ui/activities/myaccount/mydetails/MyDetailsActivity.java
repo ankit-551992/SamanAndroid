@@ -121,7 +121,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         genderText.setText(authenticatedUser.getGender());
         selectedGender = authenticatedUser.getGender();
         countryName.setText(authenticatedUser.getCountry());
-        addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1());
+        addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1()+","+authenticatedUser.getShippingAddress().getCity()+","+authenticatedUser.getShippingAddress().getCountry());
 
         Long datetimestamp = Long.parseLong(authenticatedUser.getDateOfBirth().replaceAll("\\D", ""));
         Date date = new Date(datetimestamp);
@@ -137,6 +137,12 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     @OnClick(R.id.layout_GenderSelection)
     public void selectGenderClick() {
         selectGender();
+    }
+
+    @OnClick({R.id.button_change_address,R.id.editText_address})
+    public void ChangeAddress(){
+        Intent intent = new Intent(MyDetailsActivity.this, ShippingAddressActivity.class);
+        startActivityForResult(intent, 1414);
     }
 
     @OnClick(R.id.iv_pin)
@@ -204,11 +210,22 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String gender = selectedGender;
         String country = countryName.getText().toString();
         String address = addressEditText.getText().toString();
-        if (isDataValid(firstName, lastName, gender, address)) {
+
+        int date = Integer.parseInt(dayEditText.getText().toString());
+        int mon =  Integer.parseInt(monthEditText.getText().toString());
+        int yr = Integer.parseInt(yearEditText.getText().toString());
+
+        String day = String.valueOf(date);
+        String month = String.valueOf(mon);
+        String year = String.valueOf(yr);
+
+        String dob =month+"-" +day+ "-" + year;
+
+        if (isDataValid(firstName, lastName, gender, address, day, month, year)) {
             JSONObject jsonObject = new JSONObject();
             try {
                 if(addressID==0) {
-                    jsonObject.put("ID", authenticatedUser.getShippingAddress().getID());
+                    jsonObject.put("ID", authenticatedUser.getShippingAddress().getiD());
                 }else {
                     jsonObject.put("ID", addressID);
                 }
@@ -216,7 +233,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject);
+            presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject,dob);
         }
     }
 
@@ -296,7 +313,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
 
-    private boolean isDataValid(String fName, String lName, String gender, String address) {
+    private boolean isDataValid(String fName, String lName, String gender, String address,String day, String month, String year) {
         if (TextUtils.isEmpty(fName)) {
             firstNameEditText.setError(getString(R.string.first_name_required));
             return false;
@@ -305,6 +322,15 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             return false;
         } else if (TextUtils.isEmpty(gender)) {
             genderText.setError(getString(R.string.gender_prompt));
+            return false;
+        } else if (TextUtils.isEmpty(day)) {
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.day_missing), getString(R.string.okay), MyDetailsActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(month)) {
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.month_missing), getString(R.string.okay), MyDetailsActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(year)) {
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.year_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
         } else if (TextUtils.isEmpty(address)) {
             addressEditText.setError(getString(R.string.address_req));
@@ -333,7 +359,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             authenticatedUser.setCountry(countryName.getText().toString());
             authenticatedUser.getShippingAddress().setAddressLine1(addressEditText.getText().toString());
             if(addressID!=0) {
-                authenticatedUser.getShippingAddress().setID(addressID);
+                authenticatedUser.getShippingAddress().setiD(addressID);
                 addressID=0;
             }
 

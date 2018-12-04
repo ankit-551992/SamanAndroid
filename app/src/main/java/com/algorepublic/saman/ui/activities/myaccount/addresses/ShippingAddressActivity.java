@@ -88,13 +88,16 @@ public class ShippingAddressActivity extends BaseActivity {
         shippingAddresses = new ArrayList<>();
         addressAdapter = new AddressAdapter(this, shippingAddresses);
         mRecyclerView.setAdapter(addressAdapter);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getAddresses();
+    }
+
+    public void call(){
+        onResume();
     }
 
     @OnClick(R.id.toolbar_back)
@@ -125,6 +128,8 @@ public class ShippingAddressActivity extends BaseActivity {
 
                         if(shippingAddresses.size()>2){
                             settings.setVisibility(View.GONE);
+                        }else {
+                            settings.setVisibility(View.VISIBLE);
                         }
                         addressAdapter.notifyDataSetChanged();
                     }

@@ -163,14 +163,14 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         try {
             addresses = geocoder.getFromLocation(mLatLong.latitude, mLatLong.longitude, 1);
             try {
-                address = addresses.get(0).getAddressLine(0);
+//                address = addresses.get(0).getAddressLine(0);
+                 address += addresses.get(0).getLocality();
+                // address += addresses.get(0).getAdminArea() + ",";
+                // address += addresses.get(0).getPostalCode() + ",";
+//                 address += addresses.get(0).getCountryName();
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
-            // address += addresses.get(0).getLocality() + ",";
-            // address += addresses.get(0).getAdminArea() + ",";
-            // address += addresses.get(0).getPostalCode() + ",";
-            // address += addresses.get(0).getCountryName();
         } catch (IOException e) {
             Log.e("GEOCODE SERVICE", e.getMessage());
         }
@@ -349,17 +349,18 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
                             // search for locality or sub locality
 //                            sub locality is preferred
                             for (int k = 0; k < types.length(); k++) {
-                                if ("locality".equals(types.getString(k)) && adress == null) {
+                                if ("locality".equals(types.getString(k))) {
                                     if (result.has("formatted_address")) {
                                         adress = result.getString("formatted_address");
                                     }
                                 }
+//                                "administrative_area_level_1"
 
-                                if ("sublocality".equals(types.getString(k))) {
-                                    if (result.has("formatted_address")) {
-                                        adress = result.getString("formatted_address");
-                                    }
-                                }
+//                                if ("sublocality".equals(types.getString(k))) {
+//                                    if (result.has("formatted_address")) {
+//                                        adress = result.getString("formatted_address");
+//                                    }
+//                                }
 
                             }
                         }

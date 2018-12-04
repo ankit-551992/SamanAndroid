@@ -13,19 +13,19 @@ public class ShippingAddress implements Serializable {
     private String addressLine1;
     @SerializedName("AddressLine2")
     @Expose
-    private Object addressLine2;
+    private String addressLine2;
     @SerializedName("City")
     @Expose
-    private Object city;
+    private String city;
     @SerializedName("State")
     @Expose
-    private Object state;
+    private String state;
     @SerializedName("ZipCode")
     @Expose
-    private Object zipCode;
+    private String zipCode;
     @SerializedName("Country")
     @Expose
-    private Object country;
+    private String country;
     @SerializedName("isDefault")
     @Expose
     private boolean isDefault;
@@ -41,52 +41,44 @@ public class ShippingAddress implements Serializable {
         this.addressLine1 = addressLine1;
     }
 
-    public Object getAddressLine2() {
+    public String getAddressLine2() {
         return addressLine2;
     }
 
-    public void setAddressLine2(Object addressLine2) {
+    public void setAddressLine2(String addressLine2) {
         this.addressLine2 = addressLine2;
     }
 
-    public Object getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(Object city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public Object getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Object state) {
+    public void setState(String state) {
         this.state = state;
     }
 
-    public Object getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(Object zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
-    public Object getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(Object country) {
+    public void setCountry(String country) {
         this.country = country;
-    }
-
-    public Integer getID() {
-        return iD;
-    }
-
-    public void setID(Integer iD) {
-        this.iD = iD;
     }
 
     public boolean isDefault() {
@@ -95,5 +87,13 @@ public class ShippingAddress implements Serializable {
 
     public void setDefault(boolean aDefault) {
         isDefault = aDefault;
+    }
+
+    public Integer getiD() {
+        return iD;
+    }
+
+    public void setiD(Integer iD) {
+        this.iD = iD;
     }
 }

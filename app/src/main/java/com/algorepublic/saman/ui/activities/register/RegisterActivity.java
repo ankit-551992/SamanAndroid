@@ -35,13 +35,16 @@ import android.widget.Toast;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.CardDs;
 import com.algorepublic.saman.data.model.Country;
+import com.algorepublic.saman.data.model.ShippingAddress;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.PoliciesActivity;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
 import com.algorepublic.saman.ui.activities.map.GoogleMapActivity;
+import com.algorepublic.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
@@ -69,6 +72,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -149,6 +154,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     //Social Login
 
     Calendar myCalendar;
+    String returnedResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,8 +304,14 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 //        } catch (GooglePlayServicesNotAvailableException e) {
 //            // TODO: Handle the error.
 //        }
-        Intent intent = new Intent(RegisterActivity.this, GoogleMapActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, AddShippingAddressActivity.class);
+        intent.putExtra("Type", 2);
         startActivityForResult(intent, 1414);
+
+//        Intent intent = new Intent(mContext, AddShippingAddressActivity.class);
+//        intent.putExtra("ShippingAddress", shippingAddresses.get(position));
+//        intent.putExtra("Type", 1);
+//        mContext.startActivity(intent);
     }
 
     @OnClick(R.id.button_signIn)
@@ -335,6 +347,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String day = String.valueOf(date);
         String month = String.valueOf(mon);
         String year = String.valueOf(yr);
+        Log.e("Shipping Address",returnedResult);
 
         String address = addressEditText.getText().toString();
         if (isDataValid(firstName, lastName, email, password, confirmPassword, gender, country, address, day, month, year)) {
@@ -473,16 +486,18 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String month = String.valueOf(mon);
                 String year = String.valueOf(yr);
 
+                Log.e("Shipping Address",returnedResult);
                 String dob =month+"-" +day+ "-" + year;
-                mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, address,dob);
+                mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, returnedResult,dob);
             }
         }
         if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
-                String returnedResult = data.getData().toString();
-                addressEditText.setText(returnedResult);
+                returnedResult  = data.getData().toString();
+                ShippingAddress obj = new Gson().fromJson(returnedResult, ShippingAddress.class);
+                addressEditText.setText(obj.getAddressLine1()+","+obj.getCity()+","+obj.getCountry());
             }
-        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE){
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 addressEditText.setText(place.getAddress());
