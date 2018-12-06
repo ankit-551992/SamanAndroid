@@ -1,13 +1,20 @@
 package com.algorepublic.saman.ui.adapters;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -120,12 +127,17 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     GlobalValues.markFavourite(authenticatedUser.getId(),productArrayList.get(position).getID());
                     Product p=productArrayList.get(position);
                     if(SamanApp.localDB.deleteItemFromCart(p)){
-                        Constants.showAlert(mContext.getString(R.string.add_to_fav),mContext.getString(R.string.move_to_fav),mContext.getString(R.string.okay),mContext);
                         productArrayList.remove(p);
                         updateNotify();
                         ((DashboardActivity)mContext).updateBagCount();
                     }
                     bagFragment.updateCount(productArrayList.size());
+                    showPopUp(mContext.getString(R.string.added_to_fav),
+                            mContext. getString(R.string.item_added_message),
+                            mContext.getString(R.string.continue_shopping),
+                            mContext.getString(R.string.view_fav),
+                            1);
+                    mItemManger.closeAllItems();
                 }
             });
 
@@ -134,12 +146,21 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 public void onClick(View view) {
                     Product p=productArrayList.get(position);
                     if(SamanApp.localDB.deleteItemFromCart(p)){
-                        Constants.showAlert(mContext.getString(R.string.remove_from_bag),mContext.getString(R.string.removed_from_bag),mContext.getString(R.string.okay),mContext);
+
+//                        Constants.showAlert(mContext.getString(R.string.remove_from_bag),mContext.getString(R.string.removed_from_bag),mContext.getString(R.string.okay),mContext);
+
+                        showPopUp(mContext.getString(R.string.remove_from_bag),
+                                mContext. getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.close),
+                                0);
                         productArrayList.remove(p);
                         updateNotify();
                         ((DashboardActivity)mContext).updateBagCount();
                     }
                     bagFragment.updateCount(productArrayList.size());
+
+                    mItemManger.closeAllItems();
                 }
             });
 
@@ -228,7 +249,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         }
     }
 
-
     public void updateNotify() {
         grandTotal = 0;
         notifyDataSetChanged();
@@ -242,5 +262,68 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    Dialog dialog;
+    private void showPopUp(String title, String message, String closeButtonText,String nextButtonText, final int type) {
+        dialog = new Dialog(mContext, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailog_information_pop_up);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+        closePopUp.setText(closeButtonText);
+        nextButton.setText(nextButtonText);
+
+        if(type==0){
+            nextButton.setVisibility(View.GONE);
+        }
+
+        closePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (type == 0) {
+                    Intent intent = new Intent(mContext, DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("NavItem", 3);
+                    ((Activity)mContext).startActivity(intent);
+                } else {
+                    Intent intent = new Intent(mContext, DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("NavItem", 2);
+                    ((Activity)mContext).startActivity(intent);
+                }
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(mContext,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 }

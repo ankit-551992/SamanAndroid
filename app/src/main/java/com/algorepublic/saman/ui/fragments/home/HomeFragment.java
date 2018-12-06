@@ -192,7 +192,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
 //        bestSellersPager.setPageMargin(10);
 //        bestSellersPager.setClipToPadding(false);
-//        bestSellersPager.setPadding(100,0,100,0);
+//        bestSellersPager.setPadding(200,0,200,0);
 
         int median;
         if (sliderList.size() % 2 == 0)

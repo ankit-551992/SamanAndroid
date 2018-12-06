@@ -5,12 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Message;
+import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.utils.GlobalValues;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -18,18 +24,20 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_SELF = 1;
     List<Message> messages = new ArrayList<>();
     private Context mContext;
+    User authenticatedUser;
 
     public ChatAdapter(Context mContext,List<Message> messages){
         this.messages=messages;
         this.mContext=mContext;
+        authenticatedUser = GlobalValues.getUser(mContext);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position%2==0){
-            return VIEW_TYPE_OTHER;
-        }else {
+        if(messages.get(position).getSender().getId()==authenticatedUser.getId()){
             return VIEW_TYPE_SELF;
+        }else {
+            return VIEW_TYPE_OTHER;
         }
     }
 
@@ -48,9 +56,19 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof OtherUserViewHolder) {
+
             OtherUserViewHolder otherUserViewHolder = (OtherUserViewHolder) holder;
+
+            Message message=messages.get(position);
+
+            otherUserViewHolder.messageTextView.setText(message.getMessageBody());
         } else if (holder instanceof SelfUserViewHolder) {
+
             SelfUserViewHolder selfUserViewHolder = (SelfUserViewHolder) holder;
+
+            Message message=messages.get(position);
+
+            selfUserViewHolder.messageTextView.setText(message.getMessageBody());
         }
     }
 
@@ -62,14 +80,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     static class OtherUserViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.tv_message)
+        TextView messageTextView;
         public OtherUserViewHolder(View v) {
             super(v);
+            ButterKnife.bind(this, v);
         }
     }
 
     static class SelfUserViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_message)
+        TextView messageTextView;
         public SelfUserViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

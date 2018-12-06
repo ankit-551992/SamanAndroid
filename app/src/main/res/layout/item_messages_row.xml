@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/tv_product_name"
             android:layout_marginTop="2dp"
             android:maxLines="1"
             android:textSize="14sp"
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/tv_date_time"
             android:layout_marginTop="2dp"
             android:drawablePadding="10dp"
             android:textSize="10sp"

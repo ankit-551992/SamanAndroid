@@ -1,6 +1,7 @@
 package com.algorepublic.saman.ui.activities.login;
 
 import com.algorepublic.saman.data.model.apis.UserResponse;
+import com.algorepublic.saman.utils.GlobalValues;
 
 public class LoginPresenterImpl implements LoginPresenter,LoginData.OnResponseListener {
 
@@ -29,12 +30,12 @@ public class LoginPresenterImpl implements LoginPresenter,LoginData.OnResponseLi
     }
 
     @Override
-    public void loginUser(String email, String password) {
+    public void loginUser(String email, String password,String token) {
         if (loginView != null) {
             loginView.showProgress();
         }
 
-        loginDataInteractor.loginUser(email,password,this);
+        loginDataInteractor.loginUser(email,password,token,this);
     }
 
     @Override

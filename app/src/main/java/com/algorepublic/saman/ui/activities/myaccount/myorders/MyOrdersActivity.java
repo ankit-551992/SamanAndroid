@@ -1,9 +1,7 @@
 package com.algorepublic.saman.ui.activities.myaccount.myorders;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,24 +10,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
-import com.algorepublic.saman.data.model.Order;
 import com.algorepublic.saman.data.model.OrderHistory;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
-import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.adapters.MyOrdersAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
-import com.algorepublic.saman.utils.ResourceUtil;
-import com.algorepublic.saman.utils.SwipeHelper;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

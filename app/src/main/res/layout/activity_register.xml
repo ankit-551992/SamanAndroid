@@ -435,6 +435,7 @@
                     android:background="@android:color/transparent"
                     android:id="@+id/editText_address"
                     android:layout_width="0dp"
+                    android:enabled="false"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:focusable="true"

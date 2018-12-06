@@ -1,10 +1,6 @@
 package com.algorepublic.saman.ui.activities.myaccount.messages;
 
-import android.app.Dialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -12,17 +8,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
-import com.algorepublic.saman.data.model.Message;
-import com.algorepublic.saman.data.model.Payment;
-import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
-import com.algorepublic.saman.ui.adapters.MessagesAdapter;
-import com.algorepublic.saman.ui.adapters.PaymentAdapter;
+import com.algorepublic.saman.data.model.Conversation;
+import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.GetConversationsApi;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.ui.adapters.ConversationsAdapter;
+import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SwipeHelper;
 
@@ -32,6 +29,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MessagesListActivity extends BaseActivity {
 
@@ -46,8 +45,11 @@ public class MessagesListActivity extends BaseActivity {
     @BindView(R.id.recycler)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    List<Message> messageArrayList = new ArrayList<>();
-    MessagesAdapter messagesAdapter;
+    List<Conversation> conversationArrayList = new ArrayList<>();
+    ConversationsAdapter conversationsAdapter;
+
+
+    User authenticatedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class MessagesListActivity extends BaseActivity {
         setContentView(R.layout.activity_payments);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        authenticatedUser = GlobalValues.getUser(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.messages));
         toolbarBack.setVisibility(View.VISIBLE);
@@ -67,13 +70,12 @@ public class MessagesListActivity extends BaseActivity {
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
-        messageArrayList = new ArrayList<>();
-        messagesAdapter = new MessagesAdapter(this,messageArrayList);
-        mRecyclerView.setAdapter(messagesAdapter);
+        conversationArrayList = new ArrayList<>();
+        conversationsAdapter = new ConversationsAdapter(this,conversationArrayList);
+        mRecyclerView.setAdapter(conversationsAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
 
-        getMessages();
-
+        getConversation();
 
         new SwipeHelper(this, mRecyclerView) {
             @Override
@@ -86,6 +88,9 @@ public class MessagesListActivity extends BaseActivity {
                             @Override
                             public void onClick(int pos) {
                                 // TODO: onDelete
+                                deleteConversation(conversationArrayList.get(pos).getID());
+                                conversationArrayList.remove(pos);
+                                conversationsAdapter.notifyDataSetChanged();
                             }
                         }
                 ));
@@ -99,13 +104,36 @@ public class MessagesListActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    private void getMessages(){
-        messageArrayList.add(new Message());
+    private void getConversation(){
+        WebServicesHandler.instance.getConversationList(authenticatedUser.getId(), new retrofit2.Callback<GetConversationsApi>() {
+            @Override
+            public void onResponse(Call<GetConversationsApi> call, Response<GetConversationsApi> response) {
+                GetConversationsApi getConversationsApi = response.body();
+                if(getConversationsApi!=null) {
+                    if(getConversationsApi.getResult()!=null) {
+                        conversationArrayList.addAll(getConversationsApi.getResult());
+                    }
+                }
 
-        if(messageArrayList.size()==0){
-            empty.setVisibility(View.VISIBLE);
-        }else {
-            empty.setVisibility(View.GONE);
-        }
+                conversationsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<GetConversationsApi> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void deleteConversation(int conversationID){
+        WebServicesHandler.instance.deleteConversation(conversationID, new retrofit2.Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+            }
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+
+            }
+        });
     }
 }

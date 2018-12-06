@@ -347,7 +347,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String day = String.valueOf(date);
         String month = String.valueOf(mon);
         String year = String.valueOf(yr);
-        Log.e("Shipping Address",returnedResult);
 
         String address = addressEditText.getText().toString();
         if (isDataValid(firstName, lastName, email, password, confirmPassword, gender, country, address, day, month, year)) {
@@ -486,9 +485,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String month = String.valueOf(mon);
                 String year = String.valueOf(yr);
 
-                Log.e("Shipping Address",returnedResult);
                 String dob =month+"-" +day+ "-" + year;
-                mPresenter.registerUser(firstName, lastName, email, password, "Token", gender, country, returnedResult,dob);
+                mPresenter.registerUser(firstName, lastName, email, password, GlobalValues.getUserToken(RegisterActivity.this), gender, country, returnedResult,dob);
             }
         }
         if (requestCode == 1414) {

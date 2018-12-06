@@ -15,6 +15,8 @@
         android:src="@drawable/earth_top" />
 
     <TextView
+        android:gravity="center_vertical"
+        android:id="@+id/tv_message"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
@@ -24,6 +26,6 @@
         android:background="@color/off_grey"
         android:minHeight="60dp"
         android:padding="10dp"
-        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s." />
+        android:text="Lorem Ipsum"/>
 
 </LinearLayout>

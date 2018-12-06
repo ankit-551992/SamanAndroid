@@ -32,6 +32,8 @@
             android:name=".ui.activities.onboarding.WelcomeActivity"
             android:screenOrientation="portrait" />
 
+        <!--.ui.activities.map.GoogleMapActivity-->
+
         <activity
             android:name=".ui.activities.map.GoogleMapActivity"
             android:screenOrientation="portrait"/>
@@ -121,9 +123,12 @@
             android:screenOrientation="sensor"
             android:theme="@style/TheFinestWebViewTheme" />
 
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyA9vi6vn2yc6Ki3OkRcVlBc74H_6NyN08w" />-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA9vi6vn2yc6Ki3OkRcVlBc74H_6NyN08w" />
+            android:value="AIzaSyCg72uWeRycMyChonEZLqzEUwHBNzAQmXA" />
 
         <meta-data
             android:name="com.google.android.gms.version"

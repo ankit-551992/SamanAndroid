@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -48,8 +49,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -64,6 +67,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
+import static com.thefinestartist.utils.content.ContextUtil.getContentResolver;
 
 public class MyAccountFragment extends BaseFragment {
 
@@ -265,6 +269,7 @@ public class MyAccountFragment extends BaseFragment {
                 }
             } else if (requestCode == 2) {
                 if (data != null) {
+//                    file = new File(filePath(data.getData()));
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         String path = GlobalValues.getRealPathFromURI(getActivity(),data.getData());
                         if (path!= null) {
@@ -294,6 +299,50 @@ public class MyAccountFragment extends BaseFragment {
             }
         }
     }
+
+
+    String filePath(Uri uri){
+
+        String id = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            id = DocumentsContract.getDocumentId(uri);
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        File file = new File(getActivity().getCacheDir().getAbsolutePath()+"/"+id);
+        writeFile(inputStream, file);
+        String filePath = file.getAbsolutePath();
+        return filePath;
+    }
+
+    void writeFile(InputStream in, File file) {
+        OutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int len;
+            while((len=in.read(buf))>0){
+                out.write(buf,0,len);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if ( out != null ) {
+                    out.close();
+                }
+                in.close();
+            } catch ( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private void uploadToServer(File file) {
         Constants.showSpinner("Picture Uploading", getContext());

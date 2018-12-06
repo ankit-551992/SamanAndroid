@@ -12,14 +12,22 @@ import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.ui.adapters.CountriesAdapter;
+import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CountriesActivity extends BaseActivity{
+public class CountriesActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -33,7 +41,6 @@ public class CountriesActivity extends BaseActivity{
     RelativeLayout loading;
     RecyclerView.LayoutManager layoutManager;
     CountriesAdapter countriesAdapter;
-
 
 
     @Override
@@ -61,11 +68,40 @@ public class CountriesActivity extends BaseActivity{
     }
 
 
-    private void setData(){
+    private void setData() {
+        if (GlobalValues.countries == null) {
+            GlobalValues.countries = new ArrayList<>();
+            getCountries();
+        }
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
-        countriesAdapter = new CountriesAdapter(this,GlobalValues.countries);
+        countriesAdapter = new CountriesAdapter(this, GlobalValues.countries);
         recyclerView.setAdapter(countriesAdapter);
+    }
+
+
+    private void getCountries() {
+        try {
+            JSONObject obj = new JSONObject(Constants.loadJSONFromAsset(getApplicationContext()));
+            JSONArray jsonArray = obj.getJSONArray("countries");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Country country = new Country();
+
+                country.setId(jsonObject.getInt("id"));
+                country.setSortname(jsonObject.getString("sortname"));
+                country.setName(jsonObject.getString("name"));
+                country.setFlag("http://algorepublic-001-site2.etempurl.com/Flags/flag_" + jsonObject.getString("sortname").toLowerCase() + ".png");
+                country.setPhoneCode(jsonObject.getInt("phoneCode"));
+
+                GlobalValues.countries.add(country);
+            }
+
+            countriesAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

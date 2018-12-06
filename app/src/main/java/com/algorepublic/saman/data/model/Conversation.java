@@ -3,29 +3,28 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Message {
+import java.util.List;
+
+public class Conversation {
 
     @SerializedName("Title")
     @Expose
     private String title;
-    @SerializedName("MessageBody")
+    @SerializedName("StoreName")
     @Expose
-    private String messageBody;
-    @SerializedName("Sender")
+    private String storeName;
+    @SerializedName("StoreName_AR")
     @Expose
-    private User sender;
-    @SerializedName("Recipent")
+    private String storeNameAR;
+    @SerializedName("ProductName")
     @Expose
-    private User recipent;
-    @SerializedName("isRead")
+    private String productName;
+    @SerializedName("ProductName_AR")
     @Expose
-    private Boolean isRead;
-    @SerializedName("ImageURL")
+    private String productNameAR;
+    @SerializedName("Messages")
     @Expose
-    private String imageURL;
-    @SerializedName("ConversationID")
-    @Expose
-    private Integer conversationID;
+    private List<Message> messages = null;
     @SerializedName("CreatedAt")
     @Expose
     private String createdAt;
@@ -53,52 +52,44 @@ public class Message {
         this.title = title;
     }
 
-    public String getMessageBody() {
-        return messageBody;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setMessageBody(String messageBody) {
-        this.messageBody = messageBody;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
-    public User getSender() {
-        return sender;
+    public String getStoreNameAR() {
+        return storeNameAR;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public void setStoreNameAR(String storeNameAR) {
+        this.storeNameAR = storeNameAR;
     }
 
-    public User getRecipent() {
-        return recipent;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setRecipent(User recipent) {
-        this.recipent = recipent;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public Boolean getIsRead() {
-        return isRead;
+    public String getProductNameAR() {
+        return productNameAR;
     }
 
-    public void setIsRead(Boolean isRead) {
-        this.isRead = isRead;
+    public void setProductNameAR(String productNameAR) {
+        this.productNameAR = productNameAR;
     }
 
-    public Object getImageURL() {
-        return imageURL;
+    public List<Message> getMessages() {
+        return messages;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
-    public Integer getConversationID() {
-        return conversationID;
-    }
-
-    public void setConversationID(Integer conversationID) {
-        this.conversationID = conversationID;
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 
     public String getCreatedAt() {
@@ -148,4 +139,6 @@ public class Message {
     public void setID(Integer iD) {
         this.iD = iD;
     }
+
+
 }

@@ -4,6 +4,8 @@ import com.algorepublic.saman.data.model.ShippingAddress;
 import com.algorepublic.saman.data.model.apis.AddAddressApi;
 import com.algorepublic.saman.data.model.apis.CustomerSupport;
 import com.algorepublic.saman.data.model.apis.GetAddressApi;
+import com.algorepublic.saman.data.model.apis.GetConversationApi;
+import com.algorepublic.saman.data.model.apis.GetConversationsApi;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.HomeScreenData;
@@ -52,6 +54,11 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("User/UpdateProfile")
     Call<SimpleSuccess> updateProfile(@FieldMap Map<String, Object> parameters);
+
+
+    @FormUrlEncoded
+    @POST("User/UpdateDeviceToken")
+    Call<UserResponse> updateDeviceToken(@FieldMap Map<String, Object> parameters);
 
 
     @FormUrlEncoded
@@ -140,6 +147,15 @@ public interface WebServices {
 
     @GET("Address/GetListByUserID?")
     Call<GetAddressApi> getAddresses(@Query("userID") int userID);
+
+    @GET("Message/GetListByUserID?")
+    Call<GetConversationsApi> getConversationList(@Query("userID") int userID);
+
+    @GET("Message/Get?")
+    Call<GetConversationApi> getConversation(@Query("conversationID") int userID);
+
+    @GET("Message/Delete?")
+    Call<SimpleSuccess> deleteConversation(@Query("conversationID") int userID);
 
     @Multipart
     @POST("User/UpdateProfilePicture?")

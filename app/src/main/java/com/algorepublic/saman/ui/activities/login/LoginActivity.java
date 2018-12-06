@@ -136,7 +136,7 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
         String userName=emailEditText.getText().toString();
         String password=passwordEditText.getText().toString();
         if(isDataValid(userName,password)) {
-            mPresenter.loginUser(userName, password);
+            mPresenter.loginUser(userName, password,GlobalValues.getUserToken(LoginActivity.this));
         }
     }
 

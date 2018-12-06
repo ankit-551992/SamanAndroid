@@ -52,6 +52,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.IndoorBuilding;
+import com.google.android.gms.maps.model.IndoorLevel;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,7 +75,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnIndoorStateChangeListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -117,6 +120,11 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         } else {
             search.setImageDrawable(getResources().getDrawable(R.drawable.ic_tick));
         }
+    }
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
     }
 
     @OnClick(R.id.toolbar_search)
@@ -164,10 +172,10 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
             addresses = geocoder.getFromLocation(mLatLong.latitude, mLatLong.longitude, 1);
             try {
 //                address = addresses.get(0).getAddressLine(0);
-                 address += addresses.get(0).getLocality();
+                 address += addresses.get(0).getLocality()+ ",";
                 // address += addresses.get(0).getAdminArea() + ",";
                 // address += addresses.get(0).getPostalCode() + ",";
-//                 address += addresses.get(0).getCountryName();
+                 address += addresses.get(0).getCountryName();
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
@@ -177,10 +185,15 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         return address;
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
+//        https://developers.google.com/maps/documentation/android-sdk/map
         gmap = googleMap;
+        gmap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        gmap.getUiSettings().setZoomControlsEnabled(true);
+        gmap.setIndoorEnabled(true);
+        gmap.getUiSettings().setIndoorLevelPickerEnabled(true);
+//        Log.e("Level",""+gmap.getFocusedBuilding().getLevels().size());
         moveCameraToCurrent();
         gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -194,6 +207,20 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             gmap.setMyLocationEnabled(true);
         }
+
+
+//        Destiny USA, Destiny USA Drive, Syracuse, NY, USA
+//        LatLng latLng = new LatLng(43.068242,-76.1738881);
+//        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+//        gmap.addMarker(new MarkerOptions().position(new LatLng(43.068242,-76.1738881)));
+//        gmap.animateCamera(cameraUpdate);
+
+//        Gallagher Convention Centre
+//        LatLng latLng = new LatLng(-26.0017037,28.1277542);
+//        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+//        gmap.addMarker(new MarkerOptions().position(new LatLng(-26.0017037,28.1277542)));
+//        gmap.animateCamera(cameraUpdate);
+
     }
 
     @Override
@@ -390,5 +417,21 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
             }
         });
 
+    }
+
+    @Override
+    public void onIndoorBuildingFocused() {
+
+        IndoorBuilding building = gmap.getFocusedBuilding();
+        if(building != null) {
+            List<IndoorLevel> levels = building.getLevels();
+            //active the level you want to display on the map
+            levels.get(1).activate();
+        }
+    }
+
+    @Override
+    public void onIndoorLevelActivated(IndoorBuilding indoorBuilding) {
+        Log.e("Levels",""+indoorBuilding.getLevels().size());
     }
 }

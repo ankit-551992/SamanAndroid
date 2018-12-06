@@ -165,7 +165,6 @@
 
             <TextView
                 android:id="@+id/tv_shipment_address"
-                android:text="@string/cart_dummy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

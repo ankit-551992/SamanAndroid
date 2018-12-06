@@ -15,7 +15,13 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.data.model.apis.UserResponse;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.GlobalValues;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,6 +29,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -47,6 +56,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
+        super.onNewToken(token);
+        GlobalValues.setUserToken(getApplicationContext(),token);
+
+        if(GlobalValues.getUserLoginStatus(getApplicationContext())){
+            User authenticatedUser;
+            authenticatedUser = GlobalValues.getUser(getApplicationContext());
+            WebServicesHandler.instance.updateDeviceToken(authenticatedUser.getId(),token, new retrofit2.Callback<UserResponse>() {
+                @Override
+                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                }
+                @Override
+                public void onFailure(Call<UserResponse> call, Throwable t) {
+                }
+            });
+        }
     }
 
     private void showNotification(RemoteMessage remoteMessage){

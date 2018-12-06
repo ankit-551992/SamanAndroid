@@ -5,6 +5,8 @@ import com.algorepublic.saman.data.model.ShippingAddress;
 import com.algorepublic.saman.data.model.apis.AddAddressApi;
 import com.algorepublic.saman.data.model.apis.CustomerSupport;
 import com.algorepublic.saman.data.model.apis.GetAddressApi;
+import com.algorepublic.saman.data.model.apis.GetConversationApi;
+import com.algorepublic.saman.data.model.apis.GetConversationsApi;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.HomeScreenData;
@@ -104,8 +106,7 @@ public class WebServicesHandler {
     }
 
 
-    public void updateUser(int id, String fName, String lName, String gender, String country,
-                           JSONObject address,String dob, Callback<SimpleSuccess> callback) {
+    public void updateUser(int id, String fName, String lName, String gender, String country,JSONObject address,String dob, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("ID", id);
@@ -119,6 +120,15 @@ public class WebServicesHandler {
         Call<SimpleSuccess> call = webServices.updateProfile(parameters);
         call.enqueue(callback);
     }
+
+    public void updateDeviceToken(int id,String token, Callback<UserResponse> callback) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userID", id);
+        parameters.put("deviceToken", token);
+        Call<UserResponse> call = webServices.updateDeviceToken(parameters);
+        call.enqueue(callback);
+    }
+
 
     public void forgetPassword(String email, Callback<SimpleSuccess> callback) {
         Map<String, String> parameters = new HashMap<>();
@@ -334,4 +344,20 @@ public class WebServicesHandler {
         call.enqueue(callback);
 
     }
+
+    public void getConversationList(int userId, Callback<GetConversationsApi> callback) {
+        Call<GetConversationsApi> call = webServices.getConversationList(userId);
+        call.enqueue(callback);
+    }
+
+    public void getConversation(int conversationID, Callback<GetConversationApi> callback) {
+        Call<GetConversationApi> call = webServices.getConversation(conversationID);
+        call.enqueue(callback);
+    }
+
+    public void deleteConversation(int conversationID, Callback<SimpleSuccess> callback) {
+        Call<SimpleSuccess> call = webServices.deleteConversation(conversationID);
+        call.enqueue(callback);
+    }
+
 }

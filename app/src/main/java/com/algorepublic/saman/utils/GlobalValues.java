@@ -82,6 +82,17 @@ public class GlobalValues {
         return sharedPreferences.getString("AppLanguage", "");
     }
 
+    public static void setUserToken(Context ctx, String token){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UserToken",token);
+        editor.apply();
+    }
+
+    public static String getUserToken(Context ctx){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPreferences.getString("UserToken", "");
+    }
 
     public static void setSelectedCountry(Context ctx, String countryCode){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);

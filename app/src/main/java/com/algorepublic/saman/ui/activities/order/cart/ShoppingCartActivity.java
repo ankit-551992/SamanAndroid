@@ -160,8 +160,14 @@ public class ShoppingCartActivity extends BaseActivity {
         }
 
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
-        shipmentAddress.setText(authenticatedUser.getShippingAddress().getAddressLine1().replace(" ", "\n\n"));
-        addressID=authenticatedUser.getShippingAddress().getiD();
+
+        if (authenticatedUser.getShippingAddress() != null) {
+            String address=authenticatedUser.getShippingAddress().getAddressLine1().replace(",", "\n\n");
+            address=address+"\n\n"+authenticatedUser.getShippingAddress().getCity();
+            address=address+"\n\n"+authenticatedUser.getShippingAddress().getCountry();
+            shipmentAddress.setText(address);
+            addressID=authenticatedUser.getShippingAddress().getiD();
+        }
         cardNameTextView.setText(getString(R.string.card_delivery));
         cardExpiryTextView.setVisibility(View.GONE);
         cardNumberTextView.setVisibility(View.GONE);
@@ -388,7 +394,7 @@ public class ShoppingCartActivity extends BaseActivity {
             if (resultCode == RESULT_OK) {
                 String d = data.getExtras().getString("DATA");
                 addressID = data.getExtras().getInt("ID");
-                shipmentAddress.setText(d.replace(" ", "\n\n"));
+                shipmentAddress.setText(d.replace(",", "\n\n"));
             }
         }
     }

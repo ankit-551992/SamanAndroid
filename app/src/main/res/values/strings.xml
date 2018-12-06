@@ -147,6 +147,9 @@
     <string name="product_added_in_bag">Product Added successfully, Check Your Bag</string>
     <string name="add_to_cart">Move To Bag</string>
     <string name="add_to_fav">Move To Wishlist</string>
+    <string name="added_to_fav">Item Has Been Added to Your Wishlist</string>
+    <string name="removed_from_fav">Item Removed from Your Wishlist</string>
+    <string name="view_fav">View Wishlist</string>
     <string name="add_to_bag">Added to bag</string>
     <string name="remove_from_bag">Remove from bag</string>
     <string name="removed_from_bag">Product Removed successfully</string>
@@ -267,6 +270,9 @@
     <string name="okay">Okay</string>
     <string name="continue_shopping">Continue Shopping</string>
     <string name="go_to_check_out">Go to bag</string>
+    <string name="view_bag">View Bag</string>
+    <string name="item_added_bag">An Item Has Been Added to Your bag</string>
+    <string name="item_added_message">What do you want to do now?</string>
     <string name="close">Close</string>
     <string name="sorry">Sorry</string>
     <string name="no_implemented">Not implemented yet!</string>

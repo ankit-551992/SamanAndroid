@@ -99,6 +99,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                     intent.putExtra("ShippingAddress", shippingAddresses.get(position));
                     intent.putExtra("Type", 1);
                     mContext.startActivity(intent);
+                    mItemManger.closeAllItems();
                 }
             });
 
@@ -108,6 +109,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                     deleteAddress(shippingAddresses.get(position).getiD());
                     shippingAddresses.remove(position);
                     notifyDataSetChanged();
+                    mItemManger.closeAllItems();
                 }
             });
 

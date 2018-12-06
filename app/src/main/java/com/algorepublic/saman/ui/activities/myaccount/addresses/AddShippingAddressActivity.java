@@ -131,13 +131,15 @@ public class AddShippingAddressActivity extends BaseActivity {
         if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
-                String arr[] = returnedResult.split(",");
-                cityEditText.setText(arr[0]);
-                if (arr.length == 3) {
-                    state = arr[1];
-                    countryEditText.setText(arr[2]);
-                } else {
-                    countryEditText.setText(arr[1]);
+                if(!returnedResult.equals("") &&!returnedResult.isEmpty()) {
+                    String arr[] = returnedResult.split(",");
+                    cityEditText.setText(arr[0]);
+                    if (arr.length > 2) {
+                        state = arr[1];
+                        countryEditText.setText(arr[2]);
+                    } else if (arr.length > 1) {
+                        countryEditText.setText(arr[1]);
+                    }
                 }
             }
         }

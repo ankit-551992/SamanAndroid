@@ -8,6 +8,6 @@ public interface LoginData {
         void onResponse(UserResponse response);
     }
 
-    void loginUser(String email, String password, OnResponseListener responseListener);
+    void loginUser(String email, String password,String token, OnResponseListener responseListener);
 
 }

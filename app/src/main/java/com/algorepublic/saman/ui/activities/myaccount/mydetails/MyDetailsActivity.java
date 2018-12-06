@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
+import com.algorepublic.saman.data.model.ShippingAddress;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.map.GoogleMapActivity;
@@ -78,7 +79,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     Calendar myCalendar;
     Country selectedCountry;
 
-    int addressID=0;
+    int addressID = 0;
     User authenticatedUser;
     MyDetailsPresenter presenter;
     boolean isRequest = false;
@@ -121,17 +122,41 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         genderText.setText(authenticatedUser.getGender());
         selectedGender = authenticatedUser.getGender();
         countryName.setText(authenticatedUser.getCountry());
-        addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1()+","+authenticatedUser.getShippingAddress().getCity()+","+authenticatedUser.getShippingAddress().getCountry());
+        if (authenticatedUser.getShippingAddress() != null) {
 
+            if (authenticatedUser.getShippingAddress().getAddressLine1() != null) {
+
+                if (authenticatedUser.getShippingAddress().getCity() != null) {
+
+                    if (authenticatedUser.getShippingAddress().getCountry() != null) {
+                        addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1() + "," + authenticatedUser.getShippingAddress().getCity() + "," + authenticatedUser.getShippingAddress().getCountry());
+                    } else {
+                        addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1() + "," + authenticatedUser.getShippingAddress().getCity());
+                    }
+                } else {
+                    addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1());
+                }
+            }else{
+                if (authenticatedUser.getShippingAddress().getCity() != null) {
+
+                    if (authenticatedUser.getShippingAddress().getCountry() != null) {
+                        addressEditText.setText(authenticatedUser.getShippingAddress().getCity() + "," + authenticatedUser.getShippingAddress().getCountry());
+                    } else {
+                        addressEditText.setText(authenticatedUser.getShippingAddress().getCity());
+                    }
+                }else  if (authenticatedUser.getShippingAddress().getCountry() != null) {
+                    addressEditText.setText(authenticatedUser.getShippingAddress().getCountry());
+                }
+            }
+        }
         Long datetimestamp = Long.parseLong(authenticatedUser.getDateOfBirth().replaceAll("\\D", ""));
         Date date = new Date(datetimestamp);
-        DateFormat formatter = new SimpleDateFormat("dd/MM/YYY");
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String dateFormatted = formatter.format(date);
-        String sepDate[]=dateFormatted.split("/");
+        String sepDate[] = dateFormatted.split("/");
         dayEditText.setText(sepDate[0]);
         monthEditText.setText(sepDate[1]);
         yearEditText.setText(sepDate[2]);
-
     }
 
     @OnClick(R.id.layout_GenderSelection)
@@ -139,8 +164,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         selectGender();
     }
 
-    @OnClick({R.id.button_change_address,R.id.editText_address})
-    public void ChangeAddress(){
+    @OnClick({R.id.button_change_address, R.id.editText_address})
+    public void ChangeAddress() {
         Intent intent = new Intent(MyDetailsActivity.this, ShippingAddressActivity.class);
         startActivityForResult(intent, 1414);
     }
@@ -173,7 +198,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
 
-    @OnClick({R.id.editText_day,R.id.editText_month,R.id.editText_year})
+    @OnClick({R.id.editText_day, R.id.editText_month, R.id.editText_year})
     void setDOB() {
         new DatePickerDialog(MyDetailsActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
@@ -196,8 +221,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     private void updateLabel() {
         String myFormat = "dd/MM/YYYY"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        String dateSelected=sdf.format(myCalendar.getTime());
-        String sepDate[]=dateSelected.split("/");
+        String dateSelected = sdf.format(myCalendar.getTime());
+        String sepDate[] = dateSelected.split("/");
         dayEditText.setText(sepDate[0]);
         monthEditText.setText(sepDate[1]);
         yearEditText.setText(sepDate[2]);
@@ -212,28 +237,28 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String address = addressEditText.getText().toString();
 
         int date = Integer.parseInt(dayEditText.getText().toString());
-        int mon =  Integer.parseInt(monthEditText.getText().toString());
+        int mon = Integer.parseInt(monthEditText.getText().toString());
         int yr = Integer.parseInt(yearEditText.getText().toString());
 
         String day = String.valueOf(date);
         String month = String.valueOf(mon);
         String year = String.valueOf(yr);
 
-        String dob =month+"-" +day+ "-" + year;
+        String dob = month + "-" + day + "-" + year;
 
         if (isDataValid(firstName, lastName, gender, address, day, month, year)) {
             JSONObject jsonObject = new JSONObject();
             try {
-                if(addressID==0) {
+                if (addressID == 0) {
                     jsonObject.put("ID", authenticatedUser.getShippingAddress().getiD());
-                }else {
+                } else {
                     jsonObject.put("ID", addressID);
                 }
                 jsonObject.put("AddressLine1", address);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject,dob);
+            presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject, dob);
         }
     }
 
@@ -248,7 +273,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             if (resultCode == RESULT_OK) {
                 String d = data.getExtras().getString("DATA");
                 addressID = data.getExtras().getInt("ID");
-                addressEditText.setText(d.replace(" ", "\n\n"));
+                addressEditText.setText(d);
             }
         }
     }
@@ -313,7 +338,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
 
-    private boolean isDataValid(String fName, String lName, String gender, String address,String day, String month, String year) {
+    private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year) {
         if (TextUtils.isEmpty(fName)) {
             firstNameEditText.setError(getString(R.string.first_name_required));
             return false;
@@ -357,12 +382,25 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             authenticatedUser.setLastName(lastNameEditText.getText().toString());
             authenticatedUser.setGender(genderText.getText().toString());
             authenticatedUser.setCountry(countryName.getText().toString());
-            authenticatedUser.getShippingAddress().setAddressLine1(addressEditText.getText().toString());
-            if(addressID!=0) {
-                authenticatedUser.getShippingAddress().setiD(addressID);
-                addressID=0;
+            if(authenticatedUser.getShippingAddress()!=null) {
+                String arr[]=addressEditText.getText().toString().split(",");
+                authenticatedUser.getShippingAddress().setAddressLine1(arr[0]+","+arr[1]);
+                authenticatedUser.getShippingAddress().setCity(arr[2]);
+                authenticatedUser.getShippingAddress().setCountry(arr[3]);
+                if (addressID != 0) {
+                    authenticatedUser.getShippingAddress().setiD(addressID);
+                    addressID = 0;
+                }
+            }else {
+                ShippingAddress shippingAddress=new ShippingAddress();
+                shippingAddress.setiD(addressID);
+                String arr[]=addressEditText.getText().toString().split(",");
+                shippingAddress.setAddressLine1(arr[0]+","+arr[1]);
+                shippingAddress.setCity(arr[2]);
+                shippingAddress.setCountry(arr[3]);
+                addressID = 0;
+                authenticatedUser.setShippingAddress(shippingAddress);
             }
-
             GlobalValues.saveUser(MyDetailsActivity.this, authenticatedUser);
 
             if (isRequest) {

@@ -1,18 +1,26 @@
 package com.algorepublic.saman.ui.adapters;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
 import com.algorepublic.saman.utils.Constants;
@@ -29,6 +37,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     List<Product> productArrayList = new ArrayList<>();
     private Context mContext;
     private int userID;
+    Dialog dialog;
 
     public ProductAdapter(Context mContext,List<Product> productArrayList,int userID){
         this.productArrayList=productArrayList;
@@ -98,6 +107,13 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                         GlobalValues.markUnFavourite(userID, productArrayList.get(position).getID());
                         productArrayList.get(position).setFavorite(false);
+
+                        showPopUp(mContext.getString(R.string.removed_from_fav),
+                                mContext. getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_fav),
+                                1);
+
                     }else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             productViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
@@ -106,6 +122,12 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                         GlobalValues.markFavourite(userID, productArrayList.get(position).getID());
                         productArrayList.get(position).setFavorite(true);
+
+                        showPopUp(mContext.getString(R.string.added_to_fav),
+                                mContext. getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_fav),
+                                1);
                     }
                 }
             });
@@ -146,6 +168,67 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
             progressBar = (ProgressBar) itemView.findViewById(R.id.native_progress_bar);
         }
+    }
+
+
+
+    private void showPopUp(String title, String message, String closeButtonText,String nextButtonText, final int type) {
+        dialog = new Dialog(mContext, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailog_information_pop_up);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+        closePopUp.setText(closeButtonText);
+        nextButton.setText(nextButtonText);
+
+        closePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (type == 0) {
+                    Intent intent = new Intent(mContext, DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("NavItem", 3);
+                    ((Activity)mContext).startActivity(intent);
+                } else {
+                    Intent intent = new Intent(mContext, DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("NavItem", 2);
+                    ((Activity)mContext).startActivity(intent);
+                }
+            }
+        });
+
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(mContext,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 
 }
