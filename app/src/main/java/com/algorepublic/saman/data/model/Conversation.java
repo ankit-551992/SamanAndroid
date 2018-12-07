@@ -43,6 +43,9 @@ public class Conversation {
     @SerializedName("ID")
     @Expose
     private Integer iD;
+    @SerializedName("RecipentID")
+    @Expose
+    private Integer RecipentID;
 
     public String getTitle() {
         return title;
@@ -140,5 +143,11 @@ public class Conversation {
         this.iD = iD;
     }
 
+    public Integer getRecipentID() {
+        return RecipentID;
+    }
 
+    public void setRecipentID(Integer recipentID) {
+        RecipentID = recipentID;
+    }
 }

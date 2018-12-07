@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.User;
@@ -20,6 +21,7 @@ import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.myaccount.messages.MessagingActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -81,14 +83,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent notificationIntent;
         if(DashboardActivity.isAppRunning){
-            notificationIntent = new Intent(this, DashboardActivity.class);
+            notificationIntent = new Intent(this, MessagingActivity.class);
+            notificationIntent.putExtra("ConversationID",Integer.parseInt(remoteMessage.getData().get("conversationID")));
         }else{
-            notificationIntent = new Intent(this, DashboardActivity.class);
+            notificationIntent = new Intent(this, MessagingActivity.class);
+            notificationIntent.putExtra("ConversationID",Integer.parseInt(remoteMessage.getData().get("conversationID")));
+//            notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                PendingIntent.FLAG_ONE_SHOT);
+        int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, uniqueInt, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Setting up Notification channels for android O and above
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -97,16 +101,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         int notificationId = new Random().nextInt(60000);
 
 //        Bitmap bitmap = getBitmapfromUrl(remoteMessage.getData().get("https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350")); //obtain the image
-        Bitmap bitmap = getBitmapfromUrl("https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350"); //obtain the image
+//        Bitmap bitmap = getBitmapfromUrl("https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350"); //obtain the image
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
-                .setLargeIcon(bitmap)
+//                .setLargeIcon(bitmap)
                 .setContentTitle(remoteMessage.getData().get("title")) //the "title" value you sent in your notification
                 .setContentText(remoteMessage.getData().get("message")) //ditto
                 .setAutoCancel(true)  //dismisses the notification on click
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+
+        Log.e("Notification",remoteMessage.getData().toString());
 
         notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
 

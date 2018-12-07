@@ -14,6 +14,7 @@ import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
 import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
+import com.algorepublic.saman.data.model.apis.SendMessageApi;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
@@ -138,6 +139,10 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("Address/Delete")
     Call<SimpleSuccess> deleteAddress(@FieldMap Map<String, Object> parameters);
+
+    @FormUrlEncoded
+    @POST("Message/SendMessageInConversation")
+    Call<SendMessageApi> sendMessage(@FieldMap Map<String, Object> parameters);
 
     @GET("Seller")
     Call<GetStores> getAllStores();

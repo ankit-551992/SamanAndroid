@@ -91,6 +91,7 @@
 
     <string name="please_wait">Please wait....</string>
     <string name="OMR">OMR</string>
+    <string name="send">Send</string>
     <!--Shopping cart-->
     <string name="shopping_cart">Shopping Bag</string>
     <string name="apply_coupon">Apply Coupon</string>

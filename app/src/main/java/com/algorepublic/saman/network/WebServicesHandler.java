@@ -15,6 +15,7 @@ import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
 import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
+import com.algorepublic.saman.data.model.apis.SendMessageApi;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
@@ -357,6 +358,17 @@ public class WebServicesHandler {
 
     public void deleteConversation(int conversationID, Callback<SimpleSuccess> callback) {
         Call<SimpleSuccess> call = webServices.deleteConversation(conversationID);
+        call.enqueue(callback);
+    }
+
+    public void sendMessage(int userID,int recipientID,int conversationID,String title,String message, Callback<SendMessageApi> callback) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("UserID", userID);
+        parameters.put("ConversationID", conversationID);
+        parameters.put("RecipentID", recipientID);
+        parameters.put("Title", title);
+        parameters.put("MessageBody", message);
+        Call<SendMessageApi> call = webServices.sendMessage(parameters);
         call.enqueue(callback);
     }
 
