@@ -3,9 +3,10 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderItem {
+public class OrderItem implements Serializable {
 
 
     @SerializedName("Product")

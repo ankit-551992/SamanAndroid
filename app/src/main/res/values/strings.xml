@@ -106,6 +106,8 @@
     <string name="payment_type">Payment Type</string>
     <string name="we_accept">We Accept</string>
     <string name="place_order">Place Order</string>
+    <string name="invoice">Invoice</string>
+    <string name="download_invoice">Download Invoice</string>
     <string name="price_to_pay">Price to pay</string>
     <string name="promo_saved">Promo Saved</string>
     <string name="agreement_order">By placing your order you agree to our\n</string>

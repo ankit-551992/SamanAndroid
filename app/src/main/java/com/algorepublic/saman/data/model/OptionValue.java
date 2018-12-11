@@ -3,7 +3,9 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OptionValue {
+import java.io.Serializable;
+
+public class OptionValue implements Serializable {
 
     @SerializedName("Title")
     @Expose

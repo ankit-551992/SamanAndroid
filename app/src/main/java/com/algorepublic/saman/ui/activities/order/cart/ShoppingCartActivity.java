@@ -168,6 +168,7 @@ public class ShoppingCartActivity extends BaseActivity {
             shipmentAddress.setText(address);
             addressID=authenticatedUser.getShippingAddress().getiD();
         }
+
         cardNameTextView.setText(getString(R.string.card_delivery));
         cardExpiryTextView.setVisibility(View.GONE);
         cardNumberTextView.setVisibility(View.GONE);

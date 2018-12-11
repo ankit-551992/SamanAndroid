@@ -3,9 +3,10 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderHistory {
+public class OrderHistory implements Serializable{
 
 
     @SerializedName("OrderNumber")
@@ -28,10 +29,10 @@ public class OrderHistory {
     private String customerName;
     @SerializedName("ShippingAddress")
     @Expose
-    private Object shippingAddress;
+    private ShippingAddress shippingAddress;
     @SerializedName("BillingAddress")
     @Expose
-    private Object billingAddress;
+    private ShippingAddress billingAddress;
     @SerializedName("ShippingTotal")
     @Expose
     private Integer shippingTotal;
@@ -111,19 +112,19 @@ public class OrderHistory {
         this.customerName = customerName;
     }
 
-    public Object getShippingAddress() {
+    public ShippingAddress getShippingAddress() {
         return shippingAddress;
     }
 
-    public void setShippingAddress(Object shippingAddress) {
+    public void setShippingAddress(ShippingAddress shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
 
-    public Object getBillingAddress() {
+    public ShippingAddress getBillingAddress() {
         return billingAddress;
     }
 
-    public void setBillingAddress(Object billingAddress) {
+    public void setBillingAddress(ShippingAddress billingAddress) {
         this.billingAddress = billingAddress;
     }
 

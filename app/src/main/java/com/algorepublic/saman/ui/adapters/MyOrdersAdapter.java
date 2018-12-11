@@ -1,6 +1,8 @@
 package com.algorepublic.saman.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.OrderHistory;
 import com.algorepublic.saman.data.model.OrderItem;
+import com.algorepublic.saman.ui.activities.invoice.InvoiceActivity;
+import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
@@ -82,11 +86,14 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.orderItemsLayout.getVisibility()==View.VISIBLE){
-                    holder.orderItemsLayout.setVisibility(View.GONE);
-                }else {
-                    holder.orderItemsLayout.setVisibility(View.VISIBLE);
-                }
+//                if(holder.orderItemsLayout.getVisibility()==View.VISIBLE){
+//                    holder.orderItemsLayout.setVisibility(View.GONE);
+//                }else {
+//                    holder.orderItemsLayout.setVisibility(View.VISIBLE);
+//                }
+                Intent intent=new Intent(mContext,InvoiceActivity.class);
+                intent.putExtra("Obj",orderHistoryList.get(holder.getAdapterPosition()));
+                mContext.startActivity(intent);
             }
         });
     }

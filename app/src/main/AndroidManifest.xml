@@ -98,6 +98,11 @@
         <activity
             android:name=".ui.activities.store.StoreActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.invoice.InvoiceActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activities.country.CountriesActivity"
             android:screenOrientation="portrait" />
