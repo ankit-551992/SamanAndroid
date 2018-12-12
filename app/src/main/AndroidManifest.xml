@@ -123,6 +123,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.activities.InvoiceViewerActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
