@@ -40,10 +40,6 @@ public class SamanApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build();
-//        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(false).build();
-        Crashlytics crashlytics=new Crashlytics.Builder().core(core).build();
-        Fabric.with(this, crashlytics);
         db=new TinyDB(this);
         localDB=new MySQLiteHelper(this);
         instance = this;

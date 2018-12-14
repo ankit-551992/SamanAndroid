@@ -87,7 +87,7 @@
     <string name="no_specifications">No Specifications</string>
     <string name="create_ticket">Create Ticket</string>
     <string name="submit">Submit</string>
-    <string name="character">300 Character</string>
+    <string name="character">Character</string>
 
     <string name="please_wait">Please wait....</string>
     <string name="OMR">OMR</string>
@@ -195,6 +195,7 @@
     <string name="month">MM</string>
     <string name="month_missing">Please Select Month</string>
     <string name="year">YYYY</string>
+    <string name="invalid_date">Invalid Date</string>
     <string name="year_missing">Please Select Year</string>
     <string name="select_country">Country Selection</string>
     <string name="select_country_req">Please Select Country</string>
@@ -288,11 +289,11 @@
     <!--Required-->
 
     <string name="street_no">Street #</string>
-    <string name="building_no">Building #</string>
+    <string name="building_no">Building ,Floor, Apt.</string>
     <string name="landmark">Landmark</string>
     <string name="required">Required</string>
     <string name="landmark_optional">Landmark (Optional)</string>
-    <string name="city">City</string>
+    <string name="city">City/Town</string>
     <!--Card-->
     <string name="Card_Number">Card Number</string>
     <string name="Card_expiry">Valid Thru - Expiry Date</string>

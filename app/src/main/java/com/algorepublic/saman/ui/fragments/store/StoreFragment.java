@@ -20,6 +20,7 @@ import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.ui.fragments.store.Tab.Tabs;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.algorepublic.saman.utils.LockableViewPager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class StoreFragment extends BaseFragment {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.pager)
-    ViewPager viewPager;
+    LockableViewPager viewPager;
 
     ViewPagerAdapter adapter;
 
@@ -59,6 +60,7 @@ public class StoreFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);
         setUpCustomTabs();
         viewPager.beginFakeDrag();
+        viewPager.setSwipeable(false);
     }
 
     private void setUpCustomTabs() {

@@ -298,7 +298,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 break;
             case 1:
                 fragment = new StoreFragment();
-                title = getString(R.string.title_store);
+                title = getString(R.string.Stores);
                 break;
             case 2:
                 fragment = new FavoritesFragment();

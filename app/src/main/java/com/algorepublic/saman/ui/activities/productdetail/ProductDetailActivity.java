@@ -399,24 +399,24 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             urls.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
         }
         /*After setting the adapter use the timer */
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                mPager.setCurrentItem(currentPage, true);
-                currentPage++;
-                if (currentPage == urls.size()) {
-                    currentPage = 0;
-                }
-            }
-        };
-
-        timer = new Timer(); // This will create a new Thread
-        timer.schedule(new TimerTask() { // task to be scheduled
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, DELAY_MS, PERIOD_MS);
+//        final Handler handler = new Handler();
+//        final Runnable Update = new Runnable() {
+//            public void run() {
+//                mPager.setCurrentItem(currentPage, true);
+//                currentPage++;
+//                if (currentPage == urls.size()) {
+//                    currentPage = 0;
+//                }
+//            }
+//        };
+//
+//        timer = new Timer(); // This will create a new Thread
+//        timer.schedule(new TimerTask() { // task to be scheduled
+//            @Override
+//            public void run() {
+//                handler.post(Update);
+//            }
+//        }, DELAY_MS, PERIOD_MS);
         customPagerAdapter.notifyDataSetChanged();
     }
 

@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.activities.store;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,6 +20,8 @@ import com.algorepublic.saman.data.model.StoreCategory;
 import com.algorepublic.saman.data.model.apis.GetAddressApi;
 import com.algorepublic.saman.data.model.apis.GetStore;
 import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.search.SearchActivity;
 import com.algorepublic.saman.ui.adapters.StoreCategoriesAdapter;
 import com.algorepublic.saman.utils.CircleTransform;
 import com.algorepublic.saman.utils.Constants;
@@ -43,6 +47,9 @@ public class StoreDetailActivity extends AppCompatActivity {
     TextView toolbarTitle;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
+    @BindView(R.id.toolbar_search)
+    ImageView search;
+
     @BindView(R.id.iv_store_background)
     ImageView bg;
     @BindView(R.id.iv_store_logo)
@@ -74,6 +81,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.title_store));
         toolbarBack.setVisibility(View.VISIBLE);
+        search.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         }else {
@@ -101,6 +109,11 @@ public class StoreDetailActivity extends AppCompatActivity {
         getStore();
     }
 
+    @OnClick(R.id.toolbar_search)
+    void search() {
+            Intent intent = new Intent(StoreDetailActivity.this, SearchActivity.class);
+            startActivity(intent);
+    }
 
     @OnClick(R.id.toolbar_back)
     public void back() {
@@ -128,7 +141,22 @@ public class StoreDetailActivity extends AppCompatActivity {
                             storeName=store.getStoreName();
                             storeNameAr=store.getStoreNameAR();
                             storeNameTextView.setText(store.getStoreName());
-                            storeDescriptionTextView.setText(store.getStoreName());
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                if(store.getDescription()!=null) {
+                                    storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                                }else {
+                                    storeDescriptionTextView.setVisibility(View.GONE);
+                                }
+                            } else {
+                                if(store.getDescription()!=null) {
+                                    storeDescriptionTextView.setText(Html.fromHtml(store.getDescription()));
+
+                                }else {
+                                    storeDescriptionTextView.setVisibility(View.GONE);
+                                }
+                            }
+
                             storeCategoryList.addAll(store.getStoreCategoryList());
                             storeCategoriesAdapter.notifyDataSetChanged();
                             storeCategoriesAdapter.setNames(storeName,storeNameAr);

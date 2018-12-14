@@ -80,7 +80,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-
         Intent notificationIntent;
         if(DashboardActivity.isAppRunning){
             notificationIntent = new Intent(this, MessagingActivity.class);

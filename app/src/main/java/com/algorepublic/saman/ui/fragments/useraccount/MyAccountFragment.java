@@ -269,29 +269,30 @@ public class MyAccountFragment extends BaseFragment {
                 }
             } else if (requestCode == 2) {
                 if (data != null) {
-//                    file = new File(filePath(data.getData()));
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        String path = GlobalValues.getRealPathFromURI(getActivity(),data.getData());
-                        if (path!= null) {
-                            file = new File(path);
+                    String path = GlobalValues.getRealPathFromURI(getContext(), data.getData());
+                    if (path != null) {
+                        file = new File(path);
+                        if (file.exists()) {
                             Picasso.get()
                                     .load(file)
                                     .transform(new CircleTransform())
                                     .placeholder(R.drawable.ic_profile)
                                     .into(profile);
                             uploadToServer(file);
-                        }
-                    }else {
-                        Uri selectedImageUri = data.getData();
-                        if (selectedImageUri != null) {
-                            if (selectedImageUri.getPath() != null) {
-                                file = new File(selectedImageUri.getPath());
-                                Picasso.get()
-                                        .load(file)
-                                        .transform(new CircleTransform())
-                                        .placeholder(R.drawable.ic_profile)
-                                        .into(profile);
-                                uploadToServer(file);
+                        } else {
+                            Uri selectedImageUri = data.getData();
+                            if (selectedImageUri != null) {
+                                if (selectedImageUri.getPath() != null) {
+                                    file = new File(selectedImageUri.getPath());
+                                    if (file.exists()) {
+                                        Picasso.get()
+                                                .load(file)
+                                                .transform(new CircleTransform())
+                                                .placeholder(R.drawable.ic_profile)
+                                                .into(profile);
+                                        uploadToServer(file);
+                                    }
+                                }
                             }
                         }
                     }

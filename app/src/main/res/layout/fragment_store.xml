@@ -37,7 +37,7 @@
         app:tabSelectedTextColor="@color/colorAccent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <android.support.v4.view.ViewPager
+    <com.algorepublic.saman.utils.LockableViewPager
         android:layout_marginTop="20dp"
         android:background="@color/white"
         android:id="@+id/pager"

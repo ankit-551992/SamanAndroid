@@ -13,6 +13,12 @@ public class Store {
     @SerializedName("StoreName_AR")
     @Expose
     private String storeNameAR;
+    @SerializedName("Description")
+    @Expose
+    private String description;
+    @SerializedName("Description_AR")
+    @Expose
+    private String descriptionAR;
     @SerializedName("LogoURL")
     @Expose
     private String logoURL;
@@ -127,5 +133,21 @@ public class Store {
 
     public void setStoreCategoryList(List<StoreCategory> storeCategoryList) {
         this.storeCategoryList = storeCategoryList;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescriptionAR() {
+        return descriptionAR;
+    }
+
+    public void setDescriptionAR(String descriptionAR) {
+        this.descriptionAR = descriptionAR;
     }
 }

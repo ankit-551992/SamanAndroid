@@ -174,9 +174,8 @@
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="firebase_crash_collection_enabled"
-            android:value="false" />
+
+
         <!-- <meta-data -->
         <!-- android:name="com.google.firebase.messaging.default_notification_icon" -->
         <!-- android:resource="@mipmap/ic_launcher_round" /> -->
@@ -191,10 +190,6 @@
         <!-- android:name="com.google.firebase.messaging.default_notification_color" -->
         <!-- android:resource="@android:color/transparent" /> -->
         <!-- Firebase Region End -->
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="23f05e93332ffd0a6e8bc93246aeb499be37d4a5" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

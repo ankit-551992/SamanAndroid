@@ -163,7 +163,7 @@ public class InvoiceActivity extends BaseActivity {
                     1111);
         } else {
 //            String downloadURL="https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf";
-            String downloadURL="https://www.saman.om/FileUploadsManager/invoice.pdf";
+            String downloadURL = "https://www.saman.om/FileUploadsManager/invoice.pdf";
 //            down("https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf");
             new DownloadFile().execute(downloadURL);
         }
@@ -236,127 +236,127 @@ public class InvoiceActivity extends BaseActivity {
         }
     }
 
-        private class DownloadFile extends AsyncTask<String, String, String> {
+    private class DownloadFile extends AsyncTask<String, String, String> {
 
-            private ProgressDialog progressDialog;
-            private String fileName;
-            private String folder;
-            private boolean isDownloaded;
+        private ProgressDialog progressDialog;
+        private String fileName;
+        private String folder;
+        private boolean isDownloaded;
 
-            /**
-             * Before starting background thread
-             * Show Progress Bar Dialog
-             */
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                this.progressDialog = new ProgressDialog(InvoiceActivity.this);
-                this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                this.progressDialog.setCancelable(false);
-                this.progressDialog.show();
-            }
+        /**
+         * Before starting background thread
+         * Show Progress Bar Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            this.progressDialog = new ProgressDialog(InvoiceActivity.this);
+            this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            this.progressDialog.setCancelable(false);
+            this.progressDialog.show();
+        }
 
-            /**
-             * Downloading file in background thread
-             */
-            @Override
-            protected String doInBackground(String... f_url) {
-                int count;
-                try {
-                    URL url = new URL(f_url[0]);
-                    URLConnection connection = url.openConnection();
-                    connection.connect();
-                    // getting file length
-                    int lengthOfFile = connection.getContentLength();
+        /**
+         * Downloading file in background thread
+         */
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection connection = url.openConnection();
+                connection.connect();
+                // getting file length
+                int lengthOfFile = connection.getContentLength();
 
 
-                    // input stream to read file - with 8k buffer
-                    InputStream input = new BufferedInputStream(url.openStream(), 8192);
+                // input stream to read file - with 8k buffer
+                InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-                    String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 
-                    //Extract file name from URL
-                    fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
+                //Extract file name from URL
+                fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
 
-                    //Append timestamp to file name
-                    fileName = timestamp + "_" + fileName;
+                //Append timestamp to file name
+                fileName = timestamp + "_" + fileName;
 
-                    //External directory path to save file
-                    folder = Environment.getExternalStorageDirectory() + File.separator + "Saman/";
+                //External directory path to save file
+                folder = Environment.getExternalStorageDirectory() + File.separator + "Saman/";
 
-                    //Create androiddeft folder if it does not exist
-                    File directory = new File(folder);
+                //Create androiddeft folder if it does not exist
+                File directory = new File(folder);
 
-                    if (!directory.exists()) {
-                        directory.mkdirs();
-                    }
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
 
-                    // Output stream to write file
-                    OutputStream output = new FileOutputStream(folder + fileName);
+                // Output stream to write file
+                OutputStream output = new FileOutputStream(folder + fileName);
 
-                    byte data[] = new byte[1024];
+                byte data[] = new byte[1024];
 
-                    long total = 0;
+                long total = 0;
 
-                    while ((count = input.read(data)) != -1) {
-                        total += count;
-                        // publishing the progress....
-                        // After this onProgressUpdate will be called
-                        publishProgress("" + (int) ((total * 100) / lengthOfFile));
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress("" + (int) ((total * 100) / lengthOfFile));
 //                        Log.d(TAG, "Progress: " + (int) ((total * 100) / lengthOfFile));
 
-                        // writing data to file
-                        output.write(data, 0, count);
-                    }
-
-                    // flushing output
-                    output.flush();
-
-                    // closing streams
-                    output.close();
-                    input.close();
-                    return folder+fileName;
-
-                } catch (Exception e) {
-                    Log.e("Error: ", e.getMessage());
+                    // writing data to file
+                    output.write(data, 0, count);
                 }
 
-                return null;
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+                return folder + fileName;
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
             }
 
-            /**
-             * Updating progress bar
-             */
-            protected void onProgressUpdate(String... progress) {
-                // setting progress percentage
-                progressDialog.setProgress(Integer.parseInt(progress[0]));
-            }
-
-
-            @Override
-            protected void onPostExecute(String message) {
-                // dismiss the dialog after the file was downloaded
-                this.progressDialog.dismiss();
-                if(message!=null) {
-                    Intent intent;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        File file=new File(message);
-                        Uri uri = FileProvider.getUriForFile(InvoiceActivity.this, getPackageName() + ".provider", file);
-                        intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(uri);
-                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        startActivity(intent);
-                    } else {
-                        intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(Uri.parse(message), "application/pdf");
-                        intent = Intent.createChooser(intent, "Open File");
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                }
-                // Display File path after downloading
-                Toast.makeText(getApplicationContext(), getString(R.string.downloaded_invoice), Toast.LENGTH_LONG).show();
-            }
+            return null;
         }
+
+        /**
+         * Updating progress bar
+         */
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+            progressDialog.setProgress(Integer.parseInt(progress[0]));
+        }
+
+
+        @Override
+        protected void onPostExecute(String message) {
+            // dismiss the dialog after the file was downloaded
+            this.progressDialog.dismiss();
+            if (message != null) {
+                Intent intent;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    File file = new File(message);
+                    Uri uri = FileProvider.getUriForFile(InvoiceActivity.this, getPackageName() + ".provider", file);
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(uri);
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(message), "application/pdf");
+                    intent = Intent.createChooser(intent, "Open File");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            }
+            // Display File path after downloading
+            Toast.makeText(getApplicationContext(), getString(R.string.downloaded_invoice), Toast.LENGTH_LONG).show();
+        }
+    }
 
 }

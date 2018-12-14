@@ -45,6 +45,7 @@ import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
 import com.algorepublic.saman.ui.activities.map.GoogleMapActivity;
 import com.algorepublic.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
+import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
@@ -126,11 +127,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     @BindView(R.id.editText_address)
     EditText addressEditText;
     @BindView(R.id.editText_day)
-    Spinner dayEditText;
+    EditText dayEditText;
     @BindView(R.id.editText_month)
-    Spinner monthEditText;
+    EditText monthEditText;
     @BindView(R.id.editText_year)
-    Spinner yearEditText;
+    EditText yearEditText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.tv_terms_policies)
@@ -192,7 +193,58 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
         customTextView(termPolicy);
 
-        addSpinner();
+//        addSpinner();
+    }
+
+
+
+    @OnClick({R.id.editText_day, R.id.editText_month, R.id.editText_year})
+    void setDOB() {
+        DatePickerDialog dialog =   new DatePickerDialog(RegisterActivity.this, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+//        dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
+        dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
+        dialog.show();
+    }
+
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+//            selectedDateInMillis=myCalendar.getTimeInMillis();
+            if(!isAfterToday(year,monthOfYear,dayOfMonth)) {
+                updateLabel();
+            }else {
+                Constants.showAlert(getString(R.string.my_details), getString(R.string.invalid_date), getString(R.string.okay), RegisterActivity.this);
+            }
+        }
+    };
+
+    public boolean isAfterToday(int year, int month, int day) {
+        Calendar today = Calendar.getInstance();
+        Calendar myDate = Calendar.getInstance();
+        myDate.set(year, month, day);
+        if (myDate.before(today)) {
+            return false;
+        }
+        return true;
+    }
+
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String dateSelected = sdf.format(myCalendar.getTime());
+        String sepDate[] = dateSelected.split("/");
+        dayEditText.setText(sepDate[0]);
+        monthEditText.setText(sepDate[1]);
+        yearEditText.setText(sepDate[2]);
     }
 
     private void customTextView(TextView view) {
@@ -340,9 +392,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String gender = selectedGender;
         String country = countryName.getText().toString();
 
-        int date = Integer.parseInt(dayEditText.getSelectedItem().toString());
-        int mon = monthEditText.getSelectedItemPosition() + 1;
-        int yr = Integer.parseInt(yearEditText.getSelectedItem().toString());
+        int date = Integer.parseInt(dayEditText.getText().toString());
+        int mon = Integer.parseInt(monthEditText.getText().toString());
+        int yr = Integer.parseInt(yearEditText.getText().toString());
 
         String day = String.valueOf(date);
         String month = String.valueOf(mon);
@@ -477,9 +529,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String gender = selectedGender;
                 String country = countryName.getText().toString();
                 String address = addressEditText.getText().toString();
-                int date = Integer.parseInt(dayEditText.getSelectedItem().toString());
-                int mon = monthEditText.getSelectedItemPosition() + 1;
-                int yr = Integer.parseInt(yearEditText.getSelectedItem().toString());
+
+                int date = Integer.parseInt(dayEditText.getText().toString());
+                int mon = Integer.parseInt(monthEditText.getText().toString());
+                int yr = Integer.parseInt(yearEditText.getText().toString());
 
                 String day = String.valueOf(date);
                 String month = String.valueOf(mon);
@@ -769,90 +822,90 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
 
     void addSpinner() {
-        ArrayList<String> yearList = new ArrayList<>();
-
-        for (int i = 0; i <= 9; i++) {
-            yearList.add("190" + i);
-        }
-
-        for (int i = 10; i <= 99; i++) {
-            yearList.add("19" + i);
-        }
-        for (int i = 0; i <= 9; i++) {
-            yearList.add("200" + i);
-        }
-
-        for (int i = 10; i <= 99; i++) {
-            yearList.add("20" + i);
-        }
-
-        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, yearList);
-        dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yearEditText.setAdapter(dataAdapter1);
-
-        yearEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-        ArrayList<String> monthList = new ArrayList<>();
-        monthList.add("Jan");
-        monthList.add("Feb");
-        monthList.add("Mar");
-        monthList.add("Apr");
-        monthList.add("May");
-        monthList.add("Jun");
-        monthList.add("Jul");
-        monthList.add("Aug");
-        monthList.add("Sep");
-        monthList.add("Oct");
-        monthList.add("Nov");
-        monthList.add("Dec");
-
-        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, monthList);
-        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        monthEditText.setAdapter(dataAdapter2);
-
-        monthEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                yearEditText.performClick();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-        ArrayList<String> dayList = new ArrayList<>();
-        for (int i = 1; i <= 31; i++) {
-            dayList.add("" + i);
-        }
-
-        ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, dayList);
-        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dayEditText.setAdapter(dataAdapter3);
-
-        dayEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    monthEditText.performClick();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        ArrayList<String> yearList = new ArrayList<>();
+//
+//        for (int i = 0; i <= 9; i++) {
+//            yearList.add("190" + i);
+//        }
+//
+//        for (int i = 10; i <= 99; i++) {
+//            yearList.add("19" + i);
+//        }
+//        for (int i = 0; i <= 9; i++) {
+//            yearList.add("200" + i);
+//        }
+//
+//        for (int i = 10; i <= 99; i++) {
+//            yearList.add("20" + i);
+//        }
+//
+//        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, yearList);
+//        dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        yearEditText.setAdapter(dataAdapter1);
+//
+//        yearEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+//
+//        ArrayList<String> monthList = new ArrayList<>();
+//        monthList.add("Jan");
+//        monthList.add("Feb");
+//        monthList.add("Mar");
+//        monthList.add("Apr");
+//        monthList.add("May");
+//        monthList.add("Jun");
+//        monthList.add("Jul");
+//        monthList.add("Aug");
+//        monthList.add("Sep");
+//        monthList.add("Oct");
+//        monthList.add("Nov");
+//        monthList.add("Dec");
+//
+//        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, monthList);
+//        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        monthEditText.setAdapter(dataAdapter2);
+//
+//        monthEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                yearEditText.performClick();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+//
+//        ArrayList<String> dayList = new ArrayList<>();
+//        for (int i = 1; i <= 31; i++) {
+//            dayList.add("" + i);
+//        }
+//
+//        ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, dayList);
+//        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        dayEditText.setAdapter(dataAdapter3);
+//
+//        dayEditText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                    monthEditText.performClick();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
     }
 }

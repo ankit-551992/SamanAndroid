@@ -176,20 +176,30 @@
                     android:layout_marginTop="10dp" />
             </RelativeLayout>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/bestSellersPager"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp" />
-
-            <com.viewpagerindicator.LinePageIndicator
-                android:id="@+id/indicators"
-                app:selectedColor="@color/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:focusable="true"
+            <FrameLayout
                 android:layout_marginTop="3dp"
-                android:focusableInTouchMode="true" />
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/bestSellersPager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp" />
+
+                <com.viewpagerindicator.LinePageIndicator
+                    android:id="@+id/indicators"
+                    app:selectedColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_margin="10dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+
+            </FrameLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"

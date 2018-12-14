@@ -83,6 +83,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     User authenticatedUser;
     MyDetailsPresenter presenter;
     boolean isRequest = false;
+    long selectedDateInMillis=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +137,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 } else {
                     addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1());
                 }
-            }else{
+            } else {
                 if (authenticatedUser.getShippingAddress().getCity() != null) {
 
                     if (authenticatedUser.getShippingAddress().getCountry() != null) {
@@ -144,7 +145,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     } else {
                         addressEditText.setText(authenticatedUser.getShippingAddress().getCity());
                     }
-                }else  if (authenticatedUser.getShippingAddress().getCountry() != null) {
+                } else if (authenticatedUser.getShippingAddress().getCountry() != null) {
                     addressEditText.setText(authenticatedUser.getShippingAddress().getCountry());
                 }
             }
@@ -200,9 +201,12 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
     @OnClick({R.id.editText_day, R.id.editText_month, R.id.editText_year})
     void setDOB() {
-        new DatePickerDialog(MyDetailsActivity.this, date, myCalendar
+        DatePickerDialog dialog =   new DatePickerDialog(MyDetailsActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+//        dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
+        dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
+        dialog.show();
     }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -214,12 +218,28 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
+
+            selectedDateInMillis=myCalendar.getTimeInMillis();
+            if(!isAfterToday(year,monthOfYear,dayOfMonth)) {
+                updateLabel();
+            }else {
+                Constants.showAlert(getString(R.string.my_details), getString(R.string.invalid_date), getString(R.string.okay), MyDetailsActivity.this);
+            }
         }
     };
 
+    public boolean isAfterToday(int year, int month, int day) {
+        Calendar today = Calendar.getInstance();
+        Calendar myDate = Calendar.getInstance();
+        myDate.set(year, month, day);
+        if (myDate.before(today)) {
+            return false;
+        }
+        return true;
+    }
+
     private void updateLabel() {
-        String myFormat = "dd/MM/YYYY"; //In which you need put here
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String dateSelected = sdf.format(myCalendar.getTime());
         String sepDate[] = dateSelected.split("/");
@@ -382,24 +402,27 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             authenticatedUser.setLastName(lastNameEditText.getText().toString());
             authenticatedUser.setGender(genderText.getText().toString());
             authenticatedUser.setCountry(countryName.getText().toString());
-            if(authenticatedUser.getShippingAddress()!=null) {
-                String arr[]=addressEditText.getText().toString().split(",");
-                authenticatedUser.getShippingAddress().setAddressLine1(arr[0]+","+arr[1]);
+            if (authenticatedUser.getShippingAddress() != null) {
+                String arr[] = addressEditText.getText().toString().split(",");
+                authenticatedUser.getShippingAddress().setAddressLine1(arr[0] + "," + arr[1]);
                 authenticatedUser.getShippingAddress().setCity(arr[2]);
                 authenticatedUser.getShippingAddress().setCountry(arr[3]);
                 if (addressID != 0) {
                     authenticatedUser.getShippingAddress().setiD(addressID);
                     addressID = 0;
                 }
-            }else {
-                ShippingAddress shippingAddress=new ShippingAddress();
+            } else {
+                ShippingAddress shippingAddress = new ShippingAddress();
                 shippingAddress.setiD(addressID);
-                String arr[]=addressEditText.getText().toString().split(",");
-                shippingAddress.setAddressLine1(arr[0]+","+arr[1]);
+                String arr[] = addressEditText.getText().toString().split(",");
+                shippingAddress.setAddressLine1(arr[0] + "," + arr[1]);
                 shippingAddress.setCity(arr[2]);
                 shippingAddress.setCountry(arr[3]);
                 addressID = 0;
                 authenticatedUser.setShippingAddress(shippingAddress);
+            }
+            if(selectedDateInMillis!=0){
+                authenticatedUser.setDateOfBirth(String.valueOf(selectedDateInMillis));
             }
             GlobalValues.saveUser(MyDetailsActivity.this, authenticatedUser);
 

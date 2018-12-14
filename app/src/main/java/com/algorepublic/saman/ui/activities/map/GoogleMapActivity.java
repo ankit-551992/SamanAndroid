@@ -194,7 +194,7 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
         gmap.setIndoorEnabled(true);
         gmap.getUiSettings().setIndoorLevelPickerEnabled(true);
 //        Log.e("Level",""+gmap.getFocusedBuilding().getLevels().size());
-//        moveCameraToCurrent();
+        moveCameraToCurrent();
         gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
@@ -210,10 +210,10 @@ public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCa
 
 
 //        Destiny USA, Destiny USA Drive, Syracuse, NY, USA
-        LatLng latLng = new LatLng(43.068242,-76.1738881);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-        gmap.addMarker(new MarkerOptions().position(new LatLng(43.068242,-76.1738881)));
-        gmap.animateCamera(cameraUpdate);
+//        LatLng latLng = new LatLng(43.068242,-76.1738881);
+//        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+//        gmap.addMarker(new MarkerOptions().position(new LatLng(43.068242,-76.1738881)));
+//        gmap.animateCamera(cameraUpdate);
 
 //        Gallagher Convention Centre
 //        LatLng latLng = new LatLng(-26.0017037,28.1277542);

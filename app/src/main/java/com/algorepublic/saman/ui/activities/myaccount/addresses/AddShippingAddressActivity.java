@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -81,6 +82,7 @@ public class AddShippingAddressActivity extends BaseActivity {
 
         if (type == 0) {
             toolbarTitle.setText(getString(R.string.add_shipping_address));
+            toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
             Intent intent = new Intent(AddShippingAddressActivity.this, GoogleMapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityForResult(intent, 1414);
@@ -91,6 +93,7 @@ public class AddShippingAddressActivity extends BaseActivity {
             startActivityForResult(intent, 1414);
         } else {
             toolbarTitle.setText(getString(R.string.edit_shipping_address));
+            toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
             shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("ShippingAddress");
             String addressLine1 = shippingAddress.getAddressLine1();
             String arr[] = addressLine1.split(",");
