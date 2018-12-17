@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -34,7 +34,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
 
-    public FavoritesAdapter(Context mContext,List<Product> productArrayList){
+    public CheckOutProductAdapter(Context mContext, List<Product> productArrayList){
         this.productArrayList=productArrayList;
         this.mContext=mContext;
     }

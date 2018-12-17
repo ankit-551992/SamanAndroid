@@ -156,16 +156,6 @@
             </FrameLayout>
 
 
-            <TextView
-                android:id="@+id/tv_forgotPassword"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:text="@string/forgot_password"
-                android:textColor="@color/grey"
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
             <ProgressBar
                 android:visibility="invisible"
                 android:id="@+id/progress_bar"
@@ -183,21 +173,79 @@
                 android:textColor="#fff" />
 
             <TextView
+                android:id="@+id/tv_forgotPassword"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="@string/forgot_password"
+                android:textColor="@color/grey"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:textColor="@color/grey"
                 android:text="@string/dont_have_account" />
 
             <TextView
+                android:layout_marginTop="5dp"
                 android:id="@+id/button_signUp"
-                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:text="@string/sign_up"
                 android:textColor="@color/grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <View
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.4"
+                    android:layout_height="0.1dp"
+                    android:background="@color/light_grey"/>
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center"
+                    android:text="@string/OR"
+                    android:padding="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:background="@drawable/circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.4"
+                    android:layout_height="0.1dp"
+                    android:background="@color/light_grey"/>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/button_guest_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/yellow_button"
+                android:text="@string/guest_user"
+                android:textAllCaps="false"
+                android:textColor="#fff" />
         </LinearLayout>
 
     </ScrollView>

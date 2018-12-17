@@ -81,6 +81,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
+    private boolean unSelectedItem=false;
     private Handler mHandler;
 
     DashboardPresenter mPresenter;
@@ -100,12 +101,17 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     @Override
     protected void onResume() {
+
+        super.onResume();
         if (GlobalValues.orderPlaced) {
             onNavigationItemSelected(navigationView.getMenu().getItem(1));
             GlobalValues.orderPlaced = false;
         }
+        authenticatedUser = GlobalValues.getUser(this);
+        if(authenticatedUser.getId()!=0){
+            setupNavigationDrawer();
+        }
         updateBagCount();
-        super.onResume();
         updateUserDetails();
     }
 
@@ -169,11 +175,11 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             case R.id.nav_settings:
                 Intent intent = new Intent(DashboardActivity.this, SettingsActivity.class);
                 startActivity(intent);
-                navItemIndex = -1;
+                unSelectedItem = true;
                 break;
             case R.id.nav_logout:
                 show_logout_dialog();
-                navItemIndex = -1;
+                unSelectedItem = true;
                 break;
         }
         // close drawer when item is tapped
@@ -203,7 +209,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         }
         // Add code here to update the UI based on the item selected
         // For example, swap UI fragments here
-        if (navItemIndex != -1) {
+        if (unSelectedItem) {
             //Checking if the item is in checked state or not, if not make it in checked state
             if (item.isChecked()) {
                 item.setChecked(false);
@@ -244,6 +250,23 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         onNavigationItemSelected(navigationView.getMenu().getItem(navItemIndex));
 
         loadFragment();
+
+        if(authenticatedUser.getId()==0) {
+            MenuItem menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
+            menuItemLogout.setVisible(false);
+            MenuItem menuItemAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
+            menuItemAccount.setVisible(false);
+            MenuItem menuItemSettings = navigationView.getMenu().findItem(R.id.nav_settings);
+            menuItemSettings.setVisible(false);
+        }else{
+            MenuItem menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
+            menuItemLogout.setVisible(true);
+            MenuItem menuItemAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
+            menuItemAccount.setVisible(true);
+            MenuItem menuItemSettings = navigationView.getMenu().findItem(R.id.nav_settings);
+            menuItemSettings.setVisible(true);
+        }
+
     }
 
     @Override

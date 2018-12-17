@@ -9,6 +9,7 @@ import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
+import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 
@@ -35,15 +36,23 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 if(GlobalValues.getUserLoginStatus(SplashActivity.this)){
+                    GlobalValues.setGuestLoginStatus(SplashActivity.this,false);
                     Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
                     startActivity(mainIntent);
                     finish();
-
                 }else {
-                    /* Create an Intent that will start the Menu-Activity. */
-                    Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(mainIntent);
-                    finish();
+                    if(GlobalValues.getGuestLoginStatus(SplashActivity.this)) {
+                        /* Create an Intent that will start the Menu-Activity. */
+//                        Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
+                        Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }else {
+                        GlobalValues.setGuestLoginStatus(SplashActivity.this,false);
+                        Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }
                 }
             }
         }, SPLASH_DISPLAY_LENGTH);

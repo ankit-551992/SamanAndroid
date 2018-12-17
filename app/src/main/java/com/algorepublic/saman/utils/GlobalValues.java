@@ -52,6 +52,19 @@ public class GlobalValues {
         return sharedPreferences.getBoolean("UserLoginStatus", false);
     }
 
+    public static void setGuestLoginStatus(Context ctx, boolean isLogin){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("GuestLoginStatus",isLogin);
+        editor.apply();
+    }
+
+    public static boolean getGuestLoginStatus(Context ctx){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPreferences.getBoolean("GuestLoginStatus", false);
+    }
+
+
 
     public static void saveUser(Context context, User user){
         SharedPreferences  mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -136,8 +149,8 @@ public class GlobalValues {
         return hashMap;
     }
 
-    public static void markFavourite(int userID,int productId){
-        WebServicesHandler.instance.markFavourite(userID,productId,new retrofit2.Callback<SimpleSuccess>() {
+    public static void markFavourite(int userID,int productId,String[] optionIds){
+        WebServicesHandler.instance.markFavourite(userID,productId,optionIds,new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 if (response!=null) {

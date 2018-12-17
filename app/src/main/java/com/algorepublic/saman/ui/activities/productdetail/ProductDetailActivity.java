@@ -157,6 +157,14 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.iv_favorite)
     public void favoriteButton() {
+
+
+        if(GlobalValues.getGuestLoginStatus(ProductDetailActivity.this)){
+            Constants.showLoginDialog(ProductDetailActivity.this);
+            return;
+        }
+        authenticatedUser= GlobalValues.getUser(ProductDetailActivity.this);
+
         if (product.getFavorite()) {
             presenter.markUnFavorite(authenticatedUser.getId(), productID);
             product.setFavorite(false);
@@ -380,6 +388,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 if (productOption.getOptionValues() != null) {
                     ArrayAdapter valuesAdapter = new ArrayAdapter(ProductDetailActivity.this, android.R.layout.simple_spinner_item, productOption.getOptionValues());
                     optionValuesSpinner.setAdapter(valuesAdapter);
+                }
+                for (int i=0;i<productOption.getOptionValues().size();i++){
+                    Log.e("ID",""+productOption.getOptionValues().get(i).getID());
                 }
                 optionsLinearLayout.addView(child);
             }

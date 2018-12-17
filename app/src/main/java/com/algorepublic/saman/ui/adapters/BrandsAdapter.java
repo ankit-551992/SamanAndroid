@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.data.model.OptionValue;
 import com.algorepublic.saman.data.model.Product;
+import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.GetProduct;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -36,6 +45,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private int userID;
     private Context mContext;
     Dialog dialog;
+    private Product cartProduct;
 
     public BrandsAdapter(Context mContext,List<Product> brandArrayList,int userID){
         this.brandArrayList=brandArrayList;
@@ -87,6 +97,14 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
+            brandViewHolder.cartImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getProductDetails(brandArrayList.get(position).getID());
+                }
+            });
+
+
             if(brandArrayList.get(position).getFavorite()){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
@@ -98,6 +116,14 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             brandViewHolder.favoriteImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if(GlobalValues.getGuestLoginStatus(mContext)){
+                        Constants.showLoginDialog(mContext);
+                        return;
+                    }
+                    User authenticatedUser= GlobalValues.getUser(mContext);
+                    userID=authenticatedUser.getId();
+
                     if(brandArrayList.get(position).getFavorite()){
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_fav_b));
@@ -117,7 +143,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }else {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
                         }
-                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID());
+                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(),null);
                         brandArrayList.get(position).setFavorite(true);
 
                         showPopUp(mContext.getString(R.string.added_to_fav),
@@ -228,5 +254,56 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
     }
+
+
+
+    private void getProductDetails(int productID){
+        WebServicesHandler.instance.getProductDetail(String.valueOf(productID),String.valueOf(userID), new retrofit2.Callback<GetProduct>() {
+            @Override
+            public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
+                GetProduct getProduct = response.body();
+                if (getProduct != null) {
+                    if (getProduct.getSuccess() == 1) {
+                        if (getProduct.getProduct() != null) {
+                            cartProduct=getProduct.getProduct();
+                            Log.e("DefaultOptions",getOptionsData());
+                            if (SamanApp.localDB != null) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), 1)) {
+                                    showPopUp(mContext.getString(R.string.item_added_bag),
+                                            mContext.getString(R.string.item_added_message),
+                                            mContext.getString(R.string.continue_shopping),
+                                            mContext.getString(R.string.view_bag),
+                                            0);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetProduct> call, Throwable t) {
+                Log.e("Failure",t.getMessage());
+            }
+        });
+    }
+
+    private String getOptionsData() {
+        View v = null;
+        OptionValue optionValue = null;
+        String ids = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (ids.equals("")) {
+                    ids = "" + optionValue.getID();
+                } else {
+                    ids = ids + "," + optionValue.getID();
+                }
+            }
+        }
+        return ids;
+    }
+
 
 }

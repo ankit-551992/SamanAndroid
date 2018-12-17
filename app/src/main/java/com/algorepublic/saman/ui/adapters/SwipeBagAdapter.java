@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,11 +121,18 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             bagViewHolder.textView1.setText(mContext.getString(R.string.add_to_fav));
             bagViewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
 
-
             bagViewHolder.layout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GlobalValues.markFavourite(authenticatedUser.getId(),productArrayList.get(position).getID());
+
+                    if(GlobalValues.getGuestLoginStatus(mContext)){
+                        Constants.showLoginDialog(mContext);
+                        return;
+                    }
+                    authenticatedUser= GlobalValues.getUser(mContext);
+                    Log.e("Values "+position,productArrayList.get(position).getOptionValues());
+                    String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
+                    GlobalValues.markFavourite(authenticatedUser.getId(),productArrayList.get(position).getID(),optionIDs);
                     Product p=productArrayList.get(position);
                     if(SamanApp.localDB.deleteItemFromCart(p)){
                         productArrayList.remove(p);

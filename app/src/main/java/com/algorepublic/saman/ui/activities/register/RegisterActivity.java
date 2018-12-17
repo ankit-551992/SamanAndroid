@@ -156,6 +156,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     Calendar myCalendar;
     String returnedResult;
+    boolean isGuestTry=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +166,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.sign_up));
+        isGuestTry=getIntent().getBooleanExtra("GuestTry",false);
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
@@ -368,7 +370,13 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @OnClick(R.id.button_signIn)
     public void buttonSignUp() {
-        finish();
+        if(isGuestTry){
+            Intent mainIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+            mainIntent.putExtra("GuestTry",true);
+            startActivity(mainIntent);
+        }else {
+            finish();
+        }
     }
 
     @OnClick(R.id.layout_GenderSelection)
@@ -470,13 +478,21 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @Override
     public void registerResponse(User user) {
-        GlobalValues.saveUser(RegisterActivity.this, user);
-        GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
-        Intent mainIntent = new Intent(RegisterActivity.this, DashboardActivity.class);
-        startActivity(mainIntent);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        finish();
+        if(isGuestTry){
+            GlobalValues.saveUser(RegisterActivity.this, user);
+            GlobalValues.setGuestLoginStatus(RegisterActivity.this, false);
+            GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
+            finish();
+        }else {
+            GlobalValues.saveUser(RegisterActivity.this, user);
+            GlobalValues.setGuestLoginStatus(RegisterActivity.this, false);
+            GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
+            Intent mainIntent = new Intent(RegisterActivity.this, DashboardActivity.class);
+            startActivity(mainIntent);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+        }
     }
 
     @Override

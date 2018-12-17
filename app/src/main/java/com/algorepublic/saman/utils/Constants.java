@@ -1,15 +1,29 @@
 package com.algorepublic.saman.utils;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.login.LoginActivity;
+import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +34,7 @@ import java.util.Locale;
 public class Constants {
 
 
+    public static Dialog dialog;
     public static String CARD_LIST="Payment_methods";
 
     public enum Fragment {
@@ -58,6 +73,65 @@ public class Constants {
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
 
         return countries;
+    }
+
+
+    public static void showLoginDialog2(final Context mContext) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(false);
+        builder.setMessage(mContext.getString(R.string.login_message));
+        builder.setPositiveButton(mContext.getString(R.string.conti), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent mainIntent = new Intent(mContext, LoginActivity.class);
+                mainIntent.putExtra("GuestTry",true);
+                mContext.startActivity(mainIntent);
+            }
+        });
+        builder.setNegativeButton(mContext.getString(R.string.not_now), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    public static void showLoginDialog(final Context mContext) {
+        dialog = new Dialog(mContext, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_login_message);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
+        Button continueLogin = (Button) dialog.findViewById(R.id.button_continue);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        continueLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent mainIntent = new Intent(mContext, LoginActivity.class);
+                mainIntent.putExtra("GuestTry",true);
+                mContext.startActivity(mainIntent);
+            }
+        });
+
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(mContext,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 
     public static void showAlert(String title,String message,String buttonText,Context context){

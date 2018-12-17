@@ -47,7 +47,7 @@ public class ProductPresenter implements ProductContractor.Presenter {
 
     @Override
     public void markFavorite(int userID, int productID) {
-        WebServicesHandler.instance.markFavourite(userID, productID, new retrofit2.Callback<SimpleSuccess>() {
+        WebServicesHandler.instance.markFavourite(userID, productID,null ,new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 SimpleSuccess simpleSuccess = response.body();

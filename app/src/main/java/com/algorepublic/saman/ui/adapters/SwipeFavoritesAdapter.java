@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.data.model.OptionValue;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
@@ -47,10 +48,10 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     FavoritesFragment favoritesFragment;
 
 
-    public SwipeFavoritesAdapter(Context mContext, List<Product> productArrayList, FavoritesFragment favoritesFragment){
-        this.productArrayList=productArrayList;
-        this.mContext=mContext;
-        this.favoritesFragment=favoritesFragment;
+    public SwipeFavoritesAdapter(Context mContext, List<Product> productArrayList, FavoritesFragment favoritesFragment) {
+        this.productArrayList = productArrayList;
+        this.mContext = mContext;
+        this.favoritesFragment = favoritesFragment;
         authenticatedUser = GlobalValues.getUser(mContext);
     }
 
@@ -79,9 +80,9 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 
 
             favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
-            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice()+" OMR");
+            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice() + " OMR");
 
-            if(productArrayList.get(position).getLogoURL()!=null && !productArrayList.get(position).getLogoURL().isEmpty()) {
+            if (productArrayList.get(position).getLogoURL() != null && !productArrayList.get(position).getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + productArrayList.get(position).getLogoURL())
                         .placeholder(R.drawable.dummy_mobile)
                         .error(R.drawable.dummy_mobile)
@@ -99,8 +100,8 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             favoritesViewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("ProductID",productArrayList.get(position).getID());
+                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID", productArrayList.get(position).getID());
                     mContext.startActivity(intent);
                 }
             });
@@ -139,9 +140,19 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             favoritesViewHolder.layout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("ProductID",productArrayList.get(position).getID());
+                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID", productArrayList.get(position).getID());
                     mContext.startActivity(intent);
+//                    if (SamanApp.localDB != null) {
+//                        if (SamanApp.localDB.addToCart(productArrayList.get(position),getOptionsData(productArrayList.get(position)), 1)) {
+//
+//                                    showPopUp(mContext.getString(R.string.item_added_bag),
+//                                            mContext.getString(R.string.item_added_message),
+//                                            mContext.getString(R.string.continue_shopping),
+//                                            mContext.getString(R.string.view_bag),
+//                                            0);
+//                        }
+//                    }
                     mItemManger.closeAllItems();
                 }
             });
@@ -199,9 +210,13 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         @BindView(R.id.tv_1)
         TextView textView1;
 
-        @BindView(R.id.tv_product_name) TextView name;
-        @BindView(R.id.tv_price) TextView price;
-        @BindView(R.id.iv_product) ImageView productImageView;
+        @BindView(R.id.tv_product_name)
+        TextView name;
+        @BindView(R.id.tv_price)
+        TextView price;
+        @BindView(R.id.iv_product)
+        ImageView productImageView;
+
         public FavoritesViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
@@ -218,7 +233,8 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     }
 
     Dialog dialog;
-    private void showPopUp(String title, String message, String closeButtonText,String nextButtonText, final int type) {
+
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -259,12 +275,12 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
-                    ((Activity)mContext).startActivity(intent);
+                    ((Activity) mContext).startActivity(intent);
                 } else {
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);
-                    ((Activity)mContext).startActivity(intent);
+                    ((Activity) mContext).startActivity(intent);
                 }
             }
         });
@@ -276,5 +292,23 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
+    }
+
+    private String getOptionsData(Product cartProduct) {
+        OptionValue optionValue = null;
+        String ids = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                if(cartProduct.getProductOptions().get(i).getOptionValues().size()>0) {
+                    optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                    if (ids.equals("")) {
+                        ids = "" + optionValue.getID();
+                    } else {
+                        ids = ids + "," + optionValue.getID();
+                    }
+                }
+            }
+        }
+        return ids;
     }
 }

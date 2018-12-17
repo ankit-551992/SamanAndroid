@@ -10,6 +10,7 @@
     <string name="title_my_account">My Account</string>
     <string name="title_logout">Log Out</string>
     <string name="yes">Yes</string>
+    <string name="guest_user">Continue as guest user</string>
     <string name="forgot_password"><u>Forgot Password?</u></string>
     <string name="email_address">Email Address</string>
     <string name="email_hint">example@saman.com</string>
@@ -31,6 +32,8 @@
     <string name="back">Back</string>
     <string name="currency_omr">OMR</string>
     <string name="logout_message">Are you sure want to logout from the app?</string>
+    <string name="login_message">Log in to use\npersonalized content</string>
+    <string name="not_now">Not Now</string>
     <string name="logout">Log Out</string>
     <string name="contentDescription">Content Description</string>
     <string name="sign_up_agreement">By Tapping "Sign Up", you agree to our\n</string>

@@ -1,8 +1,5 @@
 package com.algorepublic.saman.ui.fragments.favourite;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,16 +11,11 @@ import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
-import com.algorepublic.saman.data.model.HomeScreenData;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
-import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
-import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
 import com.algorepublic.saman.ui.adapters.SwipeFavoritesAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
-import com.algorepublic.saman.utils.ResourceUtil;
-import com.algorepublic.saman.utils.SwipeHelper;
 
 import java.util.ArrayList;
 import java.util.List;

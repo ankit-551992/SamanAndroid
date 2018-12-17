@@ -49,6 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -85,6 +86,7 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
     // Social Login
 
     LoginPresenter mPresenter;
+    boolean isGuestTry=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,7 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        isGuestTry=getIntent().getBooleanExtra("GuestTry",false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
@@ -122,13 +125,33 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
     @OnClick(R.id.button_signUp)
     public void buttonSignUp(){
         Intent mainIntent = new Intent(LoginActivity.this,RegisterActivity.class);
+        mainIntent.putExtra("GuestTry",isGuestTry);
         startActivity(mainIntent);
+        if(isGuestTry){
+            finish();
+        }
     }
 
     @OnClick(R.id.tv_forgotPassword)
     public void forgotPassword(){
         Intent mainIntent = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
         startActivity(mainIntent);
+    }
+
+    @OnClick(R.id.button_guest_user)
+    public void guestLogin(){
+        User user=new User();
+        Random rand = new Random();
+        int n = rand.nextInt(50000) + 1;
+        user.setId(0);
+        user.setFirstName("Guest");
+        user.setLastName("User");
+        user.setEmail("guest"+n+"@saman.com");
+        GlobalValues.saveUser(LoginActivity.this,user);
+        GlobalValues.setGuestLoginStatus(LoginActivity.this,true);
+        Intent mainIntent = new Intent(LoginActivity.this,DashboardActivity.class);
+        startActivity(mainIntent);
+        finish();
     }
 
     @OnClick(R.id.button_login)
@@ -195,11 +218,21 @@ public class LoginActivity extends BaseActivity implements LoginView,GoogleApiCl
 
     @Override
     public void loginResponse(User user) {
-        GlobalValues.saveUser(LoginActivity.this,user);
-        GlobalValues.setUserLoginStatus(LoginActivity.this,true);
-        Intent mainIntent = new Intent(LoginActivity.this,DashboardActivity.class);
-        startActivity(mainIntent);
-        finish();
+
+        if(isGuestTry){
+            GlobalValues.saveUser(LoginActivity.this, user);
+            GlobalValues.setUserLoginStatus(LoginActivity.this, true);
+            GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
+            finish();
+        }else {
+            GlobalValues.saveUser(LoginActivity.this, user);
+            GlobalValues.setUserLoginStatus(LoginActivity.this, true);
+            GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
+            Intent mainIntent = new Intent(LoginActivity.this, DashboardActivity.class);
+            startActivity(mainIntent);
+            finish();
+        }
+
     }
 
     @Override

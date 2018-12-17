@@ -1,10 +1,6 @@
 package com.algorepublic.saman.ui.fragments.bag;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,17 +13,12 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
-import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
-import com.algorepublic.saman.ui.adapters.BagAdapter;
-import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
 import com.algorepublic.saman.ui.adapters.SwipeBagAdapter;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
-import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SamanApp;
-import com.algorepublic.saman.utils.SwipeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,11 +74,21 @@ public class BagFragment extends BaseFragment {
 
     @OnClick(R.id.button_proceed_to_checkout)
     void proceedCheckout(){
+
+
+        if(GlobalValues.getGuestLoginStatus(getContext())){
+            Constants.showLoginDialog(getContext());
+            return;
+        }
+
+        authenticatedUser= GlobalValues.getUser(getContext());
+
         if(productArrayList.size()>0) {
             Intent intent = new Intent(getContext(), ShoppingCartActivity.class);
             intent.putExtra("Price", grandTotal);
             startActivity(intent);
         }else {
+            //
         }
     }
 

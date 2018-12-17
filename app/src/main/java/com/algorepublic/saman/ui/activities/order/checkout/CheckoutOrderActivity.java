@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,18 +18,14 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Product;
-import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.ui.activities.PoliciesActivity;
-import com.algorepublic.saman.ui.adapters.BagCartAdapter;
-import com.algorepublic.saman.ui.adapters.FavoritesAdapter;
+import com.algorepublic.saman.ui.adapters.CheckOutProductAdapter;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
-import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SamanApp;
 import com.algorepublic.saman.utils.SwipeHelper;
-import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -70,7 +65,7 @@ public class CheckoutOrderActivity extends BaseActivity {
     RecyclerView cartRecyclerView;
     RecyclerView.LayoutManager layoutManager;
     List<Product> productArrayList = new ArrayList<>();
-    FavoritesAdapter favoritesAdapter;
+    CheckOutProductAdapter checkOutProductAdapter;
     //Bag
 
     PlaceOrderResponse placeOrderResponse;
@@ -223,8 +218,8 @@ public class CheckoutOrderActivity extends BaseActivity {
         cartRecyclerView.setLayoutManager(layoutManager);
         cartRecyclerView.setNestedScrollingEnabled(false);
         productArrayList = new ArrayList<>();
-        favoritesAdapter = new FavoritesAdapter(CheckoutOrderActivity.this, productArrayList);
-        cartRecyclerView.setAdapter(favoritesAdapter);
+        checkOutProductAdapter = new CheckOutProductAdapter(CheckoutOrderActivity.this, productArrayList);
+        cartRecyclerView.setAdapter(checkOutProductAdapter);
 
         getDataFromDB();
     }
@@ -234,7 +229,7 @@ public class CheckoutOrderActivity extends BaseActivity {
 
         if(SamanApp.localDB!=null){
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
-            favoritesAdapter.notifyDataSetChanged();
+            checkOutProductAdapter.notifyDataSetChanged();
         }
 
         quantity.setText(productArrayList.size()+ " " +getResources().getQuantityString(R.plurals.items, productArrayList.size()));

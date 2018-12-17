@@ -107,7 +107,7 @@ public class WebServicesHandler {
     }
 
 
-    public void updateUser(int id, String fName, String lName, String gender, String country,JSONObject address,String dob, Callback<SimpleSuccess> callback) {
+    public void updateUser(int id, String fName, String lName, String gender, String country, JSONObject address, String dob, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("ID", id);
@@ -122,7 +122,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void updateDeviceToken(int id,String token, Callback<UserResponse> callback) {
+    public void updateDeviceToken(int id, String token, Callback<UserResponse> callback) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", id);
         parameters.put("deviceToken", token);
@@ -220,7 +220,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void getStore(int storeId,Callback<GetStore> callback) {
+    public void getStore(int storeId, Callback<GetStore> callback) {
         Call<GetStore> call = webServices.getStore(storeId);
         call.enqueue(callback);
     }
@@ -248,8 +248,8 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void getProductsByStoreAndCategory(int StoreId,int categoryId,int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
-        Call<GetProducts> call = webServices.getProductsByStoreAndCategory(StoreId,categoryId,userID, pageIndex, pageSize);
+    public void getProductsByStoreAndCategory(int StoreId, int categoryId, int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getProductsByStoreAndCategory(StoreId, categoryId, userID, pageIndex, pageSize);
         call.enqueue(callback);
     }
 
@@ -258,8 +258,8 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void getSearchProducts(int userID,String query,int sortType, int pageIndex, int pageSize, Callback<GetProducts> callback) {
-        Call<GetProducts> call = webServices.getSearchProducts(userID,query,sortType,pageIndex, pageSize);
+    public void getSearchProducts(int userID, String query, int sortType, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getSearchProducts(userID, query, sortType, pageIndex, pageSize);
         call.enqueue(callback);
     }
 
@@ -268,10 +268,19 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void markFavourite(int userID, int productId, Callback<SimpleSuccess> callback) {
+    public void markFavourite(int userID, int productId,String[] optionIDs, Callback<SimpleSuccess> callback) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
         parameters.put("productID", productId);
+
+        if(optionIDs!=null) {
+            for (int i = 0; i < optionIDs.length; i++) {
+                if (!optionIDs[i].equals("")) {
+                    parameters.put("OrderOptionValue[" + i + "].ID", optionIDs[i]);
+                }
+            }
+        }
+
         Call<SimpleSuccess> call = webServices.markFavorite(parameters);
         call.enqueue(callback);
     }
@@ -289,7 +298,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void addAddress(int userID,String addressLine,String addressLine2,String city,String state,String country,boolean isDefault, Callback<AddAddressApi> callback) {
+    public void addAddress(int userID, String addressLine, String addressLine2, String city, String state, String country, boolean isDefault, Callback<AddAddressApi> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
@@ -304,7 +313,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void updateAddress(int ID,String addressLine,String addressLine2,String city,String state,String country,boolean isDefault, Callback<SimpleSuccess> callback) {
+    public void updateAddress(int ID, String addressLine, String addressLine2, String city, String state, String country, boolean isDefault, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("ID", ID);
@@ -326,22 +335,22 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void uploadImage(int userId,File file, Callback<UserResponse> callback) {
+    public void uploadImage(int userId, File file, Callback<UserResponse> callback) {
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getPath(), reqFile);
-        Call<UserResponse> call = webServices.postImage(userId,body);
+        Call<UserResponse> call = webServices.postImage(userId, body);
         call.enqueue(callback);
     }
 
-    public void uploadToSupport(int userID,String subject,String message,List<File> files,Callback<CustomerSupport> callback) {
+    public void uploadToSupport(int userID, String subject, String message, List<File> files, Callback<CustomerSupport> callback) {
 
         MultipartBody.Part[] SupportImages = new MultipartBody.Part[files.size()];
 
         for (int index = 0; index < files.size(); index++) {
             RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), files.get(index));
-            SupportImages[index] = MultipartBody.Part.createFormData("SupportImages["+index+"]", files.get(index).getName(), surveyBody);
+            SupportImages[index] = MultipartBody.Part.createFormData("SupportImages[" + index + "]", files.get(index).getName(), surveyBody);
         }
-        Call<CustomerSupport> call = webServices.uploadToSupport(userID,subject,message,SupportImages);
+        Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, message, SupportImages);
         call.enqueue(callback);
 
     }
@@ -361,7 +370,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void sendMessage(int userID,int recipientID,int conversationID,String title,String message, Callback<SendMessageApi> callback) {
+    public void sendMessage(int userID, int recipientID, int conversationID, String title, String message, Callback<SendMessageApi> callback) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("UserID", userID);
         parameters.put("ConversationID", conversationID);
