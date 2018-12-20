@@ -74,7 +74,10 @@ public class User {
     @SerializedName("ID")
     @Expose
     private Integer id;
-//    @SerializedName("ID")
+
+    private Integer socialID=0;
+
+    //    @SerializedName("ID")
 //    @Expose
     private Integer addressID;
 
@@ -269,5 +272,13 @@ public class User {
 
     public void setShippingAddress(ShippingAddress shippingAddress) {
         this.shippingAddress = shippingAddress;
+    }
+
+    public Integer getSocialID() {
+        return socialID;
+    }
+
+    public void setSocialID(Integer socialID) {
+        this.socialID = socialID;
     }
 }

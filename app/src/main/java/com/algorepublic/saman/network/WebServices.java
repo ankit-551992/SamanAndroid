@@ -53,6 +53,11 @@ public interface WebServices {
 
 
     @FormUrlEncoded
+    @POST("User/SocialLogin")
+    Call<UserResponse> socialLogin(@FieldMap Map<String, String> parameters);
+
+
+    @FormUrlEncoded
     @POST("User/UpdateProfile")
     Call<SimpleSuccess> updateProfile(@FieldMap Map<String, Object> parameters);
 
@@ -82,7 +87,7 @@ public interface WebServices {
 
 
     @GET("Order/GetByUserID/{id}")
-    Call<OrderHistoryAPI> getOrders(@Path("id") int productId);
+    Call<OrderHistoryAPI> getOrders(@Path("id") int userID);
 
     @GET("Product/GetFavoriteList")
     Call<GetProducts> getFavoriteList(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);

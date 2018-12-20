@@ -107,6 +107,22 @@ public class WebServicesHandler {
     }
 
 
+    public void socialLogin(String fName, String lName, String email,String deviceToken, String socialImage, Callback<UserResponse> callback) {
+
+
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("FirstName", fName);
+        parameters.put("LastName", lName);
+        parameters.put("Email", email);
+        parameters.put("deviceType", "2");
+        parameters.put("deviceToken", deviceToken);
+        parameters.put("ProfileImagePath", socialImage);
+
+        Call<UserResponse> call = webServices.socialLogin(parameters);
+        call.enqueue(callback);
+    }
+
+
     public void updateUser(int id, String fName, String lName, String gender, String country, JSONObject address, String dob, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();

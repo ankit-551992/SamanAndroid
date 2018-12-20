@@ -89,8 +89,7 @@
                             android:id="@+id/tv_product_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:lines="1"
-                            android:text="@string/description" />
+                            android:lines="1" />
 
                     </LinearLayout>
 

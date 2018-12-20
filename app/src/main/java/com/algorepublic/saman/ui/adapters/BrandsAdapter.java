@@ -47,10 +47,10 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     Dialog dialog;
     private Product cartProduct;
 
-    public BrandsAdapter(Context mContext,List<Product> brandArrayList,int userID){
-        this.brandArrayList=brandArrayList;
-        this.mContext=mContext;
-        this.userID=userID;
+    public BrandsAdapter(Context mContext, List<Product> brandArrayList, int userID) {
+        this.brandArrayList = brandArrayList;
+        this.mContext = mContext;
+        this.userID = userID;
     }
 
     @Override
@@ -76,11 +76,11 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof BrandViewHolder) {
             final BrandViewHolder brandViewHolder = (BrandViewHolder) holder;
 
-            Product product=brandArrayList.get(position);
+            Product product = brandArrayList.get(position);
             brandViewHolder.productDescription.setText(product.getProductName());
-            brandViewHolder.productPrice.setText(product.getPrice()+" OMR");
+            brandViewHolder.productPrice.setText(product.getPrice() + " OMR");
 
-            if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
+            if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
                         .placeholder(R.drawable.dummy_mobile)
                         .error(R.drawable.dummy_mobile)
@@ -91,8 +91,8 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             brandViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("ProductID",brandArrayList.get(position).getID());
+                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID", brandArrayList.get(position).getID());
                     mContext.startActivity(intent);
                 }
             });
@@ -105,10 +105,10 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
 
-            if(brandArrayList.get(position).getFavorite()){
+            if (brandArrayList.get(position).getFavorite()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
-                }else {
+                } else {
                     brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
                 }
             }
@@ -117,37 +117,37 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View view) {
 
-                    if(GlobalValues.getGuestLoginStatus(mContext)){
+                    if (GlobalValues.getGuestLoginStatus(mContext)) {
                         Constants.showLoginDialog(mContext);
                         return;
                     }
-                    User authenticatedUser= GlobalValues.getUser(mContext);
-                    userID=authenticatedUser.getId();
+                    User authenticatedUser = GlobalValues.getUser(mContext);
+                    userID = authenticatedUser.getId();
 
-                    if(brandArrayList.get(position).getFavorite()){
+                    if (brandArrayList.get(position).getFavorite()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_fav_b));
-                        }else {
+                        } else {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_fav_b));
                         }
                         GlobalValues.markUnFavourite(userID, brandArrayList.get(position).getID());
                         brandArrayList.get(position).setFavorite(false);
                         showPopUp(mContext.getString(R.string.removed_from_fav),
-                                mContext. getString(R.string.item_added_message),
+                                mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
                                 1);
-                    }else {
+                    } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
-                        }else {
+                        } else {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
                         }
-                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(),null);
+                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null);
                         brandArrayList.get(position).setFavorite(true);
 
                         showPopUp(mContext.getString(R.string.added_to_fav),
-                                mContext. getString(R.string.item_added_message),
+                                mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
                                 1);
@@ -165,7 +165,6 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemCount() {
         return brandArrayList == null ? 0 : brandArrayList.size();
     }
-
 
 
     static class BrandViewHolder extends RecyclerView.ViewHolder {
@@ -195,8 +194,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-
-    private void showPopUp(String title, String message, String closeButtonText,String nextButtonText, final int type) {
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -235,12 +233,12 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
-                    ((Activity)mContext).startActivity(intent);
+                    ((Activity) mContext).startActivity(intent);
                 } else {
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);
-                    ((Activity)mContext).startActivity(intent);
+                    ((Activity) mContext).startActivity(intent);
                 }
             }
         });
@@ -256,19 +254,18 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-
-    private void getProductDetails(int productID){
-        WebServicesHandler.instance.getProductDetail(String.valueOf(productID),String.valueOf(userID), new retrofit2.Callback<GetProduct>() {
+    private void getProductDetails(int productID) {
+        WebServicesHandler.instance.getProductDetail(String.valueOf(productID), String.valueOf(userID), new retrofit2.Callback<GetProduct>() {
             @Override
             public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
                 GetProduct getProduct = response.body();
                 if (getProduct != null) {
                     if (getProduct.getSuccess() == 1) {
                         if (getProduct.getProduct() != null) {
-                            cartProduct=getProduct.getProduct();
-                            Log.e("DefaultOptions",getOptionsData());
+                            cartProduct = getProduct.getProduct();
+                            Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), 1)) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), 1)) {
                                     showPopUp(mContext.getString(R.string.item_added_bag),
                                             mContext.getString(R.string.item_added_message),
                                             mContext.getString(R.string.continue_shopping),
@@ -276,6 +273,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             0);
                                 }
                             }
+                            ((DashboardActivity) mContext).updateBagCount();
                         }
                     }
                 }
@@ -283,7 +281,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             @Override
             public void onFailure(Call<GetProduct> call, Throwable t) {
-                Log.e("Failure",t.getMessage());
+                Log.e("Failure", t.getMessage());
             }
         });
     }
@@ -303,6 +301,23 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
         return ids;
+    }
+
+    private String getOptionsName() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitle();
+                } else {
+                    names = names + "," + optionValue.getTitle();
+                }
+            }
+        }
+        return names;
     }
 
 

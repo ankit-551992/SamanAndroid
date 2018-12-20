@@ -16,6 +16,7 @@ public class Product implements Serializable {
     int colorID;
 
     String optionValues;
+    String options;
 
     @SerializedName("ProductName")
     @Expose
@@ -321,5 +322,13 @@ public class Product implements Serializable {
 
     public void setLogoURL(String logoURL) {
         LogoURL = logoURL;
+    }
+
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
     }
 }

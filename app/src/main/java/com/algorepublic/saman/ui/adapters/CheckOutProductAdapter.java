@@ -73,7 +73,8 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (holder instanceof FavoritesViewHolder) {
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
             favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
-            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice()+" OMR");
+//            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice()+" OMR");
+            favoritesViewHolder.price.setText(productArrayList.get(position).getOptions());
 
             if(productArrayList.get(position).getLogoURL()!=null && !productArrayList.get(position).getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + productArrayList.get(position).getLogoURL())

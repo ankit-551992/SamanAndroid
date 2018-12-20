@@ -26,7 +26,7 @@ public class SplashActivity extends BaseActivity {
 
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle icicle) {
+    public void onCreate(Bundle icicle){
         super.onCreate(icicle);
         setContentView(R.layout.activity_splash);
         getCountries();
@@ -43,13 +43,13 @@ public class SplashActivity extends BaseActivity {
                 }else {
                     if(GlobalValues.getGuestLoginStatus(SplashActivity.this)) {
                         /* Create an Intent that will start the Menu-Activity. */
-//                        Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
-                        Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                        Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
                         startActivity(mainIntent);
                         finish();
                     }else {
                         GlobalValues.setGuestLoginStatus(SplashActivity.this,false);
                         Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                        mainIntent.putExtra("GuestTry",false);
                         startActivity(mainIntent);
                         finish();
                     }

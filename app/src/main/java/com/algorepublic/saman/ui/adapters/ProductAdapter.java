@@ -268,7 +268,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             cartProduct=getProduct.getProduct();
                             Log.e("DefaultOptions",getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), 1)) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(), 1)) {
                                     showPopUp(mContext.getString(R.string.item_added_bag),
                                             mContext.getString(R.string.item_added_message),
                                             mContext.getString(R.string.continue_shopping),
@@ -276,6 +276,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             0);
                                 }
                             }
+                            ((DashboardActivity) mContext).updateBagCount();
                         }
                     }
                 }
@@ -304,4 +305,23 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         return ids;
     }
+
+
+    private String getOptionsName() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitle();
+                } else {
+                    names = names + "," + optionValue.getTitle();
+                }
+            }
+        }
+        return names;
+    }
+
 }

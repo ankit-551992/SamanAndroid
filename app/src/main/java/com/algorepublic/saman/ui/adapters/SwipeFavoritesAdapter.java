@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.OptionValue;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.GetProduct;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.fragments.favourite.FavoritesFragment;
@@ -37,6 +40,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder> {
 
@@ -46,6 +51,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     private Context mContext;
     private User authenticatedUser;
     FavoritesFragment favoritesFragment;
+    private Product cartProduct;
 
 
     public SwipeFavoritesAdapter(Context mContext, List<Product> productArrayList, FavoritesFragment favoritesFragment) {
@@ -140,19 +146,11 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             favoritesViewHolder.layout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("ProductID", productArrayList.get(position).getID());
-                    mContext.startActivity(intent);
-//                    if (SamanApp.localDB != null) {
-//                        if (SamanApp.localDB.addToCart(productArrayList.get(position),getOptionsData(productArrayList.get(position)), 1)) {
-//
-//                                    showPopUp(mContext.getString(R.string.item_added_bag),
-//                                            mContext.getString(R.string.item_added_message),
-//                                            mContext.getString(R.string.continue_shopping),
-//                                            mContext.getString(R.string.view_bag),
-//                                            0);
-//                        }
-//                    }
+                    getProductDetails(productArrayList.get(position).getID());
+                    GlobalValues.markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID());
+                    productArrayList.remove(position);
+                    ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
+                    favoritesFragment.updateCount(productArrayList.size());
                     mItemManger.closeAllItems();
                 }
             });
@@ -234,7 +232,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 
     Dialog dialog;
 
-    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
+    private void showPopUp(String title, String message, String closeButtonText,String nextButtonText, final int type) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -249,10 +247,8 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 
         titleTextView.setText(title);
         messageTextView.setText(message);
-        messageTextView.setVisibility(View.GONE);
         closePopUp.setText(closeButtonText);
         nextButton.setText(nextButtonText);
-        nextButton.setVisibility(View.GONE);
 
         closePopUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,15 +271,16 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
-                    ((Activity) mContext).startActivity(intent);
+                    ((Activity)mContext).startActivity(intent);
                 } else {
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);
-                    ((Activity) mContext).startActivity(intent);
+                    ((Activity)mContext).startActivity(intent);
                 }
             }
         });
+
 
         Animation animation;
         animation = AnimationUtils.loadAnimation(mContext,
@@ -294,21 +291,70 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         dialog.show();
     }
 
-    private String getOptionsData(Product cartProduct) {
+    private void getProductDetails(int productID){
+        WebServicesHandler.instance.getProductDetail(String.valueOf(productID),String.valueOf(authenticatedUser.getId()), new retrofit2.Callback<GetProduct>() {
+            @Override
+            public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
+                GetProduct getProduct = response.body();
+                if (getProduct != null) {
+                    if (getProduct.getSuccess() == 1) {
+                        if (getProduct.getProduct() != null) {
+                            cartProduct=getProduct.getProduct();
+                            Log.e("DefaultOptions",getOptionsData());
+                            if (SamanApp.localDB != null) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(), 1)) {
+                                    showPopUp(mContext.getString(R.string.item_added_bag),
+                                            mContext.getString(R.string.item_added_message),
+                                            mContext.getString(R.string.continue_shopping),
+                                            mContext.getString(R.string.view_bag),
+                                            0);
+                                }
+                            }
+                            ((DashboardActivity) mContext).updateBagCount();
+                            notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetProduct> call, Throwable t) {
+                Log.e("Failure",t.getMessage());
+            }
+        });
+    }
+
+    private String getOptionsData() {
+        View v = null;
         OptionValue optionValue = null;
         String ids = "";
         if (cartProduct.getProductOptions() != null) {
             for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
-                if(cartProduct.getProductOptions().get(i).getOptionValues().size()>0) {
-                    optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
-                    if (ids.equals("")) {
-                        ids = "" + optionValue.getID();
-                    } else {
-                        ids = ids + "," + optionValue.getID();
-                    }
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (ids.equals("")) {
+                    ids = "" + optionValue.getID();
+                } else {
+                    ids = ids + "," + optionValue.getID();
                 }
             }
         }
         return ids;
+    }
+
+    private String getOptionsName() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitle();
+                } else {
+                    names = names + "," + optionValue.getTitle();
+                }
+            }
+        }
+        return names;
     }
 }

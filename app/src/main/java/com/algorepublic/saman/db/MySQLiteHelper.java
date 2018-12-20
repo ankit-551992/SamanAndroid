@@ -100,7 +100,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + CART_PRODUCT_UPDATED_BY + " TEXT,"
             + CART_PRODUCT_OPTIONS + " TEXT" + ")";
 
-    public boolean addToCart(Product product,String optionValues, int quantity) {
+    public boolean addToCart(Product product,String optionValues,String options, int quantity) {
 
         ContentValues values = new ContentValues();
         // Check Product already in cart
@@ -117,8 +117,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put(CART_PRODUCT_SIZE_HEIGHT, product.getSizeHeight());
             values.put(CART_PRODUCT_PICTURES, product.getLogoURL());
             values.put(CART_PRODUCT_IMAGES, GlobalValues.convertListToString(product.getProductImagesURLs()));
-//            values.put(CART_PRODUCT_COLOR, "" + colorID);
-
+            values.put(CART_PRODUCT_COLOR, options);
 
             int isActive = 0;
             if (product.getIsActive()) {
@@ -192,7 +191,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setSizeHeight(cursor.getInt(10));
                 product.setLogoURL(cursor.getString(11));
 //                product.setProductImagesURLs(cursor.getInt(12));
-//                product.setColor(cursor.getString(13));
+                product.setOptions(cursor.getString(13));
                 boolean isActive = false;
                 if (cursor.getInt(14) == 1) {
                     isActive = true;

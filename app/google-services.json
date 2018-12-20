@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "372798652789-bbr5097sq41h0eltadpqod3j6b3nd5b2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.algorepublic.saman",
+            "certificate_hash": "d3c4dc8650d608fbffaf2c001e51c2a8bb32c7ed"
+          }
+        },
+        {
           "client_id": "372798652789-4iig9rhk7tsb2uqi16ad0lcr0of6lc52.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -42,6 +50,13 @@
             {
               "client_id": "372798652789-4iig9rhk7tsb2uqi16ad0lcr0of6lc52.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "372798652789-2g7h9gpd3lft7cslcd8lctbc4blhd7mk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ar.Saman"
+              }
             }
           ]
         },

@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
@@ -32,7 +33,9 @@ import com.algorepublic.saman.utils.SamanApp;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -74,20 +77,27 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof BagViewHolder) {
             BagViewHolder bagViewHolder = (BagViewHolder) holder;
 
             bagViewHolder.getPosition = holder.getAdapterPosition();
             Product product = productArrayList.get(bagViewHolder.getPosition);
             bagViewHolder.name.setText(product.getProductName());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                bagViewHolder.description.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
-            } else {
-                bagViewHolder.description.setText(Html.fromHtml(product.getDescription()));
-            }
 
-            if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
+            if (product.getOptions() != null && !product.getOptions().isEmpty() && !product.getOptions().equals("")) {
+
+                bagViewHolder.description.setText(product.getOptions());
+
+            } else {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    bagViewHolder.description.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    bagViewHolder.description.setText(Html.fromHtml(product.getDescription()));
+                }
+            }
+            if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
                         .placeholder(R.drawable.dummy_mobile)
                         .error(R.drawable.dummy_mobile)
@@ -111,8 +121,8 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             bagViewHolder.swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("ProductID",productArrayList.get(position).getID());
+                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID", productArrayList.get(position).getID());
                     mContext.startActivity(intent);
                 }
             });
@@ -125,23 +135,23 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
 
-                    if(GlobalValues.getGuestLoginStatus(mContext)){
+                    if (GlobalValues.getGuestLoginStatus(mContext)) {
                         Constants.showLoginDialog(mContext);
                         return;
                     }
-                    authenticatedUser= GlobalValues.getUser(mContext);
-                    Log.e("Values "+position,productArrayList.get(position).getOptionValues());
+                    authenticatedUser = GlobalValues.getUser(mContext);
+                    Log.e("Values " + position, productArrayList.get(position).getOptionValues());
                     String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
-                    GlobalValues.markFavourite(authenticatedUser.getId(),productArrayList.get(position).getID(),optionIDs);
-                    Product p=productArrayList.get(position);
-                    if(SamanApp.localDB.deleteItemFromCart(p)){
+                    GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
+                    Product p = productArrayList.get(position);
+                    if (SamanApp.localDB.deleteItemFromCart(p)) {
                         productArrayList.remove(p);
                         updateNotify();
-                        ((DashboardActivity)mContext).updateBagCount();
+                        ((DashboardActivity) mContext).updateBagCount();
                     }
                     bagFragment.updateCount(productArrayList.size());
                     showPopUp(mContext.getString(R.string.added_to_fav),
-                            mContext. getString(R.string.item_added_message),
+                            mContext.getString(R.string.item_added_message),
                             mContext.getString(R.string.continue_shopping),
                             mContext.getString(R.string.view_fav),
                             1);
@@ -152,19 +162,19 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             bagViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Product p=productArrayList.get(position);
-                    if(SamanApp.localDB.deleteItemFromCart(p)){
+                    Product p = productArrayList.get(position);
+                    if (SamanApp.localDB.deleteItemFromCart(p)) {
 
 //                        Constants.showAlert(mContext.getString(R.string.remove_from_bag),mContext.getString(R.string.removed_from_bag),mContext.getString(R.string.okay),mContext);
 
                         showPopUp(mContext.getString(R.string.remove_from_bag),
-                                mContext. getString(R.string.item_added_message),
+                                mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.close),
                                 0);
                         productArrayList.remove(p);
                         updateNotify();
-                        ((DashboardActivity)mContext).updateBagCount();
+                        ((DashboardActivity) mContext).updateBagCount();
                     }
                     bagFragment.updateCount(productArrayList.size());
 
@@ -234,6 +244,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             SamanApp.localDB.addToCart(
                     productArrayList.get(getPosition),
                     productArrayList.get(getPosition).getOptionValues(),
+                    productArrayList.get(getPosition).getOptions(),
                     1);
 
 
@@ -250,6 +261,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 SamanApp.localDB.addToCart(
                         productArrayList.get(getPosition),
                         productArrayList.get(getPosition).getOptionValues(),
+                        productArrayList.get(getPosition).getOptions(),
                         -1);
                 productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() - 1);
             }
@@ -273,7 +285,8 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     }
 
     Dialog dialog;
-    private void showPopUp(String title, String message, String closeButtonText,String nextButtonText, final int type) {
+
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -291,7 +304,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         closePopUp.setText(closeButtonText);
         nextButton.setText(nextButtonText);
 
-        if(type==0){
+        if (type == 0) {
             nextButton.setVisibility(View.GONE);
         }
 
@@ -316,12 +329,12 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
-                    ((Activity)mContext).startActivity(intent);
+                    ((Activity) mContext).startActivity(intent);
                 } else {
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);
-                    ((Activity)mContext).startActivity(intent);
+                    ((Activity) mContext).startActivity(intent);
                 }
             }
         });

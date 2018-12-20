@@ -39,6 +39,8 @@ import com.algorepublic.saman.data.model.CardDs;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.ShippingAddress;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.UserResponse;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.PoliciesActivity;
 import com.algorepublic.saman.ui.activities.country.CountriesActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
@@ -53,11 +55,13 @@ import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
@@ -97,6 +101,8 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class RegisterActivity extends BaseActivity implements RegisterView, GoogleApiClient.OnConnectionFailedListener {
 
@@ -154,9 +160,13 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     private static final String EMAIL = "email";
     //Social Login
 
+    String socialName = "";
+    String socialEmail = "";
+    String socialPhotoUrl = "";
+
     Calendar myCalendar;
     String returnedResult;
-    boolean isGuestTry=false;
+    boolean isGuestTry = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +176,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.sign_up));
-        isGuestTry=getIntent().getBooleanExtra("GuestTry",false);
+        isGuestTry = getIntent().getBooleanExtra("GuestTry", false);
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
@@ -199,10 +209,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     }
 
 
-
     @OnClick({R.id.editText_day, R.id.editText_month, R.id.editText_year})
     void setDOB() {
-        DatePickerDialog dialog =   new DatePickerDialog(RegisterActivity.this, date, myCalendar
+        DatePickerDialog dialog = new DatePickerDialog(RegisterActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
 //        dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
@@ -221,9 +230,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
 //            selectedDateInMillis=myCalendar.getTimeInMillis();
-            if(!isAfterToday(year,monthOfYear,dayOfMonth)) {
+            if (!isAfterToday(year, monthOfYear, dayOfMonth)) {
                 updateLabel();
-            }else {
+            } else {
                 Constants.showAlert(getString(R.string.my_details), getString(R.string.invalid_date), getString(R.string.okay), RegisterActivity.this);
             }
         }
@@ -370,11 +379,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @OnClick(R.id.button_signIn)
     public void buttonSignUp() {
-        if(isGuestTry){
+        if (isGuestTry) {
             Intent mainIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-            mainIntent.putExtra("GuestTry",true);
+            mainIntent.putExtra("GuestTry", true);
             startActivity(mainIntent);
-        }else {
+        } else {
             finish();
         }
     }
@@ -478,12 +487,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @Override
     public void registerResponse(User user) {
-        if(isGuestTry){
+        if (isGuestTry) {
             GlobalValues.saveUser(RegisterActivity.this, user);
             GlobalValues.setGuestLoginStatus(RegisterActivity.this, false);
             GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
             finish();
-        }else {
+        } else {
             GlobalValues.saveUser(RegisterActivity.this, user);
             GlobalValues.setGuestLoginStatus(RegisterActivity.this, false);
             GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
@@ -554,17 +563,17 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String month = String.valueOf(mon);
                 String year = String.valueOf(yr);
 
-                String dob =month+"-" +day+ "-" + year;
-                mPresenter.registerUser(firstName, lastName, email, password, GlobalValues.getUserToken(RegisterActivity.this), gender, country, returnedResult,dob);
+                String dob = month + "-" + day + "-" + year;
+                mPresenter.registerUser(firstName, lastName, email, password, GlobalValues.getUserToken(RegisterActivity.this), gender, country, returnedResult, dob);
             }
         }
         if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
-                returnedResult  = data.getData().toString();
+                returnedResult = data.getData().toString();
                 ShippingAddress obj = new Gson().fromJson(returnedResult, ShippingAddress.class);
-                addressEditText.setText(obj.getAddressLine1()+","+obj.getCity()+","+obj.getCountry());
+                addressEditText.setText(obj.getAddressLine1() + "," + obj.getCity() + "," + obj.getCountry());
             }
-        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE){
+        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 addressEditText.setText(place.getAddress());
@@ -648,8 +657,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @OnClick(R.id.google_signIn)
     public void googleSignIn() {
-//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-//        startActivityForResult(signInIntent, RC_SIGN_IN);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -687,22 +696,20 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            socialName = acct.getDisplayName();
 
-            Log.e(TAG, "display name: " + acct.getDisplayName());
-
-            String personName = acct.getDisplayName();
-            String personPhotoUrl = "";
             if (acct.getPhotoUrl() != null) {
-                personPhotoUrl = acct.getPhotoUrl().toString();
+                socialPhotoUrl = acct.getPhotoUrl().toString();
             }
-            String email = acct.getEmail();
-            Log.e(TAG, "Name: " + personName + ", email: " + email
-                    + ", Image: " + personPhotoUrl);
+            socialEmail = acct.getEmail();
 
-//            Intent intent = new Intent(RegisterActivity.this, DashboardActivity.class);
+            socialLogin(1);
+
+//            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
 //            startActivity(intent);
         }
     }
+
 
     // Google Plus Region End
 
@@ -712,19 +719,19 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     @OnClick(R.id.twitter_signIn)
     public void twitter() {
 
-//        mTwitterAuthClient.authorize(RegisterActivity.this,new Callback<TwitterSession>() {
-//            @Override
-//            public void success(Result<TwitterSession> result) {
-//                //If login succeeds passing the Calling the login method and passing Result object
-//                login(result);
-//            }
-//
-//            @Override
-//            public void failure(TwitterException exception) {
-//                //If failure occurs while login handle it here
-//                Log.d("TwitterKit", "Login with Twitter failure", exception);
-//            }
-//        });
+        mTwitterAuthClient.authorize(RegisterActivity.this,new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                //If login succeeds passing the Calling the login method and passing Result object
+                login(result);
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                //If failure occurs while login handle it here
+                Log.d("TwitterKit", "Login with Twitter failure", exception);
+            }
+        });
     }
 
     //The login function accepting the result object
@@ -745,18 +752,13 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             @Override
             public void success(Result<com.twitter.sdk.android.core.models.User> userResult) {
                 com.twitter.sdk.android.core.models.User user = userResult.data;
-                String name = userResult.data.name;
-                //Allow email from admin panel
-                String email = userResult.data.email;
-
-
+                socialName = userResult.data.name;
                 // _normal (48x48px) | _bigger (73x73px) | _mini (24x24px)
-                String photoUrlNormalSize = userResult.data.profileImageUrl;
+                socialPhotoUrl = userResult.data.profileImageUrl;
                 String photoUrlBiggerSize = userResult.data.profileImageUrl.replace("_normal", "_bigger");
                 String photoUrlMiniSize = userResult.data.profileImageUrl.replace("_normal", "_mini");
                 String photoUrlOriginalSize = userResult.data.profileImageUrl.replace("_normal", "");
 
-                Log.e(name, photoUrlNormalSize);
             }
         });
 
@@ -765,7 +767,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             @Override
             public void success(Result<String> result) {
                 // Do something with the result, which provides the email address
-                Log.e("Email", result.toString());
+                socialEmail = result.data;
+//                Log.e("Twitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
+                socialLogin(2);
             }
 
             @Override
@@ -782,12 +786,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     @OnClick(R.id.facebook_signIn)
     public void facebookSignIn() {
 
-//        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
-//        LoginManager.getInstance().logInWithReadPermissions(
-//                this,
-//                Arrays.asList("user_photos", "email", "user_birthday", "public_profile")
-//        );
+        LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                Arrays.asList("user_photos", "email", "user_birthday", "public_profile")
+        );
     }
 
     private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
@@ -803,17 +807,53 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
                             // Application code
                             try {
-//                                    String email = object.getString("email");
-                                String name = object.getString("name");
-//                                    String birthday = object.getString("birthday"); // 01/31/1980 format
+                                String fbId;
+                                String location;
+                                socialName = object.getString("name");
+                                String birthday; // 01/31/1980 format
 
-                                Log.e("LoginResult", name);
+
+                                try {
+                                    fbId = object.getString("id");
+                                } catch (Exception e) {
+                                    fbId = "";
+                                    e.printStackTrace();
+
+                                }
+
+
+                                try {
+                                    socialEmail = object.getString("email");
+                                } catch (Exception e) {
+                                    socialEmail = fbId + "@facebook.com";
+                                    e.printStackTrace();
+                                }
+
+                                try {
+                                    birthday = object.getString("birthday");
+                                } catch (Exception e) {
+                                    birthday = "";
+                                    e.printStackTrace();
+                                }
+
+                                try {
+                                    JSONObject jsonobject_location = object.getJSONObject("location");
+                                    location = jsonobject_location.getString("name");
+
+                                } catch (Exception e) {
+                                    location = "";
+                                    e.printStackTrace();
+                                }
+
+                                fbProfileImage();
+//
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
                     });
+
             Bundle parameters = new Bundle();
             parameters.putString("fields", "id,name,email,gender,birthday");
             request.setParameters(parameters);
@@ -831,8 +871,82 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         }
     };
 
+    private void fbProfileImage() {
+
+        Bundle params = new Bundle();
+        params.putBoolean("redirect", false);
+        params.putString("type", "large");
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "me/picture",
+                params,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        try {
+                            socialPhotoUrl = (String) response.getJSONObject().getJSONObject("data").get("url");
+                            socialLogin(3);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+        ).executeAsync();
+    }
+
+
     //Facebook Region End
 
+    //socialID ----> 1 for G+,2 for Twitter, 3 for Facebook
+    private void socialLogin(final int socialID) {
+
+        showProgress();
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+
+        String[] names = socialName.split(" ");
+        String lastName = "";
+        if (names.length > 1) {
+            lastName = names[1];
+        }
+
+        apiClient.socialLogin(names[0], lastName, socialEmail, GlobalValues.getUserToken(RegisterActivity.this), socialPhotoUrl, new retrofit2.Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                hideProgress();
+                User user = null;
+                UserResponse userResponse = response.body();
+                if (userResponse != null) {
+                    if (userResponse.getSuccess() == 1) {
+                        user = userResponse.getUser();
+                        if (user != null) {
+                            if (isGuestTry) {
+                                GlobalValues.saveUser(RegisterActivity.this, user);
+                                GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
+                                GlobalValues.setGuestLoginStatus(RegisterActivity.this, false);
+                                finish();
+                            } else {
+                                user.setSocialID(socialID);
+                                user.setProfileImagePath(socialPhotoUrl);
+                                GlobalValues.saveUser(RegisterActivity.this, user);
+                                GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
+                                GlobalValues.setGuestLoginStatus(RegisterActivity.this, false);
+                                Intent mainIntent = new Intent(RegisterActivity.this, DashboardActivity.class);
+                                startActivity(mainIntent);
+                                finish();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.e("onFailure", "" + t.getMessage());
+                hideProgress();
+            }
+        });
+    }
 
     //Social Login
 

@@ -321,8 +321,8 @@
 
     <string name="notifications_admin_channel_name">Global channel</string>
     <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
-    <string name="facebook_app_id">478319355980344</string>
-    <string name="fb_login_protocol_scheme">fb478319355980344</string>
+    <string name="facebook_app_id">293002707997112</string>
+    <string name="fb_login_protocol_scheme">fb293002707997112</string>
 
 
     <plurals name="items">

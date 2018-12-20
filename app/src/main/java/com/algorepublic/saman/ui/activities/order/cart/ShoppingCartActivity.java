@@ -129,7 +129,7 @@ public class ShoppingCartActivity extends BaseActivity {
 
     boolean promoApplied = false;
 
-    int addressID;
+    int addressID=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,6 +269,11 @@ public class ShoppingCartActivity extends BaseActivity {
 
     @OnClick(R.id.button_place_order)
     void placeOrder() {
+
+        if(addressID==-1){
+            Constants.showAlert(getString(R.string.check_out), getString(R.string.add_shipping_address), getString(R.string.okay), ShoppingCartActivity.this);
+            return;
+        }
 
         progressBar.setVisibility(View.VISIBLE);
         JSONArray array = new JSONArray();

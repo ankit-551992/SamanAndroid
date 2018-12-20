@@ -202,7 +202,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             return;
         }
         if (SamanApp.localDB != null) {
-            if (SamanApp.localDB.addToCart(product, getOptionsData(), Integer.parseInt(productCount.getText().toString()))) {
+            if (SamanApp.localDB.addToCart(product, getOptionsData(),getOptionsName(), Integer.parseInt(productCount.getText().toString()))) {
                 showPopUp(getString(R.string.item_added_bag),
                         getString(R.string.item_added_message),
                         getString(R.string.continue_shopping),
@@ -492,5 +492,25 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             }
         }
         return ids;
+    }
+
+    private String getOptionsName() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (product.getProductOptions() != null) {
+            for (int i = 0; i < product.getProductOptions().size(); i++) {
+                v = optionsLinearLayout.getChildAt(i);
+                Spinner spinner = (Spinner) ((RelativeLayout) v).getChildAt(1);
+                optionValue = (OptionValue) spinner.getSelectedItem();
+
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitle();
+                } else {
+                    names = names + "," + optionValue.getTitle();
+                }
+            }
+        }
+        return names;
     }
 }

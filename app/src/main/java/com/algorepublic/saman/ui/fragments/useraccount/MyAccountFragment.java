@@ -95,11 +95,27 @@ public class MyAccountFragment extends BaseFragment {
         userEmail.setText(authenticatedUser.getEmail());
 
         if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty() && !authenticatedUser.getProfileImagePath().equalsIgnoreCase("path")) {
-            Picasso.get()
-                    .load(Constants.URLS.BaseURLImages + authenticatedUser.getProfileImagePath())
-                    .transform(new CircleTransform())
-                    .placeholder(R.drawable.ic_profile)
-                    .into(profile);
+            if(authenticatedUser.getSocialID()!=0) {
+                if(!authenticatedUser.getProfileImagePath().isEmpty()) {
+                    Picasso.get()
+                            .load(authenticatedUser.getProfileImagePath())
+                            .transform(new CircleTransform())
+                            .placeholder(R.drawable.ic_profile)
+                            .into(profile);
+                }else {
+                    Picasso.get()
+                            .load("https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1")
+                            .transform(new CircleTransform())
+                            .placeholder(R.drawable.ic_profile)
+                            .into(profile);
+                }
+            }else {
+                Picasso.get()
+                        .load(Constants.URLS.BaseURLImages + authenticatedUser.getProfileImagePath())
+                        .transform(new CircleTransform())
+                        .placeholder(R.drawable.ic_profile)
+                        .into(profile);
+            }
         } else {
             Picasso.get()
                     .load("https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1")
