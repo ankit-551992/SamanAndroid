@@ -1,113 +1,338 @@
 <resources>
-    <string name="app_name">Saman</string>
-    <string name="title_home">الصفحة الرئيسية</string>
-    <string name="title_store">متجر</string>
-    <string name="title_favorite">مفضل</string>
-    <string name="title_bag">حقيبة</string>
-    <string name="title_settings">Settings</string>
-    <string name="title_my_account">My Account</string>
-    <string name="title_logout">Log Out</string>
-    <string name="yes">Yes</string>
-    <string name="forgot_password"><u>هل نسيت كلمة المرور؟</u></string>
-    <string name="email_address">عنوان البريد الإلكتروني</string>
-    <string name="email_hint">example@saman.com</string>
-    <string name="password_hint">********</string>
-    <string name="sign_up"><u>Sign Up</u></string>
-    <string name="sign_in"><u>Sign In</u></string>
-    <string name="no">No</string>
-    <string name="OR">OR</string>
-    <string name="Okay">Okay</string>
-    <string name="ud_store">متجر UD</string>
-    <string name="dummy">ليجي العلامة التجارية للرجال ساعات التلقائية</string>
-    <string name="search">Search</string>
-    <string name="back">Back</string>
-    <string name="currency_omr">OMR</string>
-    <string name="logout_message">Are you sure want to logout from the app?</string>
-    <string name="logout">Log Out</string>
-    <string name="contentDescription">Content Description</string>
-    <string name="sign_up_agreement">By Tapping "Sign Up", you agree to our\n<u>Terms of use</u> &amp; <u>privacy policy</u> </string>
-    <string name="gender_prompt">Choose a gender</string>
-    <string name="navigation_drawer_open">Navigation Drawer Open</string>
-    <string name="navigation_drawer_close">Navigation Drawer Close</string>
+    <string name="app_name">سامان</string>
+    <string name="title_home">الرئيسية</string>
+    <string name="title_store">المتجر</string>
+    <string name="title_favorite">المفضلة</string>
+    <string name="title_fav">طلباتي</string>
+    <string name="title_bag">السلة</string>
+    <string name="title_my_bag">سلتي</string>
+    <string name="title_settings">الإعدادات</string>
+    <string name="title_my_account">حسابي</string>
+    <string name="title_logout">تسجيل خروج</string>
+    <string name="yes">نعم</string>
+    <string name="forgot_password"><u>نسيت كلمة المرور؟</u></string>
+    <string name="email_address">البريد الإلكتروني</string>
+    <string name="sign_up"><u>التسجيل</u></string>
+    <string name="update">تحديث</string>
+    <string name="sign_in"><u>تسجيل دخول</u></string>
+    <string name="no">لا</string>
+    <string name="OR">أو</string>
+    <string name="Okay">موافق</string>
+    <string name="ud_store">UD Store</string>
+    <string name="upload_photos">رفع الصور</string>
+    <string name="write_here">أكتب رسالتك هنا</string>
+    <string name="search">البحث</string>
+    <string name="search_query">خانة البحث فارغة، الرجاء الكتابة للبحث</string>
+    <string name="swipe">تمرير</string>
+    <string name="click">انقر</string>
+    <string name="back">الرجوع</string>
+    <string name="currency_omr">ريال عماني</string>
+    <string name="logout_message">هل أنته متأكد من تسجيل الخروج؟</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="contentDescription">وصف المحتوى</string>
+    <string name="gender_prompt">أختر الجنس</string>
+    <string name="subject_prompt">اختر الموضوع</string>
+    <string name="language_prompt">اختر اللغة</string>
+    <string name="navigation_drawer_open">درج التنقل مفتوح</string>
+    <string name="navigation_drawer_close">درج التنقل مغلق</string>
     <string-array name="genders">
-        <item>Male</item>
-        <item>Female</item>
-        <item>Other</item>
+        <item>ذكر</item>
+        <item>أنثى</item>
     </string-array>
 
+    <string name="male">ذكر</string>
+    <string name="female">أنثى</string>
+
+    <string name="press_again">الرجاء النقر مرة أخرى للخروج</string>
+
+
+    <string name="english">English</string>
+    <string name="arabic">عربى</string>
+
+    <string name="report_issue">أبلاغ عن مشكلة</string>
+    <string name="ask_help">أطلب المساعدة</string>
+    <string name="report_prodcut">إبلاغ عن منتج</string>
+    <string name="report_store">أبلاغ عن متجر</string>
+
+
+    <string-array name="subjects">
+        <item>أبلاغ عن مشكلة</item>
+        <item>أطلب مساعدة</item>
+        <item>إبلاغ عن منتج</item>
+        <item>إبلاغ عن متجر</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>الأنجليزية</item>
+        <item>العربية</item>
+
+    </string-array>
+
+    <string-array name="flavors">
+        <item>Chocolate</item>
+        <item>PineApple</item>
+        <item>Mango</item>
+    </string-array>
+
+    <string name="item_"># العدد</string>
+    <string name="privacy">سياسة الخصوصية</string>
+    <string name="language">اللغة</string>
+    <string name="notifications">التنبيهات</string>
+    <string name="term">سياسة الإستخدام</string>
+    <string name="description">التوصيف</string>
+    <string name="specifications">المواصفات</string>
+    <string name="no_specifications">لا توجد مواصفات</string>
+    <string name="create_ticket">إنشاء تذكرة</string>
+    <string name="submit">إرسال</string>
+    <string name="character">300 حرف </string>
+    <string name="please_wait">جاري الإنتظار....</string>
+    <string name="OMR">الريال العماني</string>
+
+    <!--Shopping cart-->
+    <string name="shopping_cart">حقيبة التسوق</string>
+    <string name="apply_coupon">تفعيل القسيمة</string>
+    <string name="invalid_coupon">قسيمة غير صالحة</string>
+    <string name="already_apply">طبق بالفعل</string>
+    <string name="delivery_to">توصيل إلى</string>
+    <string name="delivery_options">خيارات التوصيل</string>
+    <string name="delivery_cost">تكلفة التوصيل</string>
+    <string name="delivery_address">عنوان التوصيل</string>
+    <string name="pick_up_seller">إستلام من البائع</string>
+    <string name="promo">أدخل رمز القسيمة هنا</string>
+    <string name="payment_type">نوع الدفع</string>
+    <string name="we_accept">نحن نقبل</string>
+    <string name="place_order">إرسال الطلب</string>
+    <string name="price_to_pay">المبلغ للدفع</string>
+    <string name="promo_saved">قسيمة التخفيض خزنت</string>
+    <!--Shopping cart-->
+
+    <!--Checkout-->
+    <string name="check_out_thank_you">شكراً لطلبك</string>
+    <string name="check_out_email_msg">للتأكيد، الرجاء فحص بريدك الإلكتروني</string>
+    <string name="check_out">تأكيد الطلب</string>
+    <string name="check_out_success">تم الطلب بنجاح</string>
+    <string name="order_cancel_msg">بعض المنتجات لا يمكن تغيرها، الرجاء التواصل معنا </string>
+    <string name="order_total">محموع الطلب</string>
+    <string name="order_reference">معلومات الطلب</string>
+    <string name="order_status">حالة الطلب</string>
+    <string name="delivery_date">تاريخ التوصيل</string>
+    <string name="return_policy"><u>سياسة الإسترجاع</u></string>
+    <string name="received">تم الاستلام</string>
+    <string name="pending">معالجة</string>
+    <string name="Cancel_order_before_24h">إلغاء الطلب (24 ساعة)</string>
+
+    <!--Checkout-->
+
+    <!--Payment-->
+    <string name="add_payment">إضافة طريقة دفع</string>
+    <string name="add_new">إضافة جديد</string>
+    <string name="add">إضافة</string>
+    <string name="add_payment_message">لا توجد طريقة دفع لديك</string>
+    <!--Payment-->
+
+    <!--Bag-->
+    <string name="subtotal">حاصل المجوع : </string>
+    <string name="VAT">الضرائب  : </string>
+    <string name="total">المجموع: </string>
+    <string name="proceed">الدفع</string>
+    <string name="order_date">تاريخ الدفع</string>
+    <string name="delete">مسح</string>
+    <string name="default_">إفتراضي</string>
+    <string name="cancel">إلغاء</string>
+    <string name="product_added_in_bag">تم اضافة المنتج بنجاح، الرجاء فحص خقيبة الشراء</string>
+    <string name="add_to_cart">نقل إلى حقيبة الشراء</string>
+    <string name="add_to_fav">نقل إلى قائمة الأمنيات</string>
+    <string name="add_to_bag">إضافة إلى حقيبة الشراء</string>
+    <string name="remove_from_bag">حدف من حقيبة الشراء</string>
+    <string name="removed_from_bag">تم حذف المنتج بنجاح</string>
+    <string name="move_to_fav">تم نقل المنتج إلى قائمة الأمنيات بنجاح</string>
+
+    <!--Bag-->
+
+    <!--Search-->
+    <string name="best_rate">أفضل سعر</string>
+    <string name="price_high">أعلى سعر</string>
+    <string name="low_price">أقل سعر</string>
+    <string name="new_in">جديد</string>
+    <string name="order_number">رقم الطلب</string>
+    <string name="categories">التصنيفات</string>
+    <string name="Done">تم</string>
+    <string name="best_sell">أفضل المبيات</string>
+    <string name="sort_by">تصنيف عن طريق</string>
+
+    <!--Search-->
+
     <!--Login Screen-->
-    <string name="Login_message">Log in with</string>
-    <string name="Login">Log In</string>
-    <string name="login_failed">Login Failed</string>
-    <string name="dont_have_account">Don\'t Have Account?</string>
-    <string name="Password">Password</string>
+    <string name="Login_message">تسجيل الدخول عن طريق</string>
+    <string name="Login">تسجيل</string>
+    <string name="login_failed">خطأ في التسجيل</string>
+    <string name="dont_have_account">لا يوجد لديك حساب؟</string>
+    <string name="Password">رمز الدخول</string>
+    <string name="Confirm_Password">تأكيد رمز الدخول</string>
+
     <!--Login Screen-->
 
     <!--Sign Up-->
-    <string name="Sign_up_with">Sign Up with</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="gender">Gender</string>
-    <string name="country">Country</string>
-    <string name="address">Address</string>
-    <string name="address_hint">Oman</string>
-    <string name="have_account">Have Account?</string>
+    <string name="Sign_up_with">إنشاء حساب جديد عن طريق</string>
+    <string name="first_name">الإسم الأول</string>
+    <string name="last_name">الإسم الثاني</string>
+    <string name="gender">الجنس</string>
+    <string name="country">البلد</string>
+    <string name="address">العتوان</string>
+    <string name="Birthday">يوم الميلاد</string>
+    <string name="date">اليوم/الشهر/السنة</string>
+    <string name="day">اليوم</string>
+    <string name="day_missing">الرجاء أختيار اليوم</string>
+    <string name="month">الشهر</string>
+    <string name="month_missing">الرجاء أختيار الشهر</string>
+    <string name="year">السنة</string>
+    <string name="year_missing">الرجاء أختيار السنة</string>
+    <string name="select_country">إختيار البلد</string>
+    <string name="address_hint">البلد، الشارع، المبنى، الطابق</string>
+    <string name="address_req">العنوان مطلوب</string>
+    <string name="have_account">لديك حساب؟</string>
+
     <!--Sign Up-->
 
     <!--Password-->
-    <string name="change_password_message">Please enter old password to confirm and new password to change password</string>
-    <string name="forgot_password_message">Please enter email to your reset password</string>
-    <string name="reset_password_message">Please Enter token you received on email and enter new password to reset password</string>
-    <string name="old_password">Old Password</string>
-    <string name="new_password">New Password</string>
-    <string name="change">Change</string>
-    <string name="change_password">Change Password</string>
-    <string name="reset_password">Reset Password</string>
-    <string name="forgot_pass">Forgot Password</string>
-    <string name="conti">Continue</string>
-    <string name="token">Token</string>
-    <string name="reset">Reset</string>
-    <string name="password_changed">"Password Changed Successfully"</string>
-    <string name="token_hint">Received on email</string>
+    <string name="change_password_message">الرجاء إدخل رمز الدخل القديم للتأكيد والرمز الجديد لتغير رمز الدخول</string>
+    <string name="forgot_password_message">الرجاء إدخل البريد الإلكتروني لتغير رمز الدخول</string>
+    <string name="reset_password_message">الرجاء إدخل الرمز المستلم وإدخل رمز الدخول الجديد</string>
+    <string name="old_password">رمز دخول قديم</string>
+    <string name="new_password">رمز دخول جديد</string>
+    <string name="change">تغير</string>
+    <string name="apply">تفعيل</string>
+    <string name="change_password">تغير رمز الدخول</string>
+    <string name="reset_password">إعادة تفعيل رمز الدخول</string>
+    <string name="forgot_pass">نسيت رمز الدخول</string>
+    <string name="conti">المتابعة</string>
+    <string name="token">الرمز</string>
+    <string name="reset">إعادة تفعيل</string>
+    <string name="password_changed">"تم تغير رمز الدخول بنجاح"</string>
+    <string name="token_hint">إستلم في البريد الإلكتروني</string>
+
     <!--Password-->
+    <string name="select_method">الرجاء إختيار نوع نظام الدفع</string>
+    <string name="cash_method">تم إضافة نظام الدفع عند التوصيل مسبقاً</string>
 
 
     <!--Home-->
-    <string name="Stores">Stores</string>
-    <string name="best_sellers">Best Sellers</string>
-    <string name="latest_product">Latest Product</string>
-    <string name="see_all">See All</string>
+    <string name="Stores">المتاجر</string>
+    <string name="best_sellers">أفضل البائعين</string>
+    <string name="latest_product">المنتجات الأخيرة</string>
+    <string name="hot_pick">اختيار ساخن</string>
+    <string name="see_all">إظهار الكل</string>
     <!--Home-->
 
+    <!--Messaging-->
+    <string name="type_message">أكتب الرسالة هنا</string>
+
+    <string name="no_message">لا يوجد رسائل!</string>
+
+    <!--Messaging-->
+
     <!--My Account-->
-    <string name="Welcome">أهلا بك</string>
-    <string name="messages">رسائل</string>
-    <string name="customer_service">Customer Service</string>
-    <string name="payment_method">Payment Method</string>
-    <string name="my_details">My Details</string>
-    <string name="my_orders">My Orders</string>
-    <string name="my_favorites">My Favorites</string>
+    <string name="Welcome">مرحباً</string>
+
+    <string name="messages">الرسائل</string>
+
+    <string name="customer_service">خدمة العملاء</string>
+
+    <string name="payment_method">نظام الدفع</string>
+
+    <string name="my_details">بياناتي</string>
+
+    <string name="my_orders">الطلبات</string>
+
+    <string name="my_favorites">المفضلة</string>
+
+    <string name="update_profile">تحديث الملف الشخصي </string>
+
+    <string name="update_profile_success">تم تحديث الملف الشخص بنجاحy</string>
+
+    <string name="update_profile_fail">فشل في تحديث الملف الشخصي</string>
+
     <!--My Account-->
+
+
+    <string name="images_limit">يمكنك أختيار 5 صور فقط</string>
+
 
     <!--Required-->
-    <string name="first_name_required">First name required</string>
-    <string name="last_name_required">Last name required</string>
-    <string name="email_required">Email is required</string>
-    <string name="password_required">Password is required</string>
-    <string name="password_short">Password is too short</string>
-    <string name="try_again">Try Again</string>
-    <string name="old_password_required">Please Enter Old Password</string>
-    <string name="new_password_required">Please Enter New Password</string>
-    <string name="enter_token">Please Enter Token</string>
+    <string name="first_name_required">الإسم الأول مطلوب</string>
+
+    <string name="last_name_required">إسم العائلة مطلوب</string>
+
+    <string name="email_required">البريد الإلكتروني مطلوب</string>
+
+    <string name="email_invalid">بريد إلكتروني خاطئ</string>
+
+    <string name="password_required">رمز الدخول مطلوب</string>
+
+    <string name="password_short">رمز الدخول قصير</string>
+
+    <string name="try_again">حاول مرة أخرى</string>
+
+    <string name="okay">موافق</string>
+
+    <string name="continue_shopping">متابعة التسوق</string>
+
+    <string name="go_to_check_out">الذهاب لحقيبة الشراء</string>
+
+    <string name="close">إغلاق</string>
+
+    <string name="sorry">عذراً</string>
+
+    <string name="no_implemented">لم تنفذ حتى الآن!</string>
+
+    <string name="old_password_required">الرجاء إدخال رمز الدخول القديم</string>
+
+    <string name="new_password_required">الرجاء إدخل رمز الدخول الجديد</string>
+
+    <string name="confirm_new_password_required">الرجاء تأكيد رمز الدخول الجديد</string>
+
+    <string name="not_matched"> رمز الدخول يجب أن يكون مماثل</string>
+
+    <string name="enter_token">الرجاء إدخل الرمز</string>
+
     <!--Required-->
 
-    <string name="notifications_admin_channel_name">Global channel</string>
-    <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
-    <string name="facebook_app_id">478319355980344</string>
-    <string name="fb_login_protocol_scheme">fb478319355980344</string>
+    <!--Card-->
+    <string name="Card_Number">رقم البطاقة</string>
 
-    <plurals name="items">
-        <item quantity="one">بند</item>
-        <item quantity="other">العناصر</item>
-    </plurals>
+    <string name="Card_expiry">صالح من خلال - تاريخ الإنتهاء</string>
+
+
+    <string name="Add_Card">إضافة بطاقة</string>
+
+    <string name="Card_cvv_cvc">الرمز الآمن للبطاقة (CVV/CVC)</string>
+
+    <string name="Update_Card">تحديث البطاقة</string>
+
+    <string name="card_number_req">الرجاء إدخل رمز البطاقة!</string>
+
+    <string name="card_number_validation">الرجاء إدخل رقم بطاقة صالح للإستخدام!</string>
+
+    <string name="card_month_validation">الرجاء إضافة بطاقة انتهاء الشهر!</string>
+
+    <string name="card_month_invalid">الشهر غير صالح !</string>
+
+    <string name="card_year_invalid">السنة غير صالحة</string>
+
+    <string name="card_year_validation">الرجاء إدخل بطاقة إنتهاء السنة</string>
+
+    <string name="card_name">الرجاء إدخل إسم حامل البطاقة !</string>
+
+    <string name="card_name_text">إسم حامل البطاقة</string>
+    <string name="card_cvc">الرجاء إدخل رمز CVC!</string>
+
+    <string name="card_otp">الرجاء إدخل رمز OTP !</string>
+    <string name="card_delivery">الدفع عند التوصيل</string>
+
+    <!--Card-->
+    <string name="notifications_admin_channel_name">الشبكة العالمية</string>
+    <string name="notifications_admin_channel_description">تم إرسال التنبيهات من تطبيق التحكم</string>
+
+
+
 </resources>

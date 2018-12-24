@@ -52,6 +52,19 @@ public class GlobalValues {
         return sharedPreferences.getBoolean("UserLoginStatus", false);
     }
 
+
+    public static void setNotificationOnOff(Context ctx, boolean notificationOnOff){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("NotificationOnOff",notificationOnOff);
+        editor.apply();
+    }
+
+    public static boolean getNotificationOnOff(Context ctx){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPreferences.getBoolean("NotificationOnOff", true);
+    }
+
     public static void setGuestLoginStatus(Context ctx, boolean isLogin){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor editor = sharedPreferences.edit();

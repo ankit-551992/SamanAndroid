@@ -37,6 +37,7 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
 
         if(orderItem.getProduct()!=null) {
             holder.productName.setText(orderItem.getProduct().getProductName());
+            holder.storeName.setText(orderItem.getProduct().getStoreName());
             holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR");
             holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR x "+orderItem.getProduct().getQuantity());
             if(orderItem.getProduct().getLogoURL()!=null && !orderItem.getProduct().getLogoURL().isEmpty()) {
@@ -56,6 +57,8 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
     class RowViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_product_name)
         TextView productName;
+        @BindView(R.id.tv_store_name)
+        TextView storeName;
         @BindView(R.id.tv_product_price)
         TextView productPrice;
         @BindView(R.id.iv_product)

@@ -36,6 +36,7 @@ public class PoliciesActivity extends BaseActivity {
     CheckBox checkbox;
 
     int type=0;
+    boolean checkRequired=false;
 
     String show="";
 
@@ -45,6 +46,11 @@ public class PoliciesActivity extends BaseActivity {
         setContentView(R.layout.activity_privacy);
         ButterKnife.bind(this);
         type=getIntent().getIntExtra("type",0);
+
+        if(getIntent().hasExtra("checkRequired")){
+            checkRequired=getIntent().getBooleanExtra("checkRequired",false);
+        }
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         if(type==0) {
@@ -68,6 +74,11 @@ public class PoliciesActivity extends BaseActivity {
             text.setText(Html.fromHtml(show, Html.FROM_HTML_MODE_COMPACT));
         } else {
             text.setText(Html.fromHtml(show));
+        }
+
+        if(!checkRequired){
+            checkbox.setVisibility(View.GONE);
+            buttonDone.setVisibility(View.GONE);
         }
     }
 

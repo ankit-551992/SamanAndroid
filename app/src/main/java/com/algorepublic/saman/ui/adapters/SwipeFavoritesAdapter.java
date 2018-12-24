@@ -86,6 +86,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 
 
             favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
+            favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
             favoritesViewHolder.price.setText(productArrayList.get(position).getPrice() + " OMR");
 
             if (productArrayList.get(position).getLogoURL() != null && !productArrayList.get(position).getLogoURL().isEmpty()) {
@@ -95,10 +96,8 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                         .into(favoritesViewHolder.productImageView);
             }
 
-
             // Drag From Right
             favoritesViewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, favoritesViewHolder.swipeLayout.findViewById(R.id.bottom_wrapper));
-
             favoritesViewHolder.favIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_apps));
             favoritesViewHolder.textView1.setText(mContext.getString(R.string.add_to_cart));
             favoritesViewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
@@ -210,6 +209,8 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 
         @BindView(R.id.tv_product_name)
         TextView name;
+        @BindView(R.id.tv_store_name)
+        TextView storeName;
         @BindView(R.id.tv_price)
         TextView price;
         @BindView(R.id.iv_product)
@@ -302,7 +303,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                             cartProduct=getProduct.getProduct();
                             Log.e("DefaultOptions",getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(), 1)) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(),getOptionsName(), 1)) {
                                     showPopUp(mContext.getString(R.string.item_added_bag),
                                             mContext.getString(R.string.item_added_message),
                                             mContext.getString(R.string.continue_shopping),

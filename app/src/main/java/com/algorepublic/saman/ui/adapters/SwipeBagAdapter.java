@@ -84,6 +84,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             bagViewHolder.getPosition = holder.getAdapterPosition();
             Product product = productArrayList.get(bagViewHolder.getPosition);
             bagViewHolder.name.setText(product.getProductName());
+            bagViewHolder.storeName.setText(product.getStoreName());
 
             if (product.getOptions() != null && !product.getOptions().isEmpty() && !product.getOptions().equals("")) {
 
@@ -225,6 +226,8 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         TextView quantity;
         @BindView(R.id.tv_product_name)
         TextView name;
+        @BindView(R.id.tv_store_name)
+        TextView storeName;
         @BindView(R.id.tv_product_description)
         TextView description;
         @BindView(R.id.tv_product_price)
@@ -245,6 +248,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     productArrayList.get(getPosition),
                     productArrayList.get(getPosition).getOptionValues(),
                     productArrayList.get(getPosition).getOptions(),
+                    productArrayList.get(getPosition).getOptions(),
                     1);
 
 
@@ -261,6 +265,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 SamanApp.localDB.addToCart(
                         productArrayList.get(getPosition),
                         productArrayList.get(getPosition).getOptionValues(),
+                        productArrayList.get(getPosition).getOptions(),
                         productArrayList.get(getPosition).getOptions(),
                         -1);
                 productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() - 1);

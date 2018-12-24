@@ -422,6 +422,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             String dob = day + "-" + month + "-" + year;
             Intent intent = new Intent(RegisterActivity.this, PoliciesActivity.class);
             intent.putExtra("type", 1);
+            intent.putExtra("checkRequired", true);
             startActivityForResult(intent, 1401);
         }
     }

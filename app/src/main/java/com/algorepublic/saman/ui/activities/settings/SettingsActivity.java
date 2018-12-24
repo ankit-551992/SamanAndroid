@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
@@ -27,6 +30,8 @@ import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
 import com.thefinestartist.finestwebview.FinestWebView;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +49,8 @@ public class SettingsActivity extends BaseActivity {
     ImageView countryFlag;
     @BindView(R.id.tv_language)
     TextView languageTextView;
+    @BindView(R.id.switchImage)
+    SwitchCompat notificationSwitchCompat;
 
 
     Country selectedCountry;
@@ -59,22 +66,43 @@ public class SettingsActivity extends BaseActivity {
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-        }else {
+        } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
-        for (int i = 0; i<GlobalValues.countries.size(); i++){
-            if(GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))){
-                selectedCountry=GlobalValues.countries.get(i);
+        for (int i = 0; i < GlobalValues.countries.size(); i++) {
+            if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))) {
+                selectedCountry = GlobalValues.countries.get(i);
                 Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
             }
         }
+
+        notificationSwitchCompat.setChecked(GlobalValues.getNotificationOnOff(this));
+
+        notificationSwitchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+                    GlobalValues.setNotificationOnOff(SettingsActivity.this, true);
+                } else {
+                    GlobalValues.setNotificationOnOff(SettingsActivity.this, false);
+                }
+            }
+        });
+
+        if(GlobalValues.getAppLanguage(this).equals("ar")){
+            languageTextView.setText(getString(R.string.arabic));
+        }else {
+            languageTextView.setText(getString(R.string.english));
+        }
+
     }
 
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
-        Intent intent=new Intent(SettingsActivity.this,CountriesActivity.class);
-        startActivityForResult(intent,1299);
+        Intent intent = new Intent(SettingsActivity.this, CountriesActivity.class);
+        startActivityForResult(intent, 1299);
     }
 
     @OnClick(R.id.layout_language)
@@ -88,23 +116,23 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @OnClick(R.id.tv_change_password)
-    void changePassword(){
-        Intent intent=new Intent(SettingsActivity.this, ChangePasswordActivity.class);
+    void changePassword() {
+        Intent intent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.tv_privacy_policy)
-    void privacy(){
-        Intent intent=new Intent(SettingsActivity.this,PoliciesActivity.class);
-        intent.putExtra("type",0);
+    void privacy() {
+        Intent intent = new Intent(SettingsActivity.this, PoliciesActivity.class);
+        intent.putExtra("type", 0);
         startActivity(intent);
 //        new FinestWebView.Builder(SettingsActivity.this).show(Constants.URLS.privacyPolicy);
     }
 
     @OnClick(R.id.tv_terms_of_uses)
-    void termsOfUses(){
-        Intent intent=new Intent(SettingsActivity.this,PoliciesActivity.class);
-        intent.putExtra("type",1);
+    void termsOfUses() {
+        Intent intent = new Intent(SettingsActivity.this, PoliciesActivity.class);
+        intent.putExtra("type", 1);
         startActivity(intent);
 //        new FinestWebView.Builder(SettingsActivity.this).show(Constants.URLS.terms);
     }
@@ -114,9 +142,9 @@ public class SettingsActivity extends BaseActivity {
 
         if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {
-                for (int i = 0; i<GlobalValues.countries.size(); i++){
-                    if(GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))){
-                        selectedCountry=GlobalValues.countries.get(i);
+                for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                    if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))) {
+                        selectedCountry = GlobalValues.countries.get(i);
                         Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
                     }
                 }
@@ -127,7 +155,7 @@ public class SettingsActivity extends BaseActivity {
     Dialog dialog;
     String selectedLanguage = "";
 
-    private void selectLanguage(){
+    private void selectLanguage() {
         dialog = new Dialog(SettingsActivity.this, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_language_selection);
@@ -165,10 +193,17 @@ public class SettingsActivity extends BaseActivity {
                 // find the radiobutton by returned id
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
 
-                if(radioButton.isChecked()) {
+                if (radioButton.isChecked()) {
+                    if(radioButton.getId()==R.id.radio_arabic){
+                        GlobalValues.setAppLanguage(getApplicationContext(), "ar");
+                    }else{
+                        GlobalValues.setAppLanguage(getApplicationContext(), "en");
+                    }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
                     dialog.dismiss();
+
+                    Constants.showAlert(getString(R.string.title_settings),getString(R.string.app_language),getString(R.string.okay),SettingsActivity.this);
                 }
             }
         });

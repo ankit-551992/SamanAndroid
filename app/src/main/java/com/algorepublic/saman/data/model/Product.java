@@ -17,6 +17,7 @@ public class Product implements Serializable {
 
     String optionValues;
     String options;
+    String optionsAR;
 
     @SerializedName("ProductName")
     @Expose
@@ -30,6 +31,12 @@ public class Product implements Serializable {
     @SerializedName("Description_AR")
     @Expose
     private String descriptionAR;
+    @SerializedName("StoreName")
+    @Expose
+    private String storeName;
+    @SerializedName("StoreName_AR")
+    @Expose
+    private String storeNameAR;
     @SerializedName("Price")
     @Expose
     private Integer price;
@@ -330,5 +337,36 @@ public class Product implements Serializable {
 
     public void setOptions(String options) {
         this.options = options;
+    }
+
+
+    public String getOptionsAR() {
+        return optionsAR;
+    }
+
+    public void setOptionsAR(String optionsAR) {
+        this.optionsAR = optionsAR;
+    }
+
+    public String getStoreName() {
+        if(storeName==null){
+            storeName="";
+        }
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public String getStoreNameAR() {
+        if(storeNameAR==null){
+            storeNameAR="";
+        }
+        return storeNameAR;
+    }
+
+    public void setStoreNameAR(String storeNameAR) {
+        this.storeNameAR = storeNameAR;
     }
 }

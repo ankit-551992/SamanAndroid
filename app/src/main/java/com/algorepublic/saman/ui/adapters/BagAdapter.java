@@ -146,6 +146,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     productArrayList.get(getPosition),
                     productArrayList.get(getPosition).getOptionValues(),
                     productArrayList.get(getPosition).getOptions(),
+                    productArrayList.get(getPosition).getOptions(),
                     1);
 
 
@@ -162,6 +163,7 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SamanApp.localDB.addToCart(
                         productArrayList.get(getPosition),
                         productArrayList.get(getPosition).getOptionValues(),
+                        productArrayList.get(getPosition).getOptions(),
                         productArrayList.get(getPosition).getOptions(),
                         -1);
                 productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() - 1);

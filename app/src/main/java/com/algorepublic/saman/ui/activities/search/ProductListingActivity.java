@@ -94,7 +94,7 @@ public class ProductListingActivity  extends BaseActivity {
         if (function==1){
             toolbarTitle.setText(getString(R.string.new_in));
         }else if (function==2){
-            toolbarTitle.setText(storeName+" / "+categoryName);
+            toolbarTitle.setText(storeName);
         }
 
         toolbarTitle.setAllCaps(true);

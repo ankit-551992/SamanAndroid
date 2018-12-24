@@ -83,6 +83,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     TextView attributes;
     @BindView(R.id.tv_product_name)
     TextView productName;
+    @BindView(R.id.tv_store_name)
+    TextView storeName;
     @BindView(R.id.tv_product_description)
     TextView productDescription;
     @BindView(R.id.tv_product_price)
@@ -166,18 +168,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         authenticatedUser= GlobalValues.getUser(ProductDetailActivity.this);
 
         if (product.getFavorite()) {
-            presenter.markUnFavorite(authenticatedUser.getId(), productID);
-            product.setFavorite(false);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                favoriteImageView.setImageDrawable(getDrawable(R.drawable.ic_fav_b));
-            } else {
-                favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_b));
-            }
-            showPopUp(getString(R.string.removed_from_fav),
-                    getString(R.string.item_added_message),
-                    getString(R.string.continue_shopping),
-                    getString(R.string.view_fav),
-                    1);
+            showAlert(getString(R.string.ask_remove_from_fav),getString(R.string.remove_sure));
         } else {
             presenter.markFavorite(authenticatedUser.getId(), productID);
             product.setFavorite(true);
@@ -202,7 +193,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             return;
         }
         if (SamanApp.localDB != null) {
-            if (SamanApp.localDB.addToCart(product, getOptionsData(),getOptionsName(), Integer.parseInt(productCount.getText().toString()))) {
+            if (SamanApp.localDB.addToCart(product, getOptionsData(),getOptionsName(),getOptionsName(), Integer.parseInt(productCount.getText().toString()))) {
                 showPopUp(getString(R.string.item_added_bag),
                         getString(R.string.item_added_message),
                         getString(R.string.continue_shopping),
@@ -352,6 +343,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     public void response(Product product) {
         this.product = product;
         productName.setText(product.getProductName());
+        storeName.setText(product.getStoreName());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
         } else {
@@ -512,5 +504,42 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             }
         }
         return names;
+    }
+
+
+    private void showAlert(String title, String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailActivity.this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dislike();
+                        dialog.dismiss();
+                    }
+                });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void dislike() {
+        presenter.markUnFavorite(authenticatedUser.getId(), productID);
+        product.setFavorite(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            favoriteImageView.setImageDrawable(getDrawable(R.drawable.ic_fav_b));
+        } else {
+            favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_b));
+        }
+//        showPopUp(getString(R.string.removed_from_fav),
+//                getString(R.string.item_added_message),
+//                getString(R.string.continue_shopping),
+//                getString(R.string.view_fav),
+//                1);
     }
 }

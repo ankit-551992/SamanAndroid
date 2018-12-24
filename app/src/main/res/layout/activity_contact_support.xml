@@ -20,15 +20,17 @@
             android:layout_margin="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:focusable="false"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:hint="@string/subject_prompt"
                 android:background="@android:color/transparent"
                 android:id="@+id/editText_subject"
                 android:layout_width="match_parent"
+                android:drawableRight="@drawable/ic_navigate_next"
+                android:drawableEnd="@drawable/ic_navigate_next"
                 android:layout_height="wrap_content" />
 
             <View
@@ -68,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow_button"
-                android:text="@string/submit"
+                android:text="@string/send"
                 android:textAllCaps="false"
                 android:textColor="#fff" />
         </LinearLayout>

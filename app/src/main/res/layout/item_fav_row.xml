@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tv_store_name"
                     android:drawablePadding="10dp"
                     android:drawableLeft="@drawable/ic_store"
                     android:gravity="center"

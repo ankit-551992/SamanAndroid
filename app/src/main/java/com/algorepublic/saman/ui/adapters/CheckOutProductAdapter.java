@@ -73,6 +73,7 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (holder instanceof FavoritesViewHolder) {
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
             favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
+            favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
 //            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice()+" OMR");
             favoritesViewHolder.price.setText(productArrayList.get(position).getOptions());
 
@@ -107,6 +108,7 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     static class FavoritesViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_product_name) TextView name;
+        @BindView(R.id.tv_store_name) TextView storeName;
         @BindView(R.id.tv_price) TextView price;
         @BindView(R.id.iv_product) ImageView productImageView;
         public FavoritesViewHolder(View v) {

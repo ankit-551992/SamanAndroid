@@ -45,12 +45,14 @@ public class SamanApp extends MultiDexApplication {
         db=new TinyDB(this);
         localDB=new MySQLiteHelper(this);
         instance = this;
-//        if(GlobalValues.getAppLanguage(getApplicationContext()).equals("")){
-            GlobalValues.setAppLanguage(getApplicationContext(), Locale.getDefault().getLanguage());
-//        }
 
-        GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()),getApplicationContext());
 
+        if(GlobalValues.getAppLanguage(getApplicationContext()).equals("")){
+            GlobalValues.changeLanguage(Locale.getDefault().getLanguage(),getApplicationContext());
+        }else {
+            GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()),getApplicationContext());
+            GlobalValues.changeLanguage("en",getApplicationContext());
+        }
 
 //        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "font/neo_sans.ttf");
 

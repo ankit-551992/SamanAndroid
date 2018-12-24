@@ -324,7 +324,7 @@ public class CustomerSupportActivity extends BaseActivity {
                 Constants.dismissSpinner();
                 CustomerSupport customerSupport = response.body();
                 if (customerSupport.getSuccess() == 1) {
-                    Constants.showAlertWithActivityFinish(getString(R.string.customer_service), getString(R.string.request_sent), getString(R.string.close), CustomerSupportActivity.this);
+                    Constants.showAlertWithActivityFinish(getString(R.string.customer_service), getString(R.string.ticket_created_success), getString(R.string.okay), CustomerSupportActivity.this);
                 }
             }
 

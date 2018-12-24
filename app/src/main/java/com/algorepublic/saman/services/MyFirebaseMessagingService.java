@@ -44,7 +44,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage){
 
-        showNotification(remoteMessage);
+        if(GlobalValues.getNotificationOnOff(getApplicationContext())) {
+            showNotification(remoteMessage);
+        }
     }
 
     /**
@@ -79,7 +81,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         Intent notificationIntent;
         if(DashboardActivity.isAppRunning){
             notificationIntent = new Intent(this, MessagingActivity.class);

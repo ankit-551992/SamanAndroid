@@ -14,7 +14,8 @@
         android:layout_marginTop="10dp"
         android:textSize="17sp"
         android:textColor="@color/black"
-        android:text="Send your feedback about this activity"
+        android:text="@string/feedback_message"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -33,14 +34,14 @@
         android:background="@drawable/ic_edit_text_background"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:hint="Feedback..."/>
+        android:hint="@string/feedback"/>
 
     <Button
         android:id="@+id/button_feedback"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send"
+        android:text="@string/send"
         android:textColor="@color/white"
         android:background="@drawable/yellow_button"/>
 

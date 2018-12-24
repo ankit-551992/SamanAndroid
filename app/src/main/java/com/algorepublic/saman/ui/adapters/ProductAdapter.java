@@ -3,9 +3,11 @@ package com.algorepublic.saman.ui.adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,6 +83,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             Product product=productArrayList.get(position);
             productViewHolder.productDescription.setText(product.getProductName());
+            productViewHolder.storeName.setText(product.getStoreName());
             productViewHolder.productPrice.setText(product.getPrice()+" OMR");
 
             if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
@@ -127,19 +130,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     userID=authenticatedUser.getId();
 
                     if(productArrayList.get(position).getFavorite()){
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            productViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_fav_b));
-                        }else {
-                            productViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_fav_b));
-                        }
-                        GlobalValues.markUnFavourite(userID, productArrayList.get(position).getID());
-                        productArrayList.get(position).setFavorite(false);
 
-                        showPopUp(mContext.getString(R.string.removed_from_fav),
-                                mContext. getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_fav),
-                                1);
+                        showAlert(mContext.getString(R.string.ask_remove_from_fav),mContext.getString(R.string.remove_sure),productViewHolder.favoriteImageView,position);
 
                     }else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -174,6 +166,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         private TextView productDescription;
         private TextView productPrice;
+        private TextView storeName;
         private ImageView productImageView;
         private ImageView favoriteImageView;
         private ImageView cartImageView;
@@ -182,6 +175,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(v);
             productImageView = (ImageView) v.findViewById(R.id.iv_product);
             productDescription = (TextView) v.findViewById(R.id.tv_product_description);
+            storeName = (TextView) v.findViewById(R.id.tv_store_name);
             productPrice = (TextView) v.findViewById(R.id.tv_product_price);
             favoriteImageView = (ImageView) v.findViewById(R.id.iv_favorite);
             cartImageView = (ImageView) v.findViewById(R.id.iv_add_to_cart);
@@ -268,7 +262,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             cartProduct=getProduct.getProduct();
                             Log.e("DefaultOptions",getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(), 1)) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(),getOptionsName(), 1)) {
                                     showPopUp(mContext.getString(R.string.item_added_bag),
                                             mContext.getString(R.string.item_added_message),
                                             mContext.getString(R.string.continue_shopping),
@@ -324,4 +318,40 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return names;
     }
 
+
+    private void showAlert(String title, String message,final ImageView favoriteImageView, final int position) {
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dislike(favoriteImageView,position);
+                        dialog.dismiss();
+                    }
+                });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void dislike(ImageView favoriteImageView,int position) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_fav_b));
+        } else {
+            favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_fav_b));
+        }
+        GlobalValues.markUnFavourite(userID, productArrayList.get(position).getID());
+        productArrayList.get(position).setFavorite(false);
+//        showPopUp(mContext.getString(R.string.removed_from_fav),
+//                mContext.getString(R.string.item_added_message),
+//                mContext.getString(R.string.continue_shopping),
+//                mContext.getString(R.string.view_fav),
+//                1);
+    }
 }

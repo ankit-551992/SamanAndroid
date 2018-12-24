@@ -70,6 +70,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String CART_PRODUCT_UPDATED_AT = "CART_PRODUCT_UPDATED_AT";                 //21
     public static final String CART_PRODUCT_UPDATED_BY = "CART_PRODUCT_UPDATED_BY";                 //22
     public static final String CART_PRODUCT_OPTIONS = "CART_PRODUCT_OPTIONS";                       //23
+    public static final String CART_PRODUCT_OPTIONS_NAMES = "CART_PRODUCT_OPTIONS_NAMES";           //24
+    public static final String CART_PRODUCT_OPTIONS_NAMES_AR = "CART_PRODUCT_OPTIONS_NAMES_AR";     //25
+    public static final String CART_PRODUCT_STORE_NAME = "CART_PRODUCT_STORE_NAME";                 //26
+    public static final String CART_PRODUCT_STORE_NAME_AR = "CART_PRODUCT_STORE_NAME_AR";           //27
 
 
     //Table CART CREATE STATEMENT
@@ -98,9 +102,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + CART_PRODUCT_CREATED_BY + " TEXT,"
             + CART_PRODUCT_UPDATED_AT + " TEXT,"
             + CART_PRODUCT_UPDATED_BY + " TEXT,"
-            + CART_PRODUCT_OPTIONS + " TEXT" + ")";
+            + CART_PRODUCT_OPTIONS + " TEXT,"
+            + CART_PRODUCT_OPTIONS_NAMES + " TEXT,"
+            + CART_PRODUCT_OPTIONS_NAMES_AR + " TEXT,"
+            + CART_PRODUCT_STORE_NAME + " TEXT,"
+            + CART_PRODUCT_STORE_NAME_AR + " TEXT" + ")";
 
-    public boolean addToCart(Product product,String optionValues,String options, int quantity) {
+    public boolean addToCart(Product product,String optionValues,String options,String optionsAr, int quantity) {
 
         ContentValues values = new ContentValues();
         // Check Product already in cart
@@ -117,7 +125,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put(CART_PRODUCT_SIZE_HEIGHT, product.getSizeHeight());
             values.put(CART_PRODUCT_PICTURES, product.getLogoURL());
             values.put(CART_PRODUCT_IMAGES, GlobalValues.convertListToString(product.getProductImagesURLs()));
-            values.put(CART_PRODUCT_COLOR, options);
+            values.put(CART_PRODUCT_OPTIONS_NAMES, options);
+            values.put(CART_PRODUCT_OPTIONS_NAMES_AR, optionsAr);
+            values.put(CART_PRODUCT_STORE_NAME, product.getStoreName());
+            values.put(CART_PRODUCT_STORE_NAME_AR, product.getStoreNameAR());
 
             int isActive = 0;
             if (product.getIsActive()) {
@@ -191,7 +202,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setSizeHeight(cursor.getInt(10));
                 product.setLogoURL(cursor.getString(11));
 //                product.setProductImagesURLs(cursor.getInt(12));
-                product.setOptions(cursor.getString(13));
+
                 boolean isActive = false;
                 if (cursor.getInt(14) == 1) {
                     isActive = true;
@@ -213,6 +224,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setUpdatedAt(cursor.getString(21));
 //                product.setUpdateBy(cursor.getString(22));
                 product.setOptionValues(cursor.getString(23));
+
+                product.setOptions(cursor.getString(24));
+                product.setOptionsAR(cursor.getString(25));
+                product.setStoreName(cursor.getString(26));
+                product.setStoreNameAR(cursor.getString(27));
 
                 // Adding to list
                 cartArrayList.add(product);
