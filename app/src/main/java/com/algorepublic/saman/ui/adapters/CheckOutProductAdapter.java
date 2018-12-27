@@ -17,6 +17,7 @@ import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.fragments.store.OnLoadMoreListener;
 import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -72,10 +73,17 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof FavoritesViewHolder) {
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
-            favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
-            favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
+            if(SamanApp.isEnglishVersion) {
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
+                favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
+                favoritesViewHolder.price.setText(productArrayList.get(position).getOptions());
+            }else {
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR());
+                favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreNameAR());
+                favoritesViewHolder.price.setText(productArrayList.get(position).getOptionsAR());
+            }
 //            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice()+" OMR");
-            favoritesViewHolder.price.setText(productArrayList.get(position).getOptions());
+
 
             if(productArrayList.get(position).getLogoURL()!=null && !productArrayList.get(position).getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + productArrayList.get(position).getLogoURL())

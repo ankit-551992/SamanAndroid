@@ -144,6 +144,9 @@ public class Store {
     }
 
     public String getDescriptionAR() {
+        if(descriptionAR==null){
+            descriptionAR="";
+        }
         return descriptionAR;
     }
 

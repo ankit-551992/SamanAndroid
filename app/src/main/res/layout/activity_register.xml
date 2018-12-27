@@ -209,6 +209,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:gravity="start"
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -237,6 +238,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:gravity="start"
                     android:textColor="@color/black" />
 
                 <ImageView

@@ -26,6 +26,7 @@ import com.algorepublic.saman.ui.adapters.StoreCategoriesAdapter;
 import com.algorepublic.saman.utils.CircleTransform;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -95,7 +96,11 @@ public class StoreDetailActivity extends AppCompatActivity {
             if(bundle.containsKey("StoreName")) {
                 storeName = bundle.getString("StoreName");
                 storeNameAr = bundle.getString("StoreNameAr");
-                storeNameTextView.setText(storeName);
+                if(SamanApp.isEnglishVersion) {
+                    storeNameTextView.setText(storeName);
+                }else {
+                    storeNameTextView.setText(storeNameAr);
+                }
             }
         }
 
@@ -140,17 +145,28 @@ public class StoreDetailActivity extends AppCompatActivity {
                                     .into(bg);
                             storeName=store.getStoreName();
                             storeNameAr=store.getStoreNameAR();
-                            storeNameTextView.setText(store.getStoreName());
-
+                            if(SamanApp.isEnglishVersion) {
+                                storeNameTextView.setText(storeName);
+                            }else {
+                                storeNameTextView.setText(storeNameAr);
+                            }
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 if(store.getDescription()!=null) {
-                                    storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                                    if(SamanApp.isEnglishVersion) {
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                                    }else {
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
+                                    }
                                 }else {
                                     storeDescriptionTextView.setVisibility(View.GONE);
                                 }
                             } else {
                                 if(store.getDescription()!=null) {
-                                    storeDescriptionTextView.setText(Html.fromHtml(store.getDescription()));
+                                    if(SamanApp.isEnglishVersion) {
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescription()));
+                                    }else {
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR()));
+                                    }
 
                                 }else {
                                     storeDescriptionTextView.setVisibility(View.GONE);

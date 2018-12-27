@@ -85,8 +85,13 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
 
 
-            favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
-            favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
+            if(SamanApp.isEnglishVersion) {
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
+                favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
+            }else {
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR());
+                favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreNameAR());
+            }
             favoritesViewHolder.price.setText(productArrayList.get(position).getPrice() + " OMR");
 
             if (productArrayList.get(position).getLogoURL() != null && !productArrayList.get(position).getLogoURL().isEmpty()) {
@@ -303,7 +308,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                             cartProduct=getProduct.getProduct();
                             Log.e("DefaultOptions",getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(),getOptionsName(), 1)) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(),getOptionsNameAR(), 1)) {
                                     showPopUp(mContext.getString(R.string.item_added_bag),
                                             mContext.getString(R.string.item_added_message),
                                             mContext.getString(R.string.continue_shopping),
@@ -353,6 +358,23 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                     names = "" + optionValue.getTitle();
                 } else {
                     names = names + "," + optionValue.getTitle();
+                }
+            }
+        }
+        return names;
+    }
+
+    private String getOptionsNameAR() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitleAR();
+                } else {
+                    names = names + "," + optionValue.getTitleAR();
                 }
             }
         }

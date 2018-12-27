@@ -80,7 +80,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     @BindView(R.id.bestSellersPager)
     ViewPager  bestSellersPager;
     @BindView(R.id.indicators)
-    LinePageIndicator pageIndicator;
+    CirclePageIndicator pageIndicator;
     BestSellerPagerAdapter bestSellersAdapter;
     //BestSellers
 
@@ -139,16 +139,16 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         storesRecyclerView.setNestedScrollingEnabled(false);
         storesAdapter = new StoresAdapter(getContext(), storeArrayList);
         storesRecyclerView.setAdapter(storesAdapter);
-        storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false));
+        storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false,getContext()));
     }
 
     private void setProduct(List<Product> productArrayList) {
         productLayoutManager = new GridLayoutManager(getActivity(), 2);
         productRecyclerView.setLayoutManager(productLayoutManager);
         productRecyclerView.setNestedScrollingEnabled(false);
-        productAdapter = new ProductAdapter(getContext(), productArrayList,authenticatedUser.getId());
+        productAdapter = new ProductAdapter(getContext(), productArrayList,authenticatedUser.getId(),true);
         productRecyclerView.setAdapter(productAdapter);
-        productRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false));
+        productRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false,getContext()));
     }
 
 

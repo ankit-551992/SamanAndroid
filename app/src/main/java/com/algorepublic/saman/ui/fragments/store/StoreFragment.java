@@ -21,6 +21,7 @@ import com.algorepublic.saman.ui.fragments.store.Tab.Tabs;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.LockableViewPager;
+import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -67,13 +68,18 @@ public class StoreFragment extends BaseFragment {
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             View customTab = (View) LayoutInflater.from(getActivity()).inflate(R.layout.tab_custom_view, null);//get custom view
-            TextView textView=(TextView)customTab.findViewById(R.id.tv_tab);
-            ImageView imageView=(ImageView) customTab.findViewById(R.id.iv_tab);
-            LinearLayout bg = (LinearLayout)customTab.findViewById(R.id.tab_layout);
-            textView.setText(GlobalValues.storeCategories.get(i).getTitle());
+            TextView textView = (TextView) customTab.findViewById(R.id.tv_tab);
+            ImageView imageView = (ImageView) customTab.findViewById(R.id.iv_tab);
+            LinearLayout bg = (LinearLayout) customTab.findViewById(R.id.tab_layout);
+
+            if(SamanApp.isEnglishVersion) {
+                textView.setText(GlobalValues.storeCategories.get(i).getTitle());
+            }else {
+                textView.setText(GlobalValues.storeCategories.get(i).getTitleAR());
+            }
 
 
-            String url=Constants.URLS.BaseURLImages+GlobalValues.storeCategories.get(i).getLogoURL();
+            String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i).getLogoURL();
             Picasso.get().load(url)
                     .placeholder(R.drawable.ic_logo)
                     .error(R.drawable.ic_logo)
@@ -111,7 +117,7 @@ public class StoreFragment extends BaseFragment {
 //        adapter.addFrag(new TabFragment(), "Messages");
 //        adapter.addFrag(new TabFragment(), "Offer");
 
-        for (int i=0;i<GlobalValues.storeCategories.size();i++){
+        for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
             adapter.addFrag(
                     Tabs.newInstance(GlobalValues.storeCategories.get(i).getID()),
                     GlobalValues.storeCategories.get(i).getTitle());

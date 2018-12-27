@@ -23,6 +23,7 @@ import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.adapters.ProductAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
+import com.algorepublic.saman.utils.SamanApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,11 @@ public class ProductListingActivity  extends BaseActivity {
         if (function==1){
             toolbarTitle.setText(getString(R.string.new_in));
         }else if (function==2){
-            toolbarTitle.setText(storeName);
+            if(SamanApp.isEnglishVersion) {
+                toolbarTitle.setText(storeName);
+            }else {
+                toolbarTitle.setText(storeNameAr);
+            }
         }
 
         toolbarTitle.setAllCaps(true);
@@ -126,9 +131,9 @@ public class ProductListingActivity  extends BaseActivity {
         searchRecyclerView.setLayoutManager(productLayoutManager);
         searchRecyclerView.setNestedScrollingEnabled(false);
         displayData = new ArrayList<>();
-        productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId());
+        productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId(),false);
         searchRecyclerView.setAdapter(productAdapter);
-        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false));
+        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false,this));
         searchRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
         progressBar.setVisibility(View.VISIBLE);

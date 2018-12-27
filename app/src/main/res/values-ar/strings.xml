@@ -21,6 +21,7 @@
     <string name="ud_store">UD Store</string>
     <string name="upload_photos">رفع الصور</string>
     <string name="write_here">أكتب رسالتك هنا</string>
+    <string name="feedback_here">اكتب ملاحظاتك هنا</string>
     <string name="search">البحث</string>
     <string name="search_query">خانة البحث فارغة، الرجاء الكتابة للبحث</string>
     <string name="swipe">تمرير</string>
@@ -35,6 +36,7 @@
     <string name="language_prompt">اختر اللغة</string>
     <string name="navigation_drawer_open">درج التنقل مفتوح</string>
     <string name="navigation_drawer_close">درج التنقل مغلق</string>
+
     <string-array name="genders">
         <item>ذكر</item>
         <item>أنثى</item>
@@ -136,6 +138,7 @@
     <string name="total">المجموع: </string>
     <string name="proceed">الدفع</string>
     <string name="order_date">تاريخ الدفع</string>
+    <string name="order_"># الدفع</string>
     <string name="delete">مسح</string>
     <string name="default_">إفتراضي</string>
     <string name="cancel">إلغاء</string>
@@ -333,6 +336,161 @@
     <string name="notifications_admin_channel_name">الشبكة العالمية</string>
     <string name="notifications_admin_channel_description">تم إرسال التنبيهات من تطبيق التحكم</string>
 
+    <string name="guest_user">متابعة كمستخدم ضيف</string>
+    <string name="invoice">فاتورة</string>
+    <string name="download_invoice">تحميل فاتورة</string>
+    <string name="downloaded_invoice">يتم تنزيل الفاتورة بنجاح</string>
+    <string name="login_message">تسجيل الدخول لاستخدام \ n المحتوى المخصص</string>
+    <string name="not_now">ليس الان</string>
+    <string name="sign_up_agreement">يعني النقر على "اشتراك" أنك توافق على \n</string>
+    <string name="flavor">نكهة</string>
+    <string name="terms_agreed">أنا أوافق على الشروط</string>
+    <string name="send">إرسال</string>
+    <string name="no_items_found">لم يتم العثور على العناصر!</string>
+    <string name="agreement_order">من خلال تقديم طلبك فإنك توافق على \n</string>
+    <string name="add_new_card">الائتمان / الخصم \n البطاقة \n إضافة جديد</string>
+    <string name="app_language">تم تغيير لغة التطبيق بنجاح ، يرجى إغلاق التطبيق وإعادة فتحه مرة أخرى</string>
+    <string name="added_to_fav">تمت إضافة العنصر إلى قائمة أمنياتك</string>
+    <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>
+    <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
+    <string name="remove_sure">هل أنت متأكد من أنك تريد إزالة هذا العنصر من قائمة المفضلات؟</string>
+    <string name="view_fav">عرض قائمة الامنيات</string>
+    <string name="invalid_date">تاريخ غير صالح</string>
+    <string name="select_country_req">الرجاء اختيار الدولة</string>
+    <string name="select_location">ختر موقعا</string>
+    <string name="shipping_address">عنوان الشحن</string>
+    <string name="add_shipping_address">أضف عنوان الشحن</string>
+    <string name="edit_shipping_address">تحرير عنوان الشحن</string>
+    <string name="edit">تصحيح</string>
+    <string name="set_as_default">تعيين كافتراضي</string>
+    <string name="request_sent">تم إرسال الطلب بنجاح</string>
+    <string name="ticket_created_success">رسالتك تهتم بنا ، وسنتصل بك قريبًا</string>
+    <string name="address_added">تمت إضافة العنوان بنجاح</string>
+    <string name="address_edit">تم تحديث العنوان بنجاح</string>
+    <string name="submit_request">تقديم الطلب</string>
+    <string name="confirm_password_required">تأكيد كلمة المرور مطلوب</string>
+    <string name="view_bag">حقيبة عرض</string>
+    <string name="item_added_bag">تمت إضافة عنصر إلى حقيبتك</string>
+    <string name="item_added_message">ماذا تريد ان تفعل الآن؟</string>
+    <string name="street_no">شارع #</string>
+    <string name="building_no">بناء ، الطابق ، شقة</string>
+    <string name="landmark">معلم معروف</string>
+    <string name="required">مطلوب</string>
+    <string name="landmark_optional">معلم (اختياري)</string>
+    <string name="city">المدينة / البلدة</string>
+    <string name="Card">بطاقة</string>
+    <string name="default_card_msg">في defualt لا يمكنك حذفها.</string>
+    <string name="Card_otp_msg">الرجاء استخدام OTP 5548 لإكمال معاملتك مع رمز إنهاء البطاقة 7078. إذا لم تكن قد قمت ببدء هذه الدفعة. أي استفسارات ، يرجى الاتصال بجهة إصدار البطاقة</string>
+    <string name="title_activity_scrolling">نشاط التمرير</string>
+    <string name="action_settings">الإعدادات</string>
+    <string name="feedback_message">أرسل ملاحظاتك حول هذا النشاط</string>
+    <string name="feedback">ردود الفعل...</string>
 
+    <string name="email_hint">example@saman.com</string>
+    <string name="password_hint">********</string>
+    <string name="dummy">Lige Brand Men Watches Automatic</string>
+    <string name="cart_dummy">Mr. Jesus\n\nMusqat\n\nMusqat\n\nOman\n\n115\n\n77777</string>
+
+    <string name="facebook_app_id">293002707997112</string>
+    <string name="fb_login_protocol_scheme">fb293002707997112</string>
+
+    <plurals name="items">
+        <item quantity="zero">بند</item>
+        <item quantity="one">بند</item>
+        <item quantity="few">العناصر</item>
+        <item quantity="two">العناصر</item>
+        <item quantity="many">العناصر</item>
+    </plurals>
+
+
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open to imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
+        "interact, and exist in space and in relation to each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+
+        "Bold, graphic, intentional.\n\n"
+
+        "The foundational elements of print based design typography, grids, space, scale, color, "
+        "and use of imagery guide visual treatments. These elements do far more than please the "
+        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
+        "imagery, large scale typography, and intentional white space create a bold and graphic "
+        "interface that immerse the user in the experience.\n"
+        "An emphasis on user actions makes core functionality immediately apparent and provides "
+        "waypoints for the user.\n\n"
+
+        "Motion provides meaning.\n\n"
+
+        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
+        "inflection points that initiate motion, transforming the whole design.\n"
+        "All action takes place in a single environment. Objects are presented to the user without "
+        "breaking the continuity of experience even as they transform and reorganize.\n"
+        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
+        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
+
+        "3D world.\n\n"
+
+        "The material environment is a 3D space, which means all objects have x, y, and z "
+        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
+        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
+        "position along the z-axis and has a standard 1dp thickness.\n"
+        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
+        "emulated by manipulating the y-axis.\n\n"
+
+        "Light and shadow.\n\n"
+
+        "Within the material environment, virtual lights illuminate the scene. Key lights create "
+        "directional shadows, while ambient light creates soft shadows from all angles.\n"
+        "Shadows in the material environment are cast by these two light sources. In Android "
+        "development, shadows occur when light sources are blocked by sheets of material at "
+        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
+        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
+
+        "Resting elevation.\n\n"
+
+        "All material objects, regardless of size, have a resting elevation, or default elevation "
+        "that does not change. If an object changes elevation, it should return to its resting "
+        "elevation as soon as possible.\n\n"
+
+        "Component elevations.\n\n"
+
+        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
+        "does not vary from 6dp in one app to 16dp in another app).\n"
+        "Components may have different resting elevations across platforms, depending on the depth "
+        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
+
+        "Responsive elevation and dynamic elevation offsets.\n\n"
+
+        "Some component types have responsive elevation, meaning they change elevation in response "
+        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
+        "changes are consistently implemented using dynamic elevation offsets.\n"
+        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
+        "to the component’s resting state. They ensure that elevation changes are consistent "
+        "across actions and component types. For example, all components that lift on press have "
+        "the same elevation change relative to their resting elevation.\n"
+        "Once the input event is completed or cancelled, the component will return to its resting "
+        "elevation.\n\n"
+
+        "Avoiding elevation interference.\n\n"
+
+        "Components with responsive elevations may encounter other components as they move between "
+        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
+        "through other material, components avoid interfering with one another any number of ways, "
+        "whether on a per component basis or using the entire app layout.\n"
+        "On a component level, components can move or be removed before they cause interference. "
+        "For example, a floating action button (FAB) can disappear or move off screen before a "
+        "user picks up a card, or it can move if a snackbar appears.\n"
+        "On the layout level, design your app layout to minimize opportunities for interference. "
+        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
+        "when a user tries to pick up one of cards.\n\n"
+    </string>
 
 </resources>

@@ -193,7 +193,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             return;
         }
         if (SamanApp.localDB != null) {
-            if (SamanApp.localDB.addToCart(product, getOptionsData(),getOptionsName(),getOptionsName(), Integer.parseInt(productCount.getText().toString()))) {
+            if (SamanApp.localDB.addToCart(product, getOptionsData(),getOptionsName(),getOptionsNameAR(), Integer.parseInt(productCount.getText().toString()))) {
                 showPopUp(getString(R.string.item_added_bag),
                         getString(R.string.item_added_message),
                         getString(R.string.continue_shopping),
@@ -342,22 +342,42 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @Override
     public void response(Product product) {
         this.product = product;
-        productName.setText(product.getProductName());
-        storeName.setText(product.getStoreName());
+        if(SamanApp.isEnglishVersion) {
+            productName.setText(product.getProductName());
+            storeName.setText(product.getStoreName());
+        }else {
+            productName.setText(product.getProductNameAR());
+            storeName.setText(product.getStoreNameAR());
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+            if(SamanApp.isEnglishVersion) {
+                productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+            }else {
+                productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
+            }
         } else {
-            productDescription.setText(Html.fromHtml(product.getDescription()));
+            if(SamanApp.isEnglishVersion) {
+                productDescription.setText(Html.fromHtml(product.getDescription()));
+            }else {
+                productDescription.setText(Html.fromHtml(product.getDescriptionAR()));
+            }
         }
 
         String atributes = "";
         for (int i = 0; i < product.getProductAttributes().size(); i++) {
 
             if (atributes.equals("")) {
-                atributes = product.getProductAttributes().get(i).getTitle();
+                if(SamanApp.isEnglishVersion) {
+                    atributes = product.getProductAttributes().get(i).getTitle();
+                }else {
+                    atributes = product.getProductAttributes().get(i).getTitleAR();
+                }
             } else {
-
-                atributes = atributes + "\n" + product.getProductAttributes().get(i).getTitle();
+                if (SamanApp.isEnglishVersion) {
+                    atributes = atributes + "\n" + product.getProductAttributes().get(i).getTitle();
+                }else {
+                    atributes = atributes + "\n" + product.getProductAttributes().get(i).getTitleAR();
+                }
             }
         }
         if (!atributes.equals("")) {
@@ -375,8 +395,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 TextView optionName = (TextView) child.findViewById(R.id.tv_option_name);
                 Spinner optionValuesSpinner = (Spinner) child.findViewById(R.id.spinner_option_value);
 
-                optionName.setText(productOption.getTitle());
-
+                if(SamanApp.isEnglishVersion) {
+                    optionName.setText(productOption.getTitle());
+                }else {
+                    optionName.setText(productOption.getTitleAR());
+                }
                 if (productOption.getOptionValues() != null) {
                     ArrayAdapter valuesAdapter = new ArrayAdapter(ProductDetailActivity.this, android.R.layout.simple_spinner_item, productOption.getOptionValues());
                     optionValuesSpinner.setAdapter(valuesAdapter);
@@ -500,6 +523,26 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     names = "" + optionValue.getTitle();
                 } else {
                     names = names + "," + optionValue.getTitle();
+                }
+            }
+        }
+        return names;
+    }
+
+    private String getOptionsNameAR() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (product.getProductOptions() != null) {
+            for (int i = 0; i < product.getProductOptions().size(); i++) {
+                v = optionsLinearLayout.getChildAt(i);
+                Spinner spinner = (Spinner) ((RelativeLayout) v).getChildAt(1);
+                optionValue = (OptionValue) spinner.getSelectedItem();
+
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitleAR();
+                } else {
+                    names = names + "," + optionValue.getTitleAR();
                 }
             }
         }

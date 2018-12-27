@@ -1,5 +1,6 @@
 package com.algorepublic.saman.data.model;
 
+import com.algorepublic.saman.utils.SamanApp;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -32,6 +33,9 @@ public class OptionValue implements Serializable {
     }
 
     public String getTitleAR() {
+        if(titleAR==null){
+            titleAR="null";
+        }
         return titleAR;
     }
 
@@ -65,6 +69,10 @@ public class OptionValue implements Serializable {
 
     @Override
     public String toString() {
-        return title;
+        if(SamanApp.isEnglishVersion) {
+            return title;
+        }else {
+            return titleAR;
+        }
     }
 }

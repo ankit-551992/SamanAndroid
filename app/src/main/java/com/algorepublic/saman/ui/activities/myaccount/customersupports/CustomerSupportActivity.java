@@ -55,6 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,7 +118,7 @@ public class CustomerSupportActivity extends BaseActivity {
         photos.setNestedScrollingEnabled(false);
         customerSupportAdapter = new CustomerSupportAdapter(CustomerSupportActivity.this, files);
         photos.setAdapter(customerSupportAdapter);
-        photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false));
+        photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false,this));
 
         messageSelectionEditText.addTextChangedListener(txwatcher);
         setCount(mCount);
@@ -229,7 +230,7 @@ public class CustomerSupportActivity extends BaseActivity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.ENGLISH).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM), "Camera");

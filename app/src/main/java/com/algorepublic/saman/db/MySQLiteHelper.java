@@ -110,6 +110,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public boolean addToCart(Product product,String optionValues,String options,String optionsAr, int quantity) {
 
+        optionsAr=optionsAr.replaceAll(",","،");
+
         ContentValues values = new ContentValues();
         // Check Product already in cart
         if (!CheckProductAlreadyExit(product,optionValues)) {

@@ -79,8 +79,13 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             final BrandViewHolder brandViewHolder = (BrandViewHolder) holder;
 
             Product product = brandArrayList.get(position);
-            brandViewHolder.productDescription.setText(product.getProductName());
-            brandViewHolder.storeName.setText(product.getStoreName());
+            if(SamanApp.isEnglishVersion) {
+                brandViewHolder.productDescription.setText(product.getProductName());
+                brandViewHolder.storeName.setText(product.getStoreName());
+            }else {
+                brandViewHolder.productDescription.setText(product.getProductNameAR());
+                brandViewHolder.storeName.setText(product.getStoreNameAR());
+            }
             brandViewHolder.productPrice.setText(product.getPrice() + " OMR");
 
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
@@ -261,7 +266,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             cartProduct = getProduct.getProduct();
                             Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(),getOptionsName(), 1)) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(),getOptionsNameAR(), 1)) {
                                     showPopUp(mContext.getString(R.string.item_added_bag),
                                             mContext.getString(R.string.item_added_message),
                                             mContext.getString(R.string.continue_shopping),
@@ -310,6 +315,23 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     names = "" + optionValue.getTitle();
                 } else {
                     names = names + "," + optionValue.getTitle();
+                }
+            }
+        }
+        return names;
+    }
+
+    private String getOptionsNameAR() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitleAR();
+                } else {
+                    names = names + "," + optionValue.getTitleAR();
                 }
             }
         }

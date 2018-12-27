@@ -126,10 +126,10 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             onNavigationItemSelected(navigationView.getMenu().getItem(1));
             GlobalValues.orderPlaced = false;
         }
-        authenticatedUser = GlobalValues.getUser(this);
-        if(authenticatedUser.getId()!=0){
-            setupNavigationDrawer();
-        }
+//        authenticatedUser = GlobalValues.getUser(this);
+//        if(authenticatedUser.getId()!=0){
+//            setupNavigationDrawer();
+//        }
         updateBagCount();
         updateUserDetails();
     }

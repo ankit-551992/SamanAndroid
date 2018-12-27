@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,7 +68,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             Long datetimestamp = Long.parseLong(conversation.getCreatedAt().replaceAll("\\D", ""));
             Date date = new Date(datetimestamp);
-            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy 'at' HH:mm a");
+            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy 'at' HH:mm a",Locale.ENGLISH);
             String dateFormatted = formatter.format(date);
             conversationViewHolder.dateTime.setText(dateFormatted.toString());
 

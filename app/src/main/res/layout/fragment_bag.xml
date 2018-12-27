@@ -112,7 +112,7 @@
         android:padding="20dp"
         android:textColor="@color/black"
         android:background="@color/white"
-        android:text="No items found!"
+        android:text="@string/no_items_found"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

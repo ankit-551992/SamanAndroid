@@ -188,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="100dp" />
 
-                <com.viewpagerindicator.LinePageIndicator
+                <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicators"
                     app:selectedColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
@@ -196,6 +196,8 @@
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_margin="10dp"
                     android:focusable="true"
+                    app:radius="4dp"
+                    app:fillColor="@color/colorPrimary"
                     android:focusableInTouchMode="true" />
 
             </FrameLayout>

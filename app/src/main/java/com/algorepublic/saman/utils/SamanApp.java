@@ -35,6 +35,7 @@ public class SamanApp extends MultiDexApplication {
     private static SamanApp instance;
     public static TinyDB db;
     public static MySQLiteHelper localDB;
+    public static boolean isEnglishVersion;
 
     public static SamanApp getInstance() {
         return instance;
@@ -45,17 +46,25 @@ public class SamanApp extends MultiDexApplication {
         db=new TinyDB(this);
         localDB=new MySQLiteHelper(this);
         instance = this;
+        isEnglishVersion=true;
 
 
         if(GlobalValues.getAppLanguage(getApplicationContext()).equals("")){
             GlobalValues.changeLanguage(Locale.getDefault().getLanguage(),getApplicationContext());
+            if(Locale.getDefault().getLanguage().equals("ar")){
+                isEnglishVersion=false;
+            }
+
         }else {
             GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()),getApplicationContext());
-            GlobalValues.changeLanguage("en",getApplicationContext());
+//            GlobalValues.changeLanguage("en",getApplicationContext());
+            if(GlobalValues.getAppLanguage(getApplicationContext()).equals("ar")){
+                isEnglishVersion=false;
+            }
         }
 
-//        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "font/neo_sans.ttf");
 
+//        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "font/neo_sans.ttf");
 
         TwitterConfig config = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))

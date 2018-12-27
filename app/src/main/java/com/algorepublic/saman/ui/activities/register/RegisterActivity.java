@@ -250,7 +250,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
         String dateSelected = sdf.format(myCalendar.getTime());
         String sepDate[] = dateSelected.split("/");
         dayEditText.setText(sepDate[0]);

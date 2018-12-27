@@ -152,7 +152,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         }
         Long datetimestamp = Long.parseLong(authenticatedUser.getDateOfBirth().replaceAll("\\D", ""));
         Date date = new Date(datetimestamp);
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.ENGLISH);
         String dateFormatted = formatter.format(date);
         String sepDate[] = dateFormatted.split("/");
         dayEditText.setText(sepDate[0]);
@@ -240,7 +240,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat ,Locale.ENGLISH);
         String dateSelected = sdf.format(myCalendar.getTime());
         String sepDate[] = dateSelected.split("/");
         dayEditText.setText(sepDate[0]);

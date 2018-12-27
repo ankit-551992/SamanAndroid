@@ -303,9 +303,9 @@ public class SearchActivity extends BaseActivity{
         searchRecyclerView.setLayoutManager(productLayoutManager);
         searchRecyclerView.setNestedScrollingEnabled(false);
         displayData = new ArrayList<>();
-        productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId());
+        productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId(),false);
         searchRecyclerView.setAdapter(productAdapter);
-        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false));
+        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false,this));
         searchRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
     }
 

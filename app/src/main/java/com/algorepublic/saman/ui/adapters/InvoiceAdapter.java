@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.OrderItem;
 import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 import butterknife.BindView;
@@ -36,10 +37,15 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
         OrderItem orderItem = orderItems.get(position);
 
         if(orderItem.getProduct()!=null) {
-            holder.productName.setText(orderItem.getProduct().getProductName());
-            holder.storeName.setText(orderItem.getProduct().getStoreName());
+            if(SamanApp.isEnglishVersion) {
+                holder.productName.setText(orderItem.getProduct().getProductName());
+                holder.storeName.setText(orderItem.getProduct().getStoreName());
+            }else {
+                holder.productName.setText(orderItem.getProduct().getProductNameAR());
+                holder.storeName.setText(orderItem.getProduct().getStoreNameAR());
+            }
             holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR");
-            holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR x "+orderItem.getProduct().getQuantity());
+//            holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR x "+orderItem.getProduct().getQuantity());
             if(orderItem.getProduct().getLogoURL()!=null && !orderItem.getProduct().getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + orderItem.getProduct().getLogoURL())
                         .placeholder(R.drawable.dummy_mobile)

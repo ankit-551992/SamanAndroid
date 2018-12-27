@@ -34,7 +34,8 @@
         android:background="@drawable/ic_edit_text_background"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:hint="@string/feedback"/>
+        android:gravity="top"
+        android:hint="@string/write_here"/>
 
     <Button
         android:id="@+id/button_feedback"

@@ -47,6 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -120,7 +121,7 @@ public class InvoiceActivity extends BaseActivity {
 
             Long dateTimeStamp = Long.parseLong(orderHistory.getDeliveryDate().replaceAll("\\D", ""));
             Date date = new Date(dateTimeStamp);
-            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy");
+            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy",Locale.ENGLISH);
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted.toString());
 
@@ -262,7 +263,7 @@ public class InvoiceActivity extends BaseActivity {
                 // input stream to read file - with 8k buffer
                 InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-                String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss",Locale.ENGLISH).format(new Date());
 
                 //Extract file name from URL
                 fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());

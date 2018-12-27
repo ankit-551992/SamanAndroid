@@ -58,7 +58,7 @@ public class TabFragment extends BaseFragment {
         int spanCount = 3; // 3 columns
         int spacing = 50; // 50px
         boolean includeEdge = false;
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge,getContext()));
 //        2
 //        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(context, R.dimen.item_margin);
 //        recyclerView.addItemDecoration(itemDecoration);

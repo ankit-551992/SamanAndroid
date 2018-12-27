@@ -14,6 +14,7 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.ui.activities.store.StoreDetailActivity;
 import com.algorepublic.saman.utils.Constants;
+import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,7 +54,12 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof StoreViewHolder) {
             StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
-            storeViewHolder.storeName.setText(storeArrayList.get(position).getStoreName());
+
+            if(SamanApp.isEnglishVersion) {
+                storeViewHolder.storeName.setText(storeArrayList.get(position).getStoreName());
+            }else {
+                storeViewHolder.storeName.setText(storeArrayList.get(position).getStoreNameAR());
+            }
 
             String url=Constants.URLS.BaseURLImages +storeArrayList.get(position).getLogoURL();
             Picasso.get().load(url).fit()

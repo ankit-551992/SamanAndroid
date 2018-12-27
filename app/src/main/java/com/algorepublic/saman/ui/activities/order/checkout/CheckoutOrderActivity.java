@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,7 +114,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         if(placeOrderResponse.getResult().getDeliveryDate()!=null){
             Long dateTimeStamp = Long.parseLong(placeOrderResponse.getResult().getDeliveryDate().replaceAll("\\D", ""));
             Date date = new Date(dateTimeStamp);
-            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy");
+            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy",Locale.ENGLISH);
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted.toString());
         }

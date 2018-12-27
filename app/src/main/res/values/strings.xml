@@ -25,6 +25,7 @@
     <string name="upload_photos">Upload\nPhotos</string>
     <string name="dummy">Lige Brand Men Watches Automatic</string>
     <string name="write_here">Write your message here</string>
+    <string name="feedback_here">Write your feedback here</string>
     <string name="search">Search</string>
     <string name="search_query">Search Field Empty, Please write something to search</string>
     <string name="swipe">Swipe</string>
@@ -42,10 +43,10 @@
     <string name="language_prompt">Select a language</string>
     <string name="navigation_drawer_open">Navigation Drawer Open</string>
     <string name="navigation_drawer_close">Navigation Drawer Close</string>
+
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>
-        <item>Other</item>
     </string-array>
 
     <string name="male">Male</string>
@@ -115,6 +116,7 @@
     <string name="downloaded_invoice">Invoice is downloaded successfully</string>
     <string name="price_to_pay">Price to pay</string>
     <string name="promo_saved">Promo Saved</string>
+    <string name="no_items_found">No items found!</string>
     <string name="agreement_order">By placing your order you agree to our\n</string>
     <string name="cart_dummy">Mr. Jesus\n\nMusqat\n\nMusqat\n\nOman\n\n115\n\n77777</string>
     <!--Shopping cart-->
@@ -150,6 +152,7 @@
     <string name="total">Total: </string>
     <string name="proceed">CHECKOUT</string>
     <string name="order_date">Order Date</string>
+    <string name="order_">Order #</string>
     <string name="delete">Remove</string>
     <string name="default_">Default</string>
     <string name="cancel">Cancel</string>

@@ -112,6 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email_hint"
+                    android:gravity="start"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/black" />
 
@@ -141,6 +142,7 @@
                     android:id="@+id/editText_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:inputType="textPassword"
                     android:textColor="@color/black" />
 

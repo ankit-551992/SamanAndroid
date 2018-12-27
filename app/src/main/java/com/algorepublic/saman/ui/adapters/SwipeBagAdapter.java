@@ -83,13 +83,21 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
             bagViewHolder.getPosition = holder.getAdapterPosition();
             Product product = productArrayList.get(bagViewHolder.getPosition);
-            bagViewHolder.name.setText(product.getProductName());
-            bagViewHolder.storeName.setText(product.getStoreName());
-
+            if(SamanApp.isEnglishVersion) {
+                bagViewHolder.name.setText(product.getProductName());
+                bagViewHolder.storeName.setText(product.getStoreName());
+            }else {
+                bagViewHolder.name.setText(product.getProductNameAR());
+                bagViewHolder.storeName.setText(product.getStoreNameAR());
+            }
             if (product.getOptions() != null && !product.getOptions().isEmpty() && !product.getOptions().equals("")) {
-
-                bagViewHolder.description.setText(product.getOptions());
-
+                if(SamanApp.isEnglishVersion) {
+                    bagViewHolder.description.setText(product.getOptions());
+                }else {
+//                    Log.e("DES",product.getOptionsAR());
+//                    product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
+                    bagViewHolder.description.setText(product.getOptionsAR());
+                }
             } else {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

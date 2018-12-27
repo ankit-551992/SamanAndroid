@@ -50,13 +50,15 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     List<Product> productArrayList = new ArrayList<>();
     private Context mContext;
     private int userID;
+    private boolean isHome;
     Dialog dialog;
     private Product cartProduct;
 
-    public ProductAdapter(Context mContext,List<Product> productArrayList,int userID){
+    public ProductAdapter(Context mContext,List<Product> productArrayList,int userID,boolean isHome){
         this.productArrayList=productArrayList;
         this.mContext=mContext;
         this.userID=userID;
+        this.isHome=isHome;
     }
 
     @Override
@@ -82,8 +84,13 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof ProductViewHolder) {
             final ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             Product product=productArrayList.get(position);
-            productViewHolder.productDescription.setText(product.getProductName());
-            productViewHolder.storeName.setText(product.getStoreName());
+            if(SamanApp.isEnglishVersion) {
+                productViewHolder.productDescription.setText(product.getProductName());
+                productViewHolder.storeName.setText(product.getStoreName());
+            }else {
+                productViewHolder.productDescription.setText(product.getProductNameAR());
+                productViewHolder.storeName.setText(product.getStoreNameAR());
+            }
             productViewHolder.productPrice.setText(product.getPrice()+" OMR");
 
             if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
@@ -107,7 +114,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     getProductDetails(productArrayList.get(position).getID());
                 }
             });
-
 
 
             if(productArrayList.get(position).getFavorite()){
@@ -262,7 +268,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             cartProduct=getProduct.getProduct();
                             Log.e("DefaultOptions",getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(),getOptionsName(), 1)) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(),getOptionsNameAR(), 1)) {
                                     showPopUp(mContext.getString(R.string.item_added_bag),
                                             mContext.getString(R.string.item_added_message),
                                             mContext.getString(R.string.continue_shopping),
@@ -270,7 +276,9 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             0);
                                 }
                             }
-                            ((DashboardActivity) mContext).updateBagCount();
+                            if(isHome) {
+                                ((DashboardActivity) mContext).updateBagCount();
+                            }
                         }
                     }
                 }
@@ -318,6 +326,22 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return names;
     }
 
+    private String getOptionsNameAR() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitleAR();
+                } else {
+                    names = names + "," + optionValue.getTitleAR();
+                }
+            }
+        }
+        return names;
+    }
 
     private void showAlert(String title, String message,final ImageView favoriteImageView, final int position) {
         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();

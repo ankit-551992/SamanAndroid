@@ -121,6 +121,9 @@ public class Product implements Serializable {
     }
 
     public String getDescriptionAR() {
+        if(descriptionAR==null){
+            descriptionAR="null";
+        }
         return descriptionAR;
     }
 

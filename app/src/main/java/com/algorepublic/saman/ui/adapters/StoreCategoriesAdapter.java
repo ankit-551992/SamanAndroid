@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.StoreCategory;
 import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
+import com.algorepublic.saman.utils.SamanApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,11 @@ public class StoreCategoriesAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (holder instanceof CategoryViewHolder) {
             CategoryViewHolder messageViewHolder = (CategoryViewHolder) holder;
 
-            messageViewHolder.categoryName.setText(categories.get(position).getTitle());
+            if(SamanApp.isEnglishVersion) {
+                messageViewHolder.categoryName.setText(categories.get(position).getTitle());
+            }else {
+                messageViewHolder.categoryName.setText(categories.get(position).getTitleAR());
+            }
 
             messageViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

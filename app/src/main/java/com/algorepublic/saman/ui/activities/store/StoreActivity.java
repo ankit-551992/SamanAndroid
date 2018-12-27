@@ -78,7 +78,7 @@ public class StoreActivity extends BaseActivity {
         storeArrayList = new ArrayList<>();
         adapter = new StoresAdapter(this, storeArrayList);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false,this));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
