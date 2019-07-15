@@ -7,10 +7,11 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:padding="5dp"
-        android:src="@drawable/ic_visa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:padding="8dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_vertical"
         android:contentDescription="@string/contentDescription" />
 
     <LinearLayout
@@ -20,12 +21,32 @@
         android:layout_weight="0.1"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:textColor="@color/black"
-            android:id="@+id/tv_store_name"
-            android:text="Store Name"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_toStartOf="@id/tv_unread_message_count"
+                android:textColor="@color/black"
+                android:id="@+id/tv_store_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_unread_message_count"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:background="@color/grey"
+                android:layout_alignParentEnd="true"
+                android:text="2"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tv_product_name"
@@ -34,7 +55,6 @@
             android:textSize="14sp"
             android:textColor="@color/off_black"
             android:lineSpacingMultiplier="1.2"
-            android:text="@string/dummy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -47,7 +67,6 @@
             android:textColor="@color/off_black"
             android:drawableStart="@drawable/ic_access_time"
             android:drawableLeft="@drawable/ic_access_time"
-            android:text="Tues, 4 oct, 2018   3:30 PM"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

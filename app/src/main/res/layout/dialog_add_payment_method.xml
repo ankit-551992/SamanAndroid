@@ -90,7 +90,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@string/add_new_card" />
+                            android:text="@string/master_gateway" />
 
                     </LinearLayout>
 
@@ -111,14 +111,15 @@
                             android:layout_height="30dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="10dp"
-                            android:src="@drawable/cash_delivery"
+                            android:src="@drawable/ic_credit_card"
+                            android:tint="@color/grey"
                             android:contentDescription="@string/contentDescription" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@string/card_delivery" />
+                            android:text="@string/omannet" />
 
                     </LinearLayout>
 

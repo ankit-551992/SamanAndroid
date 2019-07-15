@@ -8,19 +8,14 @@ import android.content.pm.Signature;
 import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
 import android.util.Log;
-
-import com.algorepublic.saman.BuildConfig;
 import com.algorepublic.saman.db.MySQLiteHelper;
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
-
-import io.fabric.sdk.android.Fabric;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
@@ -36,6 +31,7 @@ public class SamanApp extends MultiDexApplication {
     public static TinyDB db;
     public static MySQLiteHelper localDB;
     public static boolean isEnglishVersion;
+    public static boolean isScreenOpen=false;
 
     public static SamanApp getInstance() {
         return instance;
@@ -57,13 +53,10 @@ public class SamanApp extends MultiDexApplication {
 
         }else {
             GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()),getApplicationContext());
-//            GlobalValues.changeLanguage("en",getApplicationContext());
             if(GlobalValues.getAppLanguage(getApplicationContext()).equals("ar")){
                 isEnglishVersion=false;
             }
         }
-
-
 //        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "font/neo_sans.ttf");
 
         TwitterConfig config = new TwitterConfig.Builder(this)
@@ -76,6 +69,7 @@ public class SamanApp extends MultiDexApplication {
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
 //        printHashKey(this);
+        FirebaseAnalytics.getInstance(this);
     }
 
     private void printHashKey(Context pContext) {

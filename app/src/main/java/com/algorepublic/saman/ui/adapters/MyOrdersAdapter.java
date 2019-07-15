@@ -16,7 +16,6 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.OrderHistory;
 import com.algorepublic.saman.data.model.OrderItem;
 import com.algorepublic.saman.ui.activities.invoice.InvoiceActivity;
-import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
@@ -57,30 +56,28 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
         Long datetimestamp = Long.parseLong(orderHistory.getCreatedAt().replaceAll("\\D", ""));
         Date date = new Date(datetimestamp);
 //        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy G 'at' HH:mm:ss z");
-        DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy 'at' HH:mm",Locale.ENGLISH);
+        DateFormat formatter = new SimpleDateFormat("EEE, d MMM, yyyy 'at' hh:mm a",Locale.ENGLISH);
         String dateFormatted = formatter.format(date);
         holder.dateTextView.setText(dateFormatted.toString());
         holder.orderNUmberTextView.setText(orderHistory.getOrderNumber());
-        for (int i =0; i<orderHistory.getOrderItems().size(); i++) {
-            OrderItem orderItem = orderHistory.getOrderItems().get(i);
-            View child = inflater.inflate(R.layout.item_my_order_row, null);
-            TextView productName = (TextView) child.findViewById(R.id.tv_product_name);
-            TextView productPrice = (TextView) child.findViewById(R.id.tv_product_price);
-            ImageView productImageView = (ImageView) child.findViewById(R.id.iv_product);
-
-            if(orderItem.getProduct()!=null) {
-                productName.setText(orderItem.getProduct().getProductName());
-                productPrice.setText(orderItem.getProduct().getPrice()+ " OMR");
-
-                if(orderItem.getProduct().getLogoURL()!=null && !orderItem.getProduct().getLogoURL().isEmpty()) {
-                    Picasso.get().load(Constants.URLS.BaseURLImages + orderItem.getProduct().getLogoURL())
-                            .placeholder(R.drawable.dummy_mobile)
-                            .error(R.drawable.dummy_mobile)
-                            .into(productImageView);
-                }
-                holder.orderItemsLayout.addView(child);
-            }
-        }
+//        for (int i =0; i<orderHistory.getOrderItems().size(); i++) {
+//            OrderItem orderItem = orderHistory.getOrderItems().get(i);
+//            View child = inflater.inflate(R.layout.item_my_order_row, null);
+//            TextView productName = (TextView) child.findViewById(R.id.tv_product_name);
+//            TextView productPrice = (TextView) child.findViewById(R.id.tv_product_price);
+//            ImageView productImageView = (ImageView) child.findViewById(R.id.iv_product);
+//
+//            if(orderItem.getProduct()!=null) {
+//                productName.setText(orderItem.getProduct().getProductName());
+//                productPrice.setText(orderItem.getProduct().getPrice()+ " OMR");
+//
+//                if(orderItem.getProduct().getLogoURL()!=null && !orderItem.getProduct().getLogoURL().isEmpty()) {
+//                    Picasso.get().load(Constants.URLS.BaseURLImages + orderItem.getProduct().getLogoURL())
+//                            .into(productImageView);
+//                }
+//                holder.orderItemsLayout.addView(child);
+//            }
+//        }
 
         holder.orderItemsLayout.setVisibility(View.GONE);
 

@@ -74,11 +74,13 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (holder instanceof FavoritesViewHolder) {
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
             if(SamanApp.isEnglishVersion) {
-                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
+//                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName()+" x "+productArrayList.get(position).getQuantity());
                 favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
                 favoritesViewHolder.price.setText(productArrayList.get(position).getOptions());
             }else {
-                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR());
+//                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR());
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR()+" x "+productArrayList.get(position).getQuantity());
                 favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreNameAR());
                 favoritesViewHolder.price.setText(productArrayList.get(position).getOptionsAR());
             }
@@ -87,19 +89,17 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             if(productArrayList.get(position).getLogoURL()!=null && !productArrayList.get(position).getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + productArrayList.get(position).getLogoURL())
-                        .placeholder(R.drawable.dummy_mobile)
-                        .error(R.drawable.dummy_mobile)
                         .into(favoritesViewHolder.productImageView);
             }
 
-            favoritesViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("ProductID",productArrayList.get(position).getID());
-                    mContext.startActivity(intent);
-                }
-            });
+//            favoritesViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
+//                    intent.putExtra("ProductID",productArrayList.get(position).getID());
+//                    mContext.startActivity(intent);
+//                }
+//            });
 
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;

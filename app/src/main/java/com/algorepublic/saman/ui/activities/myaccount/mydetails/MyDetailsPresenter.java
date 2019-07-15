@@ -2,6 +2,7 @@ package com.algorepublic.saman.ui.activities.myaccount.mydetails;
 
 import android.util.Log;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
 
 import org.json.JSONObject;
@@ -19,17 +20,17 @@ public class MyDetailsPresenter implements DetailContractor.Presenter {
     }
 
     @Override
-    public void updateUser(int id, String fName, String lName, String gender, String country, JSONObject address,String dob) {
+    public void updateUser(int id, String fName, String lName, String gender, String country, JSONObject address,String dob,String phone,String region) {
         if (view != null) {
             view.showProgress();
         }
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
 
-        apiClient.updateUser(id, fName, lName, gender, country, address,dob, new Callback<SimpleSuccess>() {
+        apiClient.updateUser(id, fName, lName, gender, country, address,dob,phone,region,new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-                SimpleSuccess simpleSuccess = response.body();
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                UserResponse simpleSuccess = response.body();
                 if (simpleSuccess != null) {
                     if (simpleSuccess.getSuccess() == 1) {
                         if (view != null) {
@@ -50,8 +51,10 @@ public class MyDetailsPresenter implements DetailContractor.Presenter {
                 }
             }
             @Override
-            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 Log.e("onFailure", "" + t.getMessage());
+                view.hideProgress();
+                view.updateResponse(false);
             }
         });
     }

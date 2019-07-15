@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Slider;
+import com.algorepublic.saman.ui.activities.product.SalesProductActivity;
 import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.activities.store.StoreDetailActivity;
 import com.algorepublic.saman.utils.Constants;
@@ -35,14 +36,19 @@ public class BestSellerPagerAdapter extends PagerAdapter {
         assert imageLayout != null;
         ImageView imageView = (ImageView)imageLayout.findViewById(R.id.imageView);
 
-        Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerCrop().into(imageView);
+//        Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerCrop().into(imageView);
+//        Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerInside().into(imageView);
+        Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().into(imageView);
         collection.addView(imageLayout, 0);
 
         imageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Store = 3, Product = 4
-                if(sliderList.get(position).getType()==3){
+//                Store = 3, Product = 4 , Sales = 5
+                if(sliderList.get(position).getType()==5){
+//                    Intent intent=new Intent(mContext, SalesProductActivity.class);
+//                    mContext.startActivity(intent);
+                }else if(sliderList.get(position).getType()==3){
                     Intent intent=new Intent(mContext, StoreDetailActivity.class);
                     intent.putExtra("Function",2); //2 for Store Products
                     intent.putExtra("StoreID", sliderList.get(position).getiD());

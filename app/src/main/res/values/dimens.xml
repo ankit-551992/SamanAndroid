@@ -2,4 +2,8 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="matching_view_line_width">1.5dp</dimen>
+    <dimen name="matching_view_line_height">30dp</dimen>
+    <dimen name="matching_circle_size">10dp</dimen>
 </resources>

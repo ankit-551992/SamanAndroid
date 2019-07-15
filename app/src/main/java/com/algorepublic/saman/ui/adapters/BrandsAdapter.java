@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -48,11 +51,17 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context mContext;
     Dialog dialog;
     private Product cartProduct;
+    float dpWidth;
+    float dpHeight;
 
     public BrandsAdapter(Context mContext, List<Product> brandArrayList, int userID) {
         this.brandArrayList = brandArrayList;
         this.mContext = mContext;
         this.userID = userID;
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+//        dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        dpWidth = displayMetrics.widthPixels;
     }
 
     @Override
@@ -78,11 +87,18 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof BrandViewHolder) {
             final BrandViewHolder brandViewHolder = (BrandViewHolder) holder;
 
+            CardView.LayoutParams params = new CardView.LayoutParams(
+                    ((int) dpWidth / 2) - 40,
+                    CardView.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(15, 5, 20, 5);
+            brandViewHolder.cardView.setLayoutParams(params);
+
             Product product = brandArrayList.get(position);
-            if(SamanApp.isEnglishVersion) {
+            if (SamanApp.isEnglishVersion) {
                 brandViewHolder.productDescription.setText(product.getProductName());
                 brandViewHolder.storeName.setText(product.getStoreName());
-            }else {
+            } else {
                 brandViewHolder.productDescription.setText(product.getProductNameAR());
                 brandViewHolder.storeName.setText(product.getStoreNameAR());
             }
@@ -90,8 +106,6 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
-                        .placeholder(R.drawable.dummy_mobile)
-                        .error(R.drawable.dummy_mobile)
                         .into(brandViewHolder.productImageView);
             }
 
@@ -108,7 +122,14 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             brandViewHolder.cartImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    getProductDetails(brandArrayList.get(position).getID());
+                    if (brandArrayList.get(position).getQuantity() != 0) {
+                        getProductDetails(brandArrayList.get(position).getID());
+                    } else {
+                        Constants.showAlert(mContext.getString(R.string.title_my_bag),
+                                mContext.getString(R.string.out_of_stock),
+                                mContext.getString(R.string.cancel),
+                                mContext);
+                    }
                 }
             });
 
@@ -133,14 +154,14 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     userID = authenticatedUser.getId();
 
                     if (brandArrayList.get(position).getFavorite()) {
-                        showAlert(mContext.getString(R.string.ask_remove_from_fav),mContext.getString(R.string.remove_sure),brandViewHolder.favoriteImageView,position);
+                        showAlert(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure), brandViewHolder.favoriteImageView, position);
                     } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
                         } else {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
                         }
-                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null);
+                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null,1);
                         brandArrayList.get(position).setFavorite(true);
 
                         showPopUp(mContext.getString(R.string.added_to_fav),
@@ -173,6 +194,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ImageView productImageView;
         private ImageView favoriteImageView;
         private ImageView cartImageView;
+        private CardView cardView;
 
         public BrandViewHolder(View v) {
             super(v);
@@ -182,6 +204,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             productPrice = (TextView) v.findViewById(R.id.tv_product_price);
             favoriteImageView = (ImageView) v.findViewById(R.id.iv_favorite);
             cartImageView = (ImageView) v.findViewById(R.id.iv_add_to_cart);
+            cardView = (CardView) v.findViewById(R.id.cardView);
         }
     }
 
@@ -231,11 +254,14 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             @Override
             public void onClick(View view) {
                 if (type == 0) {
+                    dialog.dismiss();
+                    Constants.viewBag = true;
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
                     ((Activity) mContext).startActivity(intent);
                 } else {
+                    dialog.dismiss();
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);
@@ -265,13 +291,21 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         if (getProduct.getProduct() != null) {
                             cartProduct = getProduct.getProduct();
                             Log.e("DefaultOptions", getOptionsData());
+                            Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(),getOptionsNameAR(), 1)) {
-                                    showPopUp(mContext.getString(R.string.item_added_bag),
-                                            mContext.getString(R.string.item_added_message),
-                                            mContext.getString(R.string.continue_shopping),
-                                            mContext.getString(R.string.view_bag),
-                                            0);
+                                if (cartProduct.getQuantity() != 0) {
+                                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1)) {
+                                        showPopUp(mContext.getString(R.string.item_added_bag),
+                                                mContext.getString(R.string.item_added_message),
+                                                mContext.getString(R.string.continue_shopping),
+                                                mContext.getString(R.string.view_bag),
+                                                0);
+                                    }
+                                } else {
+                                    Constants.showAlert(mContext.getString(R.string.title_my_bag),
+                                            mContext.getString(R.string.out_of_stock),
+                                            mContext.getString(R.string.cancel),
+                                            mContext);
                                 }
                             }
                             ((DashboardActivity) mContext).updateBagCount();
@@ -312,9 +346,13 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
                 optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
                 if (names.equals("")) {
-                    names = "" + optionValue.getTitle();
+//                    String va=cartProduct.getProductOptions().get(i).getTitle()+ ":"+ optionValue.getTitle();
+                    String va=optionValue.getTitle();
+                    names = ""+va;
                 } else {
-                    names = names + "," + optionValue.getTitle();
+//                    String va=cartProduct.getProductOptions().get(i).getTitle()+ ":"+ optionValue.getTitle();
+                    String va=optionValue.getTitle();
+                    names = names + "," + va;
                 }
             }
         }
@@ -329,9 +367,13 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
                 optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
                 if (names.equals("")) {
-                    names = "" + optionValue.getTitleAR();
+//                    String va=cartProduct.getProductOptions().get(i).getTitleAR()+ ":"+ optionValue.getTitleAR();
+                    String va=optionValue.getTitleAR();
+                    names = "" +va;
                 } else {
-                    names = names + "," + optionValue.getTitleAR();
+//                    String va=cartProduct.getProductOptions().get(i).getTitleAR()+ ":"+ optionValue.getTitleAR();
+                    String va=optionValue.getTitleAR();
+                    names = names + "," + va;
                 }
             }
         }
@@ -339,14 +381,14 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    private void showAlert(String title, String message,final ImageView favoriteImageView, final int position) {
+    private void showAlert(String title, String message, final ImageView favoriteImageView, final int position) {
         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dislike(favoriteImageView,position);
+                        dislike(favoriteImageView, position);
                         dialog.dismiss();
                     }
                 });
@@ -360,7 +402,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         alertDialog.show();
     }
 
-    private void dislike(ImageView favoriteImageView,int position) {
+    private void dislike(ImageView favoriteImageView, int position) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_fav_b));
         } else {

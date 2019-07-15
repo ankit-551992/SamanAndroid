@@ -15,7 +15,7 @@ public class DetailContractor {
 
     public interface Presenter{
 
-        void updateUser(int id,String fName,String lName,String gender,String country,JSONObject address,String dob);
+        void updateUser(int id,String fName,String lName,String gender,String country,JSONObject address,String dob,String phone,String region);
         void destroy();
 
     }

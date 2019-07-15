@@ -89,13 +89,13 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
     }
 
     @Override
-    public void recoveryEmail(String email) {
+    public void recoveryEmail(String email,String phone) {
         if(view!=null) {
 
             view.showProgress();
             WebServicesHandler apiClient = WebServicesHandler.instance;
 
-            apiClient.forgetPassword(email, new Callback<SimpleSuccess>() {
+            apiClient.forgetPassword(email,phone, new Callback<SimpleSuccess>() {
                 @Override
                 public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
 

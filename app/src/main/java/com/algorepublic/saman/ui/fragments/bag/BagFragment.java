@@ -8,21 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
-import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.adapters.SwipeBagAdapter;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.SamanApp;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,7 +46,7 @@ public class BagFragment extends BaseFragment {
     TextView productsGrandTotal;
     //Total
 
-    int grandTotal;
+    float grandTotal;
     User authenticatedUser;
 
     @Override
@@ -98,7 +94,6 @@ public class BagFragment extends BaseFragment {
     }
 
     private void getData(){
-
         if(SamanApp.localDB!=null){
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
             bagAdapter.notifyDataSetChanged();
@@ -108,16 +103,16 @@ public class BagFragment extends BaseFragment {
             }else {
                 tv_empty_bag.setVisibility(View.VISIBLE);
             }
+            quantity.setText(SamanApp.localDB.getCartAllProductsCounting()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
         }
-        quantity.setText(productArrayList.size()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
     }
 
-    public void updateTotal(int total,int vat){
+    public void updateTotal(float total,float vat){
         grandTotal=total+vat;
-        productsTotal.setText(getString(R.string.total)+" "+total+".0 OMR");
-        productsSubTotal.setText(getString(R.string.subtotal)+" "+total+".0 OMR");
-        productsVAT.setText(getString(R.string.VAT)+" "+vat+".0 OMR");
-        productsGrandTotal.setText(getString(R.string.total)+" "+grandTotal+".0 OMR");
+        productsTotal.setText(getString(R.string.total)+" "+total+" "+getString(R.string.currency_omr));
+        productsSubTotal.setText(getString(R.string.subtotal)+" "+total+" "+getString(R.string.currency_omr));
+        productsVAT.setText(getString(R.string.VAT)+" "+vat+" "+getString(R.string.currency_omr));
+        productsGrandTotal.setText(getString(R.string.total)+" "+grandTotal+" "+getString(R.string.currency_omr));
     }
 
     public void updateCount(int size){
@@ -126,8 +121,14 @@ public class BagFragment extends BaseFragment {
         }else{
             tv_empty_bag.setVisibility(View.VISIBLE);
         }
-        quantity.setText(size+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        quantity.setText(SamanApp.localDB.getCartAllProductsCounting()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
 
+    }
+
+    public void updateQuantity(){
+        if(SamanApp.localDB!=null) {
+            quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        }
     }
     @Override
     public String getName() {

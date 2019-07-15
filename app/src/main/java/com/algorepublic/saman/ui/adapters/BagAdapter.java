@@ -33,12 +33,16 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Product> productArrayList;
     private Context mContext;
     private BagFragment bagFragment;
-    int grandTotal = 0;
+    float grandTotal = 0;
 
     public BagAdapter(Context mContext, List<Product> productArrayList, BagFragment bagFragment) {
         this.productArrayList = productArrayList;
         this.mContext = mContext;
         this.bagFragment = bagFragment;
+
+        for (int i=0;i<productArrayList.size();i++){
+            this.productArrayList.get(i).setAvailableQuantity(productArrayList.get(i).getQuantity());
+        }
     }
 
 //    public void removeItem(int position) {
@@ -84,14 +88,12 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
-                        .placeholder(R.drawable.dummy_mobile)
-                        .error(R.drawable.dummy_mobile)
                         .into(bagViewHolder.productImageView);
             }
 
 
             bagViewHolder.price.setText(product.getPrice() + " OMR");
-            int total = product.getPrice() * product.getQuantity();
+            float total = product.getPrice() * product.getQuantity();
             grandTotal = grandTotal + total;
             bagViewHolder.total.setText(total + " OMR");
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
@@ -152,6 +154,28 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
             updateNotify();
+
+
+            int current = Integer.parseInt(quantity.getText().toString());
+
+//            if (productArrayList.get(getPosition).getAvailableQuantity() > current) {
+//                SamanApp.localDB.addToCart(
+//                        productArrayList.get(getPosition),
+//                        productArrayList.get(getPosition).getOptionValues(),
+//                        productArrayList.get(getPosition).getOptions(),
+//                        productArrayList.get(getPosition).getOptions(),
+//                        1);
+//
+//
+//                productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
+//                updateNotify();
+//            } else {
+//                String text = String.format(mContext.getString(R.string.items_available_count), productArrayList.get(getPosition).getAvailableQuantity());
+//                Constants.showAlert(mContext.getString(R.string.title_my_bag),
+//                        text,
+//                        mContext.getString(R.string.cancel),
+//                        mContext);
+//            }
         }
 
         @OnClick(R.id.iv_remove_quantity)

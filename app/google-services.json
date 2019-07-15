@@ -1,29 +1,21 @@
 {
   "project_info": {
-    "project_number": "372798652789",
-    "firebase_url": "https://saman-ee1cc.firebaseio.com",
-    "project_id": "saman-ee1cc",
-    "storage_bucket": "saman-ee1cc.appspot.com"
+    "project_number": "944916770217",
+    "firebase_url": "https://saman-86d8a.firebaseio.com",
+    "project_id": "saman-86d8a",
+    "storage_bucket": "saman-86d8a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:372798652789:android:37e476a6d2fee18f",
+        "mobilesdk_app_id": "1:944916770217:android:37e476a6d2fee18f",
         "android_client_info": {
           "package_name": "com.algorepublic.saman"
         }
       },
       "oauth_client": [
         {
-          "client_id": "372798652789-3ooos5fp8pgg6uqlb9tsfhnvuk2ql0an.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.algorepublic.saman",
-            "certificate_hash": "5687f402631b939f0fc9ac940efd67347ebe3bd6"
-          }
-        },
-        {
-          "client_id": "372798652789-bbr5097sq41h0eltadpqod3j6b3nd5b2.apps.googleusercontent.com",
+          "client_id": "944916770217-6itfv3mc2rbi3mdmuac1poep2ke5or77.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.algorepublic.saman",
@@ -31,13 +23,21 @@
           }
         },
         {
-          "client_id": "372798652789-4iig9rhk7tsb2uqi16ad0lcr0of6lc52.apps.googleusercontent.com",
+          "client_id": "944916770217-vf86l554ke46j1babloc8h039p7l92bl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.algorepublic.saman",
+            "certificate_hash": "5687f402631b939f0fc9ac940efd67347ebe3bd6"
+          }
+        },
+        {
+          "client_id": "944916770217-tu259bfkulvvjcp8kqutk81srgmo8oka.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCcrj5GAJDzOiVYHPVojmmPh5D8FV5t9YQ"
+          "current_key": "AIzaSyAlfXP_wNNrn3KXdD4XRbKm5776OJ1tkVE"
         }
       ],
       "services": {
@@ -48,15 +48,8 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "372798652789-4iig9rhk7tsb2uqi16ad0lcr0of6lc52.apps.googleusercontent.com",
+              "client_id": "944916770217-tu259bfkulvvjcp8kqutk81srgmo8oka.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "372798652789-2g7h9gpd3lft7cslcd8lctbc4blhd7mk.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.ar.Saman"
-              }
             }
           ]
         },

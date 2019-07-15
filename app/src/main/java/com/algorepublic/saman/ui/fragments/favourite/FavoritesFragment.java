@@ -103,7 +103,11 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         isLoading=false;
         productArrayList.addAll(product);
         favoritesAdapter.notifyDataSetChanged();
-        quantity.setText(productArrayList.size() + " " + getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        int quan=0;
+        for (int i=0;i<productArrayList.size();i++){
+            quan=quan+productArrayList.get(i).getQuantity();
+        }
+        quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
         ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
         if (productArrayList.size() > 0) {
             tv_empty_bag.setVisibility(View.GONE);
@@ -123,7 +127,11 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         }else{
             tv_empty_bag.setVisibility(View.VISIBLE);
         }
-        quantity.setText(size+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        int quan=0;
+        for (int i=0;i<productArrayList.size();i++){
+            quan=quan+productArrayList.get(i).getQuantity();
+        }
+        quantity.setText(quan+ " " +getActivity().getResources().getQuantityString(R.plurals.items,quan ));
 
     }
 

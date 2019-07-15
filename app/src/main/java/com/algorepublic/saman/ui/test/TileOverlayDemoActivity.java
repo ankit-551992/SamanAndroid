@@ -1,11 +1,11 @@
 package com.algorepublic.saman.ui.test;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.base.BaseActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -18,7 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
 
-public class TileOverlayDemoActivity extends AppCompatActivity
+public class TileOverlayDemoActivity extends BaseActivity
         implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback {
 
     private static final int TRANSPARENCY_MAX = 100;

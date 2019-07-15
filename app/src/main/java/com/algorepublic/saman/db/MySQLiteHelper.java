@@ -85,7 +85,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + CART_PRODUCT_NAME_AR + " TEXT,"
             + CART_PRODUCT_DESCRIPTION + " TEXT,"
             + CART_PRODUCT_DESCRIPTION_AR + " TEXT,"
-            + CART_PRODUCT_PRICE + " INTEGER,"
+            + CART_PRODUCT_PRICE + " REAL,"
             + CART_PRODUCT_QUANTITY + " INTEGER,"
             + CART_PRODUCT_SIZE_LENGTH + " INTEGER,"
             + CART_PRODUCT_SIZE_WIDTH + " INTEGER,"
@@ -197,7 +197,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setProductNameAR(cursor.getString(3));
                 product.setDescription(cursor.getString(4));
                 product.setDescriptionAR(cursor.getString(5));
-                product.setPrice(cursor.getInt(6));
+                product.setPrice(cursor.getFloat(6));
                 product.setQuantity(cursor.getInt(7));
                 product.setSizeLength(cursor.getInt(8));
                 product.setSizeWidth(cursor.getInt(9));
@@ -376,6 +376,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 do {
 //                    cnt = cnt + cursor.getInt(7);
                     cnt = cnt + 1;
+                } while (cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        return cnt;
+    }
+
+    public int getCartAllProductsCounting() {
+        int cnt = 0;
+        String countQuery = "Select * from " + TABLE_CART;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    cnt = cnt + cursor.getInt(7);
+//                    cnt = cnt + 1;
                 } while (cursor.moveToNext());
             }
         }

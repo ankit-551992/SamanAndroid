@@ -37,6 +37,7 @@ public class GlobalValues {
     private static double lng= 58.4059;
     public static List<StoreCategory> storeCategories;
     public static List<Country> countries;
+    public static int favCount=0;
 
     public static boolean orderPlaced=false;
 
@@ -117,7 +118,7 @@ public class GlobalValues {
 
     public static String getUserToken(Context ctx){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return sharedPreferences.getString("UserToken", "");
+        return sharedPreferences.getString("UserToken", null);
     }
 
     public static void setSelectedCountry(Context ctx, String countryCode){
@@ -130,6 +131,18 @@ public class GlobalValues {
     public static String getSelectedCountry(Context ctx){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sharedPreferences.getString("SelectedCountry", "OM");
+    }
+
+    public static void setBadgeCount(Context ctx, int  badgeCount){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("BadgeCount",badgeCount);
+        editor.apply();
+    }
+
+    public static int getBadgeCount(Context ctx){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPreferences.getInt("BadgeCount",0);
     }
 
     public static void changeLanguage(String language,Context context){
@@ -162,8 +175,8 @@ public class GlobalValues {
         return hashMap;
     }
 
-    public static void markFavourite(int userID,int productId,String[] optionIds){
-        WebServicesHandler.instance.markFavourite(userID,productId,optionIds,new retrofit2.Callback<SimpleSuccess>() {
+    public static void markFavourite(int userID,int productId,String[] optionIds,int quantity){
+        WebServicesHandler.instance.markFavourite(userID,productId,optionIds,quantity,new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 if (response!=null) {
@@ -178,7 +191,7 @@ public class GlobalValues {
     }
 
     public static void markUnFavourite(int userID,int productId){
-        WebServicesHandler.instance.markUnFavourite(userID,productId,new retrofit2.Callback<SimpleSuccess>() {
+        WebServicesHandler.instance.markUnFavourite(userID,productId,null,new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 if (response!=null) {

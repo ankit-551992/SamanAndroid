@@ -13,8 +13,10 @@
     <color name="off_transparent">#99000000</color>
     <color name="off_white">#FAFAFA</color>
     <color name="order_header_bg">#f5f5f5</color>
-
     <color name="search_bg">#d8d8d8</color>
+    <color name="Color_RoyalBlue">#4169E1</color>
+    <color name="order_color">#7FA0FD</color>
+    <color name="maroon">#800000</color>
 
     <color name="indigo_button_pressed">#aa7E236A</color>
     <color name="indigo_button_focused">#aa7E236A</color>

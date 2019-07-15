@@ -34,7 +34,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class ProductListingActivity  extends BaseActivity {
+public class ProductListingActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

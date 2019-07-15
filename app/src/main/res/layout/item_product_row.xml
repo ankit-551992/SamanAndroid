@@ -46,19 +46,15 @@
                 android:drawableLeft="@drawable/ic_store"
                 android:gravity="center"
                 android:drawableStart="@drawable/ic_store"
-                android:text="@string/ud_store"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp" />
             <TextView
                 android:id="@+id/tv_product_description"
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"
-                android:lineSpacingMultiplier="1.2"
-                android:maxLines="2"
-                android:text="@string/dummy"
+                android:maxLines="1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="50dp"/>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -70,17 +66,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
-                    android:text="6000 OMR"
                     android:textSize="12sp"
+                    android:gravity="start"
                     android:textColor="@color/black"/>
+
                 <TextView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.1"
-                    android:text="6000 OMR"
+                    android:layout_gravity="start|center_vertical"
                     android:textSize="12sp"
+                    android:gravity="start"
                     android:textColor="@color/black"/>
 
                 <ImageView

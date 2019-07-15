@@ -28,7 +28,9 @@ import android.widget.TextView;
 import com.algorepublic.saman.BuildConfig;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
+import com.algorepublic.saman.data.model.Message;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.GetConversationsApi;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
@@ -40,6 +42,7 @@ import com.algorepublic.saman.ui.activities.myaccount.messages.MessagesListActiv
 import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.ui.activities.myaccount.myorders.MyOrdersActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
+import com.algorepublic.saman.ui.fragments.product.ProductsCategoryFragment;
 import com.algorepublic.saman.utils.CircleTransform;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -76,6 +79,8 @@ public class MyAccountFragment extends BaseFragment {
     TextView userName;
     @BindView(R.id.user_email)
     TextView userEmail;
+    @BindView(R.id.tv_unread_message_count)
+    TextView unreadMessageCount;
     @BindView(R.id.iv_profile)
     ImageView profile;
 
@@ -87,10 +92,35 @@ public class MyAccountFragment extends BaseFragment {
     private int REQUEST_TAKE_PHOTO = 1;
     private int REQUEST_CHOOSE_PHOTO = 2;
 
+    int unread;
+
+    public static MyAccountFragment newInstance(int unread) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("unread", unread);
+
+        MyAccountFragment fragment = new MyAccountFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            unread = bundle.getInt("unread");
+            if(unread==0){
+                unreadMessageCount.setVisibility(View.GONE);
+            }else {
+                unreadMessageCount.setVisibility(View.VISIBLE);
+                unreadMessageCount.setText(""+unread);
+            }
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_account, container, false);
         ButterKnife.bind(this, view);
+        readBundle(getArguments());
         authenticatedUser = GlobalValues.getUser(getContext());
         userName.setText(getContext().getString(R.string.Welcome) + "," + authenticatedUser.getFirstName());
         userEmail.setText(authenticatedUser.getEmail());
@@ -103,7 +133,7 @@ public class MyAccountFragment extends BaseFragment {
                             .transform(new CircleTransform())
                             .placeholder(R.drawable.ic_profile)
                             .into(profile);
-                }else {
+                }else{
                     Picasso.get()
                             .load("https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1")
                             .transform(new CircleTransform())
@@ -132,6 +162,44 @@ public class MyAccountFragment extends BaseFragment {
         super.onResume();
         authenticatedUser = GlobalValues.getUser(getContext());
         userName.setText(getContext().getString(R.string.Welcome) + "," + authenticatedUser.getFirstName());
+        getConversation();
+    }
+
+
+    private void getConversation(){
+        unread=0;
+        WebServicesHandler.instance.getConversationList(authenticatedUser.getId(), new retrofit2.Callback<GetConversationsApi>() {
+            @Override
+            public void onResponse(Call<GetConversationsApi> call, Response<GetConversationsApi> response) {
+                GetConversationsApi getConversationsApi = response.body();
+                if(getConversationsApi!=null) {
+                    if(getConversationsApi.getResult()!=null) {
+                        for (int i=0;i<getConversationsApi.getResult().size();i++){
+                            for (int j=0;j<getConversationsApi.getResult().get(i).getMessages().size();j++) {
+                                Message message = getConversationsApi.getResult().get(i).getMessages().get(j);
+                                if (!message.getIsRead() && message.getSender().getId()!=authenticatedUser.getId()) {
+                                    unread++;
+                                }
+                            }
+                        }
+
+                        if(unread==0){
+                            unreadMessageCount.setVisibility(View.GONE);
+                        }else {
+                            unreadMessageCount.setVisibility(View.VISIBLE);
+                            unreadMessageCount.setText(""+unread);
+                        }
+
+                        ((DashboardActivity) getActivity()).updateMessagesCount(unread);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<GetConversationsApi> call, Throwable t) {
+            }
+        });
     }
 
     @OnClick(R.id.iv_profile)

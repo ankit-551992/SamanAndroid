@@ -11,6 +11,12 @@ public class ProductAttribute {
     @SerializedName("Title_AR")
     @Expose
     private String titleAR;
+    @SerializedName("Value")
+    @Expose
+    private String value;
+    @SerializedName("Value_AR")
+    @Expose
+    private String valueAR;
     @SerializedName("SortOrder")
     @Expose
     private Integer sortOrder;
@@ -72,6 +78,22 @@ public class ProductAttribute {
         this.iD = iD;
     }
 
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getValueAR() {
+        return valueAR;
+    }
+
+    public void setValueAR(String valueAR) {
+        this.valueAR = valueAR;
+    }
 
     @Override
     public String toString() {

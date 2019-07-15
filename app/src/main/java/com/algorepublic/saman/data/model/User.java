@@ -25,7 +25,7 @@ public class User {
     private String lastName;
     @SerializedName("PhoneNumber")
     @Expose
-    private Object phoneNumber;
+    private String phoneNumber;
     @SerializedName("LanguageID")
     @Expose
     private Integer languageID;
@@ -74,6 +74,9 @@ public class User {
     @SerializedName("ID")
     @Expose
     private Integer id;
+    @SerializedName("Region")
+    @Expose
+    private String region;
 
     private Integer socialID=0;
 
@@ -129,11 +132,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Object getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Object phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -280,5 +283,13 @@ public class User {
 
     public void setSocialID(Integer socialID) {
         this.socialID = socialID;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

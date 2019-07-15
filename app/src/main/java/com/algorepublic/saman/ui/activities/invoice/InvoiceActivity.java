@@ -27,6 +27,8 @@ import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.OrderHistory;
 import com.algorepublic.saman.data.model.OrderItem;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.ui.activities.InvoiceViewerActivity;
+import com.algorepublic.saman.ui.activities.TrackingActivity;
 import com.algorepublic.saman.ui.adapters.InvoiceAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
 
@@ -70,8 +72,12 @@ public class InvoiceActivity extends BaseActivity {
     TextView orderStatusTextView;
     @BindView(R.id.tv_delivery_date)
     TextView deliveryDateTextView;
+    @BindView(R.id.tv_order_date)
+    TextView orderDateTextView;
     @BindView(R.id.tv_shipment_address)
     TextView shippingAddress;
+    @BindView(R.id.tv_shipping_fee)
+    TextView shippingFee;
 
     @BindView(R.id.tv_quantity)
     TextView quantity;
@@ -88,7 +94,7 @@ public class InvoiceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_invoice);
+        setContentView(R.layout.activity_invoice_order);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         authenticatedUser = GlobalValues.getUser(this);
@@ -110,20 +116,28 @@ public class InvoiceActivity extends BaseActivity {
             }
 
             if (orderHistory.getStatus() != null) {
-                if (orderHistory.getStatus().equals("0")) {
-                    orderStatusTextView.setText(getString(R.string.pending));
-                } else if (orderHistory.getStatus().equals("1")) {
-                    orderStatusTextView.setText(getString(R.string.received));
-                } else {
-                    orderStatusTextView.setText(getString(R.string.pending));
+                if (!orderHistory.getStatus().equals("")) {
+                    orderStatusTextView.setText(orderHistory.getStatus());
                 }
             }
 
+            if(orderHistory.getShippingTotal()!=0){
+                shippingFee.setText(String.valueOf(orderHistory.getShippingTotal()) + " " + getString(R.string.OMR));
+            }
+
+            Long orderDateStamp = Long.parseLong(orderHistory.getCreatedAt().replaceAll("\\D", ""));
+            Date orderDate = new Date(orderDateStamp);
+            DateFormat orderFormatter = new SimpleDateFormat("dd-MM-yyyy hh:mm aa",Locale.ENGLISH);
+            String orderDateFormatted = orderFormatter.format(orderDate);
+            orderDateTextView.setText(orderDateFormatted.toString());
+
             Long dateTimeStamp = Long.parseLong(orderHistory.getDeliveryDate().replaceAll("\\D", ""));
             Date date = new Date(dateTimeStamp);
-            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy",Locale.ENGLISH);
+//            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy",Locale.ENGLISH);
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm aa",Locale.ENGLISH);
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted.toString());
+
 
             if (orderHistory.getShippingAddress() != null) {
                 String address = orderHistory.getShippingAddress().getAddressLine1().replace(",", "\n\n");
@@ -153,12 +167,23 @@ public class InvoiceActivity extends BaseActivity {
                     1111);
         } else {
 //            String downloadURL="https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf";
-            String downloadURL = "https://www.saman.om/FileUploadsManager/invoice.pdf";
+//            String downloadURL = "https://www.saman.om/FileUploadsManager/invoice.pdf";
+//            String downloadURL = "https://www.saman.om/Order/GeneratePDF/405";
+            String downloadURL = "https://www.saman.om/Order/Invoice/"+orderHistory.getID();
 //            down("https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf");
             new DownloadFile().execute(downloadURL);
         }
-//        Intent intent=new Intent(InvoiceActivity.this,InvoiceViewerActivity.class);
+//        Intent intent=new Intent(InvoiceActivity.this, ViewInvoice.class);
+//        intent.putExtra("OrderID",orderHistory.getID());
 //        startActivity(intent);
+    }
+
+
+    @OnClick(R.id.button_track_order)
+    public void trackOrder() {
+        Intent intent=new Intent(InvoiceActivity.this, TrackingActivity.class);
+        intent.putExtra("Obj",orderHistory);
+        startActivity(intent);
     }
 
 
@@ -269,7 +294,7 @@ public class InvoiceActivity extends BaseActivity {
                 fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
 
                 //Append timestamp to file name
-                fileName = timestamp + "_" + fileName;
+                fileName = timestamp + "_" + fileName+"_invoice.pdf";
 
                 //External directory path to save file
                 folder = Environment.getExternalStorageDirectory() + File.separator + "Saman/";

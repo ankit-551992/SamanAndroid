@@ -7,55 +7,70 @@
     tools:ignore="NamespaceTypo">
 
     <LinearLayout
-        android:padding="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:background="@drawable/favorites_background"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/iv_product"
-            android:padding="5dp"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:src="@drawable/dummy_mobile" />
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_store_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_store"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/ic_store"
-                android:gravity="center"
-                android:text="@string/ud_store" />
+            <ImageView
+                android:id="@+id/iv_product"
+                android:padding="5dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp" />
 
-            <TextView
-                android:id="@+id/tv_product_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:lineSpacingMultiplier="1.2"
-                android:text="@string/dummy"
-                android:textColor="@color/black" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_marginTop="3dp"
-                android:textColor="@color/light_grey"
-                android:id="@+id/tv_product_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/price_to_pay" />
+                <TextView
+                    android:id="@+id/tv_store_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_store"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_store"
+                    android:gravity="center"
+                    android:text="@string/ud_store" />
+
+                <TextView
+                    android:id="@+id/tv_product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@string/dummy"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_marginTop="3dp"
+                    android:textColor="@color/light_grey"
+                    android:id="@+id/tv_product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_to_pay" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_product_status"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:text="@string/received"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
+
 
     <View
         android:layout_marginLeft="20dp"

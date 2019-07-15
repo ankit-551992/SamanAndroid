@@ -12,7 +12,7 @@ public class OrderItem implements Serializable {
     @SerializedName("Product")
     @Expose
     private Product product;
-    @SerializedName("OrderOptionValue")
+    @SerializedName("ProductOption")
     @Expose
     private List<ProductOption> productOptionList = null;
     @SerializedName("isCancelled")
@@ -24,6 +24,12 @@ public class OrderItem implements Serializable {
     @SerializedName("ID")
     @Expose
     private Integer iD;
+    @SerializedName("Status")
+    @Expose
+    private String status;
+    @SerializedName("OrderItemStatus")
+    @Expose
+    private List<OrderTrack> OrderTrackList = null;
 
     public Product getProduct() {
         return product;
@@ -65,4 +71,19 @@ public class OrderItem implements Serializable {
         this.iD = iD;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<OrderTrack> getOrderTrackList() {
+        return OrderTrackList;
+    }
+
+    public void setOrderTrackList(List<OrderTrack> orderTrackList) {
+        OrderTrackList = orderTrackList;
+    }
 }

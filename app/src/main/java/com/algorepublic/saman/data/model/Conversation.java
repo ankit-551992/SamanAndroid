@@ -10,6 +10,9 @@ public class Conversation {
     @SerializedName("Title")
     @Expose
     private String title;
+//    @SerializedName("Title")
+//    @Expose
+    private String titleAr;
     @SerializedName("StoreName")
     @Expose
     private String storeName;
@@ -46,6 +49,21 @@ public class Conversation {
     @SerializedName("RecipentID")
     @Expose
     private Integer RecipentID;
+    @SerializedName("ImageURL")
+    @Expose
+    private String image;
+    @SerializedName("ProductQuantity")
+    @Expose
+    private Integer ProductQuantity;
+    @SerializedName("ProductPrice")
+    @Expose
+    private float ProductPrice;
+    @SerializedName("TotalPrice")
+    @Expose
+    private float TotalPrice;
+    @SerializedName("Status")
+    @Expose
+    private Integer status;
 
     public String getTitle() {
         return title;
@@ -149,5 +167,59 @@ public class Conversation {
 
     public void setRecipentID(Integer recipentID) {
         RecipentID = recipentID;
+    }
+
+    public String getImage() {
+        if(image==null){
+            image="";
+        }
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getTitleAr() {
+        if(titleAr==null){
+            titleAr=title;
+        }
+        return titleAr;
+    }
+
+    public void setTitleAr(String titleAr) {
+        this.titleAr = titleAr;
+    }
+
+    public Integer getProductQuantity() {
+        return ProductQuantity;
+    }
+
+    public void setProductQuantity(Integer productQuantity) {
+        ProductQuantity = productQuantity;
+    }
+
+    public float getProductPrice() {
+        return ProductPrice;
+    }
+
+    public void setProductPrice(float productPrice) {
+        ProductPrice = productPrice;
+    }
+
+    public float getTotalPrice() {
+        return TotalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        TotalPrice = totalPrice;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

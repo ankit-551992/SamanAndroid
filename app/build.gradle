@@ -9,7 +9,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.algorepublic.saman"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -17,11 +17,33 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        all {
+            buildConfigField 'String', 'GATEWAY_MERCHANT_ID', '"' + gatewayMerchantId + '"'
+            buildConfigField 'String', 'GATEWAY_REGION', '"' + gatewayRegion + '"'
+            buildConfigField 'String', 'MERCHANT_SERVER_URL', '"' + merchantServerUrl + '"'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -45,16 +67,16 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //Firebase
-    implementation ('com.google.firebase:firebase-core:16.0.6'){
+    implementation ('com.google.firebase:firebase-core:16.0.8'){
         exclude group: 'com.android.support'
     }
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.7'
+    implementation 'com.google.firebase:firebase-messaging:17.4.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
     // Google plus
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     //Google Place Api
-    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
 
@@ -66,6 +88,9 @@ dependencies {
         exclude group: 'com.google.code.gson'
         exclude group: 'com.squareup.okhttp3'
     }
+
+    //country code picker
+    implementation 'com.github.joielechong:countrycodepicker:2.1.8'
 
     //Facebook
     implementation ('com.facebook.android:facebook-android-sdk:4.37.0'){
@@ -94,11 +119,17 @@ dependencies {
     //swipelayout
     implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
 
+    //ShortcutBadger
+    implementation "me.leolin:ShortcutBadger:1.1.22@aar"
+
     //Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
 
+//    Payment Gateway
+//    implementation 'com.mastercard.gateway:gateway-android:1.0.0'
+    implementation project(':gateway-android')
 }
 apply plugin: 'com.google.gms.google-services'

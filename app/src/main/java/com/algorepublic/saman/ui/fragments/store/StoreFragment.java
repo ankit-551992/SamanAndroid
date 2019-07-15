@@ -2,6 +2,7 @@ package com.algorepublic.saman.ui.fragments.store;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,10 @@ import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
+import com.algorepublic.saman.ui.activities.SplashActivity;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.login.LoginActivity;
+import com.algorepublic.saman.ui.fragments.store.Tab.AllStores;
 import com.algorepublic.saman.ui.fragments.store.Tab.Tabs;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -62,28 +67,34 @@ public class StoreFragment extends BaseFragment {
         setUpCustomTabs();
         viewPager.beginFakeDrag();
         viewPager.setSwipeable(false);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0).setVisibility(View.GONE);
+            }
+        }, 200);
     }
+
+
 
     private void setUpCustomTabs() {
 
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+        for (int i = 1; i < tabLayout.getTabCount(); i++) {
             View customTab = (View) LayoutInflater.from(getActivity()).inflate(R.layout.tab_custom_view, null);//get custom view
             TextView textView = (TextView) customTab.findViewById(R.id.tv_tab);
             ImageView imageView = (ImageView) customTab.findViewById(R.id.iv_tab);
             LinearLayout bg = (LinearLayout) customTab.findViewById(R.id.tab_layout);
 
-            if(SamanApp.isEnglishVersion) {
-                textView.setText(GlobalValues.storeCategories.get(i).getTitle());
-            }else {
-                textView.setText(GlobalValues.storeCategories.get(i).getTitleAR());
+            if (SamanApp.isEnglishVersion) {
+                textView.setText(GlobalValues.storeCategories.get(i - 1).getTitle());
+            } else {
+                textView.setText(GlobalValues.storeCategories.get(i - 1).getTitleAR());
             }
 
 
-            String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i).getLogoURL();
-            Picasso.get().load(url)
-                    .placeholder(R.drawable.ic_logo)
-                    .error(R.drawable.ic_logo)
-                    .into(imageView);
+            String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 1).getLogoURL();
+            Picasso.get().load(url).into(imageView);
 
 //            switch (i){
 //                case 0:
@@ -117,6 +128,7 @@ public class StoreFragment extends BaseFragment {
 //        adapter.addFrag(new TabFragment(), "Messages");
 //        adapter.addFrag(new TabFragment(), "Offer");
 
+        adapter.addFrag(new AllStores(), "");
         for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
             adapter.addFrag(
                     Tabs.newInstance(GlobalValues.storeCategories.get(i).getID()),

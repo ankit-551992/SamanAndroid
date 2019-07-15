@@ -1,5 +1,6 @@
 package com.algorepublic.saman.ui.activities.myaccount.payment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,10 +20,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.CardDs;
-import com.algorepublic.saman.ui.activities.password.ChangePasswordActivity;
 import com.algorepublic.saman.ui.adapters.PaymentAdapter;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -55,8 +56,8 @@ public class MyPaymentActivity extends BaseActivity {
     List<CardDs> cards = new ArrayList<>();
     PaymentAdapter paymentAdapter;
     Dialog dialog;
-    boolean isCashSelected=false;
-    boolean isCardSelected=false;
+    boolean isOmanNetSelected = false;
+    boolean isMasterCardSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +71,14 @@ public class MyPaymentActivity extends BaseActivity {
         settings.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-        }else {
+        } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setImageDrawable(getDrawable(R.drawable.ic_add));
             settings.setColorFilter(Color.argb(255, 255, 255, 255));
-        }else {
+        } else {
             settings.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
             settings.setColorFilter(Color.argb(255, 255, 255, 255));
         }
@@ -86,11 +87,12 @@ public class MyPaymentActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
         cards = new ArrayList<>();
-        paymentAdapter = new PaymentAdapter(this,cards);
+        paymentAdapter = new PaymentAdapter(this, cards);
         mRecyclerView.setAdapter(paymentAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         cards.add(codCard());
+        cards.add(omanNetCard());
         getCards();
 
         new SwipeHelper(this, mRecyclerView) {
@@ -98,16 +100,16 @@ public class MyPaymentActivity extends BaseActivity {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.delete),
-                        ResourceUtil.getBitmap(MyPaymentActivity.this,R.drawable.ic_delete_ic),
+                        ResourceUtil.getBitmap(MyPaymentActivity.this, R.drawable.ic_delete_ic),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
                                 // TODO: onDelete
-                                if (pos!=0) {
+                                if (pos != 0 && pos != 1) {
                                     deleteCard(pos);
-                                }else {
-                                    Constants.showAlert(getString(R.string.payment_method),getString(R.string.default_card_msg),getString(R.string.close),MyPaymentActivity.this);
+                                } else {
+                                    Constants.showAlert(getString(R.string.payment_method), getString(R.string.default_card_msg), getString(R.string.close), MyPaymentActivity.this);
                                 }
                             }
                         }
@@ -125,9 +127,15 @@ public class MyPaymentActivity extends BaseActivity {
 
     @OnClick(R.id.toolbar_settings)
     void addPayment(){
+        Intent intent = new Intent(MyPaymentActivity.this, AddCardActivity.class);
+        intent.putExtra("Type",0);
+        startActivityForResult(intent, 1010);
+    }
+
+    void addPayments() {
 
 
-        dialog = new Dialog(MyPaymentActivity.this,R.style.CustomDialog);
+        dialog = new Dialog(MyPaymentActivity.this, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_payment_method);
         dialog.setCancelable(false);
@@ -144,18 +152,18 @@ public class MyPaymentActivity extends BaseActivity {
             }
         });
 
-        Button add=(Button) dialog.findViewById(R.id.button_add_card);
+        Button add = (Button) dialog.findViewById(R.id.button_add_card);
 
         layoutCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isCashSelected=false;
+                isOmanNetSelected = false;
                 layoutCash.setBackground(getResources().getDrawable(R.drawable.favorites_background));
-                if(!isCardSelected) {
-                    isCardSelected=true;
+                if (!isMasterCardSelected) {
+                    isMasterCardSelected = true;
                     layoutCard.setBackground(getResources().getDrawable(R.drawable.selected_bg));
-                }else {
-                    isCardSelected=false;
+                } else {
+                    isMasterCardSelected = false;
                     layoutCard.setBackground(getResources().getDrawable(R.drawable.favorites_background));
                 }
             }
@@ -164,13 +172,13 @@ public class MyPaymentActivity extends BaseActivity {
         layoutCash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isCardSelected=false;
+                isMasterCardSelected = false;
                 layoutCard.setBackground(getResources().getDrawable(R.drawable.favorites_background));
-                if(!isCashSelected) {
-                    isCashSelected=true;
+                if (!isOmanNetSelected) {
+                    isOmanNetSelected = true;
                     layoutCash.setBackground(getResources().getDrawable(R.drawable.selected_bg));
-                }else {
-                    isCashSelected=false;
+                } else {
+                    isOmanNetSelected = false;
                     layoutCash.setBackground(getResources().getDrawable(R.drawable.favorites_background));
                 }
             }
@@ -179,17 +187,25 @@ public class MyPaymentActivity extends BaseActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isCardSelected) {
+                if (isMasterCardSelected) {
                     Intent intent = new Intent(MyPaymentActivity.this, AddCardActivity.class);
+                    intent.putExtra("Type",0);
                     startActivityForResult(intent, 1010);
                     dialog.dismiss();
-                    isCardSelected=false;
-                }else{
-                    if(!isCashSelected) {
-                        Constants.showAlert(getString(R.string.payment_method), getString(R.string.select_method), getString(R.string.okay), MyPaymentActivity.this);
-                    }else {
-                        Constants.showAlert(getString(R.string.payment_method), getString(R.string.cash_method), getString(R.string.close), MyPaymentActivity.this);
-                    }
+                    isMasterCardSelected = false;
+                } else if (isOmanNetSelected) {
+//                    Intent intent = new Intent(MyPaymentActivity.this, AddCardActivity.class);
+//                    intent.putExtra("Type",1);
+//                    startActivityForResult(intent, 1010);
+                    Intent data = new Intent();
+                    String text = "OMANNET";
+                    data.putExtra("DATA",text);
+                    setResult(RESULT_OK, data);
+                    finish();
+                    dialog.dismiss();
+                    isOmanNetSelected = false;
+                } else {
+                    Constants.showAlert(getString(R.string.payment_method), getString(R.string.select_method), getString(R.string.okay), MyPaymentActivity.this);
                 }
             }
         });
@@ -198,7 +214,7 @@ public class MyPaymentActivity extends BaseActivity {
         animation = AnimationUtils.loadAnimation(MyPaymentActivity.this,
                 R.anim.slide_bottom_to_top);
 
-        ((ViewGroup)dialog.getWindow().getDecorView())
+        ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
     }
@@ -210,6 +226,7 @@ public class MyPaymentActivity extends BaseActivity {
         if (obj != null) {
             cards.clear();
             cards.add(codCard());
+            cards.add(omanNetCard());
             cards.addAll((ArrayList<CardDs>) obj);
         }
 
@@ -221,6 +238,7 @@ public class MyPaymentActivity extends BaseActivity {
         }.getType());
         cards.clear();
         cards.add(codCard());
+        cards.add(omanNetCard());
         cards.addAll((Collection<? extends CardDs>) obj);
 
         paymentAdapter.notifyDataSetChanged();
@@ -231,9 +249,9 @@ public class MyPaymentActivity extends BaseActivity {
         if (paymentAdapter != null) {
             paymentAdapter.notifyDataSetChanged();
         }
-        if (cards.size()!=1) {
+        if (cards.size() != 1) {
             SamanApp.db.putString(Constants.CARD_LIST, GlobalValues.convertListToString(cards));
-        }else {
+        } else {
             SamanApp.db.putString(Constants.CARD_LIST, "");
         }
     }
@@ -248,9 +266,15 @@ public class MyPaymentActivity extends BaseActivity {
         }
     }
 
-    private CardDs codCard(){
-        CardDs cardDs=new CardDs();
+    private CardDs codCard() {
+        CardDs cardDs = new CardDs();
         cardDs.setCardNumber(getString(R.string.card_delivery));
+        return cardDs;
+    }
+
+    private CardDs omanNetCard() {
+        CardDs cardDs = new CardDs();
+        cardDs.setCardNumber(getString(R.string.omannet));
         return cardDs;
     }
 }

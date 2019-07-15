@@ -15,11 +15,14 @@ import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.apis.UserResponse;
+import com.algorepublic.saman.network.OmanNetServiceHandler;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.myaccount.payment.OmanNetCardDetailActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
 import com.algorepublic.saman.ui.activities.password.ForgotPasswordActivity;
 import com.algorepublic.saman.ui.activities.register.RegisterActivity;
@@ -51,9 +54,12 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -61,6 +67,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -127,6 +134,8 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, mFacebookCallback);
         //Social Login
+
+//        getInvoice();
     }
 
     @OnClick(R.id.toolbar_back)
@@ -375,6 +384,30 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         //Getting the username from session
         final String username = session.getUserName();
 
+        getTwitterData(false);
+
+        TwitterAuthClient authClient = new TwitterAuthClient();
+        authClient.requestEmail(session, new Callback<String>() {
+            @Override
+            public void success(Result<String> result) {
+                // Do something with the result, which provides the email address
+                socialEmail = result.data;
+                if(socialName.equalsIgnoreCase("")){
+                    getTwitterData(true);
+                }else {
+                    Log.e("Twitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
+                    socialLogin(2);
+                }
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                // Do something on failure
+            }
+        });
+    }
+
+    private void getTwitterData(boolean tryAgain){
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
         twitterApiClient.getAccountService().verifyCredentials(true, false, false).enqueue(new Callback<com.twitter.sdk.android.core.models.User>() {
             @Override
@@ -390,22 +423,10 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                 String photoUrlBiggerSize = userResult.data.profileImageUrl.replace("_normal", "_bigger");
                 String photoUrlMiniSize = userResult.data.profileImageUrl.replace("_normal", "_mini");
                 String photoUrlOriginalSize = userResult.data.profileImageUrl.replace("_normal", "");
-            }
-        });
-
-        TwitterAuthClient authClient = new TwitterAuthClient();
-        authClient.requestEmail(session, new Callback<String>() {
-            @Override
-            public void success(Result<String> result) {
-                // Do something with the result, which provides the email address
-                socialEmail = result.data;
-//                Log.e("Twitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
-                socialLogin(2);
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                // Do something on failure
+                if(tryAgain){
+                    Log.e("TTwitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
+                    socialLogin(2);
+                }
             }
         });
     }
@@ -562,6 +583,14 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                 GlobalValues.setUserLoginStatus(LoginActivity.this, true);
                                 GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
                                 Intent mainIntent = new Intent(LoginActivity.this, DashboardActivity.class);
+                                if(user.getPhoneNumber()==null || user.getShippingAddress().getAddressLine1()==null || user.getCountry()==null) {
+                                    mainIntent.putExtra("NavItem", 4);
+                                    mainIntent.putExtra("OpenDetails", true);
+                                }else if(user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
+                                        ||user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
+                                    mainIntent.putExtra("NavItem", 4);
+                                    mainIntent.putExtra("OpenDetails", true);
+                                }
                                 startActivity(mainIntent);
                                 finish();
                             }
@@ -578,4 +607,46 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         });
     }
     //Social Login
+
+
+
+    private void getInvoice() {
+        OmanNetServiceHandler.instance.invoice(new retrofit2.Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JSONObject JObject = new JSONObject(response.body().string());
+                    Log.e("Invoice",JObject.toString());
+                    if(JObject!=null) {
+                        JSONObject result = JObject.getJSONObject("result");
+                        if(result!=null) {
+                            if (result.has("status")) {
+                                if (result.getString("status").equalsIgnoreCase("success")) {
+                                    JSONObject message = result.getJSONObject("message");
+                                    if(message!=null) {
+                                        if (message.has("PayUrl")) {
+                                            String payURL=message.getString("PayUrl");
+                                            if(payURL!=null && !payURL.equals("")){
+                                                Intent intent=new Intent(LoginActivity.this, OmanNetCardDetailActivity.class);
+                                                intent.putExtra("PayURL",payURL);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
+    }
 }

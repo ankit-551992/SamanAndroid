@@ -55,8 +55,7 @@
                         android:layout_width="0dp"
                         android:layout_height="110dp"
                         android:layout_weight="0.25"
-                        android:padding="8dp"
-                        android:src="@drawable/dummy_mobile" />
+                        android:padding="8dp" />
 
                     <LinearLayout
                         android:layout_width="0dp"

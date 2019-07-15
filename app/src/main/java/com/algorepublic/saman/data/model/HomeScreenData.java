@@ -22,6 +22,9 @@ public class HomeScreenData {
     @SerializedName("BannerURL")
     @Expose
     private String bannerURL = null;
+    @SerializedName("BannerType")
+    @Expose
+    private Integer bannerType;
     @SerializedName("HeaderURLs")
     @Expose
     private List<String> headerURLs = null;
@@ -55,6 +58,18 @@ public class HomeScreenData {
 
     public String getBannerURL() {
         return bannerURL;
+    }
+
+    public Integer getBannerType() {
+        if(bannerType!=null) {
+            return bannerType;
+        }else {
+            return 0;
+        }
+    }
+
+    public void setBannerType(Integer bannerType) {
+        this.bannerType = bannerType;
     }
 
     public void setBannerURLs(String bannerURL) {

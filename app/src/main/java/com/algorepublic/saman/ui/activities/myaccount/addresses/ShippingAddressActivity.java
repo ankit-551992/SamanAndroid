@@ -22,7 +22,6 @@ import com.algorepublic.saman.data.model.apis.GetAddressApi;
 import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.network.WebServicesHandler;
-import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.adapters.AddressAdapter;
 import com.algorepublic.saman.ui.adapters.PaymentAdapter;
 import com.algorepublic.saman.utils.Constants;

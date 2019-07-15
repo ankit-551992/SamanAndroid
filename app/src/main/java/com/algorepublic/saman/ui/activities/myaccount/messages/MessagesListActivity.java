@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Conversation;
+import com.algorepublic.saman.data.model.OrderHistory;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.GetConversationsApi;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
@@ -24,6 +25,9 @@ import com.algorepublic.saman.utils.ResourceUtil;
 import com.algorepublic.saman.utils.SwipeHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -115,14 +119,32 @@ public class MessagesListActivity extends BaseActivity {
                     }
                 }
 
+                if(conversationArrayList.size()<1){
+                    empty.setVisibility(View.VISIBLE);
+                }else {
+                    empty.setVisibility(View.GONE);
+                }
+
+                Collections.sort(conversationArrayList, new Comparator<Conversation>() {
+                    @Override
+                    public int compare(Conversation lhs, Conversation rhs) {
+                        return getDate(rhs.getUpdatedAt()).compareTo(getDate(lhs.getUpdatedAt()));
+                    }
+                });
+
                 conversationsAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<GetConversationsApi> call, Throwable t) {
-
+                empty.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+
+    private Date getDate(String date){
+        return new Date(Long.parseLong(date.replaceAll("\\D", "")));
     }
 
     private void deleteConversation(int conversationID){

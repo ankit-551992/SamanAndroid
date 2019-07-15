@@ -158,7 +158,7 @@ public class ResetPasswordActivity  extends BaseActivity implements PasswordCont
 
     @Override
     public void error(String message) {
-        Constants.showAlert(getString(R.string.reset_password),message,getString(R.string.try_again),ResetPasswordActivity.this);
+        Constants.showAlert(getString(R.string.reset_password),getString(R.string.invalid_token),getString(R.string.try_again),ResetPasswordActivity.this);
     }
 
     @Override

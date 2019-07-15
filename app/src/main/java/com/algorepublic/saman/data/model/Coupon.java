@@ -3,8 +3,9 @@ package com.algorepublic.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Coupon {
+import java.util.List;
 
+public class Coupon {
 
     @SerializedName("CouponCode")
     @Expose
@@ -15,6 +16,15 @@ public class Coupon {
     @SerializedName("Discount")
     @Expose
     private Integer discount;
+    @SerializedName("CouponType")
+    @Expose
+    private Integer couponType;
+    @SerializedName("ProductID")
+    @Expose
+    private List<Integer> productID = null;
+    @SerializedName("StoreID")
+    @Expose
+    private List<Integer> storeID = null;
     @SerializedName("ID")
     @Expose
     private Integer iD;
@@ -43,6 +53,30 @@ public class Coupon {
         this.discount = discount;
     }
 
+    public Integer getCouponType() {
+        return couponType;
+    }
+
+    public void setCouponType(Integer couponType) {
+        this.couponType = couponType;
+    }
+
+    public List<Integer> getProductID() {
+        return productID;
+    }
+
+    public void setProductID(List<Integer> productID) {
+        this.productID = productID;
+    }
+
+    public List<Integer> getStoreID() {
+        return storeID;
+    }
+
+    public void setStoreID(List<Integer> storeID) {
+        this.storeID = storeID;
+    }
+
     public Integer getID() {
         return iD;
     }
@@ -50,7 +84,5 @@ public class Coupon {
     public void setID(Integer iD) {
         this.iD = iD;
     }
-
-
 
 }

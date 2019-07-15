@@ -44,6 +44,9 @@ public class Message {
     @SerializedName("ID")
     @Expose
     private Integer iD;
+    @SerializedName("StoreImage")
+    @Expose
+    private String storeImageURL;
 
     public String getTitle() {
         return title;
@@ -147,5 +150,16 @@ public class Message {
 
     public void setID(Integer iD) {
         this.iD = iD;
+    }
+
+    public String getStoreImageURL() {
+        if(storeImageURL==null){
+            storeImageURL="";
+        }
+        return storeImageURL;
+    }
+
+    public void setStoreImageURL(String storeImageURL) {
+        this.storeImageURL = storeImageURL;
     }
 }

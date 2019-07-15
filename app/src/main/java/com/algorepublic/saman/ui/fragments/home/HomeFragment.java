@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,14 @@ import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.Slider;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.GetProducts;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.order.cart.ShoppingCartActivity;
+import com.algorepublic.saman.ui.activities.product.ProductsActivity;
+import com.algorepublic.saman.ui.activities.product.SalesProductActivity;
 import com.algorepublic.saman.ui.activities.productdetail.CustomPagerAdapter;
-import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
-import com.algorepublic.saman.ui.activities.store.StoreActivity;
+
 import com.algorepublic.saman.ui.adapters.BestSellerPagerAdapter;
 import com.algorepublic.saman.ui.adapters.BestSellersAdapter;
 import com.algorepublic.saman.ui.adapters.BrandsAdapter;
@@ -102,6 +106,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     //product
 
     User authenticatedUser;
+    int bannerType=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,8 +126,10 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
     @OnClick(R.id.tv_latest_products_see_all)
     void products(){
-        Intent intent=new Intent(getContext(), ProductListingActivity.class);
-        intent.putExtra("Function",1); //1 for Latest Products
+//        Intent intent=new Intent(getContext(), ProductListingActivity.class);
+//        intent.putExtra("Function",1); //1 for Latest Products
+//        startActivity(intent);
+        Intent intent=new Intent(getContext(), ProductsActivity.class);
         startActivity(intent);
     }
 
@@ -132,6 +139,16 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 //        startActivity(intent);
         ((DashboardActivity)getContext()).callStoreNav();
     }
+
+    @OnClick(R.id.iv_header_below_banner)
+    void banner(){
+//        Log.e("BannerType",""+bannerType);
+        if(bannerType==5){
+            Intent intent=new Intent(getContext(), SalesProductActivity.class);
+            getContext().startActivity(intent);
+        }
+    }
+
 
     private void setStore(List<Store> storeArrayList) {
         layoutManager = new GridLayoutManager(getActivity(), 3);
@@ -245,11 +262,14 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
             storeSeeAllTextView.setVisibility(View.GONE);
         }
 
+
         if(screenApi.getBannerURL()!=null && !screenApi.getBannerURL().equals("")){
             Picasso.get().load(Constants.URLS.BaseURLImages+screenApi.getBannerURL()).fit().centerCrop()
                     .placeholder(R.drawable.home_banner)
                     .error(R.drawable.home_banner)
                     .into(headerBelowBanner);
+
+            bannerType=screenApi.getBannerType();
         }
 
         if(screenApi.getLatestProducts()!=null) {

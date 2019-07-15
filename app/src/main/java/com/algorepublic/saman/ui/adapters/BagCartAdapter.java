@@ -59,8 +59,6 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Product product = products.get(position);
             if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
-                        .placeholder(R.drawable.dummy_mobile)
-                        .error(R.drawable.dummy_mobile)
                         .into(bagViewHolder.storeImage);
             }
 

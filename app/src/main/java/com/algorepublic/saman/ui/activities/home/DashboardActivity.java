@@ -3,7 +3,6 @@ package com.algorepublic.saman.ui.activities.home;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,12 +27,14 @@ import android.widget.Toast;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
+import com.algorepublic.saman.data.model.Message;
 import com.algorepublic.saman.data.model.User;
+import com.algorepublic.saman.data.model.apis.GetConversationsApi;
 import com.algorepublic.saman.data.model.apis.GetProducts;
+import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
-import com.algorepublic.saman.ui.activities.dashboard.DummyActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
-import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
+import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.ui.activities.search.SearchActivity;
 import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.ui.fragments.bag.BagFragment;
@@ -45,6 +46,9 @@ import com.algorepublic.saman.utils.CircleTransform;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.algorepublic.saman.utils.SamanApp;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -53,16 +57,18 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DashboardActivity extends BaseActivity implements DashboardContractor.View, GoogleApiClient.OnConnectionFailedListener,NavigationView.OnNavigationItemSelectedListener {
+public class DashboardActivity extends BaseActivity implements DashboardContractor.View, GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -89,10 +95,14 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     private GoogleApiClient mGoogleApiClient;
     // index to identify current nav menu item
     public static int navItemIndex = 0;
-    private boolean unSelectedItem=false;
+    private boolean unSelectedItem = false;
     private Handler mHandler;
 
+    private boolean openDetails = false;
+
     DashboardPresenter mPresenter;
+    int unreadCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,11 +111,11 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         authenticatedUser = GlobalValues.getUser(this);
         search.setVisibility(View.GONE);
         GlobalValues.storeCategories = new ArrayList<>();
-        navItemIndex=getIntent().getIntExtra("NavItem",0);
+        navItemIndex = getIntent().getIntExtra("NavItem", 0);
+        openDetails = getIntent().getBooleanExtra("OpenDetails", false);
         mHandler = new Handler();
         mPresenter = new DashboardPresenter(this);
         mPresenter.getUserData();
-
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -116,6 +126,13 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+        if (openDetails) {
+            Intent intent = new Intent(this, MyDetailsActivity.class);
+            intent.putExtra("ShowAlert", true);
+            startActivity(intent);
+        }
+//        updateMessagesCount(3);
     }
 
     @Override
@@ -126,12 +143,23 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             onNavigationItemSelected(navigationView.getMenu().getItem(1));
             GlobalValues.orderPlaced = false;
         }
-//        authenticatedUser = GlobalValues.getUser(this);
-//        if(authenticatedUser.getId()!=0){
+        authenticatedUser = GlobalValues.getUser(this);
+        if (authenticatedUser.getId() != 0 && Constants.isLoginRequest) {
+            Constants.isLoginRequest = false;
 //            setupNavigationDrawer();
-//        }
+            MenuItem menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
+            menuItemLogout.setVisible(true);
+            MenuItem menuItemAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
+            menuItemAccount.setVisible(true);
+            MenuItem menuItemSettings = navigationView.getMenu().findItem(R.id.nav_settings);
+            menuItemSettings.setVisible(true);
+            MenuItem login = navigationView.getMenu().findItem(R.id.nav_login);
+            login.setVisible(false);
+            favCount();
+        }
         updateBagCount();
         updateUserDetails();
+        getConversation();
     }
 
     @Override
@@ -205,6 +233,13 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 show_logout_dialog();
                 unSelectedItem = true;
                 break;
+            case R.id.nav_login:
+                Constants.isLoginRequest = true;
+                Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                mainIntent.putExtra("GuestTry", true);
+                startActivity(mainIntent);
+                unSelectedItem = true;
+                break;
         }
         // close drawer when item is tapped
         mDrawerLayout.closeDrawers();
@@ -243,7 +278,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             // set item as selected to persist highlight
             item.setChecked(true);
             loadFragment();
-        }else {
+        } else {
             unSelectedItem = false;
         }
         return true;
@@ -277,22 +312,27 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
         loadFragment();
 
-        if(authenticatedUser.getId()==0) {
+        if (authenticatedUser.getId() == 0) {
             MenuItem menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
             menuItemLogout.setVisible(false);
             MenuItem menuItemAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
             menuItemAccount.setVisible(false);
             MenuItem menuItemSettings = navigationView.getMenu().findItem(R.id.nav_settings);
             menuItemSettings.setVisible(false);
-        }else{
+            MenuItem login = navigationView.getMenu().findItem(R.id.nav_login);
+            login.setVisible(true);
+        } else {
             MenuItem menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
             menuItemLogout.setVisible(true);
             MenuItem menuItemAccount = navigationView.getMenu().findItem(R.id.nav_my_account);
             menuItemAccount.setVisible(true);
             MenuItem menuItemSettings = navigationView.getMenu().findItem(R.id.nav_settings);
             menuItemSettings.setVisible(true);
-        }
+            MenuItem login = navigationView.getMenu().findItem(R.id.nav_login);
+            login.setVisible(false);
 
+            favCount();
+        }
     }
 
     @Override
@@ -301,21 +341,21 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         txtName.setText(authenticatedUser.getFirstName() + " " + authenticatedUser.getLastName());
         txtWebsite.setText(authenticatedUser.getEmail());
         if (authenticatedUser.getProfileImagePath() != null) {
-            if(authenticatedUser.getSocialID()!=0) {
-                if(!authenticatedUser.getProfileImagePath().isEmpty()) {
+            if (authenticatedUser.getSocialID() != 0) {
+                if (!authenticatedUser.getProfileImagePath().isEmpty()) {
                     Picasso.get()
                             .load(authenticatedUser.getProfileImagePath())
                             .transform(new CircleTransform())
                             .placeholder(R.drawable.ic_profile)
                             .into(imgProfile);
-                }else {
+                } else {
                     Picasso.get()
                             .load("https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1")
                             .transform(new CircleTransform())
                             .placeholder(R.drawable.ic_profile)
                             .into(imgProfile);
                 }
-            }else {
+            } else {
                 Picasso.get()
                         .load(Constants.URLS.BaseURLImages + authenticatedUser.getProfileImagePath())
                         .transform(new CircleTransform())
@@ -355,6 +395,10 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     }
 
     private Fragment getSelectedFragment() {
+//        if(Constants.viewBag){
+//            navItemIndex=3;
+//            Constants.viewBag=false;
+//        }
         Fragment fragment;
         switch (navItemIndex) {
             case 0:
@@ -374,7 +418,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 title = getString(R.string.shopping_cart);
                 break;
             case 4:
-                fragment = new MyAccountFragment();
+//                fragment = new MyAccountFragment();
+                fragment = MyAccountFragment.newInstance(unreadCount);
                 title = getString(R.string.title_my_account);
                 break;
             default:
@@ -392,7 +437,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             return;
         }
 
-        if(navItemIndex!=0){
+        if (navItemIndex != 0) {
             onNavigationItemSelected(navigationView.getMenu().getItem(0));
             return;
         }
@@ -430,11 +475,14 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 //                presenter.logoutUser();
+
                 SamanApp.db.putString(Constants.CARD_LIST, "");
-                if(SamanApp.localDB!=null){
+                if (SamanApp.localDB != null) {
                     SamanApp.localDB.clearCart();
                 }
-                if(authenticatedUser.getSocialID()==1){
+                removeToken();
+
+                if (authenticatedUser.getSocialID() == 1) {
                     Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                             new ResultCallback<Status>() {
                                 @Override
@@ -445,17 +493,17 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                                     finish();
                                 }
                             });
-                }else if(authenticatedUser.getSocialID()==2){
+                } else if (authenticatedUser.getSocialID() == 2) {
                     GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
                     Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
                     startActivity(mainIntent);
                     finish();
-                }else if(authenticatedUser.getSocialID()==3){
+                } else if (authenticatedUser.getSocialID() == 3) {
                     GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
                     Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
                     startActivity(mainIntent);
                     finish();
-                }else {
+                } else {
                     GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
                     Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
                     startActivity(mainIntent);
@@ -481,7 +529,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     }
 
     public void updateBagCount() {
-        if(SamanApp.localDB.getCartAllProductsCount()>0) {
+        if (SamanApp.localDB.getCartAllProductsCount() > 0) {
             // showing dot next to notifications label
             MenuItem element = navigationView.getMenu().findItem(R.id.nav_bag);
             String before = getString(R.string.shopping_cart);
@@ -493,7 +541,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
 
             element.setTitle(sColored);
-        }else {
+        } else {
             MenuItem element = navigationView.getMenu().findItem(R.id.nav_bag);
             String before = getString(R.string.shopping_cart);
             element.setTitle(before);
@@ -501,7 +549,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     }
 
     public void updateFavCount(int count) {
-        if(count>0) {
+        if (count > 0) {
             // showing dot next to notifications label
             MenuItem element = navigationView.getMenu().findItem(R.id.nav_favorite);
             String before = getString(R.string.title_fav);
@@ -512,16 +560,101 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
 
             element.setTitle(sColored);
-        }else {
+        } else {
             MenuItem element = navigationView.getMenu().findItem(R.id.nav_favorite);
             String before = getString(R.string.title_fav);
             element.setTitle(before);
         }
     }
 
+    public void updateMessagesCount(int count) {
+        if (count > 0) {
+            // showing dot next to notifications label
+            MenuItem element = navigationView.getMenu().findItem(R.id.nav_my_account);
+            String before = getString(R.string.title_my_account);
+            String counter = Integer.toString(count);
+            String s = before + "   " + counter + " ";
+            SpannableString sColored = new SpannableString(s);
+            sColored.setSpan(new BackgroundColorSpan(Color.GRAY), s.length() - (counter.length() + 2), s.length(), 0);
+            sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
+
+            element.setTitle(sColored);
+
+            GlobalValues.setBadgeCount(this, count);
+            ShortcutBadger.applyCount(DashboardActivity.this, count);
+
+        } else {
+            MenuItem element = navigationView.getMenu().findItem(R.id.nav_my_account);
+            String before = getString(R.string.title_my_account);
+            element.setTitle(before);
+        }
+    }
+
+    private void favCount() {
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+
+        apiClient.getFavoriteList(authenticatedUser.getId(), 0, 1000, new Callback<GetProducts>() {
+            @Override
+            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                GetProducts getProducts = response.body();
+                if (getProducts != null) {
+                    if (getProducts.getSuccess() == 1) {
+                        updateFavCount(getProducts.getProduct().size());
+                    }
+                }
+//                getConversation();
+            }
+
+            @Override
+            public void onFailure(Call<GetProducts> call, Throwable t) {
+                Log.e("onFailure", "" + t.getMessage());
+//                getConversation();
+            }
+        });
+    }
+
+
+    private void getConversation() {
+        unreadCount = 0;
+        WebServicesHandler.instance.getConversationList(authenticatedUser.getId(), new retrofit2.Callback<GetConversationsApi>() {
+            @Override
+            public void onResponse(Call<GetConversationsApi> call, Response<GetConversationsApi> response) {
+                GetConversationsApi getConversationsApi = response.body();
+                if (getConversationsApi != null) {
+                    if (getConversationsApi.getResult() != null) {
+                        for (int i = 0; i < getConversationsApi.getResult().size(); i++) {
+                            for (int j = 0; j < getConversationsApi.getResult().get(i).getMessages().size(); j++) {
+                                Message message = getConversationsApi.getResult().get(i).getMessages().get(j);
+                                if (!message.getIsRead() && message.getSender().getId() != authenticatedUser.getId()) {
+                                    unreadCount++;
+                                }
+                            }
+                        }
+                        updateMessagesCount(unreadCount);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetConversationsApi> call, Throwable t) {
+            }
+        });
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void removeToken() {
+        WebServicesHandler.instance.updateDeviceToken(authenticatedUser.getId(), "", new retrofit2.Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+            }
+        });
     }
 }

@@ -23,6 +23,7 @@ import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,8 +38,6 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     List<CardDs> cardDsList = new ArrayList<>();
     private OnLoadMoreListener mOnLoadMoreListener;
     private Context mContext;
-
-
 
     public PaymentAdapter(Context mContext,List<CardDs> cardDsList){
         this.cardDsList=cardDsList;
@@ -93,22 +92,38 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     paymentViewHolder.cardImageView.getLayoutParams().width = 200;
                     paymentViewHolder.cardImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.cash_delivery));
                 }
-                paymentViewHolder.cardHolderName.setText("Cash On delivery");
+                paymentViewHolder.cardHolderName.setText(mContext.getString(R.string.card_delivery));
+                paymentViewHolder.cardExpiry.setVisibility(View.GONE);
+                paymentViewHolder.cardNumber.setVisibility(View.GONE);
+                paymentViewHolder.edit.setVisibility(View.GONE);
+            }else if(position==1){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    paymentViewHolder.cardImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_oman_net));
+                    paymentViewHolder.cardImageView.getLayoutParams().height = 200;
+                    paymentViewHolder.cardImageView.getLayoutParams().width = 200;
+                }else {
+                    paymentViewHolder.cardImageView.getLayoutParams().height = 200;
+                    paymentViewHolder.cardImageView.getLayoutParams().width = 200;
+                    paymentViewHolder.cardImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_oman_net));
+                }
+                paymentViewHolder.cardHolderName.setText(mContext.getString(R.string.omannet));
                 paymentViewHolder.cardExpiry.setVisibility(View.GONE);
                 paymentViewHolder.cardNumber.setVisibility(View.GONE);
                 paymentViewHolder.edit.setVisibility(View.GONE);
             }else {
                 paymentViewHolder.cardHolderName.setText(cardDsList.get(position).getCardHolder());
                 paymentViewHolder.cardExpiry.setText(cardDsList.get(position).getExpireDate());
-                paymentViewHolder.cardNumber.setText("Visa ("+cardDsList.get(position).getOtp()+")");
+                String cardNumber= String.valueOf(cardDsList.get(position).getCardNumber());
+                String cardNumberShow = cardNumber.substring(Math.max(cardNumber.length() - 4, 0));
+                paymentViewHolder.cardNumber.setText("Visa ("+cardNumberShow+")");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    paymentViewHolder.cardImageView.setImageDrawable(mContext.getDrawable(R.drawable.visa_card));
+                    paymentViewHolder.cardImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_visa_));
                     paymentViewHolder.cardImageView.getLayoutParams().height = 200;
                     paymentViewHolder.cardImageView.getLayoutParams().width = 200;
                 }else {
                     paymentViewHolder.cardImageView.getLayoutParams().height = 200;
                     paymentViewHolder.cardImageView.getLayoutParams().width = 200;
-                    paymentViewHolder.cardImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.visa_card));
+                    paymentViewHolder.cardImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_visa_));
                 }
 
                 paymentViewHolder.cardExpiry.setVisibility(View.VISIBLE);
@@ -128,15 +143,21 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(position!=0) {
+                    if(position==0) {
                         Intent data = new Intent();
-                        String text = cardDsList.get(position).getCardNumber();
+                        String text = "CASH";
+                        data.putExtra("DATA",text);
+                        ((Activity) mContext).setResult(RESULT_OK, data);
+                        ((Activity) mContext).finish();
+                    } else if(position==1){
+                        Intent data = new Intent();
+                        String text = "OMANNET";
                         data.putExtra("DATA",text);
                         ((Activity) mContext).setResult(RESULT_OK, data);
                         ((Activity) mContext).finish();
                     }else {
                         Intent data = new Intent();
-                        String text = "CASH";
+                        String text = cardDsList.get(position).getCardNumber();
                         data.putExtra("DATA",text);
                         ((Activity) mContext).setResult(RESULT_OK, data);
                         ((Activity) mContext).finish();
@@ -148,6 +169,14 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
         }
+    }
+
+
+    String maskedCardNumber(String cardNumber) {
+        int maskLen = cardNumber.length() - 4;
+        char[] mask = new char[maskLen];
+        Arrays.fill(mask, '*');
+        return new String(mask) + cardNumber.substring(maskLen);
     }
 
     @Override

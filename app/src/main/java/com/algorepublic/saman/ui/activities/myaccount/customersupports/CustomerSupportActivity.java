@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -37,6 +38,8 @@ import com.algorepublic.saman.data.model.apis.CustomerSupport;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
+import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.ui.adapters.CustomerSupportAdapter;
 import com.algorepublic.saman.utils.CircleTransform;
@@ -195,12 +198,19 @@ public class CustomerSupportActivity extends BaseActivity {
             Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
             return;
         }
+        if (messageSelectionEditText.getText().toString().equals("") && messageSelectionEditText.getText().toString().isEmpty()) {
+            Constants.showAlert(getString(R.string.customer_service), getString(R.string.write_here), getString(R.string.okay), CustomerSupportActivity.this);
+            return;
+        }
 
         if (files.size() > 1) {
             List<File> uFiles = new ArrayList<>();
             for (int i = 1; i < files.size(); i++) {
                 uFiles.add(files.get(i));
             }
+            uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
+        }else {
+            List<File> uFiles = new ArrayList<>();
             uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
         }
     }
@@ -324,8 +334,11 @@ public class CustomerSupportActivity extends BaseActivity {
             public void onResponse(Call<CustomerSupport> call, Response<CustomerSupport> response) {
                 Constants.dismissSpinner();
                 CustomerSupport customerSupport = response.body();
-                if (customerSupport.getSuccess() == 1) {
-                    Constants.showAlertWithActivityFinish(getString(R.string.customer_service), getString(R.string.ticket_created_success), getString(R.string.okay), CustomerSupportActivity.this);
+                if(customerSupport!=null) {
+                    if (customerSupport.getSuccess() == 1) {
+                        showPopUp();
+//                    Constants.showAlertWithActivityFinish(getString(R.string.customer_service), getString(R.string.ticket_created_success), getString(R.string.okay), CustomerSupportActivity.this);
+                    }
                 }
             }
 
@@ -334,5 +347,43 @@ public class CustomerSupportActivity extends BaseActivity {
                 Constants.dismissSpinner();
             }
         });
+    }
+
+
+    Dialog dialog2;
+
+    private void showPopUp() {
+        dialog2 = new Dialog(CustomerSupportActivity.this, R.style.CustomDialog);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.setContentView(R.layout.dialog_customer_support);
+        dialog2.setCancelable(false);
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog2.findViewById(R.id.iv_pop_up_close);
+        Button nextButton = (Button) dialog2.findViewById(R.id.button_pop_next);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog2.dismiss();
+                finish();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog2.dismiss();
+                finish();
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(CustomerSupportActivity.this,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog2.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog2.show();
     }
 }

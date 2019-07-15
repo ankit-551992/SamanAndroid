@@ -29,6 +29,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-55dp"
             android:contentDescription="@string/contentDescription"/>
+
         <TextView
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
@@ -41,6 +42,7 @@
             android:textSize="20sp"
             android:textColor="@color/black"
             android:id="@+id/user_name"/>
+
         <TextView
             android:id="@+id/user_email"
             android:layout_marginBottom="5dp"
@@ -243,6 +245,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tv_message"
                     android:layout_centerVertical="true"
                     android:drawablePadding="15dp"
                     android:drawableLeft="@drawable/my_envelope"
@@ -252,6 +255,20 @@
                     android:text="@string/messages"
                     android:textSize="18sp"
                     android:textColor="@color/black"/>
+                
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_unread_message_count"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:background="@color/grey"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/tv_message"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <ImageView
                     android:layout_centerVertical="true"

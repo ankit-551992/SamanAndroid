@@ -16,7 +16,7 @@ public class Country {
     private String name;
     @SerializedName("phoneCode")
     @Expose
-    private Integer phoneCode;
+    private String phoneCode;
 
     String flag;
 
@@ -59,15 +59,15 @@ public class Country {
         return this;
     }
 
-    public Integer getPhoneCode() {
+    public String getPhoneCode() {
         return phoneCode;
     }
 
-    public void setPhoneCode(Integer phoneCode) {
+    public void setPhoneCode(String phoneCode) {
         this.phoneCode = phoneCode;
     }
 
-    public Country withPhoneCode(Integer phoneCode) {
+    public Country withPhoneCode(String phoneCode) {
         this.phoneCode = phoneCode;
         return this;
     }

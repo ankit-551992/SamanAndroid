@@ -4,8 +4,6 @@ import android.util.Log;
 
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
-import com.algorepublic.saman.utils.GlobalValues;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -47,7 +47,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     private List<Product> productArrayList;
     private Context mContext;
     private BagFragment bagFragment;
-    private int grandTotal = 0;
+    private float grandTotal = 0;
 
     private User authenticatedUser;
 
@@ -108,14 +108,12 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             }
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
-                        .placeholder(R.drawable.dummy_mobile)
-                        .error(R.drawable.dummy_mobile)
                         .into(bagViewHolder.productImageView);
             }
 
 
             bagViewHolder.price.setText(product.getPrice() + " OMR");
-            int total = product.getPrice() * product.getQuantity();
+            float total = product.getPrice() * product.getQuantity();
             grandTotal = grandTotal + total;
             bagViewHolder.total.setText(total + " OMR");
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
@@ -151,7 +149,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     authenticatedUser = GlobalValues.getUser(mContext);
                     Log.e("Values " + position, productArrayList.get(position).getOptionValues());
                     String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
-                    GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
+                    GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs,Integer.valueOf(bagViewHolder.quantity.getText().toString()  ));
                     Product p = productArrayList.get(position);
                     if (SamanApp.localDB.deleteItemFromCart(p)) {
                         productArrayList.remove(p);
@@ -283,8 +281,10 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     }
 
     public void updateNotify() {
+        bagFragment.updateQuantity();
         grandTotal = 0;
         notifyDataSetChanged();
+
     }
 
     class LoadingViewHolder extends RecyclerView.ViewHolder {
@@ -339,11 +339,14 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View view) {
                 if (type == 0) {
+                    dialog.dismiss();
+                    Constants.viewBag=true;
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
                     ((Activity) mContext).startActivity(intent);
                 } else {
+                    dialog.dismiss();
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);

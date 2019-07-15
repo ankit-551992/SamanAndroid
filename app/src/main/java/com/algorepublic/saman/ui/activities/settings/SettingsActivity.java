@@ -22,17 +22,12 @@ import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.ui.activities.PoliciesActivity;
-import com.algorepublic.saman.ui.activities.country.CountriesActivity;
+import com.algorepublic.saman.ui.activities.country.CountriesListingActivity;
 import com.algorepublic.saman.ui.activities.password.ChangePasswordActivity;
-import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.utils.CircleTransform;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
-import com.thefinestartist.finestwebview.FinestWebView;
-
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,10 +65,12 @@ public class SettingsActivity extends BaseActivity {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
-        for (int i = 0; i < GlobalValues.countries.size(); i++) {
-            if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))) {
-                selectedCountry = GlobalValues.countries.get(i);
-                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+        if(GlobalValues.countries!=null) {
+            for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))) {
+                    selectedCountry = GlobalValues.countries.get(i);
+                    Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                }
             }
         }
 
@@ -101,7 +98,7 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
-        Intent intent = new Intent(SettingsActivity.this, CountriesActivity.class);
+        Intent intent = new Intent(SettingsActivity.this, CountriesListingActivity.class);
         startActivityForResult(intent, 1299);
     }
 
@@ -142,10 +139,12 @@ public class SettingsActivity extends BaseActivity {
 
         if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {
-                for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                    if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))) {
-                        selectedCountry = GlobalValues.countries.get(i);
-                        Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                if(GlobalValues.countries!=null) {
+                    for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                        if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))) {
+                            selectedCountry = GlobalValues.countries.get(i);
+                            Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                        }
                     }
                 }
             }

@@ -5,12 +5,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
@@ -45,6 +48,7 @@ import com.algorepublic.saman.data.model.apis.GetStores;
 import com.algorepublic.saman.db.MySQLiteHelper;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.myaccount.customersupports.CustomerSupportActivity;
 import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.ui.activities.search.ProductListingActivity;
 import com.algorepublic.saman.ui.fragments.home.HomeContractor;
@@ -79,8 +83,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     LinearLayout optionsLinearLayout;
 
     //Product
-    @BindView(R.id.tv_attributes)
-    TextView attributes;
     @BindView(R.id.tv_product_name)
     TextView productName;
     @BindView(R.id.tv_store_name)
@@ -93,6 +95,14 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     TextView productCount;
     @BindView(R.id.iv_favorite)
     ImageView favoriteImageView;
+    @BindView(R.id.iv_add_to_cart)
+    ImageView addToCart;
+    @BindView(R.id.iv_add_quantity)
+    ImageView addQuantity;
+    @BindView(R.id.iv_remove_quantity)
+    ImageView removeQuantity;
+    @BindView(R.id.tv_out_of_stock)
+    TextView outOfStockTextView;
 
     //Product
 
@@ -102,6 +112,13 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     Product product;
     User authenticatedUser;
+
+
+    @BindView(R.id.layout_specifications_parent)
+    LinearLayout specificationParentLayout;
+    @BindView(R.id.layout_specifications)
+    LinearLayout specificationsLayout;
+
 
     ProductContractor.Presenter presenter;
     @BindView(R.id.loading)
@@ -113,6 +130,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
     final long PERIOD_MS = 5 * 1000; // time in milliseconds between successive task executions.
 
+    boolean fromFavorite = false;
+
+    String selectedOptions = "";
+    String[] optionIDs;
+    int selectedQuantity = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +148,40 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
         authenticatedUser = GlobalValues.getUser(this);
-        productID = getIntent().getIntExtra("ProductID", 1);
+        if (getIntent().hasExtra("ProductID")) {
+            productID = getIntent().getIntExtra("ProductID", 1);
+        }
+
+        if (getIntent().hasExtra("Favorites")) {
+            fromFavorite = getIntent().getBooleanExtra("Favorites", false);
+        }
+
+        if (getIntent().hasExtra("Quantity")) {
+            selectedQuantity = getIntent().getIntExtra("Quantity", -1);
+        }
+
+        if (getIntent().hasExtra("Options")) {
+            selectedOptions = getIntent().getStringExtra("Options");
+            optionIDs = selectedOptions.split(",");
+
+            for (int o = 0; o < optionIDs.length; o++) {
+                Log.e(o + "-Options", optionIDs[o]);
+            }
+        }
+
+
+        Intent intentShare = getIntent();
+        String action = intentShare.getAction();
+        Uri data = intentShare.getData();
+        if (data != null) {
+            String id = data.getQueryParameter("id");
+            if (id != null) {
+                productID = Integer.valueOf(id);
+            } else {
+                finish();
+            }
+        }
+
 
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         presenter = new ProductPresenter(this);
@@ -161,16 +216,23 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     public void favoriteButton() {
 
 
-        if(GlobalValues.getGuestLoginStatus(ProductDetailActivity.this)){
+        if (GlobalValues.getGuestLoginStatus(ProductDetailActivity.this)) {
             Constants.showLoginDialog(ProductDetailActivity.this);
             return;
         }
-        authenticatedUser= GlobalValues.getUser(ProductDetailActivity.this);
+
+        if (!allOptionsSelected()) {
+            showPopUp();
+            return;
+        }
+
+        authenticatedUser = GlobalValues.getUser(ProductDetailActivity.this);
 
         if (product.getFavorite()) {
-            showAlert(getString(R.string.ask_remove_from_fav),getString(R.string.remove_sure));
+            showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure));
         } else {
-            presenter.markFavorite(authenticatedUser.getId(), productID);
+            String[] optionIDs = getOptionsData().split(",");
+            presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
             product.setFavorite(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));
@@ -192,13 +254,36 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (product == null) {
             return;
         }
+
+        if (!allOptionsSelected()) {
+            showPopUp();
+            return;
+        }
+
         if (SamanApp.localDB != null) {
-            if (SamanApp.localDB.addToCart(product, getOptionsData(),getOptionsName(),getOptionsNameAR(), Integer.parseInt(productCount.getText().toString()))) {
-                showPopUp(getString(R.string.item_added_bag),
-                        getString(R.string.item_added_message),
-                        getString(R.string.continue_shopping),
-                        getString(R.string.view_bag),
-                        0);
+            if (product.getQuantity() != 0) {
+                Log.e("PP", "" + Integer.parseInt(productCount.getText().toString()));
+                Log.e("Quantity", "" + product.getQuantity());
+                if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
+                    if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(), Integer.parseInt(productCount.getText().toString()))) {
+                        showPopUp(getString(R.string.item_added_bag),
+                                getString(R.string.item_added_message),
+                                getString(R.string.continue_shopping),
+                                getString(R.string.view_bag),
+                                0);
+                    }
+                } else {
+                    String text = String.format(getString(R.string.items_available_count), product.getQuantity());
+                    Constants.showAlert(getString(R.string.title_my_bag),
+                            text,
+                            getString(R.string.cancel),
+                            this);
+                }
+            } else {
+                Constants.showAlert(getString(R.string.title_my_bag),
+                        getString(R.string.out_of_stock),
+                        getString(R.string.cancel),
+                        this);
             }
         }
     }
@@ -206,7 +291,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     Dialog dialog;
 
-    private void showPopUp(String title, String message, String closeButtonText,String nextButtonText, final int type) {
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
         dialog = new Dialog(ProductDetailActivity.this, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -242,11 +327,14 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             @Override
             public void onClick(View view) {
                 if (type == 0) {
+                    dialog.dismiss();
+                    Constants.viewBag = true;
                     Intent intent = new Intent(ProductDetailActivity.this, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
                     startActivity(intent);
                 } else {
+                    dialog.dismiss();
                     Intent intent = new Intent(ProductDetailActivity.this, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);
@@ -263,6 +351,46 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
+    }
+
+    Dialog dialog2;
+
+    private void showPopUp() {
+        dialog2 = new Dialog(ProductDetailActivity.this, R.style.CustomDialog);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.setContentView(R.layout.dialog_customer_support);
+        dialog2.setCancelable(false);
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        TextView titleTextView = (TextView) dialog2.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = (TextView) dialog2.findViewById(R.id.tv_pop_up_message);
+        ImageView close = (ImageView) dialog2.findViewById(R.id.iv_pop_up_close);
+        Button nextButton = (Button) dialog2.findViewById(R.id.button_pop_next);
+
+        titleTextView.setText(getString(R.string.error));
+        messageTextView.setText(getString(R.string.missing_options));
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog2.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog2.dismiss();
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(ProductDetailActivity.this,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog2.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog2.show();
     }
 
     public void showAlert(String title, String message, String buttonText, String buttonText2) {
@@ -292,7 +420,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.iv_share)
     public void share() {
-        Constants.showAlert(getString(R.string.sorry), getString(R.string.no_implemented), getString(R.string.close), ProductDetailActivity.this);
+        inviteFriends();
+//        Constants.showAlert(getString(R.string.sorry), getString(R.string.no_implemented), getString(R.string.close), ProductDetailActivity.this);
     }
 
     @OnClick(R.id.left_nav)
@@ -309,8 +438,16 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @OnClick(R.id.iv_add_quantity)
     void addItem() {
         int current = Integer.parseInt(productCount.getText().toString());
-        current++;
-        productCount.setText(String.valueOf(current));
+        if (product.getQuantity() > current) {
+            current++;
+            productCount.setText(String.valueOf(current));
+        } else {
+            String text = String.format(getString(R.string.items_available_count), product.getQuantity());
+            Constants.showAlert(getString(R.string.title_my_bag),
+                    text,
+                    getString(R.string.cancel),
+                    this);
+        }
     }
 
     @OnClick(R.id.iv_remove_quantity)
@@ -342,48 +479,82 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @Override
     public void response(Product product) {
         this.product = product;
-        if(SamanApp.isEnglishVersion) {
+        if (selectedQuantity != -1) {
+            this.product.setQuantity(selectedQuantity);
+            productCount.setText("" + selectedQuantity);
+        }
+        if (SamanApp.isEnglishVersion) {
             productName.setText(product.getProductName());
             storeName.setText(product.getStoreName());
-        }else {
+        } else {
             productName.setText(product.getProductNameAR());
             storeName.setText(product.getStoreNameAR());
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if(SamanApp.isEnglishVersion) {
+            if (SamanApp.isEnglishVersion) {
                 productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
-            }else {
+            } else {
                 productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
             }
         } else {
-            if(SamanApp.isEnglishVersion) {
+            if (SamanApp.isEnglishVersion) {
                 productDescription.setText(Html.fromHtml(product.getDescription()));
-            }else {
+            } else {
                 productDescription.setText(Html.fromHtml(product.getDescriptionAR()));
             }
         }
 
         String atributes = "";
+
+        if(product.getProductAttributes()==null || product.getProductAttributes().size()<1){
+            specificationParentLayout.setVisibility(View.GONE);
+        }
+
         for (int i = 0; i < product.getProductAttributes().size(); i++) {
 
-            if (atributes.equals("")) {
-                if(SamanApp.isEnglishVersion) {
-                    atributes = product.getProductAttributes().get(i).getTitle();
-                }else {
-                    atributes = product.getProductAttributes().get(i).getTitleAR();
-                }
+//            if (atributes.equals("")) {
+//                if (SamanApp.isEnglishVersion) {
+//                    atributes = product.getProductAttributes().get(i).getTitle()+" : "+product.getProductAttributes().get(i).getValue();
+//                } else {
+//                    atributes = product.getProductAttributes().get(i).getTitleAR()+" : "+product.getProductAttributes().get(i).getValueAR();
+//                }
+//            } else {
+//                if (SamanApp.isEnglishVersion) {
+//                    atributes = atributes + "\n" + product.getProductAttributes().get(i).getTitle()+" : "+product.getProductAttributes().get(i).getValue();
+//                } else {
+//                    atributes = atributes + "\n" + product.getProductAttributes().get(i).getTitleAR()+" : "+product.getProductAttributes().get(i).getValueAR();
+//                }
+//            }
+
+            ProductAttribute productAttribute = product.getProductAttributes().get(i);
+            View child = inflater.inflate(R.layout.item_specifications_row, null);
+            TextView name = (TextView) child.findViewById(R.id.tv_attributeName);
+            TextView value = (TextView) child.findViewById(R.id.tv_attributeValue);
+
+            if (SamanApp.isEnglishVersion) {
+                name.setText(productAttribute.getTitle());
+                value.setText(productAttribute.getValue());
             } else {
-                if (SamanApp.isEnglishVersion) {
-                    atributes = atributes + "\n" + product.getProductAttributes().get(i).getTitle();
-                }else {
-                    atributes = atributes + "\n" + product.getProductAttributes().get(i).getTitleAR();
-                }
+                name.setText(productAttribute.getTitleAR());
+                value.setText(productAttribute.getValueAR());
             }
+
+            specificationsLayout.addView(child);
         }
-        if (!atributes.equals("")) {
-            attributes.setText(atributes);
-        } else {
-            attributes.setText(getString(R.string.no_specifications));
+
+//        if (!atributes.equals("")) {
+//            attributes.setText(atributes);
+//        } else {
+//            attributes.setText(getString(R.string.no_specifications));
+//        }
+
+
+        if (product.getQuantity() <= 0) {
+            addToCart.setEnabled(false);
+            removeQuantity.setEnabled(false);
+            addQuantity.setEnabled(false);
+            outOfStockTextView.setVisibility(View.VISIBLE);
+            productCount.setText("0");
         }
 
         productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
@@ -395,18 +566,35 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 TextView optionName = (TextView) child.findViewById(R.id.tv_option_name);
                 Spinner optionValuesSpinner = (Spinner) child.findViewById(R.id.spinner_option_value);
 
-                if(SamanApp.isEnglishVersion) {
+                if (SamanApp.isEnglishVersion) {
                     optionName.setText(productOption.getTitle());
-                }else {
+                } else {
                     optionName.setText(productOption.getTitleAR());
                 }
                 if (productOption.getOptionValues() != null) {
-                    ArrayAdapter valuesAdapter = new ArrayAdapter(ProductDetailActivity.this, android.R.layout.simple_spinner_item, productOption.getOptionValues());
+
+                    List<OptionValue> optionsList = productOption.getOptionValues();
+                    OptionValue value = new OptionValue();
+                    value.setID(-200);
+                    value.setTitle(getString(R.string.select));
+                    value.setTitleAR(getString(R.string.select));
+                    optionsList.add(0, value);
+
+                    ArrayAdapter valuesAdapter = new ArrayAdapter(ProductDetailActivity.this, android.R.layout.simple_spinner_item, optionsList);
                     optionValuesSpinner.setAdapter(valuesAdapter);
                 }
-                for (int i=0;i<productOption.getOptionValues().size();i++){
-                    Log.e("ID",""+productOption.getOptionValues().get(i).getID());
+                for (int i = 0; i < productOption.getOptionValues().size(); i++) {
+//                    Log.e("ID", "" + productOption.getOptionValues().get(i).getID());
+                    if (optionIDs != null) {
+                        if (optionIDs.length == product.getProductOptions().size()) {
+                            if (productOption.getOptionValues().get(i).getID() == Integer.valueOf(optionIDs[p])) {
+                                optionValuesSpinner.setSelection(i);
+                            }
+                        }
+                    }
                 }
+
+//                optionValuesSpinner.setPrompt(getString(R.string.select));
                 optionsLinearLayout.addView(child);
             }
         }
@@ -421,6 +609,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         for (int i = 0; i < product.getProductImagesURLs().size(); i++) {
             urls.add(product.getProductImagesURLs().get(i));
         }
+
         if (urls.size() == 0) {
             urls.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
         }
@@ -509,6 +698,24 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         return ids;
     }
 
+    private boolean allOptionsSelected() {
+        boolean isAllSelected = true;
+        View v = null;
+        OptionValue optionValue = null;
+        String ids = "";
+        if (product.getProductOptions() != null) {
+            for (int i = 0; i < product.getProductOptions().size(); i++) {
+                v = optionsLinearLayout.getChildAt(i);
+                Spinner spinner = (Spinner) ((RelativeLayout) v).getChildAt(1);
+                optionValue = (OptionValue) spinner.getSelectedItem();
+                if (optionValue.getID() == -200) {
+                    isAllSelected = false;
+                }
+            }
+        }
+        return isAllSelected;
+    }
+
     private String getOptionsName() {
         View v = null;
         OptionValue optionValue = null;
@@ -572,7 +779,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     }
 
     private void dislike() {
-        presenter.markUnFavorite(authenticatedUser.getId(), productID);
+//        String[] optionIDs = getOptionsData().split(",");
+        presenter.markUnFavorite(authenticatedUser.getId(), productID, null);
         product.setFavorite(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             favoriteImageView.setImageDrawable(getDrawable(R.drawable.ic_fav_b));
@@ -584,5 +792,13 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //                getString(R.string.continue_shopping),
 //                getString(R.string.view_fav),
 //                1);
+    }
+
+    private void inviteFriends() {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Lets Enjoy on Saman");
+        intent.putExtra(Intent.EXTRA_TEXT, "Lets Enjoy Saman " + "https://www.saman.om/productSharing?deviceType=2&id=" + productID);
+        startActivity(Intent.createChooser(intent, "Share Saman With Friends"));
     }
 }

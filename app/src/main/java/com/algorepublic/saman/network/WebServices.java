@@ -1,6 +1,5 @@
 package com.algorepublic.saman.network;
 
-import com.algorepublic.saman.data.model.ShippingAddress;
 import com.algorepublic.saman.data.model.apis.AddAddressApi;
 import com.algorepublic.saman.data.model.apis.CustomerSupport;
 import com.algorepublic.saman.data.model.apis.GetAddressApi;
@@ -8,10 +7,11 @@ import com.algorepublic.saman.data.model.apis.GetConversationApi;
 import com.algorepublic.saman.data.model.apis.GetConversationsApi;
 import com.algorepublic.saman.data.model.apis.GetProduct;
 import com.algorepublic.saman.data.model.apis.GetProducts;
-import com.algorepublic.saman.data.model.HomeScreenData;
 import com.algorepublic.saman.data.model.apis.GetStore;
 import com.algorepublic.saman.data.model.apis.HomeScreenAPI;
 import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
+import com.algorepublic.saman.data.model.apis.OrderTrackResponse;
+import com.algorepublic.saman.data.model.apis.PhoneCodeResponse;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SendMessageApi;
@@ -19,20 +19,13 @@ import com.algorepublic.saman.data.model.apis.SimpleSuccess;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.data.model.apis.GetStores;
-import com.algorepublic.saman.ui.activities.login.LoginData;
-
 import java.util.Map;
-
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.HeaderMap;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -59,7 +52,7 @@ public interface WebServices {
 
     @FormUrlEncoded
     @POST("User/UpdateProfile")
-    Call<SimpleSuccess> updateProfile(@FieldMap Map<String, Object> parameters);
+    Call<UserResponse> updateProfile(@FieldMap Map<String, Object> parameters);
 
 
     @FormUrlEncoded
@@ -69,7 +62,7 @@ public interface WebServices {
 
     @FormUrlEncoded
     @POST("User/ForgetPassword")
-    Call<SimpleSuccess> forgetPassword(@FieldMap Map<String, String> parameters);
+    Call<SimpleSuccess> forgetPassword(@FieldMap Map<String, Object> parameters);
 
     @FormUrlEncoded
     @POST("User/ResetPassword")
@@ -79,6 +72,13 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("User/ChangePassword")
     Call<UserResponse> changePassword(@FieldMap Map<String, Object> parameters);
+
+
+
+
+    @FormUrlEncoded
+    @POST("Order/UpdatePaymentStatus")
+    Call<SimpleSuccess> updatePaymentStatus(@FieldMap Map<String, Object> parameters);
 
 
 
@@ -97,6 +97,9 @@ public interface WebServices {
     @POST("Order/PlaceOrder")
     Call<PlaceOrderResponse> placeOrder(@FieldMap Map<String, Object> parameters);
 
+
+    @GET("Order/isPaymentSuccessful/{id}")
+    Call<SimpleSuccess> isPaymentSuccessful(@Path("id") int orderID);
 
     @GET("Catalog/Categories")
     Call<GetCategoriesList> getStoreCategories();
@@ -118,11 +121,26 @@ public interface WebServices {
     @GET("Product/GetLatestProducts?")
     Call<GetProducts> getLatestProducts(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
+    @GET("Product/GetLatestProducts?")
+    Call<GetProducts> getAllProducts(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
+
+    @GET("Product/GetListByCategory?")
+    Call<GetProducts> getProductsByCategory(@Query("categoryID") int categoryID,@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
+
+    @GET("Product/GetSaleProducts?")
+    Call<GetProducts> getSaleProducts(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
+
+    @GET("Product/GetSaleListByCategory?")
+    Call<GetProducts> getSaleListByCategory(@Query("categoryID") int categoryID,@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
+
     @GET("Product/Search?")
     Call<GetProducts> getSearchProducts(@Query("userID") int userID,@Query("q") String q,@Query("sortType") int sortType,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
     @GET("Coupon/Verify?")
     Call<PromoVerify> applyPromo(@Query("code") String code);
+
+    @GET("Address/GetCountryList")
+    Call<ResponseBody> getCountries();
 
     @FormUrlEncoded
     @POST("Product/MarkAsFavorite")
@@ -149,11 +167,21 @@ public interface WebServices {
     @POST("Message/SendMessageInConversation")
     Call<SendMessageApi> sendMessage(@FieldMap Map<String, Object> parameters);
 
+    @FormUrlEncoded
+    @POST("Message/UpdateMessageStatus")
+    Call<SimpleSuccess> updateMessageStatus(@FieldMap Map<String, Object> parameters);
+
     @GET("Seller")
     Call<GetStores> getAllStores();
 
     @GET("Product/Get/{id}?")
     Call<GetProduct> getProductDetail(@Path("id") String productId,@Query("userID") String userID);
+
+    @GET("Product/GetFavoriteProduct/{id}?")
+    Call<GetProduct> getFavProductDetail(@Path("id") String productId,@Query("userID") String userID);
+
+    @GET("Order/GetOrderStatus/{id}?")
+    Call<OrderTrackResponse> getOrderStatus(@Path("id") int orderID);
 
     @GET("Address/GetListByUserID?")
     Call<GetAddressApi> getAddresses(@Query("userID") int userID);
@@ -175,7 +203,21 @@ public interface WebServices {
     @POST("Support/CreateTicket?")
     Call<CustomerSupport> uploadToSupport(@Query("UserID") int userID,
                                           @Query("Subject") String subject,
-                                          @Query("Message") String message,
+                                           @Query("Message") String message,
                                           @Part MultipartBody.Part[] images);
+
+    @POST("Support/CreateTicket?")
+    Call<CustomerSupport> uploadToSupport(@Query("UserID") int userID,
+                                          @Query("Subject") String subject,
+                                          @Query("Message") String message);
+
+    @FormUrlEncoded
+    @POST("User/SendVerificationCode")
+    Call<PhoneCodeResponse> sendVerificationCode(@FieldMap Map<String, Object> parameters);
+
+    @FormUrlEncoded
+    @POST("Order/UpdateOrderFeedback")
+    Call<SimpleSuccess> updateOrderFeedback(@FieldMap Map<String, Object> parameters);
+
 
 }

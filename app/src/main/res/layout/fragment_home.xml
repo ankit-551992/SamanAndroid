@@ -156,7 +156,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/new_in"
+                    android:text="@string/products"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -195,8 +195,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_margin="10dp"
+                    android:padding="3dp"
                     android:focusable="true"
                     app:radius="4dp"
+                    android:visibility="gone"
                     app:fillColor="@color/colorPrimary"
                     android:focusableInTouchMode="true" />
 
@@ -211,12 +213,16 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/black" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/brands_recyclerView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp" />
 

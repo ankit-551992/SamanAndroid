@@ -35,10 +35,10 @@ public class OrderHistory implements Serializable{
     private ShippingAddress billingAddress;
     @SerializedName("ShippingTotal")
     @Expose
-    private Integer shippingTotal;
+    private Float shippingTotal;
     @SerializedName("TotalPrice")
     @Expose
-    private Integer totalPrice;
+    private Float totalPrice;
     @SerializedName("DiscountCoupan")
     @Expose
     private String discountCoupan;
@@ -128,19 +128,19 @@ public class OrderHistory implements Serializable{
         this.billingAddress = billingAddress;
     }
 
-    public Integer getShippingTotal() {
+    public Float getShippingTotal() {
         return shippingTotal;
     }
 
-    public void setShippingTotal(Integer shippingTotal) {
+    public void setShippingTotal(Float shippingTotal) {
         this.shippingTotal = shippingTotal;
     }
 
-    public Integer getTotalPrice() {
+    public Float getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(Float totalPrice) {
         this.totalPrice = totalPrice;
     }
 

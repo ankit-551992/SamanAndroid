@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,20 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
 
             ShippingAddress address =shippingAddresses.get(position);
 
-            messageViewHolder.address.setText(address.getAddressLine1()+","+address.getCity()+","+address.getCountry());
+//            Log.e("Address",address.getAddressLine1());
+//            Log.e("City",""+address.getCity());
+//            Log.e("Country",""+address.getCountry());
+
+            String userAddress=address.getAddressLine1();
+            if(address.getCity()!=null){
+                userAddress=userAddress+","+address.getCity();
+            }
+
+            if(address.getCountry()!=null){
+                userAddress=userAddress+","+address.getCountry();
+            }
+
+            messageViewHolder.address.setText(userAddress);
 
             // Drag From Right
             messageViewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, messageViewHolder.swipeLayout.findViewById(R.id.bottom_wrapper));
@@ -79,7 +93,8 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                 public void onClick(View v) {
                     Intent data = new Intent();
                     int id = shippingAddresses.get(position).getiD();
-                    String text = shippingAddresses.get(position).getAddressLine1()+","+shippingAddresses.get(position).getCity()+","+shippingAddresses.get(position).getCountry();
+//                    String text = shippingAddresses.get(position).getAddressLine1()+","+shippingAddresses.get(position).getCity()+","+shippingAddresses.get(position).getCountry();
+                    String text = messageViewHolder.address.getText().toString();
                     data.putExtra("ID",id);
                     data.putExtra("DATA",text);
                     ((Activity) mContext).setResult(RESULT_OK, data);

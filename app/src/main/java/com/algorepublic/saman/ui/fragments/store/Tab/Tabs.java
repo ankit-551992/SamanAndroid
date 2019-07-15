@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseFragment;
@@ -19,6 +20,8 @@ import com.algorepublic.saman.ui.adapters.StoresAdapter;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +35,8 @@ public class Tabs extends BaseFragment {
     ProgressBar progressBar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.tv_empty)
+    TextView tv_empty;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView.LayoutManager layoutManager;
@@ -70,7 +75,7 @@ public class Tabs extends BaseFragment {
         storeArrayList = new ArrayList<>();
         adapter = new StoresAdapter(getContext(), storeArrayList);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false,getContext()));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false, getContext()));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -97,7 +102,10 @@ public class Tabs extends BaseFragment {
             @Override
             public void onResponse(Call<GetStores> call, Response<GetStores> response) {
 
-                if (storeArrayList.size() > 0 && storeArrayList.get(storeArrayList.size()-1)==null) {
+
+                progressBar.setVisibility(View.GONE);
+
+                if (storeArrayList.size() > 0 && storeArrayList.get(storeArrayList.size() - 1) == null) {
                     storeArrayList.remove(storeArrayList.size() - 1);
                     adapter.notifyItemRemoved(storeArrayList.size());
                 }
@@ -110,13 +118,28 @@ public class Tabs extends BaseFragment {
 //                }else {
 //                    currentPage++;
 //                }
-                        progressBar.setVisibility(View.GONE);
+
                         storeArrayList.addAll(getStores.getStores());
                         progressBar.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();
+
                         swipeRefreshLayout.setRefreshing(false);
                         isLoading = false;
+
+                        Collections.sort(storeArrayList, new Comparator<Store>() {
+                            @Override
+                            public int compare(Store s1, Store s2) {
+                                return s1.getStoreName().compareToIgnoreCase(s2.getStoreName());
+                            }
+                        });
+
+                        adapter.notifyDataSetChanged();
                     }
+                }
+
+                if (storeArrayList.size() < 1) {
+                    tv_empty.setVisibility(View.VISIBLE);
+                } else {
+                    tv_empty.setVisibility(View.GONE);
                 }
             }
 

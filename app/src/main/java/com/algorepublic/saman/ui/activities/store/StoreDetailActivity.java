@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Store;
 import com.algorepublic.saman.data.model.StoreCategory;
 import com.algorepublic.saman.data.model.apis.GetAddressApi;
@@ -38,7 +38,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class StoreDetailActivity extends AppCompatActivity {
+public class StoreDetailActivity extends BaseActivity {
 
     @BindView(R.id.loading)
     RelativeLayout loading;

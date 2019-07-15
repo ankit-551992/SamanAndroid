@@ -14,6 +14,7 @@ public class Product implements Serializable {
     int cartAttributeID;
     int cartAttributeGroupID;
     int colorID;
+    int availableQuantity;
 
     String optionValues;
     String options;
@@ -39,7 +40,7 @@ public class Product implements Serializable {
     private String storeNameAR;
     @SerializedName("Price")
     @Expose
-    private Integer price;
+    private Float price;
     @SerializedName("Quantity")
     @Expose
     private Integer quantity;
@@ -95,7 +96,6 @@ public class Product implements Serializable {
     @Expose
     private Integer iD;
 
-
     public String getProductName() {
         return productName;
     }
@@ -113,6 +113,9 @@ public class Product implements Serializable {
     }
 
     public String getDescription() {
+        if(description==null){
+            description="";
+        }
         return description;
     }
 
@@ -131,11 +134,11 @@ public class Product implements Serializable {
         this.descriptionAR = descriptionAR;
     }
 
-    public Integer getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -371,5 +374,13 @@ public class Product implements Serializable {
 
     public void setStoreNameAR(String storeNameAR) {
         this.storeNameAR = storeNameAR;
+    }
+
+    public int getAvailableQuantity() {
+        return availableQuantity;
+    }
+
+    public void setAvailableQuantity(int availableQuantity) {
+        this.availableQuantity = availableQuantity;
     }
 }

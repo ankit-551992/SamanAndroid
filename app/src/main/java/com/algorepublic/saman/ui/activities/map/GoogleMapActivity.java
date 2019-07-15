@@ -18,7 +18,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.apis.GetStore;
 import com.algorepublic.saman.network.GeoLocationHandler;
 import com.algorepublic.saman.network.WebServicesHandler;
@@ -75,7 +75,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class GoogleMapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnIndoorStateChangeListener {
+public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallback,GoogleMap.OnIndoorStateChangeListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

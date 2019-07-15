@@ -13,7 +13,6 @@
         <ImageView
             android:layout_gravity="center"
             android:id="@+id/iv_image"
-            android:src="@drawable/dummy_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

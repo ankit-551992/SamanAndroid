@@ -88,6 +88,7 @@
     <string name="submit">إرسال</string>
     <string name="character">300 حرف </string>
     <string name="please_wait">جاري الإنتظار....</string>
+    <string name="completing_process">إكمال العملية</string>
     <string name="OMR">الريال العماني</string>
 
     <!--Shopping cart-->
@@ -120,7 +121,6 @@
     <string name="delivery_date">تاريخ التوصيل</string>
     <string name="return_policy"><u>سياسة الإسترجاع</u></string>
     <string name="received">تم الاستلام</string>
-    <string name="pending">معالجة</string>
     <string name="Cancel_order_before_24h">إلغاء الطلب (24 ساعة)</string>
 
     <!--Checkout-->
@@ -189,6 +189,7 @@
     <string name="month">الشهر</string>
     <string name="month_missing">الرجاء أختيار الشهر</string>
     <string name="year">السنة</string>
+    <string name="year2">السنة</string>
     <string name="year_missing">الرجاء أختيار السنة</string>
     <string name="select_country">إختيار البلد</string>
     <string name="address_hint">البلد، الشارع، المبنى، الطابق</string>
@@ -328,7 +329,7 @@
 
     <string name="card_name_text">إسم حامل البطاقة</string>
     <string name="card_cvc">الرجاء إدخل رمز CVC!</string>
-
+    <string name="invalid_card_cvc">يرجى إدخال رمز التحقق من الصحة صالح!</string>
     <string name="card_otp">الرجاء إدخل رمز OTP !</string>
     <string name="card_delivery">الدفع عند التوصيل</string>
 
@@ -372,7 +373,7 @@
     <string name="view_bag">حقيبة عرض</string>
     <string name="item_added_bag">تمت إضافة عنصر إلى حقيبتك</string>
     <string name="item_added_message">ماذا تريد ان تفعل الآن؟</string>
-    <string name="street_no">شارع #</string>
+    <string name="street_no">اسم الشارع</string>
     <string name="building_no">بناء ، الطابق ، شقة</string>
     <string name="landmark">معلم معروف</string>
     <string name="required">مطلوب</string>
@@ -383,7 +384,7 @@
     <string name="Card_otp_msg">الرجاء استخدام OTP 5548 لإكمال معاملتك مع رمز إنهاء البطاقة 7078. إذا لم تكن قد قمت ببدء هذه الدفعة. أي استفسارات ، يرجى الاتصال بجهة إصدار البطاقة</string>
     <string name="title_activity_scrolling">نشاط التمرير</string>
     <string name="action_settings">الإعدادات</string>
-    <string name="feedback_message">أرسل ملاحظاتك حول هذا النشاط</string>
+    <string name="feedback_message">أرسل ملاحظاتك حول هذا الطلب</string>
     <string name="feedback">ردود الفعل...</string>
 
     <string name="email_hint">example@saman.com</string>
@@ -492,5 +493,7 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+
+    <string name="processing">معالجة</string>
 
 </resources>

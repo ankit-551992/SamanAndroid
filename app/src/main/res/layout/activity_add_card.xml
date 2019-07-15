@@ -29,7 +29,7 @@
             android:gravity="start"
             android:hint="000000000000000000"
             android:inputType="numberSigned"
-            android:maxEms="16"
+            android:maxLength="19"
             android:singleLine="true"
             android:textColorHint="@color/grey" />
 
@@ -61,7 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
-                android:hint="@string/year"
+                android:hint="@string/year2"
                 android:imeOptions="actionDone"
                 android:inputType="number" />
 
@@ -99,7 +99,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:hint="000"
+            android:hint="0000"
+            android:maxLength="4"
             android:singleLine="true"
             android:textColorHint="@color/grey"/>
 

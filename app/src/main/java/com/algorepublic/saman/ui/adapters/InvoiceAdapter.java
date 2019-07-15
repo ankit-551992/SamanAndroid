@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.OrderItem;
+import com.algorepublic.saman.data.model.ProductOption;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
@@ -38,18 +39,38 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
 
         if(orderItem.getProduct()!=null) {
             if(SamanApp.isEnglishVersion) {
-                holder.productName.setText(orderItem.getProduct().getProductName());
+                holder.productName.setText(orderItem.getProduct().getProductName()+" x "+orderItem.getProductQuantity());
                 holder.storeName.setText(orderItem.getProduct().getStoreName());
             }else {
-                holder.productName.setText(orderItem.getProduct().getProductNameAR());
+                holder.productName.setText(orderItem.getProduct().getProductNameAR()+" x "+orderItem.getProductQuantity());
                 holder.storeName.setText(orderItem.getProduct().getStoreNameAR());
             }
-            holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR");
+            String options="";
+            if(orderItem.getProductOptionList()!=null) {
+                for (int i = 0; i < orderItem.getProductOptionList().size(); i++) {
+                    ProductOption productOption = orderItem.getProductOptionList().get(i);
+                    if (SamanApp.isEnglishVersion) {
+                        if (options.equals("")) {
+                            options = productOption.getOptionValue().getTitle();
+                        } else {
+                            options = options + "," + productOption.getOptionValue().getTitle();
+                        }
+                    } else {
+                        if (options.equals("")) {
+                            options = productOption.getOptionValue().getTitleAR();
+                        } else {
+                            options = options + "," + productOption.getOptionValue().getTitleAR();
+                        }
+                    }
+                }
+            }
+            holder.productPrice.setText(options);
+            if(orderItem.getStatus()!=null) {
+                holder.productStatus.setText(orderItem.getStatus());
+            }
 //            holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR x "+orderItem.getProduct().getQuantity());
             if(orderItem.getProduct().getLogoURL()!=null && !orderItem.getProduct().getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + orderItem.getProduct().getLogoURL())
-                        .placeholder(R.drawable.dummy_mobile)
-                        .error(R.drawable.dummy_mobile)
                         .into(holder.productImageView);
             }
         }
@@ -67,6 +88,8 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
         TextView storeName;
         @BindView(R.id.tv_product_price)
         TextView productPrice;
+        @BindView(R.id.tv_product_status)
+        TextView productStatus;
         @BindView(R.id.iv_product)
         ImageView productImageView;
         RowViewHolder(View itemView) {

@@ -30,11 +30,14 @@ public class CardDs implements Serializable {
     int year;
 
 
+    @SerializedName("type")
+    int type;
+
     public CardDs() {
 
     }
 
-    public CardDs(String cardHolder, String cardNumber, String expireDate, String cvc,String otp, int month, int year) {
+    public CardDs(String cardHolder, String cardNumber, String expireDate, String cvc,String otp, int month, int year,int type) {
         this.cardHolder = cardHolder;
         this.cardNumber = cardNumber;
         this.expireDate = expireDate;
@@ -42,6 +45,7 @@ public class CardDs implements Serializable {
         this.otp = otp;
         this.month = month;
         this.year = year;
+        this.type = type;
     }
 
     public String getOtp() {
@@ -98,6 +102,14 @@ public class CardDs implements Serializable {
 
     public int getYear() {
         return year;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
 

@@ -49,7 +49,6 @@ public class CheckoutOrderActivity extends BaseActivity {
     @BindView(R.id.toolbar_search)
     ImageView cross;
 
-
     @BindView(R.id.tv_order_total)
     TextView orderTotalTextView;
     @BindView(R.id.tv_order_number)
@@ -102,12 +101,12 @@ public class CheckoutOrderActivity extends BaseActivity {
 
         orderTotalTextView.setText(String.valueOf(orderTotal)+ " "+getString(R.string.OMR));
         if(placeOrderResponse.getResult().getOrderNumber()!=null) {
-            orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber());
+            orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber()+placeOrderResponse.getResult().getId());
         }
 
         if(placeOrderResponse.getResult().getOrderStatus()!=null) {
-            if (placeOrderResponse.getResult().getOrderStatus().equals("0")) {
-                orderStatusTextView.setText(getString(R.string.pending));
+            if (!placeOrderResponse.getResult().getOrderStatus().equals("")) {
+                orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
             }
         }
 

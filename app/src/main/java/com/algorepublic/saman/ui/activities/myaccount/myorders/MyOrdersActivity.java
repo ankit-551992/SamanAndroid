@@ -13,12 +13,16 @@ import android.widget.TextView;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.OrderHistory;
+import com.algorepublic.saman.data.model.OrderTrack;
 import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.adapters.MyOrdersAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,6 +90,13 @@ public class MyOrdersActivity extends BaseActivity {
                 if (orderHistoryArrayList.size() < 1) {
                     empty.setVisibility(View.VISIBLE);
                 }
+
+                Collections.sort(orderHistoryArrayList, new Comparator<OrderHistory>() {
+                    @Override
+                    public int compare(OrderHistory lhs, OrderHistory rhs) {
+                        return getDate(rhs.getCreatedAt()).compareTo(getDate(lhs.getCreatedAt()));
+                    }
+                });
                 ordersAdapter.notifyDataSetChanged();
             }
 
@@ -94,6 +105,11 @@ public class MyOrdersActivity extends BaseActivity {
                 Log.e("onFailure", "" + t.getMessage());
             }
         });
+    }
+
+
+    private Date getDate(String date){
+        return new Date(Long.parseLong(date.replaceAll("\\D", "")));
     }
 
     @OnClick(R.id.toolbar_back)

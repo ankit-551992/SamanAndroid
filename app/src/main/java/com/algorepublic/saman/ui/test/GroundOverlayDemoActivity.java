@@ -1,12 +1,12 @@
 package com.algorepublic.saman.ui.test;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.base.BaseActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroundOverlayDemoActivity extends AppCompatActivity
+public class GroundOverlayDemoActivity extends BaseActivity
         implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback,
         GoogleMap.OnGroundOverlayClickListener {
 

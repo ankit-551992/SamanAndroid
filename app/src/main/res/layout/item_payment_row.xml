@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/iv_card"
         android:padding="4dp"
-        android:src="@drawable/visa_card"
+        android:src="@drawable/ic_visa_"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/contentDescription" />
@@ -25,19 +25,16 @@
         <TextView
             android:textColor="@color/black"
             android:id="@+id/tv_card_number"
-            android:text="VISA (3121)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_expiry"
-            android:text="Exp: 09/2021"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_card_holder_name"
-            android:text="Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

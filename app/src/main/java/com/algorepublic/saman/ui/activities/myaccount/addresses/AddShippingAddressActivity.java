@@ -98,7 +98,9 @@ public class AddShippingAddressActivity extends BaseActivity {
             String addressLine1 = shippingAddress.getAddressLine1();
             String arr[] = addressLine1.split(",");
             streetEditText.setText(arr[0]);
-            buildingEditText.setText(arr[1]);
+            if(arr.length>1) {
+                buildingEditText.setText(arr[1]);
+            }
             if (shippingAddress.getAddressLine2() != null) {
                 landmarkEditText.setText(shippingAddress.getAddressLine2());
             }

@@ -22,7 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.algorepublic.saman.BuildConfig;
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.CardDs;
@@ -34,41 +36,54 @@ import com.algorepublic.saman.data.model.apis.GetProducts;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
 import com.algorepublic.saman.data.model.apis.PromoVerify;
 import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.network.ApiController;
+import com.algorepublic.saman.network.OmanNetServiceHandler;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.PoliciesActivity;
-import com.algorepublic.saman.ui.activities.country.CountriesActivity;
-import com.algorepublic.saman.ui.activities.home.DashboardActivity;
+import com.algorepublic.saman.ui.activities.country.CountriesListingActivity;
 import com.algorepublic.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
 import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
+import com.algorepublic.saman.ui.activities.myaccount.payment.OmanNetCardDetailActivity;
 import com.algorepublic.saman.ui.activities.order.checkout.CheckoutOrderActivity;
 import com.algorepublic.saman.ui.activities.register.RegisterActivity;
 import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
 import com.algorepublic.saman.ui.adapters.BagCartAdapter;
 import com.algorepublic.saman.ui.adapters.StoresAdapter;
+import com.algorepublic.saman.ui.adapters.TagsAdapter;
 import com.algorepublic.saman.utils.CircleTransform;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.algorepublic.saman.utils.GridAutofitLayoutManager;
 import com.algorepublic.saman.utils.GridSpacingItemDecoration;
 import com.algorepublic.saman.utils.SamanApp;
 import com.google.gson.reflect.TypeToken;
+import com.mastercard.gateway.android.sdk.Gateway;
+import com.mastercard.gateway.android.sdk.Gateway3DSecureCallback;
+import com.mastercard.gateway.android.sdk.GatewayCallback;
+import com.mastercard.gateway.android.sdk.GatewayMap;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShoppingCartActivity extends BaseActivity {
+public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecureCallback {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -121,15 +136,42 @@ public class ShoppingCartActivity extends BaseActivity {
     //Bag
     User authenticatedUser;
 
+
+    //Tags
+    @BindView(R.id.tags_recyclerView)
+    RecyclerView tagRecyclerView;
+    RecyclerView.LayoutManager tagsLayoutManager;
+    List<String> tagsList = new ArrayList<>();
+    List<Integer> appliedProducts = new ArrayList<>();
+    TagsAdapter tagsAdapter;
+
+
     Country selectedCountry;
     float price;
+    float subTotal;
     float deliveryCost = 0.0f;
     float priceToPay;
     float promoSaved = 0.0f;
+    float promoTotalSaved = 0.0f;
 
-    boolean promoApplied = false;
+    int addressID = -1;
 
-    int addressID=-1;
+    PlaceOrderResponse placeOrderResponse;
+    ApiController apiController = ApiController.getInstance();
+    public String sId, apiVer;
+    private CardDs selectedCard = null;
+    boolean isCOD = true;
+    boolean isOmanNet = false;
+    Gateway paymentGateway;
+    String orderId;
+    String transactionId;
+    String amount;
+    String currency;
+    String paymentType = "COD";
+    boolean requestAgain = false;
+    boolean isGeneralApplied = false;
+    DecimalFormat df = new DecimalFormat("#.#");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,8 +182,10 @@ public class ShoppingCartActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.check_out));
         promoSavedTextView.setVisibility(View.GONE);
-        price = (float) getIntent().getIntExtra("Price", 0);
-        subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " "+getString(R.string.OMR));
+        price = (float) getIntent().getFloatExtra("Price", 0);
+        subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " " + getString(R.string.OMR));
+        appliedProducts = new ArrayList<>();
+        subTotal = price;
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
@@ -150,23 +194,32 @@ public class ShoppingCartActivity extends BaseActivity {
         }
 
         setBag();
+        setTagView();
 
-        for (int i = 0; i < GlobalValues.countries.size(); i++) {
-            if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
-                selectedCountry = GlobalValues.countries.get(i);
-                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                countryName.setText(selectedCountry.getName());
+        currency = "OMR";
+        // random 3ds/order/txn IDs for example purposes
+        orderId = UUID.randomUUID().toString();
+        orderId = orderId.substring(0, orderId.indexOf('-'));
+        transactionId = UUID.randomUUID().toString();
+        transactionId = transactionId.substring(0, transactionId.indexOf('-'));
+
+        if (GlobalValues.countries != null) {
+            for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
+                    selectedCountry = GlobalValues.countries.get(i);
+                    Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                    countryName.setText(selectedCountry.getName());
+                }
             }
         }
-
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
 
         if (authenticatedUser.getShippingAddress() != null) {
-            String address=authenticatedUser.getShippingAddress().getAddressLine1().replace(",", "\n\n");
-            address=address+"\n\n"+authenticatedUser.getShippingAddress().getCity();
-            address=address+"\n\n"+authenticatedUser.getShippingAddress().getCountry();
+            String address = authenticatedUser.getShippingAddress().getAddressLine1().replace(",", "\n\n");
+            address = address + "\n\n" + authenticatedUser.getShippingAddress().getCity();
+            address = address + "\n\n" + authenticatedUser.getShippingAddress().getCountry();
             shipmentAddress.setText(address);
-            addressID=authenticatedUser.getShippingAddress().getiD();
+            addressID = authenticatedUser.getShippingAddress().getiD();
         }
 
         cardNameTextView.setText(getString(R.string.card_delivery));
@@ -174,6 +227,21 @@ public class ShoppingCartActivity extends BaseActivity {
         cardNumberTextView.setVisibility(View.GONE);
 
         customTextView(agreementOrder);
+
+        apiController.setMerchantServerUrl(BuildConfig.MERCHANT_SERVER_URL);
+
+        paymentGateway = new Gateway();
+        paymentGateway.setMerchantId(BuildConfig.GATEWAY_MERCHANT_ID);
+
+        try {
+            Gateway.Region region = Gateway.Region.valueOf(BuildConfig.GATEWAY_REGION);
+            paymentGateway.setRegion(region);
+        } catch (Exception e) {
+            Log.e(ShoppingCartActivity.class.getSimpleName(), "Invalid Gateway region value provided", e);
+        }
+
+
+        apiController.createSession(new CreateSessionCallback());
     }
 
 
@@ -184,8 +252,8 @@ public class ShoppingCartActivity extends BaseActivity {
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(ShoppingCartActivity.this,PoliciesActivity.class);
-                intent.putExtra("type",1);
+                Intent intent = new Intent(ShoppingCartActivity.this, PoliciesActivity.class);
+                intent.putExtra("type", 1);
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
@@ -194,11 +262,12 @@ public class ShoppingCartActivity extends BaseActivity {
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(ShoppingCartActivity.this,PoliciesActivity.class);
-                intent.putExtra("type",0);
+                Intent intent = new Intent(ShoppingCartActivity.this, PoliciesActivity.class);
+                intent.putExtra("type", 0);
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
+        spanTxt.append(" "+getString(R.string.term_message));
         spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
         view.setText(spanTxt, TextView.BufferType.SPANNABLE);
@@ -206,7 +275,7 @@ public class ShoppingCartActivity extends BaseActivity {
 
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
-        Intent intent = new Intent(ShoppingCartActivity.this, CountriesActivity.class);
+        Intent intent = new Intent(ShoppingCartActivity.this, CountriesListingActivity.class);
         startActivityForResult(intent, 1299);
     }
 
@@ -214,14 +283,24 @@ public class ShoppingCartActivity extends BaseActivity {
     @OnClick(R.id.button_apply)
     public void applyPromo() {
 
-        if (promoApplied) {
-            Constants.showAlert(getString(R.string.apply_coupon),getString(R.string.already_apply), getString(R.string.close), ShoppingCartActivity.this);
-            return;
-        }
 
         if (promoEditText.getText().toString().equals("")) {
             return;
         }
+
+        boolean isNewPromo = true;
+        for (int t = 0; t < tagsList.size(); t++) {
+            if (promoEditText.getText().toString().equalsIgnoreCase(tagsList.get(t))) {
+                isNewPromo = false;
+                break;
+            }
+        }
+
+        if (!isNewPromo || isGeneralApplied) {
+            Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply), getString(R.string.close), ShoppingCartActivity.this);
+            return;
+        }
+
         Constants.showSpinner(getString(R.string.apply_coupon), ShoppingCartActivity.this);
         WebServicesHandler.instance.applyPromo(promoEditText.getText().toString(), new retrofit2.Callback<PromoVerify>() {
             @Override
@@ -230,16 +309,98 @@ public class ShoppingCartActivity extends BaseActivity {
                 Constants.dismissSpinner();
                 if (promoVerify != null) {
                     if (promoVerify.getSuccess() == 1) {
-                        promoApplied = true;
-                        promoSaved = (float) promoVerify.getResult().getDiscount();
-                        promoSavedTextView.setVisibility(View.VISIBLE);
-                        promoSavedTextView.setText(getString(R.string.promo_saved)+": " + promoSaved + " "+getString(R.string.OMR));
-                        priceToPay = priceToPay - promoSaved;
-                        priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " "+getString(R.string.OMR));
+                        if (promoVerify.getResult().getCouponType() == 1) {
+
+                            if (!isGeneralApplied) {
+                                isGeneralApplied = true;
+
+                                float promoAmount=0.0f;
+                                for (int p = 0; p < bagArrayList.size(); p++) {
+
+                                    int productId = bagArrayList.get(p).getID();
+                                    if (!appliedProducts.contains(productId)) {
+                                        promoAmount= promoAmount+bagArrayList.get(p).getPrice();
+                                    }
+                                }
+
+                                if (promoVerify.getResult().getDiscountType() == 1) {
+                                    //Percentage
+                                    float calculateDiscount = promoAmount / 100.0f;
+                                    promoSaved = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
+
+                                } else if (promoVerify.getResult().getDiscountType() == 2) {
+                                    //Price
+                                    promoSaved = (float) promoVerify.getResult().getDiscount();
+                                }
+
+
+//                                promoSaved = Math.round(promoSaved);
+                                promoSaved=Float.valueOf(df.format(promoSaved));
+
+                                promoSavedTextView.setVisibility(View.VISIBLE);
+                                promoTotalSaved=promoTotalSaved+promoSaved;
+                                promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
+                                price = price - promoSaved;
+                                priceToPay = price + deliveryCost;
+                                priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
+                            } else {
+                                Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply), getString(R.string.close), ShoppingCartActivity.this);
+                            }
+                        } else {
+
+                            for (int p = 0; p < bagArrayList.size(); p++) {
+
+                                int productId = bagArrayList.get(p).getID();
+
+                                if (promoVerify.getResult().getProductID().contains(productId)) {
+
+
+                                    if (!appliedProducts.contains(productId)) {
+
+                                        if (promoVerify.getResult().getDiscountType() == 1) {
+                                            //Percentage
+                                            float calculateDiscount = bagArrayList.get(p).getPrice() / 100.0f;
+                                            float dis = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
+                                            Log.e("Dis", bagArrayList.get(p).getProductName() + " " + dis);
+                                            promoSaved = promoSaved + dis;
+
+                                        } else if (promoVerify.getResult().getDiscountType() == 2) {
+                                            //Price
+                                            float dis = (float) promoVerify.getResult().getDiscount();
+                                            promoSaved = promoSaved + dis;
+                                        }
+                                        appliedProducts.add(productId);
+                                    } else {
+                                        Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply_on_same_product), getString(R.string.close), ShoppingCartActivity.this);
+                                    }
+                                }
+                            }
+
+//                            promoSaved = Math.round(promoSaved);
+                            promoSaved=Float.valueOf(df.format(promoSaved));
+
+                            promoSavedTextView.setVisibility(View.VISIBLE);
+                            promoTotalSaved=promoTotalSaved+promoSaved;
+                            promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
+                            price = subTotal - promoSaved;
+                            priceToPay = price + deliveryCost;
+                            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
+
+                        }
+                        if (promoSaved > 0) {
+                            tagsList.add(promoEditText.getText().toString());
+                            setTagData();
+                            String msg = getString(R.string.coupon_discount_is_) + " " + promoSaved + " " + getString(R.string.OMR);
+                            Constants.showAlert(getString(R.string.coupon_discount), msg, getString(R.string.Okay), ShoppingCartActivity.this);
+                        }
+
                     } else {
                         Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.invalid_coupon), getString(R.string.try_again), ShoppingCartActivity.this);
                     }
                 }
+
+                promoEditText.setText("");
+                promoEditText.clearFocus();
             }
 
             @Override
@@ -270,7 +431,7 @@ public class ShoppingCartActivity extends BaseActivity {
     @OnClick(R.id.button_place_order)
     void placeOrder() {
 
-        if(addressID==-1){
+        if (addressID == -1) {
             Constants.showAlert(getString(R.string.check_out), getString(R.string.add_shipping_address), getString(R.string.okay), ShoppingCartActivity.this);
             return;
         }
@@ -292,7 +453,7 @@ public class ShoppingCartActivity extends BaseActivity {
                 for (int o = 0; o < optionIDs.length; o++) {
                     if (!optionIDs[o].equals("")) {
                         optionsObj = new JSONObject();
-                        optionsObj.put("ID",Integer.valueOf(optionIDs[o]));
+                        optionsObj.put("ID", Integer.valueOf(optionIDs[o]));
                         optionsArray.put(optionsObj);
                     }
                 }
@@ -309,19 +470,28 @@ public class ShoppingCartActivity extends BaseActivity {
                 addressID,
                 deliveryCost,
                 priceToPay,
-                "COD",
+                paymentType,
                 array,
                 new Callback<PlaceOrderResponse>() {
                     @Override
                     public void onResponse(Call<PlaceOrderResponse> call, Response<PlaceOrderResponse> response) {
-                        PlaceOrderResponse placeOrderResponse = response.body();
+                        placeOrderResponse = response.body();
                         if (placeOrderResponse != null) {
                             if (placeOrderResponse.getSuccess() == 1) {
-                                Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
-                                intent.putExtra("Response", placeOrderResponse);
-                                intent.putExtra("OrderTotal", priceToPay);
-                                startActivity(intent);
-                                finish();
+                                if (isCOD) {
+                                    Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
+                                    intent.putExtra("Response", placeOrderResponse);
+                                    intent.putExtra("OrderTotal", priceToPay);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    if (selectedCard.getType() == 0) {
+                                        orderId = placeOrderResponse.getResult().getOrderNumber();
+                                        doCheck3DSEnrollment();
+                                    } else {
+                                        omanNetPaymentVerification(placeOrderResponse.getResult().getId());
+                                    }
+                                }
                             }
                         }
                     }
@@ -336,6 +506,10 @@ public class ShoppingCartActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (Gateway.handle3DSecureResult(requestCode, resultCode, data, this)) {
+            return;
+        }
 
         if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {
@@ -364,8 +538,39 @@ public class ShoppingCartActivity extends BaseActivity {
                     cardNameTextView.setText(getString(R.string.card_delivery));
                     cardExpiryTextView.setVisibility(View.GONE);
                     cardNumberTextView.setVisibility(View.GONE);
+
+                    isCOD = true;
+
+                } else if (d.equalsIgnoreCase("OMANNET")) {
+
+                    isCOD = false;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        cardImage.setImageDrawable(getDrawable(R.drawable.ic_oman_net));
+                        cardImage.getLayoutParams().height = 200;
+                        cardImage.getLayoutParams().width = 200;
+                    } else {
+                        cardImage.getLayoutParams().height = 200;
+                        cardImage.getLayoutParams().width = 200;
+                        cardImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_oman_net));
+                    }
+                    cardNameTextView.setText(getString(R.string.omannet));
+                    cardExpiryTextView.setVisibility(View.GONE);
+                    cardNumberTextView.setVisibility(View.GONE);
+
+                    isOmanNet = true;
+                    paymentType = "OmanNet";
+                    selectedCard = new CardDs();
+                    selectedCard.setCardNumber("OMANNET");
+                    selectedCard.setCardHolder("CardHolderName");
+                    selectedCard.setExpireDate("02/2222");
+                    selectedCard.setMonth(1);
+                    selectedCard.setCvc("CVV");
+                    selectedCard.setType(1);
+
                 } else {
 
+                    paymentType = "MasterCard";
+                    isCOD = false;
                     ArrayList<CardDs> cardDs = new ArrayList<>();
 
                     Object obj = GlobalValues.fromJson(SamanApp.db.getString(Constants.CARD_LIST), new TypeToken<ArrayList<CardDs>>() {
@@ -378,20 +583,29 @@ public class ShoppingCartActivity extends BaseActivity {
                         if (cardDs.get(i).getCardNumber().equals(d)) {
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                cardImage.setImageDrawable(getDrawable(R.drawable.visa_card));
+                                cardImage.setImageDrawable(getDrawable(R.drawable.ic_visa_));
                                 cardImage.getLayoutParams().height = 200;
                                 cardImage.getLayoutParams().width = 200;
                             } else {
                                 cardImage.getLayoutParams().height = 200;
                                 cardImage.getLayoutParams().width = 200;
-                                cardImage.setImageDrawable(getResources().getDrawable(R.drawable.visa_card));
+                                cardImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_visa_));
                             }
+
+                            selectedCard = cardDs.get(i);
                             cardNameTextView.setText(cardDs.get(i).getCardHolder());
                             cardExpiryTextView.setText(cardDs.get(i).getExpireDate());
-                            cardNumberTextView.setText(cardDs.get(i).getCardNumber());
+                            cardNumberTextView.setText(maskedCardNumber(cardDs.get(i).getCardNumber()));
                             cardNameTextView.setVisibility(View.VISIBLE);
                             cardExpiryTextView.setVisibility(View.VISIBLE);
                             cardNumberTextView.setVisibility(View.VISIBLE);
+
+                            if (sId != null) {
+                                updateCardOnGateway();
+                            } else {
+                                apiController.createSession(new CreateSessionCallback());
+                                requestAgain = true;
+                            }
                         }
                     }
                 }
@@ -402,8 +616,30 @@ public class ShoppingCartActivity extends BaseActivity {
                 addressID = data.getExtras().getInt("ID");
                 shipmentAddress.setText(d.replace(",", "\n\n"));
             }
+        } else if (requestCode == 2019) {
+            if (resultCode == RESULT_OK) {
+                isPaymentSuccessFull(placeOrderResponse.getResult().getId());
+            } else if (resultCode == RESULT_CANCELED) {
+                progressBar.setVisibility(View.GONE);
+            }
         }
     }
+
+    private void setTagView() {
+        tagsList = new ArrayList<>();
+        tagsLayoutManager = new GridLayoutManager(this, 3);
+        tagRecyclerView.setLayoutManager(tagsLayoutManager);
+        tagRecyclerView.setNestedScrollingEnabled(false);
+        tagsAdapter = new TagsAdapter(this, tagsList);
+        tagRecyclerView.setAdapter(tagsAdapter);
+        tagRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 5, false, this));
+    }
+
+    private void setTagData() {
+        tagRecyclerView.setVisibility(View.VISIBLE);
+        tagsAdapter.notifyDataSetChanged();
+    }
+
 
     private void setBag() {
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -418,10 +654,10 @@ public class ShoppingCartActivity extends BaseActivity {
         if (SamanApp.localDB != null) {
             bagArrayList.addAll(SamanApp.localDB.getCartProducts());
             bagCartAdapter.notifyDataSetChanged();
-
+//            Log.e("C",""+SamanApp.localDB.getCartAllProductsCounting());
             if (price < 35) {
-
-                switch (bagArrayList.size()) {
+//                switch (bagArrayList.size()) {
+                switch (SamanApp.localDB.getCartAllProductsCounting()) {
                     case 1:
                         deliveryCost = 1.0f;
                         break;
@@ -442,8 +678,249 @@ public class ShoppingCartActivity extends BaseActivity {
             }
             priceToPay = deliveryCost + price;
             priceToPay = priceToPay - promoSaved;
-            deliveryCostTextView.setText(getString(R.string.delivery_cost) + " : " + deliveryCost + " "+getString(R.string.OMR));
-            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " "+getString(R.string.OMR));
+            deliveryCostTextView.setText(getString(R.string.delivery_cost) + " : " + deliveryCost + " " + getString(R.string.OMR));
+            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
         }
     }
+
+
+    String maskedCardNumber(String cardNumber) {
+        int maskLen = cardNumber.length() - 4;
+        char[] mask = new char[maskLen];
+        Arrays.fill(mask, '*');
+        return new String(mask) + cardNumber.substring(maskLen);
+    }
+
+    private void updateCardOnGateway() {
+        // build the gateway request
+        String y = String.valueOf(selectedCard.getYear());
+        String year = y.substring(Math.max(y.length() - 2, 0));
+        GatewayMap request = new GatewayMap()
+                .set("sourceOfFunds.provided.card.nameOnCard", selectedCard.getCardHolder())
+                .set("sourceOfFunds.provided.card.number", selectedCard.getCardNumber())
+                .set("sourceOfFunds.provided.card.securityCode", selectedCard.getCvc())
+                .set("sourceOfFunds.provided.card.expiry.month", selectedCard.getMonth())
+                .set("sourceOfFunds.provided.card.expiry.year", year);
+
+        paymentGateway.updateSession(sId, apiVer, request, new UpdateSessionCallback());
+    }
+
+    @Override
+    public void on3DSecureCancel() {
+        Toast.makeText(ShoppingCartActivity.this, "3DSecureCancel", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void on3DSecureError(String errorMessage) {
+        Toast.makeText(ShoppingCartActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void on3DSecureComplete(String summaryStatus, String threeDSecureId) {
+        doConfirm(threeDSecureId);
+    }
+
+    void doCheck3DSEnrollment() {
+
+        amount = String.valueOf(priceToPay);
+        // generate a random 3DSecureId for testing
+        String threeDSId = UUID.randomUUID().toString();
+        threeDSId = threeDSId.substring(0, threeDSId.indexOf('-'));
+
+        Log.e("threeDSId", threeDSId);
+
+        apiController.check3DSecureEnrollment(sId, amount, currency, threeDSId, new Check3DSecureEnrollmentCallback());
+    }
+
+
+    void doConfirm() {
+        doConfirm(null);
+    }
+
+    void doConfirm(String threeDSecureId) {
+        amount = String.valueOf(priceToPay);
+        apiController.completeSession(sId, orderId, transactionId, amount, currency, threeDSecureId, new CompleteSessionCallback());
+    }
+
+    class CreateSessionCallback implements ApiController.CreateSessionCallback {
+        @Override
+        public void onSuccess(String sessionId, String apiVersion) {
+
+            Log.i("CreateSessionTask", "Session established");
+            sId = sessionId;
+            apiVer = apiVersion;
+
+
+            if (requestAgain) {
+                updateCardOnGateway();
+                requestAgain = false;
+            }
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            Toast.makeText(ShoppingCartActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class UpdateSessionCallback implements GatewayCallback {
+
+        @Override
+        public void onSuccess(GatewayMap response) {
+            Log.i(ShoppingCartActivity.class.getSimpleName(), "Successful pay");
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            Toast.makeText(ShoppingCartActivity.this, R.string.pay_error_could_not_update_session, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    class Check3DSecureEnrollmentCallback implements ApiController.Check3DSecureEnrollmentCallback {
+        @Override
+        public void onSuccess(String summaryStatus, String threeDSecureId, String html) {
+            if ("CARD_ENROLLED".equalsIgnoreCase(summaryStatus)) {
+                Gateway.start3DSecureActivity(ShoppingCartActivity.this, html);
+            } else if ("CARD_NOT_ENROLLED".equalsIgnoreCase(summaryStatus) || "AUTHENTICATION_NOT_AVAILABLE".equalsIgnoreCase(summaryStatus)) {
+                // for these 2 cases, you still provide the 3DSecureId with the pay operation
+                doConfirm(threeDSecureId);
+            } else {
+                doConfirm();
+            }
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    class CompleteSessionCallback implements ApiController.CompleteSessionCallback {
+        @Override
+        public void onSuccess(String result) {
+            updatePaymentStatus(placeOrderResponse.getResult().getId(), 1, true);
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            throwable.printStackTrace();
+            updatePaymentStatus(placeOrderResponse.getResult().getId(), 2, false);
+//            Toast.makeText(ShoppingCartActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void updatePaymentStatus(int orderID, int paymentStatus, boolean isPaid) {
+        Constants.showSpinner(getString(R.string.completing_process), ShoppingCartActivity.this);
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+        apiClient.updatePaymentStatus(orderID, paymentStatus, new Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+                Constants.dismissSpinner();
+                if (isPaid) {
+                    Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
+                    intent.putExtra("Response", placeOrderResponse);
+                    intent.putExtra("OrderTotal", priceToPay);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Constants.showAlert(getString(R.string.failed), getString(R.string.server_error), getString(R.string.try_again), ShoppingCartActivity.this);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+                Log.e("onFailure", "" + t.getMessage());
+                Constants.dismissSpinner();
+                progressBar.setVisibility(View.GONE);
+                Constants.showAlert(getString(R.string.failed), getString(R.string.server_error), getString(R.string.try_again), ShoppingCartActivity.this);
+            }
+        });
+    }
+
+
+    private void isPaymentSuccessFull(int orderID) {
+        Constants.showSpinner(getString(R.string.completing_process), ShoppingCartActivity.this);
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+
+        apiClient.isPaymentSuccessful(orderID, new Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+
+                Constants.dismissSpinner();
+                SimpleSuccess simpleSuccess = response.body();
+
+                if (simpleSuccess != null) {
+                    if (simpleSuccess.getSuccess() == 1) {
+                        Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
+                        intent.putExtra("Response", placeOrderResponse);
+                        intent.putExtra("OrderTotal", priceToPay);
+                        startActivity(intent);
+                        finish();
+                    } else if (simpleSuccess.getSuccess() == 0) {
+                        Constants.showAlert(getString(R.string.failed), getString(R.string.server_error), getString(R.string.try_again), ShoppingCartActivity.this);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+                Constants.dismissSpinner();
+                Log.e("onFailure", "" + t.getMessage());
+                progressBar.setVisibility(View.GONE);
+                Constants.showAlert(getString(R.string.failed), getString(R.string.server_error), getString(R.string.try_again), ShoppingCartActivity.this);
+            }
+        });
+    }
+
+
+    private void omanNetPaymentVerification(int orderID) {
+
+        OmanNetServiceHandler.instance.invoice(orderID, selectedCard.getCardNumber()
+                , selectedCard.getExpireDate().split("/")[0]
+                , selectedCard.getExpireDate().split("/")[1]
+                , selectedCard.getCardHolder()
+                , selectedCard.getCvc()
+                , new retrofit2.Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            JSONObject JObject = new JSONObject(response.body().string());
+                            Log.e("Invoice", JObject.toString());
+                            if (JObject != null) {
+                                JSONObject result = JObject.getJSONObject("result");
+                                if (result != null) {
+                                    if (result.has("status")) {
+                                        if (result.getString("status").equalsIgnoreCase("success")) {
+                                            JSONObject message = result.getJSONObject("message");
+                                            if (message != null) {
+                                                if (message.has("PayUrl")) {
+                                                    String payURL = message.getString("PayUrl");
+                                                    if (payURL != null && !payURL.equals("")) {
+                                                        Intent intent = new Intent(ShoppingCartActivity.this, OmanNetCardDetailActivity.class);
+                                                        intent.putExtra("PayURL", payURL);
+                                                        startActivityForResult(intent, 2019);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
+    }
+
 }

@@ -52,10 +52,12 @@
 
             </RelativeLayout>
 
-            <CheckBox android:id="@+id/checkbox_high_price"
+            <CheckBox
+                android:id="@+id/checkbox_high_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/neo_sans"
+                android:buttonTint="@color/colorPrimary"
                 android:text="@string/price_high"/>
 
             <View
@@ -68,6 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/neo_sans"
+                android:buttonTint="@color/colorPrimary"
                 android:text="@string/low_price"/>
             <View
                 android:layout_margin="5dp"
@@ -79,6 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/neo_sans"
+                android:buttonTint="@color/colorPrimary"
                 android:text="@string/new_in"/>
 
             <View
@@ -91,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/neo_sans"
+                android:buttonTint="@color/colorPrimary"
                 android:text="@string/best_sell"/>
 
         </LinearLayout>

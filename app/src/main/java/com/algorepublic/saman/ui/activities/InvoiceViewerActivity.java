@@ -1,14 +1,14 @@
 package com.algorepublic.saman.ui.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.algorepublic.saman.R;
+import com.algorepublic.saman.base.BaseActivity;
 
-public class InvoiceViewerActivity  extends AppCompatActivity {
+public class InvoiceViewerActivity  extends BaseActivity {
 
     private WebView wv1;
 

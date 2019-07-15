@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -42,16 +43,14 @@ import com.algorepublic.saman.data.model.User;
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.PoliciesActivity;
-import com.algorepublic.saman.ui.activities.country.CountriesActivity;
+import com.algorepublic.saman.ui.activities.country.CountriesListingActivity;
+import com.algorepublic.saman.ui.activities.country.RegionListingActivity;
 import com.algorepublic.saman.ui.activities.home.DashboardActivity;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
-import com.algorepublic.saman.ui.activities.map.GoogleMapActivity;
 import com.algorepublic.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
-import com.algorepublic.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
-import com.algorepublic.saman.ui.activities.myaccount.payment.AddCardActivity;
-import com.algorepublic.saman.ui.activities.myaccount.payment.MyPaymentActivity;
 import com.algorepublic.saman.ui.activities.onboarding.WelcomeActivity;
-import com.algorepublic.saman.ui.activities.settings.SettingsActivity;
+import com.algorepublic.saman.ui.activities.password.ForgotPasswordActivity;
+import com.algorepublic.saman.ui.activities.password.NumberVerificationActivity;
 import com.algorepublic.saman.utils.AsteriskPasswordTransformationMethod;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
@@ -79,6 +78,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.rilixtech.CountryCodePicker;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -91,6 +91,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,6 +102,7 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -130,6 +132,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     TextView genderText;
     @BindView(R.id.tv_country_name)
     TextView countryName;
+    @BindView(R.id.tv_region_name)
+    TextView regionName;
     @BindView(R.id.editText_address)
     EditText addressEditText;
     @BindView(R.id.editText_day)
@@ -142,6 +146,15 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     ProgressBar progressBar;
     @BindView(R.id.tv_terms_policies)
     TextView termPolicy;
+    @BindView(R.id.ccp)
+    EditText ccp;
+    @BindView(R.id.editText_phone)
+    EditText phoneEditText;
+
+    @BindView(R.id.layout_regionSelection)
+    LinearLayout regionSelectionLinearLayout;
+    @BindView(R.id.view_region)
+    View regionView;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     boolean isShowing = false;
@@ -167,6 +180,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     Calendar myCalendar;
     String returnedResult;
     boolean isGuestTry = false;
+    boolean isNumberVerified=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +196,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         confirmPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         mPresenter = new RegisterPresenterImpl(this, new RegisterDataInteractor());
         mPresenter.getCountries();
-
+//        ccp.setDefaultCountryUsingNameCode("OM");
+//        ccp.resetToDefaultCountry();
+//        ccp.hideNameCode(true);
+//        ccp.showFlag(false);
         //Social Login
 
         mTwitterAuthClient = new TwitterAuthClient();
@@ -218,6 +235,25 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
         dialog.show();
     }
+
+    @OnClick(R.id.tv_numberVerify)
+    void numberVerifyButton() {
+        String phone = ccp.getText().toString()+phoneEditText.getText().toString();
+        phone=phone.replace("+","");
+
+        if(TextUtils.isEmpty(phone)){
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.Phone_Number_Required), getString(R.string.okay), RegisterActivity.this);
+            return ;
+        } else if(phone.length()<10){
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.Not_Valid), getString(R.string.okay), RegisterActivity.this);
+            return ;
+        }
+
+        Intent intent = new Intent(RegisterActivity.this, NumberVerificationActivity.class);
+        intent.putExtra("Number", phone);
+        startActivityForResult(intent, 2025);
+    }
+
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -395,9 +431,16 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
-        Intent intent = new Intent(RegisterActivity.this, CountriesActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, CountriesListingActivity.class);
         startActivityForResult(intent, 1299);
     }
+
+    @OnClick(R.id.layout_regionSelection)
+    public void regionSelection() {
+        Intent intent = new Intent(RegisterActivity.this, RegionListingActivity.class);
+        startActivityForResult(intent, 1309);
+    }
+
 
     @OnClick(R.id.button_register)
     public void registerButton() {
@@ -408,17 +451,39 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String confirmPassword = confirmPasswordEditText.getText().toString();
         String gender = selectedGender;
         String country = countryName.getText().toString();
+        String phone = ccp.getText().toString()+phoneEditText.getText().toString();
+        String region=regionName.getText().toString();
 
-        int date = Integer.parseInt(dayEditText.getText().toString());
-        int mon = Integer.parseInt(monthEditText.getText().toString());
-        int yr = Integer.parseInt(yearEditText.getText().toString());
+        int date;
+        int mon;
+        int yr;
+        String day="";
+        String month="";
+        String year="";
+        if(dayEditText.getText()!=null && !dayEditText.getText().toString().equals("")) {
+            date = Integer.parseInt(dayEditText.getText().toString());
+            day = String.valueOf(date);
+        }
 
-        String day = String.valueOf(date);
-        String month = String.valueOf(mon);
-        String year = String.valueOf(yr);
-
+        if(monthEditText.getText()!=null && !monthEditText.getText().toString().equals("")) {
+            mon = Integer.parseInt(monthEditText.getText().toString());
+            month = String.valueOf(mon);
+        }
+        if(yearEditText.getText()!=null && !yearEditText.getText().toString().equals("")) {
+            yr = Integer.parseInt(yearEditText.getText().toString());
+            year = String.valueOf(yr);
+        }
+//        isNumberVerified=true;
         String address = addressEditText.getText().toString();
-        if (isDataValid(firstName, lastName, email, password, confirmPassword, gender, country, address, day, month, year)) {
+        if (isDataValid(firstName, lastName, email, password, confirmPassword, gender, country, address, day, month, year,phone)) {
+            if(countryName.getText().toString().equalsIgnoreCase("oman")) {
+                if (region==null || TextUtils.isEmpty(region)) {
+                    Constants.showAlert(getString(R.string.sign_up), getString(R.string.region_required), getString(R.string.okay), RegisterActivity.this);
+                    return;
+                }
+            }else {
+                region="";
+            }
             String dob = day + "-" + month + "-" + year;
             Intent intent = new Intent(RegisterActivity.this, PoliciesActivity.class);
             intent.putExtra("type", 1);
@@ -526,16 +591,70 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                     country.setId(jsonObject.getInt("id"));
                     country.setSortname(jsonObject.getString("sortname"));
                     country.setName(jsonObject.getString("name"));
-                    country.setFlag("http://algorepublic-001-site2.etempurl.com/Flags/flag_" + jsonObject.getString("sortname").toLowerCase() + ".png");
-                    country.setPhoneCode(jsonObject.getInt("phoneCode"));
+                    country.setFlag("https://www.saman.om/Flags/flag_" + jsonObject.getString("sortname").toLowerCase() + ".png");
+                    country.setPhoneCode(""+jsonObject.getInt("phoneCode"));
 
                     GlobalValues.countries.add(country);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+//            WebServicesHandler.instance.getCountries(new retrofit2.Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    try {
+//                        JSONObject JObject = new JSONObject(response.body().string());
+//                        int status = 0;
+//                        status = JObject.getInt("success");
+//                        if (status==0) {
+//
+//                        } else if (status==1) {
+//                            if (JObject.has("result")) {
+//                                JSONArray jsonArray=JObject.getJSONArray("result");
+//
+//                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                                    Country country = new Country();
+//
+//                                    country.setId(jsonObject.getInt("ID"));
+//                                    String flagURL=jsonObject.getString("FlagURL");
+//
+//                                    String[] array= flagURL.split("/");
+//                                    String[] array2=array[array.length-1].split("\\.");
+//                                    String[] array3=array2[0].split("_");
+//                                    String shortNameCode=array3[array3.length-1];
+//
+//                                    country.setSortname(shortNameCode);
+//                                    country.setName(jsonObject.getString("CountryName"));
+//                                    country.setFlag(Constants.URLS.BaseURLImages+flagURL);
+//                                    country.setPhoneCode(jsonObject.getString("CountryCode"));
+//
+//                                    GlobalValues.countries.add(country);
+//                                }
+//                            }
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                }
+//            });
         }
     }
+
+
+    @OnClick(R.id.ccp)
+    public void phoneCode() {
+        Intent intent = new Intent(RegisterActivity.this, CountriesListingActivity.class);
+        intent.putExtra("GetCode", true);
+        startActivityForResult(intent, 2021);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -544,6 +663,18 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
                 countryName.setText(returnedResult);
+                if(returnedResult.equalsIgnoreCase("oman")){
+                    regionView.setVisibility(View.VISIBLE);
+                    regionSelectionLinearLayout.setVisibility(View.VISIBLE);
+                }else {
+                    regionView.setVisibility(View.GONE);
+                    regionSelectionLinearLayout.setVisibility(View.GONE);
+                }
+            }
+        } else if (requestCode == 1309) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                regionName.setText(returnedResult);
             }
         } else if (requestCode == 1401) {
             if (resultCode == RESULT_OK) {
@@ -554,7 +685,13 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String confirmPassword = confirmPasswordEditText.getText().toString();
                 String gender = selectedGender;
                 String country = countryName.getText().toString();
+                String phone = ccp.getText().toString()+"-"+phoneEditText.getText().toString();
                 String address = addressEditText.getText().toString();
+                String region = regionName.getText().toString();
+
+                if(region==null && region.isEmpty()){
+                    region="";
+                }
 
                 int date = Integer.parseInt(dayEditText.getText().toString());
                 int mon = Integer.parseInt(monthEditText.getText().toString());
@@ -565,14 +702,24 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String year = String.valueOf(yr);
 
                 String dob = month + "-" + day + "-" + year;
-                mPresenter.registerUser(firstName, lastName, email, password, GlobalValues.getUserToken(RegisterActivity.this), gender, country, returnedResult, dob);
+                mPresenter.registerUser(firstName, lastName, email, password, GlobalValues.getUserToken(RegisterActivity.this), gender, country, returnedResult, dob,phone,region);
             }
-        }
-        if (requestCode == 1414) {
+        } else if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
                 returnedResult = data.getData().toString();
                 ShippingAddress obj = new Gson().fromJson(returnedResult, ShippingAddress.class);
                 addressEditText.setText(obj.getAddressLine1() + "," + obj.getCity() + "," + obj.getCountry());
+            }
+        } else  if (requestCode == 2021) {
+            if (resultCode == RESULT_OK) {
+                String code = data.getExtras().getString("Code");
+                ccp.setText("+" + code);
+            }
+        } else  if (requestCode == 2025) {
+            if (resultCode == RESULT_OK) {
+                isNumberVerified=true;
+                phoneEditText.setEnabled(false);
+                ccp.setEnabled(false);
             }
         } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -585,24 +732,19 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 // The user canceled the operation.
             }
         } else {
-
             callbackManager.onActivityResult(requestCode, resultCode, data);
-
             super.onActivityResult(requestCode, resultCode, data);
-
             // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
             if (requestCode == RC_SIGN_IN) {
                 GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                 handleSignInResult(result);
             }
-
             mTwitterAuthClient.onActivityResult(requestCode, resultCode, data);
-
         }
     }
 
 
-    private boolean isDataValid(String fName, String lName, String email, String password, String confrim, String gender, String country, String address, String day, String month, String year) {
+    private boolean isDataValid(String fName, String lName, String email, String password, String confrim, String gender, String country, String address, String day, String month, String year,String phone) {
         if (TextUtils.isEmpty(fName)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.first_name_required), getString(R.string.okay), RegisterActivity.this);
             return false;
@@ -615,7 +757,13 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         } else if (!isValidEmailId(email)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.email_invalid), getString(R.string.okay), RegisterActivity.this);
             return false;
-        } else if (TextUtils.isEmpty(password)) {
+        } else if(TextUtils.isEmpty(phone)){
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.Phone_Number_Required), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if(phone.length()<10){
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.Not_Valid), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        }else if (TextUtils.isEmpty(password)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.password_required), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (password.length() < 6) {
@@ -644,6 +792,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             return false;
         } else if (TextUtils.isEmpty(address)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.address_req), getString(R.string.okay), RegisterActivity.this);
+            return false;
+        } else if (!isNumberVerified) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.number_verification_required), getString(R.string.okay), RegisterActivity.this);
             return false;
         } else {
             return true;
@@ -744,6 +895,30 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         //Getting the username from session
         final String username = session.getUserName();
 
+        getTwitterData(false);
+
+        TwitterAuthClient authClient = new TwitterAuthClient();
+        authClient.requestEmail(session, new Callback<String>() {
+            @Override
+            public void success(Result<String> result) {
+                // Do something with the result, which provides the email address
+                socialEmail = result.data;
+                if(socialName.equalsIgnoreCase("")){
+                    getTwitterData(true);
+                }else {
+//                    Log.e("Twitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
+                    socialLogin(2);
+                }
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                // Do something on failure
+            }
+        });
+    }
+
+    private void getTwitterData(boolean tryAgain){
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
         twitterApiClient.getAccountService().verifyCredentials(true, false, false).enqueue(new Callback<com.twitter.sdk.android.core.models.User>() {
             @Override
@@ -759,23 +934,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String photoUrlBiggerSize = userResult.data.profileImageUrl.replace("_normal", "_bigger");
                 String photoUrlMiniSize = userResult.data.profileImageUrl.replace("_normal", "_mini");
                 String photoUrlOriginalSize = userResult.data.profileImageUrl.replace("_normal", "");
-
-            }
-        });
-
-        TwitterAuthClient authClient = new TwitterAuthClient();
-        authClient.requestEmail(session, new Callback<String>() {
-            @Override
-            public void success(Result<String> result) {
-                // Do something with the result, which provides the email address
-                socialEmail = result.data;
-//                Log.e("Twitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
-                socialLogin(2);
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                // Do something on failure
+                if(tryAgain){
+//                    Log.e("TTwitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
+                    socialLogin(2);
+                }
             }
         });
     }
@@ -933,6 +1095,14 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                                 GlobalValues.setUserLoginStatus(RegisterActivity.this, true);
                                 GlobalValues.setGuestLoginStatus(RegisterActivity.this, false);
                                 Intent mainIntent = new Intent(RegisterActivity.this, DashboardActivity.class);
+                                if(user.getPhoneNumber()==null || user.getShippingAddress().getAddressLine1()==null || user.getCountry()==null) {
+                                    mainIntent.putExtra("NavItem", 4);
+                                    mainIntent.putExtra("OpenDetails", true);
+                                }else if(user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
+                                        ||user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
+                                    mainIntent.putExtra("NavItem", 4);
+                                    mainIntent.putExtra("OpenDetails", true);
+                                }
                                 startActivity(mainIntent);
                                 finish();
                             }

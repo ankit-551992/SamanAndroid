@@ -29,5 +29,9 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_sign_out"
             android:title="@string/title_logout" />
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_sign_out"
+            android:title="@string/Login" />
     </group>
 </menu>
