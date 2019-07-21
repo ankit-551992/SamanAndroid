@@ -117,7 +117,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         mPresenter = new DashboardPresenter(this);
         mPresenter.getUserData();
 
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -558,7 +557,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             SpannableString sColored = new SpannableString(s);
             sColored.setSpan(new BackgroundColorSpan(Color.GRAY), s.length() - (counter.length() + 2), s.length(), 0);
             sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
-
             element.setTitle(sColored);
         } else {
             MenuItem element = navigationView.getMenu().findItem(R.id.nav_favorite);

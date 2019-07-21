@@ -213,6 +213,7 @@
     <string name="address_hint">Oman, Street name, Building, Floor...</string>
     <string name="address_req">Address Required</string>
     <string name="have_account">Have Account?</string>
+    <string name="dob_missing">Please Select Date Of Birth</string>
     <!--Sign Up-->
 
     <!--Password-->
@@ -432,7 +433,6 @@
     <string name="feedback_message">Send your feedback about this order</string>
     <string name="feedback">Feedback...</string>
 
-
     <string name="pay_error_could_not_update_session">Could not update session</string>
     <string name="view_invoice">View invoice</string>
     <string name="shipping">Shipping</string>
@@ -506,5 +506,14 @@
         <item>Governorate of Al Sharqiya North</item>
         <item>Governorate of Al Buraimi</item>
     </string-array>
+
+
+    <!--remain transalation in arabic-->
+    <!--notification-->
+    <string name="order_status_notify">Order Status</string>
+    <string name="message_notify">Message Notification</string>
+    <string name="sales_notify">Promotions and sales</string>
+    <string name="feedback_notify">Feedback Notification</string>
+    <string name="item_stock_notify">Item back from Out of Stock</string>
 
 </resources>

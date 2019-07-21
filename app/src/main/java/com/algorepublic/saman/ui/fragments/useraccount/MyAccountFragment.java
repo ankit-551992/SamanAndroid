@@ -86,7 +86,6 @@ public class MyAccountFragment extends BaseFragment {
 
     User authenticatedUser;
 
-
     File file = null;
     String mCurrentPhotoPath;
     private int REQUEST_TAKE_PHOTO = 1;
@@ -107,11 +106,11 @@ public class MyAccountFragment extends BaseFragment {
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
             unread = bundle.getInt("unread");
-            if(unread==0){
+            if (unread == 0) {
                 unreadMessageCount.setVisibility(View.GONE);
-            }else {
+            } else {
                 unreadMessageCount.setVisibility(View.VISIBLE);
-                unreadMessageCount.setText(""+unread);
+                unreadMessageCount.setText("" + unread);
             }
         }
     }
@@ -126,21 +125,21 @@ public class MyAccountFragment extends BaseFragment {
         userEmail.setText(authenticatedUser.getEmail());
 
         if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty() && !authenticatedUser.getProfileImagePath().equalsIgnoreCase("path")) {
-            if(authenticatedUser.getSocialID()!=0) {
-                if(!authenticatedUser.getProfileImagePath().isEmpty()) {
+            if (authenticatedUser.getSocialID() != 0) {
+                if (!authenticatedUser.getProfileImagePath().isEmpty()) {
                     Picasso.get()
                             .load(authenticatedUser.getProfileImagePath())
                             .transform(new CircleTransform())
                             .placeholder(R.drawable.ic_profile)
                             .into(profile);
-                }else{
+                } else {
                     Picasso.get()
                             .load("https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1")
                             .transform(new CircleTransform())
                             .placeholder(R.drawable.ic_profile)
                             .into(profile);
                 }
-            }else {
+            } else {
                 Picasso.get()
                         .load(Constants.URLS.BaseURLImages + authenticatedUser.getProfileImagePath())
                         .transform(new CircleTransform())
@@ -166,34 +165,32 @@ public class MyAccountFragment extends BaseFragment {
     }
 
 
-    private void getConversation(){
-        unread=0;
+    private void getConversation() {
+        unread = 0;
         WebServicesHandler.instance.getConversationList(authenticatedUser.getId(), new retrofit2.Callback<GetConversationsApi>() {
             @Override
             public void onResponse(Call<GetConversationsApi> call, Response<GetConversationsApi> response) {
                 GetConversationsApi getConversationsApi = response.body();
-                if(getConversationsApi!=null) {
-                    if(getConversationsApi.getResult()!=null) {
-                        for (int i=0;i<getConversationsApi.getResult().size();i++){
-                            for (int j=0;j<getConversationsApi.getResult().get(i).getMessages().size();j++) {
+                if (getConversationsApi != null) {
+                    if (getConversationsApi.getResult() != null) {
+                        for (int i = 0; i < getConversationsApi.getResult().size(); i++) {
+                            for (int j = 0; j < getConversationsApi.getResult().get(i).getMessages().size(); j++) {
                                 Message message = getConversationsApi.getResult().get(i).getMessages().get(j);
-                                if (!message.getIsRead() && message.getSender().getId()!=authenticatedUser.getId()) {
+                                if (!message.getIsRead() && message.getSender().getId() != authenticatedUser.getId()) {
                                     unread++;
                                 }
                             }
                         }
 
-                        if(unread==0){
+                        if (unread == 0) {
                             unreadMessageCount.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             unreadMessageCount.setVisibility(View.VISIBLE);
-                            unreadMessageCount.setText(""+unread);
+                            unreadMessageCount.setText("" + unread);
                         }
-
                         ((DashboardActivity) getActivity()).updateMessagesCount(unread);
                     }
                 }
-
             }
 
             @Override
@@ -316,7 +313,7 @@ public class MyAccountFragment extends BaseFragment {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.ENGLISH).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM), "Camera");
@@ -387,7 +384,7 @@ public class MyAccountFragment extends BaseFragment {
     }
 
 
-    String filePath(Uri uri){
+    String filePath(Uri uri) {
 
         String id = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
@@ -399,7 +396,7 @@ public class MyAccountFragment extends BaseFragment {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        File file = new File(getActivity().getCacheDir().getAbsolutePath()+"/"+id);
+        File file = new File(getActivity().getCacheDir().getAbsolutePath() + "/" + id);
         writeFile(inputStream, file);
         String filePath = file.getAbsolutePath();
         return filePath;
@@ -411,19 +408,18 @@ public class MyAccountFragment extends BaseFragment {
             out = new FileOutputStream(file);
             byte[] buf = new byte[1024];
             int len;
-            while((len=in.read(buf))>0){
-                out.write(buf,0,len);
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
-                if ( out != null ) {
+                if (out != null) {
                     out.close();
                 }
                 in.close();
-            } catch ( IOException e ) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

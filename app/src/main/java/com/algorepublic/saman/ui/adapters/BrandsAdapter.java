@@ -73,7 +73,6 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_brand_row, parent, false);
-
             return new BrandViewHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.loading_progress_bar, parent, false);
@@ -161,7 +160,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
                         }
-                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null,1);
+                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null, 1);
                         brandArrayList.get(position).setFavorite(true);
 
                         showPopUp(mContext.getString(R.string.added_to_fav),
@@ -347,11 +346,11 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
                 if (names.equals("")) {
 //                    String va=cartProduct.getProductOptions().get(i).getTitle()+ ":"+ optionValue.getTitle();
-                    String va=optionValue.getTitle();
-                    names = ""+va;
+                    String va = optionValue.getTitle();
+                    names = "" + va;
                 } else {
 //                    String va=cartProduct.getProductOptions().get(i).getTitle()+ ":"+ optionValue.getTitle();
-                    String va=optionValue.getTitle();
+                    String va = optionValue.getTitle();
                     names = names + "," + va;
                 }
             }
@@ -368,11 +367,11 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
                 if (names.equals("")) {
 //                    String va=cartProduct.getProductOptions().get(i).getTitleAR()+ ":"+ optionValue.getTitleAR();
-                    String va=optionValue.getTitleAR();
-                    names = "" +va;
+                    String va = optionValue.getTitleAR();
+                    names = "" + va;
                 } else {
 //                    String va=cartProduct.getProductOptions().get(i).getTitleAR()+ ":"+ optionValue.getTitleAR();
-                    String va=optionValue.getTitleAR();
+                    String va = optionValue.getTitleAR();
                     names = names + "," + va;
                 }
             }

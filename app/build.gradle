@@ -67,7 +67,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //Firebase
-    implementation ('com.google.firebase:firebase-core:16.0.8'){
+    implementation('com.google.firebase:firebase-core:16.0.8') {
         exclude group: 'com.android.support'
     }
     implementation 'com.google.firebase:firebase-messaging:17.4.0'
@@ -81,7 +81,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-places:16.0.0'
 
     //Twitter
-    implementation ("com.twitter.sdk.android:twitter:3.1.1"){
+    implementation("com.twitter.sdk.android:twitter:3.1.1") {
         exclude group: 'com.android.support'
         exclude group: 'com.squareup.picasso'
         exclude group: 'com.squareup.retrofit2'
@@ -93,7 +93,7 @@ dependencies {
     implementation 'com.github.joielechong:countrycodepicker:2.1.8'
 
     //Facebook
-    implementation ('com.facebook.android:facebook-android-sdk:4.37.0'){
+    implementation('com.facebook.android:facebook-android-sdk:4.37.0') {
         exclude group: 'com.android.support'
     }
 
@@ -101,18 +101,17 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //Butter knife
-    implementation ("com.jakewharton:butterknife:$butterknife_version"){
+    implementation("com.jakewharton:butterknife:$butterknife_version") {
         exclude group: 'com.android.support'
     }
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
 
-
     //ViewPagerIndicator
-    implementation ('com.github.JakeWharton:ViewPagerIndicator:2.4.1'){
+    implementation('com.github.JakeWharton:ViewPagerIndicator:2.4.1') {
         exclude group: 'com.android.support'
     }
     //WebView
-    implementation ('com.thefinestartist:finestwebview:1.2.7'){
+    implementation('com.thefinestartist:finestwebview:1.2.7') {
         exclude group: 'com.android.support'
     }
 

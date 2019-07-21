@@ -56,12 +56,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesRecyclerView.setLayoutManager(layoutManager);
         favoritesRecyclerView.setNestedScrollingEnabled(false);
         productArrayList = new ArrayList<>();
-        favoritesAdapter = new SwipeFavoritesAdapter(getContext(), productArrayList,this);
+        favoritesAdapter = new SwipeFavoritesAdapter(getContext(), productArrayList, this);
         favoritesRecyclerView.setAdapter(favoritesAdapter);
         favoritesRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
         presenter = new FavoritesPresenter(this);
-        presenter.getFavoritesData(authenticatedUser.getId(),currentPage,pageSize,true);
+        presenter.getFavoritesData(authenticatedUser.getId(), currentPage, pageSize, true);
 
         return view;
     }
@@ -91,21 +91,21 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     @Override
     public void response(List<Product> product) {
 
-        if (productArrayList.size() > 0 && productArrayList.get(productArrayList.size() - 1)==null) {
+        if (productArrayList.size() > 0 && productArrayList.get(productArrayList.size() - 1) == null) {
             productArrayList.remove(productArrayList.size() - 1);
             favoritesAdapter.notifyItemRemoved(productArrayList.size());
         }
 
-        if(product.size()==0){
-            isGetAll=true;
+        if (product.size() == 0) {
+            isGetAll = true;
         }
 
-        isLoading=false;
+        isLoading = false;
         productArrayList.addAll(product);
         favoritesAdapter.notifyDataSetChanged();
-        int quan=0;
-        for (int i=0;i<productArrayList.size();i++){
-            quan=quan+productArrayList.get(i).getQuantity();
+        int quan = 0;
+        for (int i = 0; i < productArrayList.size(); i++) {
+            quan = quan + productArrayList.get(i).getQuantity();
         }
         quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
         ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
@@ -121,17 +121,17 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     }
 
-    public void updateCount(int size){
-        if(size>0){
+    public void updateCount(int size) {
+        if (size > 0) {
             tv_empty_bag.setVisibility(View.GONE);
-        }else{
+        } else {
             tv_empty_bag.setVisibility(View.VISIBLE);
         }
-        int quan=0;
-        for (int i=0;i<productArrayList.size();i++){
-            quan=quan+productArrayList.get(i).getQuantity();
+        int quan = 0;
+        for (int i = 0; i < productArrayList.size(); i++) {
+            quan = quan + productArrayList.get(i).getQuantity();
         }
-        quantity.setText(quan+ " " +getActivity().getResources().getQuantityString(R.plurals.items,quan ));
+        quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
 
     }
 
@@ -152,7 +152,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 favoritesAdapter.notifyItemInserted(productArrayList.size() - 1);
                 isLoading = true;
                 currentPage++;
-                presenter.getFavoritesData(authenticatedUser.getId(),currentPage,pageSize,false);
+                presenter.getFavoritesData(authenticatedUser.getId(), currentPage, pageSize, false);
             }
         }
     };

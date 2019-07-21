@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.OrderHistory;
@@ -19,11 +20,13 @@ import com.algorepublic.saman.data.model.apis.OrderHistoryAPI;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.adapters.MyOrdersAdapter;
 import com.algorepublic.saman.utils.GlobalValues;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,9 +53,7 @@ public class MyOrdersActivity extends BaseActivity {
     MyOrdersAdapter ordersAdapter;
 
     List<OrderHistory> orderHistoryArrayList = new ArrayList<>();
-
     User authenticatedUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class MyOrdersActivity extends BaseActivity {
     private void getOrderHistory() {
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
+        Log.e("USERID", "---authenticatedUser--id--" + authenticatedUser.getId());
         apiClient.getOrderHistory(authenticatedUser.getId(), new Callback<OrderHistoryAPI>() {
             @Override
             public void onResponse(Call<OrderHistoryAPI> call, Response<OrderHistoryAPI> response) {
@@ -108,7 +110,7 @@ public class MyOrdersActivity extends BaseActivity {
     }
 
 
-    private Date getDate(String date){
+    private Date getDate(String date) {
         return new Date(Long.parseLong(date.replaceAll("\\D", "")));
     }
 
@@ -123,7 +125,7 @@ public class MyOrdersActivity extends BaseActivity {
         layoutManager = new LinearLayoutManager(this);
         ordersRecyclerView.setLayoutManager(layoutManager);
         ordersRecyclerView.setNestedScrollingEnabled(false);
-        orderHistoryArrayList=new ArrayList<>();
+        orderHistoryArrayList = new ArrayList<>();
         ordersAdapter = new MyOrdersAdapter(this, orderHistoryArrayList);
         ordersRecyclerView.setAdapter(ordersAdapter);
 

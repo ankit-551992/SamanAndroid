@@ -131,7 +131,6 @@ public class MessagesListActivity extends BaseActivity {
                         return getDate(rhs.getUpdatedAt()).compareTo(getDate(lhs.getUpdatedAt()));
                     }
                 });
-
                 conversationsAdapter.notifyDataSetChanged();
             }
 
@@ -154,7 +153,6 @@ public class MessagesListActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-
             }
         });
     }

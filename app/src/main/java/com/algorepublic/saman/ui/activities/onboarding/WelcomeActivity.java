@@ -57,7 +57,7 @@ public class WelcomeActivity extends BaseActivity implements GoogleApiClient.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
-        mTwitterAuthClient= new TwitterAuthClient();
+        mTwitterAuthClient = new TwitterAuthClient();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -70,11 +70,8 @@ public class WelcomeActivity extends BaseActivity implements GoogleApiClient.OnC
 
 
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager,mFacebookCallback);
+        LoginManager.getInstance().registerCallback(callbackManager, mFacebookCallback);
     }
-
-
-
 
     @OnClick(R.id.button_signUp)
     public void signUp() {
@@ -166,13 +163,12 @@ public class WelcomeActivity extends BaseActivity implements GoogleApiClient.OnC
 
     // Google Plus Region End
 
-
     //Twitter Region
 
     @OnClick(R.id.twitter_signIn)
     public void twitter() {
 
-        mTwitterAuthClient.authorize(WelcomeActivity.this,new Callback<TwitterSession>() {
+        mTwitterAuthClient.authorize(WelcomeActivity.this, new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 //If login succeeds passing the Calling the login method and passing Result object
@@ -186,6 +182,7 @@ public class WelcomeActivity extends BaseActivity implements GoogleApiClient.OnC
             }
         });
     }
+
     //The login function accepting the result object
     public void login(Result<TwitterSession> result) {
 
@@ -196,7 +193,7 @@ public class WelcomeActivity extends BaseActivity implements GoogleApiClient.OnC
         final String username = session.getUserName();
 
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
-        twitterApiClient.getAccountService().verifyCredentials(true, false,false).enqueue(new Callback<User>(){
+        twitterApiClient.getAccountService().verifyCredentials(true, false, false).enqueue(new Callback<User>() {
             @Override
             public void failure(TwitterException e) {
             }
@@ -239,7 +236,7 @@ public class WelcomeActivity extends BaseActivity implements GoogleApiClient.OnC
     //Facebook Region
 
     @OnClick(R.id.facebook_signIn)
-    public void facebookSignIn(){
+    public void facebookSignIn() {
 
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
@@ -249,7 +246,7 @@ public class WelcomeActivity extends BaseActivity implements GoogleApiClient.OnC
 //        );
     }
 
-    private FacebookCallback<LoginResult> mFacebookCallback= new FacebookCallback<LoginResult>() {
+    private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
             // App code
@@ -266,7 +263,7 @@ public class WelcomeActivity extends BaseActivity implements GoogleApiClient.OnC
                                 String name = object.getString("name");
 //                                    String birthday = object.getString("birthday"); // 01/31/1980 format
 
-                                Log.e("LoginResult",name);
+                                Log.e("LoginResult", name);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

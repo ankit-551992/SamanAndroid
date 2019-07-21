@@ -2,6 +2,7 @@ package com.algorepublic.saman.ui.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +43,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position).getSender().getId() == authenticatedUser.getId()) {
+        Log.e("SENDER_ID", "----senderId---" + messages.get(position).getSender().getId());
+        Log.e("SENDER_ID", "--authenticatedUser--senderId---" + authenticatedUser.getId());
+
+        // if (messages.get(position).getSender().getId() == authenticatedUser.getId()) {
+        if (!messages.get(position).getSender().getId().equals(authenticatedUser.getId())) {
+            return VIEW_TYPE_OTHER;
+        } else {
+                      return VIEW_TYPE_SELF;
+        }
+       /*  if (messages.get(position).getSender().getId() == authenticatedUser.getId()) {
             return VIEW_TYPE_SELF;
         } else {
             return VIEW_TYPE_OTHER;
-        }
+        }*/
+
     }
 
     @Override
@@ -82,9 +93,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 User sender = message.getSender();
 
-                otherUserViewHolder.userName.setText(sender.getFirstName() +" "+sender.getLastName());
-
-
+                otherUserViewHolder.userName.setText(sender.getFirstName() + " " + sender.getLastName());
 
                 if (sender.getProfileImagePath() != null
                         && !sender.getProfileImagePath().isEmpty()
@@ -116,7 +125,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String dateFormatted = formatter.format(date);
             selfUserViewHolder.dateTime.setText(dateFormatted.toString());
 
-            selfUserViewHolder.userName.setText(authenticatedUser.getFirstName() +" "+authenticatedUser.getLastName());
+            selfUserViewHolder.userName.setText(authenticatedUser.getFirstName() + " " + authenticatedUser.getLastName());
             if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty() && !authenticatedUser.getProfileImagePath().equalsIgnoreCase("path")) {
                 if (authenticatedUser.getSocialID() != 0) {
                     if (!authenticatedUser.getProfileImagePath().isEmpty()) {

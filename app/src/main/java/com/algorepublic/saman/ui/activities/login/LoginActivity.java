@@ -46,6 +46,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.gson.Gson;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -100,9 +101,9 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
     // Social Login
 
-    String socialName="";
-    String socialEmail="";
-    String socialPhotoUrl="";
+    String socialName = "";
+    String socialEmail = "";
+    String socialPhotoUrl = "";
 
     LoginPresenter mPresenter;
     boolean isGuestTry = false;
@@ -240,6 +241,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     @Override
     public void loginResponse(User user) {
 
+        Log.e("LOGIN_URL", "-----response---login---" + user.toString());
         if (isGuestTry) {
             GlobalValues.saveUser(LoginActivity.this, user);
             GlobalValues.setUserLoginStatus(LoginActivity.this, true);
@@ -346,7 +348,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             socialEmail = acct.getEmail();
 
             socialLogin(1);
-
 //            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
 //            startActivity(intent);
         }
@@ -360,7 +361,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     @OnClick(R.id.twitter_signIn)
     public void twitter() {
 
-        mTwitterAuthClient.authorize(LoginActivity.this,new Callback<TwitterSession>() {
+        mTwitterAuthClient.authorize(LoginActivity.this, new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 //If login succeeds passing the Calling the login method and passing Result object
@@ -392,9 +393,9 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             public void success(Result<String> result) {
                 // Do something with the result, which provides the email address
                 socialEmail = result.data;
-                if(socialName.equalsIgnoreCase("")){
+                if (socialName.equalsIgnoreCase("")) {
                     getTwitterData(true);
-                }else {
+                } else {
                     Log.e("Twitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
                     socialLogin(2);
                 }
@@ -407,7 +408,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         });
     }
 
-    private void getTwitterData(boolean tryAgain){
+    private void getTwitterData(boolean tryAgain) {
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
         twitterApiClient.getAccountService().verifyCredentials(true, false, false).enqueue(new Callback<com.twitter.sdk.android.core.models.User>() {
             @Override
@@ -423,7 +424,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                 String photoUrlBiggerSize = userResult.data.profileImageUrl.replace("_normal", "_bigger");
                 String photoUrlMiniSize = userResult.data.profileImageUrl.replace("_normal", "_mini");
                 String photoUrlOriginalSize = userResult.data.profileImageUrl.replace("_normal", "");
-                if(tryAgain){
+                if (tryAgain) {
                     Log.e("TTwitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
                     socialLogin(2);
                 }
@@ -470,7 +471,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                 } catch (Exception e) {
                                     fbId = "";
                                     e.printStackTrace();
-
                                 }
 
 
@@ -560,17 +560,18 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         if (names.length > 1) {
             lastName = names[1];
         }
-
         apiClient.socialLogin(names[0], lastName, socialEmail, GlobalValues.getUserToken(LoginActivity.this), socialPhotoUrl, new retrofit2.Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                Log.e("SOCIAL_LOGIN", "---google--socialLogin----response---" + new Gson().toJson(response));
+                // Log.e("SOCIAL_LOGIN", "---google--socialLogin----response---" + response.body().toString());
                 hideProgress();
                 User user = null;
                 UserResponse userResponse = response.body();
                 if (userResponse != null) {
                     if (userResponse.getSuccess() == 1) {
                         user = userResponse.getUser();
-                        if(user!=null) {
+                        if (user != null) {
                             if (isGuestTry) {
                                 GlobalValues.saveUser(LoginActivity.this, user);
                                 GlobalValues.setUserLoginStatus(LoginActivity.this, true);
@@ -583,11 +584,11 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                 GlobalValues.setUserLoginStatus(LoginActivity.this, true);
                                 GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
                                 Intent mainIntent = new Intent(LoginActivity.this, DashboardActivity.class);
-                                if(user.getPhoneNumber()==null || user.getShippingAddress().getAddressLine1()==null || user.getCountry()==null) {
+                                if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getCountry() == null) {
                                     mainIntent.putExtra("NavItem", 4);
                                     mainIntent.putExtra("OpenDetails", true);
-                                }else if(user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
-                                        ||user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
+                                } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
+                                        || user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
                                     mainIntent.putExtra("NavItem", 4);
                                     mainIntent.putExtra("OpenDetails", true);
                                 }
@@ -609,26 +610,25 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     //Social Login
 
 
-
     private void getInvoice() {
         OmanNetServiceHandler.instance.invoice(new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JSONObject JObject = new JSONObject(response.body().string());
-                    Log.e("Invoice",JObject.toString());
-                    if(JObject!=null) {
+                    Log.e("Invoice", JObject.toString());
+                    if (JObject != null) {
                         JSONObject result = JObject.getJSONObject("result");
-                        if(result!=null) {
+                        if (result != null) {
                             if (result.has("status")) {
                                 if (result.getString("status").equalsIgnoreCase("success")) {
                                     JSONObject message = result.getJSONObject("message");
-                                    if(message!=null) {
+                                    if (message != null) {
                                         if (message.has("PayUrl")) {
-                                            String payURL=message.getString("PayUrl");
-                                            if(payURL!=null && !payURL.equals("")){
-                                                Intent intent=new Intent(LoginActivity.this, OmanNetCardDetailActivity.class);
-                                                intent.putExtra("PayURL",payURL);
+                                            String payURL = message.getString("PayUrl");
+                                            if (payURL != null && !payURL.equals("")) {
+                                                Intent intent = new Intent(LoginActivity.this, OmanNetCardDetailActivity.class);
+                                                intent.putExtra("PayURL", payURL);
                                                 startActivity(intent);
                                             }
                                         }
@@ -644,6 +644,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }

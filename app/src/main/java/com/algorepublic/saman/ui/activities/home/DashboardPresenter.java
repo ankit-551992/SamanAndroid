@@ -6,6 +6,7 @@ import android.util.Log;
 import com.algorepublic.saman.data.model.apis.GetCategoriesList;
 import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.utils.GlobalValues;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,7 +15,6 @@ import retrofit2.Response;
 public class DashboardPresenter implements DashboardContractor.Presenter {
 
     private DashboardContractor.View view;
-
 
     public DashboardPresenter(DashboardContractor.View view) {
         this.view = view;
@@ -35,6 +35,7 @@ public class DashboardPresenter implements DashboardContractor.Presenter {
         apiClient.getStoreCategories( new Callback<GetCategoriesList>() {
             @Override
             public void onResponse(Call<GetCategoriesList> call, Response<GetCategoriesList> response) {
+                Log.e("SIGNUP_URL", "----sign---up---onResponse---" + new Gson().toJson(response));
                 GetCategoriesList getCategoriesList = response.body();
                 if(getCategoriesList!=null) {
                     if(getCategoriesList.getSuccess()==1) {

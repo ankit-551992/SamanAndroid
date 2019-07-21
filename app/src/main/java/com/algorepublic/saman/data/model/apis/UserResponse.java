@@ -43,4 +43,12 @@ public class UserResponse {
         this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "UserResponse{" +
+                "user=" + user +
+                ", success=" + success +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

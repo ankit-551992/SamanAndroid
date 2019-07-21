@@ -62,7 +62,6 @@ public class BagFragment extends BaseFragment {
         bagAdapter = new SwipeBagAdapter(getContext(), productArrayList,this);
         bagRecyclerView.setAdapter(bagAdapter);
 
-
         getData();
 
         return view;

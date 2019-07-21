@@ -136,7 +136,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     //Bag
     User authenticatedUser;
 
-
     //Tags
     @BindView(R.id.tags_recyclerView)
     RecyclerView tagRecyclerView;
@@ -144,7 +143,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     List<String> tagsList = new ArrayList<>();
     List<Integer> appliedProducts = new ArrayList<>();
     TagsAdapter tagsAdapter;
-
 
     Country selectedCountry;
     float price;
@@ -239,8 +237,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         } catch (Exception e) {
             Log.e(ShoppingCartActivity.class.getSimpleName(), "Invalid Gateway region value provided", e);
         }
-
-
         apiController.createSession(new CreateSessionCallback());
     }
 
@@ -267,7 +263,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
-        spanTxt.append(" "+getString(R.string.term_message));
+        spanTxt.append(" " + getString(R.string.term_message));
         spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
         view.setText(spanTxt, TextView.BufferType.SPANNABLE);
@@ -279,11 +275,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         startActivityForResult(intent, 1299);
     }
 
-
     @OnClick(R.id.button_apply)
     public void applyPromo() {
-
-
         if (promoEditText.getText().toString().equals("")) {
             return;
         }
@@ -314,12 +307,12 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             if (!isGeneralApplied) {
                                 isGeneralApplied = true;
 
-                                float promoAmount=0.0f;
+                                float promoAmount = 0.0f;
                                 for (int p = 0; p < bagArrayList.size(); p++) {
 
                                     int productId = bagArrayList.get(p).getID();
                                     if (!appliedProducts.contains(productId)) {
-                                        promoAmount= promoAmount+bagArrayList.get(p).getPrice();
+                                        promoAmount = promoAmount + bagArrayList.get(p).getPrice();
                                     }
                                 }
 
@@ -335,10 +328,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
 
 //                                promoSaved = Math.round(promoSaved);
-                                promoSaved=Float.valueOf(df.format(promoSaved));
+                                promoSaved = Float.valueOf(df.format(promoSaved));
 
                                 promoSavedTextView.setVisibility(View.VISIBLE);
-                                promoTotalSaved=promoTotalSaved+promoSaved;
+                                promoTotalSaved = promoTotalSaved + promoSaved;
                                 promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
                                 price = price - promoSaved;
                                 priceToPay = price + deliveryCost;
@@ -377,10 +370,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             }
 
 //                            promoSaved = Math.round(promoSaved);
-                            promoSaved=Float.valueOf(df.format(promoSaved));
+                            promoSaved = Float.valueOf(df.format(promoSaved));
 
                             promoSavedTextView.setVisibility(View.VISIBLE);
-                            promoTotalSaved=promoTotalSaved+promoSaved;
+                            promoTotalSaved = promoTotalSaved + promoSaved;
                             promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
                             price = subTotal - promoSaved;
                             priceToPay = price + deliveryCost;
@@ -568,7 +561,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     selectedCard.setType(1);
 
                 } else {
-
                     paymentType = "MasterCard";
                     isCOD = false;
                     ArrayList<CardDs> cardDs = new ArrayList<>();
@@ -682,7 +674,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
         }
     }
-
 
     String maskedCardNumber(String cardNumber) {
         int maskLen = cardNumber.length() - 4;

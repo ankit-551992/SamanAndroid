@@ -8,6 +8,7 @@ import android.content.pm.Signature;
 import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
 import android.util.Log;
+
 import com.algorepublic.saman.db.MySQLiteHelper;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -16,13 +17,14 @@ import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class SamanApp extends MultiDexApplication {
 
-//    public final String TWITTER_KEY = "zYtdb8neQYt8ph1XoyPmwNWIR";
+    //    public final String TWITTER_KEY = "zYtdb8neQYt8ph1XoyPmwNWIR";
 //    public final String TWITTER_SECRET = "a5Jo7xEwsNh4BhuHodycFOILfV0OEBkNOHNikt5Cf3VhABSxnp";
     public final String TWITTER_KEY = "znuy2ISz592d0rOCumQ1vSA96";
     public final String TWITTER_SECRET = "XXpiOWuV2DUKyPyAvXDZDViu90oTHe7DObtDbBNtVSubBXMscU";
@@ -31,30 +33,29 @@ public class SamanApp extends MultiDexApplication {
     public static TinyDB db;
     public static MySQLiteHelper localDB;
     public static boolean isEnglishVersion;
-    public static boolean isScreenOpen=false;
+    public static boolean isScreenOpen = false;
 
     public static SamanApp getInstance() {
         return instance;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        db=new TinyDB(this);
-        localDB=new MySQLiteHelper(this);
+        db = new TinyDB(this);
+        localDB = new MySQLiteHelper(this);
         instance = this;
-        isEnglishVersion=true;
+        isEnglishVersion = true;
 
-
-        if(GlobalValues.getAppLanguage(getApplicationContext()).equals("")){
-            GlobalValues.changeLanguage(Locale.getDefault().getLanguage(),getApplicationContext());
-            if(Locale.getDefault().getLanguage().equals("ar")){
-                isEnglishVersion=false;
+        if (GlobalValues.getAppLanguage(getApplicationContext()).equals("")) {
+            GlobalValues.changeLanguage(Locale.getDefault().getLanguage(), getApplicationContext());
+            if (Locale.getDefault().getLanguage().equals("ar")) {
+                isEnglishVersion = false;
             }
-
-        }else {
-            GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()),getApplicationContext());
-            if(GlobalValues.getAppLanguage(getApplicationContext()).equals("ar")){
-                isEnglishVersion=false;
+        } else {
+            GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()), getApplicationContext());
+            if (GlobalValues.getAppLanguage(getApplicationContext()).equals("ar")) {
+                isEnglishVersion = false;
             }
         }
 //        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "font/neo_sans.ttf");
@@ -79,7 +80,7 @@ public class SamanApp extends MultiDexApplication {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 String hashKey = new String(Base64.encode(md.digest(), 0));
-                Log.i("Hash Key",hashKey);
+                Log.i("Hash Key", hashKey);
             }
         } catch (NoSuchAlgorithmException e) {
             Log.e("HashKey", "Error", e);

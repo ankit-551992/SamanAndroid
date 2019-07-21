@@ -26,7 +26,6 @@ public class HomePresenter implements HomeContractor.Presenter {
         view = null;
     }
 
-
     @Override
     public void getHomeData(int userID) {
         if (view != null) {

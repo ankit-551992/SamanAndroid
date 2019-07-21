@@ -327,6 +327,9 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String phone = ccp.getText().toString() + phoneEditText.getText().toString();
         String region = regionName.getText().toString();
 
+        if (!dayEditText.getText().toString().equals("") && dayEditText.getText().toString() != null) {
+
+        }
         int date = Integer.parseInt(dayEditText.getText().toString());
         int mon = Integer.parseInt(monthEditText.getText().toString());
         int yr = Integer.parseInt(yearEditText.getText().toString());
@@ -337,7 +340,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
         String dob = month + "-" + day + "-" + year;
 
-        if (isDataValid(firstName, lastName, gender, address, day, month, year, phone)) {
+        if (isDataValid(firstName, lastName, gender, address, day, month, year, phone, dob)) {
             phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
             JSONObject jsonObject = new JSONObject();
             try {
@@ -351,14 +354,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 e.printStackTrace();
             }
 
-
             if (countryName.getText().toString().equalsIgnoreCase("oman")) {
                 if (region == null || TextUtils.isEmpty(region)) {
                     Constants.showAlert(getString(R.string.my_details), getString(R.string.region_required), getString(R.string.okay), MyDetailsActivity.this);
                     return;
                 }
-            }else {
-                region="";
+            } else {
+                region = "";
             }
             presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject, dob, phone, region);
         }
@@ -466,7 +468,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
 
-    private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year, String phone) {
+    private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year, String phone, String dob) {
         if (TextUtils.isEmpty(fName)) {
             firstNameEditText.setError(getString(R.string.first_name_required));
             return false;
@@ -493,6 +495,9 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             return false;
         } else if (TextUtils.isEmpty(address)) {
             addressEditText.setError(getString(R.string.address_req));
+            return false;
+        } else if (TextUtils.isEmpty(dob)) {
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.dob_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
         } else {
             return true;

@@ -90,9 +90,9 @@ public class MessagingActivity extends BaseActivity {
     int conversationID = 0;
     int recipientID = 0;
 
-    int productQuantity=1;
-    float productPrice=0.0f;
-    float orderTotal=0.0f;
+    int productQuantity = 1;
+    float productPrice = 0.0f;
+    float orderTotal = 0.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +100,7 @@ public class MessagingActivity extends BaseActivity {
         setContentView(R.layout.activity_messaging);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        SamanApp.isScreenOpen=true;
+        SamanApp.isScreenOpen = true;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         conversationID = getIntent().getIntExtra("ConversationID", 1);
         authenticatedUser = GlobalValues.getUser(this);
@@ -133,9 +133,9 @@ public class MessagingActivity extends BaseActivity {
         writeMessage.setImeOptions(EditorInfo.IME_ACTION_DONE);
         writeMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
-                if(actionId == EditorInfo.IME_ACTION_DONE){
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(writeMessage.getWindowToken(), 0);
 //                    sendMessage(authenticatedUser.getId(),0,conversationID,"SAMAN",writeMessage.getText().toString());
                     return true;
@@ -148,8 +148,8 @@ public class MessagingActivity extends BaseActivity {
     }
 
     @OnClick(R.id.tv_send_button)
-    public void send(){
-        if(!writeMessage.getText().toString().isEmpty()) {
+    public void send() {
+        if (!writeMessage.getText().toString().isEmpty()) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(writeMessage.getWindowToken(), 0);
             sendMessage(authenticatedUser.getId(), recipientID, conversationID, "SAMAN", writeMessage.getText().toString());
@@ -165,7 +165,7 @@ public class MessagingActivity extends BaseActivity {
                 GetConversationApi getConversationApi = response.body();
                 if (getConversationApi != null) {
                     if (getConversationApi.getResult() != null) {
-                        if(getConversationApi.getResult().getID()!=0) {
+                        if (getConversationApi.getResult().getID() != 0) {
                             recipientID = getConversationApi.getResult().getCreateBy();
                             orderName.setText(getConversationApi.getResult().getTitle());
                             storeName.setText(getConversationApi.getResult().getStoreName());
@@ -176,13 +176,13 @@ public class MessagingActivity extends BaseActivity {
                             orderTotal = (float) productQuantity * productPrice;
 
 //                            bottomInfoLayout.setVisibility(View.GONE);
-                            productQuantityTextView.setText(getString(R.string.quantity)+productQuantity);
-                            productPriceTextView.setText(getString(R.string.price)+productPrice);
-                            orderTotalTextView.setText(getString(R.string.total)+orderTotal);
+                            productQuantityTextView.setText(getString(R.string.quantity) + productQuantity);
+                            productPriceTextView.setText(getString(R.string.price) + productPrice);
+                            orderTotalTextView.setText(getString(R.string.total) + orderTotal);
 
-                            if(getConversationApi.getResult().getStatus()==4
-                              || getConversationApi.getResult().getStatus()==5
-                              || getConversationApi.getResult().getStatus()==8){
+                            if (getConversationApi.getResult().getStatus() == 4
+                                    || getConversationApi.getResult().getStatus() == 5
+                                    || getConversationApi.getResult().getStatus() == 8) {
 
                                 chatLayout.setVisibility(View.GONE);
                             }
@@ -206,7 +206,7 @@ public class MessagingActivity extends BaseActivity {
                 }
                 chatAdapter.notifyDataSetChanged();
 
-                if(messages.size()>0) {
+                if (messages.size() > 0) {
                     mRecyclerView.scrollToPosition(messages.size() - 1);
                 }
 
@@ -221,31 +221,30 @@ public class MessagingActivity extends BaseActivity {
         });
     }
 
-    private void sendMessage(int userID, int recipientID, int conversationID, String title, final String message){
-        WebServicesHandler.instance.sendMessage(userID,recipientID,conversationID,title,message, new retrofit2.Callback<SendMessageApi>() {
+    private void sendMessage(int userID, int recipientID, int conversationID, String title, final String message) {
+        WebServicesHandler.instance.sendMessage(userID, recipientID, conversationID, title, message, new retrofit2.Callback<SendMessageApi>() {
             @Override
             public void onResponse(Call<SendMessageApi> call, Response<SendMessageApi> response) {
-                SendMessageApi sendMessageApi=response.body();
-                if(sendMessageApi!=null){
-                    if(sendMessageApi.getSuccess()==1){
-                        if(sendMessageApi.getResult()!=null){
-                            Message message1=sendMessageApi.getResult();
-                            if(message1.getSender()!=null){
+                SendMessageApi sendMessageApi = response.body();
+                if (sendMessageApi != null) {
+                    if (sendMessageApi.getSuccess() == 1) {
+                        if (sendMessageApi.getResult() != null) {
+                            Message message1 = sendMessageApi.getResult();
+                            if (message1.getSender() != null) {
                                 messages.add(message1);
-                            }else {
+                            } else {
                                 message1.setSender(authenticatedUser);
                                 messages.add(message1);
                             }
                         }
                     }
                 }
-
                 chatAdapter.notifyDataSetChanged();
-
-                if(messages.size()>0) {
+                if (messages.size() > 0) {
                     mRecyclerView.scrollToPosition(messages.size() - 1);
                 }
             }
+
             @Override
             public void onFailure(Call<SendMessageApi> call, Throwable t) {
 
@@ -253,12 +252,12 @@ public class MessagingActivity extends BaseActivity {
         });
     }
 
-    private void updateMessageStatus(int conversationID){
+    private void updateMessageStatus(int conversationID) {
         WebServicesHandler.instance.updateMessageStatus(conversationID, new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-
             }
+
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
 
@@ -271,34 +270,33 @@ public class MessagingActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-
     // Our handler for received Intents. This will be called whenever an Intent
-   // with an action named "custom-event-name" is broadcasted.
+    // with an action named "custom-event-name" is broadcasted.
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String message = intent.getStringExtra("message");
-            int id = intent.getIntExtra("id",0);
-            if(conversationID==id){
+            int id = intent.getIntExtra("id", 0);
+            if (conversationID == id) {
 //                getConversation();
-                Message otherMessage=null;
-                for (int i=0;i<messages.size();i++){
-                    if(messages.get(i).getSender().getId()!=authenticatedUser.getId()){
-                        otherMessage=messages.get(i);
+                Message otherMessage = null;
+                for (int i = 0; i < messages.size(); i++) {
+                    if (messages.get(i).getSender().getId() != authenticatedUser.getId()) {
+                        otherMessage = messages.get(i);
                         break;
                     }
                 }
 
-                if(otherMessage!=null){
+                if (otherMessage != null) {
                     otherMessage.setMessageBody(message);
                     messages.add(otherMessage);
                     chatAdapter.notifyDataSetChanged();
 
-                    if(messages.size()>0) {
+                    if (messages.size() > 0) {
                         mRecyclerView.scrollToPosition(messages.size() - 1);
                     }
-                }else {
+                } else {
                     getConversation();
                 }
             }
@@ -310,8 +308,6 @@ public class MessagingActivity extends BaseActivity {
         // Unregister since the activity is about to be closed.
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
-        SamanApp.isScreenOpen=false;
+        SamanApp.isScreenOpen = false;
     }
-
-
 }

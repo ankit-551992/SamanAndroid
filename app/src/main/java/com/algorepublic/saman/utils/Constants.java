@@ -18,8 +18,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.ui.activities.login.LoginActivity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -30,40 +32,42 @@ public class Constants {
 
 
     public static Dialog dialog;
-    public static String CARD_LIST="Payment_methods";
-    public static boolean isLoginRequest=false;
-    public static boolean viewBag=false;
+    public static String CARD_LIST = "Payment_methods";
+    public static boolean isLoginRequest = false;
+    public static boolean viewBag = false;
 
     public enum Fragment {
-        Home,Store,Favorite,Bag,MyAccount;
+        Home, Store, Favorite, Bag, MyAccount;
     }
 
     public interface URLS {
-//        String BaseURLApis = "https://petradiamond.herokuapp.com/";
-        String BaseURLApis = "https://www.saman.om/api/";
+        //        String BaseURLApis = "https://petradiamond.herokuapp.com/";
+        // String BaseURLApis = "https://www.saman.om/api/";
+        String BaseURLApis = "https://staging.saman.om/api/";
         String GeoCodeApis = "https://maps.googleapis.com/maps/api/geocode/";
-        String BaseURLImages = "https://www.saman.om";
+        //  String BaseURLImages = "https://www.saman.om";
+        String BaseURLImages = "https://staging.saman.om";
         String returnPolicy = "https://www.algorepublic.com/";
         String terms = "https://www.algorepublic.com/services/";
         String privacyPolicy = "https://www.algorepublic.com/services/";
         String contactUs = "https://www.algorepublic.com/contact-us/";
     }
 
-    public static boolean isNetworkAvailable(Context c){
+    public static boolean isNetworkAvailable(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    public static ArrayList<String> countriesList(){
+    public static ArrayList<String> countriesList() {
         Locale[] locale = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
         String country;
-        for( Locale loc : locale ){
+        for (Locale loc : locale) {
             country = loc.getDisplayCountry();
-            Log.e("IOS",""+loc.getCountry());
-            if( country.length() > 0 && !countries.contains(country) ){
+            Log.e("IOS", "" + loc.getCountry());
+            if (country.length() > 0 && !countries.contains(country)) {
                 countries.add(country);
             }
         }
@@ -81,7 +85,7 @@ public class Constants {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent mainIntent = new Intent(mContext, LoginActivity.class);
-                mainIntent.putExtra("GuestTry",true);
+                mainIntent.putExtra("GuestTry", true);
                 mContext.startActivity(mainIntent);
             }
         });
@@ -115,9 +119,9 @@ public class Constants {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                isLoginRequest=true;
+                isLoginRequest = true;
                 Intent mainIntent = new Intent(mContext, LoginActivity.class);
-                mainIntent.putExtra("GuestTry",true);
+                mainIntent.putExtra("GuestTry", true);
                 mContext.startActivity(mainIntent);
             }
         });
@@ -132,7 +136,7 @@ public class Constants {
         dialog.show();
     }
 
-    public static void showAlert(String title,String message,String buttonText,Context context){
+    public static void showAlert(String title, String message, String buttonText, Context context) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -144,7 +148,8 @@ public class Constants {
                 });
         alertDialog.show();
     }
-    public static void showAlertWithActivityFinish(String title, String message, String buttonText, final Context context){
+
+    public static void showAlertWithActivityFinish(String title, String message, String buttonText, final Context context) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -152,7 +157,7 @@ public class Constants {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        ((Activity)context).finish();
+                        ((Activity) context).finish();
                     }
                 });
         alertDialog.show();
@@ -177,8 +182,8 @@ public class Constants {
 
     public static ProgressDialog mSpinner;
 
-    public static void showSpinner(String title,Context context) {
-        if(context!=null) {
+    public static void showSpinner(String title, Context context) {
+        if (context != null) {
             mSpinner = new ProgressDialog(context);
             mSpinner.setTitle(title);
             mSpinner.setMessage(context.getString(R.string.please_wait));
@@ -188,25 +193,27 @@ public class Constants {
         }
     }
 
-    public static void dismissSpinner(){
-        if(mSpinner!=null){
+    public static void dismissSpinner() {
+        if (mSpinner != null) {
             mSpinner.dismiss();
         }
     }
 
     public static String strSeparator = ",";
-    public static String convertArrayToString(String[] array){
+
+    public static String convertArrayToString(String[] array) {
         String str = "";
-        for (int i = 0;i<array.length; i++) {
-            str = str+array[i];
+        for (int i = 0; i < array.length; i++) {
+            str = str + array[i];
             // Do not append comma at the end of last element
-            if(i<array.length-1){
-                str = str+strSeparator;
+            if (i < array.length - 1) {
+                str = str + strSeparator;
             }
         }
         return str;
     }
-    public static String[] convertStringToArray(String str){
+
+    public static String[] convertStringToArray(String str) {
         String[] arr = str.split(strSeparator);
         return arr;
     }

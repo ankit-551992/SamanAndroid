@@ -35,7 +35,6 @@ import retrofit2.http.Query;
 
 public interface WebServices {
 
-
     @FormUrlEncoded
     @POST("User/Login")
     Call<UserResponse> login(@FieldMap Map<String, String> parameters);
@@ -44,16 +43,13 @@ public interface WebServices {
     @POST("User/Register")
     Call<UserResponse> register(@FieldMap Map<String, String> parameters);
 
-
     @FormUrlEncoded
     @POST("User/SocialLogin")
     Call<UserResponse> socialLogin(@FieldMap Map<String, String> parameters);
 
-
     @FormUrlEncoded
     @POST("User/UpdateProfile")
     Call<UserResponse> updateProfile(@FieldMap Map<String, Object> parameters);
-
 
     @FormUrlEncoded
     @POST("User/UpdateDeviceToken")
@@ -68,18 +64,13 @@ public interface WebServices {
     @POST("User/ResetPassword")
     Call<SimpleSuccess> resetPassword(@FieldMap Map<String, String> parameters);
 
-
     @FormUrlEncoded
     @POST("User/ChangePassword")
     Call<UserResponse> changePassword(@FieldMap Map<String, Object> parameters);
 
-
-
-
     @FormUrlEncoded
     @POST("Order/UpdatePaymentStatus")
     Call<SimpleSuccess> updatePaymentStatus(@FieldMap Map<String, Object> parameters);
-
 
 
     @GET("Home/GetHomeScreenData?")
@@ -92,11 +83,9 @@ public interface WebServices {
     @GET("Product/GetFavoriteList")
     Call<GetProducts> getFavoriteList(@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
 
-
     @FormUrlEncoded
     @POST("Order/PlaceOrder")
     Call<PlaceOrderResponse> placeOrder(@FieldMap Map<String, Object> parameters);
-
 
     @GET("Order/isPaymentSuccessful/{id}")
     Call<SimpleSuccess> isPaymentSuccessful(@Path("id") int orderID);
@@ -110,7 +99,6 @@ public interface WebServices {
     @GET("Seller/GetByCategory?")
 //    Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID, @Query("page") String page);
     Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID);
-
 
     @GET("Product/GetListByStore?")
     Call<GetProducts> getProductsByStore(@Query("storeID") int storeID,@Query("userID") int userID,@Query("pageIndex") int pageIndex,@Query("pageSize") int pageSize);
@@ -218,6 +206,4 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("Order/UpdateOrderFeedback")
     Call<SimpleSuccess> updateOrderFeedback(@FieldMap Map<String, Object> parameters);
-
-
 }

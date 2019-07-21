@@ -12,6 +12,8 @@ import android.widget.ImageView;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.ui.activities.imagesview.FullScreenImagesActivity;
+import com.algorepublic.saman.ui.activities.product.SalesProductActivity;
+import com.algorepublic.saman.ui.activities.store.StoreDetailActivity;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
@@ -25,7 +27,7 @@ public class CustomPagerAdapter extends PagerAdapter {
     private List<String> urls;
     private LayoutInflater inflater;
 
-    public CustomPagerAdapter(Context mContext,List<String> urls) {
+    public CustomPagerAdapter(Context mContext, List<String> urls) {
         this.mContext = mContext;
         this.urls = urls;
         inflater = LayoutInflater.from(this.mContext);
@@ -37,16 +39,31 @@ public class CustomPagerAdapter extends PagerAdapter {
         assert imageLayout != null;
         ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
 
-        Picasso.get().load(Constants.URLS.BaseURLImages+urls.get(position)).fit().centerCrop().into(imageView);
+        //Picasso.get().load(Constants.URLS.BaseURLImages+urls.get(position)).fit().centerCrop().into(imageView);
+        Picasso.get().load(Constants.URLS.BaseURLImages + urls.get(position)).fit().into(imageView);
         collection.addView(imageLayout, 0);
 
         imageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(mContext,FullScreenImagesActivity.class);
-                intent.putStringArrayListExtra("urls",(ArrayList<String>) urls);
-                intent.putExtra("index",position);
-                ((Activity)mContext).startActivity(intent);
+                Intent intent = new Intent(mContext, FullScreenImagesActivity.class);
+                intent.putStringArrayListExtra("urls", (ArrayList<String>) urls);
+                intent.putExtra("index", position);
+                ((Activity) mContext).startActivity(intent);
+
+                /*if(sliderList.get(position).getType()==5){
+                    Intent intent=new Intent(mContext, SalesProductActivity.class);
+                    mContext.startActivity(intent);
+                }else if(sliderList.get(position).getType()==3){
+                    Intent intent=new Intent(mContext, StoreDetailActivity.class);
+                    intent.putExtra("Function",2); //2 for Store Products
+                    intent.putExtra("StoreID", sliderList.get(position).getiD());
+                    mContext.startActivity(intent);
+                }else if(sliderList.get(position).getType()==4){
+                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID", sliderList.get(position).getiD());
+                    mContext.startActivity(intent);
+                }*/
             }
         });
 

@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.algorepublic.saman.utils.CircleTransform;
 import com.algorepublic.saman.utils.Constants;
 import com.algorepublic.saman.utils.GlobalValues;
 import com.squareup.picasso.Picasso;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,6 +48,8 @@ public class SettingsActivity extends BaseActivity {
     TextView languageTextView;
     @BindView(R.id.switchImage)
     SwitchCompat notificationSwitchCompat;
+    @BindView(R.id.tv_notify)
+    LinearLayout tv_notify;
 
 
     Country selectedCountry;
@@ -65,7 +69,7 @@ public class SettingsActivity extends BaseActivity {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
-        if(GlobalValues.countries!=null) {
+        if (GlobalValues.countries != null) {
             for (int i = 0; i < GlobalValues.countries.size(); i++) {
                 if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))) {
                     selectedCountry = GlobalValues.countries.get(i);
@@ -79,7 +83,6 @@ public class SettingsActivity extends BaseActivity {
         notificationSwitchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 if (isChecked) {
                     GlobalValues.setNotificationOnOff(SettingsActivity.this, true);
                 } else {
@@ -88,12 +91,17 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
-        if(GlobalValues.getAppLanguage(this).equals("ar")){
+        if (GlobalValues.getAppLanguage(this).equals("ar")) {
             languageTextView.setText(getString(R.string.arabic));
-        }else {
+        } else {
             languageTextView.setText(getString(R.string.english));
         }
+    }
 
+    @OnClick(R.id.tv_notify)
+    public void notificationOption() {
+        Intent intent = new Intent(SettingsActivity.this, NotifyOptionActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.layout_countrySelection)
@@ -139,7 +147,7 @@ public class SettingsActivity extends BaseActivity {
 
         if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {
-                if(GlobalValues.countries!=null) {
+                if (GlobalValues.countries != null) {
                     for (int i = 0; i < GlobalValues.countries.size(); i++) {
                         if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(SettingsActivity.this))) {
                             selectedCountry = GlobalValues.countries.get(i);
@@ -193,16 +201,16 @@ public class SettingsActivity extends BaseActivity {
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
 
                 if (radioButton.isChecked()) {
-                    if(radioButton.getId()==R.id.radio_arabic){
+                    if (radioButton.getId() == R.id.radio_arabic) {
                         GlobalValues.setAppLanguage(getApplicationContext(), "ar");
-                    }else{
+                    } else {
                         GlobalValues.setAppLanguage(getApplicationContext(), "en");
                     }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
                     dialog.dismiss();
 
-                    Constants.showAlert(getString(R.string.title_settings),getString(R.string.app_language),getString(R.string.okay),SettingsActivity.this);
+                    Constants.showAlert(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                 }
             }
         });

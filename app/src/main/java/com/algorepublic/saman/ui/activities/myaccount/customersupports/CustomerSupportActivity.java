@@ -246,7 +246,7 @@ public class CustomerSupportActivity extends BaseActivity {
                 Environment.DIRECTORY_DCIM), "Camera");
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",    /* suffix */
                 storageDir      /* directory */
         );
 
@@ -382,8 +382,7 @@ public class CustomerSupportActivity extends BaseActivity {
         animation = AnimationUtils.loadAnimation(CustomerSupportActivity.this,
                 R.anim.fade_in);
 
-        ((ViewGroup) dialog2.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog2.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog2.show();
     }
 }

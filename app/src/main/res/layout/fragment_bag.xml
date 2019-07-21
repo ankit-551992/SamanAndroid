@@ -4,116 +4,140 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_quantity"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/item_"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tv_products_total"
-        android:textSize="12sp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/black"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Total: 600 OMR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_below="@+id/tv_quantity"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <RelativeLayout
+            android:id="@+id/rl_shopping_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/rl_checkout"
+            android:layout_alignParentTop="true">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
+            <TextView
+                android:id="@+id/tv_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/item_" />
+
+            <TextView
+                android:id="@+id/tv_products_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:text="Total: 600 OMR"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_quantity">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_checkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
 
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:id="@+id/bottom_separator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:orientation="vertical"
+                android:layout_marginRight="5dp"
                 android:layout_marginBottom="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
 
                 <View
-                    android:visibility="gone"
-                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/light_grey"/>
+                    android:layout_margin="5dp"
+                    android:background="@color/light_grey"
+                    android:visibility="gone" />
+
                 <TextView
-                    android:visibility="invisible"
                     android:id="@+id/tv_products_subtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:text="@string/subtotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:visibility="invisible" />
+
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_vat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="2dp"
                     android:text="@string/VAT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_grand_total"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="2dp"
                     android:text="@string/total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textColor="@color/black" />
 
                 <Button
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_marginTop="5dp"
                     android:id="@+id/button_proceed_to_checkout"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/yellow_button"
                     android:text="@string/proceed"
                     android:textAllCaps="false"
                     android:textColor="#fff" />
 
             </LinearLayout>
+        </RelativeLayout>
 
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/tv_empty_bag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
         android:gravity="center"
         android:padding="20dp"
-        android:textColor="@color/black"
-        android:background="@color/white"
         android:text="@string/no_items_found"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
 </RelativeLayout>

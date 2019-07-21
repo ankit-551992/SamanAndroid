@@ -38,28 +38,27 @@ public class FullScreenImagesActivity extends BaseActivity {
         setContentView(R.layout.activity_full_screen_images);
         ButterKnife.bind(this);
 
-        urls=new ArrayList<>();
+        urls = new ArrayList<>();
 
-        urls=getIntent().getStringArrayListExtra("urls");
-        index=getIntent().getIntExtra("index",0);
+        urls = getIntent().getStringArrayListExtra("urls");
+        index = getIntent().getIntExtra("index", 0);
 
 
-        mAdapter= new FullScreenAdapter(this,urls);
+        mAdapter = new FullScreenAdapter(this, urls);
         viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(index);
-        countTextView.setText((index+1)+"/"+urls.size());
+        countTextView.setText((index + 1) + "/" + urls.size());
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
 
-                index=position;
-                countTextView.setText((index+1)+"/"+urls.size());
+                index = position;
+                countTextView.setText((index + 1) + "/" + urls.size());
             }
 
             @Override
@@ -70,7 +69,7 @@ public class FullScreenImagesActivity extends BaseActivity {
     }
 
     @OnClick(R.id.iv_close)
-    public void close(){
+    public void close() {
         finish();
     }
 }

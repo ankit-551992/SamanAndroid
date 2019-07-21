@@ -292,4 +292,36 @@ public class User {
     public void setRegion(String region) {
         this.region = region;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", password=" + password +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                ", apiToken=" + apiToken +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", languageID=" + languageID +
+                ", profilePictureID=" + profilePictureID +
+                ", roleID=" + roleID +
+                ", profileImagePath='" + profileImagePath + '\'' +
+                ", country='" + country + '\'' +
+                ", address='" + address + '\'' +
+                ", shippingAddress=" + shippingAddress +
+                ", devicetoken='" + devicetoken + '\'' +
+                ", deviceType='" + deviceType + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", createBy=" + createBy +
+                ", updateBy=" + updateBy +
+                ", isDeleted=" + isDeleted +
+                ", id=" + id +
+                ", region='" + region + '\'' +
+                ", socialID=" + socialID +
+                ", addressID=" + addressID +
+                '}';
+    }
 }

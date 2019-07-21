@@ -8,7 +8,6 @@ import java.util.List;
 
 public class OrderHistory implements Serializable{
 
-
     @SerializedName("OrderNumber")
     @Expose
     private String orderNumber;

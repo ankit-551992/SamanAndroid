@@ -53,7 +53,6 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
                 }
             });
         }
-
     }
 
     @Override

@@ -51,16 +51,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+        Log.e("MESSAGE_NOTIFY", "---remoteMessage---" + remoteMessage.toString());
         if (GlobalValues.getNotificationOnOff(getApplicationContext())) {
-            if(remoteMessage.getData().containsKey("isFeedback")){
-                boolean isFeedback= Boolean.parseBoolean(remoteMessage.getData().get("isFeedback"));
-                if(isFeedback){
+            Log.e("MESSAGE_NOTIFY", "---00---" + remoteMessage.toString());
+            if (remoteMessage.getData().containsKey("isFeedback")) {
+                Log.e("MESSAGE_NOTIFY", "---isFeedback---" + remoteMessage.toString());
+                boolean isFeedback = Boolean.parseBoolean(remoteMessage.getData().get("isFeedback"));
+                if (isFeedback) {
+                    Log.e("MESSAGE_NOTIFY", "---isFeedback-----" + remoteMessage.toString());
                     popUp(remoteMessage);
-                }else {
+                } else {
+                    Log.e("MESSAGE_NOTIFY", "---isFeedback--notify--elseeee--" + remoteMessage.toString());
                     showNotification(remoteMessage);
                 }
-            }else {
-               showNotification(remoteMessage);
+            } else {
+                Log.e("MESSAGE_NOTIFY", "---showNotification-elseeee--" + remoteMessage.toString());
+                showNotification(remoteMessage);
             }
         }
     }
@@ -77,6 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         super.onNewToken(token);
+        Log.e("MESSAGE_NOTIFY", "---firebase---token-------" + token);
         GlobalValues.setUserToken(getApplicationContext(), token);
 
         if (GlobalValues.getUserLoginStatus(getApplicationContext())) {
@@ -96,13 +103,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void showNotification(RemoteMessage remoteMessage) {
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent;
         notificationIntent = new Intent(this, MessagingActivity.class);
         notificationIntent.putExtra("ConversationID", Integer.parseInt(remoteMessage.getData().get("conversationID")));
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, uniqueInt, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -116,8 +121,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        Bitmap bitmap = getBitmapfromUrl(remoteMessage.getData().get("https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350")); //obtain the image
 //        Bitmap bitmap = getBitmapfromUrl("https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350"); //obtain the image
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Log.e("MESSAGE_NOTIFY", "--sound---defaultSoundUri-----" + defaultSoundUri);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
 //                .setLargeIcon(bitmap)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setContentTitle(remoteMessage.getData().get("title"))
@@ -132,12 +138,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (SamanApp.isScreenOpen) {
             sendMessage(remoteMessage.getData().get("message"), Integer.parseInt(remoteMessage.getData().get("conversationID")));
-        }
-        else {
+        } else {
 //            Constants.showAlert();
-            int newCount=GlobalValues.getBadgeCount(getApplicationContext())+1;
-            GlobalValues.setBadgeCount(getApplicationContext(),newCount);
-            ShortcutBadger.applyCount(getApplicationContext(),newCount);
+            int newCount = GlobalValues.getBadgeCount(getApplicationContext()) + 1;
+            GlobalValues.setBadgeCount(getApplicationContext(), newCount);
+            ShortcutBadger.applyCount(getApplicationContext(), newCount);
         }
     }
 
@@ -148,7 +153,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra("id", id);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupChannels() {
@@ -186,6 +190,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void popUp(RemoteMessage remoteMessage) {
 //        Log.e("Notification", remoteMessage.getData().toString());
+        Log.e("MESSAGE_NOTIFY", "-----remoteMessage-----" + remoteMessage.toString());
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -218,5 +223,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
     }
-
 }

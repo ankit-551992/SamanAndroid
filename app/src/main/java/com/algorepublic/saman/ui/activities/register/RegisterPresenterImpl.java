@@ -5,7 +5,7 @@ import com.algorepublic.saman.data.model.apis.UserResponse;
 
 import java.util.ArrayList;
 
-public class RegisterPresenterImpl implements RegisterPresenter,RegisterData.OnResponseListener {
+public class RegisterPresenterImpl implements RegisterPresenter, RegisterData.OnResponseListener {
 
 
     private RegisterView registerView;
@@ -17,7 +17,7 @@ public class RegisterPresenterImpl implements RegisterPresenter,RegisterData.OnR
     }
 
     @Override
-    public void getCountries(){
+    public void getCountries() {
         registerDataInteractor.getCountries(this);
     }
 
@@ -25,13 +25,13 @@ public class RegisterPresenterImpl implements RegisterPresenter,RegisterData.OnR
     public void onResponse(UserResponse response) {
         if (registerView != null) {
             registerView.hideProgress();
-            if(response!=null) {
+            if (response != null) {
                 if (response.getSuccess() == 1) {
                     registerView.registerResponse(response.getUser());
                 } else if (response.getSuccess() == 0) {
                     registerView.registerError(response.getMessage());
                 }
-            }else {
+            } else {
                 registerView.registerError("Internal Server Error");
             }
         }
@@ -39,24 +39,21 @@ public class RegisterPresenterImpl implements RegisterPresenter,RegisterData.OnR
 
     @Override
     public void setCountries(ArrayList<String> countries) {
-        if(registerView!=null){
+        if (registerView != null) {
             registerView.countries(countries);
         }
     }
 
     @Override
-    public void registerUser(String fName,String lName,String email,String password,String deviceToken,String gender,String country,String address,String dob,String phone,String region) {
+    public void registerUser(String fName, String lName, String email, String password, String deviceToken, String gender, String country, String address, String dob, String phone, String region) {
         if (registerView != null) {
             registerView.showProgress();
         }
-
-        registerDataInteractor.registerUser(fName,lName,email,password,deviceToken,gender,country,address,dob,phone,region,this);
+        registerDataInteractor.registerUser(fName, lName, email, password, deviceToken, gender, country, address, dob, phone, region, this);
     }
 
     @Override
     public void onDestroy() {
-        registerView=null;
+        registerView = null;
     }
-
-
 }

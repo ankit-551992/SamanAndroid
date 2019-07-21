@@ -79,10 +79,9 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     BrandsAdapter brandsAdapter;
     //Brand
 
-
     //BestSellers
     @BindView(R.id.bestSellersPager)
-    ViewPager  bestSellersPager;
+    ViewPager bestSellersPager;
     @BindView(R.id.indicators)
     CirclePageIndicator pageIndicator;
     BestSellerPagerAdapter bestSellersAdapter;
@@ -106,14 +105,14 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     //product
 
     User authenticatedUser;
-    int bannerType=0;
+    int bannerType = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
         authenticatedUser = GlobalValues.getUser(getContext());
-        presenter=new HomePresenter(this);
+        presenter = new HomePresenter(this);
         presenter.getHomeData(authenticatedUser.getId());
         return view;
     }
@@ -125,26 +124,26 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     }
 
     @OnClick(R.id.tv_latest_products_see_all)
-    void products(){
+    void products() {
 //        Intent intent=new Intent(getContext(), ProductListingActivity.class);
 //        intent.putExtra("Function",1); //1 for Latest Products
 //        startActivity(intent);
-        Intent intent=new Intent(getContext(), ProductsActivity.class);
+        Intent intent = new Intent(getContext(), ProductsActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.tv_stores_see_all)
-    void stores(){
+    void stores() {
 //        Intent intent=new Intent(getContext(), StoreActivity.class);
 //        startActivity(intent);
-        ((DashboardActivity)getContext()).callStoreNav();
+        ((DashboardActivity) getContext()).callStoreNav();
     }
 
     @OnClick(R.id.iv_header_below_banner)
-    void banner(){
+    void banner() {
 //        Log.e("BannerType",""+bannerType);
-        if(bannerType==5){
-            Intent intent=new Intent(getContext(), SalesProductActivity.class);
+        if (bannerType == 5) {
+            Intent intent = new Intent(getContext(), SalesProductActivity.class);
             getContext().startActivity(intent);
         }
     }
@@ -156,27 +155,25 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         storesRecyclerView.setNestedScrollingEnabled(false);
         storesAdapter = new StoresAdapter(getContext(), storeArrayList);
         storesRecyclerView.setAdapter(storesAdapter);
-        storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false,getContext()));
+        storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false, getContext()));
     }
 
     private void setProduct(List<Product> productArrayList) {
         productLayoutManager = new GridLayoutManager(getActivity(), 2);
         productRecyclerView.setLayoutManager(productLayoutManager);
         productRecyclerView.setNestedScrollingEnabled(false);
-        productAdapter = new ProductAdapter(getContext(), productArrayList,authenticatedUser.getId(),true);
+        productAdapter = new ProductAdapter(getContext(), productArrayList, authenticatedUser.getId(), true);
         productRecyclerView.setAdapter(productAdapter);
-        productRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false,getContext()));
+        productRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, getContext()));
     }
-
-
 
     int currentPage = 0;
     Timer timer;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
-    final long PERIOD_MS = 5*1000; // time in milliseconds between successive task executions.
+    final long PERIOD_MS = 5 * 1000; // time in milliseconds between successive task executions.
 
-    private void header(final List<String> urls){
-        customPagerAdapter= new CustomPagerAdapter(getContext(),urls);
+    private void header(final List<String> urls) {
+        customPagerAdapter = new CustomPagerAdapter(getContext(), urls);
         mPager.setAdapter(customPagerAdapter);
         circlePageIndicator.setViewPager(mPager);
 
@@ -193,7 +190,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         };
 
         timer = new Timer(); // This will create a new Thread
-        timer .schedule(new TimerTask() { // task to be scheduled
+        timer.schedule(new TimerTask() { // task to be scheduled
             @Override
             public void run() {
                 handler.post(Update);
@@ -203,8 +200,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
     private void setBestSellers(List<Slider> sliderList) {
 
-
-        bestSellersAdapter= new BestSellerPagerAdapter(getContext(),sliderList);
+        bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
         bestSellersPager.setAdapter(bestSellersAdapter);
 
 //        bestSellersPager.setPageMargin(10);
@@ -213,9 +209,9 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
         int median;
         if (sliderList.size() % 2 == 0)
-            median = (sliderList.size()/2 + sliderList.size()/2 - 1)/2;
+            median = (sliderList.size() / 2 + sliderList.size() / 2 - 1) / 2;
         else
-            median = sliderList.size()/2;
+            median = sliderList.size() / 2;
 
         bestSellersPager.setCurrentItem(median);
         pageIndicator.setViewPager(bestSellersPager);
@@ -223,10 +219,10 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     }
 
     private void hotPicks(List<Product> hotPicks) {
-        brandsLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
+        brandsLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         brandsRecyclerView.setLayoutManager(brandsLayoutManager);
         brandsRecyclerView.setNestedScrollingEnabled(false);
-        brandsAdapter = new BrandsAdapter(getContext(), hotPicks,authenticatedUser.getId());
+        brandsAdapter = new BrandsAdapter(getContext(), hotPicks, authenticatedUser.getId());
         brandsRecyclerView.setAdapter(brandsAdapter);
     }
 
@@ -249,51 +245,49 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
                 loading.setVisibility(View.GONE);
             }
         }, 2000);
-
     }
 
     @Override
     public void response(HomeScreenData screenApi) {
 
-        if(screenApi.getStores()!=null) {
+        if (screenApi.getStores() != null) {
             setStore(screenApi.getStores());
-        }else {
+        } else {
             storesRecyclerView.setVisibility(View.GONE);
             storeSeeAllTextView.setVisibility(View.GONE);
         }
 
-
-        if(screenApi.getBannerURL()!=null && !screenApi.getBannerURL().equals("")){
-            Picasso.get().load(Constants.URLS.BaseURLImages+screenApi.getBannerURL()).fit().centerCrop()
+        if (screenApi.getBannerURL() != null && !screenApi.getBannerURL().equals("")) {
+            Picasso.get().load(Constants.URLS.BaseURLImages + screenApi.getBannerURL()).fit().centerCrop()
                     .placeholder(R.drawable.home_banner)
                     .error(R.drawable.home_banner)
                     .into(headerBelowBanner);
 
-            bannerType=screenApi.getBannerType();
+            bannerType = screenApi.getBannerType();
         }
 
-        if(screenApi.getLatestProducts()!=null) {
+        if (screenApi.getLatestProducts() != null) {
             setProduct(screenApi.getLatestProducts());
-        }else {
+        } else {
             productRecyclerView.setVisibility(View.GONE);
             productSeeAllTextView.setVisibility(View.GONE);
         }
 
-        if(screenApi.getHeaderURLs()!=null){
+        if (screenApi.getHeaderURLs() != null) {
             header(screenApi.getHeaderURLs());
-        }else {
-            List<String> dummyHeaders=new ArrayList<>();
+        } else {
+            List<String> dummyHeaders = new ArrayList<>();
             dummyHeaders.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
             header(dummyHeaders);
         }
 
-        if(screenApi.getHotPicks()!=null){
+        if (screenApi.getHotPicks() != null) {
             hotPicks(screenApi.getHotPicks());
         }
 
-        if(screenApi.getBannerSliderURLs()!=null) {
+        if (screenApi.getBannerSliderURLs() != null) {
             setBestSellers(screenApi.getBannerSliderURLs());
-        }else {
+        } else {
             bestSellersPager.setVisibility(View.GONE);
             pageIndicator.setVisibility(View.GONE);
         }
@@ -301,12 +295,12 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
     @Override
     public void error(String message) {
-        if(message.equalsIgnoreCase("null")){
-            showAlert("Server Error","Please check you internet connection and try again",getString(R.string.try_again),getContext());
+        if (message.equalsIgnoreCase("null")) {
+            showAlert("Server Error", "Please check you internet connection and try again", getString(R.string.try_again), getContext());
         }
     }
 
-    public void showAlert(String title,String message,String buttonText,Context context){
+    public void showAlert(String title, String message, String buttonText, Context context) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);

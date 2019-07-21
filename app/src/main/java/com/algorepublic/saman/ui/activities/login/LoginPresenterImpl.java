@@ -1,5 +1,7 @@
 package com.algorepublic.saman.ui.activities.login;
 
+import android.util.Log;
+
 import com.algorepublic.saman.data.model.apis.UserResponse;
 import com.algorepublic.saman.utils.GlobalValues;
 
@@ -17,6 +19,7 @@ public class LoginPresenterImpl implements LoginPresenter, LoginData.OnResponseL
     public void onResponse(UserResponse response) {
         if (loginView != null) {
             loginView.hideProgress();
+            Log.e("LOGIN_URL", "--loginView----response--" + response);
             if (response != null) {
                 if (response.getSuccess() == 1) {
                     loginView.loginResponse(response.getUser());
