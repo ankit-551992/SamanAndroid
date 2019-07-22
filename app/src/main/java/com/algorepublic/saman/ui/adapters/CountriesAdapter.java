@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.data.model.Country;
 import com.algorepublic.saman.utils.Constants;
@@ -34,13 +35,11 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     boolean getCode;
 
-
-    public CountriesAdapter(Context mContext,List<Country> countries,boolean getCode){
-        this.countries=countries;
-        this.mContext=mContext;
-        this.getCode=getCode;
+    public CountriesAdapter(Context mContext, List<Country> countries, boolean getCode) {
+        this.countries = countries;
+        this.mContext = mContext;
+        this.getCode = getCode;
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -64,20 +63,20 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof CountryViewHolder) {
             CountryViewHolder countryViewHolder = (CountryViewHolder) holder;
             countryViewHolder.countryName.setText(countries.get(position).getName());
-            countryViewHolder.countryCode.setText("(+"+countries.get(position).getPhoneCode()+")");
+            countryViewHolder.countryCode.setText("(+" + countries.get(position).getPhoneCode() + ")");
 
             Picasso.get().load(countries.get(position).getFlag()).into(countryViewHolder.flag);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(getCode) {
+                    if (getCode) {
                         Intent data = new Intent();
                         String code = countries.get(holder.getAdapterPosition()).getPhoneCode();
-                        data.putExtra("Code",code);
+                        data.putExtra("Code", code);
                         ((Activity) mContext).setResult(RESULT_OK, data);
                         ((Activity) mContext).finish();
-                    }else {
+                    } else {
                         Intent data = new Intent();
                         String text = countries.get(holder.getAdapterPosition()).getName();
                         data.setData(Uri.parse(text));
@@ -99,8 +98,6 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return countries == null ? 0 : countries.size();
     }
 
-
-
     static class CountryViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txtViewCountryName)
         TextView countryName;
@@ -108,9 +105,10 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView countryCode;
         @BindView(R.id.imgViewFlag)
         ImageView flag;
+
         public CountryViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this,v);
+            ButterKnife.bind(this, v);
         }
     }
 

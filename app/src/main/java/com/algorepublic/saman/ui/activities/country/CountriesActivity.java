@@ -67,7 +67,6 @@ public class CountriesActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-
     private void setData() {
         if (GlobalValues.countries == null) {
             GlobalValues.countries = new ArrayList<>();

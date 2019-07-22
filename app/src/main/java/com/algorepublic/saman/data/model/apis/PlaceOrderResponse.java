@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class PlaceOrderResponse implements Serializable{
+public class PlaceOrderResponse implements Serializable {
 
     @SerializedName("result")
     @Expose
@@ -27,8 +27,8 @@ public class PlaceOrderResponse implements Serializable{
     }
 
     public String getMessage() {
-        if(message==null){
-            message="Server Error";
+        if (message == null) {
+            message = "Server Error";
         }
         return message;
     }
@@ -43,5 +43,14 @@ public class PlaceOrderResponse implements Serializable{
 
     public void setResult(OrderInfo result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "PlaceOrderResponse{" +
+                "result=" + result +
+                ", success=" + success +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

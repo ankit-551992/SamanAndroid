@@ -120,14 +120,6 @@ public class MessagingActivity extends BaseActivity {
             settings.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
             settings.setColorFilter(Color.argb(255, 255, 255, 255));
         }
-
-        layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setNestedScrollingEnabled(false);
-        messages = new ArrayList<>();
-        chatAdapter = new ChatAdapter(this, messages);
-        mRecyclerView.setAdapter(chatAdapter);
-
         getConversation();
 
         writeMessage.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -144,6 +136,13 @@ public class MessagingActivity extends BaseActivity {
             }
         });
 
+        layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setNestedScrollingEnabled(false);
+        messages = new ArrayList<>();
+        chatAdapter = new ChatAdapter(this, messages);
+        mRecyclerView.setAdapter(chatAdapter);
+
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("messageReceived"));
     }
 
@@ -156,7 +155,6 @@ public class MessagingActivity extends BaseActivity {
             writeMessage.setText("");
         }
     }
-
 
     private void getConversation() {
         WebServicesHandler.instance.getConversation(conversationID, new retrofit2.Callback<GetConversationApi>() {
@@ -183,8 +181,9 @@ public class MessagingActivity extends BaseActivity {
                             if (getConversationApi.getResult().getStatus() == 4
                                     || getConversationApi.getResult().getStatus() == 5
                                     || getConversationApi.getResult().getStatus() == 8) {
-
                                 chatLayout.setVisibility(View.GONE);
+                            } else {
+                                chatLayout.setVisibility(View.VISIBLE);
                             }
 
                             if (!getConversationApi.getResult().getImage().equals("")) {
@@ -209,9 +208,7 @@ public class MessagingActivity extends BaseActivity {
                 if (messages.size() > 0) {
                     mRecyclerView.scrollToPosition(messages.size() - 1);
                 }
-
                 updateMessageStatus(conversationID);
-
             }
 
             @Override

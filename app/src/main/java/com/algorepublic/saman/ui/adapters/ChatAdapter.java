@@ -50,7 +50,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (!messages.get(position).getSender().getId().equals(authenticatedUser.getId())) {
             return VIEW_TYPE_OTHER;
         } else {
-                      return VIEW_TYPE_SELF;
+            return VIEW_TYPE_SELF;
         }
        /*  if (messages.get(position).getSender().getId() == authenticatedUser.getId()) {
             return VIEW_TYPE_SELF;
@@ -125,7 +125,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String dateFormatted = formatter.format(date);
             selfUserViewHolder.dateTime.setText(dateFormatted.toString());
 
-            selfUserViewHolder.userName.setText(authenticatedUser.getFirstName() + " " + authenticatedUser.getLastName());
+            //  selfUserViewHolder.userName.setText(authenticatedUser.getFirstName() + " " + authenticatedUser.getLastName());
+            selfUserViewHolder.userName.setText(authenticatedUser.getFirstName());
             if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty() && !authenticatedUser.getProfileImagePath().equalsIgnoreCase("path")) {
                 if (authenticatedUser.getSocialID() != 0) {
                     if (!authenticatedUser.getProfileImagePath().isEmpty()) {

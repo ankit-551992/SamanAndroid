@@ -257,6 +257,7 @@ public class WebServicesHandler {
                 e.printStackTrace();
             }
         }
+        Log.e("PARAMETER", "---order--parameter---" + parameters.toString());
 //        parameters.put("OrderItems", array);
 
         Call<PlaceOrderResponse> call = webServices.placeOrder(parameters);

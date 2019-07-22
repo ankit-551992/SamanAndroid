@@ -201,15 +201,18 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         transactionId = UUID.randomUUID().toString();
         transactionId = transactionId.substring(0, transactionId.indexOf('-'));
 
-        if (GlobalValues.countries != null) {
-            for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
-                    selectedCountry = GlobalValues.countries.get(i);
-                    Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                    countryName.setText(selectedCountry.getName());
-                }
+        GlobalValues.countries = new ArrayList<>();
+        getCountriesAPI();
+
+      /*  for (int i = 0; i < GlobalValues.countries.size(); i++) {
+            Log.e("COUNTRY", "---GlobalValues.countries----size---" + GlobalValues.countries.size());
+            if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
+                selectedCountry = GlobalValues.countries.get(i);
+                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                countryName.setText(selectedCountry.getName());
             }
         }
+*/
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
 
         if (authenticatedUser.getShippingAddress() != null) {
@@ -272,6 +275,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
         Intent intent = new Intent(ShoppingCartActivity.this, CountriesListingActivity.class);
+        intent.putExtra("cartlist", 1);
         startActivityForResult(intent, 1299);
     }
 
@@ -470,6 +474,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     public void onResponse(Call<PlaceOrderResponse> call, Response<PlaceOrderResponse> response) {
                         placeOrderResponse = response.body();
                         if (placeOrderResponse != null) {
+                            Log.e("ORDERPLACE", "--placeOrderResponse----" + placeOrderResponse);
+                            Log.e("ORDERPLACE", "--placeOrder----response----" + response.body());
                             if (placeOrderResponse.getSuccess() == 1) {
                                 if (isCOD) {
                                     Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
@@ -912,6 +918,86 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                     }
                 });
+    }
+
+    private void getCountriesAPI() {
+        Log.e("COUNTRYAPI", "--country---api---");
+        WebServicesHandler.instance.getCountries(new retrofit2.Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JSONObject JObject = new JSONObject(response.body().string());
+                    //   JSONObject JObject = new JSONObject(response.body().toString());
+                    int status = 0;
+                    status = JObject.getInt("success");
+
+                    if (status == 0) {
+                        getCountriesAPI();
+                    } else if (status == 1) {
+                        Log.e("COUNTRYAPI", "--country---api-status--" + status);
+                        if (JObject.has("result")) {
+                            JSONArray jsonArray = JObject.getJSONArray("result");
+                            Log.e("COUNTRYAPI", "--country---api-jsonArray--" + jsonArray);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                Country country = new Country();
+
+                                country.setId(jsonObject.getInt("ID"));
+                                String flagURL = jsonObject.getString("FlagURL");
+
+                                String[] array = flagURL.split("/");
+                                String[] array2 = array[array.length - 1].split("\\.");
+                                String[] array3 = array2[0].split("_");
+                                String shortNameCode = array3[array3.length - 1];
+
+                                country.setSortname(shortNameCode);
+                                country.setName(jsonObject.getString("CountryName"));
+                                country.setFlag(Constants.URLS.BaseURLImages + flagURL);
+                                country.setPhoneCode(jsonObject.getString("CountryCode"));
+                                GlobalValues.countries.add(country);
+                            }
+                        }
+                    }
+                    if (GlobalValues.countries != null) {
+                        for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                            Log.e("COUNTRY", "---GlobalValues.countries----size---" + GlobalValues.countries.size());
+                            selectedCountry = GlobalValues.countries.get(i);
+                            Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                            countryName.setText(selectedCountry.getName());
+                           /* if (GlobalValues.countries.get(i).getFlag().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
+                                selectedCountry = GlobalValues.countries.get(i);
+                                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                                countryName.setText(selectedCountry.getName());
+                            }*/
+                        }
+                    }
+                    Log.e("COUNTRYAPI", "-- GlobalValues.countries---api---" + GlobalValues.countries);
+                    //   countriesAdapter.notifyDataSetChanged();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
+    }
+
+    private void setCountry() {
+
+        if (GlobalValues.countries != null) {
+            for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
+                    selectedCountry = GlobalValues.countries.get(i);
+                    Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                    countryName.setText(selectedCountry.getName());
+                }
+            }
+        }
     }
 
 }

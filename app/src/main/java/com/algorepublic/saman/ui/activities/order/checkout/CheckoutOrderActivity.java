@@ -14,11 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.algorepublic.saman.R;
 import com.algorepublic.saman.base.BaseActivity;
 import com.algorepublic.saman.data.model.Product;
 import com.algorepublic.saman.data.model.apis.PlaceOrderResponse;
+import com.algorepublic.saman.data.model.apis.SimpleSuccess;
+import com.algorepublic.saman.network.WebServicesHandler;
 import com.algorepublic.saman.ui.activities.PoliciesActivity;
 import com.algorepublic.saman.ui.adapters.CheckOutProductAdapter;
 import com.algorepublic.saman.utils.Constants;
@@ -37,6 +40,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class CheckoutOrderActivity extends BaseActivity {
 
@@ -69,7 +74,7 @@ public class CheckoutOrderActivity extends BaseActivity {
     //Bag
 
     PlaceOrderResponse placeOrderResponse;
-    float orderTotal=0;
+    float orderTotal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,37 +88,37 @@ public class CheckoutOrderActivity extends BaseActivity {
         cross.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-        }else {
+        } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            placeOrderResponse = (PlaceOrderResponse)getIntent().getSerializableExtra("Response");
-            orderTotal = getIntent().getFloatExtra("OrderTotal",0);
+            placeOrderResponse = (PlaceOrderResponse) getIntent().getSerializableExtra("Response");
+            orderTotal = getIntent().getFloatExtra("OrderTotal", 0);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cross.setImageDrawable(getDrawable(R.drawable.ic_cross));
-        }else {
+        } else {
             cross.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
         }
 
-        orderTotalTextView.setText(String.valueOf(orderTotal)+ " "+getString(R.string.OMR));
-        if(placeOrderResponse.getResult().getOrderNumber()!=null) {
-            orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber()+placeOrderResponse.getResult().getId());
+        orderTotalTextView.setText(String.valueOf(orderTotal) + " " + getString(R.string.OMR));
+        if (placeOrderResponse.getResult().getOrderNumber() != null) {
+            orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber() + placeOrderResponse.getResult().getId());
         }
 
-        if(placeOrderResponse.getResult().getOrderStatus()!=null) {
+        if (placeOrderResponse.getResult().getOrderStatus() != null) {
             if (!placeOrderResponse.getResult().getOrderStatus().equals("")) {
                 orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
             }
         }
 
-        if(placeOrderResponse.getResult().getDeliveryDate()!=null){
+        if (placeOrderResponse.getResult().getDeliveryDate() != null) {
             Long dateTimeStamp = Long.parseLong(placeOrderResponse.getResult().getDeliveryDate().replaceAll("\\D", ""));
             Date date = new Date(dateTimeStamp);
-            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy",Locale.ENGLISH);
+            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy", Locale.ENGLISH);
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted.toString());
         }
@@ -125,12 +130,12 @@ public class CheckoutOrderActivity extends BaseActivity {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         getString(R.string.cancel),
-                        ResourceUtil.getBitmap(CheckoutOrderActivity.this,R.drawable.ic_cross),
+                        ResourceUtil.getBitmap(CheckoutOrderActivity.this, R.drawable.ic_cross),
                         Color.parseColor("#FF3C30"),
                         new SwipeHelper.UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
-                                Constants.showAlert(getString(R.string.sorry),getString(R.string.order_cancel_msg),getString(R.string.okay),CheckoutOrderActivity.this);
+                                Constants.showAlert(getString(R.string.sorry), getString(R.string.order_cancel_msg), getString(R.string.okay), CheckoutOrderActivity.this);
                             }
                         }
                 ));
@@ -143,42 +148,66 @@ public class CheckoutOrderActivity extends BaseActivity {
     EditText editText;
     RatingBar ratingBar;
     Button sendButton;
+    String orderID;
 
     @OnClick(R.id.iv_survey)
-    public void survey(){
-            dialog  = new Dialog(CheckoutOrderActivity.this);
-            //tell the Dialog to use the dialog.xml as it's layout description
-            dialog.setContentView(R.layout.dialog_feedback);
+    public void survey() {
+        dialog = new Dialog(CheckoutOrderActivity.this);
+        //tell the Dialog to use the dialog.xml as it's layout description
+        dialog.setContentView(R.layout.dialog_feedback);
 
-            editText=dialog.findViewById(R.id.editText_review);
-            ratingBar=dialog.findViewById(R.id.ratting);
-            sendButton=dialog.findViewById(R.id.button_feedback);
+        editText = dialog.findViewById(R.id.editText_review);
+        ratingBar = dialog.findViewById(R.id.ratting);
+        sendButton = dialog.findViewById(R.id.button_feedback);
 
-            sendButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        if (placeOrderResponse.getResult().getOrderNumber() != null) {
+            orderID = placeOrderResponse.getResult().getOrderNumber();
+        }
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (ratingBar.getRating() > 0) {
+                    updateOrderFeedback(Integer.parseInt(orderID), ratingBar.getRating(), editText.getText().toString());
                     dialog.dismiss();
+                    finish();
+                } else {
+                    Toast.makeText(CheckoutOrderActivity.this, getString(R.string.rating_required), Toast.LENGTH_SHORT).show();
                 }
-            });
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
-            dialog.show();
+    private void updateOrderFeedback(int orderID, float rating, String feedback) {
+        WebServicesHandler.instance.updateOrderFeedback(orderID, rating, feedback, new retrofit2.Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+//                Log.e("RES",""+response.body().getSuccess());
+            }
 
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
-        GlobalValues.orderPlaced=true;
-        if(SamanApp.localDB!=null){
+        GlobalValues.orderPlaced = true;
+        if (SamanApp.localDB != null) {
             SamanApp.localDB.clearCart();
         }
         super.onDestroy();
     }
 
     @OnClick(R.id.toolbar_search)
-    void search(){
+    void search() {
 
-        GlobalValues.orderPlaced=true;
-        if(SamanApp.localDB!=null){
+        GlobalValues.orderPlaced = true;
+        if (SamanApp.localDB != null) {
             SamanApp.localDB.clearCart();
         }
         super.onBackPressed();
@@ -194,23 +223,23 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @OnClick(R.id.toolbar_back)
     public void back() {
-        if(SamanApp.localDB!=null){
+        if (SamanApp.localDB != null) {
             SamanApp.localDB.clearCart();
         }
         super.onBackPressed();
     }
 
     @OnClick(R.id.tv_return_policy)
-    void policy(){
-        Intent intent=new Intent(CheckoutOrderActivity.this,PoliciesActivity.class);
-        intent.putExtra("type",2);
+    void policy() {
+        Intent intent = new Intent(CheckoutOrderActivity.this, PoliciesActivity.class);
+        intent.putExtra("type", 2);
         startActivity(intent);
 //        new FinestWebView.Builder(CheckoutOrderActivity.this).show(Constants.URLS.returnPolicy);
     }
 
     @OnClick(R.id.button_cancel_order)
-    void cancelOrder(){
-        Constants.showAlert(getString(R.string.sorry),getString(R.string.order_cancel_msg),getString(R.string.okay),CheckoutOrderActivity.this);
+    void cancelOrder() {
+        Constants.showAlert(getString(R.string.sorry), getString(R.string.order_cancel_msg), getString(R.string.okay), CheckoutOrderActivity.this);
     }
 
     private void setBag() {
@@ -225,15 +254,15 @@ public class CheckoutOrderActivity extends BaseActivity {
     }
 
 
-    private void getDataFromDB(){
+    private void getDataFromDB() {
 
-        if(SamanApp.localDB!=null){
+        if (SamanApp.localDB != null) {
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
             checkOutProductAdapter.notifyDataSetChanged();
         }
 
-        quantity.setText(productArrayList.size()+ " " +getResources().getQuantityString(R.plurals.items, productArrayList.size()));
-        if(SamanApp.localDB!=null){
+        quantity.setText(productArrayList.size() + " " + getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        if (SamanApp.localDB != null) {
             SamanApp.localDB.clearCart();
         }
     }

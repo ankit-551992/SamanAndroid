@@ -197,6 +197,7 @@
     <string name="have_account">لديك حساب؟</string>
 
     <!--Sign Up-->
+    <string name="dob_missing">يرجى اختيار تاريخ الميلاد</string>
 
     <!--Password-->
     <string name="change_password_message">الرجاء إدخل رمز الدخل القديم للتأكيد والرمز الجديد لتغير رمز الدخول</string>
@@ -494,6 +495,66 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
+
+    <!--translate from my(IBL) side-->
+    <string name="pay_error_could_not_update_session">لا يمكن تحديث الجلسة</string>
+    <string name="view_invoice">عرض الفاتورة</string>
+    <string name="shipping">الشحن</string>
+    <string name="track_order">ترتيب المسار</string>
+    <string name="track">مسار</string>
+    <string name="credit_card">بطاقة الائتمان</string>
+    <string name="cod">الدفع عن الاستلام</string>
+    <string name="free">حر</string>
+    <string name="invalid_token">رمز غير صالح</string>
+    <string name="reset_with_email">إعادة تعيين مع البريد الإلكتروني</string>
+    <string name="reset_with_phone">إعادة تعيين مع رقم الهاتف</string>
+    <string name="select_reset_option">حدد الخيار</string>
+    <string name="select_reset_option_message">يرجى تحديد خيار واحد</string>
+    <string name="pending">قيد الانتظار</string>
+    <string name="cancelled_by_customer">تم الإلغاء بواسطة العميل</string>
     <string name="processing">معالجة</string>
+    <string name="shipped">شحنها</string>
+    <string name="complete">اكتمال</string>
+    <string name="canceled">ألغيت</string>
+    <string name="refunded">ردها</string>
+    <string name="reversed">عكس</string>
+    <string name="failed">فشل</string>
+    <string name="server_error">خطأ في الخادم</string>
+    <string name="omannet">بوابة عمان نت</string>
+    <string name="master_gateway">بوابة ماستر</string>
+    <string name="mobile_number">رقم الهاتف المحمول</string>
+    <string name="Phone_Number_Required">رقم الهاتف مطلوب</string>
+    <string name="Not_Valid">رقم الهاتف غير صحيح</string>`
+    <string name="number_verification_message">أدخل الرمز هنا المرسلة إلى هاتفك</string>
+    <string name="number_verification">التحقق من الرقم</string>
+    <string name="verification_code">شيفرة التأكيد</string>
+    <string name="verify">التحقق</string>
+    <string name="region">منطقة</string>
+    <string name="select_region">اختر المنطقة</string>
+    <string name="all">الكل</string>
+    <string name="products">منتجات</string>
+    <string name="sale">تخفيض السعر</string>
+    <string name="verification_code_required">رمز التحقق مطلوب</string>
+    <string name="number_verification_required">يرجى التحقق من الرقم.</string>
+    <string name="out_of_stock">المنتج من المخزون</string>
+    <string name="out_of_stock_">إنتهى من المخزن</string>
+    <string name="items_available_count">فقط٪ 1 $ d متوفر في المخزون</string>
+    <string name="region_required">المنطقة المطلوبة</string>
+    <string name="rating_required">التقييم مطلوب</string>
+    <string name="profile_alert">يرجى تحديث معلومات ملفك الشخصي</string>
+
+    <string name="price">السعر:</string>
+    <string name="select">تحديد</string>
+    <string name="quantity">الكمية:</string>
+
+    <string name="error">خطأ</string>
+    <string name="missing_options">يرجى تحديد جميع الخيارات</string>
+    <string name="product_details">تفاصيل المنتج</string>
+    <string name="product_info_care">معلومات المنتج والعناية</string>
+
+    <string name="coupon_discount">خصم القسيمة</string>
+    <string name="coupon_discount_is_">خصم القسيمة الخاص بك هو</string>
+    <string name="already_apply_on_same_product">تم تطبيق الكوبون بالفعل على نفس المنتج</string>
+    <string name="term_message">والموافقة على تخزين بعض بياناتك بواسطة Saman والتي يمكن استخدامها لصنع تجارب تسوق في المستقبل من أجلك</string>
 
 </resources>

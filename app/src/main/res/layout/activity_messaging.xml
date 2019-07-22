@@ -148,7 +148,8 @@
             android:id="@+id/chat_room_footer"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <ImageView
                 android:visibility="gone"

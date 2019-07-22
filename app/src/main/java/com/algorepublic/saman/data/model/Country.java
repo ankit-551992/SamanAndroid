@@ -79,4 +79,15 @@ public class Country {
     public void setFlag(String flag) {
         this.flag = flag;
     }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", sortname='" + sortname + '\'' +
+                ", name='" + name + '\'' +
+                ", phoneCode='" + phoneCode + '\'' +
+                ", flag='" + flag + '\'' +
+                '}';
+    }
 }

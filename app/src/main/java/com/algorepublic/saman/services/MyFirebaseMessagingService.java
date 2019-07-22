@@ -51,7 +51,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.e("MESSAGE_NOTIFY", "---remoteMessage---" + remoteMessage.toString());
+        Log.e("MESSAGE_NOTIFY", "-000--remoteMessage---getData--" + remoteMessage.getData());
         if (GlobalValues.getNotificationOnOff(getApplicationContext())) {
             Log.e("MESSAGE_NOTIFY", "---00---" + remoteMessage.toString());
             if (remoteMessage.getData().containsKey("isFeedback")) {
@@ -102,7 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void showNotification(RemoteMessage remoteMessage) {
-
+        Log.e("REMOTE_MESSAGE", "--showNotification-----remoteMessage---" + remoteMessage.getData());
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent;
         notificationIntent = new Intent(this, MessagingActivity.class);
@@ -133,7 +133,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent);
 
 //        Log.e("Notification", remoteMessage.getData().toString());
-
         notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
 
         if (SamanApp.isScreenOpen) {

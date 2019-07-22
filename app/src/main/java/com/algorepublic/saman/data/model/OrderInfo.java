@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class OrderInfo implements Serializable{
+public class OrderInfo implements Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -51,5 +51,15 @@ public class OrderInfo implements Serializable{
 
     public void setDeliveryDate(String deliveryDate) {
         DeliveryDate = deliveryDate;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderInfo{" +
+                "id=" + id +
+                ", OrderStatus='" + OrderStatus + '\'' +
+                ", OrderNumber='" + OrderNumber + '\'' +
+                ", DeliveryDate='" + DeliveryDate + '\'' +
+                '}';
     }
 }
