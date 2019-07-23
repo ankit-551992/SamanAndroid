@@ -141,7 +141,6 @@ public class CheckoutOrderActivity extends BaseActivity {
                 ));
             }
         };
-
     }
 
     Dialog dialog;
@@ -266,5 +265,4 @@ public class CheckoutOrderActivity extends BaseActivity {
             SamanApp.localDB.clearCart();
         }
     }
-
 }

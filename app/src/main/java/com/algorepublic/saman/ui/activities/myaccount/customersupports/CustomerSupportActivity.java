@@ -96,7 +96,7 @@ public class CustomerSupportActivity extends BaseActivity {
     String mCurrentPhotoPath;
     private int REQUEST_TAKE_PHOTO = 1;
     private int REQUEST_CHOOSE_PHOTO = 2;
-    private int mCount=300;
+    private int mCount = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,15 +121,13 @@ public class CustomerSupportActivity extends BaseActivity {
         photos.setNestedScrollingEnabled(false);
         customerSupportAdapter = new CustomerSupportAdapter(CustomerSupportActivity.this, files);
         photos.setAdapter(customerSupportAdapter);
-        photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false,this));
-
+        photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, this));
         messageSelectionEditText.addTextChangedListener(txwatcher);
         setCount(mCount);
     }
 
-
-    private void setCount(int count){
-        countTextView.setText(count+" "+getString(R.string.character));
+    private void setCount(int count) {
+        countTextView.setText(count + " " + getString(R.string.character));
     }
 
     TextWatcher txwatcher = new TextWatcher() {
@@ -137,11 +135,10 @@ public class CustomerSupportActivity extends BaseActivity {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            setCount(mCount-s.length());
+            setCount(mCount - s.length());
         }
 
         public void afterTextChanged(Editable s) {
-
         }
     };
 
@@ -209,7 +206,7 @@ public class CustomerSupportActivity extends BaseActivity {
                 uFiles.add(files.get(i));
             }
             uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
-        }else {
+        } else {
             List<File> uFiles = new ArrayList<>();
             uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
         }
@@ -240,7 +237,7 @@ public class CustomerSupportActivity extends BaseActivity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.ENGLISH).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM), "Camera");
@@ -334,7 +331,7 @@ public class CustomerSupportActivity extends BaseActivity {
             public void onResponse(Call<CustomerSupport> call, Response<CustomerSupport> response) {
                 Constants.dismissSpinner();
                 CustomerSupport customerSupport = response.body();
-                if(customerSupport!=null) {
+                if (customerSupport != null) {
                     if (customerSupport.getSuccess() == 1) {
                         showPopUp();
 //                    Constants.showAlertWithActivityFinish(getString(R.string.customer_service), getString(R.string.ticket_created_success), getString(R.string.okay), CustomerSupportActivity.this);

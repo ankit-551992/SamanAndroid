@@ -13,5 +13,4 @@ public class DashboardContractor {
         void destroy();
         void getUserData();
     }
-
 }

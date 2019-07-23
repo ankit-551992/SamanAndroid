@@ -41,4 +41,13 @@ public class SimpleSuccess {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleSuccess{" +
+                "result=" + result +
+                ", success=" + success +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

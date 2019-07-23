@@ -329,7 +329,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             menuItemSettings.setVisible(true);
             MenuItem login = navigationView.getMenu().findItem(R.id.nav_login);
             login.setVisible(false);
-
             favCount();
         }
     }

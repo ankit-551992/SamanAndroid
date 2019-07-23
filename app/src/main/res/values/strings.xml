@@ -507,7 +507,6 @@
         <item>Governorate of Al Buraimi</item>
     </string-array>
 
-
     <!--remain transalation in arabic-->
     <!--notification-->
     <string name="order_status_notify">Order Status</string>

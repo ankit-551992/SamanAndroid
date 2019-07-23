@@ -503,7 +503,6 @@ public class MyAccountFragment extends BaseFragment {
             height_tmp /= 2;
             scale *= 2;
         }
-
         // Decode with inSampleSize
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = scale;

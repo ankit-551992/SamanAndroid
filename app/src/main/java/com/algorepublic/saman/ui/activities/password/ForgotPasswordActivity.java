@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -167,6 +168,7 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
 
     @Override
     public void forgotResponse(String message) {
+        Log.e("FORGOT111", "--forge--response--message----" + message);
         Intent intent = new Intent(ForgotPasswordActivity.this, ResetPasswordActivity.class);
         startActivity(intent);
         finish();

@@ -317,6 +317,10 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         yearEditText.setText(sepDate[2]);
     }
 
+//    int choose_date, mon, yr;
+//    String day, month, year;
+//    String dob;
+
     @OnClick(R.id.button_update)
     public void registerButton() {
         String firstName = firstNameEditText.getText().toString();
@@ -327,18 +331,35 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String phone = ccp.getText().toString() + phoneEditText.getText().toString();
         String region = regionName.getText().toString();
 
-        if (!dayEditText.getText().toString().equals("") && dayEditText.getText().toString() != null) {
-
+     /*   if (!dayEditText.getText().toString().equals("") && !TextUtils.isEmpty(dayEditText.getText().toString())) {
+            choose_date = Integer.parseInt(dayEditText.getText().toString());
+            day = String.valueOf(choose_date);
         }
-        int date = Integer.parseInt(dayEditText.getText().toString());
-        int mon = Integer.parseInt(monthEditText.getText().toString());
-        int yr = Integer.parseInt(yearEditText.getText().toString());
+        if (!monthEditText.getText().toString().equals("") && !TextUtils.isEmpty(monthEditText.getText().toString())) {
+            mon = Integer.parseInt(monthEditText.getText().toString());
+            month = String.valueOf(mon);
+        }
+        if (!yearEditText.getText().toString().equals("") && !TextUtils.isEmpty(yearEditText.getText().toString())) {
+            yr = Integer.parseInt(yearEditText.getText().toString());
+            year = String.valueOf(yr);
+        }*/
 
-        String day = String.valueOf(date);
-        String month = String.valueOf(mon);
-        String year = String.valueOf(yr);
-
+        String day = dayEditText.getText().toString();
+        String month = monthEditText.getText().toString();
+        String year = yearEditText.getText().toString();
         String dob = month + "-" + day + "-" + year;
+
+
+//        String day = String.valueOf(choose_date);
+//        String month = String.valueOf(mon);
+//        String year = String.valueOf(yr);
+
+
+    /*    if (!month.equals("") && !day.equals("") && !year.equals("")) {
+
+        } else {
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.dob_missing), getString(R.string.okay), MyDetailsActivity.this);
+        }*/
 
         if (isDataValid(firstName, lastName, gender, address, day, month, year, phone, dob)) {
             phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
@@ -470,13 +491,16 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
     private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year, String phone, String dob) {
         if (TextUtils.isEmpty(fName)) {
-            firstNameEditText.setError(getString(R.string.first_name_required));
+            //firstNameEditText.setError(getString(R.string.first_name_required));
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.first_name_required), getString(R.string.okay), MyDetailsActivity.this);
             return false;
         } else if (TextUtils.isEmpty(lName)) {
-            lastNameEditText.setError(getString(R.string.last_name_required));
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.last_name_required), getString(R.string.okay), MyDetailsActivity.this);
+            //lastNameEditText.setError(getString(R.string.last_name_required));
             return false;
         } else if (TextUtils.isEmpty(gender)) {
-            genderText.setError(getString(R.string.gender_prompt));
+            // genderText.setError(getString(R.string.gender_prompt));
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.gender_prompt), getString(R.string.okay), MyDetailsActivity.this);
             return false;
         } else if (TextUtils.isEmpty(phone)) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.Phone_Number_Required), getString(R.string.okay), MyDetailsActivity.this);
@@ -494,7 +518,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             Constants.showAlert(getString(R.string.my_details), getString(R.string.year_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
         } else if (TextUtils.isEmpty(address)) {
-            addressEditText.setError(getString(R.string.address_req));
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.address_req), getString(R.string.okay), MyDetailsActivity.this);
+            // addressEditText.setError(getString(R.string.address_req));
             return false;
         } else if (TextUtils.isEmpty(dob)) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.dob_missing), getString(R.string.okay), MyDetailsActivity.this);
