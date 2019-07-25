@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="RelativeOverlap"
-    android:orientation="vertical"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="RelativeOverlap">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.37">
+
         <ImageView
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_account_img"
             android:id="@+id/iv_profile_background"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:contentDescription="@string/contentDescription" />
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_account_img" />
 
         <ImageView
-            android:layout_below="@id/iv_profile_background"
             android:id="@+id/iv_profile"
-            android:src="@drawable/photo"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_below="@id/iv_profile_background"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-55dp"
-            android:contentDescription="@string/contentDescription"/>
+            android:contentDescription="@string/contentDescription"
+            android:src="@drawable/photo" />
 
         <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center_horizontal"
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
             android:text="@string/Welcome"
-            android:textSize="20sp"
             android:textColor="@color/black"
-            android:id="@+id/user_name"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/user_email"
-            android:layout_marginBottom="5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
             android:text="@string/email_hint"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
     </RelativeLayout>
 
@@ -60,259 +61,260 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.63">
+
         <LinearLayout
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="vertical"
             android:paddingBottom="50dp">
-            
+
             <RelativeLayout
                 android:id="@+id/my_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="15dp"
-                    android:drawableLeft="@drawable/my_information"
-                    android:drawableStart="@drawable/my_information"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/my_information"
+                    android:drawableLeft="@drawable/my_information"
+                    android:drawablePadding="15dp"
                     android:text="@string/my_details"
-                    android:textSize="18sp"
                     android:textColor="@color/black"
-                    />
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:padding="10dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_navigate_next"
-                    android:contentDescription="@string/contentDescription" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/contentDescription"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_navigate_next" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.9dp"
-                android:background="@color/off_grey"/>
+                android:background="@color/off_grey" />
 
             <RelativeLayout
                 android:id="@+id/my_orders"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <TextView
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="15dp"
-                    android:drawableLeft="@drawable/my_orders"
-                    android:drawableStart="@drawable/my_orders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/my_orders"
+                    android:drawableLeft="@drawable/my_orders"
+                    android:drawablePadding="15dp"
                     android:text="@string/my_orders"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:padding="10dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_navigate_next"
-                    android:contentDescription="@string/contentDescription"/>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/contentDescription"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_navigate_next" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.9dp"
-                android:background="@color/off_grey"/>
+                android:background="@color/off_grey" />
 
             <RelativeLayout
                 android:id="@+id/layout_wishlist"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="15dp"
-                    android:drawableLeft="@drawable/my_heart"
-                    android:drawableStart="@drawable/my_heart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/my_heart"
+                    android:drawableLeft="@drawable/my_heart"
+                    android:drawablePadding="15dp"
                     android:text="@string/title_fav"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:padding="10dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_navigate_next"
-                    android:contentDescription="@string/contentDescription"/>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/contentDescription"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_navigate_next" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.9dp"
-                android:background="@color/off_grey"/>
+                android:background="@color/off_grey" />
 
             <RelativeLayout
                 android:id="@+id/payment_method"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <TextView
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="15dp"
-                    android:drawableLeft="@drawable/my_credit_card"
-                    android:drawableStart="@drawable/my_credit_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/my_credit_card"
+                    android:drawableLeft="@drawable/my_credit_card"
+                    android:drawablePadding="15dp"
                     android:text="@string/payment_method"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:padding="10dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_navigate_next"
-                    android:contentDescription="@string/contentDescription"/>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/contentDescription"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_navigate_next" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.9dp"
-                android:background="@color/off_grey"/>
+                android:background="@color/off_grey" />
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/shipping_address"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
 
                 <TextView
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="15dp"
-                    android:drawableLeft="@drawable/ic_location"
-                    android:drawableStart="@drawable/ic_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/ic_location"
+                    android:drawableLeft="@drawable/ic_location"
+                    android:drawablePadding="15dp"
                     android:text="@string/shipping_address"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:padding="10dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_navigate_next"
-                    android:contentDescription="@string/contentDescription"/>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/contentDescription"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_navigate_next" />
 
             </RelativeLayout>
 
             <View
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.9dp"
-                android:background="@color/off_grey"/>
+                android:background="@color/off_grey"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/messages_layout"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/tv_message"
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="15dp"
-                    android:drawableLeft="@drawable/my_envelope"
-                    android:drawableStart="@drawable/my_envelope"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/my_envelope"
+                    android:drawableLeft="@drawable/my_envelope"
+                    android:drawablePadding="15dp"
                     android:text="@string/messages"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"/>
-                
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_unread_message_count"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:background="@color/grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="20dp"
                     android:layout_toEndOf="@id/tv_message"
+                    android:background="@color/grey"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:text="2"
                     android:textColor="@color/white"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:visibility="gone" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:padding="10dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_navigate_next"
-                    android:contentDescription="@string/contentDescription"/>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/contentDescription"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_navigate_next" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.9dp"
-                android:background="@color/off_grey"/>
+                android:background="@color/off_grey" />
 
             <RelativeLayout
                 android:id="@+id/customer_support"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <TextView
-                    android:layout_centerVertical="true"
-                    android:drawablePadding="15dp"
-                    android:drawableLeft="@drawable/my_headphones"
-                    android:drawableStart="@drawable/my_headphones"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/my_headphones"
+                    android:drawableLeft="@drawable/my_headphones"
+                    android:drawablePadding="15dp"
                     android:text="@string/customer_service"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
-                    android:padding="10dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_navigate_next"
-                    android:contentDescription="@string/contentDescription"/>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/contentDescription"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_navigate_next" />
 
             </RelativeLayout>
 

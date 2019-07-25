@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="RelativeOverlap">
+
+    <LinearLayout
+        android:padding="30dp"
+        android:layout_margin="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/pop_up_corners"
+        android:orientation="vertical">
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="right"
+            android:id="@+id/iv_pop_up_close"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/contentDescription"
+            android:src="@drawable/ic_cross"
+            android:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_pop_up_title"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/customer_service"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/tv_pop_up_message"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ticket_created_success"
+            android:textColor="@color/black" />
+
+        <Button
+            android:layout_margin="10dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/button_pop_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yellow_button"
+            android:text="@string/okay"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
+
+    </LinearLayout>
+
+</RelativeLayout>

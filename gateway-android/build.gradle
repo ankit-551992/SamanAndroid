@@ -1,0 +1,83 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionName libraryVersionName
+
+        consumerProguardFiles 'proguard.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        debug
+        release
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+// define an 'optional' dependency
+configurations {
+    optional
+    implementation.extendsFrom optional
+}
+
+ext {
+    supportLibraryVersion = '27.1.1'
+    gsonVersion = '2.8.2'
+    rxJavaVersion = '2.1.10'
+
+    jUnitVersion = '4.12'
+    robolectricVersion = '3.7.1'
+    mockitoVersion = '2.13.0'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+    optional "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    compileOnly "com.android.support:support-annotations:$supportLibraryVersion"
+
+    testImplementation "junit:junit:$jUnitVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+}
+
+task androidJavadocs(type: Javadoc) {
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    android.libraryVariants.all { variant ->
+        if (variant.name == 'release') {
+            owner.classpath += variant.javaCompile.classpath
+        }
+    }
+    source = android.sourceSets.main.java.srcDirs
+    exclude '**/R.html', '**/R.*.html', '**/index.html'
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}

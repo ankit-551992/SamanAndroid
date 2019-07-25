@@ -196,7 +196,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         mPresenter.onDestroy();
     }
 
-
     private boolean isValidEmailId(String email) {
 
         return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
