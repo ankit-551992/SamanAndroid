@@ -65,6 +65,58 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944916770217:android:d7a15ef1f69f4673",
+        "android_client_info": {
+          "package_name": "com.qtech.saman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944916770217-m73qj1dbj20ue13aks8cbb64j25cgj8e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qtech.saman",
+            "certificate_hash": "d0d7cf8eb7c4338b2a2cef64d196ce9adf2e15cd"
+          }
+        },
+        {
+          "client_id": "944916770217-fnq5fedqkdruivvi526pigq7d3uve2tb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qtech.saman",
+            "certificate_hash": "a61b3bb291680cffbe2fe5b68d7a17afd89db1ee"
+          }
+        },
+        {
+          "client_id": "944916770217-tu259bfkulvvjcp8kqutk81srgmo8oka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlfXP_wNNrn3KXdD4XRbKm5776OJ1tkVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944916770217-tu259bfkulvvjcp8kqutk81srgmo8oka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "944916770217-k0o9nldrvkjnovi1uqar610joibhdf7q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.qtech.saman"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

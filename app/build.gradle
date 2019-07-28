@@ -8,7 +8,7 @@ repositories {
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.algorepublic.saman"
+        applicationId "com.qtech.saman"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
@@ -43,7 +43,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {

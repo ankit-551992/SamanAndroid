@@ -1,8 +1,9 @@
-package com.algorepublic.saman;
+package com.qtech.saman;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import com.algorepublic.saman.ui.activities.login.LoginActivity;
+
+import com.qtech.saman.ui.activities.login.LoginActivity;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,5 +60,4 @@ public class LoginActivityTest {
             e.printStackTrace();
         }
     }
-
 }

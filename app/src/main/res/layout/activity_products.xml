@@ -49,7 +49,7 @@
             app:tabSelectedTextColor="@color/colorAccent"
             app:tabTextColor="@color/black" />
 
-        <com.algorepublic.saman.utils.LockableViewPager
+        <com.qtech.saman.utils.LockableViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
