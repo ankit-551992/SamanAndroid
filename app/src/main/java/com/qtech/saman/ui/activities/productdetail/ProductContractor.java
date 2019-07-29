@@ -13,7 +13,6 @@ public class ProductContractor {
         void markUnFavoriteResponse(boolean success);
     }
 
-
     interface Presenter {
         void getProductData(int productID,int userID);
         void destroy();

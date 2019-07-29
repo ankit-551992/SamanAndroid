@@ -96,7 +96,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     private static final String EMAIL = "email";
 
     // Social Login
-
     String socialName = "";
     String socialEmail = "";
     String socialPhotoUrl = "";

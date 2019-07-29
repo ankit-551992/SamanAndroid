@@ -322,7 +322,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             }
         });
 
-
         Animation animation;
         animation = AnimationUtils.loadAnimation(ProductDetailActivity.this,
                 R.anim.fade_in);
@@ -367,8 +366,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         animation = AnimationUtils.loadAnimation(ProductDetailActivity.this,
                 R.anim.fade_in);
 
-        ((ViewGroup) dialog2.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog2.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog2.show();
     }
 

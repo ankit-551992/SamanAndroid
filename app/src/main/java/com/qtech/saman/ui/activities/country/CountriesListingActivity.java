@@ -119,7 +119,6 @@ public class CountriesListingActivity extends BaseActivity {
 
                 countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
                 recyclerView.setAdapter(countriesAdapter);
-
             }
         }
     }

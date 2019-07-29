@@ -109,7 +109,6 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
         }
     }
 
-
     @OnClick(R.id.ccp)
     public void phoneCode() {
         Intent intent = new Intent(ForgotPasswordActivity.this, CountriesListingActivity.class);

@@ -349,7 +349,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String year = yearEditText.getText().toString();
         String dob = month + "-" + day + "-" + year;
 
-
 //        String day = String.valueOf(choose_date);
 //        String month = String.valueOf(mon);
 //        String year = String.valueOf(yr);
@@ -428,7 +427,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             }
         }
     }
-
 
     Dialog dialog;
     String selectedGender = "";
