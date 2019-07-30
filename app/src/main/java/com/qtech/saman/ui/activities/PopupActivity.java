@@ -60,7 +60,6 @@ public class PopupActivity extends BaseActivity {
                 }
             }
         });
-
         dialog.show();
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT); //Controlling width and height.
     }

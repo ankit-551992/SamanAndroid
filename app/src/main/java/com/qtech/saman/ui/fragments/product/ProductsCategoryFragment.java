@@ -82,7 +82,6 @@ public class ProductsCategoryFragment extends BaseFragment {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
-
         getProducts(categoryID,currentPage,pageSize);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

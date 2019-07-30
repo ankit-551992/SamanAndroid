@@ -92,12 +92,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     Product product;
     User authenticatedUser;
 
-
     @BindView(R.id.layout_specifications_parent)
     LinearLayout specificationParentLayout;
     @BindView(R.id.layout_specifications)
     LinearLayout specificationsLayout;
-
 
     ProductContractor.Presenter presenter;
     @BindView(R.id.loading)
@@ -515,7 +513,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 name.setText(productAttribute.getTitleAR());
                 value.setText(productAttribute.getValueAR());
             }
-
             specificationsLayout.addView(child);
         }
 
@@ -524,7 +521,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //        } else {
 //            attributes.setText(getString(R.string.no_specifications));
 //        }
-
 
         if (product.getQuantity() <= 0) {
             addToCart.setEnabled(false);
@@ -549,7 +545,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     optionName.setText(productOption.getTitleAR());
                 }
                 if (productOption.getOptionValues() != null) {
-
                     List<OptionValue> optionsList = productOption.getOptionValues();
                     OptionValue value = new OptionValue();
                     value.setID(-200);
@@ -570,7 +565,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                         }
                     }
                 }
-
 //                optionValuesSpinner.setPrompt(getString(R.string.select));
                 optionsLinearLayout.addView(child);
             }

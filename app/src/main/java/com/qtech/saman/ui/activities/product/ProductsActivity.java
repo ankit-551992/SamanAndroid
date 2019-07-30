@@ -130,13 +130,11 @@ public class ProductsActivity extends BaseActivity {
                     textView.setText(GlobalValues.storeCategories.get(i - 2).getTitleAR());
                 }
 
-
                 String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 2).getLogoURL();
                 Picasso.get().load(url).into(imageView);
                 TabLayout.Tab tab = tabLayout.getTabAt(i);
                 if (tab != null)
                     tab.setCustomView(customTab);//set custom view
-
             }
         }
     }

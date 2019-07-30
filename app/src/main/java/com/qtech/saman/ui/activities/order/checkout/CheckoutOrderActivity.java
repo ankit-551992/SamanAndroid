@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -122,7 +123,6 @@ public class CheckoutOrderActivity extends BaseActivity {
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted.toString());
         }
-
         setBag();
 
         new SwipeHelper(this, cartRecyclerView) {
@@ -185,10 +185,12 @@ public class CheckoutOrderActivity extends BaseActivity {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
 //                Log.e("RES",""+response.body().getSuccess());
+                //    Toast.makeText(CheckoutOrderActivity.this, "Thank you for give me Feedback", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+                Log.e("RES", "Failed Feedback Response" + t.getMessage());
             }
         });
     }
