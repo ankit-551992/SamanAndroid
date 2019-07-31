@@ -139,7 +139,6 @@ public interface WebServices {
     @POST("Product/MarkAsUnfavorite")
     Call<SimpleSuccess> markUnFavorite(@FieldMap Map<String, Object> parameters);
 
-
     @FormUrlEncoded
     @POST("Address/Insert")
     Call<AddAddressApi> insertAddress(@FieldMap Map<String, Object> parameters);

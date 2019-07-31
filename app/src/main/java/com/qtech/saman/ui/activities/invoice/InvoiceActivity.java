@@ -29,6 +29,7 @@ import com.qtech.saman.data.model.OrderItem;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.ui.activities.TrackingActivity;
 import com.qtech.saman.ui.adapters.InvoiceAdapter;
+import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 
 import java.io.BufferedInputStream;
@@ -53,6 +54,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.qtech.saman.utils.Constants.URLS.Invoice_url;
 
 public class InvoiceActivity extends BaseActivity {
 
@@ -86,7 +89,6 @@ public class InvoiceActivity extends BaseActivity {
     List<OrderItem> orderItems = new ArrayList<>();
     InvoiceAdapter invoiceAdapter;
 
-
     OrderHistory orderHistory;
     User authenticatedUser;
 
@@ -107,7 +109,6 @@ public class InvoiceActivity extends BaseActivity {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
-
         if (orderHistory != null) {
             orderTotalTextView.setText(String.valueOf(orderHistory.getTotalPrice()) + " " + getString(R.string.OMR));
             if (orderHistory.getOrderNumber() != null) {
@@ -120,20 +121,20 @@ public class InvoiceActivity extends BaseActivity {
                 }
             }
 
-            if(orderHistory.getShippingTotal()!=0){
+            if (orderHistory.getShippingTotal() != 0) {
                 shippingFee.setText(String.valueOf(orderHistory.getShippingTotal()) + " " + getString(R.string.OMR));
             }
 
             Long orderDateStamp = Long.parseLong(orderHistory.getCreatedAt().replaceAll("\\D", ""));
             Date orderDate = new Date(orderDateStamp);
-            DateFormat orderFormatter = new SimpleDateFormat("dd-MM-yyyy hh:mm aa",Locale.ENGLISH);
+            DateFormat orderFormatter = new SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.ENGLISH);
             String orderDateFormatted = orderFormatter.format(orderDate);
             orderDateTextView.setText(orderDateFormatted.toString());
 
             Long dateTimeStamp = Long.parseLong(orderHistory.getDeliveryDate().replaceAll("\\D", ""));
             Date date = new Date(dateTimeStamp);
 //            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy",Locale.ENGLISH);
-            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm aa",Locale.ENGLISH);
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.ENGLISH);
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted.toString());
 
@@ -168,7 +169,9 @@ public class InvoiceActivity extends BaseActivity {
 //            String downloadURL="https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf";
 //            String downloadURL = "https://www.saman.om/FileUploadsManager/invoice.pdf";
 //            String downloadURL = "https://www.saman.om/Order/GeneratePDF/405";
-            String downloadURL = "https://www.saman.om/Order/Invoice/"+orderHistory.getID();
+
+            //String downloadURL = "https://www.saman.om/Order/Invoice/" + orderHistory.getID();
+            String downloadURL = Constants.URLS.Invoice_url + orderHistory.getID();
 //            down("https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf");
             new DownloadFile().execute(downloadURL);
         }
@@ -177,14 +180,12 @@ public class InvoiceActivity extends BaseActivity {
 //        startActivity(intent);
     }
 
-
     @OnClick(R.id.button_track_order)
     public void trackOrder() {
-        Intent intent=new Intent(InvoiceActivity.this, TrackingActivity.class);
-        intent.putExtra("Obj",orderHistory);
+        Intent intent = new Intent(InvoiceActivity.this, TrackingActivity.class);
+        intent.putExtra("Obj", orderHistory);
         startActivity(intent);
     }
-
 
     private void setBag() {
         layoutManager = new LinearLayoutManager(InvoiceActivity.this);
@@ -287,13 +288,13 @@ public class InvoiceActivity extends BaseActivity {
                 // input stream to read file - with 8k buffer
                 InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-                String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss",Locale.ENGLISH).format(new Date());
+                String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss", Locale.ENGLISH).format(new Date());
 
                 //Extract file name from URL
                 fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
 
                 //Append timestamp to file name
-                fileName = timestamp + "_" + fileName+"_invoice.pdf";
+                fileName = timestamp + "_" + fileName + "_invoice.pdf";
 
                 //External directory path to save file
                 folder = Environment.getExternalStorageDirectory() + File.separator + "Saman/";
@@ -317,8 +318,7 @@ public class InvoiceActivity extends BaseActivity {
                     // publishing the progress....
                     // After this onProgressUpdate will be called
                     publishProgress("" + (int) ((total * 100) / lengthOfFile));
-//                        Log.d(TAG, "Progress: " + (int) ((total * 100) / lengthOfFile));
-
+//                  Log.d(TAG, "Progress: " + (int) ((total * 100) / lengthOfFile));
                     // writing data to file
                     output.write(data, 0, count);
                 }
@@ -330,11 +330,9 @@ public class InvoiceActivity extends BaseActivity {
                 output.close();
                 input.close();
                 return folder + fileName;
-
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
             }
-
             return null;
         }
 

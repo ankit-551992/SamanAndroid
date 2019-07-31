@@ -64,7 +64,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_bag_row, parent, false);
-
             return new BagViewHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.loading_progress_bar, parent, false);
@@ -91,7 +90,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         .into(bagViewHolder.productImageView);
             }
 
-
             bagViewHolder.price.setText(product.getPrice() + " OMR");
             float total = product.getPrice() * product.getQuantity();
             grandTotal = grandTotal + total;
@@ -106,7 +104,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     mContext.startActivity(intent);
                 }
             });
-
             bagFragment.updateTotal(grandTotal, 0);
 
         } else if (holder instanceof LoadingViewHolder) {
@@ -119,7 +116,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         return productArrayList == null ? 0 : productArrayList.size();
     }
-
 
     class BagViewHolder extends RecyclerView.ViewHolder {
 
@@ -154,7 +150,6 @@ public class BagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
             updateNotify();
-
 
             int current = Integer.parseInt(quantity.getText().toString());
 

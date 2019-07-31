@@ -7,13 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.OrderItem;
 import com.qtech.saman.data.model.ProductOption;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -37,16 +40,16 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
     public void onBindViewHolder(RowViewHolder holder, final int position) {
         OrderItem orderItem = orderItems.get(position);
 
-        if(orderItem.getProduct()!=null) {
-            if(SamanApp.isEnglishVersion) {
-                holder.productName.setText(orderItem.getProduct().getProductName()+" x "+orderItem.getProductQuantity());
+        if (orderItem.getProduct() != null) {
+            if (SamanApp.isEnglishVersion) {
+                holder.productName.setText(orderItem.getProduct().getProductName() + " x " + orderItem.getProductQuantity());
                 holder.storeName.setText(orderItem.getProduct().getStoreName());
-            }else {
-                holder.productName.setText(orderItem.getProduct().getProductNameAR()+" x "+orderItem.getProductQuantity());
+            } else {
+                holder.productName.setText(orderItem.getProduct().getProductNameAR() + " x " + orderItem.getProductQuantity());
                 holder.storeName.setText(orderItem.getProduct().getStoreNameAR());
             }
-            String options="";
-            if(orderItem.getProductOptionList()!=null) {
+            String options = "";
+            if (orderItem.getProductOptionList() != null) {
                 for (int i = 0; i < orderItem.getProductOptionList().size(); i++) {
                     ProductOption productOption = orderItem.getProductOptionList().get(i);
                     if (SamanApp.isEnglishVersion) {
@@ -65,11 +68,15 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
                 }
             }
             holder.productPrice.setText(options);
-            if(orderItem.getStatus()!=null) {
-                holder.productStatus.setText(orderItem.getStatus());
+            if (orderItem.getStatus() != null) {
+                if (SamanApp.isEnglishVersion) {
+                    holder.productStatus.setText(orderItem.getStatus());
+                } else {
+                    holder.productStatus.setText(orderItem.getStatus());
+                }
             }
 //            holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR x "+orderItem.getProduct().getQuantity());
-            if(orderItem.getProduct().getLogoURL()!=null && !orderItem.getProduct().getLogoURL().isEmpty()) {
+            if (orderItem.getProduct().getLogoURL() != null && !orderItem.getProduct().getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + orderItem.getProduct().getLogoURL())
                         .into(holder.productImageView);
             }
@@ -92,10 +99,10 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
         TextView productStatus;
         @BindView(R.id.iv_product)
         ImageView productImageView;
+
         RowViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
-
 }

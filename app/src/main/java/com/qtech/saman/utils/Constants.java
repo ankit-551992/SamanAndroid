@@ -51,6 +51,7 @@ public class Constants {
         String terms = "https://www.algorepublic.com/services/";
         String privacyPolicy = "https://www.algorepublic.com/services/";
         String contactUs = "https://www.algorepublic.com/contact-us/";
+        String Invoice_url = "https://staging.saman.om/Order/Invoice/";
     }
 
     public static boolean isNetworkAvailable(Context c) {

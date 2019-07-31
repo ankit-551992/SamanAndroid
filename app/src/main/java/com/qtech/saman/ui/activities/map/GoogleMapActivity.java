@@ -64,7 +64,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallback,GoogleMap.OnIndoorStateChangeListener {
+public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnIndoorStateChangeListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -76,7 +76,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     ImageView search;
 
     SupportMapFragment mapFragment;
-    String address="";
+    String address = "";
     private FusedLocationProviderClient mFusedLocationClient;
 
 
@@ -161,10 +161,10 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
             addresses = geocoder.getFromLocation(mLatLong.latitude, mLatLong.longitude, 1);
             try {
 //                address = addresses.get(0).getAddressLine(0);
-                 address += addresses.get(0).getLocality()+ ",";
+                address += addresses.get(0).getLocality() + ",";
                 // address += addresses.get(0).getAdminArea() + ",";
                 // address += addresses.get(0).getPostalCode() + ",";
-                 address += addresses.get(0).getCountryName();
+                address += addresses.get(0).getCountryName();
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
@@ -307,6 +307,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
             GlobalValues.setUserLat(GoogleMapActivity.this, "" + gpsTracker.getLatitude());
             GlobalValues.setUserLng(GoogleMapActivity.this, "" + gpsTracker.getLongitude());
             LatLng latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
             if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 gmap.setMyLocationEnabled(true);
@@ -349,12 +350,12 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     }
 
     private void getLocationAddress(LatLng latLng) {
-        Constants.showSpinner(getString(R.string.select_location)+" "+getString(R.string.pending),GoogleMapActivity.this);
+        Constants.showSpinner(getString(R.string.select_location) + " " + getString(R.string.pending), GoogleMapActivity.this);
         GeoLocationHandler.instance.getLocation(latLng, new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Constants.dismissSpinner();
-                String adress=null;
+                String adress = null;
                 try {
                     JSONObject googleMapResponse = new JSONObject(response.body().string());
                     JSONArray results = (JSONArray) googleMapResponse.get("results");
@@ -381,9 +382,8 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                             }
                         }
                     }
-                    if (adress != null)
-                    {
-                        address=adress;
+                    if (adress != null) {
+                        address = adress;
                     }
                     Intent data = new Intent();
                     data.setData(Uri.parse(address));
@@ -412,7 +412,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     public void onIndoorBuildingFocused() {
 
         IndoorBuilding building = gmap.getFocusedBuilding();
-        if(building != null) {
+        if (building != null) {
             List<IndoorLevel> levels = building.getLevels();
             //active the level you want to display on the map
             levels.get(1).activate();
@@ -421,6 +421,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
     @Override
     public void onIndoorLevelActivated(IndoorBuilding indoorBuilding) {
-        Log.e("Levels",""+indoorBuilding.getLevels().size());
+        Log.e("Levels", "" + indoorBuilding.getLevels().size());
     }
 }

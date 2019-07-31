@@ -30,7 +30,6 @@ import static com.qtech.saman.utils.GlobalValues.convertListToString;
 
 public class AddCardActivity extends BaseActivity{
 
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
@@ -79,9 +78,7 @@ public class AddCardActivity extends BaseActivity{
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
-
         init();
-
     }
 
     @OnClick(R.id.toolbar_back)
@@ -95,7 +92,6 @@ public class AddCardActivity extends BaseActivity{
         } else {
             cardNumberEt.setEnabled(true);
         }
-
 
         if (obj != null) {
             updateData(obj);
@@ -111,14 +107,12 @@ public class AddCardActivity extends BaseActivity{
             }.getType());
 
             if (obj == null) {
-
                 if (odj == null) {
                     cardlist.add(cardDs);
                 } else {
                     cardlist.addAll((ArrayList<CardDs>) odj);
                     cardlist.add(cardDs);
                 }
-
             } else {
                 cardlist.addAll((ArrayList<CardDs>) odj);
                 for (int i = 0; i < cardlist.size(); i++) {
@@ -145,8 +139,6 @@ public class AddCardActivity extends BaseActivity{
 
     public boolean validate() {
         boolean valid = true;
-
-
 
         if (cardNumberEt.getText().toString().isEmpty()) {
             cardNumberEt.setError(getString(R.string.card_number_req));
@@ -227,5 +219,4 @@ public class AddCardActivity extends BaseActivity{
         return new String(mask) + cardNumber.substring(maskLen);
 //        return cardNumber;
     }
-
 }

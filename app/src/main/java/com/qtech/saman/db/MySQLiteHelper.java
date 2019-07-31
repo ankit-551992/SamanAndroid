@@ -106,13 +106,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + CART_PRODUCT_STORE_NAME + " TEXT,"
             + CART_PRODUCT_STORE_NAME_AR + " TEXT" + ")";
 
-    public boolean addToCart(Product product,String optionValues,String options,String optionsAr, int quantity) {
+    public boolean addToCart(Product product, String optionValues, String options, String optionsAr, int quantity) {
 
-        optionsAr=optionsAr.replaceAll(",","،");
+        optionsAr = optionsAr.replaceAll(",", "،");
 
         ContentValues values = new ContentValues();
         // Check Product already in cart
-        if (!CheckProductAlreadyExit(product,optionValues)) {
+        if (!CheckProductAlreadyExit(product, optionValues)) {
             values.put(CART_PRODUCT_ID, product.getID());
             values.put(CART_PRODUCT_NAME, product.getProductName());
             values.put(CART_PRODUCT_NAME_AR, product.getProductNameAR());
@@ -164,12 +164,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // If Product already in cart
         else {
             values.put(CART_PRODUCT_QUANTITY,
-                    (getCartProductCount(product,optionValues) + quantity));
+                    (getCartProductCount(product, optionValues) + quantity));
             SQLiteDatabase db = this.getWritableDatabase();
             long rowUpdate = db.update(TABLE_CART, values, CART_PRODUCT_ID + " = ? AND " + CART_PRODUCT_OPTIONS + " = ?",
-                    new String[]{"" + product.getID(),optionValues});
+                    new String[]{"" + product.getID(), optionValues});
             db.close();
-            if(rowUpdate != -1) {
+            if (rowUpdate != -1) {
                 return true;
             } else {
                 return false;
@@ -177,9 +177,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-
     public ArrayList<Product> getCartProducts() {
-
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_CART;
         ArrayList<Product> cartArrayList = new ArrayList<Product>();
@@ -262,7 +260,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             // Check if product already exit with AttributeID
             //if product already not exit with AttributeID
-            if (!CheckProductAlreadyExit(product,optionValues)) {
+            if (!CheckProductAlreadyExit(product, optionValues)) {
 
                 values.put(CART_PRODUCT_ID, product.getID());
                 values.put(CART_PRODUCT_NAME, product.getProductName());
@@ -331,21 +329,19 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public boolean deleteItemFromCart(Product product) throws SQLException {
         SQLiteDatabase db = this.getWritableDatabase();
         long rowDelete = db.delete(TABLE_CART, CART_PRODUCT_ID + " = ? AND " + CART_PRODUCT_OPTIONS + " = ?",
-                new String[]{"" + product.getID(),product.getOptionValues()});
+                new String[]{"" + product.getID(), product.getOptionValues()});
         db.close();
         if (rowDelete != -1)
             return true;
 
         return false;
-
     }
 
-    public void clearCart(){
+    public void clearCart() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_CART);
+        db.execSQL("delete from " + TABLE_CART);
         db.close();
     }
-
 
     public int getCartProductCount(Product product, String optionValues) {
         int cnt = 0;

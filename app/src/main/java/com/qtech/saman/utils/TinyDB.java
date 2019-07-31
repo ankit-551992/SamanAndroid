@@ -75,7 +75,6 @@ public class TinyDB {
         return lastImagePath;
     }
 
-
     /**
      * Saves 'theBitmap' into folder 'theFolder' with the name 'theImageName'
      * @param theFolder the folder path dir you want to save it to e.g "DropBox/WorkImages"
@@ -334,10 +333,8 @@ public class TinyDB {
                 newList.add(false);
             }
         }
-
         return newList;
     }
-
 
 //    public ArrayList<Object> getListObject(String key, Class<?> mClass){
 //    	Gson gson = new Gson(); 
@@ -475,7 +472,6 @@ public class TinyDB {
                 newList.add("false");
             }
         }
-
         putListString(key, newList);
     }
 

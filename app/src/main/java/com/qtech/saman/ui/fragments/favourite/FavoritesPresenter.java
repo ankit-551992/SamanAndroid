@@ -24,7 +24,6 @@ public class FavoritesPresenter implements FavoritesContractor.Presenter {
         view = null;
     }
 
-
     @Override
     public void getFavoritesData(int userID,int pageIndex,int pageSize,boolean showProgress) {
         if (view != null && showProgress) {

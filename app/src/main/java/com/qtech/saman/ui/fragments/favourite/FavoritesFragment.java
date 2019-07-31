@@ -41,7 +41,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     FavoritesPresenter presenter;
     User authenticatedUser;
 
-
     int currentPage = 0;
     int pageSize = 20;
     boolean isGetAll = false;
@@ -132,7 +131,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             quan = quan + productArrayList.get(i).getQuantity();
         }
         quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
-
     }
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {

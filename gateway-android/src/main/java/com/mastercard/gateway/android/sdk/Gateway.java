@@ -331,7 +331,6 @@ public class Gateway {
             } catch (Exception e) {
                 m.obj = e;
             }
-
             handler.sendMessage(m);
         }).start();
     }

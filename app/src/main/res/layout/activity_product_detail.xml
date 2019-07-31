@@ -223,7 +223,6 @@
                 android:layout_margin="10dp"
                 android:background="@color/light_grey" />
 
-
             <RelativeLayout
                 android:visibility="gone"
                 android:layout_width="match_parent"

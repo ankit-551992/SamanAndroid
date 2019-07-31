@@ -87,7 +87,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         if (holder instanceof FavoritesViewHolder) {
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
 
-
             if(SamanApp.isEnglishVersion) {
                 favoritesViewHolder.name.setText(productArrayList.get(position).getProductName()+" x "+productArrayList.get(position).getQuantity());
                 favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());

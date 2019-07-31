@@ -480,7 +480,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         String atributes = "";
-
         if (product.getProductAttributes() == null || product.getProductAttributes().size() < 1) {
             specificationParentLayout.setVisibility(View.GONE);
         }

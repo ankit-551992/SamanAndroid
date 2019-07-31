@@ -384,7 +384,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.invalid_coupon), getString(R.string.try_again), ShoppingCartActivity.this);
                     }
                 }
-
                 promoEditText.setText("");
                 promoEditText.clearFocus();
             }
@@ -762,7 +761,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             Toast.makeText(ShoppingCartActivity.this, R.string.pay_error_could_not_update_session, Toast.LENGTH_SHORT).show();
         }
     }
-
 
     class Check3DSecureEnrollmentCallback implements ApiController.Check3DSecureEnrollmentCallback {
         @Override

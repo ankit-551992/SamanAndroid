@@ -118,7 +118,6 @@ public class MyOrdersActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-
     private void setHistoryLayout() {
 
         layoutManager = new LinearLayoutManager(this);
@@ -127,8 +126,6 @@ public class MyOrdersActivity extends BaseActivity {
         orderHistoryArrayList = new ArrayList<>();
         ordersAdapter = new MyOrdersAdapter(this, orderHistoryArrayList);
         ordersRecyclerView.setAdapter(ordersAdapter);
-
         getOrderHistory();
     }
-
 }

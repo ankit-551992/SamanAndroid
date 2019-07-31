@@ -33,7 +33,6 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
         this.orderHistoryList = orderHistoryList;
         this.mContext = mContext;
         inflater = (LayoutInflater)this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     @Override

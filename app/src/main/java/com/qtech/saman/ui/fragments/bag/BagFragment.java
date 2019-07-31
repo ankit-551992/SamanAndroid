@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseFragment;
 import com.qtech.saman.data.model.Product;
@@ -20,6 +21,7 @@ import com.qtech.saman.utils.SamanApp;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -60,30 +62,29 @@ public class BagFragment extends BaseFragment {
         bagRecyclerView.setNestedScrollingEnabled(false);
         productArrayList = new ArrayList<>();
         authenticatedUser = GlobalValues.getUser(getContext());
-        bagAdapter = new SwipeBagAdapter(getContext(), productArrayList,this);
+        bagAdapter = new SwipeBagAdapter(getContext(), productArrayList, this);
         bagRecyclerView.setAdapter(bagAdapter);
 
         getData();
-
         return view;
     }
 
     @OnClick(R.id.button_proceed_to_checkout)
-    void proceedCheckout(){
+    void proceedCheckout() {
 
 
-        if(GlobalValues.getGuestLoginStatus(getContext())){
+        if (GlobalValues.getGuestLoginStatus(getContext())) {
             Constants.showLoginDialog(getContext());
             return;
         }
 
-        authenticatedUser= GlobalValues.getUser(getContext());
+        authenticatedUser = GlobalValues.getUser(getContext());
 
-        if(productArrayList.size()>0) {
+        if (productArrayList.size() > 0) {
             Intent intent = new Intent(getContext(), ShoppingCartActivity.class);
             intent.putExtra("Price", grandTotal);
             startActivity(intent);
-        }else {
+        } else {
             //
         }
     }
@@ -93,43 +94,44 @@ public class BagFragment extends BaseFragment {
         super.onResume();
     }
 
-    private void getData(){
-        if(SamanApp.localDB!=null){
+    private void getData() {
+        if (SamanApp.localDB != null) {
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
             bagAdapter.notifyDataSetChanged();
 
-            if(productArrayList.size()>0){
+            if (productArrayList.size() > 0) {
                 tv_empty_bag.setVisibility(View.GONE);
-            }else {
+            } else {
                 tv_empty_bag.setVisibility(View.VISIBLE);
             }
-            quantity.setText(SamanApp.localDB.getCartAllProductsCounting()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
-        }
-    }
-
-    public void updateTotal(float total,float vat){
-        grandTotal=total+vat;
-        productsTotal.setText(getString(R.string.total)+" "+total+" "+getString(R.string.currency_omr));
-        productsSubTotal.setText(getString(R.string.subtotal)+" "+total+" "+getString(R.string.currency_omr));
-        productsVAT.setText(getString(R.string.VAT)+" "+vat+" "+getString(R.string.currency_omr));
-        productsGrandTotal.setText(getString(R.string.total)+" "+grandTotal+" "+getString(R.string.currency_omr));
-    }
-
-    public void updateCount(int size){
-        if(size>0){
-            tv_empty_bag.setVisibility(View.GONE);
-        }else{
-            tv_empty_bag.setVisibility(View.VISIBLE);
-        }
-        quantity.setText(SamanApp.localDB.getCartAllProductsCounting()+ " " +getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
-
-    }
-
-    public void updateQuantity(){
-        if(SamanApp.localDB!=null) {
             quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
         }
     }
+
+    public void updateTotal(float total, float vat) {
+        grandTotal = total + vat;
+        productsTotal.setText(getString(R.string.total) + " " + total + " " + getString(R.string.currency_omr));
+        productsSubTotal.setText(getString(R.string.subtotal) + " " + total + " " + getString(R.string.currency_omr));
+        productsVAT.setText(getString(R.string.VAT) + " " + vat + " " + getString(R.string.currency_omr));
+        productsGrandTotal.setText(getString(R.string.total) + " " + grandTotal + " " + getString(R.string.currency_omr));
+    }
+
+    public void updateCount(int size) {
+        if (size > 0) {
+            tv_empty_bag.setVisibility(View.GONE);
+        } else {
+            tv_empty_bag.setVisibility(View.VISIBLE);
+        }
+        quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+
+    }
+
+    public void updateQuantity() {
+        if (SamanApp.localDB != null) {
+            quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        }
+    }
+
     @Override
     public String getName() {
         return null;

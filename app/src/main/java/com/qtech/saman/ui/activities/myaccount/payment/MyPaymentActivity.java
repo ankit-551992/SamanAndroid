@@ -228,7 +228,6 @@ public class MyPaymentActivity extends BaseActivity {
             cards.add(omanNetCard());
             cards.addAll((ArrayList<CardDs>) obj);
         }
-
         paymentAdapter.notifyDataSetChanged();
     }
 
@@ -275,5 +274,9 @@ public class MyPaymentActivity extends BaseActivity {
         CardDs cardDs = new CardDs();
         cardDs.setCardNumber(getString(R.string.omannet));
         return cardDs;
+    }
+
+    private void payment(){
+
     }
 }

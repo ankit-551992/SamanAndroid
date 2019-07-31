@@ -533,7 +533,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
             sColored.setSpan(new BackgroundColorSpan(Color.GRAY), s.length() - (counter.length() + 2), s.length(), 0);
             sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
-
             element.setTitle(sColored);
         } else {
             MenuItem element = navigationView.getMenu().findItem(R.id.nav_bag);
@@ -605,7 +604,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             }
         });
     }
-
 
     private void getConversation() {
         unreadCount = 0;
