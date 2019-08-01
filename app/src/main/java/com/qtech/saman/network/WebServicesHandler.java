@@ -305,6 +305,7 @@ public class WebServicesHandler {
     }
 
     public void getProductDetail(String productId, String userID, Callback<GetProduct> callback) {
+        Log.e("PRODUCT888", "--productId--" + productId + "--userID---" + userID);
         Call<GetProduct> call = webServices.getProductDetail(productId, userID);
         call.enqueue(callback);
     }
@@ -352,6 +353,7 @@ public class WebServicesHandler {
     }
 
     public void getSaleListByCategory(int categoryId, int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Log.e("PRODUCT888", "--categoryId--" + categoryId + "--userID---" + userID);
         Call<GetProducts> call = webServices.getSaleListByCategory(categoryId, userID, pageIndex, pageSize);
         call.enqueue(callback);
     }
@@ -366,7 +368,6 @@ public class WebServicesHandler {
         Call<PromoVerify> call = webServices.applyPromo(promo);
         call.enqueue(callback);
     }
-
 
     public void getCountries(Callback<ResponseBody> callback) {
         Call<ResponseBody> call = webServices.getCountries();

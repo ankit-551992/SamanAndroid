@@ -44,4 +44,13 @@ public class GetProducts{
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "GetProducts{" +
+                "product=" + product +
+                ", success=" + success +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

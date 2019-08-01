@@ -94,6 +94,19 @@ public class Product implements Serializable {
     @SerializedName("ID")
     @Expose
     private Integer iD;
+    /* @SerializedName("QuantityAvailable")
+     @Expose
+     private Integer available_quantity;*/
+    @SerializedName("UserQuantity")
+    private Integer userQuantity;
+
+    public Integer getUserQuantity() {
+        return userQuantity;
+    }
+
+    public void setUserQuantity(Integer userQuantity) {
+        this.userQuantity = userQuantity;
+    }
 
     public String getProductName() {
         return productName;
@@ -112,8 +125,8 @@ public class Product implements Serializable {
     }
 
     public String getDescription() {
-        if(description==null){
-            description="";
+        if (description == null) {
+            description = "";
         }
         return description;
     }
@@ -123,8 +136,8 @@ public class Product implements Serializable {
     }
 
     public String getDescriptionAR() {
-        if(descriptionAR==null){
-            descriptionAR="null";
+        if (descriptionAR == null) {
+            descriptionAR = "null";
         }
         return descriptionAR;
     }
@@ -302,8 +315,8 @@ public class Product implements Serializable {
     }
 
     public Boolean getFavorite() {
-        if(isFavorite==null){
-            isFavorite=false;
+        if (isFavorite == null) {
+            isFavorite = false;
         }
         return isFavorite;
     }
@@ -354,8 +367,8 @@ public class Product implements Serializable {
     }
 
     public String getStoreName() {
-        if(storeName==null){
-            storeName="";
+        if (storeName == null) {
+            storeName = "";
         }
         return storeName;
     }
@@ -365,8 +378,8 @@ public class Product implements Serializable {
     }
 
     public String getStoreNameAR() {
-        if(storeNameAR==null){
-            storeNameAR="";
+        if (storeNameAR == null) {
+            storeNameAR = "";
         }
         return storeNameAR;
     }
@@ -381,5 +394,46 @@ public class Product implements Serializable {
 
     public void setAvailableQuantity(int availableQuantity) {
         this.availableQuantity = availableQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "cartID=" + cartID +
+                ", cartCategory=" + cartCategory +
+                ", cartAttributeID=" + cartAttributeID +
+                ", cartAttributeGroupID=" + cartAttributeGroupID +
+                ", colorID=" + colorID +
+                ", availableQuantity=" + availableQuantity +
+                ", optionValues='" + optionValues + '\'' +
+                ", options='" + options + '\'' +
+                ", optionsAR='" + optionsAR + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productNameAR='" + productNameAR + '\'' +
+                ", description='" + description + '\'' +
+                ", descriptionAR='" + descriptionAR + '\'' +
+                ", storeName='" + storeName + '\'' +
+                ", storeNameAR='" + storeNameAR + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", sizeLength=" + sizeLength +
+                ", sizeWidth=" + sizeWidth +
+                ", sizeHeight=" + sizeHeight +
+                ", pictures=" + pictures +
+                ", isActive=" + isActive +
+                ", isFavorite=" + isFavorite +
+                ", productImagesURLs=" + productImagesURLs +
+                ", LogoURL='" + LogoURL + '\'' +
+                ", productCategories=" + productCategories +
+                ", productAttributes=" + productAttributes +
+                ", productOptions=" + productOptions +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", createBy=" + createBy +
+                ", updateBy=" + updateBy +
+                ", isDeleted=" + isDeleted +
+                ", iD=" + iD +
+                ", userQuantity=" + userQuantity +
+                '}';
     }
 }

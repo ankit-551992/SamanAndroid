@@ -29,10 +29,9 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private Context mContext;
 
 
-
-    public CheckOutProductAdapter(Context mContext, List<Product> productArrayList){
-        this.productArrayList=productArrayList;
-        this.mContext=mContext;
+    public CheckOutProductAdapter(Context mContext, List<Product> productArrayList) {
+        this.productArrayList = productArrayList;
+        this.mContext = mContext;
     }
 
 
@@ -41,6 +40,7 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, productArrayList.size());
     }
+
     public void restoreItem(Product product, int position) {
         productArrayList.add(position, product);
         notifyItemInserted(position);
@@ -68,21 +68,21 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof FavoritesViewHolder) {
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
-            if(SamanApp.isEnglishVersion) {
+            if (SamanApp.isEnglishVersion) {
 //                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName());
-                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName()+" x "+productArrayList.get(position).getQuantity());
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName() + " x " + productArrayList.get(position).getQuantity());
                 favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
                 favoritesViewHolder.price.setText(productArrayList.get(position).getOptions());
-            }else {
+            } else {
 //                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR());
-                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR()+" x "+productArrayList.get(position).getQuantity());
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR() + " x " + productArrayList.get(position).getQuantity());
                 favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreNameAR());
                 favoritesViewHolder.price.setText(productArrayList.get(position).getOptionsAR());
             }
 //            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice()+" OMR");
 
 
-            if(productArrayList.get(position).getLogoURL()!=null && !productArrayList.get(position).getLogoURL().isEmpty()) {
+            if (productArrayList.get(position).getLogoURL() != null && !productArrayList.get(position).getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + productArrayList.get(position).getLogoURL())
                         .into(favoritesViewHolder.productImageView);
             }
@@ -108,12 +108,16 @@ public class CheckOutProductAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
 
-
     static class FavoritesViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_product_name) TextView name;
-        @BindView(R.id.tv_store_name) TextView storeName;
-        @BindView(R.id.tv_price) TextView price;
-        @BindView(R.id.iv_product) ImageView productImageView;
+        @BindView(R.id.tv_product_name)
+        TextView name;
+        @BindView(R.id.tv_store_name)
+        TextView storeName;
+        @BindView(R.id.tv_price)
+        TextView price;
+        @BindView(R.id.iv_product)
+        ImageView productImageView;
+
         public FavoritesViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);

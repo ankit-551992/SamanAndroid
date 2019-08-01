@@ -83,17 +83,17 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
             bagViewHolder.getPosition = holder.getAdapterPosition();
             Product product = productArrayList.get(bagViewHolder.getPosition);
-            if(SamanApp.isEnglishVersion) {
+            if (SamanApp.isEnglishVersion) {
                 bagViewHolder.name.setText(product.getProductName());
                 bagViewHolder.storeName.setText(product.getStoreName());
-            }else {
+            } else {
                 bagViewHolder.name.setText(product.getProductNameAR());
                 bagViewHolder.storeName.setText(product.getStoreNameAR());
             }
             if (product.getOptions() != null && !product.getOptions().isEmpty() && !product.getOptions().equals("")) {
-                if(SamanApp.isEnglishVersion) {
+                if (SamanApp.isEnglishVersion) {
                     bagViewHolder.description.setText(product.getOptions());
-                }else {
+                } else {
 //                    Log.e("DES",product.getOptionsAR());
 //                    product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
                     bagViewHolder.description.setText(product.getOptionsAR());
@@ -111,13 +111,11 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         .into(bagViewHolder.productImageView);
             }
 
-
-            bagViewHolder.price.setText(product.getPrice() + " OMR");
+            bagViewHolder.price.setText(product.getPrice() + mContext.getResources().getString(R.string.currency_omr));
             float total = product.getPrice() * product.getQuantity();
             grandTotal = grandTotal + total;
-            bagViewHolder.total.setText(total + " OMR");
+            bagViewHolder.total.setText(total + mContext.getResources().getString(R.string.currency_omr));
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
-
 
             bagFragment.updateTotal(grandTotal, 0);
 
@@ -149,7 +147,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     authenticatedUser = GlobalValues.getUser(mContext);
                     Log.e("Values " + position, productArrayList.get(position).getOptionValues());
                     String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
-                    GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs,Integer.valueOf(bagViewHolder.quantity.getText().toString()  ));
+                    GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs, Integer.valueOf(bagViewHolder.quantity.getText().toString()));
                     Product p = productArrayList.get(position);
                     if (SamanApp.localDB.deleteItemFromCart(p)) {
                         productArrayList.remove(p);
@@ -250,16 +248,35 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
         @OnClick(R.id.iv_add_quantity)
         void addItem() {
-            SamanApp.localDB.addToCart(
+            Log.e("SHOPBAG", "----shop-available--bag-quantity---" + productArrayList.get(getPosition).getAvailableQuantity());
+            Log.e("SHOPBAG", "----shop---bag-quantity---" + productArrayList.get(getPosition).getQuantity());
+          /*  SamanApp.localDB.addToCart(
                     productArrayList.get(getPosition),
                     productArrayList.get(getPosition).getOptionValues(),
                     productArrayList.get(getPosition).getOptions(),
                     productArrayList.get(getPosition).getOptions(),
                     1);
 
-
             productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
-            updateNotify();
+            updateNotify();*/
+
+            if (productArrayList.get(getPosition).getAvailableQuantity() > productArrayList.get(getPosition).getQuantity()) {
+                SamanApp.localDB.addToCart(
+                        productArrayList.get(getPosition),
+                        productArrayList.get(getPosition).getOptionValues(),
+                        productArrayList.get(getPosition).getOptions(),
+                        productArrayList.get(getPosition).getOptions(),
+                        1);
+
+                productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
+                updateNotify();
+            } else {
+                String text = mContext.getResources().getString(R.string.items_available_count) + productArrayList.get(getPosition).getQuantity();
+                Constants.showAlert(mContext.getResources().getString(R.string.title_my_bag),
+                        text,
+                        mContext.getResources().getString(R.string.cancel),
+                        mContext);
+            }
         }
 
         @OnClick(R.id.iv_remove_quantity)
@@ -340,7 +357,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             public void onClick(View view) {
                 if (type == 0) {
                     dialog.dismiss();
-                    Constants.viewBag=true;
+                    Constants.viewBag = true;
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);

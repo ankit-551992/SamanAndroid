@@ -146,7 +146,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             }
         }
 
-
         Intent intentShare = getIntent();
         String action = intentShare.getAction();
         Uri data = intentShare.getData();
@@ -192,7 +191,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @OnClick(R.id.iv_favorite)
     public void favoriteButton() {
 
-
         if (GlobalValues.getGuestLoginStatus(ProductDetailActivity.this)) {
             Constants.showLoginDialog(ProductDetailActivity.this);
             return;
@@ -204,7 +202,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         authenticatedUser = GlobalValues.getUser(ProductDetailActivity.this);
-
         if (product.getFavorite()) {
             showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure));
         } else {
@@ -216,14 +213,38 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             } else {
                 favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
             }
-
             showPopUp(getString(R.string.added_to_fav),
                     getString(R.string.item_added_message),
                     getString(R.string.continue_shopping),
                     getString(R.string.view_fav),
                     1);
-
         }
+
+  /*      if (product.getQuantity() != 0) {
+            if (product.getFavorite()) {
+                showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure));
+            } else {
+                String[] optionIDs = getOptionsData().split(",");
+                presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
+                product.setFavorite(true);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));
+                } else {
+                    favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
+                }
+                showPopUp(getString(R.string.added_to_fav),
+                        getString(R.string.item_added_message),
+                        getString(R.string.continue_shopping),
+                        getString(R.string.view_fav),
+                        1);
+
+            }
+        } else {
+            Constants.showAlert(getString(R.string.title_fav),
+                    getString(R.string.out_of_stock),
+                    getString(R.string.cancel),
+                    this);
+        }*/
     }
 
     @OnClick(R.id.iv_add_to_cart)
@@ -412,6 +433,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.iv_add_quantity)
     void addItem() {
+        Log.e("PRODCTID", "--getQuantity---" + product.getQuantity());
         int current = Integer.parseInt(productCount.getText().toString());
         if (product.getQuantity() > current) {
             current++;
@@ -522,7 +544,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //        }
 
         if (product.getQuantity() <= 0) {
-            addToCart.setEnabled(false);
+            // addToCart.setEnabled(false);
             removeQuantity.setEnabled(false);
             addQuantity.setEnabled(false);
             outOfStockTextView.setVisibility(View.VISIBLE);

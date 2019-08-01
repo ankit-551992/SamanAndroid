@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class BagFragment extends BaseFragment {
 
     float grandTotal;
     User authenticatedUser;
+    Product product;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +73,6 @@ public class BagFragment extends BaseFragment {
 
     @OnClick(R.id.button_proceed_to_checkout)
     void proceedCheckout() {
-
 
         if (GlobalValues.getGuestLoginStatus(getContext())) {
             Constants.showLoginDialog(getContext());
@@ -97,6 +98,7 @@ public class BagFragment extends BaseFragment {
     private void getData() {
         if (SamanApp.localDB != null) {
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
+            Log.e("LOCALARRAYLIST", "---local---productArrayList-----" + productArrayList.toString());
             bagAdapter.notifyDataSetChanged();
 
             if (productArrayList.size() > 0) {

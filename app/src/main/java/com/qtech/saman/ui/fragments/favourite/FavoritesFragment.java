@@ -3,6 +3,7 @@ package com.qtech.saman.ui.fragments.favourite;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +87,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         loading.setVisibility(View.GONE);
     }
 
-
     @Override
     public void response(List<Product> product) {
 
@@ -102,11 +102,18 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         isLoading = false;
         productArrayList.addAll(product);
         favoritesAdapter.notifyDataSetChanged();
-        int quan = 0;
+      /*  int quan = 0;
         for (int i = 0; i < productArrayList.size(); i++) {
+            Log.e("222PRODUCT", "-11---product---response---" + productArrayList.toString());
             quan = quan + productArrayList.get(i).getQuantity();
-        }
-        quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
+            Log.e("222PRODUCT", "-000---product---quantity---" + quan);
+            Log.e("222PRODUCT", "-1111---product-list--quantity---" + productArrayList.get(i).getQuantity());
+        }*/
+        Log.e("222PRODUCT", "-000---product---quantity---" + productArrayList.size());
+        int quan1 = 0;
+        quan1 = quan1 + productArrayList.size();
+        // quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
+        quantity.setText(quan1 + getActivity().getResources().getQuantityString(R.plurals.items, quan1));
         ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
         if (productArrayList.size() > 0) {
             tv_empty_bag.setVisibility(View.GONE);
@@ -117,7 +124,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     @Override
     public void error(String message) {
-
     }
 
     public void updateCount(int size) {
@@ -134,7 +140,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     }
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);

@@ -2,6 +2,7 @@ package com.qtech.saman.ui.fragments.favourite;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.qtech.saman.data.model.apis.GetProducts;
 import com.qtech.saman.network.WebServicesHandler;
 
@@ -25,19 +26,19 @@ public class FavoritesPresenter implements FavoritesContractor.Presenter {
     }
 
     @Override
-    public void getFavoritesData(int userID,int pageIndex,int pageSize,boolean showProgress) {
+    public void getFavoritesData(int userID, int pageIndex, int pageSize, boolean showProgress) {
         if (view != null && showProgress) {
             view.showProgress();
         }
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
-
-        apiClient.getFavoriteList(userID,pageIndex,pageSize,new Callback<GetProducts>() {
+        apiClient.getFavoriteList(userID, pageIndex, pageSize, new Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 GetProducts getProducts = response.body();
-                if(getProducts !=null) {
-                    if(getProducts.getSuccess()==1) {
+                Log.e("PRODUCT", "--Response--product---" + new Gson().toJson(response.body()));
+                if (getProducts != null) {
+                    if (getProducts.getSuccess() == 1) {
                         if (getProducts.getProduct() != null) {
                             if (view != null) {
                                 view.hideProgress();
@@ -45,18 +46,17 @@ public class FavoritesPresenter implements FavoritesContractor.Presenter {
                             }
                         }
                     }
-                }else {
+                } else {
                     if (view != null) {
                         view.error("null");
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<GetProducts> call, Throwable t) {
                 Log.e("onFailure", "" + t.getMessage());
             }
         });
     }
-
-
 }

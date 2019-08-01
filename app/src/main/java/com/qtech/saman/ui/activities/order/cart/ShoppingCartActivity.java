@@ -626,7 +626,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         tagsAdapter.notifyDataSetChanged();
     }
 
-
     private void setBag() {
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 //        layoutManager = new GridLayoutManager(this, 3);
@@ -635,7 +634,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         bagArrayList = new ArrayList<>();
         bagCartAdapter = new BagCartAdapter(this, bagArrayList);
         bagRecyclerView.setAdapter(bagCartAdapter);
-//        bagRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
+//      bagRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
 
         if (SamanApp.localDB != null) {
             bagArrayList.addAll(SamanApp.localDB.getCartProducts());

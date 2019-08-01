@@ -73,7 +73,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_fav_swipe_row, parent, false);
-
             return new FavoritesViewHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.loading_progress_bar, parent, false);
@@ -87,20 +86,19 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         if (holder instanceof FavoritesViewHolder) {
             FavoritesViewHolder favoritesViewHolder = (FavoritesViewHolder) holder;
 
-            if(SamanApp.isEnglishVersion) {
-                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName()+" x "+productArrayList.get(position).getQuantity());
+            if (SamanApp.isEnglishVersion) {
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductName() + " x " + productArrayList.get(position).getUserQuantity());
                 favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreName());
-            }else {
-                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR()+" x "+productArrayList.get(position).getQuantity());
+            } else {
+                favoritesViewHolder.name.setText(productArrayList.get(position).getProductNameAR() + " x " + productArrayList.get(position).getUserQuantity());
                 favoritesViewHolder.storeName.setText(productArrayList.get(position).getStoreNameAR());
             }
-
 //            favoritesViewHolder.price.setText(productArrayList.get(position).getPrice() + " OMR");
 
             if (productArrayList.get(position).getProductOptions() != null) {
-                if(SamanApp.isEnglishVersion) {
+                if (SamanApp.isEnglishVersion) {
                     favoritesViewHolder.price.setText(getOptionsName(productArrayList.get(position)));
-                }else {
+                } else {
 //                    Log.e("DES",product.getOptionsAR());
 //                    product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
                     favoritesViewHolder.price.setText(getOptionsNameAR(productArrayList.get(position)));
@@ -140,7 +138,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             favoritesViewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                 @Override
                 public void onStartOpen(SwipeLayout layout) {
-
                 }
 
                 @Override
@@ -171,14 +168,38 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             favoritesViewHolder.layout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    getProductDetails(productArrayList.get(position).getID());
-                    String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
-                    getProductDetails(productArrayList.get(position));
-                    markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(),optionIDs);
-                    productArrayList.remove(position);
-                    ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
-                    favoritesFragment.updateCount(productArrayList.size());
-                    mItemManger.closeAllItems();
+
+                 /*   if (productArrayList.get(position).getAvailableQuantity() > 0) {
+                        String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
+                        getProductDetails(productArrayList.get(position));
+                        markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
+                        productArrayList.remove(position);
+                        ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
+                        favoritesFragment.updateCount(productArrayList.size());
+                        mItemManger.closeAllItems();
+                    } else {
+                        Constants.showAlert(mContext.getResources().getString(R.string.title_fav),
+                                mContext.getResources().getString(R.string.out_of_stock),
+                                mContext.getResources().getString(R.string.cancel),
+                                mContext);
+                        mItemManger.closeAllItems();
+                    }*/
+
+                    if (productArrayList.get(position).getQuantity() > 0) {
+                        String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
+                        getProductDetails(productArrayList.get(position));
+                        markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
+                        productArrayList.remove(position);
+                        ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
+                        favoritesFragment.updateCount(productArrayList.size());
+                        mItemManger.closeAllItems();
+                    } else {
+                        Constants.showAlert(mContext.getResources().getString(R.string.title_fav),
+                                mContext.getResources().getString(R.string.out_of_stock),
+                                mContext.getResources().getString(R.string.cancel),
+                                mContext);
+                        mItemManger.closeAllItems();
+                    }
                 }
             });
 
@@ -186,7 +207,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                 @Override
                 public void onClick(View view) {
                     String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
-                    markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(),optionIDs);
+                    markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
                     productArrayList.remove(position);
                     notifyDataSetChanged();
                     ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
@@ -262,7 +283,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 
     Dialog dialog;
 
-    private void showPopUp(String title, String message, String closeButtonText,String nextButtonText, final int type) {
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -299,21 +320,20 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             public void onClick(View view) {
                 if (type == 0) {
                     dialog.dismiss();
-                    Constants.viewBag=true;
+                    Constants.viewBag = true;
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
-                    ((Activity)mContext).startActivity(intent);
+                    ((Activity) mContext).startActivity(intent);
                 } else {
                     dialog.dismiss();
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);
-                    ((Activity)mContext).startActivity(intent);
+                    ((Activity) mContext).startActivity(intent);
                 }
             }
         });
-
 
         Animation animation;
         animation = AnimationUtils.loadAnimation(mContext,
@@ -324,18 +344,18 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         dialog.show();
     }
 
-    private void getProductDetails(int productID){
-        WebServicesHandler.instance.getFavProductDetail(String.valueOf(productID),String.valueOf(authenticatedUser.getId()), new retrofit2.Callback<GetProduct>() {
+    private void getProductDetails(int productID) {
+        WebServicesHandler.instance.getFavProductDetail(String.valueOf(productID), String.valueOf(authenticatedUser.getId()), new retrofit2.Callback<GetProduct>() {
             @Override
             public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
                 GetProduct getProduct = response.body();
                 if (getProduct != null) {
                     if (getProduct.getSuccess() == 1) {
                         if (getProduct.getProduct() != null) {
-                            cartProduct=getProduct.getProduct();
-                            Log.e("DefaultOptions",getOptionsData());
+                            cartProduct = getProduct.getProduct();
+                            Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(),getOptionsNameAR(), 1)) {
+                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1)) {
                                     showPopUp(mContext.getString(R.string.item_added_bag),
                                             mContext.getString(R.string.item_added_message),
                                             mContext.getString(R.string.continue_shopping),
@@ -352,25 +372,41 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 
             @Override
             public void onFailure(Call<GetProduct> call, Throwable t) {
-                Log.e("Failure",t.getMessage());
+                Log.e("Failure", t.getMessage());
             }
         });
     }
 
-    private void getProductDetails(Product product1){
-        cartProduct=product1;
-        Log.e("DefaultOptions",getOptionsData());
-        if (SamanApp.localDB != null) {
-            int q=cartProduct.getQuantity();
-            if(q==0){
-             q=1;
+    private void getProductDetails(Product product1) {
+        cartProduct = product1;
+        Log.e("DefaultOptions", getOptionsData());
+     /*   if (SamanApp.localDB != null) {
+            int q = cartProduct.getQuantity();
+            if (q == 0) {
+                q = 1;
             }
-            if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(),getOptionsName(),getOptionsNameAR(),q)) {
+            if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), q)) {
                 showPopUp(mContext.getString(R.string.item_added_bag),
                         mContext.getString(R.string.item_added_message),
                         mContext.getString(R.string.continue_shopping),
                         mContext.getString(R.string.view_bag),
                         0);
+            }
+        }
+        ((DashboardActivity) mContext).updateBagCount();
+        notifyDataSetChanged();*/
+
+        if (SamanApp.localDB != null) {
+            if (cartProduct.getQuantity() != 0) {
+                if (cartProduct.getQuantity() >= product1.getUserQuantity()) {
+                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), product1.getUserQuantity())) {
+                        showPopUp(mContext.getString(R.string.item_added_bag),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_bag),
+                                0);
+                    }
+                }
             }
         }
         ((DashboardActivity) mContext).updateBagCount();
@@ -480,13 +516,14 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     }
 
 
-    private void markUnFavourite(int userID,int productId,String[] optionIds){
-        WebServicesHandler.instance.markUnFavourite(userID,productId,optionIds,new retrofit2.Callback<SimpleSuccess>() {
+    private void markUnFavourite(int userID, int productId, String[] optionIds) {
+        WebServicesHandler.instance.markUnFavourite(userID, productId, optionIds, new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-                if (response!=null) {
+                if (response != null) {
                 }
             }
+
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
 

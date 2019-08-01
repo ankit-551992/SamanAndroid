@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.qtech.saman.data.model.Product;
 import com.qtech.saman.utils.GlobalValues;
@@ -72,6 +73,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String CART_PRODUCT_OPTIONS_NAMES_AR = "CART_PRODUCT_OPTIONS_NAMES_AR";     //25
     public static final String CART_PRODUCT_STORE_NAME = "CART_PRODUCT_STORE_NAME";                 //26
     public static final String CART_PRODUCT_STORE_NAME_AR = "CART_PRODUCT_STORE_NAME_AR";           //27
+    public static final String CART_PRODUCT_AVAILABLE_QUANTITY = "CART_PRODUCT_AVAILABLE_QUANTITY"; //28
 
 
     //Table CART CREATE STATEMENT
@@ -104,7 +106,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + CART_PRODUCT_OPTIONS_NAMES + " TEXT,"
             + CART_PRODUCT_OPTIONS_NAMES_AR + " TEXT,"
             + CART_PRODUCT_STORE_NAME + " TEXT,"
-            + CART_PRODUCT_STORE_NAME_AR + " TEXT" + ")";
+            + CART_PRODUCT_STORE_NAME_AR + " TEXT,"
+            + CART_PRODUCT_AVAILABLE_QUANTITY + " INTEGER" + ")";
+
 
     public boolean addToCart(Product product, String optionValues, String options, String optionsAr, int quantity) {
 
@@ -129,6 +133,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put(CART_PRODUCT_OPTIONS_NAMES_AR, optionsAr);
             values.put(CART_PRODUCT_STORE_NAME, product.getStoreName());
             values.put(CART_PRODUCT_STORE_NAME_AR, product.getStoreNameAR());
+            values.put(CART_PRODUCT_AVAILABLE_QUANTITY, product.getQuantity());
 
             int isActive = 0;
             if (product.getIsActive()) {
@@ -152,6 +157,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 //            values.put(CART_PRODUCT_UPDATED_BY, product.getUpdateBy());
             values.put(CART_PRODUCT_OPTIONS, optionValues);
 
+            Log.e("LOCALARRAYLIST", "---local---values-----" + values.toString());
             SQLiteDatabase db = this.getWritableDatabase();
             long rowInserted = db.insert(TABLE_CART, null, values);
             db.close();
@@ -195,6 +201,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setDescriptionAR(cursor.getString(5));
                 product.setPrice(cursor.getFloat(6));
                 product.setQuantity(cursor.getInt(7));
+                //product.setAvailableQuantity(cursor.getInt(7));
                 product.setSizeLength(cursor.getInt(8));
                 product.setSizeWidth(cursor.getInt(9));
                 product.setSizeHeight(cursor.getInt(10));
@@ -216,7 +223,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 //                product.setCartAttributeID(cursor.getInt(17));
 //                product.setCartAttributeGroupID(cursor.getInt(18));
 
-
                 product.setCreatedAt(cursor.getString(19));
 //                product.setCreateBy(cursor.getString(20));
                 product.setUpdatedAt(cursor.getString(21));
@@ -227,6 +233,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setOptionsAR(cursor.getString(25));
                 product.setStoreName(cursor.getString(26));
                 product.setStoreNameAR(cursor.getString(27));
+                product.setAvailableQuantity(cursor.getInt(28));
 
                 // Adding to list
                 cartArrayList.add(product);
