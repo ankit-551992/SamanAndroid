@@ -31,8 +31,6 @@ public class DummyActivity extends BaseDashboardActivity implements  GoogleApiCl
         ButterKnife.bind(this);
         changeFragment(Constants.Fragment.Home);
 
-
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -42,7 +40,6 @@ public class DummyActivity extends BaseDashboardActivity implements  GoogleApiCl
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
     }
-
 
     public void onNavItemClick(View view) {
         switch (view.getId()) {

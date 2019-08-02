@@ -18,6 +18,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.qtech.saman.utils.GlobalValues.Itemback_notify;
+import static com.qtech.saman.utils.GlobalValues.feedback_notify;
+import static com.qtech.saman.utils.GlobalValues.msg_notify;
+import static com.qtech.saman.utils.GlobalValues.order_notify;
+import static com.qtech.saman.utils.GlobalValues.promo_sales_notify;
+
 public class NotifyOptionActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
@@ -38,8 +44,6 @@ public class NotifyOptionActivity extends AppCompatActivity {
     SwitchCompat switch_itemback;
     Context mcontext;
 
-    String order_notify = "ORDER_NOTIFY";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +61,17 @@ public class NotifyOptionActivity extends AppCompatActivity {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
+        switch_order.setChecked(GlobalValues.getNotificationOnOff(this));
+        switch_msg.setChecked(GlobalValues.getNotificationOnOff(this));
+        switch_promo_sales.setChecked(GlobalValues.getNotificationOnOff(this));
+        switch_feedback.setChecked(GlobalValues.getNotificationOnOff(this));
+        switch_itemback.setChecked(GlobalValues.getNotificationOnOff(this));
+
+        onClickTypeOfSwitch();
         //switch_order.setChecked(GlobalValues.getNotificationOnOff(this));
+    }
+
+    private void onClickTypeOfSwitch() {
 
         switch_order.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -66,6 +80,49 @@ public class NotifyOptionActivity extends AppCompatActivity {
                     GlobalValues.setNotificationtypeOnOff(mcontext, order_notify, true);
                 } else {
                     GlobalValues.setNotificationtypeOnOff(mcontext, order_notify, false);
+                }
+            }
+        });
+        switch_msg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    GlobalValues.setNotificationtypeOnOff(mcontext, msg_notify, true);
+                } else {
+                    GlobalValues.setNotificationtypeOnOff(mcontext, msg_notify, false);
+                }
+            }
+        });
+
+        switch_promo_sales.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    GlobalValues.setNotificationtypeOnOff(mcontext, promo_sales_notify, true);
+                } else {
+                    GlobalValues.setNotificationtypeOnOff(mcontext, promo_sales_notify, false);
+                }
+            }
+        });
+
+        switch_feedback.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    GlobalValues.setNotificationtypeOnOff(mcontext, feedback_notify, true);
+                } else {
+                    GlobalValues.setNotificationtypeOnOff(mcontext, feedback_notify, false);
+                }
+            }
+        });
+
+        switch_itemback.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    GlobalValues.setNotificationtypeOnOff(mcontext, Itemback_notify, true);
+                } else {
+                    GlobalValues.setNotificationtypeOnOff(mcontext, Itemback_notify, false);
                 }
             }
         });

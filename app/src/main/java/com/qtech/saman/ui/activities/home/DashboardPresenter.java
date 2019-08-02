@@ -32,19 +32,20 @@ public class DashboardPresenter implements DashboardContractor.Presenter {
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
 
-        apiClient.getStoreCategories( new Callback<GetCategoriesList>() {
+        apiClient.getStoreCategories(new Callback<GetCategoriesList>() {
             @Override
             public void onResponse(Call<GetCategoriesList> call, Response<GetCategoriesList> response) {
                 Log.e("SIGNUP_URL", "----sign---up---onResponse---" + new Gson().toJson(response));
                 GetCategoriesList getCategoriesList = response.body();
-                if(getCategoriesList!=null) {
-                    if(getCategoriesList.getSuccess()==1) {
+                if (getCategoriesList != null) {
+                    if (getCategoriesList.getSuccess() == 1) {
                         if (getCategoriesList.getCategories() != null) {
-                            GlobalValues.storeCategories=getCategoriesList.getCategories();
+                            GlobalValues.storeCategories = getCategoriesList.getCategories();
                         }
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<GetCategoriesList> call, Throwable t) {
                 Log.e("onFailure", "" + t.getMessage());

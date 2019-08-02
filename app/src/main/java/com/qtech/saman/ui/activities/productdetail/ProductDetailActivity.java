@@ -48,6 +48,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.thefinestartist.utils.content.ContextUtil.getString;
+
 public class ProductDetailActivity extends BaseActivity implements ProductContractor.View {
 
     //    @BindView(R.id.toolbar)
@@ -84,7 +86,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     TextView outOfStockTextView;
 
     //Product
-
     int productID;
     ArrayList<String> urls;
     CustomPagerAdapter customPagerAdapter;
@@ -157,8 +158,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 finish();
             }
         }
-
-
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         presenter = new ProductPresenter(this);
 
@@ -173,7 +172,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         urls = new ArrayList<>();
         customPagerAdapter = new CustomPagerAdapter(this, urls);
         mPager.setAdapter(customPagerAdapter);
-
         presenter.getProductData(productID, authenticatedUser.getId());
     }
 
@@ -271,6 +269,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                                 0);
                     }
                 } else {
+                    //  String text = String.format(getString(R.string.items_available_count), product.getQuantity());
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
 
                     Constants.showAlert(getString(R.string.title_my_bag),
@@ -477,7 +476,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     public void response(Product product) {
         this.product = product;
         if (selectedQuantity != -1) {
-            this.product.setQuantity(selectedQuantity);
+            //this.product.setQuantity(selectedQuantity);
             productCount.setText("" + selectedQuantity);
         }
         if (SamanApp.isEnglishVersion) {

@@ -130,7 +130,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                     intent.putExtra("ProductID", productArrayList.get(position).getID());
                     intent.putExtra("Favorites", true);
                     intent.putExtra("Options", getOptionsData(productArrayList.get(position)));
-                    intent.putExtra("Quantity", productArrayList.get(position).getQuantity());
+                    intent.putExtra("Quantity", productArrayList.get(position).getUserQuantity());
                     mContext.startActivity(intent);
                 }
             });

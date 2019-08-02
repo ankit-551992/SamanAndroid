@@ -60,7 +60,6 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.tv_notify)
     LinearLayout tv_notify;
 
-
     Country selectedCountry;
 
     Locale myLocale;
@@ -188,7 +187,6 @@ public class SettingsActivity extends BaseActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
-
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -220,10 +218,8 @@ public class SettingsActivity extends BaseActivity {
                 if (radioButton.isChecked()) {
                     if (radioButton.getId() == R.id.radio_arabic) {
                         GlobalValues.setAppLanguage(getApplicationContext(), "ar");
-                        // setLocale("ar");
                     } else {
                         GlobalValues.setAppLanguage(getApplicationContext(), "en");
-                        // setLocale("en");
                     }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
@@ -259,19 +255,4 @@ public class SettingsActivity extends BaseActivity {
         alertDialog.show();
     }
 
-    public void setLocale(String localeName) {
-        if (!localeName.equals(currentLanguage)) {
-            myLocale = new Locale(localeName);
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.locale = myLocale;
-            res.updateConfiguration(conf, dm);
-            Intent refresh = new Intent(this, DashboardActivity.class);
-            refresh.putExtra(currentLang, localeName);
-            startActivity(refresh);
-        } else {
-            Toast.makeText(SettingsActivity.this, "Language already selected!", Toast.LENGTH_SHORT).show();
-        }
-    }
 }

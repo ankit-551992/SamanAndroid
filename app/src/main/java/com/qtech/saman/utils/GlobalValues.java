@@ -36,6 +36,12 @@ public class GlobalValues {
 
     public static boolean orderPlaced = false;
 
+    public static String order_notify = "ORDER_NOTIFY";
+    public static String msg_notify = "MESSAGE_NOTIFY";
+    public static String promo_sales_notify = "PROMO_SALES_NOTIFY";
+    public static String feedback_notify = "FEEDBACK_NOTIFY";
+    public static String Itemback_notify = "ITEMBACK_NOTIFY";
+
     public static void setUserLoginStatus(Context ctx, boolean isLogin) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -48,7 +54,6 @@ public class GlobalValues {
         return sharedPreferences.getBoolean("UserLoginStatus", false);
     }
 
-
     public static void setNotificationOnOff(Context ctx, boolean notificationOnOff) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -59,8 +64,7 @@ public class GlobalValues {
     public static void setNotificationtypeOnOff(Context ctx, String notify_type_key, boolean notificationOnOff) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("NotificationOnOff", notify_type_key);
-        editor.putBoolean("NotificationOnOff", notificationOnOff);
+        editor.putBoolean(notify_type_key, notificationOnOff);
         editor.apply();
     }
 
@@ -81,7 +85,6 @@ public class GlobalValues {
         return sharedPreferences.getBoolean("GuestLoginStatus", false);
     }
 
-
     public static void saveUser(Context context, User user) {
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
@@ -97,7 +100,6 @@ public class GlobalValues {
         String json = mPrefs.getString("User", "");
         return gson.fromJson(json, User.class);
     }
-
 
     public static void setAppLanguage(Context ctx, String language) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -227,7 +229,6 @@ public class GlobalValues {
             }
         }
     }
-
 
     public static void setUserLat(Context ctx, String lat) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
