@@ -18,6 +18,17 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    //Signing configurations for build variants "release"
+   /* signingConfigs {
+        release {
+            storeFile file("/Users/iblinfotech/Desktop/SamanKeyStore")
+            storePassword "UVba&;BTZKsn[cu+pmH1P8"
+            keyAlias "Saman"
+            keyPassword "UVba&;BTZKsn[cu+pmH1P8"
+        }
+    }*/
+
     buildTypes {
         all {
             buildConfigField 'String', 'GATEWAY_MERCHANT_ID', '"' + gatewayMerchantId + '"'
