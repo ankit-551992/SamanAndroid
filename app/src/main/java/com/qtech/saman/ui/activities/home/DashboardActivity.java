@@ -107,8 +107,10 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         authenticatedUser = GlobalValues.getUser(this);
         search.setVisibility(View.GONE);
         GlobalValues.storeCategories = new ArrayList<>();
-        navItemIndex = getIntent().getIntExtra("NavItem", 0);
-        openDetails = getIntent().getBooleanExtra("OpenDetails", false);
+        if (getIntent() != null){
+            navItemIndex = getIntent().getIntExtra("NavItem", 0);
+            openDetails = getIntent().getBooleanExtra("OpenDetails", false);
+        }
         mHandler = new Handler();
         mPresenter = new DashboardPresenter(this);
         mPresenter.getUserData();

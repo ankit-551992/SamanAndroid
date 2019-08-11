@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,6 +27,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.qtech.saman.BuildConfig;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
@@ -267,7 +269,6 @@ public class CustomerSupportActivity extends BaseActivity {
         });
 
         TextView done = (TextView) dialog.findViewById(R.id.tv_done);
-
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -314,6 +315,7 @@ public class CustomerSupportActivity extends BaseActivity {
             public void onResponse(Call<CustomerSupport> call, Response<CustomerSupport> response) {
                 Constants.dismissSpinner();
                 CustomerSupport customerSupport = response.body();
+                Log.e("CUSTOMSUPPORT", "---000----CustomerSupport-----" + new Gson().toJson(response.body()));
                 if (customerSupport != null) {
                     if (customerSupport.getSuccess() == 1) {
                         showPopUp();

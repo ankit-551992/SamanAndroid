@@ -27,6 +27,8 @@ import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.OrderHistory;
 import com.qtech.saman.data.model.OrderItem;
 import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.OrderHistoryAPI;
+import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.TrackingActivity;
 import com.qtech.saman.ui.adapters.InvoiceAdapter;
 import com.qtech.saman.utils.Constants;
@@ -47,6 +49,8 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -54,6 +58,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.qtech.saman.utils.Constants.URLS.Invoice_url;
 
@@ -91,6 +98,7 @@ public class InvoiceActivity extends BaseActivity {
 
     OrderHistory orderHistory;
     User authenticatedUser;
+    int orderID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +107,15 @@ public class InvoiceActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         authenticatedUser = GlobalValues.getUser(this);
-        orderHistory = (OrderHistory) getIntent().getSerializableExtra("Obj");
+        if (getIntent().hasExtra("OrderId")) {
+            orderID = getIntent().getIntExtra("OrderId", 1);
+            getInvoiceDetailes(orderID);
+        }
+        if (getIntent().hasExtra("Obj")) {
+            orderHistory = (OrderHistory) getIntent().getSerializableExtra("Obj");
+            setOrderDetails();
+        }
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.invoice));
         toolbarBack.setVisibility(View.VISIBLE);
@@ -109,6 +125,10 @@ public class InvoiceActivity extends BaseActivity {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
+    }
+
+    private void setOrderDetails() {
+        Log.e("USERID", "--orderHistory--id--setOrderDetails--" + orderHistory);
         if (orderHistory != null) {
             orderTotalTextView.setText(String.valueOf(orderHistory.getTotalPrice()) + " " + getString(R.string.OMR));
             if (orderHistory.getOrderNumber() != null) {
@@ -138,7 +158,6 @@ public class InvoiceActivity extends BaseActivity {
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted.toString());
 
-
             if (orderHistory.getShippingAddress() != null) {
                 String address = orderHistory.getShippingAddress().getAddressLine1().replace(",", "\n\n");
                 address = address + "\n\n" + orderHistory.getShippingAddress().getCity();
@@ -148,10 +167,39 @@ public class InvoiceActivity extends BaseActivity {
                 shippingAddress.setText("Muscat\n\nOman");
             }
         }
-
         setBag();
     }
 
+    List<OrderHistory> orderHistoryList = new ArrayList<>();
+
+    private void getInvoiceDetailes(int orderID) {
+
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+        Log.e("USERID", "--order--id--authenticatedUser--id--" + orderID);
+        apiClient.getOrderIdDetailes(orderID, new Callback<OrderHistoryAPI>() {
+            @Override
+            public void onResponse(Call<OrderHistoryAPI> call, Response<OrderHistoryAPI> response) {
+
+                Log.e("USERID", "--order--id--response----" + response.body());
+                OrderHistoryAPI orderHistoryAPI = response.body();
+                if (orderHistoryAPI != null) {
+                    if (orderHistoryAPI.getResult() != null) {
+                        Log.e("USERID", "--order--id--response----" + orderHistoryAPI.getResult());
+
+                        orderHistoryList = new ArrayList<>();
+                        orderHistoryList.addAll(orderHistoryAPI.getResult());
+                        orderHistory = orderHistoryList.get(0);
+                        setOrderDetails();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderHistoryAPI> call, Throwable t) {
+                Log.e("onFailure", "" + t.getMessage());
+            }
+        });
+    }
 
     @OnClick(R.id.toolbar_back)
     public void back() {

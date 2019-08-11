@@ -35,7 +35,6 @@ import retrofit2.Response;
 
 public class MyOrdersActivity extends BaseActivity {
 
-
     @BindView(R.id.loading)
     RelativeLayout loading;
     @BindView(R.id.tv_empty)

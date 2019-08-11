@@ -52,7 +52,7 @@ import static com.thefinestartist.utils.content.ContextUtil.getString;
 
 public class ProductDetailActivity extends BaseActivity implements ProductContractor.View {
 
-    //    @BindView(R.id.toolbar)
+//    @BindView(R.id.toolbar)
 //    Toolbar toolbar;
 //    @BindView(R.id.toolbar_title)
 //    TextView toolbarTitle;
@@ -126,6 +126,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
         authenticatedUser = GlobalValues.getUser(this);
+//        if (getIntent().hasExtra("ProductID1")) {
+//            String productID = getIntent().getStringExtra("ProductID1");
+//            Log.e("PRODUCT", "--remote---productID---" + productID);
+//        }
+
         if (getIntent().hasExtra("ProductID")) {
             productID = getIntent().getIntExtra("ProductID", 1);
         }
@@ -269,7 +274,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                                 0);
                     }
                 } else {
-                    //  String text = String.format(getString(R.string.items_available_count), product.getQuantity());
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
 
                     Constants.showAlert(getString(R.string.title_my_bag),
@@ -358,10 +362,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         dialog2.setCancelable(false);
         dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        TextView titleTextView = (TextView) dialog2.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog2.findViewById(R.id.tv_pop_up_message);
-        ImageView close = (ImageView) dialog2.findViewById(R.id.iv_pop_up_close);
-        Button nextButton = (Button) dialog2.findViewById(R.id.button_pop_next);
+        TextView titleTextView = dialog2.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog2.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog2.findViewById(R.id.iv_pop_up_close);
+        Button nextButton = dialog2.findViewById(R.id.button_pop_next);
 
         titleTextView.setText(getString(R.string.error));
         messageTextView.setText(getString(R.string.missing_options));

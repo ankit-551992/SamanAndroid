@@ -2,6 +2,7 @@ package com.qtech.saman.network;
 
 import com.qtech.saman.data.model.apis.AddAddressApi;
 import com.qtech.saman.data.model.apis.CustomerSupport;
+import com.qtech.saman.data.model.apis.CustomerSupportListApi;
 import com.qtech.saman.data.model.apis.GetAddressApi;
 import com.qtech.saman.data.model.apis.GetConversationApi;
 import com.qtech.saman.data.model.apis.GetConversationsApi;
@@ -206,4 +207,13 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("Order/UpdateOrderFeedback")
     Call<SimpleSuccess> updateOrderFeedback(@FieldMap Map<String, Object> parameters);
+
+    @GET("Support/GetListByUserID?")
+    Call<CustomerSupportListApi> getSupportUserList(@Query("userID") int userID);
+
+    @GET("Order/Get?")
+    Call<OrderHistoryAPI> getOrdersIdDetails(@Query("id") int orderID);
+
+    @GET("Support/GetTicketById?")
+    Call<CustomerSupportListApi> getTicketByID(@Query("Id") int ticketId);
 }

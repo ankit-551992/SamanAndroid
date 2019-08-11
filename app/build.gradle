@@ -20,7 +20,7 @@ android {
     }
 
     //Signing configurations for build variants "release"
-   /* signingConfigs {
+    /* signingConfigs {
         release {
             storeFile file("/Users/iblinfotech/Desktop/SamanKeyStore")
             storePassword "UVba&;BTZKsn[cu+pmH1P8"

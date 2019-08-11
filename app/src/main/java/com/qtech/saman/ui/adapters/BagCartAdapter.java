@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BagCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -26,9 +26,9 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
 
 
-    public BagCartAdapter(Context mContext,List<Product> products){
-        this.products=products;
-        this.mContext=mContext;
+    public BagCartAdapter(Context mContext, List<Product> products) {
+        this.products = products;
+        this.mContext = mContext;
     }
 
 
@@ -54,7 +54,7 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof BagViewHolder) {
             BagViewHolder bagViewHolder = (BagViewHolder) holder;
             Product product = products.get(position);
-            if(product.getLogoURL()!=null && !product.getLogoURL().isEmpty()) {
+            if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
                         .into(bagViewHolder.storeImage);
             }
@@ -62,8 +62,8 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
             bagViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("ProductID",products.get(position).getID());
+                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                    intent.putExtra("ProductID", products.get(position).getID());
                     mContext.startActivity(intent);
                 }
             });
@@ -77,7 +77,6 @@ public class BagCartAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemCount() {
         return products == null ? 0 : products.size();
     }
-
 
 
     static class BagViewHolder extends RecyclerView.ViewHolder {

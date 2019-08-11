@@ -30,11 +30,11 @@ import java.util.Locale;
 
 public class Constants {
 
-
     public static Dialog dialog;
     public static String CARD_LIST = "Payment_methods";
     public static boolean isLoginRequest = false;
     public static boolean viewBag = false;
+    public static int USERSUPPORT_REQUEST_CODE = 100;
 
     public enum Fragment {
         Home, Store, Favorite, Bag, MyAccount;

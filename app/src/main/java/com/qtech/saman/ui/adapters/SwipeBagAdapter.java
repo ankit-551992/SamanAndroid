@@ -208,7 +208,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         return R.id.swipe;
     }
 
-
     class BagViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.swipe)

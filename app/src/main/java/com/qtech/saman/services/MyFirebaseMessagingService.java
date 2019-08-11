@@ -11,29 +11,59 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.qtech.saman.R;
+import com.qtech.saman.data.model.OrderHistory;
+import com.qtech.saman.data.model.StoreCategory;
 import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.OrderHistoryAPI;
 import com.qtech.saman.data.model.apis.UserResponse;
 import com.qtech.saman.network.WebServicesHandler;
+import com.qtech.saman.ui.activities.CustomerSupport.SupportDetailsActivity;
 import com.qtech.saman.ui.activities.PopupActivity;
+import com.qtech.saman.ui.activities.home.DashboardActivity;
+import com.qtech.saman.ui.activities.invoice.InvoiceActivity;
 import com.qtech.saman.ui.activities.myaccount.messages.MessagingActivity;
+import com.qtech.saman.ui.activities.product.ProductsActivity;
+import com.qtech.saman.ui.activities.productdetail.ProductDetailActivity;
+import com.qtech.saman.ui.activities.search.ProductListingActivity;
+import com.qtech.saman.ui.activities.store.StoreActivity;
+import com.qtech.saman.ui.activities.store.StoreDetailActivity;
+import com.qtech.saman.ui.fragments.product.ProductsCategoryFragment;
+import com.qtech.saman.ui.fragments.store.StoreFragment;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -48,21 +78,94 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e("MESSAGE_NOTIFY", "-000--remoteMessage---getData--" + remoteMessage.getData());
         if (GlobalValues.getNotificationOnOff(getApplicationContext())) {
             Log.e("MESSAGE_NOTIFY", "---00---" + remoteMessage.toString());
-            if (remoteMessage.getData().containsKey("isFeedback")) {
-                Log.e("MESSAGE_NOTIFY", "---isFeedback---" + remoteMessage.toString());
-                boolean isFeedback = Boolean.parseBoolean(remoteMessage.getData().get("isFeedback"));
-                if (isFeedback) {
-                    Log.e("MESSAGE_NOTIFY", "---isFeedback-----" + remoteMessage.toString());
-                    popUp(remoteMessage);
+            if (remoteMessage.getData().containsKey("IsSupport")) {
+                Log.e("MESSAGE_NOTIFY", "---IsSupport---" + remoteMessage.toString());
+                boolean isSupport = Boolean.parseBoolean(remoteMessage.getData().get("IsSupport"));
+                if (isSupport) {
+                    UserSupportReplyNotify(remoteMessage);
                 } else {
-                    Log.e("MESSAGE_NOTIFY", "---isFeedback--notify--elseeee--" + remoteMessage.toString());
-                    showNotification(remoteMessage);
+                    OnlyNotifyItem(remoteMessage);
                 }
-            } else {
-                Log.e("MESSAGE_NOTIFY", "---showNotification-elseeee--" + remoteMessage.toString());
+            } else if (remoteMessage.getData().containsKey("isPromotion")) {
+                boolean isPromotion = Boolean.parseBoolean(remoteMessage.getData().get("isPromotion"));
+
+                if (isPromotion) {
+                    promotionSales(remoteMessage);
+                } else {
+                    OnlyNotifyItem(remoteMessage);
+                }
+            } else if (remoteMessage.getData().containsKey("IsOrder")) {
+                boolean isOrderStatus = Boolean.parseBoolean(remoteMessage.getData().get("IsOrder"));
+
+                if (isOrderStatus) {
+                    OrderStatusNotify(remoteMessage);
+                } else {
+                    OnlyNotifyItem(remoteMessage);
+                }
+            } else if (remoteMessage.getData().containsKey("IsStock")) {
+                boolean IsStock = Boolean.parseBoolean(remoteMessage.getData().get("IsStock"));
+
+                if (IsStock) {
+                    stockProductNotify(remoteMessage);
+
+                } else {
+                    OnlyNotifyItem(remoteMessage);
+                }
+            } else if (remoteMessage.getData().containsKey("IsMessage")) {
+//              OnlyNotifyItem(remoteMessage);
                 showNotification(remoteMessage);
+            } else {
+                OnlyNotifyItem(remoteMessage);
             }
         }
+    }
+
+    private void stockProductNotify(RemoteMessage remoteMessage) {
+        Log.e("REMOTE_MESSAGE", "--IsOrder----showNotification-----remoteMessage---" + remoteMessage.getData());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //getInvoiceDetailes(orderID, remoteMessage);
+        PendingIntent pendingIntent = null;
+        Intent promotion_Intent = new Intent(this, ProductDetailActivity.class);
+        //promotion_Intent.putExtra("Obj", orderHistoryArrayList);
+        promotion_Intent.putExtra("ProductID", Integer.parseInt(remoteMessage.getData().get("ProductId")));
+        promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
+        pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        GetSetNotification(notificationManager, remoteMessage, pendingIntent);
+    }
+
+    private void OrderStatusNotify(RemoteMessage remoteMessage) {
+        Log.e("REMOTE_MESSAGE", "--IsOrder----showNotification-----remoteMessage---" + remoteMessage.getData());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int orderID = Integer.parseInt(remoteMessage.getData().get("OrderId"));
+        //getInvoiceDetailes(orderID, remoteMessage);
+        PendingIntent pendingIntent = null;
+        Intent promotion_Intent = new Intent(this, InvoiceActivity.class);
+        //promotion_Intent.putExtra("Obj", orderHistoryArrayList);
+        promotion_Intent.putExtra("OrderId", Integer.parseInt(remoteMessage.getData().get("OrderId")));
+        promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
+        pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        GetSetNotification(notificationManager, remoteMessage, pendingIntent);
+    }
+
+    private void getorderstatuslist(RemoteMessage remoteMessage, List<OrderHistory> orderHistoryArrayList) {
+        PendingIntent pendingIntent = null;
+        Intent promotion_Intent = new Intent(this, InvoiceActivity.class);
+        //  promotion_Intent.putExtra("Obj", orderHistoryArrayList);
+        promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
+        pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        GetSetNotification(notificationManager, remoteMessage, pendingIntent);
+
     }
 
     /**
@@ -93,6 +196,118 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
             });
         }
+    }
+
+    private void promotionSales(RemoteMessage remoteMessage) {
+//        Log.e("Notification", remoteMessage.getData().toString());
+        Log.e("MESSAGE_NOTIFY", "--promotionSales---remoteMessage-----" + remoteMessage.toString());
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent promotion_Intent = null;
+        PendingIntent pendingIntent = null;
+        if (remoteMessage.getData().get("type") != null) {
+            Integer type_promotion = Integer.parseInt(remoteMessage.getData().get("type"));
+            Log.e("MESSAGE_NOTIFY", "--promotionSales---type_promotion-----" + type_promotion);
+            if (type_promotion == 1) {
+                promotion_Intent = new Intent(this, DashboardActivity.class);
+                // promotion_Intent.putExtra("orderID", Integer.parseInt(remoteMessage.getData().get("orderID")));
+                promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            } else if (type_promotion == 2) {
+                Integer integer = Integer.valueOf(remoteMessage.getData().get("Ids"));
+                promotion_Intent = new Intent(this, ProductDetailActivity.class);
+                promotion_Intent.putExtra("ProductID", Integer.parseInt(remoteMessage.getData().get("Ids")));
+                promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            } else if (type_promotion == 3) {
+                promotion_Intent = new Intent(this, StoreDetailActivity.class);
+                promotion_Intent.putExtra("StoreID", Integer.parseInt(remoteMessage.getData().get("Ids")));
+                promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            } else if (type_promotion == 4) {
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
+//                ProductsCategoryFragment fragobj = new ProductsCategoryFragment();
+//                fragobj.setArguments(bundle);
+
+                promotion_Intent = new Intent(this, ProductsActivity.class);
+                promotion_Intent.putExtra("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
+                promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            }
+            int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
+            pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            GetSetNotification(notificationManager, remoteMessage, pendingIntent);
+        } else {
+            OnlyNotifyItem(remoteMessage);
+        }
+
+       /* //Setting up Notification channels for android O and above
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            setupChannels();
+        }
+        int notificationId = new Random().nextInt(60000);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+                // .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
+//                .setLargeIcon(bitmap)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setContentTitle(remoteMessage.getData().get("title"))
+                .setContentText(remoteMessage.getData().get("message"))
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        notificationManager.notify(notificationId *//* ID of notification *//*, notificationBuilder.build());*/
+    }
+
+    private void OnlyNotifyItem(RemoteMessage remoteMessage) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        Log.e("MESSAGE_NOTIFY", "--OnlyNotifyItem----" + remoteMessage.toString());
+        //Setting up Notification channels for android O and above
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            setupChannels();
+        }
+        int notificationId = new Random().nextInt(60000);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+                // .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
+//                .setLargeIcon(bitmap)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setContentTitle(remoteMessage.getData().get("title"))
+                .setContentText(remoteMessage.getData().get("message"))
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri);
+        //.setContentIntent(pendingIntent);
+
+        notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
+    }
+
+    private void GetSetNotification(NotificationManager notificationManager, RemoteMessage remoteMessage, PendingIntent pendingIntent) {
+        //Setting up Notification channels for android O and above
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            setupChannels();
+        }
+        int notificationId = new Random().nextInt(60000);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+                // .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
+//                .setLargeIcon(bitmap)
+                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setContentTitle(remoteMessage.getData().get("title"))
+                .setContentText(remoteMessage.getData().get("message"))
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
     }
 
     private void showNotification(RemoteMessage remoteMessage) {
@@ -132,7 +347,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (SamanApp.isScreenOpen) {
             sendMessage(remoteMessage.getData().get("message"), Integer.parseInt(remoteMessage.getData().get("conversationID")));
         } else {
-//            Constants.showAlert();
+//          Constants.showAlert();
             int newCount = GlobalValues.getBadgeCount(getApplicationContext()) + 1;
             GlobalValues.setBadgeCount(getApplicationContext(), newCount);
             ShortcutBadger.applyCount(getApplicationContext(), newCount);
@@ -163,7 +378,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-
     //Simple method for image downloading
     public Bitmap getBitmapfromUrl(String imageUrl) {
         try {
@@ -179,18 +393,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-
-    private void popUp(RemoteMessage remoteMessage) {
-//        Log.e("Notification", remoteMessage.getData().toString());
+    private void UserSupportReplyNotify(RemoteMessage remoteMessage) {
         Log.e("MESSAGE_NOTIFY", "-----remoteMessage-----" + remoteMessage.toString());
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent;
-        notificationIntent = new Intent(this, PopupActivity.class);
-        notificationIntent.putExtra("orderID", Integer.parseInt(remoteMessage.getData().get("orderID")));
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        //notificationIntent = new Intent(this, PopupActivity.class);
+        notificationIntent = new Intent(this, SupportDetailsActivity.class);
+        notificationIntent.putExtra("TicketId", Integer.parseInt(remoteMessage.getData().get("TicketId")));
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, uniqueInt, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -203,8 +414,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-//                .setSmallIcon(R.drawable.ic_logo)  //a resource for your custom small icon
-                .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+                // .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
 //                .setLargeIcon(bitmap)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setContentTitle(remoteMessage.getData().get("title"))

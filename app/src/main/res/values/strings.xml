@@ -275,6 +275,19 @@
     <string name="images_limit">You can select 5 images only</string>
     <string name="submit_request">Submitting Request</string>
 
+    <!--customer Support List-->
+    <string name="customer_detail_tilte">Customer Ticket</string>
+    <string name="customer_id">Ticket Id #</string>
+    <string name="customer_subject">Subject</string>
+    <string name="customer_message">Message</string>
+    <string name="customer_reply">Reply</string>
+    <string name="customer_reply_msg">No any Reply</string>
+    <string name="customer_status">Pending</string>
+    <string name="customer_Image">Support Image</string>
+    <string name="Ticket_Status">Ticket Status</string>
+    <string name="ticket_resolve">Resolved</string>
+    <string name="ticket_pending">Pending</string>
+
     <!--Required-->
     <string name="first_name_required">First name required</string>
     <string name="last_name_required">Last name required</string>
@@ -507,8 +520,8 @@
         <item>Governorate of Al Buraimi</item>
     </string-array>
 
-    <!--remain transalation in arabic-->
-    <!--notification-->
+
+    <!--notification types -->
     <string name="order_status_notify">Order Status</string>
     <string name="message_notify">Message Notification</string>
     <string name="sales_notify">Promotions and sales</string>

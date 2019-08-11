@@ -11,12 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.Country;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import static android.app.Activity.RESULT_OK;
 
 public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -26,13 +30,10 @@ public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     List<Country> regions = new ArrayList<>();
     private Context mContext;
 
-
-
     public RegionsAdapter(Context mContext, List<Country> regions) {
         this.regions = regions;
         this.mContext = mContext;
     }
-
 
     @Override
     public int getItemViewType(int position) {

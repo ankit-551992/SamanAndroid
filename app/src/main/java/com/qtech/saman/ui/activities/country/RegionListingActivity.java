@@ -50,7 +50,6 @@ public class RegionListingActivity extends BaseActivity {
 
     List<Country> regions;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

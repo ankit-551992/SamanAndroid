@@ -32,6 +32,7 @@ import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
 import com.qtech.saman.ui.activities.myaccount.customersupports.CustomerSupportActivity;
+import com.qtech.saman.ui.activities.myaccount.customersupports.CustomerSupportListActivity;
 import com.qtech.saman.ui.activities.myaccount.messages.MessagesListActivity;
 import com.qtech.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.qtech.saman.ui.activities.myaccount.myorders.MyOrdersActivity;
@@ -238,7 +239,8 @@ public class MyAccountFragment extends BaseFragment {
 
     @OnClick(R.id.customer_support)
     void customerSupport() {
-        Intent intent = new Intent(getActivity(), CustomerSupportActivity.class);
+       // Intent intent = new Intent(getActivity(), CustomerSupportActivity.class);
+        Intent intent = new Intent(getActivity(), CustomerSupportListActivity.class);
         getActivity().startActivity(intent);
     }
 

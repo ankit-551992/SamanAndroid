@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -49,13 +50,22 @@ public class ProductsActivity extends BaseActivity {
     LockableViewPager viewPager;
 
     ViewPagerAdapter adapter;
+    int categoryID;
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.activity_products);
         ButterKnife.bind(this);
-        tab();
+//
+        Bundle bundle = getIntent().getExtras();
+        if (getIntent().hasExtra("CategoryID")) {
+            categoryID = bundle.getInt("CategoryID");
+            Log.e("CATEGORY", "--categoryID--00----" + categoryID);
+            ProductsCategoryFragment.newInstance(categoryID);
+        } else {
+            tab();
+        }
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -113,7 +123,6 @@ public class ProductsActivity extends BaseActivity {
                 if (tab != null)
                     tab.setCustomView(customTab);//set custom view
 
-
             } else if (i == 1) {
                 textView.setText(getString(R.string.new_in));
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
@@ -123,7 +132,6 @@ public class ProductsActivity extends BaseActivity {
                     tab.setCustomView(customTab);//set custom view
 
             } else {
-
                 if (SamanApp.isEnglishVersion) {
                     textView.setText(GlobalValues.storeCategories.get(i - 2).getTitle());
                 } else {
@@ -141,6 +149,7 @@ public class ProductsActivity extends BaseActivity {
 
     public void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
         adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
         adapter.addFrag(AllProductsFragment.newInstance(true), getString(R.string.new_in));
         for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
@@ -180,5 +189,4 @@ public class ProductsActivity extends BaseActivity {
             return "";
         }
     }
-
 }

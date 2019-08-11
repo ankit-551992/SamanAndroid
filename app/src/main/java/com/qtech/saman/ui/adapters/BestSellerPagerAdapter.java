@@ -23,7 +23,7 @@ public class BestSellerPagerAdapter extends PagerAdapter {
     private List<Slider> sliderList;
     private LayoutInflater inflater;
 
-    public BestSellerPagerAdapter(Context mContext,List<Slider> sliderList) {
+    public BestSellerPagerAdapter(Context mContext, List<Slider> sliderList) {
         this.mContext = mContext;
         this.sliderList = sliderList;
         inflater = LayoutInflater.from(this.mContext);
@@ -33,27 +33,27 @@ public class BestSellerPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup collection, final int position) {
         View imageLayout = inflater.inflate(R.layout.slider_image_view, collection, false);
         assert imageLayout != null;
-        ImageView imageView = (ImageView)imageLayout.findViewById(R.id.imageView);
+        ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
 
 //        Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerCrop().into(imageView);
 //        Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerInside().into(imageView);
-        Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().into(imageView);
+        Picasso.get().load(Constants.URLS.BaseURLImages + sliderList.get(position).getBannerURL()).fit().into(imageView);
         collection.addView(imageLayout, 0);
 
         imageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Store = 3, Product = 4 , Sales = 5
-                if(sliderList.get(position).getType()==5){
+                if (sliderList.get(position).getType() == 5) {
 //                    Intent intent=new Intent(mContext, SalesProductActivity.class);
 //                    mContext.startActivity(intent);
-                }else if(sliderList.get(position).getType()==3){
-                    Intent intent=new Intent(mContext, StoreDetailActivity.class);
-                    intent.putExtra("Function",2); //2 for Store Products
+                } else if (sliderList.get(position).getType() == 3) {
+                    Intent intent = new Intent(mContext, StoreDetailActivity.class);
+                    intent.putExtra("Function", 2); //2 for Store Products
                     intent.putExtra("StoreID", sliderList.get(position).getiD());
                     mContext.startActivity(intent);
-                }else if(sliderList.get(position).getType()==4){
-                    Intent intent=new Intent(mContext, ProductDetailActivity.class);
+                } else if (sliderList.get(position).getType() == 4) {
+                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
                     intent.putExtra("ProductID", sliderList.get(position).getiD());
                     mContext.startActivity(intent);
                 }

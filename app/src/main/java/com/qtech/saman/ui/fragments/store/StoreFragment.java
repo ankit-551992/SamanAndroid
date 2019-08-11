@@ -86,7 +86,6 @@ public class StoreFragment extends BaseFragment {
                 textView.setText(GlobalValues.storeCategories.get(i - 1).getTitleAR());
             }
 
-
             String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 1).getLogoURL();
             Picasso.get().load(url).into(imageView);
 

@@ -164,7 +164,6 @@ public class StoreDetailActivity extends BaseActivity {
                                     }else {
                                         storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR()));
                                     }
-
                                 }else {
                                     storeDescriptionTextView.setVisibility(View.GONE);
                                 }

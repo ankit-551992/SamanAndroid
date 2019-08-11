@@ -21,13 +21,21 @@ public class CustomerSupport {
     }
 
     public String getMessage() {
-        if(message==null){
-            message="Server Error";
+        if (message == null) {
+            message = "Server Error";
         }
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerSupport{" +
+                "success=" + success +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

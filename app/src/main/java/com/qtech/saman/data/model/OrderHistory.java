@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class OrderHistory implements Serializable{
+public class OrderHistory implements Serializable {
 
     @SerializedName("OrderNumber")
     @Expose
@@ -62,6 +62,18 @@ public class OrderHistory implements Serializable{
     @SerializedName("ID")
     @Expose
     private Integer iD;
+
+    @SerializedName("PaymentStatus")
+    @Expose
+    private String paymentStatus;
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
 
     public String getOrderNumber() {
         return orderNumber;
@@ -207,4 +219,28 @@ public class OrderHistory implements Serializable{
         this.iD = iD;
     }
 
+    @Override
+    public String toString() {
+        return "OrderHistory{" +
+                "orderNumber='" + orderNumber + '\'' +
+                ", status='" + status + '\'' +
+                ", paymentType='" + paymentType + '\'' +
+                ", deliveryDate='" + deliveryDate + '\'' +
+                ", customerID=" + customerID +
+                ", customerName='" + customerName + '\'' +
+                ", shippingAddress=" + shippingAddress +
+                ", billingAddress=" + billingAddress +
+                ", shippingTotal=" + shippingTotal +
+                ", totalPrice=" + totalPrice +
+                ", discountCoupan='" + discountCoupan + '\'' +
+                ", orderItems=" + orderItems +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", createBy=" + createBy +
+                ", updateBy=" + updateBy +
+                ", isDeleted=" + isDeleted +
+                ", iD=" + iD +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                '}';
+    }
 }

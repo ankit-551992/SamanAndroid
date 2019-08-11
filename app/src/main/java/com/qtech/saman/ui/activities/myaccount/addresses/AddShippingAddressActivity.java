@@ -59,7 +59,6 @@ public class AddShippingAddressActivity extends BaseActivity {
     @BindView(R.id.button_add)
     Button addButton;
 
-
     User authenticatedUser;
     String state = "states";
 
@@ -172,7 +171,6 @@ public class AddShippingAddressActivity extends BaseActivity {
     public void addAddress() {
 
         boolean isChecked = setDefaultCheckBox.isChecked();
-
 
         if (streetEditText.getText() == null || streetEditText.getText().toString().equals("") || streetEditText.getText().toString().isEmpty()) {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.street_no) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);

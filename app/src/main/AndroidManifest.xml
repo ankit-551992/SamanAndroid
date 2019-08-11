@@ -13,16 +13,18 @@
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
-        android:name="com.qtech.saman.utils.SamanApp"
+        android:name=".utils.SamanApp"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.qtech.saman.ui.activities.settings.NotifyOptionActivity"></activity>
+        <activity android:name=".ui.activities.CustomerSupport.SupportDetailsActivity"></activity>
+        <activity android:name=".ui.activities.myaccount.customersupports.CustomerSupportListActivity" />
+        <activity android:name=".ui.activities.settings.NotifyOptionActivity" />
         <activity
-            android:name="com.qtech.saman.ui.activities.SplashActivity"
+            android:name=".ui.activities.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.qtech.saman.ui.activities.onboarding.WelcomeActivity"
+            android:name=".ui.activities.onboarding.WelcomeActivity"
             android:screenOrientation="portrait">
 
             <!-- <intent-filter> -->
@@ -51,43 +53,43 @@
 
         </activity> <!-- .ui.activities.map.GoogleMapActivity -->
         <activity
-            android:name="com.qtech.saman.ui.activities.map.GoogleMapActivity"
+            android:name=".ui.activities.map.GoogleMapActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.login.LoginActivity"
+            android:name=".ui.activities.login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.register.RegisterActivity"
+            android:name=".ui.activities.register.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.order.checkout.CheckoutOrderActivity"
+            android:name=".ui.activities.order.checkout.CheckoutOrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.home.DashboardActivity"
+            android:name=".ui.activities.home.DashboardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.password.ChangePasswordActivity"
+            android:name=".ui.activities.password.ChangePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.password.ForgotPasswordActivity"
+            android:name=".ui.activities.password.ForgotPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.password.ResetPasswordActivity"
+            android:name=".ui.activities.password.ResetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.search.SearchActivity"
+            android:name=".ui.activities.search.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.product.ProductsActivity"
+            android:name=".ui.activities.product.ProductsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.product.SalesProductActivity"
+            android:name=".ui.activities.product.SalesProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.search.ProductListingActivity"
+            android:name=".ui.activities.search.ProductListingActivity"
             android:screenOrientation="portrait" /> <!-- https://developer.android.com/studio/write/app-link-indexing.html -->
         <activity
-            android:name="com.qtech.saman.ui.activities.productdetail.ProductDetailActivity"
+            android:name=".ui.activities.productdetail.ProductDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -111,13 +113,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.mydetails.MyDetailsActivity"
+            android:name=".ui.activities.myaccount.mydetails.MyDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.payment.MyPaymentActivity"
+            android:name=".ui.activities.myaccount.payment.MyPaymentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.messages.MessagesListActivity"
+            android:name=".ui.activities.myaccount.messages.MessagesListActivity"
             android:screenOrientation="portrait" /> <!-- <activity -->
         <!-- android:name=".ui.activities.myaccount.messages.MessagingActivity" -->
         <!-- android:screenOrientation="portrait" -->
@@ -126,76 +128,76 @@
         <!-- android:excludeFromRecents="true"/> -->
         <!--  -->
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.messages.MessagingActivity"
-            android:parentActivityName="com.qtech.saman.ui.activities.SplashActivity"
+            android:name=".ui.activities.myaccount.messages.MessagingActivity"
+            android:parentActivityName=".ui.activities.SplashActivity"
             android:screenOrientation="portrait" /> <!-- <activity -->
         <!-- android:parentActivityName=".ui.activities.SplashActivity" -->
         <!-- android:name=".ui.activities.PopupActivity" -->
         <!-- android:theme="@style/ThemeTransparent"/> -->
         <activity
-            android:name="com.qtech.saman.ui.activities.PopupActivity"
+            android:name=".ui.activities.PopupActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=""
             android:theme="@style/ThemeTransparent" />
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.myorders.MyOrdersActivity"
+            android:name=".ui.activities.myaccount.myorders.MyOrdersActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.customersupports.CustomerSupportActivity"
+            android:name=".ui.activities.myaccount.customersupports.CustomerSupportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.settings.SettingsActivity"
+            android:name=".ui.activities.settings.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.order.cart.ShoppingCartActivity"
+            android:name=".ui.activities.order.cart.ShoppingCartActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.payment.AddCardActivity"
+            android:name=".ui.activities.myaccount.payment.AddCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.invoice.InvoiceActivity"
+            android:name=".ui.activities.invoice.InvoiceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.country.CountriesActivity"
+            android:name=".ui.activities.country.CountriesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.payment.OmanNetCardDetailActivity"
+            android:name=".ui.activities.myaccount.payment.OmanNetCardDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.country.CountriesListingActivity"
+            android:name=".ui.activities.country.CountriesListingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.country.RegionListingActivity"
+            android:name=".ui.activities.country.RegionListingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.PoliciesActivity"
+            android:name=".ui.activities.PoliciesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity"
+            android:name=".ui.activities.myaccount.addresses.AddShippingAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.myaccount.addresses.ShippingAddressActivity"
+            android:name=".ui.activities.myaccount.addresses.ShippingAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.imagesview.FullScreenImagesActivity"
+            android:name=".ui.activities.imagesview.FullScreenImagesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.store.StoreDetailActivity"
+            android:name=".ui.activities.store.StoreDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.InvoiceViewerActivity"
+            android:name=".ui.activities.InvoiceViewerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.invoice.ViewInvoice"
+            android:name=".ui.activities.invoice.ViewInvoice"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.password.NumberVerificationActivity"
+            android:name=".ui.activities.password.NumberVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.qtech.saman.ui.activities.TrackingActivity"
+            android:name=".ui.activities.TrackingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.mastercard.gateway.android.sdk.Gateway3DSecureActivity"
@@ -235,7 +237,7 @@
         <!-- </activity> -->
         <!-- Facebook Region End -->
         <!-- Firebase Region -->
-        <service android:name="com.qtech.saman.services.MyFirebaseMessagingService">
+        <service android:name=".services.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

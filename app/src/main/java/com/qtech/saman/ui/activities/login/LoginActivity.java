@@ -273,7 +273,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         }
     }
 
-
     //Social Login
 
     // Google Plus Region

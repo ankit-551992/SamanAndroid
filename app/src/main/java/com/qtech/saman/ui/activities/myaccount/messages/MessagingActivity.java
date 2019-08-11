@@ -207,7 +207,6 @@ public class MessagingActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<GetConversationApi> call, Throwable t) {
-
             }
         });
     }
@@ -238,7 +237,6 @@ public class MessagingActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<SendMessageApi> call, Throwable t) {
-
             }
         });
     }

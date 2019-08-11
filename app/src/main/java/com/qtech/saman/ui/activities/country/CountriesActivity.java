@@ -43,7 +43,6 @@ public class CountriesActivity extends BaseActivity {
     RecyclerView.LayoutManager layoutManager;
     CountriesAdapter countriesAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

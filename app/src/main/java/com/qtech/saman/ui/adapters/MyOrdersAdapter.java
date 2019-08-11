@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.OrderHistory;
 import com.qtech.saman.ui.activities.invoice.InvoiceActivity;
@@ -32,7 +33,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
     public MyOrdersAdapter(Context mContext, List<OrderHistory> orderHistoryList) {
         this.orderHistoryList = orderHistoryList;
         this.mContext = mContext;
-        inflater = (LayoutInflater)this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
         Long datetimestamp = Long.parseLong(orderHistory.getCreatedAt().replaceAll("\\D", ""));
         Date date = new Date(datetimestamp);
 //        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy G 'at' HH:mm:ss z");
-        DateFormat formatter = new SimpleDateFormat("EEE, d MMM, yyyy 'at' hh:mm a",Locale.ENGLISH);
+        DateFormat formatter = new SimpleDateFormat("EEE, d MMM, yyyy 'at' hh:mm a", Locale.ENGLISH);
         String dateFormatted = formatter.format(date);
         holder.dateTextView.setText(dateFormatted.toString());
         holder.orderNUmberTextView.setText(orderHistory.getOrderNumber());
@@ -73,7 +74,6 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
 //                holder.orderItemsLayout.addView(child);
 //            }
 //        }
-
         holder.orderItemsLayout.setVisibility(View.GONE);
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -84,8 +84,8 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
 //                }else {
 //                    holder.orderItemsLayout.setVisibility(View.VISIBLE);
 //                }
-                Intent intent=new Intent(mContext,InvoiceActivity.class);
-                intent.putExtra("Obj",orderHistoryList.get(holder.getAdapterPosition()));
+                Intent intent = new Intent(mContext, InvoiceActivity.class);
+                intent.putExtra("Obj", orderHistoryList.get(holder.getAdapterPosition()));
                 mContext.startActivity(intent);
             }
         });
@@ -105,6 +105,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
         LinearLayout orderItemsLayout;
         @BindView(R.id.relative_layout)
         RelativeLayout relativeLayout;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

@@ -122,8 +122,20 @@
     <string name="return_policy"><u>سياسة الإسترجاع</u></string>
     <string name="received">تم الاستلام</string>
     <string name="Cancel_order_before_24h">إلغاء الطلب (24 ساعة)</string>
-
     <!--Checkout-->
+
+    <!--customer Support List-->
+    <string name="customer_detail_tilte">تذكرة العملاء</string>
+    <string name="customer_id"> # معرف التذكرة</string>
+    <string name="customer_subject">موضوع</string>
+    <string name="customer_message">رسالة</string>
+    <string name="customer_reply">الرد</string>
+    <string name="customer_reply_msg">لا يوجد أي رد</string>
+    <string name="customer_status">قيد الانتظار</string>
+    <string name="customer_Image">صورة الدعم</string>
+    <string name="Ticket_Status">حالة التذكرة</string>
+    <string name="ticket_resolve">حل</string>
+    <string name="ticket_pending">قيد الانتظار</string>
 
     <!--Payment-->
     <string name="add_payment">إضافة طريقة دفع</string>
@@ -556,5 +568,11 @@
     <string name="coupon_discount_is_">خصم القسيمة الخاص بك هو</string>
     <string name="already_apply_on_same_product">تم تطبيق الكوبون بالفعل على نفس المنتج</string>
     <string name="term_message">والموافقة على تخزين بعض بياناتك بواسطة Saman والتي يمكن استخدامها لصنع تجارب تسوق في المستقبل من أجلك</string>
+
+    <string name="order_status_notify">حالة الطلب</string>
+    <string name="message_notify">اشعار الرسالة</string>
+    <string name="sales_notify">الترقيات والمبيعات</string>
+    <string name="feedback_notify">ردود الفعل الإخطار</string>
+    <string name="item_stock_notify">العنصر مرة أخرى من المخزون</string>
 
 </resources>

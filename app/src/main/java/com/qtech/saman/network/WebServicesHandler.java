@@ -6,6 +6,7 @@ import android.util.Log;
 import com.qtech.saman.data.model.ShippingAddress;
 import com.qtech.saman.data.model.apis.AddAddressApi;
 import com.qtech.saman.data.model.apis.CustomerSupport;
+import com.qtech.saman.data.model.apis.CustomerSupportListApi;
 import com.qtech.saman.data.model.apis.GetAddressApi;
 import com.qtech.saman.data.model.apis.GetConversationApi;
 import com.qtech.saman.data.model.apis.GetConversationsApi;
@@ -320,6 +321,11 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getOrderIdDetailes(int orderID, Callback<OrderHistoryAPI> callback) {
+        Call<OrderHistoryAPI> call = webServices.getOrdersIdDetails(orderID);
+        call.enqueue(callback);
+    }
+
 
     public void getProductsByStore(int StoreId, int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
         Call<GetProducts> call = webServices.getProductsByStore(StoreId, userID, pageIndex, pageSize);
@@ -473,7 +479,6 @@ public class WebServicesHandler {
             Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, message);
             call.enqueue(callback);
         }
-
     }
 
     public void getConversationList(int userId, Callback<GetConversationsApi> callback) {
@@ -522,6 +527,16 @@ public class WebServicesHandler {
         parameters.put("rating", rating);
         parameters.put("feedback", feedback);
         Call<SimpleSuccess> call = webServices.updateOrderFeedback(parameters);
+        call.enqueue(callback);
+    }
+
+    public void getSupportListByUser(int userId, Callback<CustomerSupportListApi> callback) {
+        Call<CustomerSupportListApi> call = webServices.getSupportUserList(userId);
+        call.enqueue(callback);
+    }
+
+    public void getTicketByID(int ticketId, Callback<CustomerSupportListApi> callback) {
+        Call<CustomerSupportListApi> call = webServices.getTicketByID(ticketId);
         call.enqueue(callback);
     }
 

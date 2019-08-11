@@ -89,7 +89,6 @@ public class TrackingActivity extends BaseActivity {
         setData();
         orderNumberTextView.setText(orderHistory.getOrderNumber());
         orderTotal.setText(orderHistory.getTotalPrice() + " " + getString(R.string.currency_omr));
-
     }
 
 

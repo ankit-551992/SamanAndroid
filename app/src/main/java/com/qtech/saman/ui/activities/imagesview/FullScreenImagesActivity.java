@@ -18,7 +18,6 @@ import butterknife.OnClick;
 
 public class FullScreenImagesActivity extends BaseActivity {
 
-
     @BindView(R.id.tv_count)
     TextView countTextView;
     @BindView(R.id.viewpager)
@@ -43,7 +42,6 @@ public class FullScreenImagesActivity extends BaseActivity {
         urls = getIntent().getStringArrayListExtra("urls");
         index = getIntent().getIntExtra("index", 0);
 
-
         mAdapter = new FullScreenAdapter(this, urls);
         viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(index);
@@ -63,7 +61,6 @@ public class FullScreenImagesActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
