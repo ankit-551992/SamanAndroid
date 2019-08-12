@@ -9,6 +9,7 @@ android {
         targetSdkVersion 28
         versionName libraryVersionName
 
+        multiDexEnabled true
         consumerProguardFiles 'proguard.pro'
     }
 

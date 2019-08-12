@@ -45,9 +45,7 @@
             <!-- android:host="test.com" -->
             <!-- android:scheme="http"/> -->
 
-
             <!-- <action android:name="android.intent.action.VIEW" /> -->
-
 
             <!-- </intent-filter> -->
 

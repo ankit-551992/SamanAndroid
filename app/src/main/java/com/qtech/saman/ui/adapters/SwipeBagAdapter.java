@@ -40,8 +40,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.thefinestartist.utils.content.ContextUtil.getString;
-
 public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
@@ -274,7 +272,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             } else {
                 String text = String.format(mContext.getResources().getString(R.string.items_available_count), productArrayList.get(getPosition).getQuantity());
 
-//                String text = mContext.getResources().getString(R.string.items_available_count) + productArrayList.get(getPosition).getQuantity();
+//                              String text = mContext.getResources().getString(R.string.items_available_count) + productArrayList.get(getPosition).getQuantity();
                 Constants.showAlert(mContext.getResources().getString(R.string.title_my_bag),
                         text,
                         mContext.getResources().getString(R.string.cancel),

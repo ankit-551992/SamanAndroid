@@ -11,59 +11,34 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 import com.qtech.saman.R;
-import com.qtech.saman.data.model.OrderHistory;
-import com.qtech.saman.data.model.StoreCategory;
 import com.qtech.saman.data.model.User;
-import com.qtech.saman.data.model.apis.OrderHistoryAPI;
 import com.qtech.saman.data.model.apis.UserResponse;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.CustomerSupport.SupportDetailsActivity;
-import com.qtech.saman.ui.activities.PopupActivity;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.invoice.InvoiceActivity;
 import com.qtech.saman.ui.activities.myaccount.messages.MessagingActivity;
 import com.qtech.saman.ui.activities.product.ProductsActivity;
 import com.qtech.saman.ui.activities.productdetail.ProductDetailActivity;
-import com.qtech.saman.ui.activities.search.ProductListingActivity;
-import com.qtech.saman.ui.activities.store.StoreActivity;
 import com.qtech.saman.ui.activities.store.StoreDetailActivity;
-import com.qtech.saman.ui.fragments.product.ProductsCategoryFragment;
-import com.qtech.saman.ui.fragments.store.StoreFragment;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -79,7 +54,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (GlobalValues.getNotificationOnOff(getApplicationContext())) {
             Log.e("MESSAGE_NOTIFY", "---00---" + remoteMessage.toString());
             if (remoteMessage.getData().containsKey("IsSupport")) {
-                Log.e("MESSAGE_NOTIFY", "---IsSupport---" + remoteMessage.toString());
                 boolean isSupport = Boolean.parseBoolean(remoteMessage.getData().get("IsSupport"));
                 if (isSupport) {
                     UserSupportReplyNotify(remoteMessage);
@@ -112,8 +86,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     OnlyNotifyItem(remoteMessage);
                 }
             } else if (remoteMessage.getData().containsKey("IsMessage")) {
-//              OnlyNotifyItem(remoteMessage);
-                showNotification(remoteMessage);
+                boolean IsMessage = Boolean.parseBoolean(remoteMessage.getData().get("IsMessage"));
+
+                if (IsMessage) {
+                    showMessageNotification(remoteMessage);
+                } else {
+                    OnlyNotifyItem(remoteMessage);
+                }
             } else {
                 OnlyNotifyItem(remoteMessage);
             }
@@ -141,11 +120,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e("REMOTE_MESSAGE", "--IsOrder----showNotification-----remoteMessage---" + remoteMessage.getData());
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        int orderID = Integer.parseInt(remoteMessage.getData().get("OrderId"));
-        //getInvoiceDetailes(orderID, remoteMessage);
         PendingIntent pendingIntent = null;
         Intent promotion_Intent = new Intent(this, InvoiceActivity.class);
-        //promotion_Intent.putExtra("Obj", orderHistoryArrayList);
         promotion_Intent.putExtra("OrderId", Integer.parseInt(remoteMessage.getData().get("OrderId")));
         promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
@@ -153,19 +129,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         GetSetNotification(notificationManager, remoteMessage, pendingIntent);
-    }
-
-    private void getorderstatuslist(RemoteMessage remoteMessage, List<OrderHistory> orderHistoryArrayList) {
-        PendingIntent pendingIntent = null;
-        Intent promotion_Intent = new Intent(this, InvoiceActivity.class);
-        //  promotion_Intent.putExtra("Obj", orderHistoryArrayList);
-        promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
-        pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        GetSetNotification(notificationManager, remoteMessage, pendingIntent);
-
     }
 
     /**
@@ -275,7 +238,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                // .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+//                .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
                 .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
 //                .setLargeIcon(bitmap)
                 .setColor(getResources().getColor(R.color.colorPrimary))
@@ -310,7 +273,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
     }
 
-    private void showNotification(RemoteMessage remoteMessage) {
+    private void showMessageNotification(RemoteMessage remoteMessage) {
         Log.e("REMOTE_MESSAGE", "--showNotification-----remoteMessage---" + remoteMessage.getData());
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent;
@@ -321,28 +284,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, uniqueInt, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //Setting up Notification channels for android O and above
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            setupChannels();
-        }
-        int notificationId = new Random().nextInt(60000);
-
-//        Bitmap bitmap = getBitmapfromUrl(remoteMessage.getData().get("https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350")); //obtain the image
-//        Bitmap bitmap = getBitmapfromUrl("https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&h=350"); //obtain the image
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Log.e("MESSAGE_NOTIFY", "--sound---defaultSoundUri-----" + defaultSoundUri);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
-//                .setLargeIcon(bitmap)
-                .setColor(getResources().getColor(R.color.colorPrimary))
-                .setContentTitle(remoteMessage.getData().get("title"))
-                .setContentText(remoteMessage.getData().get("message"))
-                .setAutoCancel(true)  //dismisses the notification on click
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
-//        Log.e("Notification", remoteMessage.getData().toString());
-        notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
+        GetSetNotification(notificationManager, remoteMessage, pendingIntent);
 
         if (SamanApp.isScreenOpen) {
             sendMessage(remoteMessage.getData().get("message"), Integer.parseInt(remoteMessage.getData().get("conversationID")));
@@ -406,24 +348,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, uniqueInt, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //Setting up Notification channels for android O and above
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            setupChannels();
-        }
-        int notificationId = new Random().nextInt(60000);
-
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                // .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
-                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
-//                .setLargeIcon(bitmap)
-                .setColor(getResources().getColor(R.color.colorPrimary))
-                .setContentTitle(remoteMessage.getData().get("title"))
-                .setContentText(remoteMessage.getData().get("message"))
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
-        notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
+        GetSetNotification(notificationManager, remoteMessage, pendingIntent);
     }
 }

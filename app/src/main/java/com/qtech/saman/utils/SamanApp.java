@@ -43,6 +43,7 @@ public class SamanApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
         db = new TinyDB(this);
         localDB = new MySQLiteHelper(this);
         instance = this;
