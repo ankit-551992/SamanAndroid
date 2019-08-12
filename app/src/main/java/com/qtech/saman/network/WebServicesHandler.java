@@ -371,6 +371,7 @@ public class WebServicesHandler {
     }
 
     public void applyPromo(String promo, Callback<PromoVerify> callback) {
+        Log.e("PRODUCT888", "--promo--" + promo);
         Call<PromoVerify> call = webServices.applyPromo(promo);
         call.enqueue(callback);
     }

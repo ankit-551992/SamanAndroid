@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -48,11 +49,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.thefinestartist.utils.content.ContextUtil.getString;
-
 public class ProductDetailActivity extends BaseActivity implements ProductContractor.View {
 
-//    @BindView(R.id.toolbar)
+    //    @BindView(R.id.toolbar)
 //    Toolbar toolbar;
 //    @BindView(R.id.toolbar_title)
 //    TextView toolbarTitle;
@@ -72,6 +71,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     TextView productDescription;
     @BindView(R.id.tv_product_price)
     TextView productPrice;
+    @BindView(R.id.tv_sale_price)
+    TextView salePrice;
     @BindView(R.id.tv_product_count)
     TextView productCount;
     @BindView(R.id.iv_favorite)
@@ -554,7 +555,18 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             productCount.setText("0");
         }
 
-        productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+        if (product.getIsSaleProduct().equals("true")) {
+            salePrice.setVisibility(View.VISIBLE);
+            salePrice.setText(product.getSalePrice() + " " + getString(R.string.OMR));
+            //  productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+            productPrice.setText(product.getPrice() + " ");
+            productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            salePrice.setVisibility(View.GONE);
+            productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+        }
+
+        //productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
 
         if (product.getProductOptions() != null) {
             for (int p = 0; p < product.getProductOptions().size(); p++) {

@@ -1,6 +1,5 @@
 package com.qtech.saman.ui.adapters;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -87,13 +86,12 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 productViewHolder.productDescription.setText(product.getProductNameAR());
                 productViewHolder.storeName.setText(product.getStoreNameAR());
             }
-            productViewHolder.productPrice.setText(product.getPrice() + " "+mContext.getString(R.string.OMR));
+            productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
 
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
                         .into(productViewHolder.productImageView);
-            }
-            else {
+            } else {
                 Picasso.get().load(Constants.URLS.BaseURLImages).placeholder(R.drawable.no_image)
                         .into(productViewHolder.productImageView);
             }
@@ -155,7 +153,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         } else {
                             productViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
                         }
-                        GlobalValues.markFavourite(userID, productArrayList.get(productViewHolder.getAdapterPosition()).getID(), null,1);
+                        GlobalValues.markFavourite(userID, productArrayList.get(productViewHolder.getAdapterPosition()).getID(), null, 1);
                         productArrayList.get(productViewHolder.getAdapterPosition()).setFavorite(true);
 
                         showPopUp(mContext.getString(R.string.added_to_fav),
@@ -248,13 +246,13 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
-                    ((Activity) mContext).startActivity(intent);
+                    (mContext).startActivity(intent);
                 } else {
                     dialog.dismiss();
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 2);
-                    ((Activity) mContext).startActivity(intent);
+                    (mContext).startActivity(intent);
                 }
             }
         });
@@ -268,7 +266,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
     }
-
 
     private void getProductDetails(int productID) {
         WebServicesHandler.instance.getProductDetail(String.valueOf(productID), String.valueOf(userID), new retrofit2.Callback<GetProduct>() {

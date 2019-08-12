@@ -292,6 +292,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             @Override
             public void onResponse(Call<PromoVerify> call, Response<PromoVerify> response) {
                 PromoVerify promoVerify = response.body();
+                Log.e("PRODUCT888", "--promoVerify--" + promoVerify);
                 Constants.dismissSpinner();
                 if (promoVerify != null) {
                     if (promoVerify.getSuccess() == 1) {
@@ -381,7 +382,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         }
 
                     } else {
-                        Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.invalid_coupon), getString(R.string.try_again), ShoppingCartActivity.this);
+//                        Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.invalid_coupon), getString(R.string.try_again), ShoppingCartActivity.this);
+                        Constants.showAlert(getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again), ShoppingCartActivity.this);
                     }
                 }
                 promoEditText.setText("");

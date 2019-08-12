@@ -41,4 +41,12 @@ public class PromoVerify {
         this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "PromoVerify{" +
+                "result=" + result +
+                ", success=" + success +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

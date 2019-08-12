@@ -100,6 +100,12 @@ public class Product implements Serializable {
     @SerializedName("UserQuantity")
     private Integer userQuantity;
 
+    @SerializedName("SalePrice")
+    private Float SalePrice;
+
+    @SerializedName("isSaleProduct")
+    private String isSaleProduct;
+
     public Integer getUserQuantity() {
         return userQuantity;
     }
@@ -396,6 +402,22 @@ public class Product implements Serializable {
         this.availableQuantity = availableQuantity;
     }
 
+    public Float getSalePrice() {
+        return SalePrice;
+    }
+
+    public void setSalePrice(Float salePrice) {
+        SalePrice = salePrice;
+    }
+
+    public String getIsSaleProduct() {
+        return isSaleProduct;
+    }
+
+    public void setIsSaleProduct(String isSaleProduct) {
+        this.isSaleProduct = isSaleProduct;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -434,6 +456,8 @@ public class Product implements Serializable {
                 ", isDeleted=" + isDeleted +
                 ", iD=" + iD +
                 ", userQuantity=" + userQuantity +
+                ", SalePrice='" + SalePrice + '\'' +
+                ", isSaleProduct='" + isSaleProduct + '\'' +
                 '}';
     }
 }

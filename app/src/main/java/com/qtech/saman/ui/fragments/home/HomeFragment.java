@@ -141,7 +141,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         }
     }
 
-
     private void setStore(List<Store> storeArrayList) {
         layoutManager = new GridLayoutManager(getActivity(), 3);
         storesRecyclerView.setLayoutManager(layoutManager);

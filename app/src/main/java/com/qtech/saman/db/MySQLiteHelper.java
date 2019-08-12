@@ -206,7 +206,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setSizeWidth(cursor.getInt(9));
                 product.setSizeHeight(cursor.getInt(10));
                 product.setLogoURL(cursor.getString(11));
-//                product.setProductImagesURLs(cursor.getInt(12));
+//              product.setProductImagesURLs(cursor.getInt(12));
 
                 boolean isActive = false;
                 if (cursor.getInt(14) == 1) {
