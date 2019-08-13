@@ -68,6 +68,11 @@ public class GlobalValues {
         editor.apply();
     }
 
+    public static boolean getTypesNotificationOnOff(Context ctx, String notify_type_key) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPreferences.getBoolean(notify_type_key, true);
+    }
+
     public static boolean getNotificationOnOff(Context ctx) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sharedPreferences.getBoolean("NotificationOnOff", true);

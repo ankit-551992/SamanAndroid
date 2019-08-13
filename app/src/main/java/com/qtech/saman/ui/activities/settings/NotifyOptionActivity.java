@@ -61,11 +61,11 @@ public class NotifyOptionActivity extends AppCompatActivity {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
-        switch_order.setChecked(GlobalValues.getNotificationOnOff(this));
-        switch_msg.setChecked(GlobalValues.getNotificationOnOff(this));
-        switch_promo_sales.setChecked(GlobalValues.getNotificationOnOff(this));
-        switch_feedback.setChecked(GlobalValues.getNotificationOnOff(this));
-        switch_itemback.setChecked(GlobalValues.getNotificationOnOff(this));
+        switch_order.setChecked(GlobalValues.getTypesNotificationOnOff(mcontext, order_notify));
+        switch_msg.setChecked(GlobalValues.getTypesNotificationOnOff(mcontext, msg_notify));
+        switch_promo_sales.setChecked(GlobalValues.getTypesNotificationOnOff(mcontext, promo_sales_notify));
+        switch_feedback.setChecked(GlobalValues.getTypesNotificationOnOff(mcontext, feedback_notify));
+        switch_itemback.setChecked(GlobalValues.getTypesNotificationOnOff(mcontext, Itemback_notify));
 
         onClickTypeOfSwitch();
         //switch_order.setChecked(GlobalValues.getNotificationOnOff(this));

@@ -51,10 +51,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         Log.e("MESSAGE_NOTIFY", "-000--remoteMessage---getData--" + remoteMessage.getData());
+
         if (GlobalValues.getNotificationOnOff(getApplicationContext())) {
             Log.e("MESSAGE_NOTIFY", "---00---" + remoteMessage.toString());
             if (remoteMessage.getData().containsKey("IsSupport")) {
                 boolean isSupport = Boolean.parseBoolean(remoteMessage.getData().get("IsSupport"));
+//                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), feedback_notify)) {
+//                }
                 if (isSupport) {
                     UserSupportReplyNotify(remoteMessage);
                 } else {
@@ -62,6 +65,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
             } else if (remoteMessage.getData().containsKey("isPromotion")) {
                 boolean isPromotion = Boolean.parseBoolean(remoteMessage.getData().get("isPromotion"));
+
+//                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), promo_sales_notify)) {
+//                }
 
                 if (isPromotion) {
                     promotionSales(remoteMessage);
@@ -71,6 +77,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else if (remoteMessage.getData().containsKey("IsOrder")) {
                 boolean isOrderStatus = Boolean.parseBoolean(remoteMessage.getData().get("IsOrder"));
 
+//                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), order_notify)) {
+//                }
+
                 if (isOrderStatus) {
                     OrderStatusNotify(remoteMessage);
                 } else {
@@ -79,14 +88,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else if (remoteMessage.getData().containsKey("IsStock")) {
                 boolean IsStock = Boolean.parseBoolean(remoteMessage.getData().get("IsStock"));
 
+//                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), Itemback_notify)) {
+//                }
+
                 if (IsStock) {
                     stockProductNotify(remoteMessage);
-
                 } else {
                     OnlyNotifyItem(remoteMessage);
                 }
             } else if (remoteMessage.getData().containsKey("IsMessage")) {
                 boolean IsMessage = Boolean.parseBoolean(remoteMessage.getData().get("IsMessage"));
+//                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), msg_notify)) {
+//                }
 
                 if (IsMessage) {
                     showMessageNotification(remoteMessage);
@@ -118,6 +131,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void OrderStatusNotify(RemoteMessage remoteMessage) {
         Log.e("REMOTE_MESSAGE", "--IsOrder----showNotification-----remoteMessage---" + remoteMessage.getData());
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent pendingIntent = null;
@@ -193,7 +207,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                bundle.putInt("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
 //                ProductsCategoryFragment fragobj = new ProductsCategoryFragment();
 //                fragobj.setArguments(bundle);
-
                 promotion_Intent = new Intent(this, ProductsActivity.class);
                 promotion_Intent.putExtra("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
                 promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

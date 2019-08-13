@@ -372,7 +372,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             price = subTotal - promoSaved;
                             priceToPay = price + deliveryCost;
                             priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
-
                         }
                         if (promoSaved > 0) {
                             tagsList.add(promoEditText.getText().toString());

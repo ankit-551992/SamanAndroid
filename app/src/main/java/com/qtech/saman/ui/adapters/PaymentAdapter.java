@@ -38,8 +38,6 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.cardDsList=cardDsList;
         this.mContext=mContext;
     }
-
-
     public void removeItem(int position) {
         cardDsList.remove(position);
         notifyItemRemoved(position);
@@ -64,7 +62,6 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_payment_row, parent, false);
-
             return new PaymentViewHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.loading_progress_bar, parent, false);
@@ -165,7 +162,6 @@ public class PaymentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             loadingViewHolder.progressBar.setIndeterminate(true);
         }
     }
-
 
     String maskedCardNumber(String cardNumber) {
         int maskLen = cardNumber.length() - 4;

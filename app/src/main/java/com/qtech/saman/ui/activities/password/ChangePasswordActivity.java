@@ -135,7 +135,6 @@ public class ChangePasswordActivity extends BaseActivity implements PasswordCont
             oldPasswordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             oldPasswordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
-
         oldPasswordEditText.setSelection(oldPasswordEditText.length());
     }
 
