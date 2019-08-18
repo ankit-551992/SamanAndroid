@@ -185,7 +185,6 @@ public class AllProductsFragment extends BaseFragment {
         return null;
     }
 
-
     private boolean isLoading;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -213,5 +212,4 @@ public class AllProductsFragment extends BaseFragment {
             }
         }
     };
-
 }

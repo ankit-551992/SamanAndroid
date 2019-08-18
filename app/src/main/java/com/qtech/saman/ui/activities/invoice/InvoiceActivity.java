@@ -49,8 +49,6 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -61,8 +59,6 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.qtech.saman.utils.Constants.URLS.Invoice_url;
 
 public class InvoiceActivity extends BaseActivity {
 
@@ -332,7 +328,6 @@ public class InvoiceActivity extends BaseActivity {
                 // getting file length
                 int lengthOfFile = connection.getContentLength();
 
-
                 // input stream to read file - with 8k buffer
                 InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
@@ -418,5 +413,4 @@ public class InvoiceActivity extends BaseActivity {
             Toast.makeText(getApplicationContext(), getString(R.string.downloaded_invoice), Toast.LENGTH_LONG).show();
         }
     }
-
 }

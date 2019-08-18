@@ -27,7 +27,6 @@ import retrofit2.Response;
 
 public class GlobalValues {
 
-
     private static double lat = 23.5859;
     private static double lng = 58.4059;
     public static List<StoreCategory> storeCategories;

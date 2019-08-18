@@ -17,7 +17,9 @@ import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.apis.CustomerSupportListApi;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.adapters.CustomerSupportImageAdapter;
+import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.GridSpacingItemDecoration;
+import com.qtech.saman.utils.SamanApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,6 +72,7 @@ public class SupportDetailsActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         mcontext = SupportDetailsActivity.this;
+        SamanApp.isScreenOpen = true;
         if (getIntent().hasExtra("UserSupportDetail")) {
             usersupport_details = (CustomerSupportListApi.Result) getIntent().getSerializableExtra("UserSupportDetail");
             Log.e("SUPPORTDETAILS", "-----usersupport_details---" + usersupport_details);
@@ -80,6 +84,11 @@ public class SupportDetailsActivity extends BaseActivity {
             Log.e("SUPPORTDETAILS", "-----ticketId---" + ticketId);
             //getInvoiceDetailes(ticketId);
             getTicketDetailes(ticketId);
+            if (GlobalValues.getBadgeCount(mcontext) != 0) {
+                int newCount = GlobalValues.getBadgeCount(mcontext) - 1;
+                GlobalValues.setBadgeCount(mcontext, newCount);
+                ShortcutBadger.applyCount(mcontext, newCount);
+            }
         }
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -126,8 +135,8 @@ public class SupportDetailsActivity extends BaseActivity {
         }
     }
 
-    private void getTicketDetailes(int ticketId) {
 
+    private void getTicketDetailes(int ticketId) {
         WebServicesHandler apiClient = WebServicesHandler.instance;
         Log.e("TICKETID", "--custom-ticketId--id--" + ticketId);
 
@@ -166,5 +175,11 @@ public class SupportDetailsActivity extends BaseActivity {
     @OnClick(R.id.toolbar_back)
     public void back() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SamanApp.isScreenOpen = false;
     }
 }

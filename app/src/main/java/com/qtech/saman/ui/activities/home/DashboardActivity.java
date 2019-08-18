@@ -571,12 +571,10 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             SpannableString sColored = new SpannableString(s);
             sColored.setSpan(new BackgroundColorSpan(Color.GRAY), s.length() - (counter.length() + 2), s.length(), 0);
             sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
-
             element.setTitle(sColored);
 
             GlobalValues.setBadgeCount(this, count);
             ShortcutBadger.applyCount(DashboardActivity.this, count);
-
         } else {
             MenuItem element = navigationView.getMenu().findItem(R.id.nav_my_account);
             String before = getString(R.string.title_my_account);

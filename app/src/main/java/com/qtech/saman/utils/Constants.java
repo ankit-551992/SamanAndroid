@@ -43,10 +43,12 @@ public class Constants {
     public interface URLS {
         //        String BaseURLApis = "https://petradiamond.herokuapp.com/";
         // String BaseURLApis = "https://www.saman.om/api/";
-        String BaseURLApis = "https://staging.saman.om/api/";
+        //String BaseURLApis = "https://staging.saman.om/api/";
+        String BaseURLApis = "http://96.127.174.114/plesk-site-preview/staging.saman.om/api/";
         String GeoCodeApis = "https://maps.googleapis.com/maps/api/geocode/";
         //  String BaseURLImages = "https://www.saman.om";
-        String BaseURLImages = "https://staging.saman.om";
+       // String BaseURLImages = "https://staging.saman.om";
+        String BaseURLImages = "http://96.127.174.114/plesk-site-preview/staging.saman.om";
         String returnPolicy = "https://www.algorepublic.com/";
         String terms = "https://www.algorepublic.com/services/";
         String privacyPolicy = "https://www.algorepublic.com/services/";

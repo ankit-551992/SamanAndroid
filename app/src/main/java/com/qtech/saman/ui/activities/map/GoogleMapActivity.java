@@ -79,7 +79,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     String address = "";
     private FusedLocationProviderClient mFusedLocationClient;
 
-
     private GoogleMap gmap;
     LatLng markedLocation;
     private static final int REQUEST_LOCATION_CODE = 1042;

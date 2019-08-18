@@ -153,7 +153,6 @@ public class MyAccountFragment extends BaseFragment {
         getConversation();
     }
 
-
     private void getConversation() {
         unread = 0;
         WebServicesHandler.instance.getConversationList(authenticatedUser.getId(), new retrofit2.Callback<GetConversationsApi>() {

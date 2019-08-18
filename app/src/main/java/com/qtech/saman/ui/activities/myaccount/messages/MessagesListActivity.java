@@ -51,7 +51,6 @@ public class MessagesListActivity extends BaseActivity {
     List<Conversation> conversationArrayList = new ArrayList<>();
     ConversationsAdapter conversationsAdapter;
 
-
     User authenticatedUser;
 
     @Override

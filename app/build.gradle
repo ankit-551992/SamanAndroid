@@ -12,10 +12,10 @@ android {
         applicationId "com.qtech.saman"
         minSdkVersion 19
         targetSdkVersion 28
-        /*versionCode 1
-        versionName "1.0"*/
-        versionCode 4
-        versionName "1.1.2"
+        versionCode 1
+        versionName "1.0"
+      /*  versionCode 4
+        versionName "1.1.2"*/
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -23,9 +23,9 @@ android {
     //Signing configurations for build variants "release"
     /* signingConfigs {
         release {
-            storeFile file("/Users/iblinfotech/Desktop/SamanKeyStore")
-            storePassword "UVba&;BTZKsn[cu+pmH1P8"
-            keyAlias "Saman"
+            storeFile file("/Users/iblinfotech/Desktop/Saman_KeyStore.jks")
+            storePassword ""
+            keyAlias "saman"
             keyPassword "UVba&;BTZKsn[cu+pmH1P8"
         }
     }*/
@@ -39,6 +39,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
         }
     }
 

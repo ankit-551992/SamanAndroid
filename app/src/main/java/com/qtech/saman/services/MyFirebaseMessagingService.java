@@ -45,7 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getName();
     private static final String ADMIN_CHANNEL_ID = "admin_channel";
-    private NotificationManager notificationManager;
+    NotificationCompat.Builder notificationBuilder;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -63,12 +63,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 } else {
                     OnlyNotifyItem(remoteMessage);
                 }
+
             } else if (remoteMessage.getData().containsKey("isPromotion")) {
                 boolean isPromotion = Boolean.parseBoolean(remoteMessage.getData().get("isPromotion"));
-
 //                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), promo_sales_notify)) {
 //                }
-
                 if (isPromotion) {
                     promotionSales(remoteMessage);
                 } else {
@@ -90,7 +89,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 //                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), Itemback_notify)) {
 //                }
-
                 if (IsStock) {
                     stockProductNotify(remoteMessage);
                 } else {
@@ -100,7 +98,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 boolean IsMessage = Boolean.parseBoolean(remoteMessage.getData().get("IsMessage"));
 //                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), msg_notify)) {
 //                }
-
                 if (IsMessage) {
                     showMessageNotification(remoteMessage);
                 } else {
@@ -127,13 +124,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         GetSetNotification(notificationManager, remoteMessage, pendingIntent);
+
+      /*  if (SamanApp.isScreenOpen) {
+            Log.e("MESSAGE_NOTIFY", "-OrderStatus----isScreenOpen--remoteMessage-----" + remoteMessage.toString());
+        } else {
+            Log.e("MESSAGE_NOTIFY", "--OrderStatus----isScreenClose--count----");
+            int newCount = GlobalValues.getBadgeCount(getApplicationContext()) + 1;
+            GlobalValues.setBadgeCount(getApplicationContext(), newCount);
+            ShortcutBadger.applyCount(getApplicationContext(), newCount);
+        }*/
     }
 
     private void OrderStatusNotify(RemoteMessage remoteMessage) {
         Log.e("REMOTE_MESSAGE", "--IsOrder----showNotification-----remoteMessage---" + remoteMessage.getData());
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         PendingIntent pendingIntent = null;
         Intent promotion_Intent = new Intent(this, InvoiceActivity.class);
         promotion_Intent.putExtra("OrderId", Integer.parseInt(remoteMessage.getData().get("OrderId")));
@@ -143,6 +148,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         GetSetNotification(notificationManager, remoteMessage, pendingIntent);
+
+       /* if (SamanApp.isScreenOpen) {
+            Log.e("MESSAGE_NOTIFY", "-OrderStatus----isScreenOpen--remoteMessage-----" + remoteMessage.toString());
+        } else {
+            Log.e("MESSAGE_NOTIFY", "--OrderStatus----isScreenClose--count----");
+            int newCount = GlobalValues.getBadgeCount(getApplicationContext()) + 1;
+            GlobalValues.setBadgeCount(getApplicationContext(), newCount);
+            ShortcutBadger.applyCount(getApplicationContext(), newCount);
+        }*/
     }
 
     /**
@@ -201,7 +215,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 promotion_Intent = new Intent(this, StoreDetailActivity.class);
                 promotion_Intent.putExtra("StoreID", Integer.parseInt(remoteMessage.getData().get("Ids")));
                 promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
             } else if (type_promotion == 4) {
 //                Bundle bundle = new Bundle();
 //                bundle.putInt("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
@@ -215,6 +228,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
             GetSetNotification(notificationManager, remoteMessage, pendingIntent);
+
         } else {
             OnlyNotifyItem(remoteMessage);
         }
@@ -245,12 +259,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e("MESSAGE_NOTIFY", "--OnlyNotifyItem----" + remoteMessage.toString());
         //Setting up Notification channels for android O and above
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            setupChannels();
+            setupChannels(notificationManager);
         }
         int notificationId = new Random().nextInt(60000);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+        notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
 //                .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
                 .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
 //                .setLargeIcon(bitmap)
@@ -261,18 +275,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSound(defaultSoundUri);
         //.setContentIntent(pendingIntent);
 
+        // Notification notification = notificationBuilder.build();
+        // notificationManager.notify(notificationId /* ID of notification */, notification);
         notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
     }
 
     private void GetSetNotification(NotificationManager notificationManager, RemoteMessage remoteMessage, PendingIntent pendingIntent) {
         //Setting up Notification channels for android O and above
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            setupChannels();
+            setupChannels(notificationManager);
         }
         int notificationId = new Random().nextInt(60000);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+        notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
                 // .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
                 .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
 //                .setLargeIcon(bitmap)
@@ -300,7 +316,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         GetSetNotification(notificationManager, remoteMessage, pendingIntent);
 
         if (SamanApp.isScreenOpen) {
-            sendMessage(remoteMessage.getData().get("message"), Integer.parseInt(remoteMessage.getData().get("conversationID")));
+            sendMessage(remoteMessage.getData().get("IsMessage"), Integer.parseInt(remoteMessage.getData().get("conversationID")));
         } else {
 //          Constants.showAlert();
             int newCount = GlobalValues.getBadgeCount(getApplicationContext()) + 1;
@@ -318,7 +334,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setupChannels() {
+    private void setupChannels(NotificationManager notificationManager) {
         CharSequence adminChannelName = getString(R.string.notifications_admin_channel_name);
         String adminChannelDescription = getString(R.string.notifications_admin_channel_description);
 
@@ -362,5 +378,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         GetSetNotification(notificationManager, remoteMessage, pendingIntent);
+
+        if (SamanApp.isScreenOpen) {
+            Log.e("MESSAGE_NOTIFY", "-UserSupport----isScreenOpen--remoteMessage-----" + remoteMessage.toString());
+        } else {
+            Log.e("MESSAGE_NOTIFY", "--UserSupport----isScreenClose--count----");
+            int newCount = GlobalValues.getBadgeCount(getApplicationContext()) + 1;
+            GlobalValues.setBadgeCount(getApplicationContext(), newCount);
+            ShortcutBadger.applyCount(getApplicationContext(), newCount);
+        }
     }
 }

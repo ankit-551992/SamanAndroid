@@ -41,12 +41,12 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private OnLoadMoreListener mOnLoadMoreListener;
     private Context mContext;
     User authenticatedUser;
+
     public ConversationsAdapter(Context mContext, List<Conversation> messages) {
         this.messages = messages;
         this.mContext = mContext;
         authenticatedUser = GlobalValues.getUser(this.mContext);
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -71,23 +71,23 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             ConversationViewHolder conversationViewHolder = (ConversationViewHolder) holder;
             final Conversation conversation = messages.get(position);
 
-            int unreadCount=0;
+            int unreadCount = 0;
 
-            for (int i=0;i<conversation.getMessages().size();i++){
+            for (int i = 0; i < conversation.getMessages().size(); i++) {
                 Message message = conversation.getMessages().get(i);
-                if(!message.getIsRead() && message.getSender().getId()!=authenticatedUser.getId()){
+                if (!message.getIsRead() && message.getSender().getId() != authenticatedUser.getId()) {
                     unreadCount++;
                 }
             }
 
-            if(unreadCount==0){
+            if (unreadCount == 0) {
                 conversationViewHolder.unreadMessagesCount.setVisibility(View.GONE);
-            }else{
+            } else {
                 conversationViewHolder.unreadMessagesCount.setVisibility(View.VISIBLE);
-                conversationViewHolder.unreadMessagesCount.setText(""+unreadCount);
+                conversationViewHolder.unreadMessagesCount.setText("" + unreadCount);
             }
 
-            if(SamanApp.isEnglishVersion) {
+            if (SamanApp.isEnglishVersion) {
                 conversationViewHolder.storeName.setText(conversation.getTitle());
                 if (conversation.getProductName() != null) {
                     if (!conversation.getProductName().equals("")) {
@@ -98,7 +98,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 } else {
                     conversationViewHolder.productName.setVisibility(View.GONE);
                 }
-            }else {
+            } else {
                 conversationViewHolder.storeName.setText(conversation.getTitleAr());
                 if (conversation.getProductName() != null) {
                     if (!conversation.getProductName().equals("")) {
@@ -110,8 +110,6 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     conversationViewHolder.productName.setVisibility(View.GONE);
                 }
             }
-
-
 
             Long datetimestamp = Long.parseLong(conversation.getUpdatedAt().replaceAll("\\D", ""));
             Date date = new Date(datetimestamp);
@@ -139,9 +137,9 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     Intent intent = new Intent(mContext, MessagingActivity.class);
                     intent.putExtra("ConversationID", conversation.getID());
                     mContext.startActivity(intent);
-                    int newCount=GlobalValues.getBadgeCount(mContext)- finalUnreadCount;
-                    GlobalValues.setBadgeCount(mContext,newCount);
-                    ShortcutBadger.applyCount(mContext,newCount);
+                    int newCount = GlobalValues.getBadgeCount(mContext) - finalUnreadCount;
+                    GlobalValues.setBadgeCount(mContext, newCount);
+                    ShortcutBadger.applyCount(mContext, newCount);
                 }
             });
         } else if (holder instanceof LoadingViewHolder) {
