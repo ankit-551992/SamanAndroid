@@ -123,7 +123,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
-
             if (productArrayList.get(position).getFavorite()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     productViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));

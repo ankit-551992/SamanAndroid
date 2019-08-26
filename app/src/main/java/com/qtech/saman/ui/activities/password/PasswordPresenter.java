@@ -20,10 +20,8 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
         this.view = view;
     }
 
-
     @Override
     public void changePassword(int userID, String oldPassword, String newPassword) {
-
         if (view != null) {
 
             view.showProgress();
@@ -91,7 +89,7 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
     @Override
     public void recoveryEmail(String email, String phone) {
         if (view != null) {
-
+            Log.e("SMS000", "--SMS000---");
             view.showProgress();
             WebServicesHandler apiClient = WebServicesHandler.instance;
 
@@ -100,6 +98,7 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
                 public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
 
                     SimpleSuccess simpleSuccess = response.body();
+                    Log.e("SMS000", "--SMS---onResponse---" + simpleSuccess);
                     if (view != null) {
                         view.hideProgress();
                         if (simpleSuccess != null) {

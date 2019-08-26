@@ -29,6 +29,7 @@ import com.qtech.saman.ui.activities.myaccount.messages.MessagingActivity;
 import com.qtech.saman.ui.activities.product.ProductsActivity;
 import com.qtech.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.qtech.saman.ui.activities.store.StoreDetailActivity;
+import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
 
@@ -51,7 +52,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         Log.e("MESSAGE_NOTIFY", "-000--remoteMessage---getData--" + remoteMessage.getData());
-
         if (GlobalValues.getNotificationOnOff(getApplicationContext())) {
             Log.e("MESSAGE_NOTIFY", "---00---" + remoteMessage.toString());
             if (remoteMessage.getData().containsKey("IsSupport")) {
@@ -78,7 +78,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 //                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), order_notify)) {
 //                }
-
                 if (isOrderStatus) {
                     OrderStatusNotify(remoteMessage);
                 } else {
@@ -200,35 +199,39 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().get("type") != null) {
             Integer type_promotion = Integer.parseInt(remoteMessage.getData().get("type"));
             Log.e("MESSAGE_NOTIFY", "--promotionSales---type_promotion-----" + type_promotion);
-            if (type_promotion == 1) {
-                promotion_Intent = new Intent(this, DashboardActivity.class);
-                // promotion_Intent.putExtra("orderID", Integer.parseInt(remoteMessage.getData().get("orderID")));
-                promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            } else if (type_promotion == 2) {
-                Integer integer = Integer.valueOf(remoteMessage.getData().get("Ids"));
-                promotion_Intent = new Intent(this, ProductDetailActivity.class);
-                promotion_Intent.putExtra("ProductID", Integer.parseInt(remoteMessage.getData().get("Ids")));
-                promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-            } else if (type_promotion == 3) {
-                promotion_Intent = new Intent(this, StoreDetailActivity.class);
-                promotion_Intent.putExtra("StoreID", Integer.parseInt(remoteMessage.getData().get("Ids")));
-                promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            } else if (type_promotion == 4) {
+            if (type_promotion == 0) {
+                OnlyNotifyItem(remoteMessage);
+            } else {
+                if (type_promotion == 1) {
+                    // General type
+                    promotion_Intent = new Intent(this, DashboardActivity.class);
+                    // promotion_Intent.putExtra("orderID", Integer.parseInt(remoteMessage.getData().get("orderID")));
+                    promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                } else if (type_promotion == 2) {
+                    // Product type
+                    promotion_Intent = new Intent(this, ProductDetailActivity.class);
+                    promotion_Intent.putExtra("ProductID", Integer.parseInt(remoteMessage.getData().get("Ids")));
+                    promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                } else if (type_promotion == 3) {
+                    // Store type
+                    promotion_Intent = new Intent(this, StoreDetailActivity.class);
+                    promotion_Intent.putExtra("StoreID", Integer.parseInt(remoteMessage.getData().get("Ids")));
+                    promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                } else if (type_promotion == 4) {
+                    // Category type
 //                Bundle bundle = new Bundle();
 //                bundle.putInt("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
 //                ProductsCategoryFragment fragobj = new ProductsCategoryFragment();
 //                fragobj.setArguments(bundle);
-                promotion_Intent = new Intent(this, ProductsActivity.class);
-                promotion_Intent.putExtra("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
-                promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    promotion_Intent = new Intent(this, ProductsActivity.class);
+                    promotion_Intent.putExtra("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
+                    promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                }
+                int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
+                pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                GetSetNotification(notificationManager, remoteMessage, pendingIntent);
             }
-            int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
-            pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            GetSetNotification(notificationManager, remoteMessage, pendingIntent);
-
         } else {
             OnlyNotifyItem(remoteMessage);
         }
@@ -266,7 +269,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
 //                .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
-                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
+                .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
 //                .setLargeIcon(bitmap)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setContentTitle(remoteMessage.getData().get("title"))
@@ -286,19 +289,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             setupChannels(notificationManager);
         }
         int notificationId = new Random().nextInt(60000);
-
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                // .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
-                .setSmallIcon(R.drawable.notification_icon)  //a resource for your custom small icon
-//                .setLargeIcon(bitmap)
-                .setColor(getResources().getColor(R.color.colorPrimary))
-                .setContentTitle(remoteMessage.getData().get("title"))
-                .setContentText(remoteMessage.getData().get("message"))
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
 
+        if (remoteMessage.getData().get("image") != null) {
+            String imageUri = remoteMessage.getData().get("image");
+            String image = Constants.URLS.BaseURLImages + imageUri;
+            Log.e("URL000", "----image----url---" + image);
+            Bitmap image_bitmap = getBitmapfromUrl(image);
+
+            notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+//                 .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+                    .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
+                    .setLargeIcon(image_bitmap)
+                    .setColor(getResources().getColor(R.color.colorPrimary))
+                    .setContentTitle(remoteMessage.getData().get("title"))
+                    .setContentText(remoteMessage.getData().get("message"))
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent);
+        } else {
+            notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+//                 .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
+                    .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
+//                .setLargeIcon(bitmap)
+                    .setColor(getResources().getColor(R.color.colorPrimary))
+                    .setContentTitle(remoteMessage.getData().get("title"))
+                    .setContentText(remoteMessage.getData().get("message"))
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent);
+        }
         notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
     }
 

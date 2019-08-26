@@ -72,7 +72,6 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
-
         showPopUp();
     }
 
@@ -166,9 +165,7 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
 
     @Override
     public void resetResponse(String message) {
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -239,5 +236,4 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
             selectedOptionTextView.setText(getString(R.string.email_address));
         }
     }
-
 }

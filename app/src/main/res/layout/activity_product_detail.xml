@@ -329,10 +329,7 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
     </android.support.v4.widget.NestedScrollView>
-
 
     <include
         layout="@layout/loading_layout"

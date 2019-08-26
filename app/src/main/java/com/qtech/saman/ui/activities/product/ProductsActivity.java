@@ -63,10 +63,11 @@ public class ProductsActivity extends BaseActivity {
             categoryID = bundle.getInt("CategoryID");
             Log.e("CATEGORY", "--categoryID--00----" + categoryID);
             ProductsCategoryFragment.newInstance(categoryID);
-        } else {
-            tab();
         }
-
+//        else {
+//            tab();
+//        }
+        tab();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.products));
@@ -106,7 +107,6 @@ public class ProductsActivity extends BaseActivity {
 //        }, 200);
     }
 
-
     private void setUpCustomTabs() {
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
@@ -130,7 +130,6 @@ public class ProductsActivity extends BaseActivity {
                 TabLayout.Tab tab = tabLayout.getTabAt(1);
                 if (tab != null)
                     tab.setCustomView(customTab);//set custom view
-
             } else {
                 if (SamanApp.isEnglishVersion) {
                     textView.setText(GlobalValues.storeCategories.get(i - 2).getTitle());
@@ -159,7 +158,6 @@ public class ProductsActivity extends BaseActivity {
         }
         viewPager.setAdapter(adapter);
     }
-
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mfragmentlist = new ArrayList<>();

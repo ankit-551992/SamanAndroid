@@ -237,17 +237,16 @@ public class CustomerSupportActivity extends BaseActivity {
         return image;
     }
 
-
     @OnClick(R.id.toolbar_back)
     public void back() {
-        super.onBackPressed();
+        finish();
+//        super.onBackPressed();
     }
 
     @OnClick(R.id.editText_subject)
     public void selectSubjectClick() {
         selectSubject();
     }
-
 
     Dialog dialog;
     String selectedSubject = "";
@@ -278,7 +277,6 @@ public class CustomerSupportActivity extends BaseActivity {
 
         final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
 
-
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -301,11 +299,9 @@ public class CustomerSupportActivity extends BaseActivity {
         animation = AnimationUtils.loadAnimation(CustomerSupportActivity.this,
                 R.anim.slide_bottom_to_top);
 
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
-
 
     private void uploadToServer(int userID, String subject, String message, List<File> files) {
         Constants.showSpinner(getString(R.string.submit_request), CustomerSupportActivity.this);
@@ -330,7 +326,6 @@ public class CustomerSupportActivity extends BaseActivity {
             }
         });
     }
-
 
     Dialog dialog2;
 
@@ -361,8 +356,7 @@ public class CustomerSupportActivity extends BaseActivity {
         });
 
         Animation animation;
-        animation = AnimationUtils.loadAnimation(CustomerSupportActivity.this,
-                R.anim.fade_in);
+        animation = AnimationUtils.loadAnimation(CustomerSupportActivity.this, R.anim.fade_in);
 
         ((ViewGroup) dialog2.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog2.show();

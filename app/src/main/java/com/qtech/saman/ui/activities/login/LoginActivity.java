@@ -425,9 +425,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     }
 
     //Twitter Region End
-
     //Facebook Region
-
     @OnClick(R.id.facebook_signIn)
     public void facebookSignIn() {
 
@@ -600,7 +598,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         });
     }
     //Social Login
-
 
     private void getInvoice() {
         OmanNetServiceHandler.instance.invoice(new retrofit2.Callback<ResponseBody>() {

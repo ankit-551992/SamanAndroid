@@ -296,6 +296,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 Constants.dismissSpinner();
                 if (promoVerify != null) {
                     if (promoVerify.getSuccess() == 1) {
+                        Log.e("PRODUCT888", "--promoVerify--getSuccess-");
                         if (promoVerify.getResult().getCouponType() == 1) {
 
                             if (!isGeneralApplied) {
@@ -319,7 +320,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                     //Price
                                     promoSaved = (float) promoVerify.getResult().getDiscount();
                                 }
-
 
 //                                promoSaved = Math.round(promoSaved);
                                 promoSaved = Float.valueOf(df.format(promoSaved));
