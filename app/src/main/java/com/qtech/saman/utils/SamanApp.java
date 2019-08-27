@@ -92,7 +92,6 @@ public class SamanApp extends MultiDexApplication {
     }
 
     private void setLanguage(String language) {
-
         //setting new configuration
         Locale locale = new Locale(language);
         Locale.setDefault(locale);

@@ -113,22 +113,18 @@ public class SalesProductActivity extends BaseActivity {
                 if (tab != null)
                     tab.setCustomView(customTab);//set custom view
 
-
             } else {
-
                 if (SamanApp.isEnglishVersion) {
                     textView.setText(GlobalValues.storeCategories.get(i - 1).getTitle());
                 } else {
                     textView.setText(GlobalValues.storeCategories.get(i - 1).getTitleAR());
                 }
 
-
                 String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 1).getLogoURL();
                 Picasso.get().load(url).into(imageView);
                 TabLayout.Tab tab = tabLayout.getTabAt(i);
                 if (tab != null)
                     tab.setCustomView(customTab);//set custom view
-
             }
         }
     }

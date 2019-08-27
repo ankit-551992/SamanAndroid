@@ -224,6 +224,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                bundle.putInt("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
 //                ProductsCategoryFragment fragobj = new ProductsCategoryFragment();
 //                fragobj.setArguments(bundle);
+
                     promotion_Intent = new Intent(this, ProductsActivity.class);
                     promotion_Intent.putExtra("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
                     promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

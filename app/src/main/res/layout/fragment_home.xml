@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <android.support.v4.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,24 +33,24 @@
 
                     <com.viewpagerindicator.CirclePageIndicator
                         android:id="@+id/indicator"
-                        app:fillColor="@color/colorPrimary"
-                        app:pageColor="@color/white"
-                        app:radius="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_margin="20dp"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:padding="5dip" />
+                        android:padding="5dip"
+                        app:fillColor="@color/colorPrimary"
+                        app:pageColor="@color/white"
+                        app:radius="5dp" />
 
                 </FrameLayout>
 
                 <ImageView
-                    android:layout_marginTop="2dp"
                     android:id="@+id/iv_header_below_banner"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/home_banner" />
 
                 <LinearLayout
@@ -115,7 +116,6 @@
                     android:text="@string/Stores"
                     android:textColor="@color/black" />
 
-
                 <TextView
                     android:id="@+id/tv_stores_see_all"
                     android:layout_width="wrap_content"
@@ -134,11 +134,11 @@
                     android:layout_marginBottom="5dp" />
 
                 <View
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="0.7dp"
                     android:layout_below="@+id/stores_recyclerView"
-                    android:background="@color/grey" />
+                    android:background="@color/grey"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -147,8 +147,8 @@
                 android:id="@+id/latest_products"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
                 android:layout_marginStart="11dp"
+                android:layout_marginLeft="11dp"
                 android:layout_marginEnd="11dp"
                 android:layout_marginRight="11dp"
                 android:layout_marginBottom="2dp">
@@ -177,10 +177,10 @@
             </RelativeLayout>
 
             <FrameLayout
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="5dp"
                 android:background="@color/grey">
 
                 <android.support.v4.view.ViewPager
@@ -190,17 +190,17 @@
 
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicators"
-                    app:selectedColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_margin="10dp"
-                    android:padding="3dp"
                     android:focusable="true"
-                    app:radius="4dp"
+                    android:focusableInTouchMode="true"
+                    android:padding="3dp"
                     android:visibility="gone"
                     app:fillColor="@color/colorPrimary"
-                    android:focusableInTouchMode="true" />
+                    app:radius="4dp"
+                    app:selectedColor="@color/colorPrimary" />
 
             </FrameLayout>
 
@@ -208,22 +208,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hot_pick"
-                android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:text="@string/hot_pick"
                 android:textColor="@color/black" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/brands_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="3dp"
                 android:layout_marginBottom="20dp" />
 
         </LinearLayout>
@@ -231,8 +231,8 @@
     </android.support.v4.widget.NestedScrollView>
 
     <include
-        android:visibility="gone"
+        android:id="@+id/loading"
         layout="@layout/loading_layout"
-        android:id="@+id/loading"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

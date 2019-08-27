@@ -175,7 +175,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return productArrayList == null ? 0 : productArrayList.size();
     }
 
-
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         private TextView productDescription;
         private TextView productPrice;
@@ -256,10 +255,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
 
-
         Animation animation;
-        animation = AnimationUtils.loadAnimation(mContext,
-                R.anim.fade_in);
+        animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
 
         ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);

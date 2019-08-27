@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,7 +136,9 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     @OnClick(R.id.iv_header_below_banner)
     void banner() {
 //        Log.e("BannerType",""+bannerType);
-        if (bannerType == 5) {
+//        if (bannerType == 5) {
+
+        if (bannerType == 2) {
             Intent intent = new Intent(getContext(), SalesProductActivity.class);
             getContext().startActivity(intent);
         }
@@ -256,6 +259,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
                     .into(headerBelowBanner);
 
             bannerType = screenApi.getBannerType();
+            Log.e("BANNERTYPE", "--bannerType---" + bannerType);
         }
 
         if (screenApi.getLatestProducts() != null) {

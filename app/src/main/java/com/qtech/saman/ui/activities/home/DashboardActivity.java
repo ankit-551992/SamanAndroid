@@ -107,7 +107,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         authenticatedUser = GlobalValues.getUser(this);
         search.setVisibility(View.GONE);
         GlobalValues.storeCategories = new ArrayList<>();
-        if (getIntent() != null){
+        if (getIntent() != null) {
             navItemIndex = getIntent().getIntExtra("NavItem", 0);
             openDetails = getIntent().getBooleanExtra("OpenDetails", false);
         }
@@ -376,8 +376,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 // update the main content by replacing fragments
                 Fragment fragment = getSelectedFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,
-                        R.anim.exit_to_left);
+                fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
                 fragmentTransaction.replace(R.id.frame, fragment, fragment.getClass().getSimpleName());
                 fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
                 fragmentTransaction.commitAllowingStateLoss();

@@ -46,7 +46,7 @@ public class Constants {
         String BaseURLApis = "https://staging.saman.om/api/";
         //        String BaseURLApis = "http://96.127.174.114/plesk-site-preview/staging.saman.om/api/";
         String GeoCodeApis = "https://maps.googleapis.com/maps/api/geocode/";
-        //  String BaseURLImages = "https://www.saman.om";
+        // String BaseURLImages = "https://www.saman.om";
         String BaseURLImages = "https://staging.saman.om";
         //        String BaseURLImages = "http://96.127.174.114/plesk-site-preview/staging.saman.om";
         String returnPolicy = "https://www.algorepublic.com/";
@@ -75,10 +75,8 @@ public class Constants {
             }
         }
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
-
         return countries;
     }
-
 
     public static void showLoginDialog2(final Context mContext) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -128,7 +126,6 @@ public class Constants {
                 mContext.startActivity(mainIntent);
             }
         });
-
 
         Animation animation;
         animation = AnimationUtils.loadAnimation(mContext,

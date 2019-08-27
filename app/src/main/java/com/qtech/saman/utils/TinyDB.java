@@ -49,7 +49,6 @@ public class TinyDB {
         preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
     }
 
-
     /**
      * Decodes the Bitmap from 'path' and returns it
      * @param path image path
@@ -348,7 +347,6 @@ public class TinyDB {
 //    	}
 //    	return objects;
 //    }
-
 
 
 //    public  Object getObject(String key, Class<?> classOfT){

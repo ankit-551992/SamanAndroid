@@ -64,7 +64,6 @@ public class AllProductsFragment extends BaseFragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

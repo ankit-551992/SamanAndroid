@@ -51,7 +51,6 @@ public class ProductsCategoryFragment extends BaseFragment {
     public static ProductsCategoryFragment newInstance(int categoryID) {
         Bundle bundle = new Bundle();
         bundle.putInt("CategoryID", categoryID);
-
         ProductsCategoryFragment fragment = new ProductsCategoryFragment();
         fragment.setArguments(bundle);
 
@@ -144,7 +143,6 @@ public class ProductsCategoryFragment extends BaseFragment {
     private boolean isLoading;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);

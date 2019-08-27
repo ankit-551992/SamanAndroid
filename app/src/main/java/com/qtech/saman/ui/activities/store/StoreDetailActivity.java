@@ -100,14 +100,12 @@ public class StoreDetailActivity extends BaseActivity {
                 }
             }
         }
-
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         storeCategoryList = new ArrayList<>();
         storeCategoriesAdapter = new StoreCategoriesAdapter(this, storeCategoryList,storeID,storeName,storeNameAr);
         recyclerView.setAdapter(storeCategoriesAdapter);
-
         getStore();
     }
 
@@ -168,7 +166,6 @@ public class StoreDetailActivity extends BaseActivity {
                                     storeDescriptionTextView.setVisibility(View.GONE);
                                 }
                             }
-
                             storeCategoryList.addAll(store.getStoreCategoryList());
                             storeCategoriesAdapter.notifyDataSetChanged();
                             storeCategoriesAdapter.setNames(storeName,storeNameAr);

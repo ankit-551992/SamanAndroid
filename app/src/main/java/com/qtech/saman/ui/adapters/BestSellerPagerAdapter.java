@@ -59,7 +59,6 @@ public class BestSellerPagerAdapter extends PagerAdapter {
                 }
             }
         });
-
         return imageLayout;
     }
 

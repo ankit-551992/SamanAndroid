@@ -48,8 +48,8 @@
             <!-- <action android:name="android.intent.action.VIEW" /> -->
 
             <!-- </intent-filter> -->
-
-        </activity> <!-- .ui.activities.map.GoogleMapActivity -->
+        </activity>
+        <!-- .ui.activities.map.GoogleMapActivity -->
         <activity
             android:name=".ui.activities.map.GoogleMapActivity"
             android:screenOrientation="portrait" />
@@ -102,7 +102,6 @@
                 <!-- android:scheme="http" -->
                 <!-- android:path="/p"/> -->
 
-
                 <!-- Query -->
                 <data
                     android:host="www.saman.om"
@@ -118,7 +117,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.myaccount.messages.MessagesListActivity"
-            android:screenOrientation="portrait" /> <!-- <activity -->
+            android:screenOrientation="portrait" />
+        <!-- <activity -->
         <!-- android:name=".ui.activities.myaccount.messages.MessagingActivity" -->
         <!-- android:screenOrientation="portrait" -->
         <!-- android:launchMode="singleTask" -->
@@ -204,7 +204,8 @@
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
-            android:theme="@style/TheFinestWebViewTheme" /> <!-- <meta-data -->
+            android:theme="@style/TheFinestWebViewTheme" />
+        <!-- <meta-data -->
         <!-- android:name="com.google.android.geo.API_KEY" -->
         <!-- android:value="AIzaSyA9vi6vn2yc6Ki3OkRcVlBc74H_6NyN08w" /> -->
         <!-- <meta-data -->
@@ -215,7 +216,8 @@
             android:value="AIzaSyD0Jn9atCvYKi-43bsfBYYkGyPzHvcNWWw" />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" /> <!-- Facebook Region -->
+            android:value="@integer/google_play_services_version" />
+        <!-- Facebook Region -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

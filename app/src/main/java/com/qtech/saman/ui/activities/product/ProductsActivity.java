@@ -61,12 +61,11 @@ public class ProductsActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (getIntent().hasExtra("CategoryID")) {
             categoryID = bundle.getInt("CategoryID");
+//            categoryID = 4;
             Log.e("CATEGORY", "--categoryID--00----" + categoryID);
             ProductsCategoryFragment.newInstance(categoryID);
         }
-//        else {
-//            tab();
-//        }
+
         tab();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -136,7 +135,6 @@ public class ProductsActivity extends BaseActivity {
                 } else {
                     textView.setText(GlobalValues.storeCategories.get(i - 2).getTitleAR());
                 }
-
                 String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 2).getLogoURL();
                 Picasso.get().load(url).into(imageView);
                 TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -149,12 +147,17 @@ public class ProductsActivity extends BaseActivity {
     public void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
+//        if (categoryID != 0) {
+//            adapter.addFrag(ProductsCategoryFragment.newInstance(categoryID), "CLOTH");
+//        }
         adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
         adapter.addFrag(AllProductsFragment.newInstance(true), getString(R.string.new_in));
+
         for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
             adapter.addFrag(
                     ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID()),
                     GlobalValues.storeCategories.get(i).getTitle());
+            Log.e("STOREID", "--storeCategories--id---" + GlobalValues.storeCategories.get(i).getID() + "--storeCategories--title--" + GlobalValues.storeCategories.get(i).getTitle());
         }
         viewPager.setAdapter(adapter);
     }

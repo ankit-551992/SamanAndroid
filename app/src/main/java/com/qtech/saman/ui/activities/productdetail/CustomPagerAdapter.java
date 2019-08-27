@@ -62,7 +62,6 @@ public class CustomPagerAdapter extends PagerAdapter {
                 }*/
             }
         });
-
         return imageLayout;
     }
 
