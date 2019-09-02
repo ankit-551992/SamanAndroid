@@ -65,7 +65,6 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Picasso.get().load(url)
                     .into(((StoreViewHolder) holder).storeImage);
 
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -88,8 +87,6 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemCount() {
         return storeArrayList == null ? 0 : storeArrayList.size();
     }
-
-
 
     static class StoreViewHolder extends RecyclerView.ViewHolder {
         private TextView storeName;

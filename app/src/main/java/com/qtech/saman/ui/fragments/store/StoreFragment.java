@@ -36,7 +36,6 @@ public class StoreFragment extends BaseFragment {
     TabLayout tabLayout;
     @BindView(R.id.pager)
     LockableViewPager viewPager;
-
     ViewPagerAdapter adapter;
 
     @Override
@@ -69,8 +68,6 @@ public class StoreFragment extends BaseFragment {
             }
         }, 200);
     }
-
-
 
     private void setUpCustomTabs() {
 

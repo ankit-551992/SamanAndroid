@@ -90,7 +90,7 @@ public class ProductListingActivity extends BaseActivity {
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        search.setVisibility(View.VISIBLE);
+        search.setVisibility(View.GONE);
         if (function==1){
             toolbarTitle.setText(getString(R.string.new_in));
         }else if (function==2){

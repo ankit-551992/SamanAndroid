@@ -166,7 +166,6 @@ public class CheckoutOrderActivity extends BaseActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (ratingBar.getRating() > 0) {
                     updateOrderFeedback(Integer.parseInt(orderID), ratingBar.getRating(), editText.getText().toString());
                     dialog.dismiss();
@@ -253,7 +252,6 @@ public class CheckoutOrderActivity extends BaseActivity {
 
         getDataFromDB();
     }
-
 
     private void getDataFromDB() {
 

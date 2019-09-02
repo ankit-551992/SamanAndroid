@@ -94,7 +94,6 @@ public class StoreActivity extends BaseActivity {
         });
     }
 
-
     @OnClick(R.id.toolbar_back)
     public void back() {
         super.onBackPressed();

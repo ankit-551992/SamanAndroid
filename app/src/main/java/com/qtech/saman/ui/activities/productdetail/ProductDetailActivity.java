@@ -802,8 +802,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     }
 
     private void inviteFriends() {
-        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+//        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_PACKAGE_NAME, getPackageName());
         intent.putExtra(Intent.EXTRA_SUBJECT, "Lets Enjoy on Saman");
         intent.putExtra(Intent.EXTRA_TEXT, "Lets Enjoy Saman " + "https://www.saman.om/productSharing?deviceType=2&id=" + productID);
         startActivity(Intent.createChooser(intent, "Share Saman With Friends"));

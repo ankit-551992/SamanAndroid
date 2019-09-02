@@ -193,7 +193,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         GlobalValues.countries = new ArrayList<>();
         getCountriesAPI();
 
-      /*  for (int i = 0; i < GlobalValues.countries.size(); i++) {
+      /* for (int i = 0; i < GlobalValues.countries.size(); i++) {
             Log.e("COUNTRY", "---GlobalValues.countries----size---" + GlobalValues.countries.size());
             if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
                 selectedCountry = GlobalValues.countries.get(i);
@@ -315,12 +315,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                     //Percentage
                                     float calculateDiscount = promoAmount / 100.0f;
                                     promoSaved = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
-
                                 } else if (promoVerify.getResult().getDiscountType() == 2) {
                                     //Price
                                     promoSaved = (float) promoVerify.getResult().getDiscount();
                                 }
-
 //                                promoSaved = Math.round(promoSaved);
                                 promoSaved = Float.valueOf(df.format(promoSaved));
 

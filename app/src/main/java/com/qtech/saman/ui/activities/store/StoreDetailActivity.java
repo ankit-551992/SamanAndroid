@@ -79,10 +79,10 @@ public class StoreDetailActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.title_store));
         toolbarBack.setVisibility(View.VISIBLE);
-        search.setVisibility(View.VISIBLE);
+        search.setVisibility(View.GONE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-        }else {
+        } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
@@ -90,12 +90,12 @@ public class StoreDetailActivity extends BaseActivity {
         if (bundle != null) {
             function = bundle.getInt("Function");
             storeID = bundle.getInt("StoreID");
-            if(bundle.containsKey("StoreName")) {
+            if (bundle.containsKey("StoreName")) {
                 storeName = bundle.getString("StoreName");
                 storeNameAr = bundle.getString("StoreNameAr");
-                if(SamanApp.isEnglishVersion) {
+                if (SamanApp.isEnglishVersion) {
                     storeNameTextView.setText(storeName);
-                }else {
+                } else {
                     storeNameTextView.setText(storeNameAr);
                 }
             }
@@ -104,15 +104,15 @@ public class StoreDetailActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         storeCategoryList = new ArrayList<>();
-        storeCategoriesAdapter = new StoreCategoriesAdapter(this, storeCategoryList,storeID,storeName,storeNameAr);
+        storeCategoriesAdapter = new StoreCategoriesAdapter(this, storeCategoryList, storeID, storeName, storeNameAr);
         recyclerView.setAdapter(storeCategoriesAdapter);
         getStore();
     }
 
     @OnClick(R.id.toolbar_search)
     void search() {
-            Intent intent = new Intent(StoreDetailActivity.this, SearchActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(StoreDetailActivity.this, SearchActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.toolbar_back)
@@ -128,47 +128,47 @@ public class StoreDetailActivity extends BaseActivity {
                 GetStore getStore = response.body();
                 if (getStore != null) {
                     if (getStore.getSuccess() == 1) {
-                        if(getStore.getStore()!=null){
+                        if (getStore.getStore() != null) {
                             store = getStore.getStore();
 
-                            String url=Constants.URLS.BaseURLImages + store.getLogoURL();
+                            String url = Constants.URLS.BaseURLImages + store.getLogoURL();
                             Picasso.get().load(url).fit().centerCrop()
-                                      .transform(new CircleTransform())
-                                      .into(logo);
+                                    .transform(new CircleTransform())
+                                    .into(logo);
 
                             Picasso.get().load(Constants.URLS.BaseURLImages + store.getBannerURL()).fit().centerCrop()
                                     .into(bg);
-                            storeName=store.getStoreName();
-                            storeNameAr=store.getStoreNameAR();
-                            if(SamanApp.isEnglishVersion) {
+                            storeName = store.getStoreName();
+                            storeNameAr = store.getStoreNameAR();
+                            if (SamanApp.isEnglishVersion) {
                                 storeNameTextView.setText(storeName);
-                            }else {
+                            } else {
                                 storeNameTextView.setText(storeNameAr);
                             }
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                if(store.getDescription()!=null) {
-                                    if(SamanApp.isEnglishVersion) {
+                                if (store.getDescription() != null) {
+                                    if (SamanApp.isEnglishVersion) {
                                         storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
-                                    }else {
+                                    } else {
                                         storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
                                     }
-                                }else {
+                                } else {
                                     storeDescriptionTextView.setVisibility(View.GONE);
                                 }
                             } else {
-                                if(store.getDescription()!=null) {
-                                    if(SamanApp.isEnglishVersion) {
+                                if (store.getDescription() != null) {
+                                    if (SamanApp.isEnglishVersion) {
                                         storeDescriptionTextView.setText(Html.fromHtml(store.getDescription()));
-                                    }else {
+                                    } else {
                                         storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR()));
                                     }
-                                }else {
+                                } else {
                                     storeDescriptionTextView.setVisibility(View.GONE);
                                 }
                             }
                             storeCategoryList.addAll(store.getStoreCategoryList());
                             storeCategoriesAdapter.notifyDataSetChanged();
-                            storeCategoriesAdapter.setNames(storeName,storeNameAr);
+                            storeCategoriesAdapter.setNames(storeName, storeNameAr);
                         }
                     }
                 }

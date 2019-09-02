@@ -53,7 +53,6 @@ public class ProductsCategoryFragment extends BaseFragment {
         bundle.putInt("CategoryID", categoryID);
         ProductsCategoryFragment fragment = new ProductsCategoryFragment();
         fragment.setArguments(bundle);
-
         return fragment;
     }
 
@@ -75,54 +74,52 @@ public class ProductsCategoryFragment extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         displayData = new ArrayList<>();
-        productAdapter = new ProductAdapter(getContext(), displayData,authenticatedUser.getId(),false);
+        productAdapter = new ProductAdapter(getContext(), displayData, authenticatedUser.getId(), false);
         recyclerView.setAdapter(productAdapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false,getContext()));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, getContext()));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
-        getProducts(categoryID,currentPage,pageSize);
+        getProducts(categoryID, currentPage, pageSize);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 displayData = new ArrayList<>();
-                productAdapter = new ProductAdapter(getContext(), displayData,authenticatedUser.getId(),false);
+                productAdapter = new ProductAdapter(getContext(), displayData, authenticatedUser.getId(), false);
                 recyclerView.setAdapter(productAdapter);
                 currentPage = 0;
-                getProducts(categoryID,currentPage,pageSize);
+                getProducts(categoryID, currentPage, pageSize);
             }
         });
-
         return view;
     }
 
+    private void getProducts(int categoryID, int pageIndex, int pageSize) {
 
-    private void getProducts(int categoryID,int pageIndex,int pageSize) {
-
-        WebServicesHandler.instance.getProductsByCategory(categoryID,authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
+        WebServicesHandler.instance.getProductsByCategory(categoryID, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 progressBar.setVisibility(View.GONE);
                 GetProducts getProducts = response.body();
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1) {
-                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1)==null) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1) == null) {
                             displayData.remove(displayData.size() - 1);
                             productAdapter.notifyItemRemoved(displayData.size());
                         }
-                        if(getProducts.getProduct()!=null && getProducts.getProduct().size()>0) {
+                        if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
                             displayData.addAll(getProducts.getProduct());
                             productAdapter.notifyDataSetChanged();
-                        }else {
-                            isGetAll=true;
+                        } else {
+                            isGetAll = true;
                         }
                         isLoading = false;
                     }
                 }
-                if(displayData.size()>0){
+                if (displayData.size() > 0) {
                     empty.setVisibility(View.GONE);
-                }else {
+                } else {
                     empty.setVisibility(View.VISIBLE);
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -138,7 +135,6 @@ public class ProductsCategoryFragment extends BaseFragment {
     public String getName() {
         return null;
     }
-
 
     private boolean isLoading;
 
@@ -158,7 +154,7 @@ public class ProductsCategoryFragment extends BaseFragment {
                 productAdapter.notifyItemInserted(displayData.size() - 1);
                 isLoading = true;
                 currentPage++;
-                getProducts(categoryID,currentPage,pageSize);
+                getProducts(categoryID, currentPage, pageSize);
             }
         }
     };
