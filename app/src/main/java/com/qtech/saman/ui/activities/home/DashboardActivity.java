@@ -177,7 +177,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     @OnClick(R.id.toolbar_search)
     void search() {
-        if (navItemIndex == 1 || navItemIndex == 0) {
+//        if (navItemIndex == 1 || navItemIndex == 0) {
+        if (navItemIndex == 0) {
             Intent intent = new Intent(DashboardActivity.this, SearchActivity.class);
             startActivity(intent);
         }
@@ -243,7 +244,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         if (navItemIndex == 4) {
             settings.setVisibility(View.VISIBLE);
             search.setVisibility(View.GONE);
-        } else if (navItemIndex == 1 || navItemIndex == 2 || navItemIndex == 0) {
+//        } else if (navItemIndex == 1 || navItemIndex == 2 || navItemIndex == 0) {
+        } else if (navItemIndex == 2 || navItemIndex == 0) {
             search.setVisibility(View.VISIBLE);
             settings.setVisibility(View.GONE);
             if (navItemIndex == 2) {

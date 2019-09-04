@@ -364,7 +364,6 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-
     public void getSearchProducts(int userID, String query, int sortType, int pageIndex, int pageSize, Callback<GetProducts> callback) {
         Call<GetProducts> call = webServices.getSearchProducts(userID, query, sortType, pageIndex, pageSize);
         call.enqueue(callback);

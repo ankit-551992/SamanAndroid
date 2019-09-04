@@ -41,6 +41,9 @@ public class GlobalValues {
     public static String feedback_notify = "FEEDBACK_NOTIFY";
     public static String Itemback_notify = "ITEMBACK_NOTIFY";
 
+    public static boolean FLAG_SEARCH = false;
+
+
     public static void setUserLoginStatus(Context ctx, boolean isLogin) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor editor = sharedPreferences.edit();

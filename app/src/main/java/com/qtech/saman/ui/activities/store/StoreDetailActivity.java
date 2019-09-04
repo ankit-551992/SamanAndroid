@@ -148,7 +148,8 @@ public class StoreDetailActivity extends BaseActivity {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 if (store.getDescription() != null) {
                                     if (SamanApp.isEnglishVersion) {
-                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                                    storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(),
+                                            Html.FROM_HTML_MODE_COMPACT));
                                     } else {
                                         storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
                                     }
@@ -180,7 +181,6 @@ public class StoreDetailActivity extends BaseActivity {
                         loading.setVisibility(View.GONE);
                     }
                 }, 1500);
-
             }
 
             @Override

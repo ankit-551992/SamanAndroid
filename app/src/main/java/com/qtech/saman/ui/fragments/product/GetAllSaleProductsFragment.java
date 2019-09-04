@@ -64,7 +64,6 @@ public class GetAllSaleProductsFragment extends BaseFragment {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
-
         getProducts(currentPage,pageSize);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -77,7 +76,6 @@ public class GetAllSaleProductsFragment extends BaseFragment {
                 getProducts(currentPage,pageSize);
             }
         });
-
         return view;
     }
 
@@ -123,7 +121,6 @@ public class GetAllSaleProductsFragment extends BaseFragment {
         return null;
     }
 
-
     private boolean isLoading;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -147,5 +144,4 @@ public class GetAllSaleProductsFragment extends BaseFragment {
             }
         }
     };
-
 }

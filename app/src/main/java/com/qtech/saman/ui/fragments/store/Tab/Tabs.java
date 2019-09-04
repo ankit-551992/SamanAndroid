@@ -62,7 +62,6 @@ public class Tabs extends BaseFragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,13 +94,11 @@ public class Tabs extends BaseFragment {
         return view;
     }
 
-
     private void getStores() {
 
         WebServicesHandler.instance.getStoresByCategory(String.valueOf(categoryID), new retrofit2.Callback<GetStores>() {
             @Override
             public void onResponse(Call<GetStores> call, Response<GetStores> response) {
-
 
                 progressBar.setVisibility(View.GONE);
 
@@ -118,7 +115,6 @@ public class Tabs extends BaseFragment {
 //                }else {
 //                    currentPage++;
 //                }
-
                         storeArrayList.addAll(getStores.getStores());
                         progressBar.setVisibility(View.GONE);
 
@@ -131,11 +127,9 @@ public class Tabs extends BaseFragment {
                                 return s1.getStoreName().compareToIgnoreCase(s2.getStoreName());
                             }
                         });
-
                         adapter.notifyDataSetChanged();
                     }
                 }
-
                 if (storeArrayList.size() < 1) {
                     tv_empty.setVisibility(View.VISIBLE);
                 } else {
@@ -153,7 +147,6 @@ public class Tabs extends BaseFragment {
     public String getName() {
         return null;
     }
-
 
     private boolean isLoading;
 

@@ -137,7 +137,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     void banner() {
 //        Log.e("BannerType",""+bannerType);
 //        if (bannerType == 5) {
-
         if (bannerType == 2) {
             Intent intent = new Intent(getContext(), SalesProductActivity.class);
             getContext().startActivity(intent);
@@ -194,7 +193,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     }
 
     private void setBestSellers(List<Slider> sliderList) {
-
         bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
         bestSellersPager.setAdapter(bestSellersAdapter);
 

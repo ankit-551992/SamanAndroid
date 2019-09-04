@@ -128,4 +128,20 @@ public class StoreCategory {
         this.iD = iD;
     }
 
+    @Override
+    public String toString() {
+        return "StoreCategory{" +
+                "title='" + title + '\'' +
+                ", titleAR='" + titleAR + '\'' +
+                ", sortOrder=" + sortOrder +
+                ", isActive=" + isActive +
+                ", logoURL='" + logoURL + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", createBy=" + createBy +
+                ", updateBy=" + updateBy +
+                ", isDeleted=" + isDeleted +
+                ", iD=" + iD +
+                '}';
+    }
 }

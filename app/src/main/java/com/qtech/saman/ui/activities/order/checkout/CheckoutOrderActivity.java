@@ -249,7 +249,6 @@ public class CheckoutOrderActivity extends BaseActivity {
         productArrayList = new ArrayList<>();
         checkOutProductAdapter = new CheckOutProductAdapter(CheckoutOrderActivity.this, productArrayList);
         cartRecyclerView.setAdapter(checkOutProductAdapter);
-
         getDataFromDB();
     }
 

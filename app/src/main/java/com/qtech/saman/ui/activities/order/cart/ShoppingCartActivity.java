@@ -158,6 +158,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     boolean requestAgain = false;
     boolean isGeneralApplied = false;
     DecimalFormat df = new DecimalFormat("#.#");
+//    DecimalFormat df = new DecimalFormat("#.##");
+//    DecimalFormat df = new DecimalFormat("#00.0#");
 
 
     @Override
@@ -304,7 +306,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
                                 float promoAmount = 0.0f;
                                 for (int p = 0; p < bagArrayList.size(); p++) {
-
                                     int productId = bagArrayList.get(p).getID();
                                     if (!appliedProducts.contains(productId)) {
                                         promoAmount = promoAmount + bagArrayList.get(p).getPrice();
@@ -319,8 +320,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                     //Price
                                     promoSaved = (float) promoVerify.getResult().getDiscount();
                                 }
-//                                promoSaved = Math.round(promoSaved);
+//                              promoSaved = Math.round(promoSaved);
+                                Log.e("NUMBER000", "---promoSaved---" + promoSaved);
                                 promoSaved = Float.valueOf(df.format(promoSaved));
+                                Log.e("NUMBER000", "--format---promoSaved---" + promoSaved);
 
                                 promoSavedTextView.setVisibility(View.VISIBLE);
                                 promoTotalSaved = promoTotalSaved + promoSaved;
@@ -338,7 +341,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 int productId = bagArrayList.get(p).getID();
 
                                 if (promoVerify.getResult().getProductID().contains(productId)) {
-
 
                                     if (!appliedProducts.contains(productId)) {
 
@@ -705,7 +707,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     }
 
     void doCheck3DSEnrollment() {
-
         amount = String.valueOf(priceToPay);
         // generate a random 3DSecureId for testing
         String threeDSId = UUID.randomUUID().toString();
@@ -715,7 +716,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
         apiController.check3DSecureEnrollment(sId, amount, currency, threeDSId, new Check3DSecureEnrollmentCallback());
     }
-
 
     void doConfirm() {
         doConfirm(null);
@@ -733,7 +733,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             Log.i("CreateSessionTask", "Session established");
             sId = sessionId;
             apiVer = apiVersion;
-
 
             if (requestAgain) {
                 updateCardOnGateway();

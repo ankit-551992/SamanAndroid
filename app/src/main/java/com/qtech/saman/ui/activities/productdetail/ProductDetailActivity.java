@@ -115,6 +115,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     String[] optionIDs;
     int selectedQuantity = -1;
 
+    Dialog dialog;
+    Dialog dialog2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,7 +210,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         authenticatedUser = GlobalValues.getUser(ProductDetailActivity.this);
         if (product.getFavorite()) {
-            showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure));
+            showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), 1);
         } else {
             String[] optionIDs = getOptionsData().split(",");
             presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
@@ -291,8 +294,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
     }
 
-    Dialog dialog;
-
     private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
         dialog = new Dialog(ProductDetailActivity.this, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -349,14 +350,12 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         animation = AnimationUtils.loadAnimation(ProductDetailActivity.this,
                 R.anim.fade_in);
 
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
 
-    Dialog dialog2;
-
     private void showPopUp() {
+        // show error for select all option
         dialog2 = new Dialog(ProductDetailActivity.this, R.style.CustomDialog);
         dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog2.setContentView(R.layout.dialog_customer_support);
@@ -434,7 +433,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         mPager.arrowScroll(View.FOCUS_RIGHT);
     }
 
-
     @OnClick(R.id.iv_add_quantity)
     void addItem() {
         Log.e("PRODCTID", "--getQuantity---" + product.getQuantity());
@@ -459,7 +457,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
         productCount.setText(String.valueOf(current));
     }
-
 
     @Override
     public void showProgress() {
@@ -553,19 +550,19 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             addQuantity.setEnabled(false);
             outOfStockTextView.setVisibility(View.VISIBLE);
             productCount.setText("0");
+//            showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), 0);
         }
 
         if (product.getIsSaleProduct().equals("true")) {
             salePrice.setVisibility(View.VISIBLE);
             salePrice.setText(product.getSalePrice() + " " + getString(R.string.OMR));
-            //  productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+            // productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
             productPrice.setText(product.getPrice() + " ");
             productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             salePrice.setVisibility(View.GONE);
             productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
         }
-
         //productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
 
         if (product.getProductOptions() != null) {
@@ -644,7 +641,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @Override
     public void error(String message) {
-
     }
 
     @Override
@@ -763,14 +759,20 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         return names;
     }
 
-
-    private void showAlert(String title, String message) {
+    private void showAlert(String title, String message, int type) {
+        // alert for remove favourite item
         AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailActivity.this).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+//                        if (type == 0){
+//                          //  call api for out of stock product
+//                        }else {
+//                            dislike();
+//                            dialog.dismiss();
+//                        }
                         dislike();
                         dialog.dismiss();
                     }
