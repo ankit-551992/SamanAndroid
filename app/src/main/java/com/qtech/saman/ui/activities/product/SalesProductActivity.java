@@ -96,7 +96,6 @@ public class SalesProductActivity extends BaseActivity {
 //        }, 200);
     }
 
-
     private void setUpCustomTabs() {
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {

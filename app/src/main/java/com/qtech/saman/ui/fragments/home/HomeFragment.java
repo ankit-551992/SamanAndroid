@@ -136,8 +136,8 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     @OnClick(R.id.iv_header_below_banner)
     void banner() {
 //        Log.e("BannerType",""+bannerType);
-//        if (bannerType == 5) {
-        if (bannerType == 2) {
+        if (bannerType == 5) {
+//        if (bannerType == 2) {
             Intent intent = new Intent(getContext(), SalesProductActivity.class);
             getContext().startActivity(intent);
         }

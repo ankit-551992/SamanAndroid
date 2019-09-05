@@ -219,8 +219,12 @@ public class SettingsActivity extends BaseActivity {
                     }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
+
+                    Intent refresh = new Intent(SettingsActivity.this, DashboardActivity.class);
+                    //refresh.putExtra(currentLang, localeName);
+                    startActivity(refresh);
                     dialog.dismiss();
-                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
+//                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
 //                    Constants.showAlert(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                 }
             }

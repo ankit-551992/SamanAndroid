@@ -107,8 +107,6 @@ public class PoliciesActivity extends BaseActivity {
         }
     }
 
-
-
     String terms="<p>TERMS OF SERVICE</p>\n" +
             "<p>&nbsp;</p>\n" +
             "<p>----</p>\n" +

@@ -117,7 +117,6 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             String dateFormatted = formatter.format(date);
             conversationViewHolder.dateTime.setText(dateFormatted.toString());
 
-
             if (!conversation.getImage().equals("")) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + conversation.getImage())
                         .into(conversationViewHolder.imageView);
@@ -152,7 +151,6 @@ public class ConversationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
         return messages == null ? 0 : messages.size();
     }
-
 
     static class ConversationViewHolder extends RecyclerView.ViewHolder {
 

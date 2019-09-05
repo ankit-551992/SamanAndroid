@@ -56,7 +56,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             return VIEW_TYPE_OTHER;
         }*/
-
     }
 
     @Override
