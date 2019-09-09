@@ -65,7 +65,6 @@ public class ProductsActivity extends BaseActivity {
             Log.e("CATEGORY", "--categoryID--00----" + categoryID);
             ProductsCategoryFragment.newInstance(categoryID);
         }
-
         tab();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

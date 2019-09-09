@@ -237,7 +237,6 @@ public class MyAccountFragment extends BaseFragment {
 
     @OnClick(R.id.customer_support)
     void customerSupport() {
-        // Intent intent = new Intent(getActivity(), CustomerSupportActivity.class);
         Intent intent = new Intent(getActivity(), CustomerSupportListActivity.class);
         getActivity().startActivity(intent);
     }

@@ -50,7 +50,6 @@ public class MessagesListActivity extends BaseActivity {
     RecyclerView.LayoutManager layoutManager;
     List<Conversation> conversationArrayList = new ArrayList<>();
     ConversationsAdapter conversationsAdapter;
-
     User authenticatedUser;
 
     @Override

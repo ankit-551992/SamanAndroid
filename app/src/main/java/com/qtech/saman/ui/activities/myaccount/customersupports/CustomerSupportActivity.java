@@ -83,6 +83,10 @@ public class CustomerSupportActivity extends BaseActivity {
     private int REQUEST_CHOOSE_PHOTO = 2;
     private int mCount = 300;
 
+    Dialog dialog;
+    Dialog dialog2;
+    String selectedSubject = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -239,17 +243,14 @@ public class CustomerSupportActivity extends BaseActivity {
 
     @OnClick(R.id.toolbar_back)
     public void back() {
-        finish();
-//        super.onBackPressed();
+//        finish();
+        super.onBackPressed();
     }
 
     @OnClick(R.id.editText_subject)
     public void selectSubjectClick() {
         selectSubject();
     }
-
-    Dialog dialog;
-    String selectedSubject = "";
 
     private void selectSubject() {
         dialog = new Dialog(CustomerSupportActivity.this, R.style.CustomDialog);
@@ -326,8 +327,6 @@ public class CustomerSupportActivity extends BaseActivity {
             }
         });
     }
-
-    Dialog dialog2;
 
     private void showPopUp() {
         dialog2 = new Dialog(CustomerSupportActivity.this, R.style.CustomDialog);

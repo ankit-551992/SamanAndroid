@@ -40,6 +40,8 @@ public class Constants {
         Home, Store, Favorite, Bag, MyAccount;
     }
 
+    public static boolean is_firebase_msgnotify = false;
+
     public interface URLS {
         //        String BaseURLApis = "https://petradiamond.herokuapp.com/";
         // String BaseURLApis = "https://www.saman.om/api/";

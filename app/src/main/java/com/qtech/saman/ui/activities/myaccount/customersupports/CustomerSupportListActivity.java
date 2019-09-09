@@ -62,7 +62,6 @@ public class CustomerSupportListActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         authenticatedUser = GlobalValues.getUser(this);
         toolbarTitle.setText(getString(R.string.customer_service));
         toolbarBack.setVisibility(View.VISIBLE);
@@ -113,7 +112,6 @@ public class CustomerSupportListActivity extends BaseActivity {
     public void customerSupportClick() {
         Intent intent = new Intent(this, CustomerSupportActivity.class);
         startActivityForResult(intent, Constants.USERSUPPORT_REQUEST_CODE);
-        startActivity(intent);
     }
 
     private void setHistoryListLayout() {

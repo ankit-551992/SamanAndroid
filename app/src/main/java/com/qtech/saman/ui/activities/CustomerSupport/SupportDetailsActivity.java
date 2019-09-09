@@ -64,6 +64,7 @@ public class SupportDetailsActivity extends BaseActivity {
     int ticketId;
     Context mcontext;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

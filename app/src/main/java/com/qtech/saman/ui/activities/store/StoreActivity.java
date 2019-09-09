@@ -67,7 +67,7 @@ public class StoreActivity extends BaseActivity {
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-        }else {
+        } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
         layoutManager = new GridLayoutManager(this, 3);
@@ -76,7 +76,7 @@ public class StoreActivity extends BaseActivity {
         storeArrayList = new ArrayList<>();
         adapter = new StoresAdapter(this, storeArrayList);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false,this));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false, this));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -106,7 +106,7 @@ public class StoreActivity extends BaseActivity {
             @Override
             public void onResponse(Call<GetStores> call, Response<GetStores> response) {
 
-                if (storeArrayList.size() > 0 && storeArrayList.get(storeArrayList.size()-1)==null) {
+                if (storeArrayList.size() > 0 && storeArrayList.get(storeArrayList.size() - 1) == null) {
                     storeArrayList.remove(storeArrayList.size() - 1);
                     adapter.notifyItemRemoved(storeArrayList.size());
                 }
@@ -134,7 +134,6 @@ public class StoreActivity extends BaseActivity {
             }
         });
     }
-
 
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {

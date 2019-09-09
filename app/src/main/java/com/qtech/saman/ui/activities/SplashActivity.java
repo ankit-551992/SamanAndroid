@@ -119,7 +119,6 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
-
     private void getCountriesAPI() {
         GlobalValues.countries=new ArrayList<>();
         WebServicesHandler.instance.getCountries(new retrofit2.Callback<ResponseBody>() {

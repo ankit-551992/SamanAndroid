@@ -106,6 +106,17 @@ public class Product implements Serializable {
     @SerializedName("isSaleProduct")
     private String isSaleProduct;
 
+    @SerializedName("isNewIn")
+    private String isNewIn;
+
+    public String getIsNewIn() {
+        return isNewIn;
+    }
+
+    public void setIsNewIn(String isNewIn) {
+        this.isNewIn = isNewIn;
+    }
+
     public Integer getUserQuantity() {
         return userQuantity;
     }

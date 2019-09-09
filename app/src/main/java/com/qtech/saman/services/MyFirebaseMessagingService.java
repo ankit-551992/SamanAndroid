@@ -42,6 +42,8 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.qtech.saman.utils.Constants.is_firebase_msgnotify;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getName();
@@ -270,7 +272,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
 //                .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
-                .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
+//                .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
+                .setSmallIcon(getNotificationIcon())  //a resource for your custom small icon
 //                .setLargeIcon(bitmap)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setContentTitle(remoteMessage.getData().get("title"))
@@ -289,9 +292,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             setupChannels(notificationManager);
         }
+
         int notificationId = new Random().nextInt(60000);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        is_firebase_msgnotify = true;
         if (remoteMessage.getData().get("image") != null) {
             String imageUri = remoteMessage.getData().get("image");
             String image = Constants.URLS.BaseURLImages + imageUri;
@@ -300,7 +305,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
 //                 .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
-                    .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
+//                    .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
+                    .setSmallIcon(getNotificationIcon())  //a resource for your custom small icon
                     .setLargeIcon(image_bitmap)
                     .setColor(getResources().getColor(R.color.colorPrimary))
                     .setContentTitle(remoteMessage.getData().get("title"))
@@ -311,7 +317,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } else {
             notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
 //                 .setSmallIcon(R.drawable.ic_notification)  //a resource for your custom small icon
-                    .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
+//                    .setSmallIcon(R.drawable.icon_notify)  //a resource for your custom small icon
+                    .setSmallIcon(getNotificationIcon())  //a resource for your custom small icon
 //                .setLargeIcon(bitmap)
                     .setColor(getResources().getColor(R.color.colorPrimary))
                     .setContentTitle(remoteMessage.getData().get("title"))
@@ -321,6 +328,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setContentIntent(pendingIntent);
         }
         notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
+    }
+
+    private int getNotificationIcon() {
+        boolean NotificationIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
+        return NotificationIcon ? R.drawable.notify_icon_trans : R.drawable.notify_icon_trans;
     }
 
     private void showMessageNotification(RemoteMessage remoteMessage) {

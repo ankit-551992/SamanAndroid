@@ -10,9 +10,12 @@ import android.os.LocaleList;
 import android.support.v7.app.AppCompatActivity;
 
 import com.qtech.saman.R;
+import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.utils.GlobalValues;
 
 import java.util.Locale;
+
+import static com.qtech.saman.utils.Constants.is_firebase_msgnotify;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -30,7 +33,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void onBackPressed(boolean withAnimation) {
-        super.onBackPressed();
+        if (is_firebase_msgnotify) {
+            is_firebase_msgnotify = false;
+            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+
         if (withAnimation) {
             overridePendingTransition(R.anim.stable, R.anim.slide_to_left);
         }
