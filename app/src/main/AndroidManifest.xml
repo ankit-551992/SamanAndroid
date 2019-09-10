@@ -230,7 +230,7 @@
         <!-- Firebase Region -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/notify_icon_trans" />
+            android:resource="@drawable/icon_notify" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class ProductsCategoryFragment extends BaseFragment {
     int pageSize = 20;
     User authenticatedUser;
     private int categoryID;
+    List<Product> newdisplayData = new ArrayList<>();
 
     public static ProductsCategoryFragment newInstance(int categoryID) {
         Bundle bundle = new Bundle();
@@ -97,7 +99,47 @@ public class ProductsCategoryFragment extends BaseFragment {
 
     private void getProducts(int categoryID, int pageIndex, int pageSize) {
 
-        WebServicesHandler.instance.getProductsByCategory(categoryID, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
+        if (categoryID == 0) {
+            getLatestProducts(pageIndex, pageSize);
+        } else {
+            WebServicesHandler.instance.getProductsByCategory(categoryID, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
+                @Override
+                public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                    progressBar.setVisibility(View.GONE);
+                    GetProducts getProducts = response.body();
+                    if (getProducts != null) {
+                        if (getProducts.getSuccess() == 1) {
+                            if (displayData.size() > 0 && displayData.get(displayData.size() - 1) == null) {
+                                displayData.remove(displayData.size() - 1);
+                                productAdapter.notifyItemRemoved(displayData.size());
+                            }
+                            if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
+                                displayData.addAll(getProducts.getProduct());
+                            } else {
+                                isGetAll = true;
+                            }
+                            isLoading = false;
+                            productAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    if (displayData.size() > 0) {
+                        empty.setVisibility(View.GONE);
+                    } else {
+                        empty.setVisibility(View.VISIBLE);
+                    }
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+
+                @Override
+                public void onFailure(Call<GetProducts> call, Throwable t) {
+                }
+            });
+        }
+    }
+
+    private void getLatestProducts(int pageIndex, int pageSize) {
+
+        WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 progressBar.setVisibility(View.GONE);
@@ -108,8 +150,19 @@ public class ProductsCategoryFragment extends BaseFragment {
                             displayData.remove(displayData.size() - 1);
                             productAdapter.notifyItemRemoved(displayData.size());
                         }
+                        if (newdisplayData.size() > 0) {
+                            newdisplayData.clear();
+                        }
+                        newdisplayData.addAll(getProducts.getProduct());
                         if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
-                            displayData.addAll(getProducts.getProduct());
+
+                            for (Product product : newdisplayData) {
+                                if (product.getIsNewIn().equals("true")) {
+                                    displayData.add(product);
+                                }
+                                Log.e("2222NEWPRODUCT", "-newin---size--" + displayData.size());
+                            }
+//                            displayData.addAll(getProducts.getProduct());
                             productAdapter.notifyDataSetChanged();
                         } else {
                             isGetAll = true;

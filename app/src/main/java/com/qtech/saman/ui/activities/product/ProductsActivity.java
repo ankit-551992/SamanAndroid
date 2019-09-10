@@ -146,17 +146,14 @@ public class ProductsActivity extends BaseActivity {
     public void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-//        if (categoryID != 0) {
-//            adapter.addFrag(ProductsCategoryFragment.newInstance(categoryID), "CLOTH");
-//        }
         adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
-        adapter.addFrag(AllProductsFragment.newInstance(true), getString(R.string.new_in));
+//      adapter.addFrag(AllProductsFragment.newInstance(true), getString(R.string.new_in));
 
+        adapter.addFrag(ProductsCategoryFragment.newInstance(0), getString(R.string.new_in));
         for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
             adapter.addFrag(
                     ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID()),
                     GlobalValues.storeCategories.get(i).getTitle());
-            Log.e("STOREID", "--storeCategories--id---" + GlobalValues.storeCategories.get(i).getID() + "--storeCategories--title--" + GlobalValues.storeCategories.get(i).getTitle());
         }
         viewPager.setAdapter(adapter);
     }

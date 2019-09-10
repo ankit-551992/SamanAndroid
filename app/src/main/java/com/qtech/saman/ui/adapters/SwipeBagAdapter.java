@@ -99,7 +99,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     bagViewHolder.description.setText(product.getOptionsAR());
                 }
             } else {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     bagViewHolder.description.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
                 } else {

@@ -45,7 +45,7 @@ public class AllProductsFragment extends BaseFragment {
     boolean isGetAll = false;
     List<Product> displayData = new ArrayList<>();
     ProductAdapter productAdapter;
-    int pageSize = 20;
+    int pageSize = 30;
     User authenticatedUser;
     private boolean isNewIn;
 
@@ -70,7 +70,7 @@ public class AllProductsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_store_tabs, container, false);
         ButterKnife.bind(this, view);
         readBundle(getArguments());
-        currentPage = 0;
+//        currentPage = 0;
         authenticatedUser = GlobalValues.getUser(getContext());
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
@@ -82,11 +82,13 @@ public class AllProductsFragment extends BaseFragment {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
-        if (isNewIn) {
-            getLatestProducts(currentPage, pageSize);
-        } else {
-            getAllProducts(currentPage, pageSize);
-        }
+//        if (isNewIn) {
+//            Log.e("2222NEWPRODUCT", "---isNewIn------");
+//            getLatestProducts(currentPage, pageSize);
+//        } else {
+//            getAllProducts(currentPage, pageSize);
+//        }
+        getAllProducts(currentPage, pageSize);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -95,11 +97,12 @@ public class AllProductsFragment extends BaseFragment {
                 productAdapter = new ProductAdapter(getContext(), displayData, authenticatedUser.getId(), false);
                 recyclerView.setAdapter(productAdapter);
                 currentPage = 0;
-                if (isNewIn) {
-                    getLatestProducts(currentPage, pageSize);
-                } else {
-                    getAllProducts(currentPage, pageSize);
-                }
+                getAllProducts(currentPage, pageSize);
+//                if (isNewIn) {
+//                    getLatestProducts(currentPage, pageSize);
+//                } else {
+//                    getAllProducts(currentPage, pageSize);
+//                }
             }
         });
         return view;
@@ -121,12 +124,6 @@ public class AllProductsFragment extends BaseFragment {
 
                         if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
                             Log.e("2222NEWPRODUCT", "-all--getProduct--size--" + getProducts.getProduct().size());
-                            /*for (int i = 0; i < getProducts.getProduct().size(); i++) {
-                                if (getProducts.getProduct().get(i).getIsNewIn().equals("true")) {
-                                    Log.e("2222NEWPRODUCT", "--new--in--getProduct--size--" + getProducts.getProduct().size());
-                                    displayData.addAll(getProducts.getProduct());
-                                }
-                            }*/
                             displayData.addAll(getProducts.getProduct());
                             productAdapter.notifyDataSetChanged();
                         } else {
@@ -164,13 +161,14 @@ public class AllProductsFragment extends BaseFragment {
                         }
                         if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
                             displayData.addAll(getProducts.getProduct());
-                            productAdapter.notifyDataSetChanged();
+                            Log.e("2222NEWPRODUCT", "-00-ALL-displayData--size--" + displayData.size());
                         } else {
                             isGetAll = true;
                         }
                         isLoading = false;
                     }
                 }
+
                 if (displayData.size() > 0) {
                     empty.setVisibility(View.GONE);
                 } else {
@@ -208,11 +206,12 @@ public class AllProductsFragment extends BaseFragment {
                 productAdapter.notifyItemInserted(displayData.size() - 1);
                 isLoading = true;
                 currentPage++;
-                if (isNewIn) {
-                    getLatestProducts(currentPage, pageSize);
-                } else {
-                    getAllProducts(currentPage, pageSize);
-                }
+                getAllProducts(currentPage, pageSize);
+//                if (isNewIn) {
+//                    getLatestProducts(currentPage, pageSize);
+//                } else {
+//                    getAllProducts(currentPage, pageSize);
+//                }
             }
         }
     };

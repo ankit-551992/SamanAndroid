@@ -37,7 +37,6 @@
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
-
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
