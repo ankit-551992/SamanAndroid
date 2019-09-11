@@ -81,6 +81,11 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     BestSellerPagerAdapter bestSellersAdapter;
     //BestSellers
 
+    //Header below viewpager
+    @BindView(R.id.iv_header_below_viewpager)
+    ViewPager banner_viewpager;
+
+
     //Header
     @BindView(R.id.viewpager)
     ViewPager mPager;
@@ -192,9 +197,30 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         }, DELAY_MS, PERIOD_MS);
     }
 
+    private void setSellersHeaderBanner(List<Slider> sliderList) {
+        bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
+//        bestSellersPager.setAdapter(bestSellersAdapter);
+        banner_viewpager.setAdapter(bestSellersAdapter);
+
+//        bestSellersPager.setPageMargin(10);
+//        bestSellersPager.setClipToPadding(false);
+//        bestSellersPager.setPadding(200,0,200,0);
+
+        int median;
+        if (sliderList.size() % 2 == 0)
+            median = (sliderList.size() / 2 + sliderList.size() / 2 - 1) / 2;
+        else
+            median = sliderList.size() / 2;
+
+        banner_viewpager.setCurrentItem(median);
+//        pageIndicator.setViewPager(banner_viewpager);
+//        pageIndicator.setCurrentItem(median);
+    }
+
     private void setBestSellers(List<Slider> sliderList) {
         bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
         bestSellersPager.setAdapter(bestSellersAdapter);
+
 
 //        bestSellersPager.setPageMargin(10);
 //        bestSellersPager.setClipToPadding(false);
@@ -258,6 +284,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
             bannerType = screenApi.getBannerType();
             Log.e("BANNERTYPE", "--bannerType---" + bannerType);
+//            setSellersHeaderBanner(screenApi.getBannerSliderURLs());
         }
 
         if (screenApi.getLatestProducts() != null) {

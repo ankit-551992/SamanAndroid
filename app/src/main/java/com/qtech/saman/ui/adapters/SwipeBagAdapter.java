@@ -118,7 +118,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
             bagFragment.updateTotal(grandTotal, 0);
 
-
             // Drag From Right
             bagViewHolder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, bagViewHolder.swipeLayout.findViewById(R.id.bottom_wrapper));
 

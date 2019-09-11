@@ -781,6 +781,12 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+//                        if (type == 0){
+//                          //  call api for out of stock product
+//                        }else {
+//                            dislike();
+//                            dialog.dismiss();
+//                        }
                         dialog.dismiss();
                     }
                 });

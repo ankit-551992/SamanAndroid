@@ -86,7 +86,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String dateFormatted = formatter.format(date);
             otherUserViewHolder.dateTime.setText(dateFormatted.toString());
 
-
             if (message.getSender() != null) {
 
                 User sender = message.getSender();

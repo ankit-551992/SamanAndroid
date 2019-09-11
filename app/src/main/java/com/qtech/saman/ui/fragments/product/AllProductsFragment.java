@@ -70,7 +70,7 @@ public class AllProductsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_store_tabs, container, false);
         ButterKnife.bind(this, view);
         readBundle(getArguments());
-//        currentPage = 0;
+        currentPage = 0;
         authenticatedUser = GlobalValues.getUser(getContext());
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
@@ -168,7 +168,7 @@ public class AllProductsFragment extends BaseFragment {
                         isLoading = false;
                     }
                 }
-
+                productAdapter.notifyDataSetChanged();
                 if (displayData.size() > 0) {
                     empty.setVisibility(View.GONE);
                 } else {
@@ -203,7 +203,7 @@ public class AllProductsFragment extends BaseFragment {
 
             if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                 displayData.add(null);
-                productAdapter.notifyItemInserted(displayData.size() - 1);
+//                productAdapter.notifyItemInserted(displayData.size() + 1);
                 isLoading = true;
                 currentPage++;
                 getAllProducts(currentPage, pageSize);

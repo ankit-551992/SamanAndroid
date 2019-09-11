@@ -235,7 +235,6 @@ public class CustomerSupportActivity extends BaseActivity {
                 ".jpg",    /* suffix */
                 storageDir      /* directory */
         );
-
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
         return image;
