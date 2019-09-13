@@ -136,7 +136,6 @@ public class MessagingActivity extends BaseActivity {
         messages = new ArrayList<>();
         chatAdapter = new ChatAdapter(this, messages);
         mRecyclerView.setAdapter(chatAdapter);
-
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("messageReceived"));
     }
 

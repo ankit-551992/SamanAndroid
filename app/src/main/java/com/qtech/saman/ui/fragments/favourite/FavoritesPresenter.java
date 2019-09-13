@@ -15,7 +15,6 @@ public class FavoritesPresenter implements FavoritesContractor.Presenter {
 
     private FavoritesContractor.View view;
 
-
     public FavoritesPresenter(FavoritesContractor.View view) {
         this.view = view;
     }

@@ -54,18 +54,40 @@
 
             </FrameLayout>
 
-            <TextView
-                android:id="@+id/tv_store_name"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginTop="10dp"
+               android:layout_marginRight="7dp" >
+
+            <TextView
+                android:id="@+id/tv_store_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_store"
                 android:drawableLeft="@drawable/ic_store"
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:text="@string/ud_store" />
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/button_notify"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:background="@drawable/yellow_button"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/notify_me"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="13sp"
+                android:layout_marginEnd="7dp"
+                android:visibility="gone"/>
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

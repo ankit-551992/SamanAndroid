@@ -216,4 +216,7 @@ public interface WebServices {
 
     @GET("Support/GetTicketById?")
     Call<CustomerSupportListApi> getTicketByID(@Query("Id") int ticketId);
+
+    @POST("User/AddNotifyProduct?")
+    Call<SimpleSuccess> addNotifyProduct(@Query("UserID") int userId,@Query("ProductID") int productId);
 }

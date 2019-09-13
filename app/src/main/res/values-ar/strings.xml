@@ -174,7 +174,6 @@
     <string name="Done">تم</string>
     <string name="best_sell">أفضل المبيات</string>
     <string name="sort_by">تصنيف عن طريق</string>
-
     <!--Search-->
 
     <!--Login Screen-->
@@ -245,8 +244,12 @@
     <string name="type_message">أكتب الرسالة هنا</string>
 
     <string name="no_message">لا يوجد رسائل!</string>
-
     <!--Messaging-->
+
+    <!--Product out-of-stock-->
+    <string name="out_of_stock_message">هل ترغب في الحصول على إشعار عندما يأتي العنصر في الأوراق المالية؟</string>
+    <string name="out_of_stock_title">هل أنت واثق؟</string>
+    <string name="notify_me">اعلمني</string>
 
     <!--My Account-->
     <string name="Welcome">مرحباً</string>

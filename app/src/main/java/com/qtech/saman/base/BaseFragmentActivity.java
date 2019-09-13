@@ -48,6 +48,5 @@ public abstract class BaseFragmentActivity extends BaseActivity implements Fragm
         fragmentTransaction.replace(R.id.cont_content, fragment, fragment.getName());
         fragmentTransaction.commitAllowingStateLoss();
         getSupportFragmentManager().executePendingTransactions();
-
     }
 }

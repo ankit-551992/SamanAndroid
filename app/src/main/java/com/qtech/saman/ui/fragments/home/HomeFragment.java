@@ -221,7 +221,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
         bestSellersPager.setAdapter(bestSellersAdapter);
 
-
 //        bestSellersPager.setPageMargin(10);
 //        bestSellersPager.setClipToPadding(false);
 //        bestSellersPager.setPadding(200,0,200,0);

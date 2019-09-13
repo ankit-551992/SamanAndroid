@@ -79,7 +79,6 @@ public class GetAllSaleProductsFragment extends BaseFragment {
         return view;
     }
 
-
     private void getProducts(int pageIndex,int pageSize) {
 
         WebServicesHandler.instance.getSaleProducts(authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {

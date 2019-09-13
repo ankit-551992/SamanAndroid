@@ -86,6 +86,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @BindView(R.id.tv_out_of_stock)
     TextView outOfStockTextView;
 
+    @BindView(R.id.button_notify)
+    Button button_notify;
+
     //Product
     int productID;
     ArrayList<String> urls;
@@ -417,6 +420,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         alertDialog.show();
     }
 
+    @OnClick(R.id.button_notify)
+    public void notifyItem() {
+//        showAlert(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), 0);
+    }
+
     @OnClick(R.id.iv_share)
     public void share() {
         inviteFriends();
@@ -546,11 +554,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         if (product.getQuantity() <= 0) {
             // addToCart.setEnabled(false);
+            button_notify.setVisibility(View.VISIBLE);
             removeQuantity.setEnabled(false);
             addQuantity.setEnabled(false);
             outOfStockTextView.setVisibility(View.VISIBLE);
             productCount.setText("0");
-//            showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), 0);
         }
 
         if (product.getIsSaleProduct().equals("true")) {

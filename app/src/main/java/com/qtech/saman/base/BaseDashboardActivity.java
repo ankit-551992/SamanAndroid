@@ -39,7 +39,6 @@ public abstract class BaseDashboardActivity extends BaseFragmentActivity {
     @BindView(R.id.tv_nav_my_account)
     TextView tvNavMyAccount;
 
-
     //Fragment handling
     @Override
     public void changeFragment(Constants.Fragment fragment) {
@@ -118,6 +117,5 @@ public abstract class BaseDashboardActivity extends BaseFragmentActivity {
             ivNavMyAccount.setImageResource(R.drawable.ic_home);
             tvNavMyAccount.setTextColor(normalColor);
         }
-
     }
 }

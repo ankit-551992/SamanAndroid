@@ -250,6 +250,11 @@
     <string name="no_message">No Message Found!</string>
     <!--Messaging-->
 
+    <!--Product out-of-stock-->
+    <string name="out_of_stock_message">Do you want to get notification when item will come in stock?</string>
+    <string name="out_of_stock_title">Are you sure?</string>
+    <string name="notify_me">Notify Me</string>
+
     <!--My Account-->
     <string name="Welcome">Welcome</string>
     <string name="messages">Messages</string>
@@ -519,7 +524,6 @@
         <item>Governorate of Al Sharqiya North</item>
         <item>Governorate of Al Buraimi</item>
     </string-array>
-
 
     <!--notification types -->
     <string name="order_status_notify">Order Status</string>

@@ -64,7 +64,7 @@ public class DummyActivity extends BaseDashboardActivity implements  GoogleApiCl
                                 startActivity(intent);
                             }
                         });
-//                changeFragment(Constants.Fragment.Bag);
+//              changeFragment(Constants.Fragment.Bag);
                 break;
 
             case R.id.cont_nav_my_account:
@@ -76,7 +76,6 @@ public class DummyActivity extends BaseDashboardActivity implements  GoogleApiCl
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     @Override
