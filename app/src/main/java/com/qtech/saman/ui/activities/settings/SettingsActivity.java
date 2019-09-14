@@ -86,7 +86,6 @@ public class SettingsActivity extends BaseActivity {
         }
 
         notificationSwitchCompat.setChecked(GlobalValues.getNotificationOnOff(this));
-
         notificationSwitchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -138,7 +138,6 @@ public class MessagesListActivity extends BaseActivity {
         });
     }
 
-
     private Date getDate(String date){
         return new Date(Long.parseLong(date.replaceAll("\\D", "")));
     }

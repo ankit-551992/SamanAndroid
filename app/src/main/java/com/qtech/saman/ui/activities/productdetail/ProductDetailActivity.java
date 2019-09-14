@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
@@ -36,6 +37,7 @@ import com.qtech.saman.data.model.Product;
 import com.qtech.saman.data.model.ProductAttribute;
 import com.qtech.saman.data.model.ProductOption;
 import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
@@ -422,7 +424,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.button_notify)
     public void notifyItem() {
-//        showAlert(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), 0);
+        showAlert(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), 0);
     }
 
     @OnClick(R.id.iv_share)
@@ -775,14 +777,16 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-//                        if (type == 0){
-//                          //  call api for out of stock product
-//                        }else {
-//                            dislike();
-//                            dialog.dismiss();
-//                        }
-                        dislike();
-                        dialog.dismiss();
+                        if (type == 0) {
+                            // call api for out of stock product
+                            presenter.addProduct(authenticatedUser.getId(), productID);
+                            dialog.dismiss();
+                        } else {
+                            dislike();
+                            dialog.dismiss();
+                        }
+//                        dislike();
+//                        dialog.dismiss();
                     }
                 });
 
@@ -825,5 +829,19 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         intent.putExtra(Intent.EXTRA_SUBJECT, "Lets Enjoy on Saman");
         intent.putExtra(Intent.EXTRA_TEXT, "Lets Enjoy Saman " + "https://www.saman.om/productSharing?deviceType=2&id=" + productID);
         startActivity(Intent.createChooser(intent, "Share Saman With Friends"));
+    }
+
+    @Override
+    public void addProductNotifyResponse(SimpleSuccess simpleSuccess) {
+        Log.e("NOTIFY000", "--addProductNotifyResponse----" + simpleSuccess);
+        if (simpleSuccess.getResult().equals(true)) {
+            Log.e("NOTIFY000", "--addProductNotifyResponse--iffffff--" + simpleSuccess.getMessage());
+            Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
+            button_notify.setVisibility(View.GONE);
+        } else {
+            Log.e("NOTIFY000", "--addProductNotifyResponse--elseeeeeee---" + simpleSuccess.getMessage());
+            Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
+            button_notify.setVisibility(View.GONE);
+        }
     }
 }

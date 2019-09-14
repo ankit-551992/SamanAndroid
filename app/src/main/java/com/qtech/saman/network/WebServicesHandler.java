@@ -496,11 +496,11 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-  /*  public void notifyAddProduct(int userId,int productId, Callback<SimpleSuccess> callback){
-        Call<SimpleSuccess> call = webServices.addNotifyProduct(1056,25);
+    public void notifyAddProduct(int userId,int productId, Callback<SimpleSuccess> callback){
+        Call<SimpleSuccess> call = webServices.addNotifyProduct(userId,productId);
         call.enqueue(callback);
     }
-*/
+
     public void sendMessage(int userID, int recipientID, int conversationID, String title, String message, Callback<SendMessageApi> callback) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("UserID", userID);
