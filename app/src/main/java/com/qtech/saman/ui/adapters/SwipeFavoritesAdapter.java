@@ -21,11 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.OptionValue;
 import com.qtech.saman.data.model.Product;
 import com.qtech.saman.data.model.User;
-import com.qtech.saman.data.model.apis.GetProduct;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
@@ -34,8 +35,6 @@ import com.qtech.saman.ui.fragments.favourite.FavoritesFragment;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     private User authenticatedUser;
     FavoritesFragment favoritesFragment;
     private Product cartProduct;
-
+    Dialog dialog;
 
     public SwipeFavoritesAdapter(Context mContext, List<Product> productArrayList, FavoritesFragment favoritesFragment) {
         this.productArrayList = productArrayList;
@@ -212,7 +211,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                     notifyDataSetChanged();
                     ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
                     favoritesFragment.updateCount(productArrayList.size());
-//                    showPopUp(mContext.getString(R.string.removed_from_fav),
+//                  showPopUp(mContext.getString(R.string.removed_from_fav),
 //                            mContext. getString(R.string.item_added_message),
 //                            mContext.getString(R.string.okay),
 //                            mContext.getString(R.string.view_fav),
@@ -239,7 +238,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     public int getSwipeLayoutResourceId(int position) {
         return R.id.swipe;
     }
-
 
     static class FavoritesViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.swipe)
@@ -280,8 +278,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             progressBar = (ProgressBar) itemView.findViewById(R.id.native_progress_bar);
         }
     }
-
-    Dialog dialog;
 
     private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
@@ -343,8 +339,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
     }
-
-    private void getProductDetails(int productID) {
+    /*private void getProductDetails(int productID) {
         WebServicesHandler.instance.getFavProductDetail(String.valueOf(productID), String.valueOf(authenticatedUser.getId()), new retrofit2.Callback<GetProduct>() {
             @Override
             public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
@@ -375,26 +370,11 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                 Log.e("Failure", t.getMessage());
             }
         });
-    }
+    }*/
 
     private void getProductDetails(Product product1) {
         cartProduct = product1;
         Log.e("DefaultOptions", getOptionsData());
-     /*   if (SamanApp.localDB != null) {
-            int q = cartProduct.getQuantity();
-            if (q == 0) {
-                q = 1;
-            }
-            if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), q)) {
-                showPopUp(mContext.getString(R.string.item_added_bag),
-                        mContext.getString(R.string.item_added_message),
-                        mContext.getString(R.string.continue_shopping),
-                        mContext.getString(R.string.view_bag),
-                        0);
-            }
-        }
-        ((DashboardActivity) mContext).updateBagCount();
-        notifyDataSetChanged();*/
 
         if (SamanApp.localDB != null) {
             if (cartProduct.getQuantity() != 0) {
@@ -405,6 +385,12 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_bag),
                                 0);
+
+                        /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_bag),
+                                0);*/
                     }
                 }
             }
@@ -514,7 +500,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         }
         return names;
     }
-
 
     private void markUnFavourite(int userID, int productId, String[] optionIds) {
         WebServicesHandler.instance.markUnFavourite(userID, productId, optionIds, new retrofit2.Callback<SimpleSuccess>() {

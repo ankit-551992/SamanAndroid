@@ -206,6 +206,8 @@
     <string name="address_hint">البلد، الشارع، المبنى، الطابق</string>
     <string name="address_req">العنوان مطلوب</string>
     <string name="have_account">لديك حساب؟</string>
+    <string name="code">الشفرة</string>
+    <string name="enter_countrycode">الرجاء إدخال رمز البلد</string>
 
     <!--Sign Up-->
     <string name="dob_missing">يرجى اختيار تاريخ الميلاد</string>

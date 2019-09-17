@@ -109,6 +109,17 @@ public class Product implements Serializable {
     @SerializedName("isNewIn")
     private String isNewIn;
 
+    @SerializedName("IsNotificationSubscribed")
+    private String IsNotificationSubscribed;
+
+    public String getIsNotificationSubscribed() {
+        return IsNotificationSubscribed;
+    }
+
+    public void setIsNotificationSubscribed(String isNotificationSubscribed) {
+        IsNotificationSubscribed = isNotificationSubscribed;
+    }
+
     public String getIsNewIn() {
         return isNewIn;
     }
@@ -467,8 +478,10 @@ public class Product implements Serializable {
                 ", isDeleted=" + isDeleted +
                 ", iD=" + iD +
                 ", userQuantity=" + userQuantity +
-                ", SalePrice='" + SalePrice + '\'' +
+                ", SalePrice=" + SalePrice +
                 ", isSaleProduct='" + isSaleProduct + '\'' +
+                ", isNewIn='" + isNewIn + '\'' +
+                ", IsNotificationSubscribed='" + IsNotificationSubscribed + '\'' +
                 '}';
     }
 }

@@ -160,6 +160,11 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
                                 1);
+                        /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_bag),
+                                1);*/
                     }
                 }
             });
@@ -201,6 +206,139 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
             progressBar = (ProgressBar) itemView.findViewById(R.id.native_progress_bar);
         }
+    }
+
+    private void getProductDetails(int productID) {
+        WebServicesHandler.instance.getProductDetail(String.valueOf(productID), String.valueOf(userID), new retrofit2.Callback<GetProduct>() {
+            @Override
+            public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
+                GetProduct getProduct = response.body();
+                if (getProduct != null) {
+                    if (getProduct.getSuccess() == 1) {
+                        if (getProduct.getProduct() != null) {
+                            cartProduct = getProduct.getProduct();
+                            Log.e("DefaultOptions", getOptionsData());
+                            if (SamanApp.localDB != null) {
+                                if (cartProduct.getQuantity() != 0) {
+                                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1)) {
+                                        showPopUp(mContext.getString(R.string.item_added_bag),
+                                                mContext.getString(R.string.item_added_message),
+                                                mContext.getString(R.string.continue_shopping),
+                                                mContext.getString(R.string.view_bag),
+                                                0);
+                                        /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_bag),
+                                0);*/
+                                    }
+                                } else {
+                                    Constants.showAlert(mContext.getString(R.string.title_my_bag),
+                                            mContext.getString(R.string.out_of_stock),
+                                            mContext.getString(R.string.cancel),
+                                            mContext);
+                                }
+                            }
+                            if (isHome) {
+                                ((DashboardActivity) mContext).updateBagCount();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetProduct> call, Throwable t) {
+                Log.e("Failure", t.getMessage());
+            }
+        });
+    }
+
+    private String getOptionsData() {
+        View v = null;
+        OptionValue optionValue = null;
+        String ids = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (ids.equals("")) {
+                    ids = "" + optionValue.getID();
+                } else {
+                    ids = ids + "," + optionValue.getID();
+                }
+            }
+        }
+        return ids;
+    }
+
+    private String getOptionsName() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitle();
+                } else {
+                    names = names + "," + optionValue.getTitle();
+                }
+            }
+        }
+        return names;
+    }
+
+    private String getOptionsNameAR() {
+        View v = null;
+        OptionValue optionValue = null;
+        String names = "";
+        if (cartProduct.getProductOptions() != null) {
+            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
+                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
+                if (names.equals("")) {
+                    names = "" + optionValue.getTitleAR();
+                } else {
+                    names = names + "," + optionValue.getTitleAR();
+                }
+            }
+        }
+        return names;
+    }
+
+    private void dislike(ImageView favoriteImageView, int position) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_fav_b));
+        } else {
+            favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_fav_b));
+        }
+        GlobalValues.markUnFavourite(userID, productArrayList.get(position).getID());
+        productArrayList.get(position).setFavorite(false);
+//        showPopUp(mContext.getString(R.string.removed_from_fav),
+//                mContext.getString(R.string.item_added_message),
+//                mContext.getString(R.string.continue_shopping),
+//                mContext.getString(R.string.view_fav),
+//                1);
+    }
+
+    private void showAlert(String title, String message, final ImageView favoriteImageView, final int position) {
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dislike(favoriteImageView, position);
+                        dialog.dismiss();
+                    }
+                });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
@@ -261,134 +399,5 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
-    }
-
-    private void getProductDetails(int productID) {
-        WebServicesHandler.instance.getProductDetail(String.valueOf(productID), String.valueOf(userID), new retrofit2.Callback<GetProduct>() {
-            @Override
-            public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
-                GetProduct getProduct = response.body();
-                if (getProduct != null) {
-                    if (getProduct.getSuccess() == 1) {
-                        if (getProduct.getProduct() != null) {
-                            cartProduct = getProduct.getProduct();
-                            Log.e("DefaultOptions", getOptionsData());
-                            if (SamanApp.localDB != null) {
-                                if (cartProduct.getQuantity() != 0) {
-                                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1)) {
-                                        showPopUp(mContext.getString(R.string.item_added_bag),
-                                                mContext.getString(R.string.item_added_message),
-                                                mContext.getString(R.string.continue_shopping),
-                                                mContext.getString(R.string.view_bag),
-                                                0);
-                                    }
-                                } else {
-                                    Constants.showAlert(mContext.getString(R.string.title_my_bag),
-                                            mContext.getString(R.string.out_of_stock),
-                                            mContext.getString(R.string.cancel),
-                                            mContext);
-                                }
-                            }
-                            if (isHome) {
-                                ((DashboardActivity) mContext).updateBagCount();
-                            }
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetProduct> call, Throwable t) {
-                Log.e("Failure", t.getMessage());
-            }
-        });
-    }
-
-    private String getOptionsData() {
-        View v = null;
-        OptionValue optionValue = null;
-        String ids = "";
-        if (cartProduct.getProductOptions() != null) {
-            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
-                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
-                if (ids.equals("")) {
-                    ids = "" + optionValue.getID();
-                } else {
-                    ids = ids + "," + optionValue.getID();
-                }
-            }
-        }
-        return ids;
-    }
-
-
-    private String getOptionsName() {
-        View v = null;
-        OptionValue optionValue = null;
-        String names = "";
-        if (cartProduct.getProductOptions() != null) {
-            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
-                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
-                if (names.equals("")) {
-                    names = "" + optionValue.getTitle();
-                } else {
-                    names = names + "," + optionValue.getTitle();
-                }
-            }
-        }
-        return names;
-    }
-
-    private String getOptionsNameAR() {
-        View v = null;
-        OptionValue optionValue = null;
-        String names = "";
-        if (cartProduct.getProductOptions() != null) {
-            for (int i = 0; i < cartProduct.getProductOptions().size(); i++) {
-                optionValue = cartProduct.getProductOptions().get(i).getOptionValues().get(0);
-                if (names.equals("")) {
-                    names = "" + optionValue.getTitleAR();
-                } else {
-                    names = names + "," + optionValue.getTitleAR();
-                }
-            }
-        }
-        return names;
-    }
-
-    private void showAlert(String title, String message, final ImageView favoriteImageView, final int position) {
-        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(R.string.yes),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dislike(favoriteImageView, position);
-                        dialog.dismiss();
-                    }
-                });
-
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getString(R.string.no),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
-
-    private void dislike(ImageView favoriteImageView, int position) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.ic_fav_b));
-        } else {
-            favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_fav_b));
-        }
-        GlobalValues.markUnFavourite(userID, productArrayList.get(position).getID());
-        productArrayList.get(position).setFavorite(false);
-//        showPopUp(mContext.getString(R.string.removed_from_fav),
-//                mContext.getString(R.string.item_added_message),
-//                mContext.getString(R.string.continue_shopping),
-//                mContext.getString(R.string.view_fav),
-//                1);
     }
 }

@@ -26,6 +26,7 @@ public class ProductPresenter implements ProductContractor.Presenter {
             @Override
             public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
                 GetProduct getProduct = response.body();
+                Log.e("PRODUCT00", "--getProduct--" + getProduct);
                 if (getProduct != null) {
                     if (getProduct.getSuccess() == 1) {
                         if (getProduct.getProduct() != null) {
@@ -74,7 +75,6 @@ public class ProductPresenter implements ProductContractor.Presenter {
 
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-
             }
         });
     }

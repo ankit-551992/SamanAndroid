@@ -715,7 +715,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 if (!flag.equals("")) {
                     GlobalValues.setSelectedCodeFlag(RegisterActivity.this, flag);
                 }
-
                 mPresenter.registerUser(firstName, lastName, email, password, GlobalValues.getUserToken(RegisterActivity.this), gender, country, returnedResult, dob, phone, region);
             }
         } else if (requestCode == 1414) {
@@ -728,9 +727,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             if (resultCode == RESULT_OK) {
                 String code = data.getExtras().getString("Code");
                 flag = data.getExtras().getString("Flag");
-
                 Log.e("FLAG000", "--flag---" + flag + "---code---" + code);
-//                ccp.setText("+" + code);
+//              ccp.setText("+" + code);
                 ccp.setText(code);
                 if (!flag.equals("")) {
                     Picasso.get().load(flag).transform(new CircleTransform()).into(countryFlag);

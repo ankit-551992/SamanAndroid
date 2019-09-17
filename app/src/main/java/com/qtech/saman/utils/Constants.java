@@ -18,8 +18,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.qtech.saman.R;
+import com.qtech.saman.listeners.DialogOnClick;
+import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.login.LoginActivity;
 
 import java.io.IOException;
@@ -78,27 +81,6 @@ public class Constants {
         }
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
         return countries;
-    }
-
-    public static void showLoginDialog2(final Context mContext) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setCancelable(false);
-        builder.setMessage(mContext.getString(R.string.login_message));
-        builder.setPositiveButton(mContext.getString(R.string.conti), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent mainIntent = new Intent(mContext, LoginActivity.class);
-                mainIntent.putExtra("GuestTry", true);
-                mContext.startActivity(mainIntent);
-            }
-        });
-        builder.setNegativeButton(mContext.getString(R.string.not_now), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.show();
     }
 
     public static void showLoginDialog(final Context mContext) {
@@ -181,7 +163,6 @@ public class Constants {
         return json;
     }
 
-
     public static ProgressDialog mSpinner;
 
     public static void showSpinner(String title, Context context) {
@@ -218,5 +199,89 @@ public class Constants {
     public static String[] convertStringToArray(String str) {
         String[] arr = str.split(strSeparator);
         return arr;
+    }
+
+    public static void showCustomPopUp(Context mContext, String title, String message, String closeButtonText, String nextButtonText, final int type) {
+        dialog = new Dialog(mContext, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailog_information_pop_up);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+        closePopUp.setText(closeButtonText);
+        nextButton.setText(nextButtonText);
+
+        closePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (type == 0) {
+                    dialog.dismiss();
+                    Constants.viewBag = true;
+                    Intent intent = new Intent(mContext, DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("NavItem", 3);
+                    ((Activity) mContext).startActivity(intent);
+                } else {
+                    dialog.dismiss();
+                    Intent intent = new Intent(mContext, DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("NavItem", 2);
+                    ((Activity) mContext).startActivity(intent);
+                }
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(mContext,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
+    }
+
+    DialogOnClick dialogOnClick;
+    private void showAlert(Context mContext,String title, String message, final ImageView favoriteImageView, final int position) {
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+//                      dislike(favoriteImageView, position);
+                        dialog.dismiss();
+//                        dialogOnClick.dialogOnButtonClick(mContext);
+                    }
+                });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

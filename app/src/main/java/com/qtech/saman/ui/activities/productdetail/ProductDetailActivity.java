@@ -202,7 +202,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.iv_favorite)
     public void favoriteButton() {
-
         if (GlobalValues.getGuestLoginStatus(ProductDetailActivity.this)) {
             Constants.showLoginDialog(ProductDetailActivity.this);
             return;
@@ -230,6 +229,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     getString(R.string.continue_shopping),
                     getString(R.string.view_fav),
                     1);
+            /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_bag),
+                                1);*/
         }
 
   /*      if (product.getQuantity() != 0) {
@@ -281,6 +285,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                                 getString(R.string.continue_shopping),
                                 getString(R.string.view_bag),
                                 0);
+                        /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_bag),
+                                0);*/
                     }
                 } else {
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
@@ -486,6 +495,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @Override
     public void response(Product product) {
+        Log.e("PRODUCT00", "--getProduct---" + product);
         this.product = product;
         if (selectedQuantity != -1) {
             //this.product.setQuantity(selectedQuantity);
@@ -518,7 +528,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         for (int i = 0; i < product.getProductAttributes().size(); i++) {
-
 //            if (atributes.equals("")) {
 //                if (SamanApp.isEnglishVersion) {
 //                    atributes = product.getProductAttributes().get(i).getTitle()+" : "+product.getProductAttributes().get(i).getValue();
@@ -532,7 +541,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //                    atributes = atributes + "\n" + product.getProductAttributes().get(i).getTitleAR()+" : "+product.getProductAttributes().get(i).getValueAR();
 //                }
 //            }
-
             ProductAttribute productAttribute = product.getProductAttributes().get(i);
             View child = inflater.inflate(R.layout.item_specifications_row, null);
             TextView name = (TextView) child.findViewById(R.id.tv_attributeName);
@@ -553,14 +561,18 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //        } else {
 //            attributes.setText(getString(R.string.no_specifications));
 //        }
-
         if (product.getQuantity() <= 0) {
             // addToCart.setEnabled(false);
-            button_notify.setVisibility(View.VISIBLE);
             removeQuantity.setEnabled(false);
             addQuantity.setEnabled(false);
             outOfStockTextView.setVisibility(View.VISIBLE);
             productCount.setText("0");
+
+            if (product.getIsNotificationSubscribed().equals("true")){
+                button_notify.setVisibility(View.GONE);
+            }else {
+                button_notify.setVisibility(View.VISIBLE);
+            }
         }
 
         if (product.getIsSaleProduct().equals("true")) {
@@ -769,42 +781,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         return names;
     }
 
-    private void showAlert(String title, String message, int type) {
-        // alert for remove favourite item
-        AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailActivity.this).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (type == 0) {
-                            // call api for out of stock product
-                            presenter.addProduct(authenticatedUser.getId(), productID);
-                            dialog.dismiss();
-                        } else {
-                            dislike();
-                            dialog.dismiss();
-                        }
-//                        dislike();
-//                        dialog.dismiss();
-                    }
-                });
-
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-//                        if (type == 0){
-//                          //  call api for out of stock product
-//                        }else {
-//                            dislike();
-//                            dialog.dismiss();
-//                        }
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
-
     private void dislike() {
 //        String[] optionIDs = getOptionsData().split(",");
         presenter.markUnFavorite(authenticatedUser.getId(), productID, null);
@@ -841,7 +817,42 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         } else {
             Log.e("NOTIFY000", "--addProductNotifyResponse--elseeeeeee---" + simpleSuccess.getMessage());
             Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
-            button_notify.setVisibility(View.GONE);
         }
+    }
+
+    private void showAlert(String title, String message, int type) {
+        // alert for remove favourite item
+        AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailActivity.this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (type == 0) {
+                            // call api for out of stock product
+                            presenter.addProduct(authenticatedUser.getId(), productID);
+                            dialog.dismiss();
+                        } else {
+                            dislike();
+                            dialog.dismiss();
+                        }
+//                        dislike();
+//                        dialog.dismiss();
+                    }
+                });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+//                        if (type == 0){
+//                          //  call api for out of stock product
+//                        }else {
+//                            dislike();
+//                            dialog.dismiss();
+//                        }
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }
