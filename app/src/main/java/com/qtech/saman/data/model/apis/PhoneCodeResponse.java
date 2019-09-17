@@ -41,4 +41,13 @@ public class PhoneCodeResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "PhoneCodeResponse{" +
+                "result='" + result + '\'' +
+                ", success=" + success +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

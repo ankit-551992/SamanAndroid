@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -74,6 +75,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     EditText addressEditText;
     @BindView(R.id.iv_country_flag)
     ImageView countryFlag;
+    @BindView(R.id.iv_code_flag)
+    ImageView iv_code_flag;
     @BindView(R.id.editText_day)
     EditText dayEditText;
     @BindView(R.id.editText_month)
@@ -101,6 +104,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     long selectedDateInMillis = 0;
 
     boolean showAlert = false;
+    String codeflag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,8 +174,18 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 //            phoneEditText.setEnabled(false);
         }
 
+        codeflag = GlobalValues.getSelectedCodeFlag(MyDetailsActivity.this);
+        Log.e("FLAG000", "--codeflag--" + codeflag);
+        if (!codeflag.equals("") && !TextUtils.isEmpty(codeflag)) {
+            iv_code_flag.setVisibility(View.VISIBLE);
+            Picasso.get().load(codeflag).transform(new CircleTransform()).into(iv_code_flag);
+        } else {
+            iv_code_flag.setVisibility(View.GONE);
+        }
+
         genderText.setText(authenticatedUser.getGender());
         selectedGender = authenticatedUser.getGender();
+        Log.e("FLAG000", "--getCountry--" + authenticatedUser.getCountry());
 //        countryName.setText(authenticatedUser.getCountry());
         if (authenticatedUser.getShippingAddress() != null) {
 
@@ -423,7 +437,14 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         } else if (requestCode == 2021) {
             if (resultCode == RESULT_OK) {
                 String code = data.getExtras().getString("Code");
-                ccp.setText("+" + code);
+                codeflag = data.getExtras().getString("Flag");
+                if (!codeflag.equals("")) {
+                    iv_code_flag.setVisibility(View.VISIBLE);
+                    Picasso.get().load(codeflag).transform(new CircleTransform()).into(iv_code_flag);
+                }
+
+//                ccp.setText("+" + code);
+                ccp.setText(code);
             }
         }
     }
@@ -578,6 +599,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             }
             GlobalValues.saveUser(MyDetailsActivity.this, authenticatedUser);
 
+            GlobalValues.setSelectedCodeFlag(MyDetailsActivity.this, codeflag);
             if (isRequest) {
                 setResult(RESULT_OK);
                 finish();

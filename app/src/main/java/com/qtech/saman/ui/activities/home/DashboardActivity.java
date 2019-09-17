@@ -1,5 +1,6 @@
 package com.qtech.saman.ui.activities.home;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -156,6 +157,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         updateBagCount();
         updateUserDetails();
         getConversation();
+//        mPresenter.getUserData();
     }
 
     @Override
@@ -332,6 +334,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void updateUserDetails() {
         User authenticatedUser = GlobalValues.getUser(DashboardActivity.this);

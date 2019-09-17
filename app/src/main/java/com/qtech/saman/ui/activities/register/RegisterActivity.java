@@ -30,24 +30,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.qtech.saman.R;
-import com.qtech.saman.base.BaseActivity;
-import com.qtech.saman.data.model.Country;
-import com.qtech.saman.data.model.ShippingAddress;
-import com.qtech.saman.data.model.User;
-import com.qtech.saman.data.model.apis.UserResponse;
-import com.qtech.saman.network.WebServicesHandler;
-import com.qtech.saman.ui.activities.PoliciesActivity;
-import com.qtech.saman.ui.activities.country.CountriesListingActivity;
-import com.qtech.saman.ui.activities.country.RegionListingActivity;
-import com.qtech.saman.ui.activities.home.DashboardActivity;
-import com.qtech.saman.ui.activities.login.LoginActivity;
-import com.qtech.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
-import com.qtech.saman.ui.activities.onboarding.WelcomeActivity;
-import com.qtech.saman.ui.activities.password.NumberVerificationActivity;
-import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
-import com.qtech.saman.utils.Constants;
-import com.qtech.saman.utils.GlobalValues;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -69,6 +51,26 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.gson.Gson;
+import com.qtech.saman.R;
+import com.qtech.saman.base.BaseActivity;
+import com.qtech.saman.data.model.Country;
+import com.qtech.saman.data.model.ShippingAddress;
+import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.UserResponse;
+import com.qtech.saman.network.WebServicesHandler;
+import com.qtech.saman.ui.activities.PoliciesActivity;
+import com.qtech.saman.ui.activities.country.CountriesListingActivity;
+import com.qtech.saman.ui.activities.country.RegionListingActivity;
+import com.qtech.saman.ui.activities.home.DashboardActivity;
+import com.qtech.saman.ui.activities.login.LoginActivity;
+import com.qtech.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
+import com.qtech.saman.ui.activities.onboarding.WelcomeActivity;
+import com.qtech.saman.ui.activities.password.NumberVerificationActivity;
+import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
+import com.qtech.saman.utils.CircleTransform;
+import com.qtech.saman.utils.Constants;
+import com.qtech.saman.utils.GlobalValues;
+import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -143,6 +145,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     LinearLayout regionSelectionLinearLayout;
     @BindView(R.id.view_region)
     View regionView;
+    @BindView(R.id.iv_country_flag)
+    ImageView countryFlag;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     boolean isShowing = false;
@@ -169,6 +173,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     String returnedResult;
     boolean isGuestTry = false;
     boolean isNumberVerified = false;
+    String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,18 +206,42 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, mFacebookCallback);
         //Social Login
-
         myCalendar = Calendar.getInstance();
 
         customTextView(termPolicy);
-
 //        addSpinner();
+
+        phoneEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String phone = ccp.getText().toString();
+                Log.e("FLAG000", "---hasFocus---" + hasFocus);
+                if (hasFocus) {
+                    if (TextUtils.isEmpty(phone)) {
+                        Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
+                    } else {
+                        Log.e("FLAG000", "---phoneEditText---" + phoneEditText.getText().toString());
+                    }
+                } else {
+                    Log.e("FLAG000", "---elsee---" + phoneEditText.getText().toString());
+                }
+            }
+        });
     }
 
+    @OnClick(R.id.editText_phone)
+    void phoneText() {
+        Log.e("FLAG000", "---000---" + phoneEditText.getText().toString());
+        String phone = ccp.getText().toString();
+        if (TextUtils.isEmpty(phone)) {
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
+        } else {
+            Log.e("FLAG000", "---phoneEditText---" + phoneEditText.getText().toString());
+        }
+    }
 
     @OnClick({R.id.editText_day, R.id.editText_month, R.id.editText_year})
     void setDOB() {
@@ -243,7 +272,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
@@ -338,7 +366,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
         final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
 
-
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -354,7 +381,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                     genderText.setText(radioButton.getText().toString());
                     dialog.dismiss();
                 }
-
             }
         });
 
@@ -479,7 +505,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     }
 
     private boolean isValidEmailId(String email) {
-
         return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
                 + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
                 + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
@@ -509,7 +534,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             passwordEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             passwordVisibilityImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hide));
         }
-
         passwordEditText.setSelection(passwordEditText.length());
     }
 
@@ -688,6 +712,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String year = String.valueOf(yr);
 
                 String dob = month + "-" + day + "-" + year;
+                if (!flag.equals("")) {
+                    GlobalValues.setSelectedCodeFlag(RegisterActivity.this, flag);
+                }
+
                 mPresenter.registerUser(firstName, lastName, email, password, GlobalValues.getUserToken(RegisterActivity.this), gender, country, returnedResult, dob, phone, region);
             }
         } else if (requestCode == 1414) {
@@ -699,7 +727,14 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         } else if (requestCode == 2021) {
             if (resultCode == RESULT_OK) {
                 String code = data.getExtras().getString("Code");
-                ccp.setText("+" + code);
+                flag = data.getExtras().getString("Flag");
+
+                Log.e("FLAG000", "--flag---" + flag + "---code---" + code);
+//                ccp.setText("+" + code);
+                ccp.setText(code);
+                if (!flag.equals("")) {
+                    Picasso.get().load(flag).transform(new CircleTransform()).into(countryFlag);
+                }
             }
         } else if (requestCode == 2025) {
             if (resultCode == RESULT_OK) {

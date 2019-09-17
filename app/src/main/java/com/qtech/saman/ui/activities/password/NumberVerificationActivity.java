@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.apis.PhoneCodeResponse;
@@ -90,6 +91,8 @@ public class NumberVerificationActivity extends BaseActivity {
             @Override
             public void onResponse(Call<PhoneCodeResponse> call, Response<PhoneCodeResponse> response) {
                 phoneCodeResponse = response.body();
+                Log.e("RESPNSE", "--phoneCodeResponse--" + response.body());
+                Log.e("RESPNSE", "--phoneCodeResponse-0000-" + phoneCodeResponse);
                 if (phoneCodeResponse != null) {
                     if (phoneCodeResponse.getSuccess() == 1) {
                         Log.e("Code", phoneCodeResponse.getResult());

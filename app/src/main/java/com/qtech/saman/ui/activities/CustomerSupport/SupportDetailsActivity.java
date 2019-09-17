@@ -93,7 +93,7 @@ public class SupportDetailsActivity extends BaseActivity {
         }
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitle.setText(getString(R.string.customer_detail_tilte));
+        toolbarTitle.setText(getString(R.string.customer_service));
         toolbarBack.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));

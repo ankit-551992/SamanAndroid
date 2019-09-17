@@ -207,7 +207,7 @@ public class StoreFragment extends BaseFragment {
 //            adapter.addFrag(AllStores.newInstance(search), "All");
             adapter.addFrag(AllStores.newInstance(search), getString(R.string.all));
         } else {
-            adapter.addFrag(new AllStores(), "All");
+            adapter.addFrag(new AllStores(), getString(R.string.all));
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
                 adapter.addFrag(
                         Tabs.newInstance(GlobalValues.storeCategories.get(i).getID()),

@@ -73,6 +73,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         Intent data = new Intent();
                         String code = countries.get(holder.getAdapterPosition()).getPhoneCode();
                         data.putExtra("Code", code);
+                        data.putExtra("Flag", countries.get(holder.getAdapterPosition()).getFlag());
                         ((Activity) mContext).setResult(RESULT_OK, data);
                         ((Activity) mContext).finish();
                     } else {

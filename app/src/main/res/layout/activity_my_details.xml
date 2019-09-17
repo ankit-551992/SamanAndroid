@@ -126,11 +126,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:layout_marginEnd="3dp"
+                    android:src="@drawable/ic_camera_gray"
+                    android:id="@+id/iv_code_flag"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"/>
+
                 <EditText
                     android:id="@+id/ccp"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
-                    android:hint="+968"
+                    android:hint="@string/code"
                     android:focusable="false"
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"/>
@@ -206,7 +215,8 @@
                     android:src="@drawable/ic_camera"
                     android:id="@+id/iv_country_flag"
                     android:layout_width="30dp"
-                    android:layout_height="30dp" />
+                    android:layout_height="30dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/tv_country_name"
                     android:layout_gravity="center_vertical"
@@ -367,7 +377,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="@string/address_hint"
+                    android:hint="@string/address"
                     android:imeOptions="actionDone"
                     android:inputType="text"/>
 

@@ -35,7 +35,7 @@ public class DashboardPresenter implements DashboardContractor.Presenter {
         apiClient.getStoreCategories(new Callback<GetCategoriesList>() {
             @Override
             public void onResponse(Call<GetCategoriesList> call, Response<GetCategoriesList> response) {
-                Log.e("SIGNUP_URL", "----sign---up---onResponse---" + new Gson().toJson(response));
+                Log.e("SIGNUP_URL", "----GetCategoriesList---onResponse---" + new Gson().toJson(response));
                 GetCategoriesList getCategoriesList = response.body();
                 if (getCategoriesList != null) {
                     if (getCategoriesList.getSuccess() == 1) {

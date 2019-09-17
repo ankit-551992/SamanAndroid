@@ -214,6 +214,9 @@
     <string name="address_req">Address Required</string>
     <string name="have_account">Have Account?</string>
     <string name="dob_missing">Please Select Date Of Birth</string>
+    <string name="code">Code</string>
+    <string name="enter_countrycode">Please enter country code</string>
+
     <!--Sign Up-->
 
     <!--Password-->
