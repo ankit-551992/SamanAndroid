@@ -38,7 +38,6 @@ import com.qtech.saman.data.model.ProductAttribute;
 import com.qtech.saman.data.model.ProductOption;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
-import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
@@ -208,13 +207,16 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         if (!allOptionsSelected()) {
-            showPopUp();
+//            showPopUp();
+            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options),getString(R.string.okay));
             return;
         }
 
         authenticatedUser = GlobalValues.getUser(ProductDetailActivity.this);
         if (product.getFavorite()) {
-            showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), 1);
+//          showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), 1);
+            showPopUp(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), getString(R.string.no),
+                    getString(R.string.yes), 1);
         } else {
             String[] optionIDs = getOptionsData().split(",");
             presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
@@ -224,43 +226,17 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             } else {
                 favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
             }
-            showPopUp(getString(R.string.added_to_fav),
+          /*  showPopUp(getString(R.string.added_to_fav),
+                    getString(R.string.item_added_message),
+                    getString(R.string.continue_shopping),
+                    getString(R.string.view_fav),
+                    1);*/
+            Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.added_to_fav),
                     getString(R.string.item_added_message),
                     getString(R.string.continue_shopping),
                     getString(R.string.view_fav),
                     1);
-            /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_bag),
-                                1);*/
         }
-
-  /*      if (product.getQuantity() != 0) {
-            if (product.getFavorite()) {
-                showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure));
-            } else {
-                String[] optionIDs = getOptionsData().split(",");
-                presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
-                product.setFavorite(true);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));
-                } else {
-                    favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
-                }
-                showPopUp(getString(R.string.added_to_fav),
-                        getString(R.string.item_added_message),
-                        getString(R.string.continue_shopping),
-                        getString(R.string.view_fav),
-                        1);
-
-            }
-        } else {
-            Constants.showAlert(getString(R.string.title_fav),
-                    getString(R.string.out_of_stock),
-                    getString(R.string.cancel),
-                    this);
-        }*/
     }
 
     @OnClick(R.id.iv_add_to_cart)
@@ -270,7 +246,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         if (!allOptionsSelected()) {
-            showPopUp();
+//            showPopUp();
+            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options),getString(R.string.okay));
+
             return;
         }
 
@@ -280,16 +258,16 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 Log.e("Quantity", "" + product.getQuantity());
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(), Integer.parseInt(productCount.getText().toString()))) {
-                        showPopUp(getString(R.string.item_added_bag),
+                      /*  showPopUp(getString(R.string.item_added_bag),
+                                getString(R.string.item_added_message),
+                                getString(R.string.continue_shopping),
+                                getString(R.string.view_bag),
+                                0);*/
+                        Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.item_added_bag),
                                 getString(R.string.item_added_message),
                                 getString(R.string.continue_shopping),
                                 getString(R.string.view_bag),
                                 0);
-                        /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_bag),
-                                0);*/
                     }
                 } else {
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
@@ -308,132 +286,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
     }
 
-    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
-        dialog = new Dialog(ProductDetailActivity.this, R.style.CustomDialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dailog_information_pop_up);
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
-        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
-        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
-        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
-
-        titleTextView.setText(title);
-        messageTextView.setText(message);
-        closePopUp.setText(closeButtonText);
-        nextButton.setText(nextButtonText);
-
-        closePopUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (type == 0) {
-                    dialog.dismiss();
-                    Constants.viewBag = true;
-                    Intent intent = new Intent(ProductDetailActivity.this, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("NavItem", 3);
-                    startActivity(intent);
-                } else {
-                    dialog.dismiss();
-                    Intent intent = new Intent(ProductDetailActivity.this, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("NavItem", 2);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        Animation animation;
-        animation = AnimationUtils.loadAnimation(ProductDetailActivity.this,
-                R.anim.fade_in);
-
-        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
-        dialog.show();
-    }
-
-    private void showPopUp() {
-        // show error for select all option
-        dialog2 = new Dialog(ProductDetailActivity.this, R.style.CustomDialog);
-        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog2.setContentView(R.layout.dialog_customer_support);
-        dialog2.setCancelable(false);
-        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-        TextView titleTextView = dialog2.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = dialog2.findViewById(R.id.tv_pop_up_message);
-        ImageView close = dialog2.findViewById(R.id.iv_pop_up_close);
-        Button nextButton = dialog2.findViewById(R.id.button_pop_next);
-
-        titleTextView.setText(getString(R.string.error));
-        messageTextView.setText(getString(R.string.missing_options));
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog2.dismiss();
-            }
-        });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog2.dismiss();
-            }
-        });
-
-        Animation animation;
-        animation = AnimationUtils.loadAnimation(ProductDetailActivity.this,
-                R.anim.fade_in);
-
-        ((ViewGroup) dialog2.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
-        dialog2.show();
-    }
-
-    public void showAlert(String title, String message, String buttonText, String buttonText2) {
-        AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailActivity.this).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, buttonText2,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(ProductDetailActivity.this, DashboardActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("NavItem", 3);
-                        startActivity(intent);
-                    }
-                }
-        );
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
-
     @OnClick(R.id.button_notify)
     public void notifyItem() {
-        showAlert(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), 0);
+//        showAlert(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), 0);
+        showPopUp(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), getString(R.string.no),
+                getString(R.string.yes), 0);
     }
 
     @OnClick(R.id.iv_share)
@@ -568,9 +425,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             outOfStockTextView.setVisibility(View.VISIBLE);
             productCount.setText("0");
 
-            if (product.getIsNotificationSubscribed().equals("true")){
+            if (product.getIsNotificationSubscribed().equals("true")) {
                 button_notify.setVisibility(View.GONE);
-            }else {
+            } else {
                 button_notify.setVisibility(View.VISIBLE);
             }
         }
@@ -790,11 +647,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         } else {
             favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_b));
         }
-//        showPopUp(getString(R.string.removed_from_fav),
-//                getString(R.string.item_added_message),
-//                getString(R.string.continue_shopping),
-//                getString(R.string.view_fav),
-//                1);
     }
 
     private void inviteFriends() {
@@ -820,39 +672,57 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
     }
 
-    private void showAlert(String title, String message, int type) {
-        // alert for remove favourite item
-        AlertDialog alertDialog = new AlertDialog.Builder(ProductDetailActivity.this).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (type == 0) {
-                            // call api for out of stock product
-                            presenter.addProduct(authenticatedUser.getId(), productID);
-                            dialog.dismiss();
-                        } else {
-                            dislike();
-                            dialog.dismiss();
-                        }
-//                        dislike();
-//                        dialog.dismiss();
-                    }
-                });
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
+        dialog = new Dialog(ProductDetailActivity.this, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailog_information_pop_up);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-//                        if (type == 0){
-//                          //  call api for out of stock product
-//                        }else {
-//                            dislike();
-//                            dialog.dismiss();
-//                        }
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+        closePopUp.setText(closeButtonText);
+        nextButton.setText(nextButtonText);
+
+        closePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (type == 0) {
+                    // call api for out of stock product
+                    presenter.addProduct(authenticatedUser.getId(), productID);
+                    dialog.dismiss();
+                } else {
+                    dislike();
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(ProductDetailActivity.this,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 }

@@ -42,7 +42,9 @@ public class GlobalValues {
     public static String Itemback_notify = "ITEMBACK_NOTIFY";
 
     public static boolean FLAG_SEARCH = false;
+    public static boolean FLAG_SEARCH_PRODUCT = false;
 
+    public static int CATEGORYID = 0;
 
     public static void setUserLoginStatus(Context ctx, boolean isLogin) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);

@@ -85,37 +85,6 @@ public class StoreFragment extends BaseFragment {
                 return false;
             }
         });
-
-       /* search_store.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (search_store.getText() != null && !search_store.getText().toString().isEmpty() && search_store.getText().length() > 0) {
-                    search = search_store.getText().toString();
-                    is_search = true;
-                    tab();
-                    adapter.notifyDataSetChanged();
-                    FLAG_SEARCH = true;
-//                        adapter.addFrag(new AllStores(), "");
-//                        adapter.notifyDataSetChanged();
-                    Log.e("SEARCH000", "--search--onTextChanged---store---" + search);
-                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-                } else {
-                    is_search = false;
-                    tab();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
     }
 
 //    @OnClick(R.id.toolbar_search)
@@ -174,7 +143,6 @@ public class StoreFragment extends BaseFragment {
                 String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 1).getLogoURL();
                 Picasso.get().load(url).into(imageView);
             }
-
 
 //            switch (i){
 //                case 0:

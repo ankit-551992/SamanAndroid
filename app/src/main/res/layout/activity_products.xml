@@ -33,6 +33,21 @@
                 android:drawablePadding="5dp"
                 android:padding="10dp"
                 android:text="@string/search"
+                android:textColor="@color/grey"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/search_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_background"
+                android:drawableLeft="@drawable/ic_search_grey"
+                android:drawablePadding="5dp"
+                android:layout_margin="10dp"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_search_grey"
+                android:padding="10dp"
+                android:hint="@string/search"
                 android:textColor="@color/grey" />
 
         </RelativeLayout>

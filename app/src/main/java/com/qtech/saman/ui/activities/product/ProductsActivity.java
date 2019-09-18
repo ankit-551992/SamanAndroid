@@ -10,16 +10,20 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
+import com.qtech.saman.listeners.DialogOnClick;
 import com.qtech.saman.ui.activities.search.SearchActivity;
-import com.qtech.saman.ui.fragments.product.AllProductsFragment;
 import com.qtech.saman.ui.fragments.product.ProductsCategoryFragment;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
@@ -33,6 +37,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.qtech.saman.utils.GlobalValues.CATEGORYID;
+import static com.qtech.saman.utils.GlobalValues.FLAG_SEARCH_PRODUCT;
 
 public class ProductsActivity extends BaseActivity {
 
@@ -48,9 +55,15 @@ public class ProductsActivity extends BaseActivity {
     TabLayout tabLayout;
     @BindView(R.id.pager)
     LockableViewPager viewPager;
+    @BindView(R.id.search)
+    RelativeLayout rl_search;
+    @BindView(R.id.search_product)
+    EditText search_product;
+    String search = "";
 
     ViewPagerAdapter adapter;
     int categoryID;
+    DialogOnClick dialogOnClick;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -62,15 +75,16 @@ public class ProductsActivity extends BaseActivity {
         if (getIntent().hasExtra("CategoryID")) {
             categoryID = bundle.getInt("CategoryID");
 //            categoryID = 4;
-            Log.e("CATEGORY", "--categoryID--00----" + categoryID);
-            ProductsCategoryFragment.newInstance(categoryID);
+            ProductsCategoryFragment.newInstance(categoryID, "");
         }
         tab();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         toolbarTitle.setText(getString(R.string.products));
         toolbarBack.setVisibility(View.VISIBLE);
-        toolbarSearch.setVisibility(View.VISIBLE);
+        toolbarSearch.setVisibility(View.GONE);
+        rl_search.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         } else {
@@ -80,6 +94,9 @@ public class ProductsActivity extends BaseActivity {
 
     @OnClick(R.id.toolbar_back)
     public void back() {
+        FLAG_SEARCH_PRODUCT = false;
+        tabLayout.setVisibility(View.VISIBLE);
+        search = "";
         super.onBackPressed();
     }
 
@@ -89,10 +106,51 @@ public class ProductsActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.search_product)
+    void searchCategotyProduct() {
+        searchTextListner();
+    }
+
+    private void searchTextListner() {
+        search_product.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    if (search_product.getText() != null && !search_product.getText().toString().isEmpty() &&
+                            search_product.getText().length() > 0) {
+                        tabLayout.setVisibility(View.GONE);
+                        FLAG_SEARCH_PRODUCT = true;
+                        search = search_product.getText().toString();
+                        tab();
+                        adapter.notifyDataSetChanged();
+                        Log.e("SEARCH000", "--search--onTextChanged---store---" + search);
+//                        if (dialogOnClick != null) {
+//                            dialogOnClick.searchProduct(true, search);
+//                        }
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        return true;
+                    } else {
+                        FLAG_SEARCH_PRODUCT = false;
+                        tabLayout.setVisibility(View.VISIBLE);
+                        search = "";
+                        tab();
+//                        if (dialogOnClick != null) {
+//                            dialogOnClick.searchProduct(false, "");
+//                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
     public void tab() {
         setupViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager, false);
         setUpCustomTabs();
         viewPager.beginFakeDrag();
         viewPager.setSwipeable(false);
@@ -120,7 +178,6 @@ public class ProductsActivity extends BaseActivity {
                 TabLayout.Tab tab = tabLayout.getTabAt(0);
                 if (tab != null)
                     tab.setCustomView(customTab);//set custom view
-
             } else if (i == 1) {
                 textView.setText(getString(R.string.new_in));
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
@@ -146,14 +203,18 @@ public class ProductsActivity extends BaseActivity {
     public void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
-//      adapter.addFrag(AllProductsFragment.newInstance(true), getString(R.string.new_in));
-
-        adapter.addFrag(ProductsCategoryFragment.newInstance(0), getString(R.string.new_in));
-        for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
-            adapter.addFrag(
-                    ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID()),
-                    GlobalValues.storeCategories.get(i).getTitle());
+        if (FLAG_SEARCH_PRODUCT) {
+            adapter.addFrag(ProductsCategoryFragment.newInstance(CATEGORYID, search), getString(R.string.all));
+        } else {
+//           adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(0, ""), getString(R.string.all));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(1, ""), getString(R.string.new_in));
+            for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
+                adapter.addFrag(
+                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), ""),
+                        GlobalValues.storeCategories.get(i).getTitle());
+                Log.e("SEARCH000", "---GlobalValue---getID()---" + GlobalValues.storeCategories.get(i).getID());
+            }
         }
         viewPager.setAdapter(adapter);
     }

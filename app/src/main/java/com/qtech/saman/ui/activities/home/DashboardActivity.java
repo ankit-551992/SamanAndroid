@@ -1,9 +1,11 @@
 package com.qtech.saman.ui.activities.home;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
@@ -22,10 +23,21 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.Message;
@@ -47,12 +59,6 @@ import com.qtech.saman.utils.CircleTransform;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -195,7 +201,9 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             Intent intent = new Intent(DashboardActivity.this, SettingsActivity.class);
             startActivity(intent);
         } else {
-            show_logout_dialog();
+            show_logout_dialog(DashboardActivity.this, getString(R.string.logout), getString(R.string.logout_message),
+                    getString(R.string.back), getString(R.string.logout));
+
         }
     }
 
@@ -229,7 +237,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 unSelectedItem = true;
                 break;
             case R.id.nav_logout:
-                show_logout_dialog();
+                show_logout_dialog(DashboardActivity.this, getString(R.string.logout), getString(R.string.logout_message),
+                        getString(R.string.back), getString(R.string.logout));
                 unSelectedItem = true;
                 break;
             case R.id.nav_login:
@@ -466,59 +475,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         toolbarTitle.setText(title);
     }
 
-    private void show_logout_dialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
-        builder.setMessage(getString(R.string.logout_message));
-        builder.setPositiveButton(getString(R.string.logout), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-//                presenter.logoutUser();
-
-                SamanApp.db.putString(Constants.CARD_LIST, "");
-                if (SamanApp.localDB != null) {
-                    SamanApp.localDB.clearCart();
-                }
-                removeToken();
-
-                if (authenticatedUser.getSocialID() == 1) {
-                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                            new ResultCallback<Status>() {
-                                @Override
-                                public void onResult(Status status) {
-                                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
-                                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-                                    startActivity(mainIntent);
-                                    finish();
-                                }
-                            });
-                } else if (authenticatedUser.getSocialID() == 2) {
-                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
-                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-                    startActivity(mainIntent);
-                    finish();
-                } else if (authenticatedUser.getSocialID() == 3) {
-                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
-                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-                    startActivity(mainIntent);
-                    finish();
-                } else {
-                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
-                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-                    startActivity(mainIntent);
-                    finish();
-                }
-            }
-        });
-        builder.setNegativeButton(getString(R.string.back), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.show();
-    }
-
     public void callFavNav() {
         onNavigationItemSelected(navigationView.getMenu().getItem(2));
     }
@@ -651,4 +607,86 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             }
         });
     }
+
+    private void show_logout_dialog(Context mContext, String title, String message, String closeButtonText, String nextButtonText) {
+        // view favourite & add to cart dialog
+        Dialog dialog = new Dialog(mContext, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailog_information_pop_up);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+        closePopUp.setText(closeButtonText);
+        nextButton.setText(nextButtonText);
+
+        closePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SamanApp.db.putString(Constants.CARD_LIST, "");
+                if (SamanApp.localDB != null) {
+                    SamanApp.localDB.clearCart();
+                }
+                removeToken();
+
+                if (authenticatedUser.getSocialID() == 1) {
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                            new ResultCallback<Status>() {
+                                @Override
+                                public void onResult(Status status) {
+                                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
+                                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                                    startActivity(mainIntent);
+                                    finish();
+                                }
+                            });
+                } else if (authenticatedUser.getSocialID() == 2) {
+                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
+                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                } else if (authenticatedUser.getSocialID() == 3) {
+                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
+                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                } else {
+                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
+                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(mContext,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
+    }
+
 }

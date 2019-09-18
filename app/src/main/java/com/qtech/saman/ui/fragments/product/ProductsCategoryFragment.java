@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseFragment;
 import com.qtech.saman.data.model.Product;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.GetProducts;
+import com.qtech.saman.listeners.DialogOnClick;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.adapters.ProductAdapter;
 import com.qtech.saman.utils.GlobalValues;
@@ -30,7 +32,9 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class ProductsCategoryFragment extends BaseFragment {
+import static com.qtech.saman.utils.GlobalValues.CATEGORYID;
+
+public class ProductsCategoryFragment extends BaseFragment implements DialogOnClick {
 
     @BindView(R.id.tv_empty)
     TextView empty;
@@ -49,10 +53,12 @@ public class ProductsCategoryFragment extends BaseFragment {
     User authenticatedUser;
     private int categoryID;
     List<Product> newdisplayData = new ArrayList<>();
+    String search_category_product;
 
-    public static ProductsCategoryFragment newInstance(int categoryID) {
+    public static ProductsCategoryFragment newInstance(int categoryID, String search) {
         Bundle bundle = new Bundle();
         bundle.putInt("CategoryID", categoryID);
+        bundle.putString("SEARCH", search);
         ProductsCategoryFragment fragment = new ProductsCategoryFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -61,6 +67,7 @@ public class ProductsCategoryFragment extends BaseFragment {
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
             categoryID = bundle.getInt("CategoryID");
+            search_category_product = bundle.getString("SEARCH");
         }
     }
 
@@ -82,6 +89,7 @@ public class ProductsCategoryFragment extends BaseFragment {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
+        Log.e("SEARCH000", "---categoryID---" + categoryID);
         getProducts(categoryID, currentPage, pageSize);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -98,9 +106,14 @@ public class ProductsCategoryFragment extends BaseFragment {
     }
 
     private void getProducts(int categoryID, int pageIndex, int pageSize) {
-
+        CATEGORYID = categoryID;
+        Log.e("2222NEWPRODUCT", "----CATEGORYID-----" + CATEGORYID);
         if (categoryID == 0) {
-            getLatestProducts(pageIndex, pageSize);
+            //for All
+            getLatestProducts(pageIndex, pageSize, 0);
+        } else if (categoryID == 1) {
+            //for new in
+            getLatestProducts(pageIndex, pageSize, 1);
         } else {
             WebServicesHandler.instance.getProductsByCategory(categoryID, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
                 @Override
@@ -119,9 +132,22 @@ public class ProductsCategoryFragment extends BaseFragment {
                                 isGetAll = true;
                             }
                             isLoading = false;
+                            if (!search_category_product.equals("")) {
+                                Log.e("SEARCH000", "---search_category_product---" + search_category_product);
+                                getSearchCategory(search_category_product, displayData);
+                            }
+
+//                            if (category_flag) {
+//                                if (!search_category_product.equals("")) {
+//                                    Log.e("SEARCH000", "---search_category_product---" + search_category_product);
+//                                    getSearchCategory(search_category_product, displayData);
+//                                }
+//                            }
+                            Log.e("2222NEWPRODUCT", "----category---list--" + displayData.size());
                             productAdapter.notifyDataSetChanged();
                         }
                     }
+
                     if (displayData.size() > 0) {
                         empty.setVisibility(View.GONE);
                     } else {
@@ -137,7 +163,24 @@ public class ProductsCategoryFragment extends BaseFragment {
         }
     }
 
-    private void getLatestProducts(int pageIndex, int pageSize) {
+    private void getSearchCategory(String search_category_product, List<Product> productList) {
+        List<Product> seachproductlist = new ArrayList<>();
+//        seachstorelist.addAll(storeList);
+        for (Product storename : productList) {
+//            if (storename.getStoreName() != null && storename.getStoreName().contains(search)) {
+            if (storename.getProductName().toLowerCase().contains(search_category_product.toLowerCase())) {
+                seachproductlist.add(storename);
+            }
+        }
+        if (displayData != null) {
+            displayData.clear();
+        }
+        displayData.addAll(seachproductlist);
+        Log.e("SEARCH000", "--search--22--storeArrayList----" + new Gson().toJson(displayData));
+        productAdapter.notifyDataSetChanged();
+    }
+
+    private void getLatestProducts(int pageIndex, int pageSize, int categoryID) {
 
         WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
             @Override
@@ -150,19 +193,26 @@ public class ProductsCategoryFragment extends BaseFragment {
                             displayData.remove(displayData.size() - 1);
                             productAdapter.notifyItemRemoved(displayData.size());
                         }
+
                         if (newdisplayData.size() > 0) {
                             newdisplayData.clear();
                         }
                         newdisplayData.addAll(getProducts.getProduct());
                         if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
-
-                            for (Product product : newdisplayData) {
-                                if (product.getIsNewIn().equals("true")) {
-                                    displayData.add(product);
+                            if (categoryID == 0) {
+                                displayData.addAll(getProducts.getProduct());
+                            } else {
+                                for (Product product : newdisplayData) {
+                                    if (product.getIsNewIn().equals("true")) {
+                                        displayData.add(product);
+                                    }
+                                    Log.e("2222NEWPRODUCT", "-newin---size--" + displayData.size());
                                 }
-                                Log.e("2222NEWPRODUCT", "-newin---size--" + displayData.size());
                             }
-//                            displayData.addAll(getProducts.getProduct());
+                            if (!search_category_product.equals("")) {
+                                Log.e("SEARCH000", "---search_category_product---" + search_category_product);
+                                getSearchCategory(search_category_product, displayData);
+                            }
                             productAdapter.notifyDataSetChanged();
                         } else {
                             isGetAll = true;
@@ -211,4 +261,18 @@ public class ProductsCategoryFragment extends BaseFragment {
             }
         }
     };
+
+
+    Boolean category_flag = false;
+
+    @Override
+    public void searchProduct(boolean b, String search) {
+        Log.e("SEARCH0000", "--boolean---" + b + "--search--" + search.toString());
+        category_flag = b;
+//        this.search_category_product = search;
+        getProducts(CATEGORYID, currentPage, pageSize);
+//        if (b) {
+//            this.search_category_product = search;
+//        }
+    }
 }

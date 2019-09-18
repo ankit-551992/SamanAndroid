@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qtech.saman.R;
-import com.qtech.saman.listeners.DialogOnClick;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.login.LoginActivity;
 
@@ -121,30 +118,105 @@ public class Constants {
     }
 
     public static void showAlert(String title, String message, String buttonText, Context context) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+//        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+//        alertDialog.setTitle(title);
+//        alertDialog.setMessage(message);
+//        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//        alertDialog.show();
+
+        dialog = new Dialog(context, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_customer_support);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+
+        nextButton.setText(buttonText);
+//        titleTextView.setText(context.getString(R.string.error));
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+//        messageTextView.setText(context.getString(R.string.missing_options));
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 
     public static void showAlertWithActivityFinish(String title, String message, String buttonText, final Context context) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        ((Activity) context).finish();
-                    }
-                });
-        alertDialog.show();
+//        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+//        alertDialog.setTitle(title);
+//        alertDialog.setMessage(message);
+//        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        ((Activity) context).finish();
+//                    }
+//                });
+//        alertDialog.show();
+        dialog = new Dialog(context, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_customer_support);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+
+        nextButton.setText(buttonText);
+//        titleTextView.setText(context.getString(R.string.error));
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+//        messageTextView.setText(context.getString(R.string.missing_options));
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                ((Activity) context).finish();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+        dialog.show();
+
     }
 
     public static String loadJSONFromAsset(Context context) {
@@ -202,6 +274,7 @@ public class Constants {
     }
 
     public static void showCustomPopUp(Context mContext, String title, String message, String closeButtonText, String nextButtonText, final int type) {
+        // view favourite & add to cart dialog
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -262,26 +335,43 @@ public class Constants {
         dialog.show();
     }
 
-    DialogOnClick dialogOnClick;
-    private void showAlert(Context mContext,String title, String message, final ImageView favoriteImageView, final int position) {
-        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(R.string.yes),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-//                      dislike(favoriteImageView, position);
-                        dialog.dismiss();
-//                        dialogOnClick.dialogOnButtonClick(mContext);
-                    }
-                });
+    public static void showErrorPopUp(Context context, String title, String message, String nextButtonText) {
+        // show error for select all option
+        dialog = new Dialog(context, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_customer_support);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getString(R.string.no),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+
+        nextButton.setText(nextButtonText);
+//        titleTextView.setText(context.getString(R.string.error));
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+//        messageTextView.setText(context.getString(R.string.missing_options));
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 }

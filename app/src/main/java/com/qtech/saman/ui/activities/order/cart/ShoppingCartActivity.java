@@ -381,8 +381,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         }
 
                     } else {
-//                        Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.invalid_coupon), getString(R.string.try_again), ShoppingCartActivity.this);
+
                         Constants.showAlert(getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again), ShoppingCartActivity.this);
+//                        Constants.showErrorPopUp(ShoppingCartActivity.this, getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again));
                     }
                 }
                 promoEditText.setText("");

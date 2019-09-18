@@ -144,7 +144,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     if (productArrayList.get(productViewHolder.getAdapterPosition()).getFavorite()) {
 
-                        showAlert(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure), productViewHolder.favoriteImageView, productViewHolder.getAdapterPosition());
+//                        showAlert(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure), productViewHolder.favoriteImageView, productViewHolder.getAdapterPosition());
+                        showPopUp(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure), mContext.getString(R.string.no), mContext.getString(R.string.yes), productViewHolder.favoriteImageView, productViewHolder.getAdapterPosition());
 
                     } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -155,16 +156,16 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         GlobalValues.markFavourite(userID, productArrayList.get(productViewHolder.getAdapterPosition()).getID(), null, 1);
                         productArrayList.get(productViewHolder.getAdapterPosition()).setFavorite(true);
 
-                        showPopUp(mContext.getString(R.string.added_to_fav),
+                     /*   showPopUp(mContext.getString(R.string.added_to_fav),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_fav),
+                                1);*/
+                        Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
                                 mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
                                 1);
-                        /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_bag),
-                                1);*/
                     }
                 }
             });
@@ -221,16 +222,16 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (SamanApp.localDB != null) {
                                 if (cartProduct.getQuantity() != 0) {
                                     if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1)) {
-                                        showPopUp(mContext.getString(R.string.item_added_bag),
+                                     /*   showPopUp(mContext.getString(R.string.item_added_bag),
+                                                mContext.getString(R.string.item_added_message),
+                                                mContext.getString(R.string.continue_shopping),
+                                                mContext.getString(R.string.view_bag),
+                                                0);*/
+                                        Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
                                                 mContext.getString(R.string.item_added_message),
                                                 mContext.getString(R.string.continue_shopping),
                                                 mContext.getString(R.string.view_bag),
                                                 0);
-                                        /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_bag),
-                                0);*/
                                     }
                                 } else {
                                     Constants.showAlert(mContext.getString(R.string.title_my_bag),
@@ -341,7 +342,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         alertDialog.show();
     }
 
-    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final ImageView favoriteImageView, final int position) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -376,20 +377,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (type == 0) {
-                    dialog.dismiss();
-                    Constants.viewBag = true;
-                    Intent intent = new Intent(mContext, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("NavItem", 3);
-                    (mContext).startActivity(intent);
-                } else {
-                    dialog.dismiss();
-                    Intent intent = new Intent(mContext, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("NavItem", 2);
-                    (mContext).startActivity(intent);
-                }
+                dislike(favoriteImageView, position);
+                dialog.dismiss();
             }
         });
 

@@ -193,11 +193,12 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                         favoritesFragment.updateCount(productArrayList.size());
                         mItemManger.closeAllItems();
                     } else {
-                        Constants.showAlert(mContext.getResources().getString(R.string.title_fav),
-                                mContext.getResources().getString(R.string.out_of_stock),
-                                mContext.getResources().getString(R.string.cancel),
-                                mContext);
-                        mItemManger.closeAllItems();
+//                        Constants.showAlert(mContext.getResources().getString(R.string.title_fav),
+//                                mContext.getResources().getString(R.string.out_of_stock),
+//                                mContext.getResources().getString(R.string.cancel),
+//                                mContext);
+                        Constants.showErrorPopUp(mContext, mContext.getResources().getString(R.string.title_fav),
+                                mContext.getResources().getString(R.string.out_of_stock), mContext.getResources().getString(R.string.cancel));
                     }
                 }
             });
@@ -380,17 +381,19 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             if (cartProduct.getQuantity() != 0) {
                 if (cartProduct.getQuantity() >= product1.getUserQuantity()) {
                     if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), product1.getUserQuantity())) {
+/*
                         showPopUp(mContext.getString(R.string.item_added_bag),
                                 mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_bag),
                                 0);
+*/
 
-                        /*Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
+                        Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
                                 mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_bag),
-                                0);*/
+                                0);
                     }
                 }
             }
