@@ -17,6 +17,7 @@ public class LoginDataInteractor implements LoginData {
         apiClient.login(email, password,token, new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+
                 responseListener.onResponse(response.body());
             }
 

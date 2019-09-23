@@ -677,6 +677,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                     startActivity(mainIntent);
                     finish();
                 }
+                dialog.dismiss();
             }
         });
 
@@ -688,5 +689,4 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
     }
-
 }

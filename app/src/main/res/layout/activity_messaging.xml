@@ -4,106 +4,106 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
         <LinearLayout
             android:id="@+id/chat_room_header"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="1dp"
-            android:gravity="center_vertical"
+            android:layout_below="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="1dp">
 
             <ImageView
-                android:padding="10dp"
                 android:id="@+id/orderImage"
                 android:layout_width="80dp"
-                android:layout_height="80dp" />
+                android:layout_height="80dp"
+                android:padding="10dp" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-               <LinearLayout
-                   android:orientation="horizontal"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content">
-
-                   <TextView
-                       android:visibility="gone"
-                       android:text="@string/order_"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content" />
-
-                   <TextView
-                       android:lineSpacingExtra="1.2dp"
-                       android:id="@+id/tv_order_name"
-                       android:textColor="@color/black"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content" />
-
-
-               </LinearLayout>
-
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/tv_store_name"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/tv_product_name"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/light_grey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_order_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="1.2dp"
+                        android:textColor="@color/black" />
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/bottom_info_layout"
-                    android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
                     <TextView
                         android:id="@+id/tv_product_quantity"
-                        android:text="@string/quantity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="0.2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                        android:text="@string/quantity" />
 
                     <TextView
-                        android:gravity="center"
                         android:id="@+id/tv_product_price"
-                        android:text="@string/price"
-                        android:layout_weight="0.4"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:gravity="center"
+                        android:text="@string/price" />
 
                     <TextView
-                        android:gravity="end"
                         android:id="@+id/tv_order_total"
-                        android:text="@string/total"
-                        android:layout_weight="0.4"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:gravity="end"
+                        android:text="@string/total" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/light_grey"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_store_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -111,84 +111,98 @@
 
         <View
             android:id="@+id/view"
-            android:layout_below="@id/chat_room_header"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey"/>
+            android:layout_below="@id/chat_room_header"
+            android:background="@color/grey" />
 
         <LinearLayout
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_below="@id/view"
-            android:layout_above="@id/view2"
-            android:id="@+id/recyclerContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom">
+            android:layout_below="@id/view"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
+            <LinearLayout
+                android:id="@+id/recyclerContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_above="@id/view2"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="bottom">
 
-        </LinearLayout>
+                <!---->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-        <View
-            android:id="@+id/view2"
-            android:layout_above="@id/chat_room_footer"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/grey"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:padding="5dp"
-            android:orientation="horizontal"
-            android:id="@+id/chat_room_footer"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <ImageView
-                android:visibility="gone"
-                android:layout_margin="10dp"
-                android:tint="@color/black"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/chat_room_footer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_tag_faces"/>
-
-            <EditText
-                android:id="@+id/editText_message_box"
-                android:hint="@string/type_message"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.1"
-                android:layout_width="0dp"
-                android:inputType="text"
-                android:background="@android:color/transparent"
-                android:imeOptions="actionDone"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:visibility="gone"
-                android:layout_margin="10dp"
-                android:tint="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera"/>
-
-            <TextView
-                android:id="@+id/tv_send_button"
-                android:textColor="@color/colorAccent"
+                android:orientation="horizontal"
                 android:padding="5dp"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/send"/>
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/editText_message_box"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.1"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/type_message"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_tag_faces"
+                    android:tint="@color/black"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_camera"
+                    android:tint="@color/black"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_send_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/send"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_above="@id/chat_room_footer"
+                android:background="@color/grey" />
 
         </LinearLayout>
 
     </RelativeLayout>
+
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
 </LinearLayout>

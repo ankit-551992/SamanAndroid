@@ -347,12 +347,9 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
     // Google Plus Region End
 
-
     //Twitter Region
-
     @OnClick(R.id.twitter_signIn)
     public void twitter() {
-
         mTwitterAuthClient.authorize(LoginActivity.this, new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {

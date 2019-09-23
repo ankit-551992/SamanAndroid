@@ -222,4 +222,29 @@ public class Conversation {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Conversation{" +
+                "title='" + title + '\'' +
+                ", titleAr='" + titleAr + '\'' +
+                ", storeName='" + storeName + '\'' +
+                ", storeNameAR='" + storeNameAR + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productNameAR='" + productNameAR + '\'' +
+                ", messages=" + messages +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", createBy=" + createBy +
+                ", updateBy=" + updateBy +
+                ", isDeleted=" + isDeleted +
+                ", iD=" + iD +
+                ", RecipentID=" + RecipentID +
+                ", image='" + image + '\'' +
+                ", ProductQuantity=" + ProductQuantity +
+                ", ProductPrice=" + ProductPrice +
+                ", TotalPrice=" + TotalPrice +
+                ", status=" + status +
+                '}';
+    }
 }

@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -80,6 +81,10 @@ public class MessagingActivity extends BaseActivity {
     @BindView(R.id.tv_order_total)
     TextView orderTotalTextView;
 
+    @BindView(R.id.recyclerContainer)
+    LinearLayout recyclerContainer;
+
+
     User authenticatedUser;
     int conversationID = 0;
     int recipientID = 0;
@@ -95,6 +100,7 @@ public class MessagingActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         SamanApp.isScreenOpen = true;
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         conversationID = getIntent().getIntExtra("ConversationID", 1);
         authenticatedUser = GlobalValues.getUser(this);
@@ -150,10 +156,12 @@ public class MessagingActivity extends BaseActivity {
     }
 
     private void getConversation() {
+        Log.e("CHATMESSAGE", "--conversationID---" + conversationID);
         WebServicesHandler.instance.getConversation(conversationID, new retrofit2.Callback<GetConversationApi>() {
             @Override
             public void onResponse(Call<GetConversationApi> call, Response<GetConversationApi> response) {
                 GetConversationApi getConversationApi = response.body();
+                Log.e("CHATMESSAGE", "--getConversationApi---response---" + getConversationApi);
                 if (getConversationApi != null) {
                     if (getConversationApi.getResult() != null) {
                         if (getConversationApi.getResult().getID() != 0) {
@@ -171,6 +179,7 @@ public class MessagingActivity extends BaseActivity {
                             productPriceTextView.setText(getString(R.string.price) + productPrice);
                             orderTotalTextView.setText(getString(R.string.total) + orderTotal);
 
+                            Log.e("CHATMESSAGE", "--getConversationApi----getStatus--" + getConversationApi.getResult().getStatus());
                             if (getConversationApi.getResult().getStatus() == 4
                                     || getConversationApi.getResult().getStatus() == 5
                                     || getConversationApi.getResult().getStatus() == 8) {

@@ -73,7 +73,6 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
                         } else if (simpleSuccess.getSuccess() == 0) {
                             view.error(simpleSuccess.getMessage());
                         }
-
                     }
                 }
 

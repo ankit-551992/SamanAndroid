@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
-import com.qtech.saman.listeners.DialogOnClick;
 import com.qtech.saman.ui.activities.search.SearchActivity;
 import com.qtech.saman.ui.fragments.product.ProductsCategoryFragment;
 import com.qtech.saman.utils.Constants;
@@ -63,7 +62,6 @@ public class ProductsActivity extends BaseActivity {
 
     ViewPagerAdapter adapter;
     int categoryID;
-    DialogOnClick dialogOnClick;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -124,9 +122,6 @@ public class ProductsActivity extends BaseActivity {
                         tab();
                         adapter.notifyDataSetChanged();
                         Log.e("SEARCH000", "--search--onTextChanged---store---" + search);
-//                        if (dialogOnClick != null) {
-//                            dialogOnClick.searchProduct(true, search);
-//                        }
                         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                         return true;
@@ -135,9 +130,6 @@ public class ProductsActivity extends BaseActivity {
                         tabLayout.setVisibility(View.VISIBLE);
                         search = "";
                         tab();
-//                        if (dialogOnClick != null) {
-//                            dialogOnClick.searchProduct(false, "");
-//                        }
                         adapter.notifyDataSetChanged();
                     }
                 }

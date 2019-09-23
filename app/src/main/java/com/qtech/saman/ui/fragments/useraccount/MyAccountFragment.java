@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -310,7 +311,6 @@ public class MyAccountFragment extends BaseFragment {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
         return image;
@@ -337,7 +337,8 @@ public class MyAccountFragment extends BaseFragment {
                         uploadToServer(file);
                     }
                 }
-            } else if (requestCode == 2) {
+//            } else if (requestCode == 2) {
+            } else if (requestCode == REQUEST_CHOOSE_PHOTO) {
                 if (data != null) {
                     String path = GlobalValues.getRealPathFromURI(getContext(), data.getData());
                     if (path != null) {
@@ -415,6 +416,7 @@ public class MyAccountFragment extends BaseFragment {
 
 
     private void uploadToServer(File file) {
+        Log.e("IMAGEW000", "--file---image---upload---" + file.getAbsolutePath());
         Constants.showSpinner("Picture Uploading", getContext());
         WebServicesHandler apiClient = WebServicesHandler.instance;
         apiClient.uploadImage(authenticatedUser.getId(), file, new Callback<UserResponse>() {
@@ -426,6 +428,7 @@ public class MyAccountFragment extends BaseFragment {
                 if (userResponse != null) {
                     if (userResponse.getSuccess() == 1) {
                         if (userResponse.getUser() != null) {
+                            Log.e("IMAGEW000", "--userResponse.getUser()-----" + userResponse.getUser());
                             GlobalValues.saveUser(getContext(), userResponse.getUser());
                             authenticatedUser = GlobalValues.getUser(getContext());
                             if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty()) {

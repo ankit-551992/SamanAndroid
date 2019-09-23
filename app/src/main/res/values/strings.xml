@@ -356,6 +356,8 @@
     <string name="fb_login_protocol_scheme">fb293002707997112</string>
 
 
+    <string name="my_string"><b>Hello World!</b> This is an example.</string>
+
     <plurals name="items">
         <item quantity="one">Item</item>
         <item quantity="other">Items</item>

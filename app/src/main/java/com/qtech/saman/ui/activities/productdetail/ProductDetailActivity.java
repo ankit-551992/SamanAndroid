@@ -181,7 +181,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //        } else {
 //            toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
 //        }
-
         urls = new ArrayList<>();
         customPagerAdapter = new CustomPagerAdapter(this, urls);
         mPager.setAdapter(customPagerAdapter);
@@ -208,7 +207,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         if (!allOptionsSelected()) {
 //            showPopUp();
-            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options),getString(R.string.okay));
+            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options), getString(R.string.okay));
             return;
         }
 
@@ -247,7 +246,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         if (!allOptionsSelected()) {
 //            showPopUp();
-            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options),getString(R.string.okay));
+            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options), getString(R.string.okay));
 
             return;
         }
@@ -367,9 +366,13 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (SamanApp.isEnglishVersion) {
-                productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+//                productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_LEGACY));
+                Log.e("4545454","--SDK_INT---");
             } else {
-                productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
+                Log.e("4545454","-else----SDK_INT---");
+//              productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
+                productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_LEGACY));
             }
         } else {
             if (SamanApp.isEnglishVersion) {

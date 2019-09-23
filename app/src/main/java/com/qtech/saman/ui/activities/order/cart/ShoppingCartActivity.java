@@ -207,9 +207,15 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
 
         if (authenticatedUser.getShippingAddress() != null) {
-            String address = authenticatedUser.getShippingAddress().getAddressLine1().replace(",", "\n\n");
-            address = address + "\n\n" + authenticatedUser.getShippingAddress().getCity();
-            address = address + "\n\n" + authenticatedUser.getShippingAddress().getCountry();
+
+            Log.e("121212", "---" + authenticatedUser.getShippingAddress());
+//            String address = authenticatedUser.getShippingAddress().getAddressLine1().replace(",", "\n\n");
+            String address = authenticatedUser.getShippingAddress().getAddressLine1().replace(",", ", ");
+//            address = address + "\n\n" + authenticatedUser.getShippingAddress().getCity();
+            // address = address + "\n\n" + authenticatedUser.getShippingAddress().getCountry();
+            address = address + ", " + authenticatedUser.getShippingAddress().getCity();
+
+            address = address + ", " + authenticatedUser.getShippingAddress().getCountry();
             shipmentAddress.setText(address);
             addressID = authenticatedUser.getShippingAddress().getiD();
         }

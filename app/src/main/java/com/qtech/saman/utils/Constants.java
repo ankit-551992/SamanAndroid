@@ -200,7 +200,6 @@ public class Constants {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                ((Activity) context).finish();
             }
         });
 
@@ -208,6 +207,7 @@ public class Constants {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                ((Activity) context).finish();
             }
         });
 

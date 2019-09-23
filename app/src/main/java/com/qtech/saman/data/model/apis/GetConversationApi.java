@@ -40,4 +40,12 @@ public class GetConversationApi {
         this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "GetConversationApi{" +
+                "result=" + result +
+                ", success=" + success +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

@@ -321,6 +321,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         GetSetNotification(notificationManager, remoteMessage, pendingIntent);
 
         if (SamanApp.isScreenOpen) {
+            is_firebase_msgnotify = true;
             sendMessage(remoteMessage.getData().get("IsMessage"), Integer.parseInt(remoteMessage.getData().get("conversationID")));
         } else {
 //          Constants.showAlert();

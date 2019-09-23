@@ -47,7 +47,6 @@ public class SalesProductActivity extends BaseActivity {
     TabLayout tabLayout;
     @BindView(R.id.pager)
     LockableViewPager viewPager;
-
     ViewPagerAdapter adapter;
 
     @Override
@@ -111,7 +110,6 @@ public class SalesProductActivity extends BaseActivity {
                 TabLayout.Tab tab = tabLayout.getTabAt(0);
                 if (tab != null)
                     tab.setCustomView(customTab);//set custom view
-
             } else {
                 if (SamanApp.isEnglishVersion) {
                     textView.setText(GlobalValues.storeCategories.get(i - 1).getTitle());
