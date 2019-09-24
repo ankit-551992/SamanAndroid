@@ -115,7 +115,6 @@ public class CustomerSupportAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-
     private void choose() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(mContext);

@@ -218,15 +218,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 String phone = ccp.getText().toString();
-                Log.e("FLAG000", "---hasFocus---" + hasFocus);
                 if (hasFocus) {
                     if (TextUtils.isEmpty(phone)) {
                         Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
                     } else {
-                        Log.e("FLAG000", "---phoneEditText---" + phoneEditText.getText().toString());
                     }
                 } else {
-                    Log.e("FLAG000", "---elsee---" + phoneEditText.getText().toString());
                 }
             }
         });
@@ -234,12 +231,10 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @OnClick(R.id.editText_phone)
     void phoneText() {
-        Log.e("FLAG000", "---000---" + phoneEditText.getText().toString());
         String phone = ccp.getText().toString();
         if (TextUtils.isEmpty(phone)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
         } else {
-            Log.e("FLAG000", "---phoneEditText---" + phoneEditText.getText().toString());
         }
     }
 

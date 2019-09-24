@@ -353,7 +353,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             if (authenticatedUser.getSocialID() != 0) {
                 if (!authenticatedUser.getProfileImagePath().isEmpty()) {
                     Picasso.get()
-                            .load(authenticatedUser.getProfileImagePath())
+//                            .load(authenticatedUser.getProfileImagePath())
+                            .load(Constants.URLS.BaseURLImages + authenticatedUser.getProfileImagePath())
                             .transform(new CircleTransform())
                             .placeholder(R.drawable.ic_profile)
                             .into(imgProfile);

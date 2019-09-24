@@ -111,8 +111,22 @@ public class CustomerSupportActivity extends BaseActivity {
         customerSupportAdapter = new CustomerSupportAdapter(CustomerSupportActivity.this, files);
         photos.setAdapter(customerSupportAdapter);
         photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, this));
-        messageSelectionEditText.addTextChangedListener(txwatcher);
-        setCount(mCount);
+//        messageSelectionEditText.addTextChangedListener(txwatcher);
+//        setCount(mCount);
+
+        messageSelectionEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.e("FLAG000", "---hasFocus---" + hasFocus);
+                if (hasFocus) {
+                    if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
+                        Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
+                        return;
+                    }
+                } else {
+                }
+            }
+        });
     }
 
     private void setCount(int count) {
@@ -124,6 +138,10 @@ public class CustomerSupportActivity extends BaseActivity {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
+                Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
+                return;
+            }
             setCount(mCount - s.length());
         }
 
@@ -131,6 +149,16 @@ public class CustomerSupportActivity extends BaseActivity {
         }
     };
 
+    @OnClick(R.id.editText_message)
+    public void textmessage() {
+        if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
+            Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
+            return;
+        } else {
+            messageSelectionEditText.addTextChangedListener(txwatcher);
+            setCount(mCount);
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -280,7 +308,6 @@ public class CustomerSupportActivity extends BaseActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // get selected radio button from radioGroup
                 int selectedId = radioGroup.getCheckedRadioButtonId();
 

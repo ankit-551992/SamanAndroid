@@ -45,17 +45,26 @@ public class Constants {
     public interface URLS {
         //        String BaseURLApis = "https://petradiamond.herokuapp.com/";
         // String BaseURLApis = "https://www.saman.om/api/";
-        String BaseURLApis = "https://staging.saman.om/api/";
-        //        String BaseURLApis = "http://96.127.174.114/plesk-site-preview/staging.saman.om/api/";
-        String GeoCodeApis = "https://maps.googleapis.com/maps/api/geocode/";
+
+        //String BaseURLApis = "http://96.127.174.114/plesk-site-preview/staging.saman.om/api/";
         // String BaseURLImages = "https://www.saman.om";
+        //String BaseURLImages = "http://96.127.174.114/plesk-site-preview/staging.saman.om";
+
+        //new staging App Login
+        String BaseURLApis = "https://staging.saman.om/api/";
         String BaseURLImages = "https://staging.saman.om";
-        //        String BaseURLImages = "http://96.127.174.114/plesk-site-preview/staging.saman.om";
+        String Invoice_url = "https://staging.saman.om/Order/Invoice/";
+
+        //http local staging App Login
+//        String BaseURLApis = "http://96.127.174.114/plesk-site-preview/staging.saman.om/api/";
+//        String BaseURLImages = "http://96.127.174.114/plesk-site-preview/staging.saman.om";
+//        String Invoice_url = "http://96.127.174.114/plesk-site-preview/staging.saman.om/Order/Invoice/";
+
+        String GeoCodeApis = "https://maps.googleapis.com/maps/api/geocode/";
         String returnPolicy = "https://www.algorepublic.com/";
         String terms = "https://www.algorepublic.com/services/";
         String privacyPolicy = "https://www.algorepublic.com/services/";
         String contactUs = "https://www.algorepublic.com/contact-us/";
-        String Invoice_url = "https://staging.saman.om/Order/Invoice/";
     }
 
     public static boolean isNetworkAvailable(Context c) {

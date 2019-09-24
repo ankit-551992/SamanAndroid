@@ -336,6 +336,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
             if (acct.getPhotoUrl() != null) {
                 socialPhotoUrl = acct.getPhotoUrl().toString();
+                Log.e("PHOTO00", "--socialPhotoUrl----" + socialPhotoUrl);
             }
             socialEmail = acct.getEmail();
 
@@ -565,8 +566,9 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                 GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
                                 finish();
                             } else {
+                                Log.e("SOCIAL_LOGIN", "--google--socialID--" + socialID + "--getProfileImagePath--"+user.getProfileImagePath());
                                 user.setSocialID(socialID);
-                                user.setProfileImagePath(socialPhotoUrl);
+//                                user.setProfileImagePath(socialPhotoUrl);
                                 GlobalValues.saveUser(LoginActivity.this, user);
                                 GlobalValues.setUserLoginStatus(LoginActivity.this, true);
                                 GlobalValues.setGuestLoginStatus(LoginActivity.this, false);

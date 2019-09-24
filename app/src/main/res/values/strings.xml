@@ -216,7 +216,6 @@
     <string name="dob_missing">Please Select Date Of Birth</string>
     <string name="code">Code</string>
     <string name="enter_countrycode">Please enter country code</string>
-
     <!--Sign Up-->
 
     <!--Password-->
@@ -303,7 +302,8 @@
     <string name="email_invalid">Invalid Email</string>
     <string name="password_required">Password is required</string>
     <string name="confirm_password_required">Confirm Password is required</string>
-    <string name="password_short">Password is too short</string>
+   <!-- <string name="password_short">Password is too short</string>-->
+    <string name="password_short">Minimum 6 characters required</string>
     <string name="try_again">Try Again</string>
     <string name="okay">Okay</string>
     <string name="continue_shopping">Continue Shopping</string>
@@ -354,9 +354,6 @@
     <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
     <string name="facebook_app_id">293002707997112</string>
     <string name="fb_login_protocol_scheme">fb293002707997112</string>
-
-
-    <string name="my_string"><b>Hello World!</b> This is an example.</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

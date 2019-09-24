@@ -291,7 +291,8 @@
 
     <string name="password_required">رمز الدخول مطلوب</string>
 
-    <string name="password_short">رمز الدخول قصير</string>
+    <!--<string name="password_short">رمز الدخول قصير</string>-->
+    <string name="password_short">الحد الأدنى 6 أحرف المطلوبة</string>
 
     <string name="try_again">حاول مرة أخرى</string>
 
