@@ -533,5 +533,8 @@
     <string name="sales_notify">Promotions and sales</string>
     <string name="feedback_notify">Feedback Notification</string>
     <string name="item_stock_notify">Item back from Out of Stock</string>
-
+    
+    <!--place Order dialog-->
+    <string name="order_title">Are you sure?</string>
+    <string name="order_message">Do you really want to place order?</string>
 </resources>

@@ -98,7 +98,6 @@ public class BagFragment extends BaseFragment {
     private void getData() {
         if (SamanApp.localDB != null) {
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
-            Log.e("LOCALARRAYLIST", "---local---productArrayList-----" + productArrayList.toString());
             bagAdapter.notifyDataSetChanged();
 
             if (productArrayList.size() > 0) {

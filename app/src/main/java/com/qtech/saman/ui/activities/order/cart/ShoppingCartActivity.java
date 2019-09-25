@@ -1,5 +1,6 @@
 package com.qtech.saman.ui.activities.order.cart;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -20,6 +21,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
+import com.mastercard.gateway.android.sdk.Gateway;
+import com.mastercard.gateway.android.sdk.Gateway3DSecureCallback;
+import com.mastercard.gateway.android.sdk.GatewayCallback;
+import com.mastercard.gateway.android.sdk.GatewayMap;
 import com.qtech.saman.BuildConfig;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
@@ -30,6 +36,7 @@ import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.PlaceOrderResponse;
 import com.qtech.saman.data.model.apis.PromoVerify;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
+import com.qtech.saman.listeners.DialogOnClick;
 import com.qtech.saman.network.ApiController;
 import com.qtech.saman.network.OmanNetServiceHandler;
 import com.qtech.saman.network.WebServicesHandler;
@@ -46,11 +53,6 @@ import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.GridSpacingItemDecoration;
 import com.qtech.saman.utils.SamanApp;
-import com.google.gson.reflect.TypeToken;
-import com.mastercard.gateway.android.sdk.Gateway;
-import com.mastercard.gateway.android.sdk.Gateway3DSecureCallback;
-import com.mastercard.gateway.android.sdk.GatewayCallback;
-import com.mastercard.gateway.android.sdk.GatewayMap;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -72,7 +74,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecureCallback {
+public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecureCallback, DialogOnClick.OnDialogResponse {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -160,7 +162,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     DecimalFormat df = new DecimalFormat("#.#");
 //    DecimalFormat df = new DecimalFormat("#.##");
 //    DecimalFormat df = new DecimalFormat("#00.0#");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -421,6 +422,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         super.onBackPressed();
     }
 
+
     @OnClick(R.id.button_place_order)
     void placeOrder() {
 
@@ -456,6 +458,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 e.printStackTrace();
             }
         }
+
         WebServicesHandler apiClient = WebServicesHandler.instance;
 
         apiClient.placeOrder(authenticatedUser.getId(),
@@ -496,7 +499,14 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         Log.e("onFailure", "" + t.getMessage());
                     }
                 });
+    }
 
+    @Override
+    public void OnResponseDialogClick(Context context, String response) {
+        Log.e("2222", "--OnResponseDialogClick--response-" + response);
+//        if (response.equals("nextclick")){
+
+//        }
     }
 
     @Override
@@ -990,5 +1000,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             }
         }
     }
+
 
 }

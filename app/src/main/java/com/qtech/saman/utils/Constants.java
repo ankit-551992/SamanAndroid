@@ -28,13 +28,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
-public class Constants {
+public class Constants{
 
     public static Dialog dialog;
     public static String CARD_LIST = "Payment_methods";
     public static boolean isLoginRequest = false;
     public static boolean viewBag = false;
     public static int USERSUPPORT_REQUEST_CODE = 100;
+
 
     public enum Fragment {
         Home, Store, Favorite, Bag, MyAccount;
@@ -383,4 +384,55 @@ public class Constants {
         ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
+
+    /*@Override
+    public void onDialogClick(Context context, String title, String message,String closeButtonText, String nextButtonText, final int type) {
+        dialog = new Dialog(context, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailog_information_pop_up);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+
+        titleTextView.setText("Are you sure?");
+        messageTextView.setText("Do you really want to place order?");
+        closePopUp.setText(closeButtonText);
+        nextButton.setText(nextButtonText);
+
+        closePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                new ShoppingCartActivity().OnResponseDialogClick(context,"nextclick");
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(context,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
+    }
+*/
 }

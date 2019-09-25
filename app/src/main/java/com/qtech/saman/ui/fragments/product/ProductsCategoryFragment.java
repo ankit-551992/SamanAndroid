@@ -18,7 +18,6 @@ import com.qtech.saman.base.BaseFragment;
 import com.qtech.saman.data.model.Product;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.GetProducts;
-import com.qtech.saman.listeners.DialogOnClick;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.adapters.ProductAdapter;
 import com.qtech.saman.utils.GlobalValues;
@@ -34,7 +33,7 @@ import retrofit2.Response;
 
 import static com.qtech.saman.utils.GlobalValues.CATEGORYID;
 
-public class ProductsCategoryFragment extends BaseFragment implements DialogOnClick {
+public class ProductsCategoryFragment extends BaseFragment {
 
     @BindView(R.id.tv_empty)
     TextView empty;
@@ -264,15 +263,4 @@ public class ProductsCategoryFragment extends BaseFragment implements DialogOnCl
 
 
     Boolean category_flag = false;
-
-    @Override
-    public void searchProduct(boolean b, String search) {
-        Log.e("SEARCH0000", "--boolean---" + b + "--search--" + search.toString());
-        category_flag = b;
-//        this.search_category_product = search;
-        getProducts(CATEGORYID, currentPage, pageSize);
-//        if (b) {
-//            this.search_category_product = search;
-//        }
-    }
 }
