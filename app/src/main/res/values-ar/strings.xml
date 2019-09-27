@@ -524,10 +524,12 @@
     <string name="cod">الدفع عن الاستلام</string>
     <string name="free">حر</string>
     <string name="invalid_token">رمز غير صالح</string>
-    <string name="reset_with_email">إعادة تعيين مع البريد الإلكتروني</string>
-    <string name="reset_with_phone">إعادة تعيين مع رقم الهاتف</string>
-    <string name="select_reset_option">حدد الخيار</string>
-    <string name="select_reset_option_message">يرجى تحديد خيار واحد</string>
+
+    <string name="reset_with_email">البريد الإلكتروني</string>
+    <string name="reset_with_phone">رقم الهاتف</string>
+    <string name="select_reset_option">إعادة تعيين كلمة المرور</string>
+    <string name="select_reset_option_message">استعادة كلمة المرور مع المصدر الخاص بك يمكن الوصول إليها</string>
+
     <string name="pending">قيد الانتظار</string>
     <string name="cancelled_by_customer">تم الإلغاء بواسطة العميل</string>
     <string name="processing">معالجة</string>

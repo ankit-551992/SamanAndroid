@@ -220,7 +220,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String phone = ccp.getText().toString();
                 if (hasFocus) {
                     if (TextUtils.isEmpty(phone)) {
-                        Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
+                        chooseCountryCode();
+//                        Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
                     } else {
                     }
                 } else {
@@ -233,7 +234,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     void phoneText() {
         String phone = ccp.getText().toString();
         if (TextUtils.isEmpty(phone)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
+            chooseCountryCode();
+//            Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
         } else {
         }
     }
@@ -655,11 +657,14 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     @OnClick(R.id.ccp)
     public void phoneCode() {
+        chooseCountryCode();
+    }
+
+    private void chooseCountryCode() {
         Intent intent = new Intent(RegisterActivity.this, CountriesListingActivity.class);
         intent.putExtra("GetCode", true);
         startActivityForResult(intent, 2021);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

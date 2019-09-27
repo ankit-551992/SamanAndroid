@@ -462,10 +462,12 @@
     <string name="cod">Cash on delivery</string>
     <string name="free">Free</string>
     <string name="invalid_token">Invalid Token</string>
-    <string name="reset_with_email">Reset with email</string>
-    <string name="reset_with_phone">Reset with phone number</string>
-    <string name="select_reset_option">Select Option</string>
-    <string name="select_reset_option_message">Please select 1 option</string>
+
+    <string name="reset_with_email">Email</string>
+    <string name="reset_with_phone">Phone Number</string>
+    <string name="select_reset_option">Reset Password</string>
+    <string name="select_reset_option_message">Recover password with your accessible source</string>
+
     <string name="pending">Pending</string>
     <string name="cancelled_by_customer">Cancelled By Customer</string>
     <string name="processing">Processing</string>

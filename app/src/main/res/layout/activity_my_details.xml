@@ -128,7 +128,7 @@
 
                 <ImageView
                     android:layout_marginEnd="3dp"
-                    android:src="@drawable/ic_camera_gray"
+                    android:src="@color/off_grey"
                     android:id="@+id/iv_code_flag"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -212,7 +212,7 @@
 
                 <ImageView
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_camera"
+                    android:src="@color/off_grey"
                     android:id="@+id/iv_country_flag"
                     android:layout_width="30dp"
                     android:layout_height="30dp"

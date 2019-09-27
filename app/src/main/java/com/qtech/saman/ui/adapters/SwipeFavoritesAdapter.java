@@ -388,7 +388,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                                 mContext.getString(R.string.view_bag),
                                 0);
 */
-
                         Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
                                 mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),

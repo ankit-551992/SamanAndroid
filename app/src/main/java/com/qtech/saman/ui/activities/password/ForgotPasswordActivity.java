@@ -190,11 +190,11 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
         Button phoneNumberButton = (Button) dialog.findViewById(R.id.button_select_phone);
         Button emailButton = (Button) dialog.findViewById(R.id.button_select_email);
 
-
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                finish();
             }
         });
 

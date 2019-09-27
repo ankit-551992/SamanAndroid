@@ -116,7 +116,6 @@ public class SalesProductActivity extends BaseActivity {
                 } else {
                     textView.setText(GlobalValues.storeCategories.get(i - 1).getTitleAR());
                 }
-
                 String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 1).getLogoURL();
                 Picasso.get().load(url).into(imageView);
                 TabLayout.Tab tab = tabLayout.getTabAt(i);
