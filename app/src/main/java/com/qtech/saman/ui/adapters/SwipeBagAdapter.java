@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.qtech.saman.R;
+import com.qtech.saman.data.model.OptionValue;
 import com.qtech.saman.data.model.Product;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
@@ -67,8 +68,8 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_bag_swipe_row, parent, false);
-
             return new BagViewHolder(view);
+
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.loading_progress_bar, parent, false);
             return new LoadingViewHolder(view);
@@ -126,6 +127,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ProductDetailActivity.class);
                     intent.putExtra("ProductID", productArrayList.get(position).getID());
+//                    intent.putExtra("Options", getOptionsData(productArrayList.get(position)));
                     mContext.startActivity(intent);
                 }
             });
@@ -193,6 +195,24 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             loadingViewHolder.progressBar.setIndeterminate(true);
         }
     }
+
+    private String getOptionsData(Product product1) {
+        View v = null;
+        OptionValue optionValue = null;
+        String ids = "";
+        if (product1.getProductOptions() != null) {
+            for (int i = 0; i < product1.getProductOptions().size(); i++) {
+                optionValue = product1.getProductOptions().get(i).getOptionValues().get(0);
+                if (ids.equals("")) {
+                    ids = "" + optionValue.getID();
+                } else {
+                    ids = ids + "," + optionValue.getID();
+                }
+            }
+        }
+        return ids;
+    }
+
 
     @Override
     public int getItemCount() {
@@ -300,7 +320,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         bagFragment.updateQuantity();
         grandTotal = 0;
         notifyDataSetChanged();
-
     }
 
     class LoadingViewHolder extends RecyclerView.ViewHolder {

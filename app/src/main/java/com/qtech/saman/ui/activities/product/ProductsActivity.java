@@ -72,7 +72,7 @@ public class ProductsActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (getIntent().hasExtra("CategoryID")) {
             categoryID = bundle.getInt("CategoryID");
-//            categoryID = 4;
+//          categoryID = 4;
             ProductsCategoryFragment.newInstance(categoryID, "");
         }
         tab();
@@ -96,7 +96,7 @@ public class ProductsActivity extends BaseActivity {
         tabLayout.setVisibility(View.VISIBLE);
         search = "";
         super.onBackPressed();
-    }
+}
 
     @OnClick(R.id.toolbar_search)
     void search() {
@@ -116,7 +116,7 @@ public class ProductsActivity extends BaseActivity {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     if (search_product.getText() != null && !search_product.getText().toString().isEmpty() &&
                             search_product.getText().length() > 0) {
-                        tabLayout.setVisibility(View.GONE);
+                        tabLayout.setVisibility(View.VISIBLE);
                         FLAG_SEARCH_PRODUCT = true;
                         search = search_product.getText().toString();
                         tab();
@@ -197,6 +197,13 @@ public class ProductsActivity extends BaseActivity {
 
         if (FLAG_SEARCH_PRODUCT) {
             adapter.addFrag(ProductsCategoryFragment.newInstance(CATEGORYID, search), getString(R.string.all));
+
+            for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
+                adapter.addFrag(
+                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), ""),
+                        GlobalValues.storeCategories.get(i).getTitle());
+                Log.e("SEARCH000", "---GlobalValue---getID()---" + GlobalValues.storeCategories.get(i).getID());
+            }
         } else {
 //           adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
             adapter.addFrag(ProductsCategoryFragment.newInstance(0, ""), getString(R.string.all));

@@ -105,7 +105,6 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             messageViewHolder.textView1.setText(mContext.getString(R.string.edit));
             messageViewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
 
-
             messageViewHolder.layout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -126,7 +125,6 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                     mItemManger.closeAllItems();
                 }
             });
-
             // mItemManger is member in RecyclerSwipeAdapter Class
             mItemManger.bindView(messageViewHolder.itemView, position);
 

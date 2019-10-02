@@ -216,8 +216,8 @@ public class Constants{
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
                 ((Activity) context).finish();
+                dialog.dismiss();
             }
         });
 

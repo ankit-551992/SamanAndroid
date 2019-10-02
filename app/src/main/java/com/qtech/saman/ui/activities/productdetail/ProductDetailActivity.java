@@ -2,7 +2,6 @@ package com.qtech.saman.ui.activities.productdetail;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -11,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -247,7 +245,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (!allOptionsSelected()) {
 //            showPopUp();
             Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options), getString(R.string.okay));
-
             return;
         }
 

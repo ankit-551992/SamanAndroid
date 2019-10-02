@@ -12,10 +12,10 @@ android {
         applicationId "com.qtech.saman"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-      /*  versionCode 4
-        versionName "1.1.2"*/
+        /*versionCode 1
+        versionName "1.0"*/
+        versionCode 9
+        versionName "1.1.8"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
