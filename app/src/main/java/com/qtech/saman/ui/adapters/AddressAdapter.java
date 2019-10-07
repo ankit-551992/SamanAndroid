@@ -38,7 +38,6 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
     List<ShippingAddress> shippingAddresses = new ArrayList<>();
     private Context mContext;
 
-
     public AddressAdapter(Context mContext, List<ShippingAddress> shippingAddresses) {
         this.shippingAddresses = shippingAddresses;
         this.mContext = mContext;

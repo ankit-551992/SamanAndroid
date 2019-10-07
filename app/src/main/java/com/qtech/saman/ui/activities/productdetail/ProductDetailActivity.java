@@ -118,7 +118,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     int selectedQuantity = -1;
 
     Dialog dialog;
-    Dialog dialog2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +151,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (getIntent().hasExtra("Options")) {
             selectedOptions = getIntent().getStringExtra("Options");
             optionIDs = selectedOptions.split(",");
+            Log.e("PRODUCT00", "--selectedOptions---" + selectedOptions);
+            Log.e("PRODUCT00", "--optionIDs---" + optionIDs);
 
             for (int o = 0; o < optionIDs.length; o++) {
                 Log.e(o + "-Options", optionIDs[o]);
@@ -204,7 +205,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         if (!allOptionsSelected()) {
-//            showPopUp();
+//          showPopUp();
             Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options), getString(R.string.okay));
             return;
         }
@@ -223,7 +224,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             } else {
                 favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
             }
-          /*  showPopUp(getString(R.string.added_to_fav),
+          /* showPopUp(getString(R.string.added_to_fav),
                     getString(R.string.item_added_message),
                     getString(R.string.continue_shopping),
                     getString(R.string.view_fav),
@@ -243,7 +244,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         if (!allOptionsSelected()) {
-//            showPopUp();
+//          showPopUp();
             Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options), getString(R.string.okay));
             return;
         }
@@ -365,9 +366,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             if (SamanApp.isEnglishVersion) {
 //                productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
                 productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_LEGACY));
-                Log.e("4545454","--SDK_INT---");
+                Log.e("4545454", "--SDK_INT---");
             } else {
-                Log.e("4545454","-else----SDK_INT---");
+                Log.e("4545454", "-else----SDK_INT---");
 //              productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
                 productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_LEGACY));
             }
@@ -477,7 +478,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                         }
                     }
                 }
-//                optionValuesSpinner.setPrompt(getString(R.string.select));
+//              optionValuesSpinner.setPrompt(getString(R.string.select));
                 optionsLinearLayout.addView(child);
             }
         }

@@ -151,6 +151,7 @@
     <string name="total">Total: </string>
     <string name="proceed">CHECKOUT</string>
     <string name="order_date">Order Date</string>
+    <string name="invoice_date">Order Date</string>
     <string name="order_">Order #</string>
     <string name="delete">Remove</string>
     <string name="default_">Default</string>
@@ -290,7 +291,7 @@
     <string name="customer_reply">Reply</string>
     <string name="customer_reply_msg">No any Reply</string>
     <string name="customer_status">Pending</string>
-    <string name="customer_Image">Support Image</string>
+    <string name="customer_Image">Pictures</string>
     <string name="Ticket_Status">Ticket Status</string>
     <string name="ticket_resolve">Resolved</string>
     <string name="ticket_pending">Pending</string>
@@ -348,6 +349,8 @@
     <string name="invalid_card_cvc">Please enter valid CVC!</string>
     <string name="card_otp">Please enter OTP!</string>
     <string name="card_delivery">Cash on delivery</string>
+    <string name="card_end_number">Card ending number</string>
+
     <!--Card-->
 
     <string name="notifications_admin_channel_name">Global channel</string>

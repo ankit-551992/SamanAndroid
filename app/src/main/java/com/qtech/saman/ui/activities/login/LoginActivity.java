@@ -341,8 +341,8 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             socialEmail = acct.getEmail();
 
             socialLogin(1);
-//            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-//            startActivity(intent);
+//          Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+//          startActivity(intent);
         }
     }
 
@@ -453,7 +453,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                 socialName = object.getString("name");
                                 String birthday; // 01/31/1980 format
 
-
                                 try {
                                     fbId = object.getString("id");
                                 } catch (Exception e) {
@@ -528,7 +527,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
         ).executeAsync();

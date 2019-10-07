@@ -262,7 +262,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.Not_Valid), getString(R.string.okay), RegisterActivity.this);
             return;
         }
-
         Intent intent = new Intent(RegisterActivity.this, NumberVerificationActivity.class);
         intent.putExtra("Number", phone);
         startActivityForResult(intent, 2025);

@@ -213,8 +213,8 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
             median = sliderList.size() / 2;
 
         banner_viewpager.setCurrentItem(median);
-//        pageIndicator.setViewPager(banner_viewpager);
-//        pageIndicator.setCurrentItem(median);
+//      pageIndicator.setViewPager(banner_viewpager);
+//      pageIndicator.setCurrentItem(median);
     }
 
     private void setBestSellers(List<Slider> sliderList) {

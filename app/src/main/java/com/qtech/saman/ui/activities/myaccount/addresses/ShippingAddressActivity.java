@@ -62,7 +62,7 @@ public class ShippingAddressActivity extends BaseActivity {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
-        }
+    }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setImageDrawable(getDrawable(R.drawable.ic_add));

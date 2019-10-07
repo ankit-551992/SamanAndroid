@@ -3,7 +3,7 @@
     <string name="title_home">الرئيسية</string>
     <string name="title_store">المتجر</string>
     <string name="title_favorite">المفضلة</string>
-    <string name="title_fav">طلباتي</string>
+    <string name="title_fav">قائمة الأمنيات</string>
     <string name="title_bag">السلة</string>
     <string name="title_my_bag">سلتي</string>
     <string name="title_settings">الإعدادات</string>
@@ -32,7 +32,7 @@
     <string name="logout">تسجيل الخروج</string>
     <string name="contentDescription">وصف المحتوى</string>
     <string name="gender_prompt">أختر الجنس</string>
-    <string name="subject_prompt">اختر الموضوع</string>
+    <string name="subject_prompt">اختر موضوع</string>
     <string name="language_prompt">اختر اللغة</string>
     <string name="navigation_drawer_open">درج التنقل مفتوح</string>
     <string name="navigation_drawer_close">درج التنقل مغلق</string>
@@ -51,10 +51,10 @@
     <string name="english">English</string>
     <string name="arabic">عربى</string>
 
-    <string name="report_issue">أبلاغ عن مشكلة</string>
-    <string name="ask_help">أطلب المساعدة</string>
-    <string name="report_prodcut">إبلاغ عن منتج</string>
-    <string name="report_store">أبلاغ عن متجر</string>
+    <string name="report_issue">مشكلة في الحساب</string>
+    <string name="ask_help">مشكلة في الطلب</string>
+    <string name="report_prodcut">مشكلة في أحد المتاجر</string>
+    <string name="report_store">مشكلة عامة</string>
 
 
     <string-array name="subjects">
@@ -89,7 +89,7 @@
     <string name="character">300 حرف </string>
     <string name="please_wait">جاري الإنتظار....</string>
     <string name="completing_process">إكمال العملية</string>
-    <string name="OMR">الريال العماني</string>
+    <string name="OMR">ر.ع</string>
 
     <!--Shopping cart-->
     <string name="shopping_cart">حقيبة التسوق</string>
@@ -115,7 +115,7 @@
     <string name="check_out">تأكيد الطلب</string>
     <string name="check_out_success">تم الطلب بنجاح</string>
     <string name="order_cancel_msg">بعض المنتجات لا يمكن تغيرها، الرجاء التواصل معنا </string>
-    <string name="order_total">محموع الطلب</string>
+    <string name="order_total">المبلغ</string>
     <string name="order_reference">معلومات الطلب</string>
     <string name="order_status">حالة الطلب</string>
     <string name="delivery_date">تاريخ التوصيل</string>
@@ -126,14 +126,14 @@
 
     <!--customer Support List-->
     <string name="customer_detail_tilte">تذكرة العملاء</string>
-    <string name="customer_id"> # معرف التذكرة</string>
-    <string name="customer_subject">موضوع</string>
-    <string name="customer_message">رسالة</string>
+    <string name="customer_id"> # رقم الخدمة</string>
+    <string name="customer_subject">الموضوع</string>
+    <string name="customer_message">الرسالة</string>
     <string name="customer_reply">الرد</string>
     <string name="customer_reply_msg">لا يوجد أي رد</string>
     <string name="customer_status">قيد الانتظار</string>
-    <string name="customer_Image">صورة الدعم</string>
-    <string name="Ticket_Status">حالة التذكرة</string>
+    <string name="customer_Image">الصور</string>
+    <string name="Ticket_Status">حالة الخدمة</string>
     <string name="ticket_resolve">حل</string>
     <string name="ticket_pending">قيد الانتظار</string>
 
@@ -147,10 +147,12 @@
     <!--Bag-->
     <string name="subtotal">حاصل المجوع : </string>
     <string name="VAT">الضرائب  : </string>
-    <string name="total">المجموع: </string>
+   <!-- <string name="total">المجموع: </string>-->
+    <string name="total">الإجمالي:</string>
     <string name="proceed">الدفع</string>
-    <string name="order_date">تاريخ الدفع</string>
-    <string name="order_"># الدفع</string>
+    <string name="order_date">التاريخ</string>
+    <string name="invoice_date">تاريخ الطلب</string>
+    <string name="order_">رقم الطلب</string>
     <string name="delete">مسح</string>
     <string name="default_">إفتراضي</string>
     <string name="cancel">إلغاء</string>
@@ -264,7 +266,7 @@
 
     <string name="my_details">بياناتي</string>
 
-    <string name="my_orders">الطلبات</string>
+    <string name="my_orders">طلباتي</string>
 
     <string name="my_favorites">المفضلة</string>
 
@@ -323,10 +325,9 @@
     <!--Card-->
     <string name="Card_Number">رقم البطاقة</string>
 
-    <string name="Card_expiry">صالح من خلال - تاريخ الإنتهاء</string>
+    <string name="Card_expiry">تاريخ الانتهاء</string>
 
-
-    <string name="Add_Card">إضافة بطاقة</string>
+    <string name="Add_Card">اضافة</string>
 
     <string name="Card_cvv_cvc">الرمز الآمن للبطاقة (CVV/CVC)</string>
 
@@ -344,20 +345,21 @@
 
     <string name="card_year_validation">الرجاء إدخل بطاقة إنتهاء السنة</string>
 
-    <string name="card_name">الرجاء إدخل إسم حامل البطاقة !</string>
+    <string name="card_name">يرجى إضافة اسم حامل البطاقة</string>
 
     <string name="card_name_text">إسم حامل البطاقة</string>
-    <string name="card_cvc">الرجاء إدخل رمز CVC!</string>
+    <string name="card_cvc">يرجى إضافة الرمز الآمن للبطاقة</string>
     <string name="invalid_card_cvc">يرجى إدخال رمز التحقق من الصحة صالح!</string>
     <string name="card_otp">الرجاء إدخل رمز OTP !</string>
     <string name="card_delivery">الدفع عند التوصيل</string>
+    <string name="card_end_number">البطاقة المنتهية بالرقم</string>
 
     <!--Card-->
     <string name="notifications_admin_channel_name">الشبكة العالمية</string>
     <string name="notifications_admin_channel_description">تم إرسال التنبيهات من تطبيق التحكم</string>
 
     <string name="guest_user">متابعة كمستخدم ضيف</string>
-    <string name="invoice">فاتورة</string>
+    <string name="invoice">طلباتي</string>
     <string name="download_invoice">تحميل فاتورة</string>
     <string name="downloaded_invoice">يتم تنزيل الفاتورة بنجاح</string>
     <string name="login_message">تسجيل الدخول لاستخدام \ n المحتوى المخصص</string>
@@ -517,9 +519,9 @@
     <!--translate from my(IBL) side-->
     <string name="pay_error_could_not_update_session">لا يمكن تحديث الجلسة</string>
     <string name="view_invoice">عرض الفاتورة</string>
-    <string name="shipping">الشحن</string>
-    <string name="track_order">ترتيب المسار</string>
-    <string name="track">مسار</string>
+    <string name="shipping">تم الشحن</string>
+    <string name="track_order">تتبع الطلبات</string>
+    <string name="track">تتبع الطلب</string>
     <string name="credit_card">بطاقة الائتمان</string>
     <string name="cod">الدفع عن الاستلام</string>
     <string name="free">حر</string>
@@ -532,8 +534,8 @@
 
     <string name="pending">قيد الانتظار</string>
     <string name="cancelled_by_customer">تم الإلغاء بواسطة العميل</string>
-    <string name="processing">معالجة</string>
-    <string name="shipped">شحنها</string>
+    <string name="processing">قيد التنفيذ</string>
+    <string name="shipped">تم الشحن</string>
     <string name="complete">اكتمال</string>
     <string name="canceled">ألغيت</string>
     <string name="refunded">ردها</string>

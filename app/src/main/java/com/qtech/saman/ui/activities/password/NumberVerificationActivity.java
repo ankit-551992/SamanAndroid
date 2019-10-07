@@ -36,7 +36,6 @@ public class NumberVerificationActivity extends BaseActivity {
     EditText codeEditText;
 
     String number = null;
-
     PhoneCodeResponse phoneCodeResponse = null;
 
     @Override
@@ -55,7 +54,6 @@ public class NumberVerificationActivity extends BaseActivity {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
 
-//        Log.e("number", number);
         if (number != null) {
             verifyNumber(number);
         }
