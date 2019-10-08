@@ -1,6 +1,5 @@
 package com.qtech.saman.ui.adapters;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -197,8 +196,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 //                                mContext.getResources().getString(R.string.out_of_stock),
 //                                mContext.getResources().getString(R.string.cancel),
 //                                mContext);
-                        Constants.showErrorPopUp(mContext, mContext.getResources().getString(R.string.title_fav),
-                                mContext.getResources().getString(R.string.out_of_stock), mContext.getResources().getString(R.string.cancel));
+                        Constants.showErrorPopUp(mContext, mContext.getResources().getString(R.string.title_fav), mContext.getResources().getString(R.string.out_of_stock), mContext.getResources().getString(R.string.okay));
                     }
                 }
             });
@@ -206,17 +204,25 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             favoritesViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
-                    markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
-                    productArrayList.remove(position);
-                    notifyDataSetChanged();
-                    ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
-                    favoritesFragment.updateCount(productArrayList.size());
-//                  showPopUp(mContext.getString(R.string.removed_from_fav),
+
+//                    String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
+//                    markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
+//                    productArrayList.remove(position);
+//                    notifyDataSetChanged();
+//                    ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
+//                    favoritesFragment.updateCount(productArrayList.size());
+//                    mItemManger.closeAllItems();
+
+//                    showPopUp(mContext.getString(R.string.removed_from_fav),
 //                            mContext. getString(R.string.item_added_message),
 //                            mContext.getString(R.string.okay),
 //                            mContext.getString(R.string.view_fav),
-//                            1);
+//                            1,position);
+                    showPopUp(mContext.getString(R.string.removed_from_fav),
+                            "",
+                            mContext.getString(R.string.no),
+                            mContext.getString(R.string.yes),
+                            1, position);
                     mItemManger.closeAllItems();
                 }
             });
@@ -280,7 +286,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         }
     }
 
-    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type, int position) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -315,20 +321,14 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (type == 0) {
-                    dialog.dismiss();
-                    Constants.viewBag = true;
-                    Intent intent = new Intent(mContext, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("NavItem", 3);
-                    ((Activity) mContext).startActivity(intent);
-                } else {
-                    dialog.dismiss();
-                    Intent intent = new Intent(mContext, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("NavItem", 2);
-                    ((Activity) mContext).startActivity(intent);
-                }
+                String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
+                markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
+                productArrayList.remove(position);
+                notifyDataSetChanged();
+                ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
+                favoritesFragment.updateCount(productArrayList.size());
+//                mItemManger.closeAllItems();
+                dialog.dismiss();
             }
         });
 
@@ -340,6 +340,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
     }
+
     /*private void getProductDetails(int productID) {
         WebServicesHandler.instance.getFavProductDetail(String.valueOf(productID), String.valueOf(authenticatedUser.getId()), new retrofit2.Callback<GetProduct>() {
             @Override

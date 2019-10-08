@@ -209,11 +209,11 @@ public class CustomerSupportActivity extends BaseActivity {
     @OnClick(R.id.button_upload)
     public void upload() {
         if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
-            Constants.showAlert( getString(R.string.subject_prompt),"", getString(R.string.okay), CustomerSupportActivity.this);
+            Constants.showAlert(getString(R.string.subject_prompt), "", getString(R.string.okay), CustomerSupportActivity.this);
             return;
         }
         if (messageSelectionEditText.getText().toString().equals("") && messageSelectionEditText.getText().toString().isEmpty()) {
-            Constants.showAlert(getString(R.string.customer_service), getString(R.string.write_here), getString(R.string.okay), CustomerSupportActivity.this);
+            Constants.showAlert(getString(R.string.write_here), "", getString(R.string.okay), CustomerSupportActivity.this);
             return;
         }
 

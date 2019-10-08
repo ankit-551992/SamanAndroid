@@ -1,25 +1,31 @@
 package com.qtech.saman.ui.adapters;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.ShippingAddress;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
 import com.qtech.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +43,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
     private final int VIEW_TYPE_LOADING = 1;
     List<ShippingAddress> shippingAddresses = new ArrayList<>();
     private Context mContext;
+    Dialog dialog;
 
     public AddressAdapter(Context mContext, List<ShippingAddress> shippingAddresses) {
         this.shippingAddresses = shippingAddresses;
@@ -118,9 +125,11 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             messageViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    deleteAddress(shippingAddresses.get(position).getiD());
-                    shippingAddresses.remove(position);
-                    notifyDataSetChanged();
+                    showPopUp(mContext.getString(R.string.out_of_stock_title),
+                            mContext.getString(R.string.address_msg),
+                            mContext.getString(R.string.no),
+                            mContext.getString(R.string.yeah),
+                            1, position);
                     mItemManger.closeAllItems();
                 }
             });
@@ -194,4 +203,57 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             }
         });
     }
+
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type, int position) {
+        dialog = new Dialog(mContext, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dailog_information_pop_up);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+        closePopUp.setText(closeButtonText);
+        nextButton.setText(nextButtonText);
+
+        closePopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteAddress(shippingAddresses.get(position).getiD());
+                shippingAddresses.remove(position);
+                notifyDataSetChanged();
+//                mItemManger.closeAllItems();
+                dialog.dismiss();
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(mContext,
+                R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(animation);
+        dialog.show();
+    }
+
 }

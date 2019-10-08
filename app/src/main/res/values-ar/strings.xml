@@ -4,8 +4,9 @@
     <string name="title_store">المتجر</string>
     <string name="title_favorite">المفضلة</string>
     <string name="title_fav">قائمة الأمنيات</string>
+    <string name="drawer_fav">الأمنيات</string>
     <string name="title_bag">السلة</string>
-    <string name="title_my_bag">سلتي</string>
+    <string name="title_my_bag">حقيبتي</string>
     <string name="title_settings">الإعدادات</string>
     <string name="title_my_account">حسابي</string>
     <string name="title_logout">تسجيل خروج</string>
@@ -20,14 +21,14 @@
     <string name="Okay">موافق</string>
     <string name="ud_store">UD Store</string>
     <string name="upload_photos">رفع الصور</string>
-    <string name="write_here">أكتب رسالتك هنا</string>
+    <string name="write_here">أدخل رسالتك</string>
     <string name="feedback_here">اكتب ملاحظاتك هنا</string>
     <string name="search">البحث</string>
     <string name="search_query">خانة البحث فارغة، الرجاء الكتابة للبحث</string>
     <string name="swipe">تمرير</string>
     <string name="click">انقر</string>
     <string name="back">الرجوع</string>
-    <string name="currency_omr">ريال عماني</string>
+    <string name="currency_omr">ر.ع</string>
     <string name="logout_message">هل أنته متأكد من تسجيل الخروج؟</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="contentDescription">وصف المحتوى</string>
@@ -80,7 +81,7 @@
     <string name="privacy">سياسة الخصوصية</string>
     <string name="language">اللغة</string>
     <string name="notifications">التنبيهات</string>
-    <string name="term">سياسة الإستخدام</string>
+    <string name="term">الشروط والأحكام</string>
     <string name="description">التوصيف</string>
     <string name="specifications">المواصفات</string>
     <string name="no_specifications">لا توجد مواصفات</string>
@@ -93,6 +94,7 @@
 
     <!--Shopping cart-->
     <string name="shopping_cart">حقيبة التسوق</string>
+    <string name="drawer_cart">الحقيبة</string>
     <string name="apply_coupon">تفعيل القسيمة</string>
     <string name="invalid_coupon">قسيمة غير صالحة</string>
     <string name="already_apply">طبق بالفعل</string>
@@ -102,7 +104,7 @@
     <string name="delivery_address">عنوان التوصيل</string>
     <string name="pick_up_seller">إستلام من البائع</string>
     <string name="promo">أدخل رمز القسيمة هنا</string>
-    <string name="payment_type">نوع الدفع</string>
+    <string name="payment_type">عملية الدفع</string>
     <string name="we_accept">نحن نقبل</string>
     <string name="place_order">إرسال الطلب</string>
     <string name="price_to_pay">المبلغ للدفع</string>
@@ -111,13 +113,15 @@
 
     <!--Checkout-->
     <string name="check_out_thank_you">شكراً لطلبك</string>
-    <string name="check_out_email_msg">للتأكيد، الرجاء فحص بريدك الإلكتروني</string>
+    <string name="check_out_email_msg">يرجى التحقق من بريدك الإلكتروني لتأكيد الطلب</string>
     <string name="check_out">تأكيد الطلب</string>
     <string name="check_out_success">تم الطلب بنجاح</string>
     <string name="order_cancel_msg">بعض المنتجات لا يمكن تغيرها، الرجاء التواصل معنا </string>
     <string name="order_total">المبلغ</string>
+    <string name="checkout_order_total">اجمالي المبلغ</string>
     <string name="order_reference">معلومات الطلب</string>
     <string name="order_status">حالة الطلب</string>
+    <string name="checkout_order_status"> قيد التنفيذ</string>
     <string name="delivery_date">تاريخ التوصيل</string>
     <string name="return_policy"><u>سياسة الإسترجاع</u></string>
     <string name="received">تم الاستلام</string>
@@ -145,7 +149,7 @@
     <!--Payment-->
 
     <!--Bag-->
-    <string name="subtotal">حاصل المجوع : </string>
+    <string name="subtotal">المجموع : </string>
     <string name="VAT">الضرائب  : </string>
    <!-- <string name="total">المجموع: </string>-->
     <string name="total">الإجمالي:</string>
@@ -153,14 +157,14 @@
     <string name="order_date">التاريخ</string>
     <string name="invoice_date">تاريخ الطلب</string>
     <string name="order_">رقم الطلب</string>
-    <string name="delete">مسح</string>
+    <string name="delete">حذف</string>
     <string name="default_">إفتراضي</string>
     <string name="cancel">إلغاء</string>
     <string name="product_added_in_bag">تم اضافة المنتج بنجاح، الرجاء فحص خقيبة الشراء</string>
     <string name="add_to_cart">نقل إلى حقيبة الشراء</string>
-    <string name="add_to_fav">نقل إلى قائمة الأمنيات</string>
+    <string name="add_to_fav">الانتقال إلى قائمة الأمنيات</string>
     <string name="add_to_bag">إضافة إلى حقيبة الشراء</string>
-    <string name="remove_from_bag">حدف من حقيبة الشراء</string>
+    <string name="remove_from_bag">هل تريد حقًا الإزالة من الحقيبة؟</string>
     <string name="removed_from_bag">تم حذف المنتج بنجاح</string>
     <string name="move_to_fav">تم نقل المنتج إلى قائمة الأمنيات بنجاح</string>
 
@@ -174,8 +178,8 @@
     <string name="order_number">رقم الطلب</string>
     <string name="categories">التصنيفات</string>
     <string name="Done">تم</string>
-    <string name="best_sell">أفضل المبيات</string>
-    <string name="sort_by">تصنيف عن طريق</string>
+    <string name="best_sell">الأفضل مبيعاً</string>
+    <string name="sort_by">الترتيب</string>
     <!--Search-->
 
     <!--Login Screen-->
@@ -218,10 +222,11 @@
     <string name="change_password_message">الرجاء إدخل رمز الدخل القديم للتأكيد والرمز الجديد لتغير رمز الدخول</string>
     <string name="forgot_password_message">الرجاء إدخل البريد الإلكتروني لتغير رمز الدخول</string>
     <string name="reset_password_message">الرجاء إدخل الرمز المستلم وإدخل رمز الدخول الجديد</string>
-    <string name="old_password">رمز دخول قديم</string>
-    <string name="new_password">رمز دخول جديد</string>
+    <string name="old_password">رمز الدخول القديم</string>
+    <string name="new_password">رمز الدخول الجديد</string>
     <string name="change">تغير</string>
     <string name="apply">تفعيل</string>
+    <string name="emphasis">تأكيد</string>
     <string name="change_password">تغير رمز الدخول</string>
     <string name="reset_password">إعادة تفعيل رمز الدخول</string>
     <string name="forgot_pass">نسيت رمز الدخول</string>
@@ -240,7 +245,7 @@
     <string name="Stores">المتاجر</string>
     <string name="best_sellers">أفضل البائعين</string>
     <string name="latest_product">المنتجات الأخيرة</string>
-    <string name="hot_pick">اختيار ساخن</string>
+    <string name="hot_pick">الأكثر اختياراً</string>
     <string name="see_all">إظهار الكل</string>
     <!--Home-->
 
@@ -253,6 +258,7 @@
     <!--Product out-of-stock-->
     <string name="out_of_stock_message">هل ترغب في الحصول على إشعار عندما يأتي العنصر في الأوراق المالية؟</string>
     <string name="out_of_stock_title">هل أنت واثق؟</string>
+    <string name="address_msg">هل تود حذف العنوان؟</string>
     <string name="notify_me">اعلمني</string>
 
     <!--My Account-->
@@ -369,36 +375,39 @@
     <string name="terms_agreed">أنا أوافق على الشروط</string>
     <string name="send">إرسال</string>
     <string name="no_items_found">لم يتم العثور على العناصر!</string>
+    <string name="no_product_found">لا يوجد منتجات</string>
     <string name="agreement_order">من خلال تقديم طلبك فإنك توافق على \n</string>
     <string name="add_new_card">الائتمان / الخصم \n البطاقة \n إضافة جديد</string>
     <string name="app_language">تم تغيير لغة التطبيق بنجاح ، يرجى إغلاق التطبيق وإعادة فتحه مرة أخرى</string>
     <string name="added_to_fav">تمت إضافة العنصر إلى قائمة أمنياتك</string>
-    <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>
+    <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات؟</string>
+   <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
     <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
     <string name="remove_sure">هل أنت متأكد من أنك تريد إزالة هذا العنصر من قائمة المفضلات؟</string>
     <string name="view_fav">عرض قائمة الامنيات</string>
+    <string name="yeah">نعم</string>
     <string name="invalid_date">تاريخ غير صالح</string>
     <string name="select_country_req">الرجاء اختيار الدولة</string>
     <string name="select_location">ختر موقعا</string>
     <string name="shipping_address">عنوان الشحن</string>
     <string name="add_shipping_address">أضف عنوان الشحن</string>
     <string name="edit_shipping_address">تحرير عنوان الشحن</string>
-    <string name="edit">تصحيح</string>
-    <string name="set_as_default">تعيين كافتراضي</string>
+    <string name="edit">تعديل</string>
+    <string name="set_as_default">الاختيار الأول</string>
     <string name="request_sent">تم إرسال الطلب بنجاح</string>
-    <string name="ticket_created_success">رسالتك تهتم بنا ، وسنتصل بك قريبًا</string>
+    <string name="ticket_created_success">شكراً لاتصالك بنا، سوف نقوم بالرد عليك قريباً</string>
     <string name="address_added">تمت إضافة العنوان بنجاح</string>
     <string name="address_edit">تم تحديث العنوان بنجاح</string>
     <string name="submit_request">تقديم الطلب</string>
     <string name="confirm_password_required">تأكيد كلمة المرور مطلوب</string>
-    <string name="view_bag">حقيبة عرض</string>
-    <string name="item_added_bag">تمت إضافة عنصر إلى حقيبتك</string>
+    <string name="view_bag">عرض الحقيبة</string>
+    <string name="item_added_bag">تمت إضافة المنتج إلى حقيبتك</string>
     <string name="item_added_message">ماذا تريد ان تفعل الآن؟</string>
     <string name="street_no">اسم الشارع</string>
-    <string name="building_no">بناء ، الطابق ، شقة</string>
+    <string name="building_no">رقم المبنى، الشقة، الطابق</string>
     <string name="landmark">معلم معروف</string>
     <string name="required">مطلوب</string>
-    <string name="landmark_optional">معلم (اختياري)</string>
+    <string name="landmark_optional">المعلم (اختياري)</string>
     <string name="city">المدينة / البلدة</string>
     <string name="Card">بطاقة</string>
     <string name="default_card_msg">في defualt لا يمكنك حذفها.</string>
@@ -417,13 +426,22 @@
     <string name="fb_login_protocol_scheme">fb293002707997112</string>
 
     <plurals name="items">
-        <item quantity="zero">بند</item>
-        <item quantity="one">بند</item>
-        <item quantity="few">العناصر</item>
-        <item quantity="two">العناصر</item>
-        <item quantity="many">العناصر</item>
+        <item quantity="zero">المنتج</item>
+        <item quantity="one">المنتج</item>
+        <item quantity="few">منتجات</item>
+        <item quantity="two">منتجات</item>
+        <item quantity="many">منتجات</item>
+       <!-- <item quantity="one">بند</item>-->
+      <!--  <item quantity="many">العناصر</item>-->
     </plurals>
 
+    <plurals name="bag_wish_items">
+        <item quantity="zero">منتج</item>
+        <item quantity="one">منتج</item>
+        <item quantity="few">منتج</item>
+        <item quantity="two">منتج</item>
+        <item quantity="many">منتج</item>
+    </plurals>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -554,12 +572,12 @@
     <string name="region">منطقة</string>
     <string name="select_region">اختر المنطقة</string>
     <string name="all">الكل</string>
-    <string name="products">منتجات</string>
+    <string name="products">المنتجات</string>
     <string name="sale">تخفيض السعر</string>
     <string name="verification_code_required">رمز التحقق مطلوب</string>
     <string name="number_verification_required">يرجى التحقق من الرقم.</string>
-    <string name="out_of_stock">المنتج من المخزون</string>
-    <string name="out_of_stock_">إنتهى من المخزن</string>
+    <string name="out_of_stock">المنتج غير متوفر حالياً</string>
+    <string name="out_of_stock_">غير متوفر حالياً</string>
     <string name="items_available_count">فقط٪ 1 $ d متوفر في المخزون</string>
     <string name="region_required">المنطقة المطلوبة</string>
     <string name="rating_required">التقييم مطلوب</string>

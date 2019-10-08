@@ -159,7 +159,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                             mContext.getString(R.string.item_added_message),
                             mContext.getString(R.string.continue_shopping),
                             mContext.getString(R.string.view_fav),
-                            1);
+                            1,position);
                     mItemManger.closeAllItems();
                 }
             });
@@ -172,17 +172,17 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
 //                        Constants.showAlert(mContext.getString(R.string.remove_from_bag),mContext.getString(R.string.removed_from_bag),mContext.getString(R.string.okay),mContext);
 
+//                        productArrayList.remove(position);
+//                        updateNotify();
+//                        ((DashboardActivity) mContext).updateBagCount();
+
                         showPopUp(mContext.getString(R.string.remove_from_bag),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.close),
-                                0);
-                        productArrayList.remove(p);
-                        updateNotify();
-                        ((DashboardActivity) mContext).updateBagCount();
+                                "",
+                                mContext.getString(R.string.no),
+                                mContext.getString(R.string.yes),
+                                4, position);
                     }
                     bagFragment.updateCount(productArrayList.size());
-
                     mItemManger.closeAllItems();
                 }
             });
@@ -334,7 +334,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
     Dialog dialog;
 
-    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type) {
+    private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type, int position) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dailog_information_pop_up);
@@ -380,6 +380,12 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 3);
                     ((Activity) mContext).startActivity(intent);
+                } else if (type == 4) {
+
+                    productArrayList.remove(position);
+                    updateNotify();
+                    ((DashboardActivity) mContext).updateBagCount();
+                    dialog.dismiss();
                 } else {
                     dialog.dismiss();
                     Intent intent = new Intent(mContext, DashboardActivity.class);

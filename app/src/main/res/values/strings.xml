@@ -4,6 +4,7 @@
     <string name="title_store">Store</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_fav">Wish List</string>
+    <string name="drawer_fav">Wish List</string>
     <string name="title_bag">Bag</string>
     <string name="title_my_bag">My Bag</string>
     <string name="title_settings">Settings</string>
@@ -24,7 +25,7 @@
     <string name="ud_store">UD Store</string>
     <string name="upload_photos">Upload\nPhotos</string>
     <string name="dummy">Lige Brand Men Watches Automatic</string>
-    <string name="write_here">Write your message here</string>
+    <string name="write_here">Enter your messagee</string>
     <string name="feedback_here">Write your feedback here</string>
     <string name="search">Search</string>
     <string name="search_query">Search Field Empty, Please write something to search</string>
@@ -57,10 +58,15 @@
     <string name="english">English</string>
     <string name="arabic">عربى</string>
 
-    <string name="report_issue">Reporting issue</string>
+    <!--<string name="report_issue">Reporting issue</string>
     <string name="ask_help">Ask for help</string>
     <string name="report_prodcut">Report Product</string>
-    <string name="report_store">Report Store</string>
+    <string name="report_store">Report Store</string>-->
+
+    <string name="report_issue">Problem With My Account</string>
+    <string name="ask_help">Problem With My Orders</string>
+    <string name="report_prodcut">Problem With Stores</string>
+    <string name="report_store">General Inquiries</string>
 
     <string-array name="subjects">
         <item>Reporting issue</item>
@@ -85,7 +91,7 @@
     <string name="privacy">Privacy Policy</string>
     <string name="language">Language</string>
     <string name="notifications">Notifications</string>
-    <string name="term">Terms of Use</string>
+    <string name="term">Terms and Conditions</string>
     <string name="description">Description</string>
     <string name="specifications">Specifications</string>
     <string name="no_specifications">No Specifications</string>
@@ -99,6 +105,7 @@
     <string name="send">Send</string>
     <!--Shopping cart-->
     <string name="shopping_cart">Shopping Bag</string>
+    <string name="drawer_cart">Shopping Bag</string>
     <string name="apply_coupon">Apply Coupon</string>
     <string name="invalid_coupon">Invalid Coupon</string>
     <string name="already_apply">Already Applied</string>
@@ -117,6 +124,7 @@
     <string name="price_to_pay">Price to pay</string>
     <string name="promo_saved">Promo Saved</string>
     <string name="no_items_found">No items found!</string>
+    <string name="no_product_found">No Product found!</string>
     <string name="agreement_order">By placing your order you agree to our\n</string>
     <string name="cart_dummy">Mr. Jesus\n\nMusqat\n\nMusqat\n\nOman\n\n115\n\n77777</string>
     <!--Shopping cart-->
@@ -128,8 +136,10 @@
     <string name="check_out_success">Order Successful</string>
     <string name="order_cancel_msg">Some items can’t be change! please message us</string>
     <string name="order_total">Order Total</string>
+    <string name="checkout_order_total">The total amount</string>
     <string name="order_reference">Order Reference</string>
     <string name="order_status">Order Status</string>
+    <string name="checkout_order_status">Order Status</string>
     <string name="delivery_date">Delivery Date</string>
     <string name="return_policy"><u>Return Policy</u></string>
     <string name="received">Received</string>
@@ -164,8 +174,9 @@
     <string name="ask_remove_from_fav">Removed from Wishlist</string>
     <string name="remove_sure">Are you sure you want to remove this item from wishlist?</string>
     <string name="view_fav">View Wishlist</string>
+    <string name="yeah">View Wishlist</string>
     <string name="add_to_bag">Added to bag</string>
-    <string name="remove_from_bag">Remove from bag</string>
+    <string name="remove_from_bag">Do you really want to remove from bag?</string>
     <string name="removed_from_bag">Product Removed successfully</string>
     <string name="move_to_fav">Product moved to wish list successfully</string>
     <!--Bag-->
@@ -227,6 +238,7 @@
     <string name="new_password">New Password</string>
     <string name="change">Change</string>
     <string name="apply">Apply</string>
+    <string name="emphasis">Emphasis</string>
     <string name="change_password">Change Password</string>
     <string name="reset_password">Reset Password</string>
     <string name="forgot_pass">Forgot Password</string>
@@ -256,6 +268,7 @@
     <!--Product out-of-stock-->
     <string name="out_of_stock_message">Do you want to get notification when item will come in stock?</string>
     <string name="out_of_stock_title">Are you sure?</string>
+    <string name="address_msg">Delete address?</string>
     <string name="notify_me">Notify Me</string>
 
     <!--My Account-->
@@ -359,6 +372,11 @@
     <string name="fb_login_protocol_scheme">fb293002707997112</string>
 
     <plurals name="items">
+        <item quantity="one">Item</item>
+        <item quantity="other">Items</item>
+    </plurals>
+
+    <plurals name="bag_wish_items">
         <item quantity="one">Item</item>
         <item quantity="other">Items</item>
     </plurals>

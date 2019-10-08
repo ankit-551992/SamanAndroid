@@ -113,7 +113,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         int quan1 = 0;
         quan1 = quan1 + productArrayList.size();
         // quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
-        quantity.setText(quan1 + getActivity().getResources().getQuantityString(R.plurals.items, quan1));
+        quantity.setText(quan1 + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, quan1));
         ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
         if (productArrayList.size() > 0) {
             tv_empty_bag.setVisibility(View.GONE);
@@ -136,7 +136,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         for (int i = 0; i < productArrayList.size(); i++) {
             quan = quan + productArrayList.get(i).getQuantity();
         }
-        quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
+        quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, quan));
     }
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {

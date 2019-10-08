@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.2"
-                    android:text="@string/order_total"
+                    android:text="@string/checkout_order_total"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.2"
-                    android:text="@string/order_status"
+                    android:text="@string/checkout_order_status"
                     android:textColor="@color/black" />
 
                 <TextView

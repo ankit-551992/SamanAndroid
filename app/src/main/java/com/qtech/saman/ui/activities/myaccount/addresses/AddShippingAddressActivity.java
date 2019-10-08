@@ -123,8 +123,6 @@ public class AddShippingAddressActivity extends BaseActivity {
         } else {
             markerImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_location_white));
         }
-
-
     }
 
     @Override

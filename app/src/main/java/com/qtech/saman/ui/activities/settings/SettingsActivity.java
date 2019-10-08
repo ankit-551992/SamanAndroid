@@ -26,6 +26,7 @@ import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.Country;
 import com.qtech.saman.ui.activities.PoliciesActivity;
+import com.qtech.saman.ui.activities.SplashActivity;
 import com.qtech.saman.ui.activities.country.CountriesListingActivity;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.password.ChangePasswordActivity;
@@ -219,7 +220,7 @@ public class SettingsActivity extends BaseActivity {
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
 
-                    Intent refresh = new Intent(SettingsActivity.this, DashboardActivity.class);
+                    Intent refresh = new Intent(SettingsActivity.this, SplashActivity.class);
                     //refresh.putExtra(currentLang, localeName);
                     startActivity(refresh);
                     dialog.dismiss();

@@ -150,6 +150,7 @@ public class ProductsCategoryFragment extends BaseFragment {
                         empty.setVisibility(View.GONE);
                     } else {
                         empty.setVisibility(View.VISIBLE);
+                        empty.setText(getResources().getString(R.string.no_product_found));
                     }
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -222,6 +223,7 @@ public class ProductsCategoryFragment extends BaseFragment {
                     empty.setVisibility(View.GONE);
                 } else {
                     empty.setVisibility(View.VISIBLE);
+                    empty.setText(getResources().getString(R.string.no_product_found));
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
