@@ -623,8 +623,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
         TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
 
-        titleTextView.setText(title);
-        messageTextView.setText(message);
+        titleTextView.setText(message);
+        messageTextView.setText("");
         closePopUp.setText(closeButtonText);
         nextButton.setText(nextButtonText);
 

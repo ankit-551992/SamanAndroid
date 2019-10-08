@@ -274,7 +274,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     }
 
     //Social Login
-
     // Google Plus Region
 
     @OnClick(R.id.google_signIn)
