@@ -34,6 +34,7 @@ import com.qtech.saman.ui.activities.myaccount.addresses.ShippingAddressActivity
 import com.qtech.saman.utils.CircleTransform;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
+import com.qtech.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -130,13 +131,22 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             for (int i = 0; i < GlobalValues.countries.size(); i++) {
                 if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
                     selectedCountry = GlobalValues.countries.get(i);
-                    countryName.setText(selectedCountry.getName());
+                    if (SamanApp.isEnglishVersion){
+                        countryName.setText(selectedCountry.getName());
+                    }else {
+                        countryName.setText(selectedCountry.getName_AR());
+                    }
                     Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
                     if (selectedCountry.getName().equalsIgnoreCase("oman")) {
                         regionView.setVisibility(View.VISIBLE);
                         regionSelectionLinearLayout.setVisibility(View.VISIBLE);
                         if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
-                            regionName.setText(authenticatedUser.getRegion());
+//                            regionName.setText(authenticatedUser.getRegion());
+                            if (SamanApp.isEnglishVersion){
+                                regionName.setText(authenticatedUser.getRegion());
+                            }else {
+                                regionName.setText(authenticatedUser.getRegion());
+                            }
                         }
                     } else {
                         regionSelectionLinearLayout.setVisibility(View.GONE);
@@ -183,8 +193,21 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             iv_code_flag.setVisibility(View.GONE);
         }
 
-        genderText.setText(authenticatedUser.getGender());
+//        genderText.setText(authenticatedUser.getGender());
         selectedGender = authenticatedUser.getGender();
+
+        if (SamanApp.isEnglishVersion) {
+            Log.e("FLAG000", "--isEnglishVersion--getGender-" + selectedGender);
+            genderText.setText(selectedGender);
+        } else {
+            Log.e("FLAG000", "--else---getGender--" + selectedGender);
+            if (selectedGender.equals(getResources().getString(R.string.female))) {
+                genderText.setText(getResources().getString(R.string.female));
+            } else {
+                genderText.setText(getResources().getString(R.string.male));
+            }
+        }
+
         Log.e("FLAG000", "--getCountry--" + authenticatedUser.getCountry());
 //        countryName.setText(authenticatedUser.getCountry());
         if (authenticatedUser.getShippingAddress() != null) {
@@ -411,7 +434,11 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                         if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
                             selectedCountry = GlobalValues.countries.get(i);
                             Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                            countryName.setText(selectedCountry.getName());
+                            if (SamanApp.isEnglishVersion){
+                                countryName.setText(selectedCountry.getName());
+                            }else {
+                                countryName.setText(selectedCountry.getName_AR());
+                            }
                         }
                     }
                 }
@@ -604,13 +631,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 setResult(RESULT_OK);
                 finish();
             } else {
-                Constants.showAlertWithActivityFinish(getString(R.string.update_profile), getString(R.string.update_profile_success), getString(R.string.okay), MyDetailsActivity.this);
+                Constants.showAlertWithActivityFinish("", getString(R.string.update_profile_success), getString(R.string.okay), MyDetailsActivity.this);
             }
         } else {
             if (isRequest) {
-                Constants.showAlertWithActivityFinish(getString(R.string.update_profile), getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
+                Constants.showAlertWithActivityFinish("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
             } else {
-                Constants.showAlert(getString(R.string.update_profile), getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
+                Constants.showAlert("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
             }
         }
     }

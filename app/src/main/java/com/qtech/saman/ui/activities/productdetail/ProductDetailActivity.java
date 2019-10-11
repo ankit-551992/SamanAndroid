@@ -255,7 +255,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 Log.e("Quantity", "" + product.getQuantity());
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(), Integer.parseInt(productCount.getText().toString()))) {
-                      /*  showPopUp(getString(R.string.item_added_bag),
+                      /* showPopUp(getString(R.string.item_added_bag),
                                 getString(R.string.item_added_message),
                                 getString(R.string.continue_shopping),
                                 getString(R.string.view_bag),
@@ -451,7 +451,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 View child = inflater.inflate(R.layout.item_options_row, null);
                 TextView optionName = (TextView) child.findViewById(R.id.tv_option_name);
                 Spinner optionValuesSpinner = (Spinner) child.findViewById(R.id.spinner_option_value);
-
+//                Log.e("PRODUCT00","--getTitleAR---"+productOption.getTitleAR() +"--getTitle--"+productOption.getTitle());
                 if (SamanApp.isEnglishVersion) {
                     optionName.setText(productOption.getTitle());
                 } else {

@@ -189,7 +189,6 @@ public class AddShippingAddressActivity extends BaseActivity {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.country) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
         }
-
         String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString();
         String addressLine2 = landmarkEditText.getText().toString();
         progressBar.setVisibility(View.VISIBLE);
@@ -246,5 +245,4 @@ public class AddShippingAddressActivity extends BaseActivity {
             });
         }
     }
-
 }

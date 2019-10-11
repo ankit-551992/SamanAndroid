@@ -62,7 +62,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
         presenter = new FavoritesPresenter(this);
         presenter.getFavoritesData(authenticatedUser.getId(), currentPage, pageSize, true);
-
         return view;
     }
 

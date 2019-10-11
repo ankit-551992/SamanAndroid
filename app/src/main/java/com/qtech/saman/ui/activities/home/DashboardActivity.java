@@ -136,7 +136,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             intent.putExtra("ShowAlert", true);
             startActivity(intent);
         }
-//        updateMessagesCount(3);
+//       updateMessagesCount(3);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         updateBagCount();
         updateUserDetails();
         getConversation();
-//        mPresenter.getUserData();
+//      mPresenter.getUserData();
     }
 
     @Override
@@ -353,7 +353,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             if (authenticatedUser.getSocialID() != 0) {
                 if (!authenticatedUser.getProfileImagePath().isEmpty()) {
                     Picasso.get()
-//                            .load(authenticatedUser.getProfileImagePath())
+//                          .load(authenticatedUser.getProfileImagePath())
                             .load(Constants.URLS.BaseURLImages + authenticatedUser.getProfileImagePath())
                             .transform(new CircleTransform())
                             .placeholder(R.drawable.ic_profile)
@@ -554,7 +554,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                         updateFavCount(getProducts.getProduct().size());
                     }
                 }
-//                getConversation();
+//              getConversation();
             }
 
             @Override

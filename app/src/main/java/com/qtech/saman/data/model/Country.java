@@ -17,6 +17,9 @@ public class Country {
     @SerializedName("phoneCode")
     @Expose
     private String phoneCode;
+    @SerializedName("name_AR")
+    @Expose
+    private String name_AR;
 
     String flag;
 
@@ -80,6 +83,14 @@ public class Country {
         this.flag = flag;
     }
 
+    public String getName_AR() {
+        return name_AR;
+    }
+
+    public void setName_AR(String name_AR) {
+        this.name_AR = name_AR;
+    }
+
     @Override
     public String toString() {
         return "Country{" +
@@ -87,6 +98,7 @@ public class Country {
                 ", sortname='" + sortname + '\'' +
                 ", name='" + name + '\'' +
                 ", phoneCode='" + phoneCode + '\'' +
+                ", name_AR='" + name_AR + '\'' +
                 ", flag='" + flag + '\'' +
                 '}';
     }

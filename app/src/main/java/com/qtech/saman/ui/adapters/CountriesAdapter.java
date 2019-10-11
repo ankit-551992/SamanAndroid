@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.Country;
 import com.qtech.saman.utils.GlobalValues;
+import com.qtech.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -61,7 +62,12 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof CountryViewHolder) {
             CountryViewHolder countryViewHolder = (CountryViewHolder) holder;
-            countryViewHolder.countryName.setText(countries.get(position).getName());
+            if (SamanApp.isEnglishVersion){
+                countryViewHolder.countryName.setText(countries.get(position).getName());
+            }else {
+                countryViewHolder.countryName.setText(countries.get(position).getName_AR());
+            }
+
             countryViewHolder.countryCode.setText("(+" + countries.get(position).getPhoneCode() + ")");
 
             Picasso.get().load(countries.get(position).getFlag()).into(countryViewHolder.flag);

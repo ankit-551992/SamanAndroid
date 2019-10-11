@@ -278,7 +278,7 @@
 
     <string name="update_profile">تحديث الملف الشخصي </string>
 
-    <string name="update_profile_success">تم تحديث الملف الشخص بنجاحy</string>
+    <string name="update_profile_success">تم تحديث الملف الشخص بنجاح</string>
 
     <string name="update_profile_fail">فشل في تحديث الملف الشخصي</string>
 
@@ -602,5 +602,23 @@
     <string name="sales_notify">الترقيات والمبيعات</string>
     <string name="feedback_notify">ردود الفعل الإخطار</string>
     <string name="item_stock_notify">العنصر مرة أخرى من المخزون</string>
+
+    <string-array name="regions">
+        <item>محافظة مسقط</item>
+        <item>محافظة ظفار</item>
+        <item>محافظة شمال الباطنة</item>
+        <item>محافظة جنوب الشرقية</item>
+        <item>محافظة شمال الظاهرة</item>
+        <item>محافظة الداخلية</item>
+        <item>محافظة الوسطى</item>
+        <item>محافظة مسندم</item>
+        <item>محافظة جنوب الباطنة</item>
+        <item>محافظة شمال الشرقية</item>
+        <item>محافظة البريمي</item>
+    </string-array>
+
+
+    <!--"Governorate of Muscat = محافظة مسقط", "Governorate of Dhofar = محافظة ظفار ", "Governorate of Al Batinah North = محافظة شمال الباطنة ", "Governorate of Al Sharqiya South = محافظة جنوب الشرقية ", "Governorate of Al Dahira North = محافظة شمال الظاهرة ", "Governorate of Dakhiliyah = محافظة الداخلية ", "Governorate of Al Wusta = محافظة الوسطى ", "Governorate of Musandam = محافظة مسندم ", "Governorate of Al Batinah South = محافظة جنوب الباطنة ", "Governorate of Al Sharqiya North = محافظة شمال الشرقية ", "Governorate of Al Buraimi =
+    محافظة البريمي"-->
 
 </resources>

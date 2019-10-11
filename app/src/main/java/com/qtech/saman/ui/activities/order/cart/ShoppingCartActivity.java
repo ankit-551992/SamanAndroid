@@ -203,12 +203,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
                 countryName.setText(selectedCountry.getName());
             }
-        }
-*/
+        }*/
+
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
 
         if (authenticatedUser.getShippingAddress() != null) {
-
             Log.e("121212", "---" + authenticatedUser.getShippingAddress());
 //            String address = authenticatedUser.getShippingAddress().getAddressLine1().replace(",", "\n\n");
             String address = authenticatedUser.getShippingAddress().getAddressLine1().replace(",", ", ");
@@ -522,6 +521,12 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         selectedCountry = GlobalValues.countries.get(i);
                         Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
                         countryName.setText(selectedCountry.getName());
+//                        if (SamanApp.isEnglishVersion){
+//                            countryName.setText(selectedCountry.getName());
+//                        }else {
+//                            countryName.setText(selectedCountry.getName_AR());
+//                        }
+
                     }
                 }
             }

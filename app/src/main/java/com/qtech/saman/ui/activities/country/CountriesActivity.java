@@ -9,19 +9,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
-import com.qtech.saman.data.model.Country;
 import com.qtech.saman.data.model.apis.GetStores;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.adapters.CountriesAdapter;
-import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -93,7 +90,7 @@ public class CountriesActivity extends BaseActivity {
         });
     }
 
-    private void getCountries() {
+   /* private void getCountries() {
         try {
             JSONObject obj = new JSONObject(Constants.loadJSONFromAsset(getApplicationContext()));
             JSONArray jsonArray = obj.getJSONArray("countries");
@@ -115,5 +112,5 @@ public class CountriesActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

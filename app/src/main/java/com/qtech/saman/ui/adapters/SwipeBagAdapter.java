@@ -186,7 +186,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     mItemManger.closeAllItems();
                 }
             });
-
             // mItemManger is member in RecyclerSwipeAdapter Class
             mItemManger.bindView(bagViewHolder.itemView, position);
 
@@ -381,7 +380,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     intent.putExtra("NavItem", 3);
                     ((Activity) mContext).startActivity(intent);
                 } else if (type == 4) {
-
                     productArrayList.remove(position);
                     updateNotify();
                     ((DashboardActivity) mContext).updateBagCount();
@@ -397,8 +395,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         });
 
         Animation animation;
-        animation = AnimationUtils.loadAnimation(mContext,
-                R.anim.fade_in);
+        animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
 
         ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);

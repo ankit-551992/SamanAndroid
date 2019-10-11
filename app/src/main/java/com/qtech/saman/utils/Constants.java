@@ -202,7 +202,13 @@ public class Constants{
 
         nextButton.setText(buttonText);
 //        titleTextView.setText(context.getString(R.string.error));
-        titleTextView.setText(title);
+        if (title.equals("")){
+            titleTextView.setVisibility(View.GONE);
+        }else {
+            titleTextView.setVisibility(View.VISIBLE);
+            titleTextView.setText(title);
+        }
+
         messageTextView.setText(message);
 //        messageTextView.setText(context.getString(R.string.missing_options));
 
@@ -232,6 +238,7 @@ public class Constants{
     public static String loadJSONFromAsset(Context context) {
         String json = null;
         try {
+//            InputStream is = context.getAssets().open("countries_old.json");
             InputStream is = context.getAssets().open("countries.json");
             int size = is.available();
             byte[] buffer = new byte[size];

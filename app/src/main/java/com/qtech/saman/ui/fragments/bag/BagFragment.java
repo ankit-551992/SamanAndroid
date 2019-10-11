@@ -72,7 +72,6 @@ public class BagFragment extends BaseFragment {
 
     @OnClick(R.id.button_proceed_to_checkout)
     void proceedCheckout() {
-
         if (GlobalValues.getGuestLoginStatus(getContext())) {
             Constants.showLoginDialog(getContext());
             return;

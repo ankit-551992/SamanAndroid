@@ -597,6 +597,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                     country.setId(jsonObject.getInt("id"));
                     country.setSortname(jsonObject.getString("sortname"));
                     country.setName(jsonObject.getString("name"));
+                    country.setName_AR(jsonObject.getString("name_AR"));
                     country.setFlag("https://www.saman.om/Flags/flag_" + jsonObject.getString("sortname").toLowerCase() + ".png");
                     country.setPhoneCode("" + jsonObject.getInt("phoneCode"));
 

@@ -96,7 +96,7 @@ public class ProductsActivity extends BaseActivity {
         tabLayout.setVisibility(View.VISIBLE);
         search = "";
         super.onBackPressed();
-}
+    }
 
     @OnClick(R.id.toolbar_search)
     void search() {
@@ -164,7 +164,13 @@ public class ProductsActivity extends BaseActivity {
             LinearLayout bg = (LinearLayout) customTab.findViewById(R.id.tab_layout);
 
             if (i == 0) {
-                textView.setText(getString(R.string.all));
+
+                if (SamanApp.isEnglishVersion) {
+                    textView.setText(getString(R.string.all));
+                } else {
+                    textView.setText(getString(R.string.all));
+                }
+
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
 
                 TabLayout.Tab tab = tabLayout.getTabAt(0);
@@ -205,7 +211,7 @@ public class ProductsActivity extends BaseActivity {
                 Log.e("SEARCH000", "---GlobalValue---getID()---" + GlobalValues.storeCategories.get(i).getID());
             }
         } else {
-//           adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
+//          adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
             adapter.addFrag(ProductsCategoryFragment.newInstance(0, ""), getString(R.string.all));
             adapter.addFrag(ProductsCategoryFragment.newInstance(1, ""), getString(R.string.new_in));
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {

@@ -94,6 +94,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         startActivity(intent);
         finish();*/
         return new ContextWrapper(context);
-
     }
 }

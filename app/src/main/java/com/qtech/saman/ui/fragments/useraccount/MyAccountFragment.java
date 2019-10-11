@@ -247,7 +247,6 @@ public class MyAccountFragment extends BaseFragment {
     public String getName() {
         return null;
     }
-
     private void choose() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -277,6 +276,7 @@ public class MyAccountFragment extends BaseFragment {
         });
         builder.show();
     }
+
 
     private void dispatchTakePictureIntent() throws IOException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -414,7 +414,6 @@ public class MyAccountFragment extends BaseFragment {
             }
         }
     }
-
 
     private void uploadToServer(File file) {
         Log.e("IMAGEW000", "--file---image---upload---" + file.getAbsolutePath());
