@@ -617,6 +617,8 @@
         <item>محافظة البريمي</item>
     </string-array>
 
+    <string name="oman">سلطنة عمان</string>
+
 
     <!--"Governorate of Muscat = محافظة مسقط", "Governorate of Dhofar = محافظة ظفار ", "Governorate of Al Batinah North = محافظة شمال الباطنة ", "Governorate of Al Sharqiya South = محافظة جنوب الشرقية ", "Governorate of Al Dahira North = محافظة شمال الظاهرة ", "Governorate of Dakhiliyah = محافظة الداخلية ", "Governorate of Al Wusta = محافظة الوسطى ", "Governorate of Musandam = محافظة مسندم ", "Governorate of Al Batinah South = محافظة جنوب الباطنة ", "Governorate of Al Sharqiya North = محافظة شمال الشرقية ", "Governorate of Al Buraimi =
     محافظة البريمي"-->

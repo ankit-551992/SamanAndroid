@@ -131,9 +131,9 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             for (int i = 0; i < GlobalValues.countries.size(); i++) {
                 if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
                     selectedCountry = GlobalValues.countries.get(i);
-                    if (SamanApp.isEnglishVersion){
+                    if (SamanApp.isEnglishVersion) {
                         countryName.setText(selectedCountry.getName());
-                    }else {
+                    } else {
                         countryName.setText(selectedCountry.getName_AR());
                     }
                     Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
@@ -142,9 +142,9 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                         regionSelectionLinearLayout.setVisibility(View.VISIBLE);
                         if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
 //                            regionName.setText(authenticatedUser.getRegion());
-                            if (SamanApp.isEnglishVersion){
+                            if (SamanApp.isEnglishVersion) {
                                 regionName.setText(authenticatedUser.getRegion());
-                            }else {
+                            } else {
                                 regionName.setText(authenticatedUser.getRegion());
                             }
                         }
@@ -198,7 +198,12 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
         if (SamanApp.isEnglishVersion) {
             Log.e("FLAG000", "--isEnglishVersion--getGender-" + selectedGender);
-            genderText.setText(selectedGender);
+            if (selectedGender.equals(getResources().getString(R.string.female))) {
+                genderText.setText(getResources().getString(R.string.female));
+            } else {
+                genderText.setText(getResources().getString(R.string.male));
+            }
+//            genderText.setText(selectedGender);
         } else {
             Log.e("FLAG000", "--else---getGender--" + selectedGender);
             if (selectedGender.equals(getResources().getString(R.string.female))) {
@@ -368,7 +373,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String phone = ccp.getText().toString() + phoneEditText.getText().toString();
         String region = regionName.getText().toString();
 
-     /*   if (!dayEditText.getText().toString().equals("") && !TextUtils.isEmpty(dayEditText.getText().toString())) {
+     /*  if (!dayEditText.getText().toString().equals("") && !TextUtils.isEmpty(dayEditText.getText().toString())) {
             choose_date = Integer.parseInt(dayEditText.getText().toString());
             day = String.valueOf(choose_date);
         }
@@ -411,7 +416,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 e.printStackTrace();
             }
 
-            if (countryName.getText().toString().equalsIgnoreCase("oman")) {
+//            if (countryName.getText().toString().equalsIgnoreCase("oman")) {
+            if (countryName.getText().toString().equalsIgnoreCase(getResources().getString(R.string.oman))) {
                 if (region == null || TextUtils.isEmpty(region)) {
                     Constants.showAlert(getString(R.string.my_details), getString(R.string.region_required), getString(R.string.okay), MyDetailsActivity.this);
                     return;
@@ -434,9 +440,9 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                         if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
                             selectedCountry = GlobalValues.countries.get(i);
                             Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                            if (SamanApp.isEnglishVersion){
+                            if (SamanApp.isEnglishVersion) {
                                 countryName.setText(selectedCountry.getName());
-                            }else {
+                            } else {
                                 countryName.setText(selectedCountry.getName_AR());
                             }
                         }

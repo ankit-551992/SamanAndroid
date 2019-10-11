@@ -560,4 +560,8 @@
     <!--place Order dialog-->
     <string name="order_title">Are you sure?</string>
     <string name="order_message">Do you really want to place order?</string>
+
+    <string name="oman">oman</string>
+
+
 </resources>
