@@ -193,7 +193,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             iv_code_flag.setVisibility(View.GONE);
         }
 
-//        genderText.setText(authenticatedUser.getGender());
+//      genderText.setText(authenticatedUser.getGender());
         selectedGender = authenticatedUser.getGender();
 
         if (SamanApp.isEnglishVersion) {
@@ -308,7 +308,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         super.onBackPressed();
     }
 
-
     @OnClick({R.id.editText_day, R.id.editText_month, R.id.editText_year})
     void setDOB() {
 //        DatePickerDialog dialog = new DatePickerDialog(MyDetailsActivity.this, AlertDialog.THEME_HOLO_LIGHT, date, myCalendar
@@ -358,7 +357,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         monthEditText.setText(sepDate[1]);
         yearEditText.setText(sepDate[2]);
     }
-
 //    int choose_date, mon, yr;
 //    String day, month, year;
 //    String dob;
@@ -394,7 +392,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 //        String day = String.valueOf(choose_date);
 //        String month = String.valueOf(mon);
 //        String year = String.valueOf(yr);
-
 
     /*    if (!month.equals("") && !day.equals("") && !year.equals("")) {
 

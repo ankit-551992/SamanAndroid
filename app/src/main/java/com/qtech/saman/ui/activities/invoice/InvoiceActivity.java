@@ -133,7 +133,11 @@ public class InvoiceActivity extends BaseActivity {
 
             if (orderHistory.getStatus() != null) {
                 if (!orderHistory.getStatus().equals("")) {
-                    orderStatusTextView.setText(orderHistory.getStatus());
+                    if (orderHistory.getStatus().equalsIgnoreCase("Denied")) {
+                        orderStatusTextView.setText(getResources().getString(R.string.pending));
+                    } else {
+                        orderStatusTextView.setText(orderHistory.getStatus());
+                    }
                 }
             }
 
