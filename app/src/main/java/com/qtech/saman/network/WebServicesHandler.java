@@ -545,4 +545,9 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getUserInfo(int userID, Callback<UserResponse> callback) {
+        Call<UserResponse> call = webServices.getUserInfo(userID);
+        call.enqueue(callback);
+    }
+
 }

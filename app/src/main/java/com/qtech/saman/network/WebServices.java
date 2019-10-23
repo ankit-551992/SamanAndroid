@@ -219,4 +219,7 @@ public interface WebServices {
 
     @POST("User/AddNotifyProduct?")
     Call<SimpleSuccess> addNotifyProduct(@Query("UserID") int userId,@Query("ProductID") int productId);
+
+    @GET("User/GetByID?")
+    Call<UserResponse> getUserInfo(@Query("userID") int userId);
 }

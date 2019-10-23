@@ -63,7 +63,7 @@ import retrofit2.Response;
 import static android.app.Activity.RESULT_OK;
 import static com.thefinestartist.utils.content.ContextUtil.getContentResolver;
 
-public class MyAccountFragment extends BaseFragment {
+public class MyAccountFragment extends BaseFragment implements MyAccountContractor.View {
 
     @BindView(R.id.user_name)
     TextView userName;
@@ -80,6 +80,8 @@ public class MyAccountFragment extends BaseFragment {
     String mCurrentPhotoPath;
     private int REQUEST_TAKE_PHOTO = 1;
     private int REQUEST_CHOOSE_PHOTO = 2;
+
+    MyAccountContractor.Presenter myAccountPresenter;
 
     int unread;
 
@@ -111,9 +113,19 @@ public class MyAccountFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         readBundle(getArguments());
         authenticatedUser = GlobalValues.getUser(getContext());
+        myAccountPresenter = new MyAccountPresenter(this);
+        if (authenticatedUser.getId() != null){
+            myAccountPresenter.getUsetInfoApi(authenticatedUser.getId());
+        }
         userName.setText(getContext().getString(R.string.Welcome) + "," + authenticatedUser.getFirstName());
         userEmail.setText(authenticatedUser.getEmail());
+        setProfileImage();
 
+        return view;
+    }
+
+    private void setProfileImage() {
+        authenticatedUser = GlobalValues.getUser(getContext());
         if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty() && !authenticatedUser.getProfileImagePath().equalsIgnoreCase("path")) {
             if (authenticatedUser.getSocialID() != 0) {
                 if (!authenticatedUser.getProfileImagePath().isEmpty()) {
@@ -144,7 +156,6 @@ public class MyAccountFragment extends BaseFragment {
                     .placeholder(R.drawable.ic_profile)
                     .into(profile);
         }
-        return view;
     }
 
     @Override
@@ -247,6 +258,7 @@ public class MyAccountFragment extends BaseFragment {
     public String getName() {
         return null;
     }
+
     private void choose() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext());
@@ -373,7 +385,6 @@ public class MyAccountFragment extends BaseFragment {
         }
     }
 
-
     String filePath(Uri uri) {
 
         String id = null;
@@ -457,7 +468,6 @@ public class MyAccountFragment extends BaseFragment {
         });
     }
 
-
     private String convertImage() {
 
         String convert = null;
@@ -472,7 +482,6 @@ public class MyAccountFragment extends BaseFragment {
         }
         return convert;
     }
-
 
     public Bitmap decodeFile(String filePath) {
 
@@ -500,5 +509,22 @@ public class MyAccountFragment extends BaseFragment {
         Bitmap bitmap = BitmapFactory.decodeFile(filePath, o2);
 //        Bitmap b = ExifUtils.rotateBitmap(filePath, b1);
         return bitmap;
+    }
+
+    @Override
+    public void response(User user) {
+        GlobalValues.saveUser(getActivity(), user);
+        setProfileImage();
+        ((DashboardActivity) getActivity()).updateUserDetails();
+    }
+
+    @Override
+    public void error(String message) {
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        myAccountPresenter.destroy();
     }
 }

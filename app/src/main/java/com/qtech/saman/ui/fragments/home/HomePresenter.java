@@ -14,7 +14,6 @@ public class HomePresenter implements HomeContractor.Presenter {
 
     private HomeContractor.View view;
 
-
     public HomePresenter(HomeContractor.View view) {
         this.view = view;
     }
