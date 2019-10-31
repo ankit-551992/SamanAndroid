@@ -17,6 +17,7 @@ import com.qtech.saman.data.model.Country;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.adapters.RegionsAdapter;
 import com.qtech.saman.utils.Constants;
+import com.qtech.saman.utils.SamanApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,10 +75,15 @@ public class RegionListingActivity extends BaseActivity {
     }
 
     private void setData() {
+        String[] reg;
+        if (SamanApp.isEnglishVersion) {
+            reg = getResources().getStringArray(R.array.regions);
+        } else {
+            reg = getResources().getStringArray(R.array.regions);
+        }
 
-        String[] reg = getResources().getStringArray(R.array.regions);
         regions = new ArrayList<>();
-        for (int i=0;i<reg.length;i++){
+        for (int i = 0; i < reg.length; i++) {
             Country country = new Country();
             country.setName(reg[i]);
             regions.add(country);
@@ -89,7 +95,6 @@ public class RegionListingActivity extends BaseActivity {
                 LinearLayoutManager.VERTICAL));
         regionsAdapter = new RegionsAdapter(this, regions);
         recyclerView.setAdapter(regionsAdapter);
-
     }
 
     private void getRegions() {

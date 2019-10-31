@@ -211,6 +211,7 @@ public class AddShippingAddressActivity extends BaseActivity {
                     progressBar.setVisibility(View.GONE);
                 }
             });
+
         }else if(type==2){
             progressBar.setVisibility(View.GONE);
             Gson gson=new Gson();

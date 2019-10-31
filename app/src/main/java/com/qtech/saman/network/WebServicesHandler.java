@@ -446,6 +446,7 @@ public class WebServicesHandler {
         parameters.put("Country", country);
         parameters.put("isDefault", isDefault);
 
+        Log.e("ADDRE00", "--parameters----" + parameters);
         Call<SimpleSuccess> call = webServices.updateAddress(parameters);
         call.enqueue(callback);
     }
@@ -496,8 +497,8 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void notifyAddProduct(int userId,int productId, Callback<SimpleSuccess> callback){
-        Call<SimpleSuccess> call = webServices.addNotifyProduct(userId,productId);
+    public void notifyAddProduct(int userId, int productId, Callback<SimpleSuccess> callback) {
+        Call<SimpleSuccess> call = webServices.addNotifyProduct(userId, productId);
         call.enqueue(callback);
     }
 
@@ -549,5 +550,4 @@ public class WebServicesHandler {
         Call<UserResponse> call = webServices.getUserInfo(userID);
         call.enqueue(callback);
     }
-
 }

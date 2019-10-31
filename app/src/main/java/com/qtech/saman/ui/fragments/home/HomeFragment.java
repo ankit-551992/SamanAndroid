@@ -85,7 +85,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     @BindView(R.id.iv_header_below_viewpager)
     ViewPager banner_viewpager;
 
-
     //Header
     @BindView(R.id.viewpager)
     ViewPager mPager;

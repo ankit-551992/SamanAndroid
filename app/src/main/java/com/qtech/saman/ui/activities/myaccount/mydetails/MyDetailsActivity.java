@@ -127,7 +127,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
         myCalendar = Calendar.getInstance();
 
-        if (GlobalValues.countries != null) {
+/*        if (GlobalValues.countries != null) {
             for (int i = 0; i < GlobalValues.countries.size(); i++) {
                 if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
                     selectedCountry = GlobalValues.countries.get(i);
@@ -141,12 +141,23 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                         regionView.setVisibility(View.VISIBLE);
                         regionSelectionLinearLayout.setVisibility(View.VISIBLE);
                         if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
-//                            regionName.setText(authenticatedUser.getRegion());
-                            if (SamanApp.isEnglishVersion) {
-                                regionName.setText(authenticatedUser.getRegion());
-                            } else {
-                                regionName.setText(authenticatedUser.getRegion());
-                            }
+                            regionName.setText(authenticatedUser.getRegion());
+//                            if (SamanApp.isEnglishVersion) {
+//                                regionlist = getResources().getStringArray(R.array.regions);
+//
+//                                for (String str : regionlist) {
+//                                    if (str.equals(authenticatedUser.getRegion())) {
+//                                        regionName.setText(str);
+//                                    }
+//                                }
+//                            } else {
+//                                regionlist = getResources().getStringArray(R.array.regions);
+//                                for (String str : regionlist) {
+//                                    if (str.equalsIgnoreCase(authenticatedUser.getRegion())) {
+//                                        regionName.setText(str);
+//                                    }
+//                                }
+//                            }
                         }
                     } else {
                         regionSelectionLinearLayout.setVisibility(View.GONE);
@@ -154,9 +165,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     }
                 }
             }
-        }
+        }*/
         setProfile();
-
         showAlert = getIntent().getBooleanExtra("ShowAlert", false);
         if (showAlert) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.profile_alert), getString(R.string.okay), this);
@@ -203,7 +213,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             } else {
                 genderText.setText(getResources().getString(R.string.male));
             }
-//            genderText.setText(selectedGender);
+//          genderText.setText(selectedGender);
         } else {
             Log.e("FLAG000", "--else---getGender--" + selectedGender);
             if (selectedGender.equals(getResources().getString(R.string.female))) {
@@ -214,13 +224,35 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         }
 
         Log.e("FLAG000", "--getCountry--" + authenticatedUser.getCountry());
+        if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
+            if (GlobalValues.countries != null) {
+                for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                    if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(authenticatedUser.getCountry())
+                            || GlobalValues.countries.get(i).getName_AR().equalsIgnoreCase(authenticatedUser.getCountry())) {
+
+                        if (SamanApp.isEnglishVersion) {
+                            countryName.setText(GlobalValues.countries.get(i).getName());
+                        } else {
+                            countryName.setText(GlobalValues.countries.get(i).getName_AR());
+                        }
+                        Picasso.get().load(GlobalValues.countries.get(i).getFlag()).transform(new CircleTransform()).into(countryFlag);
+                    }
+                }
+            }
+            if (authenticatedUser.getCountry().equalsIgnoreCase("oman")) {
+                regionView.setVisibility(View.VISIBLE);
+                regionSelectionLinearLayout.setVisibility(View.VISIBLE);
+                regionName.setText(authenticatedUser.getRegion());
+            } else {
+                regionSelectionLinearLayout.setVisibility(View.GONE);
+                regionView.setVisibility(View.GONE);
+            }
+        }
+
 //        countryName.setText(authenticatedUser.getCountry());
         if (authenticatedUser.getShippingAddress() != null) {
-
             if (authenticatedUser.getShippingAddress().getAddressLine1() != null) {
-
                 if (authenticatedUser.getShippingAddress().getCity() != null) {
-
                     if (authenticatedUser.getShippingAddress().getCountry() != null) {
                         addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1() + "," + authenticatedUser.getShippingAddress().getCity() + "," + authenticatedUser.getShippingAddress().getCountry());
                     } else {
@@ -260,7 +292,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     public void selectGenderClick() {
         selectGender();
     }
-
 
     @OnClick({R.id.button_change_address, R.id.editText_address})
     public void ChangeAddress() {
@@ -431,20 +462,39 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
-                countryName.setText(returnedResult);
-                if (GlobalValues.countries != null) {
-                    for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                        if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
-                            selectedCountry = GlobalValues.countries.get(i);
-                            Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                            if (SamanApp.isEnglishVersion) {
-                                countryName.setText(selectedCountry.getName());
-                            } else {
-                                countryName.setText(selectedCountry.getName_AR());
+//                countryName.setText(returnedResult);
+//                if (GlobalValues.countries != null) {
+//                    for (int i = 0; i < GlobalValues.countries.size(); i++) {
+//                        if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
+//                            selectedCountry = GlobalValues.countries.get(i);
+//                            Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+//                            if (SamanApp.isEnglishVersion) {
+//                                countryName.setText(selectedCountry.getName());
+//                            } else {
+//                                countryName.setText(selectedCountry.getName_AR());
+//                            }
+//                        }
+//                    }
+//                }
+
+
+                if (returnedResult != null && !returnedResult.isEmpty()) {
+                    if (GlobalValues.countries != null) {
+                        for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                            if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(returnedResult)
+                                    || GlobalValues.countries.get(i).getName_AR().equalsIgnoreCase(returnedResult)) {
+
+                                if (SamanApp.isEnglishVersion) {
+                                    countryName.setText(GlobalValues.countries.get(i).getName());
+                                } else {
+                                    countryName.setText(GlobalValues.countries.get(i).getName_AR());
+                                }
+                                Picasso.get().load(GlobalValues.countries.get(i).getFlag()).transform(new CircleTransform()).into(countryFlag);
                             }
                         }
                     }
                 }
+
                 if (returnedResult.equalsIgnoreCase("oman")) {
                     regionView.setVisibility(View.VISIBLE);
                     regionSelectionLinearLayout.setVisibility(View.VISIBLE);
@@ -452,6 +502,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     regionView.setVisibility(View.GONE);
                     regionSelectionLinearLayout.setVisibility(View.GONE);
                 }
+
+
             }
         } else if (requestCode == 1309) {
             if (resultCode == RESULT_OK) {

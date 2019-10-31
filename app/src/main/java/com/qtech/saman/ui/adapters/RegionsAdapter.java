@@ -82,7 +82,6 @@ public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return regions == null ? 0 : regions.size();
     }
 
-
     static class RegionViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.txtViewCountryName)
         TextView countryName;

@@ -81,7 +81,8 @@ public class GetAllSaleProductsFragment extends BaseFragment {
 
     private void getProducts(int pageIndex,int pageSize) {
 
-        WebServicesHandler.instance.getSaleProducts(authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
+//        WebServicesHandler.instance.getSaleProducts(authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
+        WebServicesHandler.instance.getSaleProducts(authenticatedUser.getId(),20,30,new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 progressBar.setVisibility(View.GONE);

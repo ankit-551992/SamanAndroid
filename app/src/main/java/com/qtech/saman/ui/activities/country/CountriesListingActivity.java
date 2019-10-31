@@ -104,7 +104,7 @@ public class CountriesListingActivity extends BaseActivity {
                 countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
                 recyclerView.setAdapter(countriesAdapter);
                 Log.e("COUNTRY", "---getCountries---if---");
-                getCountries();
+//                getCountries();
             } else {
                 Log.e("COUNTRY", "---getCountries---else-");
                 GlobalValues.countries = new ArrayList<>();
