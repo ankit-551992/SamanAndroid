@@ -104,7 +104,7 @@ public class CountriesListingActivity extends BaseActivity {
                 countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
                 recyclerView.setAdapter(countriesAdapter);
                 Log.e("COUNTRY", "---getCountries---if---");
-//                getCountries();
+//              getCountries();
             } else {
                 Log.e("COUNTRY", "---getCountries---else-");
                 GlobalValues.countries = new ArrayList<>();
@@ -112,9 +112,7 @@ public class CountriesListingActivity extends BaseActivity {
                 layoutManager = new LinearLayoutManager(this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setNestedScrollingEnabled(false);
-                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-                        LinearLayoutManager.VERTICAL));
-
+                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL));
                 countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
                 recyclerView.setAdapter(countriesAdapter);
             }
@@ -130,7 +128,6 @@ public class CountriesListingActivity extends BaseActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Country country = new Country();
-
                 country.setId(jsonObject.getInt("id"));
                 country.setSortname(jsonObject.getString("sortname"));
                 country.setName(jsonObject.getString("name"));

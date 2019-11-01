@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.ShippingAddress;
@@ -21,10 +22,11 @@ import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.AddAddressApi;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
+import com.qtech.saman.ui.activities.country.CountriesListingActivity;
 import com.qtech.saman.ui.activities.map.GoogleMapActivity;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
-import com.google.gson.Gson;
+import com.qtech.saman.utils.SamanApp;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +55,7 @@ public class AddShippingAddressActivity extends BaseActivity {
     @BindView(R.id.editText_city)
     EditText cityEditText;
     @BindView(R.id.editText_country)
-    EditText countryEditText;
+    TextView countryEditText;
     @BindView(R.id.setDefault_checkBox)
     CheckBox setDefaultCheckBox;
     @BindView(R.id.button_add)
@@ -78,7 +80,7 @@ public class AddShippingAddressActivity extends BaseActivity {
 
         if (type == 0) {
             toolbarTitle.setText(getString(R.string.add_shipping_address));
-            toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+            toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             Intent intent = new Intent(AddShippingAddressActivity.this, GoogleMapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityForResult(intent, 1414);
@@ -89,12 +91,12 @@ public class AddShippingAddressActivity extends BaseActivity {
             startActivityForResult(intent, 1414);
         } else {
             toolbarTitle.setText(getString(R.string.edit_shipping_address));
-            toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+            toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("ShippingAddress");
             String addressLine1 = shippingAddress.getAddressLine1();
             String arr[] = addressLine1.split(",");
             streetEditText.setText(arr[0]);
-            if(arr.length>1) {
+            if (arr.length > 1) {
                 buildingEditText.setText(arr[1]);
             }
             if (shippingAddress.getAddressLine2() != null) {
@@ -125,12 +127,19 @@ public class AddShippingAddressActivity extends BaseActivity {
         }
     }
 
+
+    @OnClick(R.id.layout_countrySelection)
+    public void countrySelection() {
+        Intent intent = new Intent(AddShippingAddressActivity.this, CountriesListingActivity.class);
+        startActivityForResult(intent, 1199);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
-                if(!returnedResult.equals("") &&!returnedResult.isEmpty()) {
+                if (!returnedResult.equals("") && !returnedResult.isEmpty()) {
                     String arr[] = returnedResult.split(",");
                     cityEditText.setText(arr[0]);
                     if (arr.length > 2) {
@@ -138,6 +147,38 @@ public class AddShippingAddressActivity extends BaseActivity {
                         countryEditText.setText(arr[2]);
                     } else if (arr.length > 1) {
                         countryEditText.setText(arr[1]);
+                    }
+                }
+            }
+        } else if (requestCode == 1199) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+//                countryName.setText(returnedResult);
+//                if (GlobalValues.countries != null) {
+//                    for (int i = 0; i < GlobalValues.countries.size(); i++) {
+//                        if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
+//                            selectedCountry = GlobalValues.countries.get(i);
+//                            Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+//                            if (SamanApp.isEnglishVersion) {
+//                                countryName.setText(selectedCountry.getName());
+//                            } else {
+//                                countryName.setText(selectedCountry.getName_AR());
+//                            }
+//                        }
+//                    }
+//                }
+                if (returnedResult != null && !returnedResult.isEmpty()) {
+                    if (GlobalValues.countries != null) {
+                        for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                            if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(returnedResult)
+                                    || GlobalValues.countries.get(i).getName_AR().equalsIgnoreCase(returnedResult)) {
+                                if (SamanApp.isEnglishVersion) {
+                                    countryEditText.setText(GlobalValues.countries.get(i).getName());
+                                } else {
+                                    countryEditText.setText(GlobalValues.countries.get(i).getName_AR());
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -175,17 +216,17 @@ public class AddShippingAddressActivity extends BaseActivity {
             return;
         }
 
-        if (buildingEditText.getText() == null || buildingEditText.getText().toString().equals("")  || buildingEditText.getText().toString().isEmpty()) {
+        if (buildingEditText.getText() == null || buildingEditText.getText().toString().equals("") || buildingEditText.getText().toString().isEmpty()) {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.building_no) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
         }
 
-        if (cityEditText.getText() == null || cityEditText.getText().toString().equals("")  || cityEditText.getText().toString().isEmpty()) {
+        if (cityEditText.getText() == null || cityEditText.getText().toString().equals("") || cityEditText.getText().toString().isEmpty()) {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.city) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
         }
 
-        if (countryEditText.getText() == null || countryEditText.getText().toString().equals("")  || countryEditText.getText().toString().isEmpty()) {
+        if (countryEditText.getText() == null || countryEditText.getText().toString().equals("") || countryEditText.getText().toString().isEmpty()) {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.country) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
         }
@@ -212,22 +253,22 @@ public class AddShippingAddressActivity extends BaseActivity {
                 }
             });
 
-        }else if(type==2){
+        } else if (type == 2) {
             progressBar.setVisibility(View.GONE);
-            Gson gson=new Gson();
-            ShippingAddress shippingAddress=new ShippingAddress();
+            Gson gson = new Gson();
+            ShippingAddress shippingAddress = new ShippingAddress();
             shippingAddress.setAddressLine1(addressLine);
             shippingAddress.setAddressLine2(addressLine2);
             shippingAddress.setCity(cityEditText.getText().toString());
             shippingAddress.setState(state);
             shippingAddress.setCountry(countryEditText.getText().toString());
-            String addr=gson.toJson(shippingAddress);
+            String addr = gson.toJson(shippingAddress);
             Intent data = new Intent();
             data.setData(Uri.parse(addr));
             setResult(RESULT_OK, data);
             finish();
         } else {
-            WebServicesHandler.instance.updateAddress(shippingAddress.getiD(), addressLine, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), isChecked, new retrofit2.Callback<SimpleSuccess>() {
+            WebServicesHandler.instance.updateAddress(authenticatedUser.getId(), shippingAddress.getiD(), addressLine, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), isChecked, new retrofit2.Callback<SimpleSuccess>() {
                 @Override
                 public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                     progressBar.setVisibility(View.GONE);

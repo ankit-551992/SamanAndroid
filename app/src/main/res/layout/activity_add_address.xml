@@ -149,21 +149,32 @@
                 android:text="@string/country" />
 
             <LinearLayout
+                android:id="@+id/layout_countrySelection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
-                <EditText
+                <TextView
                     android:id="@+id/editText_country"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:focusable="true"
+                    android:paddingLeft="5dp"
+                    android:textColor="@color/black"
+                    android:hint="@string/country" />
+
+               <!-- <EditText
+                    android:id="@+id/editText_country"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
                     android:hint="@string/country"
                     android:imeOptions="actionDone"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:visibility="visible"/>-->
 
                 <ImageView
                     android:layout_width="30dp"
@@ -173,14 +184,13 @@
 
             </LinearLayout>
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="3dp"
-                android:background="@color/black"
-                android:visibility="gone" />
+                android:background="@color/grey"
+                android:visibility="visible" />
 
             <CheckBox
                 android:id="@+id/setDefault_checkBox"

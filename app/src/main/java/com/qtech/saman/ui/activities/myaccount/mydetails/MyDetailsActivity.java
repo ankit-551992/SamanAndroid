@@ -106,6 +106,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
     boolean showAlert = false;
     String codeflag;
+    Dialog dialog;
+    String selectedGender = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +128,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         }
 
         myCalendar = Calendar.getInstance();
-
 /*        if (GlobalValues.countries != null) {
             for (int i = 0; i < GlobalValues.countries.size(); i++) {
                 if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
@@ -166,6 +167,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 }
             }
         }*/
+
         setProfile();
         showAlert = getIntent().getBooleanExtra("ShowAlert", false);
         if (showAlert) {
@@ -173,8 +175,9 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         }
     }
 
-
     private void setProfile() {
+
+        Log.e("PROFILEDETAIL", "--authenticatedUser--" + authenticatedUser);
         firstNameEditText.setText(authenticatedUser.getFirstName());
         lastNameEditText.setText(authenticatedUser.getLastName());
         emailEditText.setText(authenticatedUser.getEmail());
@@ -190,8 +193,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             } else {
                 phoneEditText.setText(phoneNumber);
             }
-//            ccp.setEnabled(false);
-//            phoneEditText.setEnabled(false);
+//           ccp.setEnabled(false);
+//           phoneEditText.setEnabled(false);
         }
 
         codeflag = GlobalValues.getSelectedCodeFlag(MyDetailsActivity.this);
@@ -222,14 +225,12 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 genderText.setText(getResources().getString(R.string.male));
             }
         }
-
         Log.e("FLAG000", "--getCountry--" + authenticatedUser.getCountry());
         if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
             if (GlobalValues.countries != null) {
                 for (int i = 0; i < GlobalValues.countries.size(); i++) {
                     if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(authenticatedUser.getCountry())
                             || GlobalValues.countries.get(i).getName_AR().equalsIgnoreCase(authenticatedUser.getCountry())) {
-
                         if (SamanApp.isEnglishVersion) {
                             countryName.setText(GlobalValues.countries.get(i).getName());
                         } else {
@@ -402,7 +403,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String phone = ccp.getText().toString() + phoneEditText.getText().toString();
         String region = regionName.getText().toString();
 
-     /*  if (!dayEditText.getText().toString().equals("") && !TextUtils.isEmpty(dayEditText.getText().toString())) {
+     /* if (!dayEditText.getText().toString().equals("") && !TextUtils.isEmpty(dayEditText.getText().toString())) {
             choose_date = Integer.parseInt(dayEditText.getText().toString());
             day = String.valueOf(choose_date);
         }
@@ -477,13 +478,11 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 //                    }
 //                }
 
-
                 if (returnedResult != null && !returnedResult.isEmpty()) {
                     if (GlobalValues.countries != null) {
                         for (int i = 0; i < GlobalValues.countries.size(); i++) {
                             if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(returnedResult)
                                     || GlobalValues.countries.get(i).getName_AR().equalsIgnoreCase(returnedResult)) {
-
                                 if (SamanApp.isEnglishVersion) {
                                     countryName.setText(GlobalValues.countries.get(i).getName());
                                 } else {
@@ -502,8 +501,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     regionView.setVisibility(View.GONE);
                     regionSelectionLinearLayout.setVisibility(View.GONE);
                 }
-
-
             }
         } else if (requestCode == 1309) {
             if (resultCode == RESULT_OK) {
@@ -524,15 +521,10 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     iv_code_flag.setVisibility(View.VISIBLE);
                     Picasso.get().load(codeflag).transform(new CircleTransform()).into(iv_code_flag);
                 }
-
-//                ccp.setText("+" + code);
                 ccp.setText(code);
             }
         }
     }
-
-    Dialog dialog;
-    String selectedGender = "";
 
     private void selectGender() {
         dialog = new Dialog(MyDetailsActivity.this, R.style.CustomDialog);
@@ -583,6 +575,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         Animation animation;
         animation = AnimationUtils.loadAnimation(MyDetailsActivity.this,
                 R.anim.slide_bottom_to_top);
+
 
         ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);

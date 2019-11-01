@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,7 +63,7 @@ public class ShippingAddressActivity extends BaseActivity {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
-    }
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setImageDrawable(getDrawable(R.drawable.ic_add));
@@ -86,7 +87,7 @@ public class ShippingAddressActivity extends BaseActivity {
         getAddresses();
     }
 
-    public void call(){
+    public void call() {
         onResume();
     }
 
@@ -110,15 +111,16 @@ public class ShippingAddressActivity extends BaseActivity {
             @Override
             public void onResponse(Call<GetAddressApi> call, Response<GetAddressApi> response) {
                 GetAddressApi addressApi = response.body();
+                Log.e("UPDATERESPONSE","-addressApi---response---"+addressApi);
                 if (addressApi != null) {
                     if (addressApi.getSuccess() == 1) {
                         if (addressApi.getResult() != null) {
                             shippingAddresses.addAll(addressApi.getResult());
                         }
 
-                        if(shippingAddresses.size()>2){
+                        if (shippingAddresses.size() > 2) {
                             settings.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             settings.setVisibility(View.VISIBLE);
                         }
                         addressAdapter.notifyDataSetChanged();

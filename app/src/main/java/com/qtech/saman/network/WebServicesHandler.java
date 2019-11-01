@@ -435,9 +435,10 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void updateAddress(int ID, String addressLine, String addressLine2, String city, String state, String country, boolean isDefault, Callback<SimpleSuccess> callback) {
+    public void updateAddress(int user_id, int ID, String addressLine, String addressLine2, String city, String state, String country, boolean isDefault, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
+        parameters.put("userID", user_id);
         parameters.put("ID", ID);
         parameters.put("AddressLine1", addressLine);
         parameters.put("AddressLine2", addressLine2);
