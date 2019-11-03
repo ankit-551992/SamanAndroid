@@ -1,5 +1,7 @@
 package com.qtech.saman.ui.activities.myaccount.mydetails;
 
+import com.qtech.saman.data.model.User;
+
 import org.json.JSONObject;
 
 public class DetailContractor {
@@ -7,7 +9,8 @@ public class DetailContractor {
     public interface View{
         void showProgress();
         void hideProgress();
-        void updateResponse(boolean success);
+        void updateResponse(boolean success, User user);
+        void updateResponseFail(boolean success);
     }
 
 

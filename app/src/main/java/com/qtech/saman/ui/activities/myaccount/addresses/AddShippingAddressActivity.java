@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -60,6 +61,8 @@ public class AddShippingAddressActivity extends BaseActivity {
     CheckBox setDefaultCheckBox;
     @BindView(R.id.button_add)
     Button addButton;
+    @BindView(R.id.ll_region)
+    LinearLayout ll_region;
 
     User authenticatedUser;
     String state = "states";
@@ -107,6 +110,11 @@ public class AddShippingAddressActivity extends BaseActivity {
             }
             if (shippingAddress.getCountry() != null) {
                 countryEditText.setText(shippingAddress.getCountry());
+                if (shippingAddress.getCountry().equalsIgnoreCase(getResources().getString(R.string.oman))) {
+                    ll_region.setVisibility(View.VISIBLE);
+                } else {
+                    ll_region.setVisibility(View.GONE);
+                }
             }
             setDefaultCheckBox.setChecked(shippingAddress.isDefault());
             addButton.setText(getString(R.string.update));
@@ -176,6 +184,12 @@ public class AddShippingAddressActivity extends BaseActivity {
                                     countryEditText.setText(GlobalValues.countries.get(i).getName());
                                 } else {
                                     countryEditText.setText(GlobalValues.countries.get(i).getName_AR());
+                                }
+
+                                if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(getResources().getString(R.string.oman))) {
+                                    ll_region.setVisibility(View.VISIBLE);
+                                } else {
+                                    ll_region.setVisibility(View.GONE);
                                 }
                             }
                         }

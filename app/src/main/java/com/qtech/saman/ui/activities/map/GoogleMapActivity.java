@@ -263,8 +263,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
 
     private void enableGps(Context context) {
-        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
-                .addApi(LocationServices.API).build();
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context).addApi(LocationServices.API).build();
         googleApiClient.connect();
 
         LocationRequest locationRequest = LocationRequest.create();

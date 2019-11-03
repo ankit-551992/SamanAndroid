@@ -2,6 +2,7 @@
 <translate android:fromYDelta="20%p"
     android:toYDelta="-20"
     android:duration="@android:integer/config_mediumAnimTime"/>
+
 <alpha android:fromAlpha="0.0" android:toAlpha="1.0"
     android:duration="@android:integer/config_mediumAnimTime" />
 </set>

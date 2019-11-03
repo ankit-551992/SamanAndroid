@@ -454,6 +454,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             } else {
                 region = "";
             }
+
             presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject, dob, phone, region);
         }
     }
@@ -634,7 +635,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
     @Override
-    public void updateResponse(boolean success) {
+    public void updateResponse(boolean success, User user) {
         if (success) {
             authenticatedUser.setFirstName(firstNameEditText.getText().toString());
             authenticatedUser.setLastName(lastNameEditText.getText().toString());
@@ -673,6 +674,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 authenticatedUser.setDateOfBirth(String.valueOf(selectedDateInMillis));
             }
             GlobalValues.saveUser(MyDetailsActivity.this, authenticatedUser);
+//            authenticatedUser = GlobalValues.getUser(this);
+//            setProfile();
 
             GlobalValues.setSelectedCodeFlag(MyDetailsActivity.this, codeflag);
             if (isRequest) {
@@ -688,5 +691,15 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 Constants.showAlert("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
             }
         }
+    }
+
+    @Override
+    public void updateResponseFail(boolean success) {
+        if (isRequest) {
+            Constants.showAlertWithActivityFinish("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
+        } else {
+            Constants.showAlert("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
+        }
+
     }
 }

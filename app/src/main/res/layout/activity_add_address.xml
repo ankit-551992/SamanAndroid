@@ -165,16 +165,12 @@
                     android:textColor="@color/black"
                     android:hint="@string/country" />
 
-               <!-- <EditText
-                    android:id="@+id/editText_country"
-                    android:layout_width="0dp"
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:hint="@string/country"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:visibility="visible"/>-->
+                    android:src="@drawable/ic_navigate_next"
+                    android:contentDescription="@string/contentDescription"/>
 
                 <ImageView
                     android:layout_width="30dp"
@@ -191,6 +187,63 @@
                 android:layout_marginTop="3dp"
                 android:background="@color/grey"
                 android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/ll_region"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/region" />
+
+            <LinearLayout
+                android:id="@+id/layout_regionSelection"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/region" />
+
+                <TextView
+                    android:id="@+id/tv_region_name"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textColor="@color/off_black"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"/>
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_navigate_next"
+                    android:contentDescription="@string/contentDescription"/>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_region"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_grey" />
+
+            </LinearLayout>
 
             <CheckBox
                 android:id="@+id/setDefault_checkBox"

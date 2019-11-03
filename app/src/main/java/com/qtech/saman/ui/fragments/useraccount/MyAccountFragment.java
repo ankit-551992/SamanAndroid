@@ -114,6 +114,8 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
         readBundle(getArguments());
         authenticatedUser = GlobalValues.getUser(getContext());
         myAccountPresenter = new MyAccountPresenter(this);
+
+        Log.e("AUTH00","-getCountry--"+authenticatedUser.getCountry());
         if (authenticatedUser.getId() != null){
             myAccountPresenter.getUsetInfoApi(authenticatedUser.getId());
         }
