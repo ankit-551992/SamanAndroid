@@ -229,15 +229,16 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
             if (GlobalValues.countries != null) {
                 for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                    if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(authenticatedUser.getCountry())
-                            || GlobalValues.countries.get(i).getName_AR().equalsIgnoreCase(authenticatedUser.getCountry())) {
+
+                    if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry())
+                            || GlobalValues.countries.get(i).getName_AR().equals(authenticatedUser.getCountry())) {
                         if (SamanApp.isEnglishVersion) {
                             countryName.setText(GlobalValues.countries.get(i).getName());
                         } else {
                             countryName.setText(GlobalValues.countries.get(i).getName_AR());
                         }
-                        Picasso.get().load(GlobalValues.countries.get(i).getFlag()).transform(new CircleTransform()).into(countryFlag);
                     }
+                    Picasso.get().load(GlobalValues.countries.get(i).getFlag()).transform(new CircleTransform()).into(countryFlag);
                 }
             }
             if (authenticatedUser.getCountry().equalsIgnoreCase("oman")) {

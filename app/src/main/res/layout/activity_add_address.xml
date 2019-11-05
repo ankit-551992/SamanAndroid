@@ -210,19 +210,14 @@
                 android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/region" />
-
-                <TextView
                     android:id="@+id/tv_region_name"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textAllCaps="true"
                     android:textSize="14sp"
-                    android:textColor="@color/off_black"
+                    android:textColor="@color/black"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"/>
 

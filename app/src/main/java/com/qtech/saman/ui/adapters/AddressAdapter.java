@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.qtech.saman.R;
-import com.qtech.saman.data.model.ShippingAddress;
+import com.qtech.saman.data.model.ShippingUpdateAddress;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
@@ -41,11 +41,11 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    List<ShippingAddress> shippingAddresses = new ArrayList<>();
+    List<ShippingUpdateAddress> shippingAddresses = new ArrayList<>();
     private Context mContext;
     Dialog dialog;
 
-    public AddressAdapter(Context mContext, List<ShippingAddress> shippingAddresses) {
+    public AddressAdapter(Context mContext, List<ShippingUpdateAddress> shippingAddresses) {
         this.shippingAddresses = shippingAddresses;
         this.mContext = mContext;
     }
@@ -73,19 +73,22 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
         if (holder instanceof MessageViewHolder) {
             MessageViewHolder messageViewHolder = (MessageViewHolder) holder;
 
-            ShippingAddress address =shippingAddresses.get(position);
+            ShippingUpdateAddress address = shippingAddresses.get(position);
 
 //            Log.e("Address",address.getAddressLine1());
 //            Log.e("City",""+address.getCity());
 //            Log.e("Country",""+address.getCountry());
 
-            String userAddress=address.getAddressLine1();
-            if(address.getCity()!=null){
-                userAddress=userAddress+","+address.getCity();
+            String userAddress = address.getAddressLine1();
+            if (address.getCity() != null) {
+                userAddress = userAddress + "," + address.getCity();
             }
 
-            if(address.getCountry()!=null){
-                userAddress=userAddress+","+address.getCountry();
+            if (address.getCountry() != null) {
+                userAddress = userAddress + "," + address.getCountry();
+            }
+            if (address.getRegion() != null) {
+                userAddress = userAddress + "," + address.getRegion();
             }
 
             messageViewHolder.address.setText(userAddress);
@@ -100,8 +103,8 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                     int id = shippingAddresses.get(position).getiD();
 //                    String text = shippingAddresses.get(position).getAddressLine1()+","+shippingAddresses.get(position).getCity()+","+shippingAddresses.get(position).getCountry();
                     String text = messageViewHolder.address.getText().toString();
-                    data.putExtra("ID",id);
-                    data.putExtra("DATA",text);
+                    data.putExtra("ID", id);
+                    data.putExtra("DATA", text);
                     ((Activity) mContext).setResult(RESULT_OK, data);
                     ((Activity) mContext).finish();
                 }
@@ -194,12 +197,12 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 SimpleSuccess simpleSuccess = response.body();
-                ((ShippingAddressActivity)mContext).call();
+                ((ShippingAddressActivity) mContext).call();
             }
 
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-                ((ShippingAddressActivity)mContext).getAddresses();
+                ((ShippingAddressActivity) mContext).getAddresses();
             }
         });
     }
@@ -255,5 +258,4 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
     }
-
 }

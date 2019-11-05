@@ -19,11 +19,13 @@ import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.ShippingAddress;
+import com.qtech.saman.data.model.ShippingUpdateAddress;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.AddAddressApi;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.country.CountriesListingActivity;
+import com.qtech.saman.ui.activities.country.RegionListingActivity;
 import com.qtech.saman.ui.activities.map.GoogleMapActivity;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
@@ -63,12 +65,16 @@ public class AddShippingAddressActivity extends BaseActivity {
     Button addButton;
     @BindView(R.id.ll_region)
     LinearLayout ll_region;
+    @BindView(R.id.layout_regionSelection)
+    LinearLayout layout_regionSelection;
+    @BindView(R.id.tv_region_name)
+    TextView region_name;
 
     User authenticatedUser;
     String state = "states";
 
     int type;
-    ShippingAddress shippingAddress;
+    ShippingUpdateAddress shippingAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +101,7 @@ public class AddShippingAddressActivity extends BaseActivity {
         } else {
             toolbarTitle.setText(getString(R.string.edit_shipping_address));
             toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-            shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("ShippingAddress");
+            shippingAddress = (ShippingUpdateAddress) getIntent().getSerializableExtra("ShippingAddress");
             String addressLine1 = shippingAddress.getAddressLine1();
             String arr[] = addressLine1.split(",");
             streetEditText.setText(arr[0]);
@@ -112,6 +118,9 @@ public class AddShippingAddressActivity extends BaseActivity {
                 countryEditText.setText(shippingAddress.getCountry());
                 if (shippingAddress.getCountry().equalsIgnoreCase(getResources().getString(R.string.oman))) {
                     ll_region.setVisibility(View.VISIBLE);
+                    if (shippingAddress.getRegion() != null) {
+                        region_name.setText(shippingAddress.getRegion());
+                    }
                 } else {
                     ll_region.setVisibility(View.GONE);
                 }
@@ -135,6 +144,11 @@ public class AddShippingAddressActivity extends BaseActivity {
         }
     }
 
+    @OnClick(R.id.layout_regionSelection)
+    public void regionSelection() {
+        Intent intent = new Intent(AddShippingAddressActivity.this, RegionListingActivity.class);
+        startActivityForResult(intent, 1299);
+    }
 
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
@@ -195,6 +209,11 @@ public class AddShippingAddressActivity extends BaseActivity {
                         }
                     }
                 }
+            }
+        } else if (requestCode == 1299) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                region_name.setText(returnedResult);
             }
         }
     }
@@ -282,7 +301,8 @@ public class AddShippingAddressActivity extends BaseActivity {
             setResult(RESULT_OK, data);
             finish();
         } else {
-            WebServicesHandler.instance.updateAddress(authenticatedUser.getId(), shippingAddress.getiD(), addressLine, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), isChecked, new retrofit2.Callback<SimpleSuccess>() {
+
+            WebServicesHandler.instance.updateAddress(authenticatedUser.getId(), shippingAddress.getiD(), addressLine, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), region_name.getText().toString(), isChecked, new retrofit2.Callback<SimpleSuccess>() {
                 @Override
                 public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                     progressBar.setVisibility(View.GONE);

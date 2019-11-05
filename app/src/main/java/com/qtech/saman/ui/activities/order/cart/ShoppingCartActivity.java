@@ -622,7 +622,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             if (resultCode == RESULT_OK) {
                 String d = data.getExtras().getString("DATA");
                 addressID = data.getExtras().getInt("ID");
-                shipmentAddress.setText(d.replace(",", "\n\n"));
+//                shipmentAddress.setText(d.replace(",", "\n\n"));
+                shipmentAddress.setText(d.replace(",", ", "));
             }
         } else if (requestCode == 2019) {
             if (resultCode == RESULT_OK) {

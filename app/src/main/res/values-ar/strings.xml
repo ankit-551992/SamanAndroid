@@ -437,7 +437,7 @@
 
     <plurals name="bag_wish_items">
         <item quantity="zero">منتج</item>
-        <item quantity="one">منتج</item>
+        <item quantity="one">عنصر</item>
         <item quantity="few">منتج</item>
         <item quantity="two">منتج</item>
         <item quantity="many">منتج</item>

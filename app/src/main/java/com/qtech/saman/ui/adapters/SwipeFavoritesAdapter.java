@@ -102,9 +102,9 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                     favoritesViewHolder.price.setText(getOptionsNameAR(productArrayList.get(position)));
                 }
             } else {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    favoritesViewHolder.price.setText(Html.fromHtml(productArrayList.get(position).getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                    favoritesViewHolder.price.setText(Html.fromHtml(productArrayList.get(position).getDescription(),
+                            Html.FROM_HTML_MODE_COMPACT));
                 } else {
                     favoritesViewHolder.price.setText(Html.fromHtml(productArrayList.get(position).getDescription()));
                 }
@@ -226,10 +226,8 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                     mItemManger.closeAllItems();
                 }
             });
-
             // mItemManger is member in RecyclerSwipeAdapter Class
             mItemManger.bindView(favoritesViewHolder.itemView, position);
-
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

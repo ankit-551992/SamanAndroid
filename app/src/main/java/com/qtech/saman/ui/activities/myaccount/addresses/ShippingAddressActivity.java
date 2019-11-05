@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
-import com.qtech.saman.data.model.ShippingAddress;
+import com.qtech.saman.data.model.ShippingUpdateAddress;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.GetAddressApi;
 import com.qtech.saman.network.WebServicesHandler;
@@ -43,7 +43,7 @@ public class ShippingAddressActivity extends BaseActivity {
     @BindView(R.id.recycler)
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager layoutManager;
-    List<ShippingAddress> shippingAddresses;
+    List<ShippingUpdateAddress> shippingAddresses;
     AddressAdapter addressAdapter;
 
     User authenticatedUser;
