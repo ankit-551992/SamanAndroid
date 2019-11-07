@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.ShippingUpdateAddress;
@@ -111,8 +112,8 @@ public class ShippingAddressActivity extends BaseActivity {
             @Override
             public void onResponse(Call<GetAddressApi> call, Response<GetAddressApi> response) {
                 GetAddressApi addressApi = response.body();
-                Log.e("UPDATERESPONSE","-addressApi---response---"+addressApi);
                 if (addressApi != null) {
+                    Log.e("UPDATERESPONSE","-addressApi---response---"+new Gson().toJson(addressApi));
                     if (addressApi.getSuccess() == 1) {
                         if (addressApi.getResult() != null) {
                             shippingAddresses.addAll(addressApi.getResult());

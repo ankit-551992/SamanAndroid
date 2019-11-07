@@ -29,7 +29,6 @@ import com.qtech.saman.ui.activities.country.RegionListingActivity;
 import com.qtech.saman.ui.activities.map.GoogleMapActivity;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
-import com.qtech.saman.utils.SamanApp;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -153,7 +152,10 @@ public class AddShippingAddressActivity extends BaseActivity {
     @OnClick(R.id.layout_countrySelection)
     public void countrySelection() {
         Intent intent = new Intent(AddShippingAddressActivity.this, CountriesListingActivity.class);
+        intent.putExtra("cartlist", 1);
         startActivityForResult(intent, 1199);
+//        Intent intent = new Intent(AddShippingAddressActivity.this, CountriesListingActivity.class);
+//        startActivityForResult(intent, 1199);
     }
 
     @Override
@@ -189,7 +191,27 @@ public class AddShippingAddressActivity extends BaseActivity {
 //                        }
 //                    }
 //                }
+
                 if (returnedResult != null && !returnedResult.isEmpty()) {
+                    for (int i = 0; i < GlobalValues.countries.size(); i++) {
+                        if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(AddShippingAddressActivity.this))) {
+                            countryEditText.setText(GlobalValues.countries.get(i).getName());
+                        }
+                    }
+//                    if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(getResources().getString(R.string.oman))) {
+//                        ll_region.setVisibility(View.VISIBLE);
+//                    } else {
+//                        ll_region.setVisibility(View.GONE);
+//                    }
+                    if (countryEditText.getText().toString().equalsIgnoreCase(getResources().getString(R.string.oman))) {
+                        ll_region.setVisibility(View.VISIBLE);
+                    } else {
+                        ll_region.setVisibility(View.GONE);
+                    }
+
+                }
+
+            /*    if (returnedResult != null && !returnedResult.isEmpty()) {
                     if (GlobalValues.countries != null) {
                         for (int i = 0; i < GlobalValues.countries.size(); i++) {
                             if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(returnedResult)
@@ -208,7 +230,7 @@ public class AddShippingAddressActivity extends BaseActivity {
                             }
                         }
                     }
-                }
+                }*/
             }
         } else if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {

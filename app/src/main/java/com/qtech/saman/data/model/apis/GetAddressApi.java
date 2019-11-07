@@ -45,6 +45,12 @@ public class GetAddressApi{
         this.message = message;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "GetAddressApi{" +
+                "result=" + result +
+                ", success=" + success +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

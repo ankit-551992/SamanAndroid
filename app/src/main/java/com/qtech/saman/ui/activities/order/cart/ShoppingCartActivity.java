@@ -458,7 +458,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         }
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
-
         apiClient.placeOrder(authenticatedUser.getId(),
                 addressID,
                 addressID,

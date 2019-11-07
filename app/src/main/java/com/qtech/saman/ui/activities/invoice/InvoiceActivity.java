@@ -120,7 +120,6 @@ public class InvoiceActivity extends BaseActivity {
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
-
     }
 
     private void setOrderDetails() {
