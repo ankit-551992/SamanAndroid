@@ -2,6 +2,7 @@ package com.qtech.saman.ui.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.OrderTrack;
-
+import com.qtech.saman.utils.SamanApp;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,26 +41,24 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.RowVie
     @Override
     public void onBindViewHolder(RowViewHolder holder, int position) {
         OrderTrack orderTrack = orderTrackArrayList.get(position);
-//        if (SamanApp.isEnglishVersion) {
-//            if (orderTrack.getComment() != null && !orderTrack.getComment().isEmpty()) {
-//                holder.messageTextView.setText(orderTrack.getComment());
-//            } else {
-//                holder.messageTextView.setVisibility(View.GONE);
-//            }
-//
-//            holder.statusTextView.setText(orderTrack.getProductName() + " - " + getStatus(orderTrack.getStatus()));
-//
-//        } else {
-//            if (orderTrack.getComment() != null && !orderTrack.getCommentAR().isEmpty()) {
-//                holder.messageTextView.setText(orderTrack.getCommentAR());
-//            } else {
-//                holder.messageTextView.setVisibility(View.GONE);
-//            }
-//
-//            holder.statusTextView.setText(orderTrack.getProductNameAR() + " - " + getStatus(orderTrack.getStatus()));
-//
-//        }
+        Log.e("ORDERLIST00", "-orderTrackArrayList---" + orderTrackArrayList.toString());
 
+        if (SamanApp.isEnglishVersion) {
+            if (orderTrack.getComment() != null && !orderTrack.getComment().isEmpty()) {
+                holder.messageTextView.setText(orderTrack.getComment());
+            } else {
+                holder.messageTextView.setVisibility(View.GONE);
+            }
+            holder.statusTextView.setText(orderTrack.getProductName() + " - " + getStatus(orderTrack.getStatus()));
+
+        } else {
+            if (orderTrack.getComment() != null && !orderTrack.getCommentAR().isEmpty()) {
+                holder.messageTextView.setText(orderTrack.getCommentAR());
+            } else {
+                holder.messageTextView.setVisibility(View.GONE);
+            }
+            holder.statusTextView.setText(orderTrack.getProductNameAR() + " - " + getStatus(orderTrack.getStatus()));
+        }
 
         Long dateTimeStamp = Long.parseLong(orderTrack.getDate().replaceAll("\\D", ""));
 //        Long dateTimeStamp = Long.parseLong("1548406244312");
@@ -67,7 +66,7 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.RowVie
         DateFormat formatter = new SimpleDateFormat("EEE, d MMM, yyyy 'at' hh:mm a", Locale.ENGLISH);
         String dateFormatted = formatter.format(date);
         holder.dateTextView.setText(dateFormatted.toString());
-        holder.statusTextView.setText(getStatus(orderTrack.getStatus())+" - "+dateFormatted.toString());
+        holder.statusTextView.setText(getStatus(orderTrack.getStatus()) + " - " + dateFormatted.toString());
 
         if (position == orderTrackArrayList.size() - 1) {
             holder.view.setVisibility(View.INVISIBLE);

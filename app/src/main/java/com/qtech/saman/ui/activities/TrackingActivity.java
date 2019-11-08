@@ -58,7 +58,6 @@ public class TrackingActivity extends BaseActivity {
     OrderHistory orderHistory;
     User authenticatedUser;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,8 +82,8 @@ public class TrackingActivity extends BaseActivity {
         trackingAdapter = new TrackOrderAdapter(this, orderTrackArrayList);
         trackRecyclerView.setAdapter(trackingAdapter);
 
-//        getTrackingInfo();
-//        getTrackingData(orderHistory.getID());
+//       getTrackingInfo();
+//       getTrackingData(orderHistory.getID());
 
         setData();
         orderNumberTextView.setText(orderHistory.getOrderNumber());

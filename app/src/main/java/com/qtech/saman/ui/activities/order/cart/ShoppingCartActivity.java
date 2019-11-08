@@ -384,7 +384,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             String msg = getString(R.string.coupon_discount_is_) + " " + promoSaved + " " + getString(R.string.OMR);
                             Constants.showAlert(getString(R.string.coupon_discount), msg, getString(R.string.Okay), ShoppingCartActivity.this);
                         }
-
                     } else {
 
                         Constants.showAlert(getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again), ShoppingCartActivity.this);

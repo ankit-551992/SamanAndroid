@@ -55,9 +55,6 @@ public class TrackOrderAdapter extends RecyclerView.Adapter<TrackOrderAdapter.Ro
                 holder.productNameTextView.setText(orderTrackList.get(0).getProductNameAR());
             }
 
-
-
-
             String status = "";
             Collections.sort(orderTrackList, new Comparator<OrderTrack>() {
                 @Override

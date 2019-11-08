@@ -103,4 +103,19 @@ public class OrderTrack implements Serializable {
     public void setProductNameAR(String productNameAR) {
         this.productNameAR = productNameAR;
     }
+
+    @Override
+    public String toString() {
+        return "OrderTrack{" +
+                "orderStatusID=" + orderStatusID +
+                ", status=" + status +
+                ", comment='" + comment + '\'' +
+                ", commentAR='" + commentAR + '\'' +
+                ", date='" + date + '\'' +
+                ", orderID=" + orderID +
+                ", iD=" + iD +
+                ", productName='" + productName + '\'' +
+                ", productNameAR='" + productNameAR + '\'' +
+                '}';
+    }
 }

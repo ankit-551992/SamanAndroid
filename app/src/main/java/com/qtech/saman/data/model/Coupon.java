@@ -85,4 +85,16 @@ public class Coupon {
         this.iD = iD;
     }
 
+    @Override
+    public String toString() {
+        return "Coupon{" +
+                "couponCode='" + couponCode + '\'' +
+                ", discountType=" + discountType +
+                ", discount=" + discount +
+                ", couponType=" + couponType +
+                ", productID=" + productID +
+                ", storeID=" + storeID +
+                ", iD=" + iD +
+                '}';
+    }
 }

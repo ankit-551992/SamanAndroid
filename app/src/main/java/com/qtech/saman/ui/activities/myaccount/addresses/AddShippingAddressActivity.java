@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -307,7 +308,6 @@ public class AddShippingAddressActivity extends BaseActivity {
                     progressBar.setVisibility(View.GONE);
                 }
             });
-
         } else if (type == 2) {
             progressBar.setVisibility(View.GONE);
             Gson gson = new Gson();
@@ -330,6 +330,7 @@ public class AddShippingAddressActivity extends BaseActivity {
                     progressBar.setVisibility(View.GONE);
                     SimpleSuccess simpleSuccess = response.body();
                     if (simpleSuccess != null) {
+                        Log.e("UPDATEADD00","--simpleSuccess--"+new Gson().toJson(simpleSuccess));
                         if (simpleSuccess.getSuccess() == 1) {
                             Constants.showAlertWithActivityFinish(getString(R.string.shipping_address), getString(R.string.address_edit), getString(R.string.okay), AddShippingAddressActivity.this);
                         }
