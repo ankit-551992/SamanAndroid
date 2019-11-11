@@ -1,8 +1,10 @@
 package com.qtech.saman.ui.activities.order.checkout;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,9 +23,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.Product;
+import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.PlaceOrderResponse;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
@@ -76,6 +84,8 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     PlaceOrderResponse placeOrderResponse;
     float orderTotal = 0;
+    User user;
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +95,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.check_out_success));
-//        toolbarBack.setVisibility(View.VISIBLE);
+//      toolbarBack.setVisibility(View.VISIBLE);
         cross.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
@@ -105,15 +115,26 @@ public class CheckoutOrderActivity extends BaseActivity {
             cross.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
         }
 
+         user = GlobalValues.getUser(CheckoutOrderActivity.this);
+        if (user != null){
+            userId = user.getId();
+        }
+
         orderTotalTextView.setText(String.valueOf(orderTotal) + " " + getString(R.string.OMR));
         if (placeOrderResponse.getResult().getOrderNumber() != null) {
             orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber() + placeOrderResponse.getResult().getId());
+            orderID = placeOrderResponse.getResult().getOrderNumber();
         }
 
         if (placeOrderResponse.getResult().getOrderStatus() != null) {
             if (!placeOrderResponse.getResult().getOrderStatus().equals("")) {
                 orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
+                orderStatus = placeOrderResponse.getResult().getOrderStatus();
             }
+        }
+
+        if (placeOrderResponse.getResult().getId() != null) {
+            orderItemId = placeOrderResponse.getResult().getId();
         }
 
         if (placeOrderResponse.getResult().getDeliveryDate() != null) {
@@ -147,7 +168,8 @@ public class CheckoutOrderActivity extends BaseActivity {
     EditText editText;
     RatingBar ratingBar;
     Button sendButton;
-    String orderID;
+    String orderID, orderStatus;
+    int orderItemId;
 
     @OnClick(R.id.iv_survey)
     public void survey() {
@@ -158,10 +180,6 @@ public class CheckoutOrderActivity extends BaseActivity {
         editText = dialog.findViewById(R.id.editText_review);
         ratingBar = dialog.findViewById(R.id.ratting);
         sendButton = dialog.findViewById(R.id.button_feedback);
-
-        if (placeOrderResponse.getResult().getOrderNumber() != null) {
-            orderID = placeOrderResponse.getResult().getOrderNumber();
-        }
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +257,23 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @OnClick(R.id.button_cancel_order)
     void cancelOrder() {
-        Constants.showAlert(getString(R.string.sorry), getString(R.string.order_cancel_msg), getString(R.string.okay), CheckoutOrderActivity.this);
+        showAlertOrderCancel(getString(R.string.order_title), getString(R.string.order_cancel_msg), getString(R.string.yes), CheckoutOrderActivity.this);
+    }
+
+    private void cancelOrderApi(String orderID, String comment, String orderStatus, int orderItemId, int userId) {
+        WebServicesHandler.instance.getCancelOrderApi(Integer.parseInt(orderID), comment,orderStatus,orderItemId,userId, new retrofit2.Callback<SimpleSuccess>() {
+            @Override
+            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+                Log.e("RES00", "---response---" + new Gson().toJson(response));
+//                Constants.showAlert("", getString(R.string.Order_canceled_msg), getString(R.string.okay), CheckoutOrderActivity.this);
+                Constants.showAlertWithActivityFinish("", getString(R.string.Order_canceled_msg), getString(R.string.okay), CheckoutOrderActivity.this);
+            }
+
+            @Override
+            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+                Log.e("RES00", "Failed Feedback Response" + t.getMessage());
+            }
+        });
     }
 
     private void setBag() {
@@ -258,10 +292,61 @@ public class CheckoutOrderActivity extends BaseActivity {
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
             checkOutProductAdapter.notifyDataSetChanged();
         }
-
         quantity.setText(productArrayList.size() + " " + getResources().getQuantityString(R.plurals.items, productArrayList.size()));
         if (SamanApp.localDB != null) {
             SamanApp.localDB.clearCart();
         }
+    }
+
+    public void showAlertOrderCancel(String title, String message, String buttonText, Context context) {
+
+        dialog = new Dialog(context, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.dialog_customer_support);
+        dialog.setContentView(R.layout.dailog_information_pop_up);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+        Button closeButton = dialog.findViewById(R.id.button_close_pop_up);
+
+        nextButton.setText(buttonText);
+        closeButton.setText(getString(R.string.no));
+//      titleTextView.setText(context.getString(R.string.error));
+        titleTextView.setText(title);
+        messageTextView.setText(message);
+//      messageTextView.setText(context.getString(R.string.missing_options));
+        close.setVisibility(View.GONE);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                cancelOrderApi(orderID, getString(R.string.order_cancel), orderStatus, orderItemId,userId);
+                dialog.dismiss();
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+        dialog.show();
     }
 }

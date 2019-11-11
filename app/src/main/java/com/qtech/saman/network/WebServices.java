@@ -222,4 +222,11 @@ public interface WebServices {
 
     @GET("User/GetByID?")
     Call<UserResponse> getUserInfo(@Query("userID") int userId);
+
+    @POST("Order/UpdateOrderStatus?")
+    Call<SimpleSuccess> cancelOrder(@Query("orderID") int orderId,
+                                   @Query("comment") String comment,
+                                   @Query("status") String orderStatus,
+                                   @Query("orderItemID") int orderItemId,
+                                   @Query("UserId") int userId);
 }

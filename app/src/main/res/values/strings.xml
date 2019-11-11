@@ -45,6 +45,8 @@
     <string name="navigation_drawer_open">Navigation Drawer Open</string>
     <string name="navigation_drawer_close">Navigation Drawer Close</string>
 
+    <string name="order_cancel">Canceled by Customer</string>
+
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>
@@ -106,7 +108,8 @@
     <!--Shopping cart-->
     <string name="shopping_cart">Shopping Bag</string>
     <string name="drawer_cart">Shopping Bag</string>
-    <string name="apply_coupon">Apply Coupon</string>
+ <!--   <string name="apply_coupon">Apply Coupon</string>-->
+    <string name="apply_coupon">Coupon</string>
     <string name="invalid_coupon">Invalid Coupon</string>
     <string name="already_apply">Already Applied</string>
     <string name="delivery_to">Delivery To</string>
@@ -134,7 +137,7 @@
     <string name="check_out_email_msg">Please check your email for your confirmation</string>
     <string name="check_out">Order confirmation</string>
     <string name="check_out_success">Order Successful</string>
-    <string name="order_cancel_msg">Some items can’t be change! please message us</string>
+    <string name="order_cancel_msg">Do you really want to cancel Order?</string>
     <string name="order_total">Order Total</string>
     <string name="checkout_order_total">The total amount</string>
     <string name="order_reference">Order Reference</string>
@@ -560,6 +563,9 @@
     <!--place Order dialog-->
     <string name="order_title">Are you sure?</string>
     <string name="order_message">Do you really want to place order?</string>
+
+    <!--order cancel successfull-->
+    <string name="Order_canceled_msg">Order Cancelled Successfully</string>
 
     <string name="oman">oman</string>
 

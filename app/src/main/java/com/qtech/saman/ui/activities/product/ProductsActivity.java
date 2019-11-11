@@ -164,13 +164,11 @@ public class ProductsActivity extends BaseActivity {
             LinearLayout bg = (LinearLayout) customTab.findViewById(R.id.tab_layout);
 
             if (i == 0) {
-
                 if (SamanApp.isEnglishVersion) {
                     textView.setText(getString(R.string.all));
                 } else {
                     textView.setText(getString(R.string.all));
                 }
-
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
 
                 TabLayout.Tab tab = tabLayout.getTabAt(0);

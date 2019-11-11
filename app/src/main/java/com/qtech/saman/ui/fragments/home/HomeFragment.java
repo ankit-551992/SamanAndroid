@@ -216,23 +216,41 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 //      pageIndicator.setCurrentItem(median);
     }
 
+    int current_bannerPage = 0;
     private void setBestSellers(List<Slider> sliderList) {
         bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
         bestSellersPager.setAdapter(bestSellersAdapter);
 
-//        bestSellersPager.setPageMargin(10);
-//        bestSellersPager.setClipToPadding(false);
-//        bestSellersPager.setPadding(200,0,200,0);
+//        int median;
+//        if (sliderList.size() % 2 == 0)
+//            median = (sliderList.size() / 2 + sliderList.size() / 2 - 1) / 2;
+//        else
+//            median = sliderList.size() / 2;
 
-        int median;
-        if (sliderList.size() % 2 == 0)
-            median = (sliderList.size() / 2 + sliderList.size() / 2 - 1) / 2;
-        else
-            median = sliderList.size() / 2;
-
-        bestSellersPager.setCurrentItem(median);
+//      bestSellersPager.setCurrentItem(median);
         pageIndicator.setViewPager(bestSellersPager);
-        pageIndicator.setCurrentItem(median);
+//        pageIndicator.setCurrentItem(median);
+
+        /*After setting the adapter use the timer */
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                bestSellersPager.setCurrentItem(current_bannerPage,true);
+                current_bannerPage++;
+                if (current_bannerPage == sliderList.size()) {
+                    current_bannerPage = 0;
+                }
+            }
+        };
+
+        timer = new Timer(); // This will create a new Thread
+        timer.schedule(new TimerTask() { // task to be scheduled
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
+
     }
 
     private void hotPicks(List<Product> hotPicks) {
