@@ -136,7 +136,9 @@ public class StoreDetailActivity extends BaseActivity {
                                     .transform(new CircleTransform())
                                     .into(logo);
 
-                            Picasso.get().load(Constants.URLS.BaseURLImages + store.getBannerURL()).fit().centerCrop()
+                            Picasso.get().load(Constants.URLS.BaseURLImages + store.getBannerURL())
+                                    .fit()
+                                    .centerCrop()
                                     .into(bg);
                             storeName = store.getStoreName();
                             storeNameAr = store.getStoreNameAR();
@@ -148,8 +150,7 @@ public class StoreDetailActivity extends BaseActivity {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 if (store.getDescription() != null) {
                                     if (SamanApp.isEnglishVersion) {
-                                    storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(),
-                                            Html.FROM_HTML_MODE_COMPACT));
+                                    storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
                                     } else {
                                         storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
                                     }

@@ -226,7 +226,6 @@ public interface WebServices {
     @POST("Order/UpdateOrderStatus?")
     Call<SimpleSuccess> cancelOrder(@Query("orderID") int orderId,
                                    @Query("comment") String comment,
-                                   @Query("status") String orderStatus,
-                                   @Query("orderItemID") int orderItemId,
+                                   @Query("status") int orderStatus,
                                    @Query("UserId") int userId);
 }

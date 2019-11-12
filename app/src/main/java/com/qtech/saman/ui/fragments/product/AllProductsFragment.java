@@ -123,7 +123,6 @@ public class AllProductsFragment extends BaseFragment {
                         }
 
                         if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
-                            Log.e("2222NEWPRODUCT", "-all--getProduct--size--" + getProducts.getProduct().size());
                             displayData.addAll(getProducts.getProduct());
                             productAdapter.notifyDataSetChanged();
                         } else {

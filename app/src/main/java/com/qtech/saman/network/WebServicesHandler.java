@@ -555,9 +555,9 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void getCancelOrderApi(int orderID, String comment, String orderStatus, int orderItemId, int userId, Callback<SimpleSuccess> callback) {
-        Log.e("RES00000", "---orderID---" + orderID + "-orderStatus-" + orderStatus + "-orderItemId-" + orderItemId + "-userId--" + userId);
-        Call<SimpleSuccess> call = webServices.cancelOrder(orderID, comment, orderStatus, orderItemId, userId);
+    public void getCancelOrderApi(int orderID, String comment, int orderStatus, int userId, Callback<SimpleSuccess> callback) {
+        Log.e("RES00000", "---orderID---" + orderID + "-orderStatus-" + orderStatus +  "-userId--" + userId);
+        Call<SimpleSuccess> call = webServices.cancelOrder(orderID, comment, orderStatus,  userId);
         call.enqueue(callback);
     }
 }

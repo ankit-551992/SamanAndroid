@@ -203,7 +203,6 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         } else {
             show_logout_dialog(DashboardActivity.this, getString(R.string.logout), getString(R.string.logout_message),
                     getString(R.string.back), getString(R.string.logout));
-
         }
     }
 
@@ -301,8 +300,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 //        actionbar.setHomeButtonEnabled(true);
 //        actionbar.setDisplayHomeAsUpEnabled(true);
 //        actionbar.setHomeAsUpIndicator(R.drawable.ic_cross);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -118,7 +118,6 @@ public class MyOrdersActivity extends BaseActivity {
     }
 
     private void setHistoryLayout() {
-
         layoutManager = new LinearLayoutManager(this);
         ordersRecyclerView.setLayoutManager(layoutManager);
         ordersRecyclerView.setNestedScrollingEnabled(false);

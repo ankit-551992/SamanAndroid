@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.OrderHistory;
@@ -123,7 +124,7 @@ public class InvoiceActivity extends BaseActivity {
     }
 
     private void setOrderDetails() {
-        Log.e("USERID", "--orderHistory--id--setOrderDetails--" + orderHistory);
+        Log.e("USERID", "--orderHistory--id--setOrderDetails--" + new Gson().toJson(orderHistory));
         if (orderHistory != null) {
             orderTotalTextView.setText(String.valueOf(orderHistory.getTotalPrice()) + " " + getString(R.string.OMR));
             if (orderHistory.getOrderNumber() != null) {
@@ -213,14 +214,12 @@ public class InvoiceActivity extends BaseActivity {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     1111);
         } else {
-//            String downloadURL="https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf";
-//            String downloadURL = "https://www.saman.om/FileUploadsManager/invoice.pdf";
-//            String downloadURL = "https://www.saman.om/Order/GeneratePDF/405";
-
-            //String downloadURL = "https://www.saman.om/Order/Invoice/" + orderHistory.getID();
             String downloadURL = Constants.URLS.Invoice_url + orderHistory.getID();
-//            down("https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf");
-            new DownloadFile().execute(downloadURL);
+
+//            new DownloadFile().execute(downloadURL);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(downloadURL));
+            startActivity(intent);
         }
 //        Intent intent=new Intent(InvoiceActivity.this, ViewInvoice.class);
 //        intent.putExtra("OrderID",orderHistory.getID());
@@ -340,7 +339,8 @@ public class InvoiceActivity extends BaseActivity {
                 fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
 
                 //Append timestamp to file name
-                fileName = timestamp + "_" + fileName + "_invoice.pdf";
+//                fileName = timestamp + "_" + fileName + "_invoice.pdf";
+                fileName = timestamp + "_" + fileName + "_invoice.doc";
 
                 //External directory path to save file
                 folder = Environment.getExternalStorageDirectory() + File.separator + "Saman/";
@@ -368,7 +368,6 @@ public class InvoiceActivity extends BaseActivity {
                     // writing data to file
                     output.write(data, 0, count);
                 }
-
                 // flushing output
                 output.flush();
 

@@ -300,7 +300,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
             bannerType = screenApi.getBannerType();
             Log.e("BANNERTYPE", "--bannerType---" + bannerType);
-//            setSellersHeaderBanner(screenApi.getBannerSliderURLs());
+//          setSellersHeaderBanner(screenApi.getBannerSliderURLs());
         }
 
         if (screenApi.getLatestProducts() != null) {

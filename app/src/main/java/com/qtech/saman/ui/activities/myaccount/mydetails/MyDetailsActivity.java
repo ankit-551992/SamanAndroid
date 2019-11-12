@@ -126,7 +126,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
-
         myCalendar = Calendar.getInstance();
 /*        if (GlobalValues.countries != null) {
             for (int i = 0; i < GlobalValues.countries.size(); i++) {
@@ -230,8 +229,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             if (GlobalValues.countries != null) {
                 for (int i = 0; i < GlobalValues.countries.size(); i++) {
 
-                    if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry())
-                            || GlobalValues.countries.get(i).getName_AR().equals(authenticatedUser.getCountry())) {
+//                    if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry()) || GlobalValues.countries.get(i).getName_AR().equals(authenticatedUser.getCountry())) {
+                    if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry())) {
                         if (SamanApp.isEnglishVersion) {
                             countryName.setText(GlobalValues.countries.get(i).getName());
                         } else {

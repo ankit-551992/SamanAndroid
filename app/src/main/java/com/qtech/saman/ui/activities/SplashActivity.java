@@ -52,8 +52,7 @@ public class SplashActivity extends BaseActivity {
         getCountries();
 
         Animation animation;
-        animation = AnimationUtils.loadAnimation(SplashActivity.this,
-                R.anim.splash_fade_in);
+        animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash_fade_in);
         logo.startAnimation(animation);
 
 //        ShortcutBadger.applyCount(this,10);
@@ -63,7 +62,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                changelanguage();
+//              changelanguage();
                 if (GlobalValues.getUserLoginStatus(SplashActivity.this)) {
                     GlobalValues.setGuestLoginStatus(SplashActivity.this, false);
                     Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);

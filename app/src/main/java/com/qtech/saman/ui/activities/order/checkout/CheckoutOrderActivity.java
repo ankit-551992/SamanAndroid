@@ -86,6 +86,12 @@ public class CheckoutOrderActivity extends BaseActivity {
     float orderTotal = 0;
     User user;
     int userId;
+    Dialog dialog;
+    EditText editText;
+    RatingBar ratingBar;
+    Button sendButton;
+    String orderID;
+    int orderItemId,orderStatus,cancel_orderID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,17 +130,18 @@ public class CheckoutOrderActivity extends BaseActivity {
         if (placeOrderResponse.getResult().getOrderNumber() != null) {
             orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber() + placeOrderResponse.getResult().getId());
             orderID = placeOrderResponse.getResult().getOrderNumber();
+            orderItemId = Integer.parseInt(placeOrderResponse.getResult().getOrderNumber());
         }
 
         if (placeOrderResponse.getResult().getOrderStatus() != null) {
             if (!placeOrderResponse.getResult().getOrderStatus().equals("")) {
                 orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
-                orderStatus = placeOrderResponse.getResult().getOrderStatus();
+//              orderStatus = placeOrderResponse.getResult().getOrderStatus();
             }
         }
 
-        if (placeOrderResponse.getResult().getId() != null) {
-            orderItemId = placeOrderResponse.getResult().getId();
+        if (placeOrderResponse.getResult().getOrderNumber() != null) {
+            cancel_orderID =placeOrderResponse.getResult().getId();
         }
 
         if (placeOrderResponse.getResult().getDeliveryDate() != null) {
@@ -163,13 +170,6 @@ public class CheckoutOrderActivity extends BaseActivity {
             }
         };
     }
-
-    Dialog dialog;
-    EditText editText;
-    RatingBar ratingBar;
-    Button sendButton;
-    String orderID, orderStatus;
-    int orderItemId;
 
     @OnClick(R.id.iv_survey)
     public void survey() {
@@ -260,8 +260,8 @@ public class CheckoutOrderActivity extends BaseActivity {
         showAlertOrderCancel(getString(R.string.order_title), getString(R.string.order_cancel_msg), getString(R.string.yes), CheckoutOrderActivity.this);
     }
 
-    private void cancelOrderApi(String orderID, String comment, String orderStatus, int orderItemId, int userId) {
-        WebServicesHandler.instance.getCancelOrderApi(Integer.parseInt(orderID), comment,orderStatus,orderItemId,userId, new retrofit2.Callback<SimpleSuccess>() {
+    private void cancelOrderApi(int orderID, String comment, int orderStatus, int userId) {
+        WebServicesHandler.instance.getCancelOrderApi(orderID, comment,orderStatus,userId, new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 Log.e("RES00", "---response---" + new Gson().toJson(response));
@@ -337,8 +337,10 @@ public class CheckoutOrderActivity extends BaseActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                orderStatus = 8;
 
-                cancelOrderApi(orderID, getString(R.string.order_cancel), orderStatus, orderItemId,userId);
+                Log.e("RES00000", "--nexttt-orderID---" + orderID + "-orderStatus-" + orderStatus + "-orderItemId-" + orderItemId + "-userId--" + userId);
+                cancelOrderApi(cancel_orderID, getString(R.string.order_cancel), orderStatus,userId);
                 dialog.dismiss();
             }
         });

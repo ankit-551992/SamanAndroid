@@ -349,7 +349,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @Override
     public void response(Product product) {
-        Log.e("PRODUCT00", "--getProduct---" + product);
         this.product = product;
         if (selectedQuantity != -1) {
             //this.product.setQuantity(selectedQuantity);

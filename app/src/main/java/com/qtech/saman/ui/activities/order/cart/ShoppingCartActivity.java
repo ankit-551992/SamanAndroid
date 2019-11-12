@@ -524,7 +524,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 //                        }else {
 //                            countryName.setText(selectedCountry.getName_AR());
 //                        }
-
                     }
                 }
             }
