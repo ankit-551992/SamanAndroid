@@ -70,6 +70,11 @@ public class AddShippingAddressActivity extends BaseActivity {
     @BindView(R.id.tv_region_name)
     TextView region_name;
 
+    @BindView(R.id.edit_building_floor)
+    EditText buildingFloor;
+    @BindView(R.id.edit_building_apt)
+    EditText buildingApt;
+
     User authenticatedUser;
     String state = "states";
 
@@ -107,6 +112,12 @@ public class AddShippingAddressActivity extends BaseActivity {
             streetEditText.setText(arr[0]);
             if (arr.length > 1) {
                 buildingEditText.setText(arr[1]);
+            }
+            if (arr.length >2){
+                buildingFloor.setText(arr[2]);
+            }
+            if (arr.length >3){
+                buildingApt.setText(arr[3]);
             }
             if (shippingAddress.getAddressLine2() != null) {
                 landmarkEditText.setText(shippingAddress.getAddressLine2());
@@ -273,7 +284,17 @@ public class AddShippingAddressActivity extends BaseActivity {
         }
 
         if (buildingEditText.getText() == null || buildingEditText.getText().toString().equals("") || buildingEditText.getText().toString().isEmpty()) {
-            Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.building_no) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
+            Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.building) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
+            return;
+        }
+
+        if (buildingFloor.getText() == null || buildingFloor.getText().toString().equals("") || buildingFloor.getText().toString().isEmpty()) {
+            Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.building_floor) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
+            return;
+        }
+
+        if (buildingApt.getText() == null || buildingApt.getText().toString().equals("") || buildingApt.getText().toString().isEmpty()) {
+            Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.building_apartment) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
         }
 
@@ -286,7 +307,9 @@ public class AddShippingAddressActivity extends BaseActivity {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.country) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
         }
-        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString();
+//        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString();
+        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString() + ","
+                + buildingFloor.getText().toString() + "," + buildingApt.getText().toString();
         String addressLine2 = landmarkEditText.getText().toString();
         progressBar.setVisibility(View.VISIBLE);
         if (type == 0) {
@@ -330,7 +353,7 @@ public class AddShippingAddressActivity extends BaseActivity {
                     progressBar.setVisibility(View.GONE);
                     SimpleSuccess simpleSuccess = response.body();
                     if (simpleSuccess != null) {
-                        Log.e("UPDATEADD00","--simpleSuccess--"+new Gson().toJson(simpleSuccess));
+                        Log.e("UPDATEADD00", "--simpleSuccess--" + new Gson().toJson(simpleSuccess));
                         if (simpleSuccess.getSuccess() == 1) {
                             Constants.showAlertWithActivityFinish(getString(R.string.shipping_address), getString(R.string.address_edit), getString(R.string.okay), AddShippingAddressActivity.this);
                         }

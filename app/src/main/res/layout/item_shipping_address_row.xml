@@ -36,6 +36,7 @@
                 android:drawableLeft="@drawable/pin"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
+                android:lineSpacingExtra="10dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp" />
 

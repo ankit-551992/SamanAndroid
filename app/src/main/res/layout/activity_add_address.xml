@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/building_no" />
+                android:text="@string/building" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +68,69 @@
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
                     android:focusable="true"
-                    android:hint="@string/building_no"
+                    android:hint="@string/building"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/pin"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/building_floor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_building_floor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:hint="@string/building_floor"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/pin"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/building_apartment" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_building_apt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:hint="@string/building_apartment"
                     android:imeOptions="actionDone"
                     android:inputType="text" />
 
@@ -203,11 +265,10 @@
 
             <LinearLayout
                 android:id="@+id/layout_regionSelection"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_region_name"
@@ -215,11 +276,9 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
+                    android:paddingLeft="5dp"
                     android:textColor="@color/black"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"/>
+                    android:hint="@string/choose_region"/>
 
                 <ImageView
                     android:layout_gravity="center_vertical"
@@ -233,10 +292,11 @@
             <View
                 android:id="@+id/view_region"
                 android:layout_width="match_parent"
-                android:layout_height="0.1dp"
+                android:layout_height="1dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/light_grey" />
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:background="@color/grey" />
 
             </LinearLayout>
 

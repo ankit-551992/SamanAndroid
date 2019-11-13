@@ -422,6 +422,11 @@
     <string name="dummy">Lige Brand Men Watches Automatic</string>
     <string name="cart_dummy">Mr. Jesus\n\nMusqat\n\nMusqat\n\nOman\n\n115\n\n77777</string>
 
+    <string name="building">بناء</string>
+    <string name="building_floor">أرضية</string>
+    <string name="building_apartment">شقة</string>
+
+
     <string name="facebook_app_id">293002707997112</string>
     <string name="fb_login_protocol_scheme">fb293002707997112</string>
 
@@ -570,6 +575,7 @@
     <string name="verification_code">شيفرة التأكيد</string>
     <string name="verify">التحقق</string>
     <string name="region">منطقة</string>
+    <string name="choose_region">اختيار المنطقة</string>
     <string name="select_region">اختر المنطقة</string>
     <string name="all">الكل</string>
     <string name="products">المنتجات</string>
@@ -619,8 +625,14 @@
 
     <string name="oman">سلطنة عمان</string>
 
-
     <!--"Governorate of Muscat = محافظة مسقط", "Governorate of Dhofar = محافظة ظفار ", "Governorate of Al Batinah North = محافظة شمال الباطنة ", "Governorate of Al Sharqiya South = محافظة جنوب الشرقية ", "Governorate of Al Dahira North = محافظة شمال الظاهرة ", "Governorate of Dakhiliyah = محافظة الداخلية ", "Governorate of Al Wusta = محافظة الوسطى ", "Governorate of Musandam = محافظة مسندم ", "Governorate of Al Batinah South = محافظة جنوب الباطنة ", "Governorate of Al Sharqiya North = محافظة شمال الشرقية ", "Governorate of Al Buraimi =
     محافظة البريمي"-->
+
+    <!--place Order dialog-->
+    <string name="order_title">هل أنت واثق؟</string>
+    <string name="order_message">هل حقا تريد وضع النظام؟</string>
+
+    <!--order cancel successfull-->
+    <string name="Order_canceled_msg">تم إلغاء الطلب بنجاح</string>
 
 </resources>

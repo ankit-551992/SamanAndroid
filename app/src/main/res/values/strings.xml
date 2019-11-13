@@ -340,6 +340,11 @@
 
     <string name="street_no">Street Name</string>
     <string name="building_no">Building ,Floor, Apt.</string>
+
+    <string name="building">Building</string>
+    <string name="building_floor">Floor</string>
+    <string name="building_apartment">Apartment</string>
+
     <string name="landmark">Landmark</string>
     <string name="required">Required</string>
     <string name="landmark_optional">Landmark (Optional)</string>
@@ -512,6 +517,7 @@
     <string name="verification_code">Verification Code</string>
     <string name="verify">Verify</string>
     <string name="region">Region</string>
+    <string name="choose_region">Choose Region</string>
     <string name="select_region">Select Region</string>
     <string name="all">All</string>
     <string name="products">Products</string>
