@@ -160,8 +160,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     boolean requestAgain = false;
     boolean isGeneralApplied = false;
     DecimalFormat df = new DecimalFormat("#.#");
-//    DecimalFormat df = new DecimalFormat("#.##");
+    //    DecimalFormat df = new DecimalFormat("#.##");
 //    DecimalFormat df = new DecimalFormat("#00.0#");
+    String discount_couponId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -341,7 +342,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply), getString(R.string.close), ShoppingCartActivity.this);
                             }
                         } else {
-
                             for (int p = 0; p < bagArrayList.size(); p++) {
 
                                 int productId = bagArrayList.get(p).getID();
@@ -384,8 +384,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             String msg = getString(R.string.coupon_discount_is_) + " " + promoSaved + " " + getString(R.string.OMR);
                             Constants.showAlert(getString(R.string.coupon_discount), msg, getString(R.string.Okay), ShoppingCartActivity.this);
                         }
+                        discount_couponId = String.valueOf(promoVerify.getResult().getID());
                     } else {
-
                         Constants.showAlert(getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again), ShoppingCartActivity.this);
 //                        Constants.showErrorPopUp(ShoppingCartActivity.this, getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again));
                     }
@@ -435,7 +435,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             obj = new JSONObject();
             try {
                 obj.put("ProductID", bagArrayList.get(p).getID());
-//                obj.put("AttributeID", bagArrayList.get(p).getCartAttributeID());
+//              obj.put("AttributeID", bagArrayList.get(p).getCartAttributeID());
                 obj.put("ProductQuantity", bagArrayList.get(p).getQuantity());
                 obj.put("ProductPrice", bagArrayList.get(p).getPrice());
 
@@ -463,6 +463,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 deliveryCost,
                 priceToPay,
                 paymentType,
+                discount_couponId,
                 array,
                 new Callback<PlaceOrderResponse>() {
                     @Override

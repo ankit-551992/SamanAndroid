@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.qtech.saman.R;
-import com.qtech.saman.data.model.ShippingUpdateAddress;
+import com.qtech.saman.data.model.ShippingAddress;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
@@ -41,11 +41,11 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    List<ShippingUpdateAddress> shippingAddresses = new ArrayList<>();
+    List<ShippingAddress> shippingAddresses = new ArrayList<>();
     private Context mContext;
     Dialog dialog;
 
-    public AddressAdapter(Context mContext, List<ShippingUpdateAddress> shippingAddresses) {
+    public AddressAdapter(Context mContext, List<ShippingAddress> shippingAddresses) {
         this.shippingAddresses = shippingAddresses;
         this.mContext = mContext;
     }
@@ -73,17 +73,22 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
         if (holder instanceof MessageViewHolder) {
             MessageViewHolder messageViewHolder = (MessageViewHolder) holder;
 
-            ShippingUpdateAddress address = shippingAddresses.get(position);
+            ShippingAddress address = shippingAddresses.get(position);
 
 //            Log.e("Address",address.getAddressLine1());
 //            Log.e("City",""+address.getCity());
 //            Log.e("Country",""+address.getCountry());
 
             String userAddress = address.getAddressLine1();
+            if (address.getFloor() != null){
+                userAddress = userAddress + "," + address.getFloor();
+            }
+            if(address.getApt() != null){
+                userAddress = userAddress + "," + address.getApt();
+            }
             if (address.getCity() != null) {
                 userAddress = userAddress + "," + address.getCity();
             }
-
             if (address.getCountry() != null) {
                 userAddress = userAddress + "," + address.getCountry();
             }

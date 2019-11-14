@@ -23,15 +23,24 @@ public class ShippingAddress implements Serializable {
     @SerializedName("ZipCode")
     @Expose
     private String zipCode;
-    @SerializedName("Country")
+    @SerializedName("UserCountry")
     @Expose
     private String country;
+    @SerializedName("UserRegion")
+    @Expose
+    private String region;
     @SerializedName("isDefault")
     @Expose
     private boolean isDefault;
     @SerializedName("ID")
     @Expose
     private Integer iD;
+    @SerializedName("Floor")
+    @Expose
+    private String Floor;
+    @SerializedName("Apt")
+    @Expose
+    private String Apt;
 
     public String getAddressLine1() {
         return addressLine1;
@@ -95,5 +104,29 @@ public class ShippingAddress implements Serializable {
 
     public void setiD(Integer iD) {
         this.iD = iD;
+    }
+
+    public String getFloor() {
+        return Floor;
+    }
+
+    public void setFloor(String floor) {
+        Floor = floor;
+    }
+
+    public String getApt() {
+        return Apt;
+    }
+
+    public void setApt(String apt) {
+        Apt = apt;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.ShippingAddress;
-import com.qtech.saman.data.model.ShippingUpdateAddress;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.AddAddressApi;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
@@ -79,7 +78,7 @@ public class AddShippingAddressActivity extends BaseActivity {
     String state = "states";
 
     int type;
-    ShippingUpdateAddress shippingAddress;
+    ShippingAddress shippingAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,18 +105,25 @@ public class AddShippingAddressActivity extends BaseActivity {
         } else {
             toolbarTitle.setText(getString(R.string.edit_shipping_address));
             toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-            shippingAddress = (ShippingUpdateAddress) getIntent().getSerializableExtra("ShippingAddress");
+            shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("ShippingAddress");
+            Log.e("SHIPPINGADD00","----shipping--add--"+new Gson().toJson(shippingAddress));
             String addressLine1 = shippingAddress.getAddressLine1();
             String arr[] = addressLine1.split(",");
             streetEditText.setText(arr[0]);
             if (arr.length > 1) {
                 buildingEditText.setText(arr[1]);
             }
-            if (arr.length >2){
-                buildingFloor.setText(arr[2]);
+//            if (arr.length >2){
+//                buildingFloor.setText(arr[2]);
+//            }
+//            if (arr.length >3){
+//                buildingApt.setText(arr[3]);
+//            }
+            if (shippingAddress.getFloor() != null){
+                buildingFloor.setText(shippingAddress.getFloor());
             }
-            if (arr.length >3){
-                buildingApt.setText(arr[3]);
+            if (shippingAddress.getApt() != null){
+                buildingApt.setText(shippingAddress.getApt());
             }
             if (shippingAddress.getAddressLine2() != null) {
                 landmarkEditText.setText(shippingAddress.getAddressLine2());
@@ -139,7 +145,6 @@ public class AddShippingAddressActivity extends BaseActivity {
             setDefaultCheckBox.setChecked(shippingAddress.isDefault());
             addButton.setText(getString(R.string.update));
         }
-
         toolbarBack.setVisibility(View.VISIBLE);
         markerImageView.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -307,14 +312,18 @@ public class AddShippingAddressActivity extends BaseActivity {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.country) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
         }
-//        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString();
-        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString() + ","
-                + buildingFloor.getText().toString() + "," + buildingApt.getText().toString();
+      String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString();
+//        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString() + ","
+//                + buildingFloor.getText().toString() + "," + buildingApt.getText().toString();
+
+        String floor = buildingFloor.getText().toString();
+        String apartment = buildingApt.getText().toString();
+
         String addressLine2 = landmarkEditText.getText().toString();
         progressBar.setVisibility(View.VISIBLE);
         if (type == 0) {
 
-            WebServicesHandler.instance.addAddress(authenticatedUser.getId(), addressLine, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), isChecked, new retrofit2.Callback<AddAddressApi>() {
+            WebServicesHandler.instance.addAddress(authenticatedUser.getId(), addressLine,floor,apartment, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), isChecked, new retrofit2.Callback<AddAddressApi>() {
                 @Override
                 public void onResponse(Call<AddAddressApi> call, Response<AddAddressApi> response) {
                     progressBar.setVisibility(View.GONE);
@@ -347,7 +356,8 @@ public class AddShippingAddressActivity extends BaseActivity {
             finish();
         } else {
 
-            WebServicesHandler.instance.updateAddress(authenticatedUser.getId(), shippingAddress.getiD(), addressLine, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), region_name.getText().toString(), isChecked, new retrofit2.Callback<SimpleSuccess>() {
+            WebServicesHandler.instance.updateAddress(authenticatedUser.getId(), shippingAddress.getiD(), addressLine, addressLine2,
+                    floor,apartment,cityEditText.getText().toString(), state, countryEditText.getText().toString(), region_name.getText().toString(), isChecked, new retrofit2.Callback<SimpleSuccess>() {
                 @Override
                 public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                     progressBar.setVisibility(View.GONE);

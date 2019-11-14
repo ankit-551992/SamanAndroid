@@ -56,7 +56,6 @@ public class CustomerSupportListAdapter extends RecyclerView.Adapter<CustomerSup
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(mContext, SupportDetailsActivity.class);
                 intent.putExtra("UserSupportDetail", customerSupportList.get(holder.getAdapterPosition()));
                 mContext.startActivity(intent);

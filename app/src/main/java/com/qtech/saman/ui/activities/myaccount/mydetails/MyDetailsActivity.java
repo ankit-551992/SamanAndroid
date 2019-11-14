@@ -454,7 +454,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             } else {
                 region = "";
             }
-
             presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject, dob, phone, region);
         }
     }
@@ -574,12 +573,9 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         });
 
         Animation animation;
-        animation = AnimationUtils.loadAnimation(MyDetailsActivity.this,
-                R.anim.slide_bottom_to_top);
+        animation = AnimationUtils.loadAnimation(MyDetailsActivity.this, R.anim.slide_bottom_to_top);
 
-
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
 

@@ -2,7 +2,7 @@ package com.qtech.saman.data.model.apis;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.qtech.saman.data.model.ShippingUpdateAddress;
+import com.qtech.saman.data.model.ShippingAddress;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class GetAddressApi{
 
     @SerializedName("result")
     @Expose
-    private List<ShippingUpdateAddress> result = null;
+    private List<ShippingAddress> result = null;
     @SerializedName("success")
     @Expose
     private int success;
@@ -18,11 +18,11 @@ public class GetAddressApi{
     @Expose
     private String message;
 
-    public List<ShippingUpdateAddress> getResult() {
+    public List<ShippingAddress> getResult() {
         return result;
     }
 
-    public void setResult(List<ShippingUpdateAddress> result) {
+    public void setResult(List<ShippingAddress> result) {
         this.result = result;
     }
 

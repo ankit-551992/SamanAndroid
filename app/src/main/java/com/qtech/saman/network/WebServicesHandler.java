@@ -231,9 +231,10 @@ public class WebServicesHandler {
                            float ShippingTotal,
                            float TotalPrice,
                            String PaymentType,
-                           JSONArray array,
+                           String discount_couponId, JSONArray array,
                            Callback<PlaceOrderResponse> callback) {
 
+        Log.e("DISCOUNTID0", "---discount_couponId---" + discount_couponId);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("CustomerID", CustomerID);
         parameters.put("BillingAddressID", BillingAddressID);
@@ -241,6 +242,7 @@ public class WebServicesHandler {
         parameters.put("PaymentType", PaymentType);
         parameters.put("ShippingTotal", ShippingTotal);
         parameters.put("TotalPrice", TotalPrice);
+        parameters.put("DiscountCoupanID", discount_couponId);
 
         for (int i = 0; i < array.length(); i++) {
             try {
@@ -420,7 +422,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void addAddress(int userID, String addressLine, String addressLine2, String city, String state, String country, boolean isDefault, Callback<AddAddressApi> callback) {
+    public void addAddress(int userID, String addressLine, String floor, String apartment, String addressLine2, String city, String state, String country, boolean isDefault, Callback<AddAddressApi> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
@@ -430,13 +432,14 @@ public class WebServicesHandler {
         parameters.put("State", state);
         parameters.put("Country", country);
         parameters.put("isDefault", isDefault);
+        parameters.put("Floor", floor);
+        parameters.put("Apt", apartment);
 
         Call<AddAddressApi> call = webServices.insertAddress(parameters);
         call.enqueue(callback);
     }
 
-    public void updateAddress(int user_id, int ID, String addressLine, String addressLine2, String city, String state,
-                              String country, String region, boolean isDefault, Callback<SimpleSuccess> callback) {
+    public void updateAddress(int user_id, int ID, String addressLine, String addressLine2, String floor, String apartment, String city, String state, String country, String region, boolean isDefault, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", user_id);
@@ -449,6 +452,8 @@ public class WebServicesHandler {
         parameters.put("UserCountry", country);
         parameters.put("UserRegion", region);
         parameters.put("isDefault", isDefault);
+        parameters.put("Floor", floor);
+        parameters.put("Apt", apartment);
 
         Log.e("ADDRE00", "--parameters----" + parameters);
         Call<SimpleSuccess> call = webServices.updateAddress(parameters);
@@ -556,8 +561,8 @@ public class WebServicesHandler {
     }
 
     public void getCancelOrderApi(int orderID, String comment, int orderStatus, int userId, Callback<SimpleSuccess> callback) {
-        Log.e("RES00000", "---orderID---" + orderID + "-orderStatus-" + orderStatus +  "-userId--" + userId);
-        Call<SimpleSuccess> call = webServices.cancelOrder(orderID, comment, orderStatus,  userId);
+        Log.e("RES00000", "---orderID---" + orderID + "-orderStatus-" + orderStatus + "-userId--" + userId);
+        Call<SimpleSuccess> call = webServices.cancelOrder(orderID, comment, orderStatus, userId);
         call.enqueue(callback);
     }
 }
