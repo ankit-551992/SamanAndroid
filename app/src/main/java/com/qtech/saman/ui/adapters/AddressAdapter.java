@@ -136,7 +136,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                     showPopUp(mContext.getString(R.string.out_of_stock_title),
                             mContext.getString(R.string.address_msg),
                             mContext.getString(R.string.no),
-                            mContext.getString(R.string.yeah),
+                            mContext.getString(R.string.yes),
                             1, position);
                     mItemManger.closeAllItems();
                 }
@@ -250,7 +250,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                 deleteAddress(shippingAddresses.get(position).getiD());
                 shippingAddresses.remove(position);
                 notifyDataSetChanged();
-//                mItemManger.closeAllItems();
+//              mItemManger.closeAllItems();
                 dialog.dismiss();
             }
         });

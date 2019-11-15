@@ -422,7 +422,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void addAddress(int userID, String addressLine, String floor, String apartment, String addressLine2, String city, String state, String country, boolean isDefault, Callback<AddAddressApi> callback) {
+    public void addAddress(int userID, String addressLine, String floor, String apartment, String addressLine2, String city, String state, String country,String region, boolean isDefault, Callback<AddAddressApi> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
@@ -430,7 +430,8 @@ public class WebServicesHandler {
         parameters.put("AddressLine2", addressLine2);
         parameters.put("City", city);
         parameters.put("State", state);
-        parameters.put("Country", country);
+        parameters.put("UserCountry", country);
+        parameters.put("UserRegion", region);
         parameters.put("isDefault", isDefault);
         parameters.put("Floor", floor);
         parameters.put("Apt", apartment);

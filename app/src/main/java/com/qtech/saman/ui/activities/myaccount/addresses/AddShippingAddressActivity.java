@@ -183,12 +183,12 @@ public class AddShippingAddressActivity extends BaseActivity {
                 if (!returnedResult.equals("") && !returnedResult.isEmpty()) {
                     String arr[] = returnedResult.split(",");
                     cityEditText.setText(arr[0]);
-                    if (arr.length > 2) {
-                        state = arr[1];
-                        countryEditText.setText(arr[2]);
-                    } else if (arr.length > 1) {
-                        countryEditText.setText(arr[1]);
-                    }
+//                    if (arr.length > 2) {
+//                        state = arr[1];
+//                        countryEditText.setText(arr[2]);
+//                    } else if (arr.length > 1) {
+//                        countryEditText.setText(arr[1]);
+//                    }
                 }
             }
         } else if (requestCode == 1199) {
@@ -323,7 +323,7 @@ public class AddShippingAddressActivity extends BaseActivity {
         progressBar.setVisibility(View.VISIBLE);
         if (type == 0) {
 
-            WebServicesHandler.instance.addAddress(authenticatedUser.getId(), addressLine,floor,apartment, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), isChecked, new retrofit2.Callback<AddAddressApi>() {
+            WebServicesHandler.instance.addAddress(authenticatedUser.getId(), addressLine,floor,apartment, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(),region_name.getText().toString(), isChecked, new retrofit2.Callback<AddAddressApi>() {
                 @Override
                 public void onResponse(Call<AddAddressApi> call, Response<AddAddressApi> response) {
                     progressBar.setVisibility(View.GONE);

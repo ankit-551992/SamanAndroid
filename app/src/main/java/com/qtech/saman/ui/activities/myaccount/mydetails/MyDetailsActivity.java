@@ -493,7 +493,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                         }
                     }
                 }
-
                 if (returnedResult.equalsIgnoreCase("oman")) {
                     regionView.setVisibility(View.VISIBLE);
                     regionSelectionLinearLayout.setVisibility(View.VISIBLE);
