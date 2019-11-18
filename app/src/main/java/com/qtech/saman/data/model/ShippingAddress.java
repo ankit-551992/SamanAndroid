@@ -129,4 +129,21 @@ public class ShippingAddress implements Serializable {
     public void setRegion(String region) {
         this.region = region;
     }
+
+    @Override
+    public String toString() {
+        return "ShippingAddress{" +
+                "addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", country='" + country + '\'' +
+                ", region='" + region + '\'' +
+                ", isDefault=" + isDefault +
+                ", iD=" + iD +
+                ", Floor='" + Floor + '\'' +
+                ", Apt='" + Apt + '\'' +
+                '}';
+    }
 }

@@ -133,7 +133,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         authenticatedUser = GlobalValues.getUser(this);
 //        if (getIntent().hasExtra("ProductID1")) {
 //            String productID = getIntent().getStringExtra("ProductID1");
-//            Log.e("PRODUCT", "--remote---productID---" + productID);
 //        }
 
         if (getIntent().hasExtra("ProductID")) {
@@ -151,8 +150,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (getIntent().hasExtra("Options")) {
             selectedOptions = getIntent().getStringExtra("Options");
             optionIDs = selectedOptions.split(",");
-            Log.e("PRODUCT00", "--selectedOptions---" + selectedOptions);
-            Log.e("PRODUCT00", "--optionIDs---" + optionIDs);
 
             for (int o = 0; o < optionIDs.length; o++) {
                 Log.e(o + "-Options", optionIDs[o]);
@@ -251,8 +248,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         if (SamanApp.localDB != null) {
             if (product.getQuantity() != 0) {
-                Log.e("PP", "" + Integer.parseInt(productCount.getText().toString()));
-                Log.e("Quantity", "" + product.getQuantity());
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(), Integer.parseInt(productCount.getText().toString()))) {
                       /* showPopUp(getString(R.string.item_added_bag),
@@ -365,9 +360,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             if (SamanApp.isEnglishVersion) {
 //                productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
                 productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_LEGACY));
-                Log.e("4545454", "--SDK_INT---");
             } else {
-                Log.e("4545454", "-else----SDK_INT---");
 //              productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
                 productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_LEGACY));
             }
@@ -450,7 +443,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 View child = inflater.inflate(R.layout.item_options_row, null);
                 TextView optionName = (TextView) child.findViewById(R.id.tv_option_name);
                 Spinner optionValuesSpinner = (Spinner) child.findViewById(R.id.spinner_option_value);
-//                Log.e("PRODUCT00","--getTitleAR---"+productOption.getTitleAR() +"--getTitle--"+productOption.getTitle());
                 if (SamanApp.isEnglishVersion) {
                     optionName.setText(productOption.getTitle());
                 } else {
@@ -468,7 +460,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     optionValuesSpinner.setAdapter(valuesAdapter);
                 }
                 for (int i = 0; i < productOption.getOptionValues().size(); i++) {
-//                    Log.e("ID", "" + productOption.getOptionValues().get(i).getID());
                     if (optionIDs != null) {
                         if (optionIDs.length == product.getProductOptions().size()) {
                             if (productOption.getOptionValues().get(i).getID() == Integer.valueOf(optionIDs[p])) {
@@ -661,13 +652,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @Override
     public void addProductNotifyResponse(SimpleSuccess simpleSuccess) {
-        Log.e("NOTIFY000", "--addProductNotifyResponse----" + simpleSuccess);
         if (simpleSuccess.getResult().equals(true)) {
-            Log.e("NOTIFY000", "--addProductNotifyResponse--iffffff--" + simpleSuccess.getMessage());
             Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
             button_notify.setVisibility(View.GONE);
         } else {
-            Log.e("NOTIFY000", "--addProductNotifyResponse--elseeeeeee---" + simpleSuccess.getMessage());
             Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

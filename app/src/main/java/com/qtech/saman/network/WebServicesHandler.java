@@ -143,7 +143,6 @@ public class WebServicesHandler {
 
         Log.e("SOCIAL_LOGIN", "---SOCIAL_LOGIN---parameters--" + parameters);
         Call<UserResponse> call = webServices.socialLogin(parameters);
-        Log.e("SOCIAL_LOGIN", "---SOCIAL_LOGIN---call--" + call);
         call.enqueue(callback);
     }
 

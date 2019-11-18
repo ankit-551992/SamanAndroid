@@ -5,14 +5,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseFragment;
 import com.qtech.saman.data.model.Product;
@@ -87,7 +85,6 @@ public class ProductsCategoryFragment extends BaseFragment {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
-        Log.e("SEARCH000", "---categoryID---" + categoryID);
         getProducts(categoryID, currentPage, pageSize);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -105,7 +102,6 @@ public class ProductsCategoryFragment extends BaseFragment {
 
     private void getProducts(int categoryID, int pageIndex, int pageSize) {
         CATEGORYID = categoryID;
-        Log.e("2222NEWPRODUCT", "----CATEGORYID-----" + CATEGORYID);
         if (categoryID == 0) {
             //for All
             getLatestProducts(pageIndex, pageSize, 0);
@@ -131,16 +127,13 @@ public class ProductsCategoryFragment extends BaseFragment {
                             }
                             isLoading = false;
                             if (!search_category_product.equals("")) {
-                                Log.e("SEARCH000", "---search_category_product---" + search_category_product);
                                 getSearchCategory(search_category_product, displayData);
                             }
 //                            if (category_flag) {
 //                                if (!search_category_product.equals("")) {
-//                                    Log.e("SEARCH000", "---search_category_product---" + search_category_product);
 //                                    getSearchCategory(search_category_product, displayData);
 //                                }
 //                            }
-                            Log.e("2222NEWPRODUCT", "----category---list--" + displayData.size());
                             productAdapter.notifyDataSetChanged();
                         }
                     }
@@ -174,7 +167,6 @@ public class ProductsCategoryFragment extends BaseFragment {
             displayData.clear();
         }
         displayData.addAll(seachproductlist);
-        Log.e("SEARCH000", "--search--22--storeArrayList----" + new Gson().toJson(displayData));
         productAdapter.notifyDataSetChanged();
     }
 
@@ -204,11 +196,9 @@ public class ProductsCategoryFragment extends BaseFragment {
                                     if (product.getIsNewIn().equals("true")) {
                                         displayData.add(product);
                                     }
-                                    Log.e("2222NEWPRODUCT", "-newin---size--" + displayData.size());
                                 }
                             }
                             if (!search_category_product.equals("")) {
-                                Log.e("SEARCH000", "---search_category_product---" + search_category_product);
                                 getSearchCategory(search_category_product, displayData);
                             }
                             productAdapter.notifyDataSetChanged();

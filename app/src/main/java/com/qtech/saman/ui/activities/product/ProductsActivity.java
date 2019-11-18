@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,7 +120,6 @@ public class ProductsActivity extends BaseActivity {
                         search = search_product.getText().toString();
                         tab();
                         adapter.notifyDataSetChanged();
-                        Log.e("SEARCH000", "--search--onTextChanged---store---" + search);
                         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                         return true;
@@ -206,7 +204,6 @@ public class ProductsActivity extends BaseActivity {
                 adapter.addFrag(
                         ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), ""),
                         GlobalValues.storeCategories.get(i).getTitle());
-                Log.e("SEARCH000", "---GlobalValue---getID()---" + GlobalValues.storeCategories.get(i).getID());
             }
         } else {
 //          adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
@@ -216,7 +213,6 @@ public class ProductsActivity extends BaseActivity {
                 adapter.addFrag(
                         ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), ""),
                         GlobalValues.storeCategories.get(i).getTitle());
-                Log.e("SEARCH000", "---GlobalValue---getID()---" + GlobalValues.storeCategories.get(i).getID());
             }
         }
         viewPager.setAdapter(adapter);

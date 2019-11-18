@@ -202,7 +202,7 @@ public class AllProductsFragment extends BaseFragment {
 
             if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                 displayData.add(null);
-//                productAdapter.notifyItemInserted(displayData.size() + 1);
+//              productAdapter.notifyItemInserted(displayData.size() + 1);
                 isLoading = true;
                 currentPage++;
                 getAllProducts(currentPage, pageSize);
