@@ -112,6 +112,9 @@ public class Product implements Serializable {
     @SerializedName("IsNotificationSubscribed")
     private String IsNotificationSubscribed;
 
+    @SerializedName("SaleDiscountedType")
+    private String SaleDiscountedType;
+
     public String getIsNotificationSubscribed() {
         return IsNotificationSubscribed;
     }
@@ -438,6 +441,14 @@ public class Product implements Serializable {
 
     public void setIsSaleProduct(String isSaleProduct) {
         this.isSaleProduct = isSaleProduct;
+    }
+
+    public String getSaleDiscountedType() {
+        return SaleDiscountedType;
+    }
+
+    public void setSaleDiscountedType(String saleDiscountedType) {
+        SaleDiscountedType = saleDiscountedType;
     }
 
     @Override

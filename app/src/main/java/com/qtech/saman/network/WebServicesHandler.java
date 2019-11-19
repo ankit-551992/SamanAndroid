@@ -154,16 +154,21 @@ public class WebServicesHandler {
         parameters.put("LastName", lName);
         parameters.put("Gender", gender);
         parameters.put("Country", country);
-//        parameters.put("ShippingAddress", address);
+        parameters.put("ShippingAddress", address);
         parameters.put("DateOfBirth", dob);
         parameters.put("PhoneNumber", phone);
         parameters.put("Region", region);
-        try {
+      /*  try {
             parameters.put("ShippingAddress.ID", address.get("ID"));
             parameters.put("ShippingAddress.AddressLine1", address.get("AddressLine1"));
+            parameters.put("ShippingAddress.Floor", address.get("Floor"));
+            parameters.put("ShippingAddress.Apt",address.get("Apt"));
+            parameters.put("ShippingAddress.City", address.get("City"));
+            parameters.put("ShippingAddress.UserCountry",address.get("UserCountry"));
+            parameters.put("ShippingAddress.UserRegion", address.get("UserRegion"));
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
         Log.e("UPDATE_PROFILEURL", "----profile---parameters---" + parameters);
         Call<UserResponse> call = webServices.updateProfile(parameters);
         call.enqueue(callback);

@@ -75,16 +75,15 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
 
             ShippingAddress address = shippingAddresses.get(position);
 
-//            Log.e("Address",address.getAddressLine1());
-//            Log.e("City",""+address.getCity());
-//            Log.e("Country",""+address.getCountry());
-
             String userAddress = address.getAddressLine1();
             if (address.getFloor() != null){
                 userAddress = userAddress + "," + address.getFloor();
             }
             if(address.getApt() != null){
                 userAddress = userAddress + "," + address.getApt();
+            }
+            if(address.getAddressLine2() != null){
+                userAddress = userAddress + "," + address.getAddressLine2();
             }
             if (address.getCity() != null) {
                 userAddress = userAddress + "," + address.getCity();
@@ -107,9 +106,11 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                     Intent data = new Intent();
                     int id = shippingAddresses.get(position).getiD();
 //                    String text = shippingAddresses.get(position).getAddressLine1()+","+shippingAddresses.get(position).getCity()+","+shippingAddresses.get(position).getCountry();
+
                     String text = messageViewHolder.address.getText().toString();
                     data.putExtra("ID", id);
-                    data.putExtra("DATA", text);
+                    data.putExtra("DATA", shippingAddresses.get(position));
+//                    data.putExtra("DATA", text);
                     ((Activity) mContext).setResult(RESULT_OK, data);
                     ((Activity) mContext).finish();
                 }

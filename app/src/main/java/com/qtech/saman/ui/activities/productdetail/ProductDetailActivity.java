@@ -3,7 +3,7 @@ package com.qtech.saman.ui.activities.productdetail;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -11,7 +11,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +51,8 @@ import java.util.Timer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
+import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltipUtils;
 
 public class ProductDetailActivity extends BaseActivity implements ProductContractor.View {
 
@@ -84,9 +90,15 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     ImageView removeQuantity;
     @BindView(R.id.tv_out_of_stock)
     TextView outOfStockTextView;
-
     @BindView(R.id.button_notify)
     Button button_notify;
+    @BindView(R.id.tv_display_sale)
+    TextView tv_display_sale;
+    @BindView(R.id.tv_sale_link)
+    TextView tv_sale_link;
+    @BindView(R.id.ll_display_sale)
+    LinearLayout ll_display_sale;
+
 
     //Product
     int productID;
@@ -116,6 +128,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     String selectedOptions = "";
     String[] optionIDs;
     int selectedQuantity = -1;
+    float final_displayprice = 0.0f;
 
     Dialog dialog;
 
@@ -425,17 +438,54 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             }
         }
 
+//        if (product.getIsSaleProduct().equals("true")) {
+//            salePrice.setVisibility(View.VISIBLE);
+//            salePrice.setText(product.getSalePrice() + " " + getString(R.string.OMR));
+//            // productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+//            productPrice.setText(product.getPrice() + " ");
+//            productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//        } else {
+//            salePrice.setVisibility(View.GONE);
+//            productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+//        }
+
         if (product.getIsSaleProduct().equals("true")) {
-            salePrice.setVisibility(View.VISIBLE);
-            salePrice.setText(product.getSalePrice() + " " + getString(R.string.OMR));
-            // productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
-            productPrice.setText(product.getPrice() + " ");
-            productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            salePrice.setVisibility(View.GONE);
+            if (product.getSaleDiscountedType().equals("1")) {
+                final_displayprice = product.getPrice() - product.getSalePrice();
+//              salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
+                productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
+                ll_display_sale.setVisibility(View.GONE);
+            } else if (product.getSaleDiscountedType().equals("2")) {
+                float calculateDiscount = product.getPrice() / 100.0f;
+                float dis = calculateDiscount * product.getSalePrice();
+                Log.e("Dis", "---dis--" + dis);
+                final_displayprice = product.getPrice() - dis;
+//              salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
+                productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
+                ll_display_sale.setVisibility(View.GONE);
+            } else {
+                productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+                ll_display_sale.setVisibility(View.GONE);
+            }
+            String saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + "Off";
+
+            String text = " " + "<font color=\"blue\">T&C</font>";
+            tv_display_sale.setText(saleString);
+            tv_sale_link.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+            tv_sale_link.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    View yourView = findViewById(R.id.your_view);
+                    setPopUp(view);
+                }
+            });
         } else {
             salePrice.setVisibility(View.GONE);
+            ll_display_sale.setVisibility(View.GONE);
             productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
         }
-        //productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
 
         if (product.getProductOptions() != null) {
             for (int p = 0; p < product.getProductOptions().size(); p++) {
@@ -507,6 +557,34 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //            }
 //        }, DELAY_MS, PERIOD_MS);
         customPagerAdapter.notifyDataSetChanged();
+    }
+
+    private void setPopUp(View view) {
+        new SimpleTooltip.Builder(this)
+                .anchorView(view)
+                .text(R.string.coupon_discount)
+                .gravity(Gravity.BOTTOM)
+                .dismissOnOutsideTouch(true)
+                .dismissOnInsideTouch(false)
+                .modal(true)
+                .animated(false)
+                .showArrow(true)
+                .arrowColor(getResources().getColor(R.color.light_grey))
+                .contentView(R.layout.custom_view, R.id.tv_text)
+                .focusable(true)
+                .build()
+                .show();
+
+//        new SimpleTooltip.Builder(this)
+//                .anchorView(view)
+//                .text(R.string.coupon_discount)
+//                .gravity(Gravity.BOTTOM)
+//                .showArrow(true)
+//                .modal(true)
+//                .animated(false)
+//                .backgroundColor(Color.WHITE)
+//                .build()
+//                .show();
     }
 
     @Override

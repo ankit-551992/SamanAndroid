@@ -141,9 +141,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="6000 OMR"
+                        android:text="60 OMR"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_sale_price"
@@ -151,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="3dp"
-                        android:text="6000 OMR"
+                        android:text="60 OMR"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -198,6 +199,39 @@
                     android:src="@drawable/cart" />
 
             </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_display_sale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_display_sale"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:text="8.0 OMR Off"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sale_link"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:text="TC"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginLeft="3dp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

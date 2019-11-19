@@ -23,6 +23,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.Country;
@@ -108,6 +109,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     String codeflag;
     Dialog dialog;
     String selectedGender = "";
+    String setaddress = "";
+    String AddressLine1, floor, apt, city, usercountry, userregion,landmark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +178,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
     private void setProfile() {
-
+        authenticatedUser = GlobalValues.getUser(this);
         Log.e("PROFILEDETAIL", "--authenticatedUser--" + authenticatedUser);
         firstNameEditText.setText(authenticatedUser.getFirstName());
         lastNameEditText.setText(authenticatedUser.getLastName());
@@ -250,8 +253,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             }
         }
 
-//        countryName.setText(authenticatedUser.getCountry());
-        if (authenticatedUser.getShippingAddress() != null) {
+//      countryName.setText(authenticatedUser.getCountry());
+        /*if (authenticatedUser.getShippingAddress() != null) {
             if (authenticatedUser.getShippingAddress().getAddressLine1() != null) {
                 if (authenticatedUser.getShippingAddress().getCity() != null) {
                     if (authenticatedUser.getShippingAddress().getCountry() != null) {
@@ -274,7 +277,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     addressEditText.setText(authenticatedUser.getShippingAddress().getCountry());
                 }
             }
+        }*/
+
+        Log.e("FLAG000", "--getShippingAddress--" + authenticatedUser.getShippingAddress());
+        if (authenticatedUser.getShippingAddress() != null) {
+            setShippingAddress(authenticatedUser.getShippingAddress());
         }
+
         Long datetimestamp = Long.parseLong(authenticatedUser.getDateOfBirth().replaceAll("\\D", ""));
         if (datetimestamp < Calendar.getInstance().getTimeInMillis()) {
             Date date = new Date(datetimestamp);
@@ -433,6 +442,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
         if (isDataValid(firstName, lastName, gender, address, day, month, year, phone, dob)) {
             phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
+
             JSONObject jsonObject = new JSONObject();
             try {
                 if (addressID == 0) {
@@ -440,7 +450,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 } else {
                     jsonObject.put("ID", addressID);
                 }
-                jsonObject.put("AddressLine1", address);
+                jsonObject.put("AddressLine1", AddressLine1);
+                jsonObject.put("Floor", floor);
+                jsonObject.put("Apt", apt);
+                jsonObject.put("AddressLine2", landmark);
+                jsonObject.put("City",city);
+                jsonObject.put("UserCountry",usercountry);
+                jsonObject.put("UserRegion", userregion);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -508,9 +524,16 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             }
         } else if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
-                String d = data.getExtras().getString("DATA");
+//                String d = data.getExtras().getString("DATA");
                 addressID = data.getExtras().getInt("ID");
-                addressEditText.setText(d);
+//                addressEditText.setText(d);
+                ShippingAddress shippingAddress = (ShippingAddress) data.getExtras().getSerializable("DATA");
+                Log.e("SHIPPINGADD00", "----shipping--add--" + new Gson().toJson(shippingAddress));
+
+//                String address = new Gson().toJson(shippingAddress);
+                if (shippingAddress != null) {
+                    setShippingAddress(shippingAddress);
+                }
             }
         } else if (requestCode == 2021) {
             if (resultCode == RESULT_OK) {
@@ -523,6 +546,40 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 ccp.setText(code);
             }
         }
+    }
+
+
+
+    private void setShippingAddress(ShippingAddress shippingAddress) {
+        if (shippingAddress.getAddressLine1() != null) {
+            setaddress = shippingAddress.getAddressLine1();
+            AddressLine1 = shippingAddress.getAddressLine1();
+        }
+        if (shippingAddress.getFloor() != null) {
+            setaddress = setaddress + "," +shippingAddress.getFloor();
+            floor = shippingAddress.getFloor();
+        }
+        if (shippingAddress.getApt() != null) {
+            setaddress = setaddress + "," + shippingAddress.getApt();
+            apt = shippingAddress.getApt();
+        }
+        if (shippingAddress.getAddressLine2() != null) {
+            setaddress = setaddress + "," + shippingAddress.getAddressLine2();
+            landmark = shippingAddress.getAddressLine2();
+        }
+        if (shippingAddress.getCity() != null) {
+            setaddress = setaddress + "," + shippingAddress.getCity();
+            city = shippingAddress.getCity();
+        }
+        if (shippingAddress.getCountry() != null) {
+            setaddress = setaddress + "," + shippingAddress.getCountry();
+            usercountry = shippingAddress.getCountry();
+        }
+        if (shippingAddress.getRegion() != null) {
+            setaddress = setaddress + "," + shippingAddress.getRegion();
+            userregion = shippingAddress.getRegion();
+        }
+        addressEditText.setText(setaddress);
     }
 
     private void selectGender() {
@@ -578,7 +635,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         dialog.show();
     }
 
-
     private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year, String phone, String dob) {
         if (TextUtils.isEmpty(fName)) {
             //firstNameEditText.setError(getString(R.string.first_name_required));
@@ -629,7 +685,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         progressBar.setVisibility(View.INVISIBLE);
     }
 
-    @Override
+  /*  @Override
     public void updateResponse(boolean success, User user) {
         if (success) {
             authenticatedUser.setFirstName(firstNameEditText.getText().toString());
@@ -665,12 +721,36 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 addressID = 0;
                 authenticatedUser.setShippingAddress(shippingAddress);
             }
+
             if (selectedDateInMillis != 0) {
                 authenticatedUser.setDateOfBirth(String.valueOf(selectedDateInMillis));
             }
             GlobalValues.saveUser(MyDetailsActivity.this, authenticatedUser);
 //            authenticatedUser = GlobalValues.getUser(this);
 //            setProfile();
+
+            GlobalValues.setSelectedCodeFlag(MyDetailsActivity.this, codeflag);
+            if (isRequest) {
+                setResult(RESULT_OK);
+                finish();
+            } else {
+                Constants.showAlertWithActivityFinish("", getString(R.string.update_profile_success), getString(R.string.okay), MyDetailsActivity.this);
+            }
+        } else {
+            if (isRequest) {
+                Constants.showAlertWithActivityFinish("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
+            } else {
+                Constants.showAlert("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
+            }
+        }
+    }*/
+
+    @Override
+    public void updateResponse(boolean success, User user) {
+        if (success) {
+            GlobalValues.saveUser(MyDetailsActivity.this, user);
+            setProfile();
+//          ((DashboardActivity)activity).updateUserDetails();
 
             GlobalValues.setSelectedCodeFlag(MyDetailsActivity.this, codeflag);
             if (isRequest) {

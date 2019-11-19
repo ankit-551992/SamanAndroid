@@ -148,6 +148,8 @@ dependencies {
     // Utils
     implementation 'com.thefinestartist:utils:0.9.0'
     implementation 'com.thefinestartist:annotations:0.9.0'
+    //tooltip dialog
+    implementation 'com.github.douglasjunior:android-simple-tooltip:0.2.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
