@@ -3,7 +3,7 @@ package com.qtech.saman.ui.activities.productdetail;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -11,9 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -52,7 +49,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
-import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltipUtils;
 
 public class ProductDetailActivity extends BaseActivity implements ProductContractor.View {
 
@@ -131,6 +127,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     float final_displayprice = 0.0f;
 
     Dialog dialog;
+    String saleString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -450,25 +447,32 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //        }
 
         if (product.getIsSaleProduct().equals("true")) {
-            salePrice.setVisibility(View.GONE);
             if (product.getSaleDiscountedType().equals("1")) {
                 final_displayprice = product.getPrice() - product.getSalePrice();
-//              salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
-                productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
-                ll_display_sale.setVisibility(View.GONE);
+                salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
+//              productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
+                ll_display_sale.setVisibility(View.VISIBLE);
+                salePrice.setVisibility(View.VISIBLE);
+                saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + "Off";
+                productPrice.setText(product.getPrice() + " ");
+                productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else if (product.getSaleDiscountedType().equals("2")) {
                 float calculateDiscount = product.getPrice() / 100.0f;
                 float dis = calculateDiscount * product.getSalePrice();
                 Log.e("Dis", "---dis--" + dis);
                 final_displayprice = product.getPrice() - dis;
-//              salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
-                productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
-                ll_display_sale.setVisibility(View.GONE);
+                salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
+//              productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
+                productPrice.setText(product.getPrice() + " ");
+                ll_display_sale.setVisibility(View.VISIBLE);
+                salePrice.setVisibility(View.VISIBLE);
+                saleString = product.getSalePrice() + " " + getString(R.string.percent_sign) + " " + "Off";
+                productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
                 productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
                 ll_display_sale.setVisibility(View.GONE);
+                salePrice.setVisibility(View.GONE);
             }
-            String saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + "Off";
 
             String text = " " + "<font color=\"blue\">T&C</font>";
             tv_display_sale.setText(saleString);
@@ -477,7 +481,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             tv_sale_link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    View yourView = findViewById(R.id.your_view);
                     setPopUp(view);
                 }
             });
@@ -562,14 +565,14 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     private void setPopUp(View view) {
         new SimpleTooltip.Builder(this)
                 .anchorView(view)
-                .text(R.string.coupon_discount)
+                .text(R.string.terms_sale)
                 .gravity(Gravity.BOTTOM)
                 .dismissOnOutsideTouch(true)
                 .dismissOnInsideTouch(false)
                 .modal(true)
                 .animated(false)
                 .showArrow(true)
-                .arrowColor(getResources().getColor(R.color.light_grey))
+                .arrowColor(getResources().getColor(R.color.search_bg))
                 .contentView(R.layout.custom_view, R.id.tv_text)
                 .focusable(true)
                 .build()

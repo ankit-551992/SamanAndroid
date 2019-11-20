@@ -574,6 +574,7 @@
     <string name="Order_canceled_msg">Order Cancelled Successfully</string>
 
     <string name="oman">oman</string>
-
+    <string name="percent_sign">&#x0025;</string>
+    <string name="terms_sale">This price includes discount</string>
 
 </resources>

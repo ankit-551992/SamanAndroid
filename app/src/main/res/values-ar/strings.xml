@@ -634,5 +634,6 @@
 
     <!--order cancel successfull-->
     <string name="Order_canceled_msg">تم إلغاء الطلب بنجاح</string>
+    <string name="order_cancel">تم الإلغاء بواسطة العميل</string>
 
 </resources>
