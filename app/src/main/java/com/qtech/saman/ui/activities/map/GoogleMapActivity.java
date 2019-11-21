@@ -20,13 +20,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.qtech.saman.R;
-import com.qtech.saman.base.BaseActivity;
-import com.qtech.saman.network.GeoLocationHandler;
-import com.qtech.saman.utils.Constants;
-import com.qtech.saman.utils.GPSTracker;
-import com.qtech.saman.utils.GlobalValues;
-import com.qtech.saman.utils.SamanApp;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -48,6 +41,13 @@ import com.google.android.gms.maps.model.IndoorLevel;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.qtech.saman.R;
+import com.qtech.saman.base.BaseActivity;
+import com.qtech.saman.network.GeoLocationHandler;
+import com.qtech.saman.utils.Constants;
+import com.qtech.saman.utils.GPSTracker;
+import com.qtech.saman.utils.GlobalValues;
+import com.qtech.saman.utils.SamanApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,20 +82,23 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     private GoogleMap gmap;
     LatLng markedLocation;
     private static final int REQUEST_LOCATION_CODE = 1042;
+    String latitude, longitude = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_map);
         ButterKnife.bind(this);
+
         MapsInitializer.initialize(SamanApp.getInstance().getApplicationContext());
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.select_location));
         toolbarBack.setVisibility(View.VISIBLE);
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         } else {
@@ -117,6 +120,8 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
     @OnClick(R.id.toolbar_search)
     public void done() {
+        GlobalValues.setUserLat(GoogleMapActivity.this, "" + markedLocation.latitude);
+        GlobalValues.setUserLng(GoogleMapActivity.this, "" + markedLocation.longitude);
         address = getAddressFromLatLong(markedLocation);
         if (!address.isEmpty() && !address.equals("")) {
             Intent data = new Intent();
@@ -127,7 +132,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
             getLocationAddress(markedLocation);
         }
     }
-
 
     private String getCompleteAddressString(LatLng point) {
 
@@ -163,7 +167,9 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                 address += addresses.get(0).getLocality() + ",";
                 // address += addresses.get(0).getAdminArea() + ",";
                 // address += addresses.get(0).getPostalCode() + ",";
-                address += addresses.get(0).getCountryName();
+//                address += addresses.get(0).getCountryName();
+                address += addresses.get(0).getLatitude() + ",";
+                address += addresses.get(0).getLongitude();
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
@@ -196,7 +202,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
             gmap.setMyLocationEnabled(true);
         }
 
-
 //        Destiny USA, Destiny USA Drive, Syracuse, NY, USA
 //        LatLng latLng = new LatLng(43.068242,-76.1738881);
 //        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
@@ -208,7 +213,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 //        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
 //        gmap.addMarker(new MarkerOptions().position(new LatLng(-26.0017037,28.1277542)));
 //        gmap.animateCamera(cameraUpdate);
-
     }
 
     @Override
@@ -301,49 +305,68 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
     public void moveCameraToCurrent() {
         GPSTracker gpsTracker = new GPSTracker(GoogleMapActivity.this);
-        if (gpsTracker.getLongitude() != 0.0 && gpsTracker.getLatitude() != 0.0) {
-            GlobalValues.setUserLat(GoogleMapActivity.this, "" + gpsTracker.getLatitude());
-            GlobalValues.setUserLng(GoogleMapActivity.this, "" + gpsTracker.getLongitude());
-            LatLng latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+
+        if (GlobalValues.getUserLat(GoogleMapActivity.this) != null && GlobalValues.getUserLng(GoogleMapActivity.this) != null
+                && GlobalValues.getUserLat(GoogleMapActivity.this) != "" &&
+                GlobalValues.getUserLng(GoogleMapActivity.this) != "") {
+            double lat = Double.parseDouble(GlobalValues.getUserLat(GoogleMapActivity.this));
+            double lng = Double.parseDouble(GlobalValues.getUserLng(GoogleMapActivity.this));
+            LatLng latLng = new LatLng(lat, lng);
 
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
             if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 gmap.setMyLocationEnabled(true);
             }
+            gmap.addMarker(new MarkerOptions().position(latLng));
             gmap.animateCamera(cameraUpdate);
             search.setVisibility(View.VISIBLE);
             markedLocation = latLng;
         } else {
-            mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    // Got last known location. In some rare situations this can be null.
-                    if (location != null) {
-                        // Logic to handle location object
-                        GlobalValues.setUserLat(GoogleMapActivity.this, "" + location.getLatitude());
-                        GlobalValues.setUserLng(GoogleMapActivity.this, "" + location.getLongitude());
-                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                        if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            gmap.setMyLocationEnabled(true);
-                        }
-                        gmap.animateCamera(cameraUpdate);
-                        search.setVisibility(View.VISIBLE);
-                        markedLocation = latLng;
-                    } else {
-                        double lati = Double.parseDouble(GlobalValues.getUserLat(GoogleMapActivity.this));
-                        double lngi = Double.parseDouble(GlobalValues.getUserLng(GoogleMapActivity.this));
-                        LatLng latLng = new LatLng(lati, lngi);
-                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                        if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            gmap.setMyLocationEnabled(true);
-                        }
-                        gmap.animateCamera(cameraUpdate);
-                        search.setVisibility(View.VISIBLE);
-                        markedLocation = latLng;
-                    }
+            if (gpsTracker.getLongitude() != 0.0 && gpsTracker.getLatitude() != 0.0) {
+                LatLng latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                GlobalValues.setUserLat(GoogleMapActivity.this, "" + gpsTracker.getLatitude());
+                GlobalValues.setUserLng(GoogleMapActivity.this, "" + gpsTracker.getLongitude());
+
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    gmap.setMyLocationEnabled(true);
                 }
-            });
+                gmap.addMarker(new MarkerOptions().position(latLng));
+                gmap.animateCamera(cameraUpdate);
+                search.setVisibility(View.VISIBLE);
+                markedLocation = latLng;
+            } else {
+                mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+//                            GlobalValues.setUserLat(GoogleMapActivity.this, "" + location.getLatitude());
+//                            GlobalValues.setUserLng(GoogleMapActivity.this, "" + location.getLongitude());
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                            if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                gmap.setMyLocationEnabled(true);
+                            }
+                            gmap.animateCamera(cameraUpdate);
+                            search.setVisibility(View.VISIBLE);
+                            markedLocation = latLng;
+                        } else {
+                            double lati = Double.parseDouble(GlobalValues.getUserLat(GoogleMapActivity.this));
+                            double lngi = Double.parseDouble(GlobalValues.getUserLng(GoogleMapActivity.this));
+                            LatLng latLng = new LatLng(lati, lngi);
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                            if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                gmap.setMyLocationEnabled(true);
+                            }
+                            gmap.animateCamera(cameraUpdate);
+                            search.setVisibility(View.VISIBLE);
+                            markedLocation = latLng;
+                        }
+                    }
+                });
+            }
         }
     }
 

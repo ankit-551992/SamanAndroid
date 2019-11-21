@@ -110,7 +110,8 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     Dialog dialog;
     String selectedGender = "";
     String setaddress = "";
-    String AddressLine1, floor, apt, city, usercountry, userregion,landmark;
+    String AddressLine1, floor, apt, city, usercountry, userregion, landmark;
+    String latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -454,9 +455,12 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 jsonObject.put("Floor", floor);
                 jsonObject.put("Apt", apt);
                 jsonObject.put("AddressLine2", landmark);
-                jsonObject.put("City",city);
-                jsonObject.put("UserCountry",usercountry);
+                jsonObject.put("City", city);
+                jsonObject.put("UserCountry", usercountry);
                 jsonObject.put("UserRegion", userregion);
+                jsonObject.put("Latitude", latitude);
+                jsonObject.put("Longitude", longitude);
+                jsonObject.put("isDefault", true);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -549,14 +553,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
 
-
     private void setShippingAddress(ShippingAddress shippingAddress) {
         if (shippingAddress.getAddressLine1() != null) {
             setaddress = shippingAddress.getAddressLine1();
             AddressLine1 = shippingAddress.getAddressLine1();
         }
         if (shippingAddress.getFloor() != null) {
-            setaddress = setaddress + "," +shippingAddress.getFloor();
+            setaddress = setaddress + "," + shippingAddress.getFloor();
             floor = shippingAddress.getFloor();
         }
         if (shippingAddress.getApt() != null) {
@@ -578,6 +581,10 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         if (shippingAddress.getRegion() != null) {
             setaddress = setaddress + "," + shippingAddress.getRegion();
             userregion = shippingAddress.getRegion();
+        }
+        if (shippingAddress.getLatitude() != null && shippingAddress.getLongitude() != null) {
+            latitude = shippingAddress.getLatitude();
+            longitude = shippingAddress.getLongitude();
         }
         addressEditText.setText(setaddress);
     }

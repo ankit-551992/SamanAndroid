@@ -290,8 +290,7 @@ public class InvoiceActivity extends BaseActivity {
             }
             fos.close();
             is.close();
-            Toast.makeText(this, " A new file is downloaded successfully",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, " A new file is downloaded successfully", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }

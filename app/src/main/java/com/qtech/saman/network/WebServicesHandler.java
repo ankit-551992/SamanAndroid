@@ -426,7 +426,7 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void addAddress(int userID, String addressLine, String floor, String apartment, String addressLine2, String city, String state, String country,String region, boolean isDefault, Callback<AddAddressApi> callback) {
+    public void addAddress(int userID, String addressLine, String floor, String apartment, String addressLine2, String city, String state, String country, String region, String latitude, String longitude, boolean isDefault, Callback<AddAddressApi> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", userID);
@@ -439,12 +439,14 @@ public class WebServicesHandler {
         parameters.put("isDefault", isDefault);
         parameters.put("Floor", floor);
         parameters.put("Apt", apartment);
+        parameters.put("Latitude", latitude);
+        parameters.put("Longitude", longitude);
 
         Call<AddAddressApi> call = webServices.insertAddress(parameters);
         call.enqueue(callback);
     }
 
-    public void updateAddress(int user_id, int ID, String addressLine, String addressLine2, String floor, String apartment, String city, String state, String country, String region, boolean isDefault, Callback<SimpleSuccess> callback) {
+    public void updateAddress(int user_id, int ID, String addressLine, String addressLine2, String floor, String apartment, String city, String state, String country, String region, String latitude, String longitude, boolean isDefault, Callback<SimpleSuccess> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userID", user_id);
@@ -459,6 +461,8 @@ public class WebServicesHandler {
         parameters.put("isDefault", isDefault);
         parameters.put("Floor", floor);
         parameters.put("Apt", apartment);
+        parameters.put("Latitude", latitude);
+        parameters.put("Longitude", longitude);
 
         Log.e("ADDRE00", "--parameters----" + parameters);
         Call<SimpleSuccess> call = webServices.updateAddress(parameters);

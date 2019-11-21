@@ -79,6 +79,8 @@ public class AddShippingAddressActivity extends BaseActivity {
 
     int type;
     ShippingAddress shippingAddress;
+    String latitude = "";
+    String longitude = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +108,19 @@ public class AddShippingAddressActivity extends BaseActivity {
             toolbarTitle.setText(getString(R.string.edit_shipping_address));
             toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             shippingAddress = (ShippingAddress) getIntent().getSerializableExtra("ShippingAddress");
-            Log.e("SHIPPINGADD00","----shipping--add--"+new Gson().toJson(shippingAddress));
+            Log.e("SHIPPID00", "----shipping--add--" + new Gson().toJson(shippingAddress));
+
+            if (shippingAddress.getLatitude() != null && shippingAddress.getLongitude() != null) {
+                latitude = shippingAddress.getLatitude();
+                longitude = shippingAddress.getLongitude();
+
+                GlobalValues.setUserLat(AddShippingAddressActivity.this, "" + latitude);
+                GlobalValues.setUserLng(AddShippingAddressActivity.this, "" + longitude);
+            } else {
+                GlobalValues.setUserLat(AddShippingAddressActivity.this, "");
+                GlobalValues.setUserLng(AddShippingAddressActivity.this, "");
+            }
+
             String addressLine1 = shippingAddress.getAddressLine1();
             String arr[] = addressLine1.split(",");
             streetEditText.setText(arr[0]);
@@ -119,10 +133,10 @@ public class AddShippingAddressActivity extends BaseActivity {
 //            if (arr.length >3){
 //                buildingApt.setText(arr[3]);
 //            }
-            if (shippingAddress.getFloor() != null){
+            if (shippingAddress.getFloor() != null) {
                 buildingFloor.setText(shippingAddress.getFloor());
             }
-            if (shippingAddress.getApt() != null){
+            if (shippingAddress.getApt() != null) {
                 buildingApt.setText(shippingAddress.getApt());
             }
             if (shippingAddress.getAddressLine2() != null) {
@@ -183,12 +197,18 @@ public class AddShippingAddressActivity extends BaseActivity {
                 if (!returnedResult.equals("") && !returnedResult.isEmpty()) {
                     String arr[] = returnedResult.split(",");
                     cityEditText.setText(arr[0]);
-//                    if (arr.length > 2) {
+                    if (arr.length > 2) {
 //                        state = arr[1];
-//                        countryEditText.setText(arr[2]);
-//                    } else if (arr.length > 1) {
-//                        countryEditText.setText(arr[1]);
-//                    }
+                        Log.e("LAT0LNG0", "--22--latitude---" + arr[1]);
+                        Log.e("LAT0LNG0", "----longitude---" + arr[2]);
+                        latitude = arr[1];
+                        longitude = arr[2];
+//                      countryEditText.setText(arr[2]);
+                    } else if (arr.length > 0) {
+//                      countryEditText.setText(arr[1]);
+                        Log.e("LAT0LNG0", "----latitude-----" + arr[1]);
+                        Log.e("LAT0LNG0", "---000-longitude---" + arr[2]);
+                    }
                 }
             }
         } else if (requestCode == 1199) {
@@ -312,7 +332,7 @@ public class AddShippingAddressActivity extends BaseActivity {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.country) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
         }
-      String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString();
+        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString();
 //        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString() + ","
 //                + buildingFloor.getText().toString() + "," + buildingApt.getText().toString();
 
@@ -322,8 +342,13 @@ public class AddShippingAddressActivity extends BaseActivity {
         String addressLine2 = landmarkEditText.getText().toString();
         progressBar.setVisibility(View.VISIBLE);
         if (type == 0) {
+            Log.e("LATLNG00", "-latitude-longitude---" + latitude + longitude);
+            if (latitude.equals("") && longitude.equals("")) {
+                latitude = GlobalValues.getUserLat(AddShippingAddressActivity.this);
+                longitude = GlobalValues.getUserLng(AddShippingAddressActivity.this);
+            }
 
-            WebServicesHandler.instance.addAddress(authenticatedUser.getId(), addressLine,floor,apartment, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(),region_name.getText().toString(), isChecked, new retrofit2.Callback<AddAddressApi>() {
+            WebServicesHandler.instance.addAddress(authenticatedUser.getId(), addressLine, floor, apartment, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), region_name.getText().toString(), latitude, longitude, isChecked, new retrofit2.Callback<AddAddressApi>() {
                 @Override
                 public void onResponse(Call<AddAddressApi> call, Response<AddAddressApi> response) {
                     progressBar.setVisibility(View.GONE);
@@ -356,25 +381,30 @@ public class AddShippingAddressActivity extends BaseActivity {
             finish();
         } else {
 
-            WebServicesHandler.instance.updateAddress(authenticatedUser.getId(), shippingAddress.getiD(), addressLine, addressLine2,
-                    floor,apartment,cityEditText.getText().toString(), state, countryEditText.getText().toString(), region_name.getText().toString(), isChecked, new retrofit2.Callback<SimpleSuccess>() {
-                @Override
-                public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-                    progressBar.setVisibility(View.GONE);
-                    SimpleSuccess simpleSuccess = response.body();
-                    if (simpleSuccess != null) {
-                        Log.e("UPDATEADD00", "--simpleSuccess--" + new Gson().toJson(simpleSuccess));
-                        if (simpleSuccess.getSuccess() == 1) {
-                            Constants.showAlertWithActivityFinish(getString(R.string.shipping_address), getString(R.string.address_edit), getString(R.string.okay), AddShippingAddressActivity.this);
-                        }
-                    }
-                }
+            if (latitude.equals("") && longitude.equals("")) {
+                latitude = GlobalValues.getUserLat(AddShippingAddressActivity.this);
+                longitude = GlobalValues.getUserLng(AddShippingAddressActivity.this);
+            }
 
-                @Override
-                public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-                    progressBar.setVisibility(View.GONE);
-                }
-            });
+            WebServicesHandler.instance.updateAddress(authenticatedUser.getId(), shippingAddress.getiD(), addressLine, addressLine2,
+                    floor, apartment, cityEditText.getText().toString(), state, countryEditText.getText().toString(), region_name.getText().toString(), latitude, longitude, isChecked, new retrofit2.Callback<SimpleSuccess>() {
+                        @Override
+                        public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+                            progressBar.setVisibility(View.GONE);
+                            SimpleSuccess simpleSuccess = response.body();
+                            if (simpleSuccess != null) {
+                                Log.e("UPDATEADD00", "--simpleSuccess--" + new Gson().toJson(simpleSuccess));
+                                if (simpleSuccess.getSuccess() == 1) {
+                                    Constants.showAlertWithActivityFinish(getString(R.string.shipping_address), getString(R.string.address_edit), getString(R.string.okay), AddShippingAddressActivity.this);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SimpleSuccess> call, Throwable t) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 }

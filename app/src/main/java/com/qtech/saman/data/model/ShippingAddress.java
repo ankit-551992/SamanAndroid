@@ -41,6 +41,28 @@ public class ShippingAddress implements Serializable {
     @SerializedName("Apt")
     @Expose
     private String Apt;
+    @SerializedName("Latitude")
+    @Expose
+    private String latitude;
+    @SerializedName("Longitude")
+    @Expose
+    private String longitude;
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 
     public String getAddressLine1() {
         return addressLine1;
@@ -144,6 +166,8 @@ public class ShippingAddress implements Serializable {
                 ", iD=" + iD +
                 ", Floor='" + Floor + '\'' +
                 ", Apt='" + Apt + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
                 '}';
     }
 }
