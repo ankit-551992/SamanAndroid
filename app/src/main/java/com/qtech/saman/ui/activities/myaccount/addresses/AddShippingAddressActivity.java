@@ -81,6 +81,7 @@ public class AddShippingAddressActivity extends BaseActivity {
     ShippingAddress shippingAddress;
     String latitude = "";
     String longitude = "";
+    boolean is_first = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +97,22 @@ public class AddShippingAddressActivity extends BaseActivity {
         if (type == 0) {
             toolbarTitle.setText(getString(R.string.add_shipping_address));
             toolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            if (is_first) {
+                GlobalValues.setUserLat(AddShippingAddressActivity.this, "");
+                GlobalValues.setUserLng(AddShippingAddressActivity.this, "");
+                is_first = false;
+            }
             Intent intent = new Intent(AddShippingAddressActivity.this, GoogleMapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityForResult(intent, 1414);
+
         } else if (type == 2) {
             toolbarTitle.setText(getString(R.string.address));
+            if (is_first) {
+                GlobalValues.setUserLat(AddShippingAddressActivity.this, "");
+                GlobalValues.setUserLng(AddShippingAddressActivity.this, "");
+                is_first = false;
+            }
             Intent intent = new Intent(AddShippingAddressActivity.this, GoogleMapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityForResult(intent, 1414);
@@ -185,8 +197,8 @@ public class AddShippingAddressActivity extends BaseActivity {
         Intent intent = new Intent(AddShippingAddressActivity.this, CountriesListingActivity.class);
         intent.putExtra("cartlist", 1);
         startActivityForResult(intent, 1199);
-//        Intent intent = new Intent(AddShippingAddressActivity.this, CountriesListingActivity.class);
-//        startActivityForResult(intent, 1199);
+//      Intent intent = new Intent(AddShippingAddressActivity.this, CountriesListingActivity.class);
+//      startActivityForResult(intent, 1199);
     }
 
     @Override
@@ -245,7 +257,6 @@ public class AddShippingAddressActivity extends BaseActivity {
                     } else {
                         ll_region.setVisibility(View.GONE);
                     }
-
                 }
 
             /*    if (returnedResult != null && !returnedResult.isEmpty()) {

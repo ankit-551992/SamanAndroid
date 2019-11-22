@@ -193,7 +193,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 //        ccp.resetToDefaultCountry();
 //        ccp.hideNameCode(true);
 //        ccp.showFlag(false);
-        //Social Login
+//        Social Login
 
         mTwitterAuthClient = new TwitterAuthClient();
 
@@ -235,7 +235,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         String phone = ccp.getText().toString();
         if (TextUtils.isEmpty(phone)) {
             chooseCountryCode();
-//            Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
+//          Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode),
+//          getString(R.string.okay), RegisterActivity.this);
         } else {
         }
     }
@@ -245,7 +246,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         DatePickerDialog dialog = new DatePickerDialog(RegisterActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
-//        dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
+//      dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
         dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
         dialog.show();
     }
@@ -381,11 +382,9 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         });
 
         Animation animation;
-        animation = AnimationUtils.loadAnimation(RegisterActivity.this,
-                R.anim.slide_bottom_to_top);
+        animation = AnimationUtils.loadAnimation(RegisterActivity.this, R.anim.slide_bottom_to_top);
 
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
 

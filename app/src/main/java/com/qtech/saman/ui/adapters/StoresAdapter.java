@@ -93,7 +93,6 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public StoreViewHolder(View v) {
             super(v);
-
             storeImage = (ImageView) v.findViewById(R.id.iv_store_image);
             storeName = (TextView) v.findViewById(R.id.tv_store_name);
         }

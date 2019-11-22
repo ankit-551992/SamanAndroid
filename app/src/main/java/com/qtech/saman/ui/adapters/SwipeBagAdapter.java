@@ -69,7 +69,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_bag_swipe_row, parent, false);
             return new BagViewHolder(view);
-
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.loading_progress_bar, parent, false);
             return new LoadingViewHolder(view);
@@ -95,8 +94,8 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 if (SamanApp.isEnglishVersion) {
                     bagViewHolder.description.setText(product.getOptions());
                 } else {
-//                    Log.e("DES",product.getOptionsAR());
-//                    product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
+//                  Log.e("DES",product.getOptionsAR());
+//                  product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
                     bagViewHolder.description.setText(product.getOptionsAR());
                 }
             } else {
@@ -127,7 +126,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ProductDetailActivity.class);
                     intent.putExtra("ProductID", productArrayList.get(position).getID());
-//                    intent.putExtra("Options", getOptionsData(productArrayList.get(position)));
+//                  intent.putExtra("Options", getOptionsData(productArrayList.get(position)));
                     mContext.startActivity(intent);
                 }
             });
@@ -171,7 +170,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     if (SamanApp.localDB.deleteItemFromCart(p)) {
 
 //                        Constants.showAlert(mContext.getString(R.string.remove_from_bag),mContext.getString(R.string.removed_from_bag),mContext.getString(R.string.okay),mContext);
-
 //                        productArrayList.remove(position);
 //                        updateNotify();
 //                        ((DashboardActivity) mContext).updateBagCount();

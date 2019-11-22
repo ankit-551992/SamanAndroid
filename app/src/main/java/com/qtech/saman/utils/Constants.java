@@ -266,7 +266,7 @@ public class Constants{
     }
 
     public static void dismissSpinner() {
-        if (mSpinner != null) {
+        if (mSpinner != null && mSpinner.isShowing()) {
             mSpinner.dismiss();
         }
     }

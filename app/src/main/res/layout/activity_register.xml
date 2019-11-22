@@ -410,7 +410,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:textAllCaps="true"
             android:textColor="@color/off_black"
             android:textSize="14sp" />
 

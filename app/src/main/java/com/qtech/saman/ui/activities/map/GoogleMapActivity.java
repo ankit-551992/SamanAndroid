@@ -82,7 +82,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     private GoogleMap gmap;
     LatLng markedLocation;
     private static final int REQUEST_LOCATION_CODE = 1042;
-    String latitude, longitude = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +96,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.select_location));
         toolbarBack.setVisibility(View.VISIBLE);
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
@@ -187,7 +185,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
         gmap.getUiSettings().setZoomControlsEnabled(true);
         gmap.setIndoorEnabled(true);
         gmap.getUiSettings().setIndoorLevelPickerEnabled(true);
-//        Log.e("Level",""+gmap.getFocusedBuilding().getLevels().size());
+//      Log.e("Level",""+gmap.getFocusedBuilding().getLevels().size());
         moveCameraToCurrent();
         gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -264,7 +262,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
             }
         }
     }
-
 
     private void enableGps(Context context) {
         GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context).addApi(LocationServices.API).build();
@@ -385,7 +382,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                         if (result.has("types")) {
                             JSONArray types = result.getJSONArray("types");
                             // search for locality or sub locality
-//                            sub locality is preferred
+//                          sub locality is preferred
                             for (int k = 0; k < types.length(); k++) {
                                 if ("locality".equals(types.getString(k))) {
                                     if (result.has("formatted_address")) {
@@ -426,7 +423,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                 Constants.dismissSpinner();
             }
         });
-
     }
 
     @Override

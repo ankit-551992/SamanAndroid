@@ -170,7 +170,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 }
             }
         }*/
-
         setProfile();
         showAlert = getIntent().getBooleanExtra("ShowAlert", false);
         if (showAlert) {
@@ -199,7 +198,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 //           ccp.setEnabled(false);
 //           phoneEditText.setEnabled(false);
         }
-
         codeflag = GlobalValues.getSelectedCodeFlag(MyDetailsActivity.this);
         Log.e("FLAG000", "--codeflag--" + codeflag);
         if (!codeflag.equals("") && !TextUtils.isEmpty(codeflag)) {
@@ -534,7 +532,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 ShippingAddress shippingAddress = (ShippingAddress) data.getExtras().getSerializable("DATA");
                 Log.e("SHIPPINGADD00", "----shipping--add--" + new Gson().toJson(shippingAddress));
 
-//                String address = new Gson().toJson(shippingAddress);
+//              String address = new Gson().toJson(shippingAddress);
                 if (shippingAddress != null) {
                     setShippingAddress(shippingAddress);
                 }
@@ -559,27 +557,27 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             AddressLine1 = shippingAddress.getAddressLine1();
         }
         if (shippingAddress.getFloor() != null) {
-            setaddress = setaddress + "," + shippingAddress.getFloor();
+            setaddress = setaddress + ", " + shippingAddress.getFloor();
             floor = shippingAddress.getFloor();
         }
         if (shippingAddress.getApt() != null) {
-            setaddress = setaddress + "," + shippingAddress.getApt();
+            setaddress = setaddress + ", " + shippingAddress.getApt();
             apt = shippingAddress.getApt();
         }
         if (shippingAddress.getAddressLine2() != null) {
-            setaddress = setaddress + "," + shippingAddress.getAddressLine2();
+            setaddress = setaddress + ", " + shippingAddress.getAddressLine2();
             landmark = shippingAddress.getAddressLine2();
         }
         if (shippingAddress.getCity() != null) {
-            setaddress = setaddress + "," + shippingAddress.getCity();
+            setaddress = setaddress + ", " + shippingAddress.getCity();
             city = shippingAddress.getCity();
         }
         if (shippingAddress.getCountry() != null) {
-            setaddress = setaddress + "," + shippingAddress.getCountry();
+            setaddress = setaddress + ", " + shippingAddress.getCountry();
             usercountry = shippingAddress.getCountry();
         }
         if (shippingAddress.getRegion() != null) {
-            setaddress = setaddress + "," + shippingAddress.getRegion();
+            setaddress = setaddress + ", " + shippingAddress.getRegion();
             userregion = shippingAddress.getRegion();
         }
         if (shippingAddress.getLatitude() != null && shippingAddress.getLongitude() != null) {

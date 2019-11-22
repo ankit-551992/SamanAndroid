@@ -95,7 +95,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @BindView(R.id.ll_display_sale)
     LinearLayout ll_display_sale;
 
-
     //Product
     int productID;
     ArrayList<String> urls;
