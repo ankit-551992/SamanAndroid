@@ -601,7 +601,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             public void onClick(View view) {
                 dialog.dismiss();
             }
-        });
+    });
 
         TextView done = (TextView) dialog.findViewById(R.id.tv_done);
 

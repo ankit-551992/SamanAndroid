@@ -77,24 +77,23 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
 
             String userAddress = address.getAddressLine1();
             if (address.getFloor() != null){
-                userAddress = userAddress + "," + address.getFloor();
+                userAddress = userAddress + ", " + address.getFloor();
             }
             if(address.getApt() != null){
-                userAddress = userAddress + "," + address.getApt();
+                userAddress = userAddress + ", " + address.getApt();
             }
             if(address.getAddressLine2() != null){
-                userAddress = userAddress + "," + address.getAddressLine2();
+                userAddress = userAddress + ", " + address.getAddressLine2();
             }
             if (address.getCity() != null) {
-                userAddress = userAddress + "," + address.getCity();
+                userAddress = userAddress + ", " + address.getCity();
             }
             if (address.getCountry() != null) {
-                userAddress = userAddress + "," + address.getCountry();
+                userAddress = userAddress + ", " + address.getCountry();
             }
             if (address.getRegion() != null) {
-                userAddress = userAddress + "," + address.getRegion();
+                userAddress = userAddress + ", " + address.getRegion();
             }
-
             messageViewHolder.address.setText(userAddress);
 
             // Drag From Right

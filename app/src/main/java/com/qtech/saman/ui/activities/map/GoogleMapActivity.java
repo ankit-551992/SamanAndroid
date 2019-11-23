@@ -81,6 +81,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
     private GoogleMap gmap;
     LatLng markedLocation;
+    String selected_country = "";
     private static final int REQUEST_LOCATION_CODE = 1042;
 
     @Override
@@ -122,10 +123,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
         GlobalValues.setUserLng(GoogleMapActivity.this, "" + markedLocation.longitude);
         address = getAddressFromLatLong(markedLocation);
         if (!address.isEmpty() && !address.equals("")) {
-            Intent data = new Intent();
-            data.setData(Uri.parse(address));
-            setResult(RESULT_OK, data);
-            finish();
+            saveSelectedAddress(address);
         } else {
             getLocationAddress(markedLocation);
         }
@@ -157,6 +155,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
         Geocoder geocoder;
         List<Address> addresses;
         String address = "";
+
         geocoder = new Geocoder(GoogleMapActivity.this, Locale.getDefault());
         try {
             addresses = geocoder.getFromLocation(mLatLong.latitude, mLatLong.longitude, 1);
@@ -167,7 +166,9 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                 // address += addresses.get(0).getPostalCode() + ",";
 //                address += addresses.get(0).getCountryName();
                 address += addresses.get(0).getLatitude() + ",";
-                address += addresses.get(0).getLongitude();
+                address += addresses.get(0).getLongitude() + ",";
+                address += addresses.get(0).getCountryName();
+//                selected_country = addresses.get(0).getCountryName();
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
@@ -387,26 +388,22 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                                 if ("locality".equals(types.getString(k))) {
                                     if (result.has("formatted_address")) {
                                         adress = result.getString("formatted_address");
+
                                     }
                                 }
 //                                "administrative_area_level_1"
-
 //                                if ("sublocality".equals(types.getString(k))) {
 //                                    if (result.has("formatted_address")) {
 //                                        adress = result.getString("formatted_address");
 //                                    }
 //                                }
-
                             }
                         }
                     }
                     if (adress != null) {
                         address = adress;
                     }
-                    Intent data = new Intent();
-                    data.setData(Uri.parse(address));
-                    setResult(RESULT_OK, data);
-                    finish();
+                    saveSelectedAddress(address);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -423,6 +420,28 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                 Constants.dismissSpinner();
             }
         });
+    }
+
+    private void saveSelectedAddress(String address) {
+
+        Log.e("OMAN00", "--address--00---" + address);
+
+            String arr[] = address.split(",");
+//                selected_country = arr[4];
+//                Log.e("LAT0LNG0", "---selected_country---" +selected_country);
+            if (arr.length >= 0) {
+                Log.e("LAT0LNG0", "----selected_country---" + arr[3]);
+                if (!arr[3].isEmpty() && arr[3].equalsIgnoreCase("Oman")) {
+                    Log.e("OMAN00", "--address--Oman-----" + address);
+                    Intent data = new Intent();
+                    data.setData(Uri.parse(address));
+                    setResult(RESULT_OK, data);
+                    finish();
+                } else {
+                    Constants.showErrorPopUp(GoogleMapActivity.this, getResources().getString(R.string.select_address), getResources().getString(R.string.map_dialog_msg), getResources().getString(R.string.okay));
+                    Log.e("OMAN00", "--please--select----Oman-----");
+                }
+        }
     }
 
     @Override

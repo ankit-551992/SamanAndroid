@@ -42,6 +42,5 @@ public static GeoLocationHandler instance = new GeoLocationHandler();
 
         Call<ResponseBody> call = webServices.getLocation(stringLatLng,sensor,language,key);
         call.enqueue(callback);
-
     }
 }
