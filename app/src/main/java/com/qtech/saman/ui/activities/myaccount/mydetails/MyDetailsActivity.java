@@ -170,6 +170,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 }
             }
         }*/
+
+        firstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                firstNameEditText.setHint("firstName");
+            }
+        });
         setProfile();
         showAlert = getIntent().getBooleanExtra("ShowAlert", false);
         if (showAlert) {
@@ -178,6 +185,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     }
 
     private void setProfile() {
+
         authenticatedUser = GlobalValues.getUser(this);
         Log.e("PROFILEDETAIL", "--authenticatedUser--" + authenticatedUser);
         firstNameEditText.setText(authenticatedUser.getFirstName());
@@ -230,7 +238,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
             if (GlobalValues.countries != null) {
                 for (int i = 0; i < GlobalValues.countries.size(); i++) {
-
 //                    if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry()) || GlobalValues.countries.get(i).getName_AR().equals(authenticatedUser.getCountry())) {
                     if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry())) {
                         if (SamanApp.isEnglishVersion) {
@@ -365,8 +372,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
         @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             // TODO Auto-generated method stub
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
@@ -528,7 +534,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             if (resultCode == RESULT_OK) {
 //                String d = data.getExtras().getString("DATA");
                 addressID = data.getExtras().getInt("ID");
-//                addressEditText.setText(d);
+//              addressEditText.setText(d);
                 ShippingAddress shippingAddress = (ShippingAddress) data.getExtras().getSerializable("DATA");
                 Log.e("SHIPPINGADD00", "----shipping--add--" + new Gson().toJson(shippingAddress));
 
@@ -549,7 +555,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             }
         }
     }
-
 
     private void setShippingAddress(ShippingAddress shippingAddress) {
         if (shippingAddress.getAddressLine1() != null) {

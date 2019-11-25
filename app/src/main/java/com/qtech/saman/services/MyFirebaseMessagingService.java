@@ -65,7 +65,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 } else {
                     OnlyNotifyItem(remoteMessage);
                 }
-
             } else if (remoteMessage.getData().containsKey("isPromotion")) {
                 boolean isPromotion = Boolean.parseBoolean(remoteMessage.getData().get("isPromotion"));
 //                if (GlobalValues.getTypesNotificationOnOff(getApplicationContext(), promo_sales_notify)) {
@@ -122,8 +121,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
-        pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getActivity(this, uniqueInt, promotion_Intent, PendingIntent.FLAG_UPDATE_CURRENT);
         GetSetNotification(notificationManager, remoteMessage, pendingIntent);
 
       /*  if (SamanApp.isScreenOpen) {
@@ -226,7 +224,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                bundle.putInt("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
 //                ProductsCategoryFragment fragobj = new ProductsCategoryFragment();
 //                fragobj.setArguments(bundle);
-
                     promotion_Intent = new Intent(this, ProductsActivity.class);
                     promotion_Intent.putExtra("CategoryID", Integer.parseInt(remoteMessage.getData().get("Ids")));
                     promotion_Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
