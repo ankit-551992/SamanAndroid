@@ -29,6 +29,18 @@ public class HomeScreenData {
     @Expose
     private List<Slider> bannerSliderURLs = null;
 
+    @SerializedName("MiddleURLs")
+    @Expose
+    private List<Slider> MiddleURLs = null;
+
+    public List<Slider> getMiddleURLs() {
+        return MiddleURLs;
+    }
+
+    public void setMiddleURLs(List<Slider> middleURLs) {
+        MiddleURLs = middleURLs;
+    }
+
     public List<Product> getLatestProducts() {
         return latestProducts;
     }

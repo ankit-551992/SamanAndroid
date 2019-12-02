@@ -163,6 +163,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     //    DecimalFormat df = new DecimalFormat("#.##");
 //    DecimalFormat df = new DecimalFormat("#00.0#");
     String discount_couponId = "";
+    String discount_price = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,8 +244,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
 
     private void customTextView(TextView view) {
-        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
-                getString(R.string.agreement_order));
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(getString(R.string.agreement_order));
         spanTxt.append(getString(R.string.term));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
@@ -356,7 +356,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                             float dis = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
                                             Log.e("Dis", bagArrayList.get(p).getProductName() + " " + dis);
                                             promoSaved = promoSaved + dis;
-
                                         } else if (promoVerify.getResult().getDiscountType() == 2) {
                                             //Price
                                             float dis = (float) promoVerify.getResult().getDiscount();
@@ -385,6 +384,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             Constants.showAlert(getString(R.string.coupon_discount), msg, getString(R.string.Okay), ShoppingCartActivity.this);
                         }
                         discount_couponId = String.valueOf(promoVerify.getResult().getID());
+                        discount_price = String.valueOf(promoVerify.getResult().getDiscount());
+
                     } else {
                         Constants.showAlert(getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again), ShoppingCartActivity.this);
 //                        Constants.showErrorPopUp(ShoppingCartActivity.this, getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again));
@@ -464,6 +465,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 priceToPay,
                 paymentType,
                 discount_couponId,
+                discount_price,
                 array,
                 new Callback<PlaceOrderResponse>() {
                     @Override

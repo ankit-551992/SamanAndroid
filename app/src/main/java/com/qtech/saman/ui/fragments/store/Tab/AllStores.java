@@ -148,7 +148,6 @@ public class AllStores extends BaseFragment {
         for (Store storename : storeList) {
 //            if (storename.getStoreName() != null && storename.getStoreName().contains(search)) {
             if (storename.getStoreName().toLowerCase().contains(search.toLowerCase())) {
-
                 seachstorelist.add(storename);
             }
         }

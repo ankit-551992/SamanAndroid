@@ -84,6 +84,8 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     //Header below viewpager
     @BindView(R.id.iv_header_below_viewpager)
     ViewPager banner_viewpager;
+    @BindView(R.id.middle_banner_indicator)
+    CirclePageIndicator middle_banner_indicator;
 
     //Header
     @BindView(R.id.viewpager)
@@ -104,6 +106,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
     User authenticatedUser;
     int bannerType = 0;
+    int current_bannerPage = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,9 +126,9 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
     @OnClick(R.id.tv_latest_products_see_all)
     void products() {
-//        Intent intent=new Intent(getContext(), ProductListingActivity.class);
-//        intent.putExtra("Function",1); //1 for Latest Products
-//        startActivity(intent);
+//      Intent intent=new Intent(getContext(), ProductListingActivity.class);
+//      intent.putExtra("Function",1); //1 for Latest Products
+//      startActivity(intent);
         Intent intent = new Intent(getContext(), ProductsActivity.class);
         startActivity(intent);
     }
@@ -140,8 +143,8 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     @OnClick(R.id.iv_header_below_banner)
     void banner() {
 //        Log.e("BannerType",""+bannerType);
-        if (bannerType == 5) {
-//        if (bannerType == 2) {
+//        if (bannerType == 5) {
+        if (bannerType == 2) {
             Intent intent = new Intent(getContext(), SalesProductActivity.class);
             getContext().startActivity(intent);
         }
@@ -196,14 +199,10 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         }, DELAY_MS, PERIOD_MS);
     }
 
-    private void setSellersHeaderBanner(List<Slider> sliderList) {
-        bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
-//        bestSellersPager.setAdapter(bestSellersAdapter);
-        banner_viewpager.setAdapter(bestSellersAdapter);
+    private void setHeaderBelowBanner(List<Slider> sliderList) {
 
-//        bestSellersPager.setPageMargin(10);
-//        bestSellersPager.setClipToPadding(false);
-//        bestSellersPager.setPadding(200,0,200,0);
+        bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
+        banner_viewpager.setAdapter(bestSellersAdapter);
 
         int median;
         if (sliderList.size() % 2 == 0)
@@ -212,11 +211,30 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
             median = sliderList.size() / 2;
 
         banner_viewpager.setCurrentItem(median);
-//      pageIndicator.setViewPager(banner_viewpager);
-//      pageIndicator.setCurrentItem(median);
+        middle_banner_indicator.setViewPager(banner_viewpager);
+//      middle_banner_indicator.setCurrentItem(median);
+
+        /*     *//*After setting the adapter use the timer *//*
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                bestSellersPager.setCurrentItem(current_bannerPage,true);
+                current_bannerPage++;
+                if (current_bannerPage == sliderList.size()) {
+                    current_bannerPage = 0;
+                }
+            }
+        };
+        timer = new Timer(); // This will create a new Thread
+        timer.schedule(new TimerTask() { // task to be scheduled
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);*/
     }
 
-    int current_bannerPage = 0;
+
     private void setBestSellers(List<Slider> sliderList) {
         bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
         bestSellersPager.setAdapter(bestSellersAdapter);
@@ -229,20 +247,19 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
 //      bestSellersPager.setCurrentItem(median);
         pageIndicator.setViewPager(bestSellersPager);
-//        pageIndicator.setCurrentItem(median);
+//      pageIndicator.setCurrentItem(median);
 
         /*After setting the adapter use the timer */
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                bestSellersPager.setCurrentItem(current_bannerPage,true);
+                bestSellersPager.setCurrentItem(current_bannerPage, true);
                 current_bannerPage++;
                 if (current_bannerPage == sliderList.size()) {
                     current_bannerPage = 0;
                 }
             }
         };
-
         timer = new Timer(); // This will create a new Thread
         timer.schedule(new TimerTask() { // task to be scheduled
             @Override
@@ -250,7 +267,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
                 handler.post(Update);
             }
         }, DELAY_MS, PERIOD_MS);
-
     }
 
     private void hotPicks(List<Product> hotPicks) {
@@ -300,7 +316,11 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
             bannerType = screenApi.getBannerType();
             Log.e("BANNERTYPE", "--bannerType---" + bannerType);
-//          setSellersHeaderBanner(screenApi.getBannerSliderURLs());
+        }
+
+        if (screenApi.getMiddleURLs() != null && !screenApi.getMiddleURLs().equals("")) {
+            Log.e("BANNERTYPE", "--getMiddleURLs---" + screenApi.getMiddleURLs());
+            setHeaderBelowBanner(screenApi.getMiddleURLs());
         }
 
         if (screenApi.getLatestProducts() != null) {

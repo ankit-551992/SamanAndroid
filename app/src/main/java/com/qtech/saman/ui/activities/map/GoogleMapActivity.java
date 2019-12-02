@@ -164,7 +164,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                 address += addresses.get(0).getLocality() + ",";
                 // address += addresses.get(0).getAdminArea() + ",";
                 // address += addresses.get(0).getPostalCode() + ",";
-//                address += addresses.get(0).getCountryName();
+//              address += addresses.get(0).getCountryName();
                 address += addresses.get(0).getLatitude() + ",";
                 address += addresses.get(0).getLongitude() + ",";
                 address += addresses.get(0).getCountryName();
@@ -340,8 +340,8 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-//                            GlobalValues.setUserLat(GoogleMapActivity.this, "" + location.getLatitude());
-//                            GlobalValues.setUserLng(GoogleMapActivity.this, "" + location.getLongitude());
+//                          GlobalValues.setUserLat(GoogleMapActivity.this, "" + location.getLatitude());
+//                          GlobalValues.setUserLng(GoogleMapActivity.this, "" + location.getLongitude());
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
                             if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {

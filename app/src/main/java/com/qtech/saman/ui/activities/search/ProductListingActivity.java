@@ -110,7 +110,6 @@ public class ProductListingActivity extends BaseActivity {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
         setProductsAdapter();
-
     }
 
     @OnClick(R.id.toolbar_search)
@@ -123,7 +122,6 @@ public class ProductListingActivity extends BaseActivity {
     public void back() {
         super.onBackPressed();
     }
-
 
     private void setProductsAdapter() {
         productLayoutManager = new GridLayoutManager(this, 2);

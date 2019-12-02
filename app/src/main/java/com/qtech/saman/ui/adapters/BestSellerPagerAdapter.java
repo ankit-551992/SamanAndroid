@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.Slider;
+import com.qtech.saman.ui.activities.product.SalesProductActivity;
 import com.qtech.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.qtech.saman.ui.activities.store.StoreDetailActivity;
 import com.qtech.saman.utils.Constants;
@@ -43,19 +44,26 @@ public class BestSellerPagerAdapter extends PagerAdapter {
         imageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Store = 3, Product = 4 , Sales = 5
-                if (sliderList.get(position).getType() == 5) {
-//                    Intent intent=new Intent(mContext, SalesProductActivity.class);
-//                    mContext.startActivity(intent);
-                } else if (sliderList.get(position).getType() == 3) {
+//                 Store = 3, Product = 4 , Sales_category = 9
+                if (sliderList.get(position).getType() == 3) {                  // bottom banner
                     Intent intent = new Intent(mContext, StoreDetailActivity.class);
                     intent.putExtra("Function", 2); //2 for Store Products
                     intent.putExtra("StoreID", sliderList.get(position).getiD());
                     mContext.startActivity(intent);
-                } else if (sliderList.get(position).getType() == 4) {
+                } else if (sliderList.get(position).getType() == 4) {           // bottom banner
                     Intent intent = new Intent(mContext, ProductDetailActivity.class);
                     intent.putExtra("ProductID", sliderList.get(position).getiD());
                     mContext.startActivity(intent);
+                } else if (sliderList.get(position).getType() == 9) {           // bottom banner
+//                  Intent intent=new Intent(mContext, ProductListingActivity.class);
+                  Intent intent=new Intent(mContext, SalesProductActivity.class);
+//                  mContext.startActivity(intent);
+                } else if (sliderList.get(position).getType() == 6) {   // middle banner open products
+
+                }else if (sliderList.get(position).getType() == 7) {   // middle banner  open products
+
+                }else if (sliderList.get(position).getType() == 8) {   // middle banner  open products
+
                 }
             }
         });

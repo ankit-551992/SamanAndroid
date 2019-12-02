@@ -120,7 +120,6 @@ public class StoreDetailActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-
     private void getStore() {
         WebServicesHandler.instance.getStore(storeID, new retrofit2.Callback<GetStore>() {
             @Override
@@ -150,7 +149,7 @@ public class StoreDetailActivity extends BaseActivity {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 if (store.getDescription() != null) {
                                     if (SamanApp.isEnglishVersion) {
-                                    storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
                                     } else {
                                         storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
                                     }
@@ -189,5 +188,4 @@ public class StoreDetailActivity extends BaseActivity {
             }
         });
     }
-
 }

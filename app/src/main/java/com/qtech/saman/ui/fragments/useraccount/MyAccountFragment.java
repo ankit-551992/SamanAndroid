@@ -82,7 +82,6 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
     private int REQUEST_CHOOSE_PHOTO = 2;
 
     MyAccountContractor.Presenter myAccountPresenter;
-
     int unread;
 
     public static MyAccountFragment newInstance(int unread) {

@@ -40,6 +40,4 @@ public class HomeScreenAPI {
         this.message = message;
     }
 
-
-
 }

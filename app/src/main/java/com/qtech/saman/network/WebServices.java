@@ -75,7 +75,6 @@ public interface WebServices {
     @POST("Order/UpdatePaymentStatus")
     Call<SimpleSuccess> updatePaymentStatus(@FieldMap Map<String, Object> parameters);
 
-
     @GET("Home/GetHomeScreenData?")
     Call<HomeScreenAPI> getHomeScreenData(@Query("userID") int userID);
 

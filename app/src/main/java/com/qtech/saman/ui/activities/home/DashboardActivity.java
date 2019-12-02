@@ -300,6 +300,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 //        actionbar.setHomeButtonEnabled(true);
 //        actionbar.setDisplayHomeAsUpEnabled(true);
 //        actionbar.setHomeAsUpIndicator(R.drawable.ic_cross);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();

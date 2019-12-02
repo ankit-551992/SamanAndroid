@@ -15,6 +15,10 @@ public class Slider {
     @Expose
     private String bannerURL = null;
 
+    @SerializedName("SortOrder")
+    @Expose
+    private String sortOrder;
+
     public Integer getiD() {
         return iD;
     }
@@ -37,5 +41,13 @@ public class Slider {
 
     public void setType(Integer type) {
         Type = type;
+    }
+
+    public String getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(String sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

@@ -235,7 +235,8 @@ public class WebServicesHandler {
                            float ShippingTotal,
                            float TotalPrice,
                            String PaymentType,
-                           String discount_couponId, JSONArray array,
+                           String discount_couponId,
+                           String discount_price,JSONArray array,
                            Callback<PlaceOrderResponse> callback) {
 
         Log.e("DISCOUNTID0", "---discount_couponId---" + discount_couponId);
@@ -247,6 +248,7 @@ public class WebServicesHandler {
         parameters.put("ShippingTotal", ShippingTotal);
         parameters.put("TotalPrice", TotalPrice);
         parameters.put("DiscountCoupanID", discount_couponId);
+        parameters.put("Discount", discount_price);
 
         for (int i = 0; i < array.length(); i++) {
             try {
