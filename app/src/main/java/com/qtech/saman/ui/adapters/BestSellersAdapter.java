@@ -22,12 +22,10 @@ public class BestSellersAdapter  extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context mContext;
 
-
     public BestSellersAdapter(Context mContext,List<Brand> brandArrayList){
         this.brandArrayList=brandArrayList;
         this.mContext=mContext;
     }
-
 
 
     @Override

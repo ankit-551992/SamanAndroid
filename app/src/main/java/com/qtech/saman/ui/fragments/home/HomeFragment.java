@@ -32,6 +32,7 @@ import com.qtech.saman.ui.activities.productdetail.CustomPagerAdapter;
 
 import com.qtech.saman.ui.adapters.BestSellerPagerAdapter;
 import com.qtech.saman.ui.adapters.BrandsAdapter;
+import com.qtech.saman.ui.adapters.MiddleBannerAdapter;
 import com.qtech.saman.ui.adapters.ProductAdapter;
 import com.qtech.saman.ui.adapters.StoresAdapter;
 import com.qtech.saman.utils.Constants;
@@ -86,6 +87,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     ViewPager banner_viewpager;
     @BindView(R.id.middle_banner_indicator)
     CirclePageIndicator middle_banner_indicator;
+    MiddleBannerAdapter middleBannerAdapter;
 
     //Header
     @BindView(R.id.viewpager)
@@ -137,7 +139,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     void stores() {
 //        Intent intent=new Intent(getContext(), StoreActivity.class);
 //        startActivity(intent);
-        ((DashboardActivity) getContext()).callStoreNav();
+        ((DashboardActivity) getContext()).callStoreNav(false, 0);
     }
 
     @OnClick(R.id.iv_header_below_banner)
@@ -201,8 +203,8 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
     private void setHeaderBelowBanner(List<Slider> sliderList) {
 
-        bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
-        banner_viewpager.setAdapter(bestSellersAdapter);
+        middleBannerAdapter = new MiddleBannerAdapter(getContext(), sliderList);
+        banner_viewpager.setAdapter(middleBannerAdapter);
 
         int median;
         if (sliderList.size() % 2 == 0)

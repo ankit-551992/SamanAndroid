@@ -51,11 +51,13 @@ public class ProductsCategoryFragment extends BaseFragment {
     private int categoryID;
     List<Product> newdisplayData = new ArrayList<>();
     String search_category_product;
+    boolean isBannerProduct = false;
 
-    public static ProductsCategoryFragment newInstance(int categoryID, String search) {
+    public static ProductsCategoryFragment newInstance(int categoryID, String search, boolean b) {
         Bundle bundle = new Bundle();
         bundle.putInt("CategoryID", categoryID);
         bundle.putString("SEARCH", search);
+        bundle.putBoolean("IsBannerProduct", b);
         ProductsCategoryFragment fragment = new ProductsCategoryFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -65,6 +67,7 @@ public class ProductsCategoryFragment extends BaseFragment {
         if (bundle != null) {
             categoryID = bundle.getInt("CategoryID");
             search_category_product = bundle.getString("SEARCH");
+            isBannerProduct = bundle.getBoolean("IsBannerProduct", false);
         }
     }
 
@@ -85,7 +88,13 @@ public class ProductsCategoryFragment extends BaseFragment {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
-        getProducts(categoryID, currentPage, pageSize);
+        if (isBannerProduct) {
+            isBannerProduct = false;
+            getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
+        } else {
+            getProducts(categoryID, currentPage, pageSize);
+        }
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -98,6 +107,49 @@ public class ProductsCategoryFragment extends BaseFragment {
             }
         });
         return view;
+    }
+
+    private void getBannerProductList(int categoryID, Integer id, int currentPage, int pageSize) {
+
+        String userId = String.valueOf(authenticatedUser.getId());
+        WebServicesHandler.instance.getBannerProductList(categoryID, userId, currentPage, pageSize, new retrofit2.Callback<GetProducts>() {
+            @Override
+            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+
+                progressBar.setVisibility(View.GONE);
+                GetProducts getProducts = response.body();
+                if (getProducts != null) {
+                    if (getProducts.getSuccess() == 1) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1) == null) {
+                            displayData.remove(displayData.size() - 1);
+                            productAdapter.notifyItemRemoved(displayData.size());
+                        }
+                        if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
+                            displayData.addAll(getProducts.getProduct());
+                        } else {
+                            isGetAll = true;
+                        }
+                        isLoading = false;
+                        if (!search_category_product.equals("")) {
+                            getSearchCategory(search_category_product, displayData);
+                        }
+                        productAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                if (displayData.size() > 0) {
+                    empty.setVisibility(View.GONE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                    empty.setText(getActivity().getResources().getString(R.string.no_product_found));
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<GetProducts> call, Throwable t) {
+            }
+        });
     }
 
     private void getProducts(int categoryID, int pageIndex, int pageSize) {
@@ -142,7 +194,7 @@ public class ProductsCategoryFragment extends BaseFragment {
                         empty.setVisibility(View.GONE);
                     } else {
                         empty.setVisibility(View.VISIBLE);
-                        empty.setText(getResources().getString(R.string.no_product_found));
+                        empty.setText(getActivity().getResources().getString(R.string.no_product_found));
                     }
                     swipeRefreshLayout.setRefreshing(false);
                 }

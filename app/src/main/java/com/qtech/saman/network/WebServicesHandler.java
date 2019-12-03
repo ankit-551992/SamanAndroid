@@ -3,16 +3,19 @@ package com.qtech.saman.network;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.qtech.saman.data.model.ShippingAddress;
 import com.qtech.saman.data.model.apis.AddAddressApi;
 import com.qtech.saman.data.model.apis.CustomerSupport;
 import com.qtech.saman.data.model.apis.CustomerSupportListApi;
 import com.qtech.saman.data.model.apis.GetAddressApi;
+import com.qtech.saman.data.model.apis.GetCategoriesList;
 import com.qtech.saman.data.model.apis.GetConversationApi;
 import com.qtech.saman.data.model.apis.GetConversationsApi;
 import com.qtech.saman.data.model.apis.GetProduct;
 import com.qtech.saman.data.model.apis.GetProducts;
 import com.qtech.saman.data.model.apis.GetStore;
+import com.qtech.saman.data.model.apis.GetStores;
 import com.qtech.saman.data.model.apis.HomeScreenAPI;
 import com.qtech.saman.data.model.apis.OrderHistoryAPI;
 import com.qtech.saman.data.model.apis.OrderTrackResponse;
@@ -21,11 +24,8 @@ import com.qtech.saman.data.model.apis.PlaceOrderResponse;
 import com.qtech.saman.data.model.apis.PromoVerify;
 import com.qtech.saman.data.model.apis.SendMessageApi;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
-import com.qtech.saman.data.model.apis.GetCategoriesList;
 import com.qtech.saman.data.model.apis.UserResponse;
-import com.qtech.saman.data.model.apis.GetStores;
 import com.qtech.saman.utils.Constants;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -236,7 +236,7 @@ public class WebServicesHandler {
                            float TotalPrice,
                            String PaymentType,
                            String discount_couponId,
-                           String discount_price,JSONArray array,
+                           String discount_price, JSONArray array,
                            Callback<PlaceOrderResponse> callback) {
 
         Log.e("DISCOUNTID0", "---discount_couponId---" + discount_couponId);
@@ -266,7 +266,7 @@ public class WebServicesHandler {
             }
         }
         Log.e("PARAMETER", "---order--parameter---" + parameters.toString());
-//        parameters.put("OrderItems", array);
+//      parameters.put("OrderItems", array);
 
         Call<PlaceOrderResponse> call = webServices.placeOrder(parameters);
         call.enqueue(callback);
@@ -359,7 +359,6 @@ public class WebServicesHandler {
         Call<GetProducts> call = webServices.getProductsByCategory(categoryId, userID, pageIndex, pageSize);
         call.enqueue(callback);
     }
-
 
     public void getSaleProducts(int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
         Call<GetProducts> call = webServices.getSaleProducts(userID, pageIndex, pageSize);
@@ -457,7 +456,7 @@ public class WebServicesHandler {
         parameters.put("AddressLine2", addressLine2);
         parameters.put("City", city);
         parameters.put("State", state);
-//        parameters.put("Country", country);
+//      parameters.put("Country", country);
         parameters.put("UserCountry", country);
         parameters.put("UserRegion", region);
         parameters.put("isDefault", isDefault);
@@ -576,4 +575,23 @@ public class WebServicesHandler {
         Call<SimpleSuccess> call = webServices.cancelOrder(orderID, comment, orderStatus, userId);
         call.enqueue(callback);
     }
+
+    public void getBannerProduct(int bannerID, String userId, int pageIndex, int pageSize, Callback<GetStores> callback) {
+        Log.e("PRODUCT888", "--bannerID--" + bannerID + "--userID---" + userId);
+        Call<GetStores> call = webServices.getProductListByBannerId(bannerID, userId, pageIndex, pageSize);
+        call.enqueue(callback);
+    }
+
+    public void getBannerProductList(int bannerID, String userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Log.e("PRODUCT888", "--getBannerProductList--" + bannerID + "--userID---" + userID);
+        Call<GetProducts> call = webServices.getBannerProductList(bannerID, userID, pageIndex, pageSize);
+        call.enqueue(callback);
+    }
+
+    public void getBannerProductCategory(int bannerID, String userID, int pageIndex, int pageSize, Callback<GetCategoriesList> callback) {
+        Log.e("PRODUCT888", "--getBannerProductList--" + bannerID + "--userID---" + userID);
+        Call<GetCategoriesList> call = webServices.getBannerProductCategory(bannerID, userID, pageIndex, pageSize);
+        call.enqueue(callback);
+    }
+
 }

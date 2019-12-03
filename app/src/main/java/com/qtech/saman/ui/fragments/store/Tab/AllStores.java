@@ -15,9 +15,11 @@ import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseFragment;
 import com.qtech.saman.data.model.Store;
+import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.GetStores;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.adapters.StoresAdapter;
+import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
@@ -46,10 +48,17 @@ public class AllStores extends BaseFragment {
     int currentPage = 1;
     boolean isGetAll = false;
     String search = "";
+    int storeID;
+    boolean isBannerStore = false;
+    String userID;
+    int pageIndex  = 0;
+    int pageSize = 30;
 
-    public static AllStores newInstance(String search_query) {
+    public static AllStores newInstance(String search_query, int storeID, boolean b) {
         Bundle bundle = new Bundle();
         bundle.putString("SEARCH", search_query);
+        bundle.putInt("StoreID", storeID);
+        bundle.putBoolean("BannerStore", b);
 
 //      setAdapterOnSearch(bundle);
         AllStores fragment = new AllStores();
@@ -59,7 +68,9 @@ public class AllStores extends BaseFragment {
 
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
-            search = bundle.getString("SEARCH");
+            search = bundle.getString("SEARCH", "");
+            storeID = bundle.getInt("StoreID", 0);
+            isBannerStore = bundle.getBoolean("BannerStore", false);
             Log.e("SEARCH000", "--search--00--readBundle---store---" + search);
         }
     }
@@ -70,6 +81,9 @@ public class AllStores extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_store_tabs, container, false);
         ButterKnife.bind(this, view);
         readBundle(getArguments());
+
+        User authenticatedUser = GlobalValues.getUser(getActivity());
+        userID = String.valueOf(authenticatedUser.getId());
         layoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
@@ -81,7 +95,12 @@ public class AllStores extends BaseFragment {
         progressBar.setVisibility(View.VISIBLE);
 
         Log.e("SEARCH000", "--search--all---store---");
-        getStores();
+        
+        if (isBannerStore){
+            getBannerStore();
+        }else {
+            getStores();
+        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -94,6 +113,53 @@ public class AllStores extends BaseFragment {
             }
         });
         return view;
+    }
+
+    private void getBannerStore() {
+
+        WebServicesHandler.instance.getBannerProduct(storeID,userID,pageIndex,pageSize,new retrofit2.Callback<GetStores>() {
+            @Override
+            public void onResponse(Call<GetStores> call, Response<GetStores> response) {
+                Log.e("PRODUCT888", "--response--" + new Gson().toJson(response));
+
+                if (storeArrayList.size() > 0 && storeArrayList.get(storeArrayList.size() - 1) == null) {
+                    storeArrayList.remove(storeArrayList.size() - 1);
+                    adapter.notifyItemRemoved(storeArrayList.size());
+                }
+                GetStores getStores = response.body();
+                if (getStores != null) {
+                    if (getStores.getSuccess() == 1) {
+                        isGetAll = true;
+//                if(getStores.getLastPage()==currentPage){
+//                    isGetAll=true;
+//                }else {
+//                    currentPage++;
+//                }
+                        progressBar.setVisibility(View.GONE);
+                        storeArrayList.addAll(getStores.getStores());
+                        progressBar.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
+                        isLoading = false;
+
+                        Collections.sort(storeArrayList, new Comparator<Store>() {
+                            @Override
+                            public int compare(Store s1, Store s2) {
+                                return s1.getStoreName().compareToIgnoreCase(s2.getStoreName());
+                            }
+                        });
+
+                        if (FLAG_SEARCH) {
+                            getSearchStore(search, storeArrayList);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<GetStores> call, Throwable t) {
+
+            }
+        });
     }
 
     private void getStores() {
@@ -144,7 +210,6 @@ public class AllStores extends BaseFragment {
 
     private void getSearchStore(String search, List<Store> storeList) {
         List<Store> seachstorelist = new ArrayList<>();
-//        seachstorelist.addAll(storeList);
         for (Store storename : storeList) {
 //            if (storename.getStoreName() != null && storename.getStoreName().contains(search)) {
             if (storename.getStoreName().toLowerCase().contains(search.toLowerCase())) {

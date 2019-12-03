@@ -67,7 +67,6 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                         Intent intent=new Intent(mContext, StoreDetailActivity.class);
                         intent.putExtra("Function",2); //2 for Store Products
                         intent.putExtra("StoreName",storeArrayList.get(position).getStoreName());

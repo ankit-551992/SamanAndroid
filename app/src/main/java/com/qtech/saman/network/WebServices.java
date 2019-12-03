@@ -4,11 +4,13 @@ import com.qtech.saman.data.model.apis.AddAddressApi;
 import com.qtech.saman.data.model.apis.CustomerSupport;
 import com.qtech.saman.data.model.apis.CustomerSupportListApi;
 import com.qtech.saman.data.model.apis.GetAddressApi;
+import com.qtech.saman.data.model.apis.GetCategoriesList;
 import com.qtech.saman.data.model.apis.GetConversationApi;
 import com.qtech.saman.data.model.apis.GetConversationsApi;
 import com.qtech.saman.data.model.apis.GetProduct;
 import com.qtech.saman.data.model.apis.GetProducts;
 import com.qtech.saman.data.model.apis.GetStore;
+import com.qtech.saman.data.model.apis.GetStores;
 import com.qtech.saman.data.model.apis.HomeScreenAPI;
 import com.qtech.saman.data.model.apis.OrderHistoryAPI;
 import com.qtech.saman.data.model.apis.OrderTrackResponse;
@@ -17,9 +19,7 @@ import com.qtech.saman.data.model.apis.PlaceOrderResponse;
 import com.qtech.saman.data.model.apis.PromoVerify;
 import com.qtech.saman.data.model.apis.SendMessageApi;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
-import com.qtech.saman.data.model.apis.GetCategoriesList;
 import com.qtech.saman.data.model.apis.UserResponse;
-import com.qtech.saman.data.model.apis.GetStores;
 
 import java.util.Map;
 
@@ -227,4 +227,23 @@ public interface WebServices {
                                    @Query("comment") String comment,
                                    @Query("status") int orderStatus,
                                    @Query("UserId") int userId);
+
+    @GET("product/GetProductLisByBannesId?")
+    Call<GetStores> getProductListByBannerId(@Query("bannerID") int bannerID,
+                                             @Query("userID") String userId,
+                                             @Query("pageIndex") int pageIndex,
+                                             @Query("pageSize") int pageSize);
+
+    @GET("product/GetProductLisByBannesId?")
+    Call<GetProducts> getBannerProductList(@Query("bannerID") int bannerID,
+                                             @Query("userID") String userId,
+                                             @Query("pageIndex") int pageIndex,
+                                             @Query("pageSize") int pageSize);
+
+    @GET("product/GetProductLisByBannesId?")
+    Call<GetCategoriesList> getBannerProductCategory(@Query("bannerID") int bannerID,
+                                                 @Query("userID") String userId,
+                                                 @Query("pageIndex") int pageIndex,
+                                                 @Query("pageSize") int pageSize);
+
 }

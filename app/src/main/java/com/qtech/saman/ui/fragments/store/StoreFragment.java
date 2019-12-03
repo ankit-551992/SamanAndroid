@@ -48,13 +48,44 @@ public class StoreFragment extends BaseFragment {
     @BindView(R.id.search_store)
     EditText search_store;
     String search = "";
-//    @BindView(R.id.toolbar_search)
-//    ImageView toolbar_search;
+    //  @BindView(R.id.toolbar_search)
+//  ImageView toolbar_search;
+    int storeID;
+    boolean banner_store;
+
+//    public static StoreFragment newInstance() {
+//
+//        StoreFragment fragment = new StoreFragment();
+//        return fragment;
+//    }
+
+    public static StoreFragment newInstance(Integer getiD, boolean b) {
+        Bundle bundle = new Bundle();
+
+        StoreFragment fragment = new StoreFragment();
+        bundle.putInt("BannerID", getiD);
+        bundle.putBoolean("BannerStore", b);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+//        if (bundle != null) {
+//            search = bundle.getString("SEARCH");
+//            Log.e("SEARCH000", "--search--00--readBundle---store---" + search);
+//        }
+        if (bundle != null) {
+            storeID = bundle.getInt("BannerID", 0);
+            banner_store = bundle.getBoolean("BannerStore", false);
+            Log.e("SEARCH000", "--banner_store---storeID---" + storeID + "--" + banner_store);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_store, container, false);
         ButterKnife.bind(this, view);
+        readBundle(getArguments());
         tab();
         return view;
     }
@@ -171,10 +202,13 @@ public class StoreFragment extends BaseFragment {
         adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
 
         if (FLAG_SEARCH) {
-//            adapter.addFrag(new AllStores(), "");
-//            adapter.addFrag(AllStores.newInstance(search), "All");
-            adapter.addFrag(AllStores.newInstance(search), getString(R.string.all));
-        } else {
+//          adapter.addFrag(new AllStores(), "");
+//          adapter.addFrag(AllStores.newInstance(search), "All");
+            adapter.addFrag(AllStores.newInstance(search, 0,false), getString(R.string.all));
+        }else if (banner_store){
+            adapter.addFrag(AllStores.newInstance("",storeID,true), getString(R.string.all));
+        }
+        else {
             adapter.addFrag(new AllStores(), getString(R.string.all));
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
                 adapter.addFrag(

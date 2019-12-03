@@ -21,6 +21,10 @@ import android.widget.TextView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
+import com.qtech.saman.data.model.StoreCategory;
+import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.GetCategoriesList;
+import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.search.SearchActivity;
 import com.qtech.saman.ui.fragments.product.ProductsCategoryFragment;
 import com.qtech.saman.utils.Constants;
@@ -35,6 +39,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.qtech.saman.utils.GlobalValues.CATEGORYID;
 import static com.qtech.saman.utils.GlobalValues.FLAG_SEARCH_PRODUCT;
@@ -60,7 +66,9 @@ public class ProductsActivity extends BaseActivity {
     String search = "";
 
     ViewPagerAdapter adapter;
-    int categoryID;
+    int categoryID, bannerID, categoryBannerID;
+    boolean isBannerProduct, isCategoryProduct;
+    public static List<StoreCategory> banner_storeCategories;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -69,12 +77,33 @@ public class ProductsActivity extends BaseActivity {
         ButterKnife.bind(this);
 //
         Bundle bundle = getIntent().getExtras();
+        if (getIntent().hasExtra("BannerID")) {
+            bannerID = bundle.getInt("BannerID");
+        }
+        if (getIntent().hasExtra("IsBannerProduct")) {
+            isBannerProduct = bundle.getBoolean("IsBannerProduct");
+        }
+        if (getIntent().hasExtra("CategoryBannerID")) {
+            categoryBannerID = bundle.getInt("CategoryBannerID");
+        }
+        if (getIntent().hasExtra("IsCategoryProduct")) {
+            isCategoryProduct = bundle.getBoolean("IsCategoryProduct");
+        }
+
         if (getIntent().hasExtra("CategoryID")) {
             categoryID = bundle.getInt("CategoryID");
 //          categoryID = 4;
-            ProductsCategoryFragment.newInstance(categoryID, "");
+            ProductsCategoryFragment.newInstance(categoryID, "", false);
         }
-        tab();
+
+        User user = GlobalValues.getUser(ProductsActivity.this);
+        String userId = String.valueOf(user.getId());
+        if (isCategoryProduct) {
+            getProductCategory(categoryBannerID, userId, 0, 30);
+        } else {
+            tab();
+        }
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -89,10 +118,34 @@ public class ProductsActivity extends BaseActivity {
         }
     }
 
+    private void getProductCategory(int bannerID, String userId, int pageIndex, int pageSize) {
+
+        WebServicesHandler.instance.getBannerProductCategory(bannerID, userId, pageIndex, pageSize, new retrofit2.Callback<GetCategoriesList>() {
+            @Override
+            public void onResponse(Call<GetCategoriesList> call, Response<GetCategoriesList> response) {
+
+                GetCategoriesList getCategoriesList = response.body();
+                if (getCategoriesList != null) {
+                    if (getCategoriesList.getSuccess() == 1) {
+                        if (getCategoriesList.getCategories() != null) {
+                            banner_storeCategories = getCategoriesList.getCategories();
+                            tab();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetCategoriesList> call, Throwable t) {
+
+            }
+        });
+    }
+
     @OnClick(R.id.toolbar_back)
     public void back() {
         FLAG_SEARCH_PRODUCT = false;
-        tabLayout.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.GONE);
         search = "";
         super.onBackPressed();
     }
@@ -139,7 +192,7 @@ public class ProductsActivity extends BaseActivity {
     public void tab() {
         setupViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-//        tabLayout.setupWithViewPager(viewPager);
+//      tabLayout.setupWithViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager, false);
         setUpCustomTabs();
         viewPager.beginFakeDrag();
@@ -161,35 +214,49 @@ public class ProductsActivity extends BaseActivity {
             ImageView imageView = (ImageView) customTab.findViewById(R.id.iv_tab);
             LinearLayout bg = (LinearLayout) customTab.findViewById(R.id.tab_layout);
 
-            if (i == 0) {
+            if (isCategoryProduct) {
+                isCategoryProduct = false;
                 if (SamanApp.isEnglishVersion) {
-                    textView.setText(getString(R.string.all));
+                    textView.setText(banner_storeCategories.get(i).getTitle());
                 } else {
-                    textView.setText(getString(R.string.all));
+                    textView.setText(banner_storeCategories.get(i).getTitleAR());
                 }
-                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
-
-                TabLayout.Tab tab = tabLayout.getTabAt(0);
-                if (tab != null)
-                    tab.setCustomView(customTab);//set custom view
-            } else if (i == 1) {
-                textView.setText(getString(R.string.new_in));
-                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
-
-                TabLayout.Tab tab = tabLayout.getTabAt(1);
-                if (tab != null)
-                    tab.setCustomView(customTab);//set custom view
-            } else {
-                if (SamanApp.isEnglishVersion) {
-                    textView.setText(GlobalValues.storeCategories.get(i - 2).getTitle());
-                } else {
-                    textView.setText(GlobalValues.storeCategories.get(i - 2).getTitleAR());
-                }
-                String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 2).getLogoURL();
+                String url = Constants.URLS.BaseURLImages + banner_storeCategories.get(i).getLogoURL();
                 Picasso.get().load(url).into(imageView);
                 TabLayout.Tab tab = tabLayout.getTabAt(i);
                 if (tab != null)
                     tab.setCustomView(customTab);//set custom view
+            } else {
+                if (i == 0) {
+                    if (SamanApp.isEnglishVersion) {
+                        textView.setText(getString(R.string.all));
+                    } else {
+                        textView.setText(getString(R.string.all));
+                    }
+                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
+
+                    TabLayout.Tab tab = tabLayout.getTabAt(0);
+                    if (tab != null)
+                        tab.setCustomView(customTab);//set custom view
+                } else if (i == 1) {
+                    textView.setText(getString(R.string.new_in));
+                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_app_logo));
+
+                    TabLayout.Tab tab = tabLayout.getTabAt(1);
+                    if (tab != null)
+                        tab.setCustomView(customTab);//set custom view
+                } else {
+                    if (SamanApp.isEnglishVersion) {
+                        textView.setText(GlobalValues.storeCategories.get(i - 2).getTitle());
+                    } else {
+                        textView.setText(GlobalValues.storeCategories.get(i - 2).getTitleAR());
+                    }
+                    String url = Constants.URLS.BaseURLImages + GlobalValues.storeCategories.get(i - 2).getLogoURL();
+                    Picasso.get().load(url).into(imageView);
+                    TabLayout.Tab tab = tabLayout.getTabAt(i);
+                    if (tab != null)
+                        tab.setCustomView(customTab);//set custom view
+                }
             }
         }
     }
@@ -198,20 +265,30 @@ public class ProductsActivity extends BaseActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         if (FLAG_SEARCH_PRODUCT) {
-            adapter.addFrag(ProductsCategoryFragment.newInstance(CATEGORYID, search), getString(R.string.all));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(CATEGORYID, search, false), getString(R.string.all));
 
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
                 adapter.addFrag(
-                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), ""),
+                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), "", false),
                         GlobalValues.storeCategories.get(i).getTitle());
+            }
+        } else if (isBannerProduct) {
+            isBannerProduct = false;
+            tabLayout.setVisibility(View.GONE);
+            adapter.addFrag(ProductsCategoryFragment.newInstance(bannerID, "", true), getString(R.string.all));
+        } else if (isCategoryProduct) {
+            for (int i = 0; i < banner_storeCategories.size(); i++) {
+                adapter.addFrag(
+                        ProductsCategoryFragment.newInstance(banner_storeCategories.get(i).getID(), "", false),
+                        banner_storeCategories.get(i).getTitle());
             }
         } else {
 //          adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
-            adapter.addFrag(ProductsCategoryFragment.newInstance(0, ""), getString(R.string.all));
-            adapter.addFrag(ProductsCategoryFragment.newInstance(1, ""), getString(R.string.new_in));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(0, "", false), getString(R.string.all));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(1, "", false), getString(R.string.new_in));
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
                 adapter.addFrag(
-                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), ""),
+                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), "", false),
                         GlobalValues.storeCategories.get(i).getTitle());
             }
         }

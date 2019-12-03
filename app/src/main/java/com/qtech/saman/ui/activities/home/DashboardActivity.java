@@ -105,6 +105,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     DashboardPresenter mPresenter;
     int unreadCount = 0;
+    boolean isBannerStore = false;
+    int isBannerStoreId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -383,6 +385,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     private void loadFragment() {
 //        navigationView.getMenu().getItem(navItemIndex).setChecked(true);
         setToolbarTitle();
+
         Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
@@ -414,7 +417,12 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 title = getString(R.string.app_name);
                 break;
             case 1:
-                fragment = new StoreFragment();
+                if (isBannerStore) {
+                    isBannerStore = false;
+                    fragment = StoreFragment.newInstance(isBannerStoreId, true);
+                } else {
+                    fragment = new StoreFragment();
+                }
                 title = getString(R.string.Stores);
                 break;
             case 2:
@@ -479,7 +487,9 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         onNavigationItemSelected(navigationView.getMenu().getItem(2));
     }
 
-    public void callStoreNav() {
+    public void callStoreNav(boolean bannerStore, Integer bannerStoreId) {
+        isBannerStore = bannerStore;
+        isBannerStoreId = bannerStoreId;
         onNavigationItemSelected(navigationView.getMenu().getItem(1));
     }
 

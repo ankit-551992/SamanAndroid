@@ -17,13 +17,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class BestSellerPagerAdapter extends PagerAdapter {
+public class MiddleBannerAdapter extends PagerAdapter {
 
     private Context mContext;
     private List<Slider> sliderList;
     private LayoutInflater inflater;
 
-    public BestSellerPagerAdapter(Context mContext, List<Slider> sliderList) {
+    public MiddleBannerAdapter(Context mContext, List<Slider> sliderList) {
         this.mContext = mContext;
         this.sliderList = sliderList;
         inflater = LayoutInflater.from(this.mContext);
@@ -44,21 +44,17 @@ public class BestSellerPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
 //               Product = 4 , Sales_category = 9
-                if (sliderList.get(position).getType() == 3) {             // bottom banner  Store = 3
-                    ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());
-
-                } else if (sliderList.get(position).getType() == 4) {           // bottom banner  Product =4
-//                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
-//                    intent.putExtra("ProductID", sliderList.get(position).getiD());
-                    Intent intent = new Intent(mContext, ProductsActivity.class);
-                    intent.putExtra("BannerID", sliderList.get(position).getiD());
-                    intent.putExtra("IsBannerProduct", true);
-                    mContext.startActivity(intent);
-                } else if (sliderList.get(position).getType() == 9) {           // bottom banner Product_category =9
-//                  Intent intent=new Intent(mContext, SalesProductActivity.class);
+                if (sliderList.get(position).getType() == 6) {   // middle banner products Category
                     Intent intent = new Intent(mContext, ProductsActivity.class);
                     intent.putExtra("CategoryBannerID", sliderList.get(position).getiD());
                     intent.putExtra("IsCategoryProduct", true);
+                    mContext.startActivity(intent);
+                } else if (sliderList.get(position).getType() == 7) {   // middle banner  open Store
+                    ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());
+                } else if (sliderList.get(position).getType() == 8) {   // middle banner  open Product
+                    Intent intent = new Intent(mContext, ProductsActivity.class);
+                    intent.putExtra("BannerID", sliderList.get(position).getiD());
+                    intent.putExtra("IsBannerProduct", true);
                     mContext.startActivity(intent);
                 }
             }

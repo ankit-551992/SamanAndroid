@@ -307,21 +307,22 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     if (promoVerify.getSuccess() == 1) {
                         Log.e("PRODUCT888", "--promoVerify--getSuccess-");
                         if (promoVerify.getResult().getCouponType() == 1) {
-
+                            Log.e("PRODUCT888", "-ifff-promoVerify--getCouponType-");
                             if (!isGeneralApplied) {
                                 isGeneralApplied = true;
 
                                 float promoAmount = 0.0f;
-                                for (int p = 0; p < bagArrayList.size(); p++) {
+                               /* for (int p = 0; p < bagArrayList.size(); p++) {
                                     int productId = bagArrayList.get(p).getID();
                                     if (!appliedProducts.contains(productId)) {
                                         promoAmount = promoAmount + bagArrayList.get(p).getPrice();
                                     }
-                                }
+                                }*/
 
                                 if (promoVerify.getResult().getDiscountType() == 1) {
                                     //Percentage
-                                    float calculateDiscount = promoAmount / 100.0f;
+                                    float calculateDiscount = subTotal / 100.0f;
+//                                    float calculateDiscount = promoAmount / 100.0f;
                                     promoSaved = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
                                 } else if (promoVerify.getResult().getDiscountType() == 2) {
                                     //Price
@@ -342,7 +343,20 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply), getString(R.string.close), ShoppingCartActivity.this);
                             }
                         } else {
-                            for (int p = 0; p < bagArrayList.size(); p++) {
+
+                            if (promoVerify.getResult().getDiscountType() == 1) {
+                                float calculateDiscount = subTotal / 100.0f;
+                                float dis = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
+//                                Log.e("Dis", bagArrayList.get(p).getProductName() + " " + dis);
+                                promoSaved = promoSaved + dis;
+                            } else if (promoVerify.getResult().getDiscountType() == 2) {
+                                //Price
+                                float dis = (float) promoVerify.getResult().getDiscount();
+                                promoSaved = promoSaved + dis;
+                            }
+
+
+                          /*  for (int p = 0; p < bagArrayList.size(); p++) {
 
                                 int productId = bagArrayList.get(p).getID();
 
@@ -366,7 +380,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                         Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply_on_same_product), getString(R.string.close), ShoppingCartActivity.this);
                                     }
                                 }
-                            }
+                            }*/
 //                          promoSaved = Math.round(promoSaved);
                             promoSaved = Float.valueOf(df.format(promoSaved));
 
@@ -384,8 +398,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             Constants.showAlert(getString(R.string.coupon_discount), msg, getString(R.string.Okay), ShoppingCartActivity.this);
                         }
                         discount_couponId = String.valueOf(promoVerify.getResult().getID());
-                        discount_price = String.valueOf(promoVerify.getResult().getDiscount());
-
+                        discount_price = String.valueOf(promoSaved);
                     } else {
                         Constants.showAlert(getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again), ShoppingCartActivity.this);
 //                        Constants.showErrorPopUp(ShoppingCartActivity.this, getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again));
@@ -547,9 +560,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     cardNameTextView.setText(getString(R.string.card_delivery));
                     cardExpiryTextView.setVisibility(View.GONE);
                     cardNumberTextView.setVisibility(View.GONE);
-
                     isCOD = true;
-
                 } else if (d.equalsIgnoreCase("OMANNET")) {
 
                     isCOD = false;

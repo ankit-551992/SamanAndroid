@@ -139,6 +139,7 @@ public class StoreDetailActivity extends BaseActivity {
                                     .fit()
                                     .centerCrop()
                                     .into(bg);
+
                             storeName = store.getStoreName();
                             storeNameAr = store.getStoreNameAR();
                             if (SamanApp.isEnglishVersion) {
