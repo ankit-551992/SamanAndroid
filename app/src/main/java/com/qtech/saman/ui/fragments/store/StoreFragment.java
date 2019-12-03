@@ -61,7 +61,6 @@ public class StoreFragment extends BaseFragment {
 
     public static StoreFragment newInstance(Integer getiD, boolean b) {
         Bundle bundle = new Bundle();
-
         StoreFragment fragment = new StoreFragment();
         bundle.putInt("BannerID", getiD);
         bundle.putBoolean("BannerStore", b);
@@ -204,11 +203,11 @@ public class StoreFragment extends BaseFragment {
         if (FLAG_SEARCH) {
 //          adapter.addFrag(new AllStores(), "");
 //          adapter.addFrag(AllStores.newInstance(search), "All");
-            adapter.addFrag(AllStores.newInstance(search, 0,false), getString(R.string.all));
-        }else if (banner_store){
-            adapter.addFrag(AllStores.newInstance("",storeID,true), getString(R.string.all));
-        }
-        else {
+            adapter.addFrag(AllStores.newInstance(search, 0, false), getString(R.string.all));
+        } else if (banner_store) {
+            tabLayout.setVisibility(View.GONE);
+            adapter.addFrag(AllStores.newInstance("", storeID, true), getString(R.string.all));
+        } else {
             adapter.addFrag(new AllStores(), getString(R.string.all));
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
                 adapter.addFrag(
