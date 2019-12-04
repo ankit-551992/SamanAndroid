@@ -103,7 +103,6 @@ public class ProductsActivity extends BaseActivity {
         } else {
             tab();
         }
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -145,7 +144,7 @@ public class ProductsActivity extends BaseActivity {
     @OnClick(R.id.toolbar_back)
     public void back() {
         FLAG_SEARCH_PRODUCT = false;
-        tabLayout.setVisibility(View.GONE);
+//        tabLayout.setVisibility(View.GONE);
         search = "";
         super.onBackPressed();
     }

@@ -89,7 +89,7 @@ public class ProductsCategoryFragment extends BaseFragment {
         progressBar.setVisibility(View.VISIBLE);
 
         if (isBannerProduct) {
-            isBannerProduct = false;
+//            isBannerProduct = false;
             getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
         } else {
             getProducts(categoryID, currentPage, pageSize);
@@ -103,7 +103,12 @@ public class ProductsCategoryFragment extends BaseFragment {
                 productAdapter = new ProductAdapter(getContext(), displayData, authenticatedUser.getId(), false);
                 recyclerView.setAdapter(productAdapter);
                 currentPage = 0;
-                getProducts(categoryID, currentPage, pageSize);
+                if (isBannerProduct) {
+                    getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
+                } else {
+                    getProducts(categoryID, currentPage, pageSize);
+                }
+
             }
         });
         return view;

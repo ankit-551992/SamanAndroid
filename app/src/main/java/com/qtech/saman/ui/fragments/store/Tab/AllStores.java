@@ -95,7 +95,6 @@ public class AllStores extends BaseFragment {
         progressBar.setVisibility(View.VISIBLE);
 
         Log.e("SEARCH000", "--search--all---store---");
-        
         if (isBannerStore){
             getBannerStore();
         }else {
@@ -109,7 +108,11 @@ public class AllStores extends BaseFragment {
                 adapter = new StoresAdapter(getContext(), storeArrayList);
                 recyclerView.setAdapter(adapter);
                 currentPage = 1;
-                getStores();
+                if (isBannerStore){
+                    getBannerStore();
+                }else {
+                    getStores();
+                }
             }
         });
         return view;
@@ -248,7 +251,11 @@ public class AllStores extends BaseFragment {
                 adapter.notifyItemInserted(storeArrayList.size() - 1);
                 isLoading = true;
                 currentPage++;
-                getStores();
+                if (isBannerStore){
+                    getBannerStore();
+                }else {
+                    getStores();
+                }
             }
         }
     };
