@@ -144,7 +144,6 @@ public class ProductsActivity extends BaseActivity {
     @OnClick(R.id.toolbar_back)
     public void back() {
         FLAG_SEARCH_PRODUCT = false;
-//        tabLayout.setVisibility(View.GONE);
         search = "";
         super.onBackPressed();
     }

@@ -502,12 +502,20 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                         omanNetPaymentVerification(placeOrderResponse.getResult().getId());
                                     }
                                 }
+                            } else if (placeOrderResponse.getSuccess() == 0) {
+                                progressBar.setVisibility(View.GONE);
+                                if (placeOrderResponse.getMessage() != null) {
+                                    Toast.makeText(ShoppingCartActivity.this, "" + placeOrderResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(ShoppingCartActivity.this, "Order is failed" , Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<PlaceOrderResponse> call, Throwable t) {
+                        progressBar.setVisibility(View.GONE);
                         Log.e("onFailure", "" + t.getMessage());
                     }
                 });

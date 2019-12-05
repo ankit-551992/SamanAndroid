@@ -152,10 +152,10 @@ public class StoreFragment extends BaseFragment {
         Log.e("SEARCH000", "--search--GlobalValues---storeCategories---" + GlobalValues.storeCategories);
 //        for (int i = 1; i < tabLayout.getTabCount(); i++) {
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            View customTab = (View) LayoutInflater.from(getActivity()).inflate(R.layout.tab_custom_view, null);//get custom view
-            TextView textView = (TextView) customTab.findViewById(R.id.tv_tab);
-            ImageView imageView = (ImageView) customTab.findViewById(R.id.iv_tab);
-            LinearLayout bg = (LinearLayout) customTab.findViewById(R.id.tab_layout);
+            View customTab =  LayoutInflater.from(getActivity()).inflate(R.layout.tab_custom_view, null);//get custom view
+            TextView textView =  customTab.findViewById(R.id.tv_tab);
+            ImageView imageView = customTab.findViewById(R.id.iv_tab);
+            LinearLayout bg = customTab.findViewById(R.id.tab_layout);
 
             if (i == 0) {
                 textView.setText(getString(R.string.all));
