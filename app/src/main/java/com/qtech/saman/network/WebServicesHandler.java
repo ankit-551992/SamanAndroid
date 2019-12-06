@@ -28,7 +28,6 @@ import com.qtech.saman.data.model.apis.UserResponse;
 import com.qtech.saman.utils.Constants;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -239,7 +238,6 @@ public class WebServicesHandler {
                            String discount_price, JSONArray array,
                            Callback<PlaceOrderResponse> callback) {
 
-        Log.e("DISCOUNTID0", "---discount_couponId---" + discount_couponId);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("CustomerID", CustomerID);
         parameters.put("BillingAddressID", BillingAddressID);
@@ -249,8 +247,8 @@ public class WebServicesHandler {
         parameters.put("TotalPrice", TotalPrice);
         parameters.put("DiscountCoupanID", discount_couponId);
         parameters.put("Discount", discount_price);
-
-        for (int i = 0; i < array.length(); i++) {
+        parameters.put("OrderItems_", array);
+      /*  for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject jsonObject = array.getJSONObject(i);
                 parameters.put("OrderItems[" + i + "].ProductID", jsonObject.getInt("ProductID"));
@@ -264,7 +262,7 @@ public class WebServicesHandler {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         Log.e("PARAMETER", "---order--parameter---" + parameters.toString());
 //      parameters.put("OrderItems", array);
 

@@ -637,7 +637,7 @@
     <string name="order_cancel">تم الإلغاء بواسطة العميل</string>
 
     <string name="terms_sale">هذا السعر يشمل الخصم</string>
-    <string name="map_dialog_msg">الدولة العمانية الوحيدة صالحة للشحن.</string>
+    <string name="map_dialog_msg">الرجاء أختيار عنوان في عمان</string>
     <string name="select_address">عنوان الشحن</string>
 
 </resources>

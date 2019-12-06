@@ -76,7 +76,6 @@ public class BagFragment extends BaseFragment {
             Constants.showLoginDialog(getContext());
             return;
         }
-
         authenticatedUser = GlobalValues.getUser(getContext());
 
         if (productArrayList.size() > 0) {
@@ -84,7 +83,7 @@ public class BagFragment extends BaseFragment {
             intent.putExtra("Price", grandTotal);
             startActivity(intent);
         } else {
-            //
+
         }
     }
 
@@ -122,7 +121,6 @@ public class BagFragment extends BaseFragment {
             tv_empty_bag.setVisibility(View.VISIBLE);
         }
         quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, productArrayList.size()));
-
     }
 
     public void updateQuantity() {

@@ -3,19 +3,21 @@ package com.qtech.saman.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.qtech.saman.data.model.Country;
 import com.qtech.saman.data.model.StoreCategory;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -174,9 +176,18 @@ public class GlobalValues {
         String languageToLoad = language; // your language
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+        Resources res = context.getResources();
+        Configuration config = new Configuration(res.getConfiguration());
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            config.setLocale(locale);
+            context = context.createConfigurationContext(config);
+        } else {
+            config.locale = locale;
+            res.updateConfiguration(config, res.getDisplayMetrics());
+        }
+//        config.locale = locale;
+//        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
     public static Object fromJson(String jsonString, Type type) {

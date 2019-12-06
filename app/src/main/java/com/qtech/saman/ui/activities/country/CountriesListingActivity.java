@@ -89,8 +89,7 @@ public class CountriesListingActivity extends BaseActivity {
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-                    LinearLayoutManager.VERTICAL));
+            recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL));
             countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
             recyclerView.setAdapter(countriesAdapter);
         } else {
@@ -175,7 +174,7 @@ public class CountriesListingActivity extends BaseActivity {
                                 country.setName(jsonObject.getString("CountryName"));
                                 country.setFlag(Constants.URLS.BaseURLImages + flagURL);
                                 country.setPhoneCode(jsonObject.getString("CountryCode"));
-
+                                country.setName_AR(jsonObject.getString("CountryNameAR"));
                                 GlobalValues.countries.add(country);
                             }
                         }

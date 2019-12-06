@@ -5,15 +5,14 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.content.res.Configuration;
 import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
 import android.util.Log;
 
-import com.qtech.saman.db.MySQLiteHelper;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.qtech.saman.db.MySQLiteHelper;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -93,22 +92,5 @@ public class SamanApp extends MultiDexApplication {
         } catch (Exception e) {
             Log.e("HashKey", "Error", e);
         }
-    }
-
-    private void setLanguage(String language) {
-        //setting new configuration
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getApplicationContext().getResources().updateConfiguration(config, null);
-
-        //store current language in prefrence
-       // prefData.setCurrentLanguage(language);
-
-        //With new configuration start activity again
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        startActivity(intent);
-//        finish();
     }
 }

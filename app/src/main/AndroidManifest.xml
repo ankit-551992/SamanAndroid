@@ -150,9 +150,6 @@
             android:name=".ui.activities.invoice.InvoiceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.country.CountriesActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.activities.myaccount.payment.OmanNetCardDetailActivity"
             android:screenOrientation="portrait" />
         <activity

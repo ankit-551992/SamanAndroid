@@ -206,7 +206,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 countryName.setText(selectedCountry.getName());
             }
         }*/
-
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
 
         if (authenticatedUser.getShippingAddress() != null) {
@@ -340,7 +339,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 priceToPay = price + deliveryCost;
                                 priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
                             } else {
-                                Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply), getString(R.string.close), ShoppingCartActivity.this);
+                                Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply),
+                                        getString(R.string.close), ShoppingCartActivity.this);
                             }
                         } else {
 
@@ -354,8 +354,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 float dis = (float) promoVerify.getResult().getDiscount();
                                 promoSaved = promoSaved + dis;
                             }
-
-
                           /*  for (int p = 0; p < bagArrayList.size(); p++) {
 
                                 int productId = bagArrayList.get(p).getID();
@@ -433,6 +431,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         super.onBackPressed();
     }
 
+    float final_displayprice = 0.0f;
 
     @OnClick(R.id.button_place_order)
     void placeOrder() {
@@ -446,12 +445,39 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         JSONArray array = new JSONArray();
         JSONObject obj;
         for (int p = 0; p < bagArrayList.size(); p++) {
+
+            int product_quantity = bagArrayList.get(p).getQuantity();
+            float product_price = bagArrayList.get(p).getPrice();
+
+            if (bagArrayList.get(p).getIsSaleProduct().equals("true")) {
+                if (bagArrayList.get(p).getSaleDiscountedType().equals("1")) {
+
+                    float final_displayprice = bagArrayList.get(p).getPrice() - bagArrayList.get(p).getSalePrice();
+
+                } else if (bagArrayList.get(p).getSaleDiscountedType().equals("2")) {
+                    float calculateDiscount = bagArrayList.get(p).getPrice() / 100.0f;
+                    float dis = calculateDiscount * bagArrayList.get(p).getSalePrice();
+                    Log.e("Dis", "---dis--" + dis);
+                    final_displayprice = bagArrayList.get(p).getPrice() - dis;
+                } else {
+                    final_displayprice = bagArrayList.get(p).getPrice();
+                }
+            } else {
+                final_displayprice = bagArrayList.get(p).getPrice();
+            }
+
+            float product_quantity_price = final_displayprice * product_quantity;
+            float p1 = product_quantity_price * 100;
+            float couponDiscount_price = p1 / subTotal;
+
             obj = new JSONObject();
             try {
                 obj.put("ProductID", bagArrayList.get(p).getID());
 //              obj.put("AttributeID", bagArrayList.get(p).getCartAttributeID());
                 obj.put("ProductQuantity", bagArrayList.get(p).getQuantity());
                 obj.put("ProductPrice", bagArrayList.get(p).getPrice());
+                obj.put("Discount", bagArrayList.get(p).getProductDiscountPrice());
+                obj.put("couponDiscount", couponDiscount_price);
 
                 JSONArray optionsArray = new JSONArray();
                 JSONObject optionsObj;
@@ -506,8 +532,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 progressBar.setVisibility(View.GONE);
                                 if (placeOrderResponse.getMessage() != null) {
                                     Toast.makeText(ShoppingCartActivity.this, "" + placeOrderResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                                }else {
-                                    Toast.makeText(ShoppingCartActivity.this, "Order is failed" , Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(ShoppingCartActivity.this, "Order is failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }

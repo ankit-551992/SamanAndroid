@@ -49,6 +49,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private boolean isHome;
     Dialog dialog;
     private Product cartProduct;
+    float final_displayprice = 0.0f;
+    float product_discount = 0.0f;
 
     public ProductAdapter(Context mContext, List<Product> productArrayList, int userID, boolean isHome) {
         this.productArrayList = productArrayList;
@@ -86,7 +88,31 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 productViewHolder.productDescription.setText(product.getProductNameAR());
                 productViewHolder.storeName.setText(product.getStoreNameAR());
             }
+
             productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
+
+        /*    if (product.getIsSaleProduct().equals("true")) {
+                if (product.getSaleDiscountedType().equals("1")) {
+                    final_displayprice = product.getPrice() - product.getSalePrice();
+                    productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
+                    productViewHolder.productPrice.setText(product.getPrice() + " ");
+                    productViewHolder.productPrice.setPaintFlags(productViewHolder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else if (product.getSaleDiscountedType().equals("2")) {
+                    float calculateDiscount = product.getPrice() / 100.0f;
+                    float dis = calculateDiscount * product.getSalePrice();
+                    Log.e("Dis", "---dis--" + dis);
+                    final_displayprice = product.getPrice() - dis;
+                    productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
+                    productViewHolder.productPrice.setText(product.getPrice() + " ");
+                    productViewHolder.productPrice.setPaintFlags(productViewHolder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
+                    productViewHolder.discount_price.setText("");
+                }
+            } else {
+                productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
+                productViewHolder.discount_price.setText("");
+            }*/
 
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
@@ -184,6 +210,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         private TextView productDescription;
         private TextView productPrice;
+        private TextView discount_price;
         private TextView storeName;
         private ImageView productImageView;
         private ImageView favoriteImageView;
@@ -195,6 +222,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productDescription = (TextView) v.findViewById(R.id.tv_product_description);
             storeName = (TextView) v.findViewById(R.id.tv_store_name);
             productPrice = (TextView) v.findViewById(R.id.tv_product_price);
+            discount_price = (TextView) v.findViewById(R.id.tv_discount_price);
             favoriteImageView = (ImageView) v.findViewById(R.id.iv_favorite);
             cartImageView = (ImageView) v.findViewById(R.id.iv_add_to_cart);
         }
@@ -221,7 +249,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
                                 if (cartProduct.getQuantity() != 0) {
-                                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1)) {
+                                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1, product_discount)) {
                                      /*   showPopUp(mContext.getString(R.string.item_added_bag),
                                                 mContext.getString(R.string.item_added_message),
                                                 mContext.getString(R.string.continue_shopping),

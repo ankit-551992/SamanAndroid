@@ -35,6 +35,7 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,7 +49,11 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     private List<Product> productArrayList;
     private Context mContext;
     private BagFragment bagFragment;
-    private float grandTotal = 0;
+    private float grandTotal = 0.0f;
+    private float discount_price = 0.0f;
+    private float total = 0.0f;
+    private float product_discount = 0.0f;
+    DecimalFormat df = new DecimalFormat("#.##");
 
     private User authenticatedUser;
 
@@ -83,6 +88,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
             bagViewHolder.getPosition = holder.getAdapterPosition();
             Product product = productArrayList.get(bagViewHolder.getPosition);
+            Log.e("DATA00", "-cart--product---" + productArrayList.get(bagViewHolder.getPosition));
             if (SamanApp.isEnglishVersion) {
                 bagViewHolder.name.setText(product.getProductName());
                 bagViewHolder.storeName.setText(product.getStoreName());
@@ -110,8 +116,36 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         .into(bagViewHolder.productImageView);
             }
 
-            bagViewHolder.price.setText(product.getPrice() + mContext.getResources().getString(R.string.currency_omr));
-            float total = product.getPrice() * product.getQuantity();
+
+            if (product.getIsSaleProduct().equals("true")) {
+                if (product.getSaleDiscountedType().equals("1")) {
+                    product_discount = product.getSalePrice();
+                    product.setProductDiscountPrice( product.getSalePrice());
+                    discount_price = product.getPrice() - product.getSalePrice();
+//                  salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
+//                  saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + "Off";
+                } else if (product.getSaleDiscountedType().equals("2")) {
+                    float calculateDiscount = product.getPrice() / 100.0f;
+                    float dis = calculateDiscount * product.getSalePrice();
+                    product.setProductDiscountPrice(dis);
+                    product_discount = dis;
+                    discount_price = product.getPrice() - dis;
+//                  salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
+//                  productPrice.setText(product.getPrice() + " ");
+                } else {
+                    discount_price = product.getPrice();
+//                  productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+                }
+            } else {
+                discount_price = product.getPrice();
+            }
+
+            discount_price = Float.valueOf(df.format(discount_price));
+//          bagViewHolder.price.setText(product.getPrice() + mContext.getResources().getString(R.string.currency_omr));
+            bagViewHolder.price.setText(discount_price + mContext.getResources().getString(R.string.currency_omr));
+//            float total = product.getPrice() * product.getQuantity();
+            total = discount_price * product.getQuantity();
+            total = Float.valueOf(df.format(total));
             grandTotal = grandTotal + total;
             bagViewHolder.total.setText(total + mContext.getResources().getString(R.string.currency_omr));
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
@@ -158,7 +192,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                             mContext.getString(R.string.item_added_message),
                             mContext.getString(R.string.continue_shopping),
                             mContext.getString(R.string.view_fav),
-                            1,position);
+                            1, position);
                     mItemManger.closeAllItems();
                 }
             });
@@ -280,7 +314,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         productArrayList.get(getPosition).getOptionValues(),
                         productArrayList.get(getPosition).getOptions(),
                         productArrayList.get(getPosition).getOptions(),
-                        1);
+                        1, productArrayList.get(getPosition).getProductDiscountPrice());
 
                 productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
                 updateNotify();
@@ -306,7 +340,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         productArrayList.get(getPosition).getOptionValues(),
                         productArrayList.get(getPosition).getOptions(),
                         productArrayList.get(getPosition).getOptions(),
-                        -1);
+                        -1, productArrayList.get(getPosition).getProductDiscountPrice());
                 productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() - 1);
             }
             updateNotify();
@@ -395,8 +429,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         Animation animation;
         animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
 
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
 }

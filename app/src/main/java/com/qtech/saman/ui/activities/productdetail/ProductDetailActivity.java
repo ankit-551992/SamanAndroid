@@ -124,6 +124,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     String[] optionIDs;
     int selectedQuantity = -1;
     float final_displayprice = 0.0f;
+    float product_discount = 0.0f;
 
     Dialog dialog;
     String saleString;
@@ -159,7 +160,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (getIntent().hasExtra("Options")) {
             selectedOptions = getIntent().getStringExtra("Options");
             optionIDs = selectedOptions.split(",");
-
             for (int o = 0; o < optionIDs.length; o++) {
                 Log.e(o + "-Options", optionIDs[o]);
             }
@@ -258,7 +258,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (SamanApp.localDB != null) {
             if (product.getQuantity() != 0) {
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
-                    if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(), Integer.parseInt(productCount.getText().toString()))) {
+                    if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(),
+                            Integer.parseInt(productCount.getText().toString()), product.getProductDiscountPrice())) {
                       /* showPopUp(getString(R.string.item_added_bag),
                                 getString(R.string.item_added_message),
                                 getString(R.string.continue_shopping),
@@ -273,10 +274,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 } else {
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
 
-                    Constants.showAlert(getString(R.string.title_my_bag),
-                            text,
-                            getString(R.string.cancel),
-                            this);
+                    Constants.showAlert(getString(R.string.title_my_bag), text, getString(R.string.cancel), this);
                 }
             } else {
                 Constants.showAlert(getString(R.string.title_my_bag),
@@ -447,6 +445,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         if (product.getIsSaleProduct().equals("true")) {
             if (product.getSaleDiscountedType().equals("1")) {
+                product_discount = product.getSalePrice();
+                product.setProductDiscountPrice(product.getSalePrice());
                 final_displayprice = product.getPrice() - product.getSalePrice();
                 salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
 //              productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
@@ -459,6 +459,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 float calculateDiscount = product.getPrice() / 100.0f;
                 float dis = calculateDiscount * product.getSalePrice();
                 Log.e("Dis", "---dis--" + dis);
+                product_discount = dis;
+                product.setProductDiscountPrice(dis);
                 final_displayprice = product.getPrice() - dis;
                 salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
 //              productPrice.setText(final_displayprice + " " + getString(R.string.OMR));

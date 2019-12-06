@@ -379,7 +379,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         if (SamanApp.localDB != null) {
             if (cartProduct.getQuantity() != 0) {
                 if (cartProduct.getQuantity() >= product1.getUserQuantity()) {
-                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), product1.getUserQuantity())) {
+                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), product1.getUserQuantity(), product1.getProductDiscountPrice())) {
 /*
                         showPopUp(mContext.getString(R.string.item_added_bag),
                                 mContext.getString(R.string.item_added_message),

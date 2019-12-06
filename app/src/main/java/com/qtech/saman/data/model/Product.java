@@ -19,6 +19,8 @@ public class Product implements Serializable {
     String options;
     String optionsAR;
 
+    Float ProductDiscountPrice = 0.0f;
+
     @SerializedName("ProductName")
     @Expose
     private String productName;
@@ -114,6 +116,8 @@ public class Product implements Serializable {
 
     @SerializedName("SaleDiscountedType")
     private String SaleDiscountedType;
+
+
 
     public String getIsNotificationSubscribed() {
         return IsNotificationSubscribed;
@@ -450,6 +454,15 @@ public class Product implements Serializable {
     public void setSaleDiscountedType(String saleDiscountedType) {
         SaleDiscountedType = saleDiscountedType;
     }
+
+    public void setProductDiscountPrice(Float productdiscountprice) {
+        this.ProductDiscountPrice = productdiscountprice;
+    }
+
+    public Float getProductDiscountPrice() {
+        return ProductDiscountPrice;
+    }
+
 
     @Override
     public String toString() {

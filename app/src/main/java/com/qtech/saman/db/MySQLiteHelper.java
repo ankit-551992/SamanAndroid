@@ -74,6 +74,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String CART_PRODUCT_STORE_NAME = "CART_PRODUCT_STORE_NAME";                 //26
     public static final String CART_PRODUCT_STORE_NAME_AR = "CART_PRODUCT_STORE_NAME_AR";           //27
     public static final String CART_PRODUCT_AVAILABLE_QUANTITY = "CART_PRODUCT_AVAILABLE_QUANTITY"; //28
+    public static final String CART_PRODUCT_IS_SALEPRODUCT = "CART_PRODUCT_IS_SALEPRODUCT";         //29
+    public static final String CART_PRODUCT_DISCOUNT_TYPE = "CART_PRODUCT_DISCOUNT_TYPE";           //30
+    public static final String CART_PRODUCT_SALE_PRICE = "CART_PRODUCT_SALE_PRICE";                 //31
+    public static final String CART_PRODUCT_DISCOUNT_PRICE = "CART_PRODUCT_DISCOUNT_PRICE";         //32
 
 
     //Table CART CREATE STATEMENT
@@ -107,10 +111,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + CART_PRODUCT_OPTIONS_NAMES_AR + " TEXT,"
             + CART_PRODUCT_STORE_NAME + " TEXT,"
             + CART_PRODUCT_STORE_NAME_AR + " TEXT,"
-            + CART_PRODUCT_AVAILABLE_QUANTITY + " INTEGER" + ")";
+            + CART_PRODUCT_AVAILABLE_QUANTITY + " INTEGER,"
+            + CART_PRODUCT_IS_SALEPRODUCT + " TEXT,"
+            + CART_PRODUCT_DISCOUNT_TYPE + " TEXT,"
+            + CART_PRODUCT_SALE_PRICE + " REAL,"
+            + CART_PRODUCT_DISCOUNT_PRICE + " REAL" + ")";
 
-
-    public boolean addToCart(Product product, String optionValues, String options, String optionsAr, int quantity) {
+    public boolean addToCart(Product product, String optionValues, String options, String optionsAr, int quantity, float product_discountprice) {
 
         optionsAr = optionsAr.replaceAll(",", "،");
 
@@ -134,6 +141,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put(CART_PRODUCT_STORE_NAME, product.getStoreName());
             values.put(CART_PRODUCT_STORE_NAME_AR, product.getStoreNameAR());
             values.put(CART_PRODUCT_AVAILABLE_QUANTITY, product.getQuantity());
+            values.put(CART_PRODUCT_IS_SALEPRODUCT, product.getIsSaleProduct());
+            values.put(CART_PRODUCT_DISCOUNT_TYPE, product.getSaleDiscountedType());
+            values.put(CART_PRODUCT_SALE_PRICE, product.getSalePrice());
+            values.put(CART_PRODUCT_DISCOUNT_PRICE, product_discountprice);
 
             int isActive = 0;
             if (product.getIsActive()) {
@@ -235,6 +246,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setStoreNameAR(cursor.getString(27));
                 product.setAvailableQuantity(cursor.getInt(28));
 
+                product.setIsSaleProduct(cursor.getString(29));
+                product.setSaleDiscountedType(cursor.getString(30));
+                product.setSalePrice(cursor.getFloat(31));
+                product.setProductDiscountPrice(cursor.getFloat(32));
+
                 // Adding to list
                 cartArrayList.add(product);
             } while (cursor.moveToNext());
@@ -245,7 +261,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean editCartItem(Product product, String optionValues, int newQuantity) throws SQLException {
+/*    public boolean editCartItem(Product product, String optionValues, int newQuantity) throws SQLException {
 
         // Check if OptionValues is same and Just Product Quantity changed
         if (product.getOptionValues() == optionValues && product.getQuantity() != newQuantity) {
@@ -331,7 +347,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             }
         }
         return false;
-    }
+    }*/
 
     public boolean deleteItemFromCart(Product product) throws SQLException {
         SQLiteDatabase db = this.getWritableDatabase();

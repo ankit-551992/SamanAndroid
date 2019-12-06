@@ -50,7 +50,6 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof TgasViewHolder) {
             TgasViewHolder tgasViewHolder = (TgasViewHolder) holder;
-
             tgasViewHolder.tag.setText(tags.get(position));
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;

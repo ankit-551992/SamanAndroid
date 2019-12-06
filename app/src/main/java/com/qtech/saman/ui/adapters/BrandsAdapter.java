@@ -291,7 +291,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
                                 if (cartProduct.getQuantity() != 0) {
-                                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1)) {
+                                    if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1, 0.0f)) {
                                         showPopUp(mContext.getString(R.string.item_added_bag),
                                                 mContext.getString(R.string.item_added_message),
                                                 mContext.getString(R.string.continue_shopping),
