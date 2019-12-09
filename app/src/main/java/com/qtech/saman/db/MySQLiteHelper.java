@@ -34,7 +34,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-
     //********************************************************************************
     //                                                                               *
     //                            Table CART  Start                                  *
@@ -78,6 +77,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String CART_PRODUCT_DISCOUNT_TYPE = "CART_PRODUCT_DISCOUNT_TYPE";           //30
     public static final String CART_PRODUCT_SALE_PRICE = "CART_PRODUCT_SALE_PRICE";                 //31
     public static final String CART_PRODUCT_DISCOUNT_PRICE = "CART_PRODUCT_DISCOUNT_PRICE";         //32
+//    public static final String CART_DISCOUNT_SALE_PRICE = "CART_DISCOUNT_SALE_PRICE";               //33
 
 
     //Table CART CREATE STATEMENT
@@ -116,9 +116,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + CART_PRODUCT_DISCOUNT_TYPE + " TEXT,"
             + CART_PRODUCT_SALE_PRICE + " REAL,"
             + CART_PRODUCT_DISCOUNT_PRICE + " REAL" + ")";
+//          + CART_DISCOUNT_SALE_PRICE + " REAL" + ")";
+
 
     public boolean addToCart(Product product, String optionValues, String options, String optionsAr, int quantity, float product_discountprice) {
-
         optionsAr = optionsAr.replaceAll(",", "،");
 
         ContentValues values = new ContentValues();
@@ -145,13 +146,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put(CART_PRODUCT_DISCOUNT_TYPE, product.getSaleDiscountedType());
             values.put(CART_PRODUCT_SALE_PRICE, product.getSalePrice());
             values.put(CART_PRODUCT_DISCOUNT_PRICE, product_discountprice);
+//            values.put(CART_DISCOUNT_SALE_PRICE, final_display_salePrice);
 
             int isActive = 0;
             if (product.getIsActive()) {
                 isActive = 1;
             }
             values.put(CART_PRODUCT_IS_ACTIVE, isActive);
-
 
             int isDeleted = 0;
             if (product.getIsDeleted()) {
@@ -250,6 +251,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 product.setSaleDiscountedType(cursor.getString(30));
                 product.setSalePrice(cursor.getFloat(31));
                 product.setProductDiscountPrice(cursor.getFloat(32));
+//                product.setTotalSalePrice(cursor.getFloat(33));
 
                 // Adding to list
                 cartArrayList.add(product);

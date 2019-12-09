@@ -168,7 +168,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                 address += addresses.get(0).getLatitude() + ",";
                 address += addresses.get(0).getLongitude() + ",";
                 address += addresses.get(0).getCountryName();
-//                selected_country = addresses.get(0).getCountryName();
+//              selected_country = addresses.get(0).getCountryName();
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
@@ -424,23 +424,21 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
     private void saveSelectedAddress(String address) {
 
-        Log.e("OMAN00", "--address--00---" + address);
-
-            String arr[] = address.split(",");
+        String arr[] = address.split(",");
 //                selected_country = arr[4];
 //                Log.e("LAT0LNG0", "---selected_country---" +selected_country);
-            if (arr.length >= 0) {
-                Log.e("LAT0LNG0", "----selected_country---" + arr[3]);
-                if (!arr[3].isEmpty() && arr[3].equalsIgnoreCase("Oman")) {
-                    Log.e("OMAN00", "--address--Oman-----" + address);
-                    Intent data = new Intent();
-                    data.setData(Uri.parse(address));
-                    setResult(RESULT_OK, data);
-                    finish();
-                } else {
-                    Constants.showErrorPopUp(GoogleMapActivity.this, getResources().getString(R.string.select_address), getResources().getString(R.string.map_dialog_msg), getResources().getString(R.string.okay));
-                    Log.e("OMAN00", "--please--select----Oman-----");
-                }
+        if (arr.length >= 0) {
+            Log.e("LAT0LNG0", "----selected_country---" + arr[3]);
+            if (!arr[3].isEmpty() && arr[3].equals(getResources().getString(R.string.Oman))) {
+                Log.e("OMAN00", "--address--Oman-----" + address);
+                Intent data = new Intent();
+                data.setData(Uri.parse(address));
+                setResult(RESULT_OK, data);
+                finish();
+            } else {
+                Constants.showErrorPopUp(GoogleMapActivity.this, getResources().getString(R.string.select_address), getResources().getString(R.string.map_dialog_msg), getResources().getString(R.string.okay));
+                Log.e("OMAN00", "--please--select----Oman-----");
+            }
         }
     }
 

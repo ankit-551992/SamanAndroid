@@ -50,7 +50,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     private Context mContext;
     private BagFragment bagFragment;
     private float grandTotal = 0.0f;
-    private float discount_price = 0.0f;
+    private float final_displayprice = 0.0f;
     private float total = 0.0f;
     private float product_discount = 0.0f;
     DecimalFormat df = new DecimalFormat("#.##");
@@ -116,35 +116,31 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         .into(bagViewHolder.productImageView);
             }
 
-
             if (product.getIsSaleProduct().equals("true")) {
                 if (product.getSaleDiscountedType().equals("1")) {
                     product_discount = product.getSalePrice();
                     product.setProductDiscountPrice( product.getSalePrice());
-                    discount_price = product.getPrice() - product.getSalePrice();
-//                  salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
-//                  saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + "Off";
+                    final_displayprice = product.getPrice() - product.getSalePrice();
                 } else if (product.getSaleDiscountedType().equals("2")) {
                     float calculateDiscount = product.getPrice() / 100.0f;
                     float dis = calculateDiscount * product.getSalePrice();
                     product.setProductDiscountPrice(dis);
                     product_discount = dis;
-                    discount_price = product.getPrice() - dis;
-//                  salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
-//                  productPrice.setText(product.getPrice() + " ");
+                    final_displayprice = product.getPrice() - dis;
                 } else {
-                    discount_price = product.getPrice();
-//                  productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
+                    final_displayprice = product.getPrice();
                 }
             } else {
-                discount_price = product.getPrice();
+                final_displayprice = product.getPrice();
             }
 
-            discount_price = Float.valueOf(df.format(discount_price));
+//            final_displayprice = product.getSetTotalSalePrice();
+
+            final_displayprice = Float.valueOf(df.format(final_displayprice));
 //          bagViewHolder.price.setText(product.getPrice() + mContext.getResources().getString(R.string.currency_omr));
-            bagViewHolder.price.setText(discount_price + mContext.getResources().getString(R.string.currency_omr));
-//            float total = product.getPrice() * product.getQuantity();
-            total = discount_price * product.getQuantity();
+            bagViewHolder.price.setText(final_displayprice + mContext.getResources().getString(R.string.currency_omr));
+//          float total = product.getPrice() * product.getQuantity();
+            total = final_displayprice * product.getQuantity();
             total = Float.valueOf(df.format(total));
             grandTotal = grandTotal + total;
             bagViewHolder.total.setText(total + mContext.getResources().getString(R.string.currency_omr));
@@ -244,7 +240,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         return ids;
     }
 
-
     @Override
     public int getItemCount() {
         return productArrayList == null ? 0 : productArrayList.size();
@@ -321,7 +316,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             } else {
                 String text = String.format(mContext.getResources().getString(R.string.items_available_count), productArrayList.get(getPosition).getQuantity());
 
-//                              String text = mContext.getResources().getString(R.string.items_available_count) + productArrayList.get(getPosition).getQuantity();
+//            String text = mContext.getResources().getString(R.string.items_available_count) + productArrayList.get(getPosition).getQuantity();
                 Constants.showAlert(mContext.getResources().getString(R.string.title_my_bag),
                         text,
                         mContext.getResources().getString(R.string.cancel),

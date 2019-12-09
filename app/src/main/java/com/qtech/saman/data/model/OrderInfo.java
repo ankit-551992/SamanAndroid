@@ -20,7 +20,6 @@ public class OrderInfo implements Serializable {
     @Expose
     private String DeliveryDate;
 
-
     public Integer getId() {
         return id;
     }

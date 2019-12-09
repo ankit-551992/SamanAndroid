@@ -97,8 +97,8 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                 if (SamanApp.isEnglishVersion) {
                     favoritesViewHolder.price.setText(getOptionsName(productArrayList.get(position)));
                 } else {
-//                    Log.e("DES",product.getOptionsAR());
-//                    product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
+//                  Log.e("DES",product.getOptionsAR());
+//                  product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
                     favoritesViewHolder.price.setText(getOptionsNameAR(productArrayList.get(position)));
                 }
             } else {

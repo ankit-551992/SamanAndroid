@@ -166,8 +166,6 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
                                 1);
-
-
                     }
                 }
             });

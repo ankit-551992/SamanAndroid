@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
-public class Constants{
+public class Constants {
 
     public static Dialog dialog;
     public static String CARD_LIST = "Payment_methods";
@@ -202,9 +202,9 @@ public class Constants{
 
         nextButton.setText(buttonText);
 //        titleTextView.setText(context.getString(R.string.error));
-        if (title.equals("")){
+        if (title.equals("")) {
             titleTextView.setVisibility(View.GONE);
-        }else {
+        } else {
             titleTextView.setVisibility(View.VISIBLE);
             titleTextView.setText(title);
         }

@@ -291,7 +291,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         }
 
         if (!isNewPromo || isGeneralApplied) {
-            Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply), getString(R.string.close), ShoppingCartActivity.this);
+            Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply),
+                    getString(R.string.close), ShoppingCartActivity.this);
             return;
         }
 
@@ -432,6 +433,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     }
 
     float final_displayprice = 0.0f;
+    float dis_product = 0.0f;
 
     @OnClick(R.id.button_place_order)
     void placeOrder() {
@@ -451,14 +453,13 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
             if (bagArrayList.get(p).getIsSaleProduct().equals("true")) {
                 if (bagArrayList.get(p).getSaleDiscountedType().equals("1")) {
-
-                    float final_displayprice = bagArrayList.get(p).getPrice() - bagArrayList.get(p).getSalePrice();
-
+                    dis_product = bagArrayList.get(p).getSalePrice();
+                    final_displayprice = bagArrayList.get(p).getPrice() - bagArrayList.get(p).getSalePrice();
                 } else if (bagArrayList.get(p).getSaleDiscountedType().equals("2")) {
                     float calculateDiscount = bagArrayList.get(p).getPrice() / 100.0f;
-                    float dis = calculateDiscount * bagArrayList.get(p).getSalePrice();
-                    Log.e("Dis", "---dis--" + dis);
-                    final_displayprice = bagArrayList.get(p).getPrice() - dis;
+                    dis_product = calculateDiscount * bagArrayList.get(p).getSalePrice();
+                    Log.e("Dis", "---dis--" + dis_product);
+                    final_displayprice = bagArrayList.get(p).getPrice() - dis_product;
                 } else {
                     final_displayprice = bagArrayList.get(p).getPrice();
                 }
@@ -476,7 +477,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 //              obj.put("AttributeID", bagArrayList.get(p).getCartAttributeID());
                 obj.put("ProductQuantity", bagArrayList.get(p).getQuantity());
                 obj.put("ProductPrice", bagArrayList.get(p).getPrice());
-                obj.put("Discount", bagArrayList.get(p).getProductDiscountPrice());
+                obj.put("Discount", dis_product);
                 obj.put("couponDiscount", couponDiscount_price);
 
                 JSONArray optionsArray = new JSONArray();
@@ -512,7 +513,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         placeOrderResponse = response.body();
                         if (placeOrderResponse != null) {
                             Log.e("ORDERPLACE", "--placeOrderResponse----" + placeOrderResponse);
-                            Log.e("ORDERPLACE", "--placeOrder----response----" + response.body());
                             if (placeOrderResponse.getSuccess() == 1) {
                                 if (isCOD) {
                                     Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
@@ -531,9 +531,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             } else if (placeOrderResponse.getSuccess() == 0) {
                                 progressBar.setVisibility(View.GONE);
                                 if (placeOrderResponse.getMessage() != null) {
-                                    Toast.makeText(ShoppingCartActivity.this, "" + placeOrderResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Constants.showErrorPopUp(ShoppingCartActivity.this,getResources().getString(R.string.error),
+                                            placeOrderResponse.getMessage(),getResources().getString(R.string.okay));
                                 } else {
-                                    Toast.makeText(ShoppingCartActivity.this, "Order is failed", Toast.LENGTH_SHORT).show();
+                                    Constants.showErrorPopUp(ShoppingCartActivity.this,getResources().getString(R.string.error),
+                                            getResources().getString(R.string.order_fail_msg),getResources().getString(R.string.okay));
                                 }
                             }
                         }
@@ -541,6 +543,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
                     @Override
                     public void onFailure(Call<PlaceOrderResponse> call, Throwable t) {
+                        Constants.showErrorPopUp(ShoppingCartActivity.this,getResources().getString(R.string.error),
+                                getResources().getString(R.string.order_fail_msg),getResources().getString(R.string.okay));
                         progressBar.setVisibility(View.GONE);
                         Log.e("onFailure", "" + t.getMessage());
                     }
@@ -551,7 +555,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     public void OnResponseDialogClick(Context context, String response) {
         Log.e("2222", "--OnResponseDialogClick--response-" + response);
 //        if (response.equals("nextclick")){
-
 //        }
     }
 

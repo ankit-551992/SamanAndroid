@@ -123,7 +123,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     String selectedOptions = "";
     String[] optionIDs;
     int selectedQuantity = -1;
-    float final_displayprice = 0.0f;
+    float final_display_salePrice = 0.0f;
     float product_discount = 0.0f;
 
     Dialog dialog;
@@ -133,8 +133,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
@@ -447,8 +446,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             if (product.getSaleDiscountedType().equals("1")) {
                 product_discount = product.getSalePrice();
                 product.setProductDiscountPrice(product.getSalePrice());
-                final_displayprice = product.getPrice() - product.getSalePrice();
-                salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
+                final_display_salePrice = product.getPrice() - product.getSalePrice();
+                salePrice.setText(final_display_salePrice + " " + getString(R.string.OMR));
 //              productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
                 ll_display_sale.setVisibility(View.VISIBLE);
                 salePrice.setVisibility(View.VISIBLE);
@@ -461,8 +460,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 Log.e("Dis", "---dis--" + dis);
                 product_discount = dis;
                 product.setProductDiscountPrice(dis);
-                final_displayprice = product.getPrice() - dis;
-                salePrice.setText(final_displayprice + " " + getString(R.string.OMR));
+                final_display_salePrice = product.getPrice() - dis;
+                salePrice.setText(final_display_salePrice + " " + getString(R.string.OMR));
 //              productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
                 productPrice.setText(product.getPrice() + " ");
                 ll_display_sale.setVisibility(View.VISIBLE);
@@ -470,6 +469,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 saleString = product.getSalePrice() + " " + getString(R.string.percent_sign) + " " + "Off";
                 productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
+                final_display_salePrice = product.getPrice();
                 productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
                 ll_display_sale.setVisibility(View.GONE);
                 salePrice.setVisibility(View.GONE);
@@ -486,6 +486,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 }
             });
         } else {
+            final_display_salePrice = product.getPrice();
             salePrice.setVisibility(View.GONE);
             ll_display_sale.setVisibility(View.GONE);
             productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));

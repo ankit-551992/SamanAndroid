@@ -463,7 +463,6 @@ public class Product implements Serializable {
         return ProductDiscountPrice;
     }
 
-
     @Override
     public String toString() {
         return "Product{" +
