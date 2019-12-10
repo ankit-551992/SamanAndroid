@@ -643,4 +643,6 @@
 
     <string name="order_fail_msg">فشل الطلب</string>
 
+    <string name="limited_stock">كمية محدودة</string>
+
 </resources>

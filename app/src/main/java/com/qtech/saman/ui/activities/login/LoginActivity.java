@@ -13,6 +13,26 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.User;
@@ -27,24 +47,6 @@ import com.qtech.saman.ui.activities.register.RegisterActivity;
 import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.gson.Gson;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -90,6 +92,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     private static final String TAG = WelcomeActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
     private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInClient googleApiClient;
 
     TwitterAuthClient mTwitterAuthClient;
     CallbackManager callbackManager;
@@ -117,6 +120,15 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
         // Social Login
         mTwitterAuthClient = new TwitterAuthClient();
+//      setGlobals();
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, mFacebookCallback);
+        //Social Login
+        initializeGoogle();
+//      getInvoice();
+    }
+
+    private void setGlobals() {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -126,12 +138,28 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        mGoogleApiClient.connect();
 
-        callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager, mFacebookCallback);
-        //Social Login
+//        user = (User) ConstantMethod.getPreferenceObjectJson(this, ConstantMethod.PREF_USER_OBJECT, User.class);
+//
+//        if (user != null && user.getGoogleId() != null && user.getGoogleId().length() > 0) {
+//            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                    .requestEmail()
+//                    .build();
+//            mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                    .build();
+//            mGoogleApiClient.connect();
+//        }
+    }
 
-//      getInvoice();
+    private void initializeGoogle() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestServerAuthCode("160419179473-f7364ji4t7b3aj9ptlcc676tihots5la.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        googleApiClient = GoogleSignIn.getClient(this, gso);
     }
 
     @OnClick(R.id.toolbar_back)
@@ -234,7 +262,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
     @Override
     public void loginResponse(User user) {
-
         Log.e("LOGIN_URL", "-----response---login---" + user.toString());
         if (isGuestTry) {
             GlobalValues.saveUser(LoginActivity.this, user);
@@ -278,7 +305,8 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
     @OnClick(R.id.google_signIn)
     public void googleSignIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+//      Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = googleApiClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -286,7 +314,8 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     public void onStart() {
         super.onStart();
 
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        setGlobals();
+    /*    OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
@@ -302,7 +331,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                     handleSignInResult(googleSignInResult);
                 }
             });
-        }
+        }*/
     }
 
     @Override
@@ -312,17 +341,15 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         callbackManager.onActivityResult(requestCode, resultCode, data);
-
         super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//            handleSignInResult(result);
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
         }
-
         mTwitterAuthClient.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -342,6 +369,27 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             socialLogin(1);
 //          Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
 //          startActivity(intent);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> task) {
+        try {
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            Log.w("TAG", "signInResult:" + account.getEmail());
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+
+            socialName = acct.getDisplayName();
+            if (acct != null) {
+                if (acct.getPhotoUrl() != null) {
+                    socialPhotoUrl = acct.getPhotoUrl().toString();
+                    Log.e("PHOTO00", "--socialPhotoUrl----" + socialPhotoUrl);
+                }
+            }
+            socialEmail = acct.getEmail();
+            socialLogin(1);
+        } catch (ApiException e) {
+            Log.w("TAG", "signInResult:failed code=" + e.toString());
+            Log.w("TAG", "signInResult:failed code=" + e.getLocalizedMessage());
         }
     }
 
@@ -408,7 +456,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             public void success(Result<com.twitter.sdk.android.core.models.User> userResult) {
                 com.twitter.sdk.android.core.models.User user = userResult.data;
                 socialName = userResult.data.name;
-                // _normal (48x48px) | _bigger (73x73px) | _mini (24x24px)
+                //_normal (48x48px) | _bigger (73x73px) | _mini (24x24px)
                 socialPhotoUrl = userResult.data.profileImageUrl;
                 String photoUrlBiggerSize = userResult.data.profileImageUrl.replace("_normal", "_bigger");
                 String photoUrlMiniSize = userResult.data.profileImageUrl.replace("_normal", "_mini");
@@ -482,9 +530,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                     location = "";
                                     e.printStackTrace();
                                 }
-
                                 fbProfileImage();
-//
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -563,7 +609,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                 GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
                                 finish();
                             } else {
-                                Log.e("SOCIAL_LOGIN", "--google--socialID--" + socialID + "--getProfileImagePath--"+user.getProfileImagePath());
+                                Log.e("SOCIAL_LOGIN", "--google--socialID--" + socialID + "--getProfileImagePath--" + user.getProfileImagePath());
                                 user.setSocialID(socialID);
 //                                user.setProfileImagePath(socialPhotoUrl);
                                 GlobalValues.saveUser(LoginActivity.this, user);

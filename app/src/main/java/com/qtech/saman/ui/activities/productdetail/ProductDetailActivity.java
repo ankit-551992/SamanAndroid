@@ -137,8 +137,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//      setSupportActionBar(toolbar);
+//      getSupportActionBar().setDisplayShowTitleEnabled(false);
         authenticatedUser = GlobalValues.getUser(this);
 //        if (getIntent().hasExtra("ProductID1")) {
 //            String productID = getIntent().getStringExtra("ProductID1");
@@ -259,7 +259,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(),
                             Integer.parseInt(productCount.getText().toString()), product.getProductDiscountPrice())) {
-                      /* showPopUp(getString(R.string.item_added_bag),
+                      /*showPopUp(getString(R.string.item_added_bag),
                                 getString(R.string.item_added_message),
                                 getString(R.string.continue_shopping),
                                 getString(R.string.view_bag),
@@ -316,10 +316,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             productCount.setText(String.valueOf(current));
         } else {
             String text = String.format(getString(R.string.items_available_count), product.getQuantity());
-            Constants.showAlert(getString(R.string.title_my_bag),
-                    text,
-                    getString(R.string.cancel),
-                    this);
+            Constants.showAlert("",
+                    getString(R.string.limited_stock),
+                    getString(R.string.okay),
+                    ProductDetailActivity.this);
         }
     }
 

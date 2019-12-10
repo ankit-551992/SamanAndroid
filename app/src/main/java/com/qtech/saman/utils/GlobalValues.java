@@ -55,6 +55,14 @@ public class GlobalValues {
         editor.apply();
     }
 
+    public static void setUserLogout(Context ctx, boolean isLogin) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("UserLoginStatus", isLogin);
+        editor.clear();
+        editor.apply();
+    }
+
     public static boolean getUserLoginStatus(Context ctx) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sharedPreferences.getBoolean("UserLoginStatus", false);

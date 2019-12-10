@@ -666,24 +666,32 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                                 @Override
                                 public void onResult(Status status) {
                                     GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
+                                    GlobalValues.setUserLogout(DashboardActivity.this, false);
                                     Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(mainIntent);
                                     finish();
                                 }
                             });
                 } else if (authenticatedUser.getSocialID() == 2) {
                     GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
+                    GlobalValues.setUserLogout(DashboardActivity.this, false);
                     Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();
                 } else if (authenticatedUser.getSocialID() == 3) {
                     GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
+                    GlobalValues.setUserLogout(DashboardActivity.this, false);
                     Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();
                 } else {
                     GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
+                    GlobalValues.setUserLogout(DashboardActivity.this, false);
                     Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                     finish();
                 }
@@ -692,11 +700,8 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         });
 
         Animation animation;
-        animation = AnimationUtils.loadAnimation(mContext,
-                R.anim.fade_in);
-
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
 }

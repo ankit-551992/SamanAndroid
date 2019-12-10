@@ -373,7 +373,6 @@
     <string name="card_end_number">Card ending number</string>
 
     <!--Card-->
-
     <string name="notifications_admin_channel_name">Global channel</string>
     <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
     <string name="facebook_app_id">293002707997112</string>
@@ -580,5 +579,7 @@
     <string name="map_dialog_msg">Only Oman country is valid for shipping.</string>
     <string name="select_address">Shipping Address</string>
     <string name="order_fail_msg">Order Failed</string>
+
+    <string name="limited_stock">Limited stock</string>
 
 </resources>

@@ -356,13 +356,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 promoSaved = promoSaved + dis;
                             }
                           /*  for (int p = 0; p < bagArrayList.size(); p++) {
-
                                 int productId = bagArrayList.get(p).getID();
-
                                 if (promoVerify.getResult().getProductID().contains(productId)) {
-
                                     if (!appliedProducts.contains(productId)) {
-
                                         if (promoVerify.getResult().getDiscountType() == 1) {
                                             //Percentage
                                             float calculateDiscount = bagArrayList.get(p).getPrice() / 100.0f;
@@ -400,7 +396,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         discount_price = String.valueOf(promoSaved);
                     } else {
                         Constants.showAlert(getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again), ShoppingCartActivity.this);
-//                        Constants.showErrorPopUp(ShoppingCartActivity.this, getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again));
+//                      Constants.showErrorPopUp(ShoppingCartActivity.this, getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again));
                     }
                 }
                 promoEditText.setText("");
@@ -461,9 +457,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     Log.e("Dis", "---dis--" + dis_product);
                     final_displayprice = bagArrayList.get(p).getPrice() - dis_product;
                 } else {
+                    dis_product = 0.0f;
                     final_displayprice = bagArrayList.get(p).getPrice();
                 }
             } else {
+                dis_product = 0.0f;
                 final_displayprice = bagArrayList.get(p).getPrice();
             }
 
@@ -531,11 +529,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             } else if (placeOrderResponse.getSuccess() == 0) {
                                 progressBar.setVisibility(View.GONE);
                                 if (placeOrderResponse.getMessage() != null) {
-                                    Constants.showErrorPopUp(ShoppingCartActivity.this,getResources().getString(R.string.error),
-                                            placeOrderResponse.getMessage(),getResources().getString(R.string.okay));
+                                    Constants.showErrorPopUp(ShoppingCartActivity.this, getResources().getString(R.string.error),
+                                            placeOrderResponse.getMessage(), getResources().getString(R.string.okay));
                                 } else {
-                                    Constants.showErrorPopUp(ShoppingCartActivity.this,getResources().getString(R.string.error),
-                                            getResources().getString(R.string.order_fail_msg),getResources().getString(R.string.okay));
+                                    Constants.showErrorPopUp(ShoppingCartActivity.this, getResources().getString(R.string.error),
+                                            getResources().getString(R.string.order_fail_msg), getResources().getString(R.string.okay));
                                 }
                             }
                         }
@@ -543,8 +541,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
                     @Override
                     public void onFailure(Call<PlaceOrderResponse> call, Throwable t) {
-                        Constants.showErrorPopUp(ShoppingCartActivity.this,getResources().getString(R.string.error),
-                                getResources().getString(R.string.order_fail_msg),getResources().getString(R.string.okay));
+                        Constants.showErrorPopUp(ShoppingCartActivity.this, getResources().getString(R.string.error),
+                                getResources().getString(R.string.order_fail_msg), getResources().getString(R.string.okay));
                         progressBar.setVisibility(View.GONE);
                         Log.e("onFailure", "" + t.getMessage());
                     }
@@ -730,7 +728,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         deliveryCost = 2.0f;
                         break;
                 }
-
             }
             priceToPay = deliveryCost + price;
             priceToPay = priceToPay - promoSaved;
@@ -975,16 +972,13 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     }
 
     private void getCountriesAPI() {
-        Log.e("COUNTRYAPI", "--country---api---");
         WebServicesHandler.instance.getCountries(new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JSONObject JObject = new JSONObject(response.body().string());
-                    //   JSONObject JObject = new JSONObject(response.body().toString());
                     int status = 0;
                     status = JObject.getInt("success");
-
                     if (status == 0) {
                         getCountriesAPI();
                     } else if (status == 1) {
@@ -1027,7 +1021,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         }
                     }
                     Log.e("COUNTRYAPI", "-- GlobalValues.countries---api---" + GlobalValues.countries);
-                    //   countriesAdapter.notifyDataSetChanged();
+                    // countriesAdapter.notifyDataSetChanged();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

@@ -119,7 +119,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             if (product.getIsSaleProduct().equals("true")) {
                 if (product.getSaleDiscountedType().equals("1")) {
                     product_discount = product.getSalePrice();
-                    product.setProductDiscountPrice( product.getSalePrice());
+                    product.setProductDiscountPrice(product.getSalePrice());
                     final_displayprice = product.getPrice() - product.getSalePrice();
                 } else if (product.getSaleDiscountedType().equals("2")) {
                     float calculateDiscount = product.getPrice() / 100.0f;
@@ -168,7 +168,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             bagViewHolder.layout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     if (GlobalValues.getGuestLoginStatus(mContext)) {
                         Constants.showLoginDialog(mContext);
                         return;
@@ -314,11 +313,11 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
                 updateNotify();
             } else {
-                String text = String.format(mContext.getResources().getString(R.string.items_available_count), productArrayList.get(getPosition).getQuantity());
+//                String text = String.format(mContext.getResources().getString(R.string.items_available_count),
+//                        productArrayList.get(getPosition).getQuantity());
 
 //            String text = mContext.getResources().getString(R.string.items_available_count) + productArrayList.get(getPosition).getQuantity();
-                Constants.showAlert(mContext.getResources().getString(R.string.title_my_bag),
-                        text,
+                Constants.showAlert("", mContext.getResources().getString(R.string.limited_stock),
                         mContext.getResources().getString(R.string.cancel),
                         mContext);
             }

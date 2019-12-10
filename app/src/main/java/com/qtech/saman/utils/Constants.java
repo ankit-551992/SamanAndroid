@@ -152,7 +152,13 @@ public class Constants {
 
         nextButton.setText(buttonText);
 //        titleTextView.setText(context.getString(R.string.error));
-        titleTextView.setText(title);
+        if (!title.equals("") && title.toString() != null) {
+            titleTextView.setVisibility(View.VISIBLE);
+            titleTextView.setText(title);
+        } else {
+            titleTextView.setVisibility(View.GONE);
+        }
+
         messageTextView.setText(message);
 //        messageTextView.setText(context.getString(R.string.missing_options));
 

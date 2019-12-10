@@ -199,7 +199,7 @@ public class ProductsCategoryFragment extends BaseFragment {
                         empty.setVisibility(View.GONE);
                     } else {
                         empty.setVisibility(View.VISIBLE);
-                        empty.setText(getActivity().getResources().getString(R.string.no_product_found));
+                        empty.setText(context.getResources().getString(R.string.no_product_found));
                     }
                     swipeRefreshLayout.setRefreshing(false);
                 }
