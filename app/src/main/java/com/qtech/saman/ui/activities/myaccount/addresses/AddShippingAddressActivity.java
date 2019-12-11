@@ -226,59 +226,16 @@ public class AddShippingAddressActivity extends BaseActivity {
         } else if (requestCode == 1199) {
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
-//                countryName.setText(returnedResult);
-//                if (GlobalValues.countries != null) {
-//                    for (int i = 0; i < GlobalValues.countries.size(); i++) {
-//                        if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
-//                            selectedCountry = GlobalValues.countries.get(i);
-//                            Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-//                            if (SamanApp.isEnglishVersion) {
-//                                countryName.setText(selectedCountry.getName());
-//                            } else {
-//                                countryName.setText(selectedCountry.getName_AR());
-//                            }
-//                        }
-//                    }
-//                }
+                Log.e("LAT0LNG0", "---000-returnedResult---" + returnedResult);
 
                 if (returnedResult != null && !returnedResult.isEmpty()) {
-                    for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                        if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(AddShippingAddressActivity.this))) {
-                            countryEditText.setText(GlobalValues.countries.get(i).getName());
-                        }
-                    }
-//                    if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(getResources().getString(R.string.oman))) {
-//                        ll_region.setVisibility(View.VISIBLE);
-//                    } else {
-//                        ll_region.setVisibility(View.GONE);
-//                    }
+                    countryEditText.setText(returnedResult);
                     if (countryEditText.getText().toString().equalsIgnoreCase(getResources().getString(R.string.oman))) {
                         ll_region.setVisibility(View.VISIBLE);
                     } else {
                         ll_region.setVisibility(View.GONE);
                     }
                 }
-
-            /*    if (returnedResult != null && !returnedResult.isEmpty()) {
-                    if (GlobalValues.countries != null) {
-                        for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                            if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(returnedResult)
-                                    || GlobalValues.countries.get(i).getName_AR().equalsIgnoreCase(returnedResult)) {
-                                if (SamanApp.isEnglishVersion) {
-                                    countryEditText.setText(GlobalValues.countries.get(i).getName());
-                                } else {
-                                    countryEditText.setText(GlobalValues.countries.get(i).getName_AR());
-                                }
-
-                                if (GlobalValues.countries.get(i).getName().equalsIgnoreCase(getResources().getString(R.string.oman))) {
-                                    ll_region.setVisibility(View.VISIBLE);
-                                } else {
-                                    ll_region.setVisibility(View.GONE);
-                                }
-                            }
-                        }
-                    }
-                }*/
             }
         } else if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {

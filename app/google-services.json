@@ -8,72 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:944916770217:android:37e476a6d2fee18f",
-        "android_client_info": {
-          "package_name": "com.algorepublic.saman"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "944916770217-s3f1su7ef4rrvf32kdftifhs7t48ldtb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.algorepublic.saman",
-            "certificate_hash": "d0d7cf8eb7c4338b2a2cef64d196ce9adf2e15cd"
-          }
-        },
-        {
-          "client_id": "944916770217-vf86l554ke46j1babloc8h039p7l92bl.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.algorepublic.saman",
-            "certificate_hash": "5687f402631b939f0fc9ac940efd67347ebe3bd6"
-          }
-        },
-        {
-          "client_id": "944916770217-6itfv3mc2rbi3mdmuac1poep2ke5or77.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.algorepublic.saman",
-            "certificate_hash": "d3c4dc8650d608fbffaf2c001e51c2a8bb32c7ed"
-          }
-        },
-        {
-          "client_id": "944916770217-tu259bfkulvvjcp8kqutk81srgmo8oka.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAlfXP_wNNrn3KXdD4XRbKm5776OJ1tkVE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "944916770217-tu259bfkulvvjcp8kqutk81srgmo8oka.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "944916770217-k0o9nldrvkjnovi1uqar610joibhdf7q.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.qtech.saman"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:944916770217:android:d7a15ef1f69f4673",
         "android_client_info": {
           "package_name": "com.qtech.saman"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "944916770217-9shd1cequv585kc9vdanj7lfao21i2tl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qtech.saman",
+            "certificate_hash": "fe6ad7b8d3f1bbdb5edb6c3dcb7fac445285fa3a"
+          }
+        },
         {
           "client_id": "944916770217-8bfkknh8juusrlbv2iobqn33j8be9f4d.apps.googleusercontent.com",
           "client_type": 1,

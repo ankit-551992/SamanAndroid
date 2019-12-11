@@ -51,6 +51,7 @@ public class CountriesListingActivity extends BaseActivity {
 
     int cartlist_code;
     boolean getCode = false;
+    int select_pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,36 +87,30 @@ public class CountriesListingActivity extends BaseActivity {
             Log.e("COUNTRY", "---cartlist_code--");
             GlobalValues.countries = new ArrayList<>();
             getCountriesAPI();
-            layoutManager = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL));
-            countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
-            recyclerView.setAdapter(countriesAdapter);
+            setAdapter();
         } else {
             if (GlobalValues.countries == null || GlobalValues.countries.size() == 0) {
                 GlobalValues.countries = new ArrayList<>();
                 getCountries();
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setNestedScrollingEnabled(false);
-                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL));
-                countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
-                recyclerView.setAdapter(countriesAdapter);
+                setAdapter();
                 Log.e("COUNTRY", "---getCountries---if---");
-//              getCountries();
             } else {
                 Log.e("COUNTRY", "---getCountries---else-");
                 GlobalValues.countries = new ArrayList<>();
                 getCountries();
-                layoutManager = new LinearLayoutManager(this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setNestedScrollingEnabled(false);
-                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL));
-                countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
-                recyclerView.setAdapter(countriesAdapter);
+                setAdapter();
             }
         }
+    }
+
+    private void setAdapter() {
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL));
+        countriesAdapter = new CountriesAdapter(this, GlobalValues.countries, getCode);
+        recyclerView.setAdapter(countriesAdapter);
+        recyclerView.scrollToPosition(select_pos);
     }
 
     private void getCountries() {
@@ -134,22 +129,22 @@ public class CountriesListingActivity extends BaseActivity {
                 country.setFlag("https://www.saman.om/Flags/flag_" + jsonObject.getString("sortname").toLowerCase() + ".png");
                 country.setPhoneCode("" + jsonObject.getInt("phoneCode"));
 
+                if (GlobalValues.getSelectedCountry(this).equalsIgnoreCase(country.getSortname())) {
+                    select_pos = i;
+                }
                 GlobalValues.countries.add(country);
             }
-           // countriesAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void getCountriesAPI() {
-        Log.e("COUNTRYAPI", "--country-activity--api---");
         WebServicesHandler.instance.getCountries(new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JSONObject JObject = new JSONObject(response.body().string());
-                    Log.e("COUNTRYAPI", "--country-activity--JObject---" + JObject);
                     int status = 0;
                     status = JObject.getInt("success");
                     if (status == 0) {
@@ -175,6 +170,7 @@ public class CountriesListingActivity extends BaseActivity {
                                 country.setFlag(Constants.URLS.BaseURLImages + flagURL);
                                 country.setPhoneCode(jsonObject.getString("CountryCode"));
                                 country.setName_AR(jsonObject.getString("CountryNameAR"));
+
                                 GlobalValues.countries.add(country);
                             }
                         }

@@ -317,7 +317,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         } else {
             String text = String.format(getString(R.string.items_available_count), product.getQuantity());
             Constants.showAlert("",
-                    getString(R.string.limited_stock),
+                    getString(R.string.out_of_stock),
                     getString(R.string.okay),
                     ProductDetailActivity.this);
         }
@@ -431,29 +431,18 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             }
         }
 
-//        if (product.getIsSaleProduct().equals("true")) {
-//            salePrice.setVisibility(View.VISIBLE);
-//            salePrice.setText(product.getSalePrice() + " " + getString(R.string.OMR));
-//            // productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
-//            productPrice.setText(product.getPrice() + " ");
-//            productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//        } else {
-//            salePrice.setVisibility(View.GONE);
-//            productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
-//        }
-
         if (product.getIsSaleProduct().equals("true")) {
             if (product.getSaleDiscountedType().equals("1")) {
                 product_discount = product.getSalePrice();
                 product.setProductDiscountPrice(product.getSalePrice());
                 final_display_salePrice = product.getPrice() - product.getSalePrice();
                 salePrice.setText(final_display_salePrice + " " + getString(R.string.OMR));
-//              productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
                 ll_display_sale.setVisibility(View.VISIBLE);
                 salePrice.setVisibility(View.VISIBLE);
                 saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + "Off";
                 productPrice.setText(product.getPrice() + " ");
                 productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                productPrice.setTextColor(getResources().getColor(R.color.grey));
             } else if (product.getSaleDiscountedType().equals("2")) {
                 float calculateDiscount = product.getPrice() / 100.0f;
                 float dis = calculateDiscount * product.getSalePrice();
@@ -462,14 +451,15 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 product.setProductDiscountPrice(dis);
                 final_display_salePrice = product.getPrice() - dis;
                 salePrice.setText(final_display_salePrice + " " + getString(R.string.OMR));
-//              productPrice.setText(final_displayprice + " " + getString(R.string.OMR));
                 productPrice.setText(product.getPrice() + " ");
                 ll_display_sale.setVisibility(View.VISIBLE);
                 salePrice.setVisibility(View.VISIBLE);
                 saleString = product.getSalePrice() + " " + getString(R.string.percent_sign) + " " + "Off";
+                productPrice.setTextColor(getResources().getColor(R.color.grey));
                 productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
                 final_display_salePrice = product.getPrice();
+                productPrice.setTextColor(getResources().getColor(R.color.black));
                 productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
                 ll_display_sale.setVisibility(View.GONE);
                 salePrice.setVisibility(View.GONE);
@@ -489,6 +479,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             final_display_salePrice = product.getPrice();
             salePrice.setVisibility(View.GONE);
             ll_display_sale.setVisibility(View.GONE);
+            productPrice.setTextColor(getResources().getColor(R.color.black));
             productPrice.setText(product.getPrice() + " " + getString(R.string.OMR));
         }
 

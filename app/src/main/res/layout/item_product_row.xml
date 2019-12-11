@@ -68,7 +68,8 @@
                     android:layout_gravity="start|center_vertical"
                     android:textSize="12sp"
                     android:gravity="start"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tv_discount_price"

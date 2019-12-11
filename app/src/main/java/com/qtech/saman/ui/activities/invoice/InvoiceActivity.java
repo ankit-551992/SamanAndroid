@@ -159,12 +159,12 @@ public class InvoiceActivity extends BaseActivity {
             deliveryDateTextView.setText(dateFormatted.toString());
 
             if (orderHistory.getShippingAddress() != null) {
-                String address = orderHistory.getShippingAddress().getAddressLine1().replace(",", "\n\n");
-                address = address + "\n\n" + orderHistory.getShippingAddress().getCity();
-                address = address + "\n\n" + orderHistory.getShippingAddress().getCountry();
+                String address = orderHistory.getShippingAddress().getAddressLine1().replace(",", ", ");
+                address = address + ", " + orderHistory.getShippingAddress().getCity();
+                address = address + ", " + orderHistory.getShippingAddress().getCountry();
                 shippingAddress.setText(address);
             } else {
-                shippingAddress.setText("Muscat\n\nOman");
+                shippingAddress.setText("Muscat" + ", " + "Oman");
             }
         }
         setBag();

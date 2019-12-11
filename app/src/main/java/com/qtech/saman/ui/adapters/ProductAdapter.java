@@ -98,6 +98,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         final_displayprice = product.getPrice() - product.getSalePrice();
                         productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
                         productViewHolder.productPrice.setText(product.getPrice() + " ");
+                        productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
                         productViewHolder.productPrice.setPaintFlags(productViewHolder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     } else if (product.getSaleDiscountedType().equals("2")) {
                         float calculateDiscount = product.getPrice() / 100.0f;
@@ -106,21 +107,24 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         final_displayprice = product.getPrice() - dis;
                         productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
                         productViewHolder.productPrice.setText(product.getPrice() + " ");
+                        productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
                         productViewHolder.productPrice.setPaintFlags(productViewHolder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     } else {
                         productViewHolder.discount_price.setText("");
+                        productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                         productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
                     }
                 } else {
                     final_displayprice = product.getPrice();
                     productViewHolder.discount_price.setText("");
+                    productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                     productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
                 }
             } else {
                 productViewHolder.discount_price.setText("");
+                productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                 productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
             }
-
 
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())

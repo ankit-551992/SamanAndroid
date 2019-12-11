@@ -70,6 +70,7 @@
                     android:layout_gravity="start|center_vertical"
                     android:textSize="12sp"
                     android:gravity="start"
+                    android:textStyle="bold"
                     android:textColor="@color/black"/>
 
                 <TextView

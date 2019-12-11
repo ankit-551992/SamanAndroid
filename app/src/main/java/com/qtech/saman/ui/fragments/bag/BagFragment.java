@@ -83,7 +83,6 @@ public class BagFragment extends BaseFragment {
             intent.putExtra("Price", grandTotal);
             startActivity(intent);
         } else {
-
         }
     }
 

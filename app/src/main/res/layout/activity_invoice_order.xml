@@ -280,9 +280,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/delivery_address" />
 
-
             </LinearLayout>
-
 
             <LinearLayout
                 android:orientation="vertical"

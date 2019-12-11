@@ -3,12 +3,14 @@ package com.qtech.saman.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,8 +32,10 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    List<Country> countries = new ArrayList<>();
+    private List<Country> countries = new ArrayList<>();
     private Context mContext;
+    int selectedPosition = -1;
+    private int focusedItem = 0;
 
     boolean getCode;
 
@@ -62,12 +66,20 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof CountryViewHolder) {
             CountryViewHolder countryViewHolder = (CountryViewHolder) holder;
-            if (SamanApp.isEnglishVersion){
+
+            if (SamanApp.isEnglishVersion) {
                 countryViewHolder.countryName.setText(countries.get(position).getName());
-            }else {
+            } else {
                 countryViewHolder.countryName.setText(countries.get(position).getName_AR());
             }
 
+            if (countries.get(position).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(mContext))) {
+                countryViewHolder.iv_selected_country.setVisibility(View.VISIBLE);
+                countryViewHolder.countryName.setText(countries.get(position).getName());
+                countryViewHolder.countryName.setTextColor(Color.parseColor("#000000"));
+            } else {
+                countryViewHolder.iv_selected_country.setVisibility(View.GONE);
+            }
             countryViewHolder.countryCode.setText("(+" + countries.get(position).getPhoneCode() + ")");
 
             Picasso.get().load(countries.get(position).getFlag()).into(countryViewHolder.flag);
@@ -111,6 +123,10 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView countryCode;
         @BindView(R.id.imgViewFlag)
         ImageView flag;
+        @BindView(R.id.ll_country)
+        LinearLayout ll_country;
+        @BindView(R.id.iv_selected_country)
+        ImageView iv_selected_country;
 
         public CountryViewHolder(View v) {
             super(v);
@@ -118,7 +134,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public LoadingViewHolder(View itemView) {
@@ -126,4 +142,5 @@ public class CountriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             progressBar = (ProgressBar) itemView.findViewById(R.id.native_progress_bar);
         }
     }
+
 }

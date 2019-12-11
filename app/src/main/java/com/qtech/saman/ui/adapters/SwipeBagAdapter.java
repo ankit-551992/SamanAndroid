@@ -138,12 +138,12 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
             final_displayprice = Float.valueOf(df.format(final_displayprice));
 //          bagViewHolder.price.setText(product.getPrice() + mContext.getResources().getString(R.string.currency_omr));
-            bagViewHolder.price.setText(final_displayprice + mContext.getResources().getString(R.string.currency_omr));
+            bagViewHolder.price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.currency_omr));
 //          float total = product.getPrice() * product.getQuantity();
             total = final_displayprice * product.getQuantity();
             total = Float.valueOf(df.format(total));
             grandTotal = grandTotal + total;
-            bagViewHolder.total.setText(total + mContext.getResources().getString(R.string.currency_omr));
+            bagViewHolder.total.setText(total + " " + mContext.getResources().getString(R.string.currency_omr));
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
 
             bagFragment.updateTotal(grandTotal, 0);
@@ -316,10 +316,9 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 //                String text = String.format(mContext.getResources().getString(R.string.items_available_count),
 //                        productArrayList.get(getPosition).getQuantity());
 
-//            String text = mContext.getResources().getString(R.string.items_available_count) + productArrayList.get(getPosition).getQuantity();
-                Constants.showAlert("", mContext.getResources().getString(R.string.limited_stock),
-                        mContext.getResources().getString(R.string.cancel),
-                        mContext);
+                Constants.showAlert("",
+                        mContext.getResources().getString(R.string.out_of_stock),
+                        mContext.getResources().getString(R.string.okay), mContext);
             }
         }
 

@@ -100,7 +100,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 brandViewHolder.productDescription.setText(product.getProductNameAR());
                 brandViewHolder.storeName.setText(product.getStoreNameAR());
             }
-            brandViewHolder.productPrice.setText(product.getPrice() + mContext.getResources().getString(R.string.OMR));
+            brandViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getResources().getString(R.string.OMR));
 
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())

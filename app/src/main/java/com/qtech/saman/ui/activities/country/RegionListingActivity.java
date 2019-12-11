@@ -91,8 +91,7 @@ public class RegionListingActivity extends BaseActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-                LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL));
         regionsAdapter = new RegionsAdapter(this, regions);
         recyclerView.setAdapter(regionsAdapter);
     }

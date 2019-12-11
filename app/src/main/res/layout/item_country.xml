@@ -1,35 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_country"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:orientation="horizontal" >
+    android:weightSum="2"
+    android:orientation="horizontal">
 
-
-    <ImageView
-        android:layout_marginStart="10dp"
-        android:id="@+id/imgViewFlag"
-        android:layout_height="40dp"
-        android:layout_width="40dp"
-        android:src="@drawable/ads" />
-
-    <TextView
-        android:layout_marginStart="15dp"
-        android:layout_gravity="center_vertical"
-        android:id="@+id/txtViewCountryName"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="0dp"
-        android:textSize="20sp"
-        android:layout_weight="1"/>
-
-
-    <TextView
-        android:id="@+id/txtViewCountryCode"
-        android:layout_marginEnd="15dp"
-        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_width="wrap_content" />
+        android:layout_weight="0.3">
 
+        <ImageView
+            android:id="@+id/imgViewFlag"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ads"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/txtViewCountryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtViewCountryCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2">
+
+        <ImageView
+            android:id="@+id/iv_selected_country"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_check"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </LinearLayout>

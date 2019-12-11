@@ -131,45 +131,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
         myCalendar = Calendar.getInstance();
-/*        if (GlobalValues.countries != null) {
-            for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
-                    selectedCountry = GlobalValues.countries.get(i);
-                    if (SamanApp.isEnglishVersion) {
-                        countryName.setText(selectedCountry.getName());
-                    } else {
-                        countryName.setText(selectedCountry.getName_AR());
-                    }
-                    Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                    if (selectedCountry.getName().equalsIgnoreCase("oman")) {
-                        regionView.setVisibility(View.VISIBLE);
-                        regionSelectionLinearLayout.setVisibility(View.VISIBLE);
-                        if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
-                            regionName.setText(authenticatedUser.getRegion());
-//                            if (SamanApp.isEnglishVersion) {
-//                                regionlist = getResources().getStringArray(R.array.regions);
-//
-//                                for (String str : regionlist) {
-//                                    if (str.equals(authenticatedUser.getRegion())) {
-//                                        regionName.setText(str);
-//                                    }
-//                                }
-//                            } else {
-//                                regionlist = getResources().getStringArray(R.array.regions);
-//                                for (String str : regionlist) {
-//                                    if (str.equalsIgnoreCase(authenticatedUser.getRegion())) {
-//                                        regionName.setText(str);
-//                                    }
-//                                }
-//                            }
-                        }
-                    } else {
-                        regionSelectionLinearLayout.setVisibility(View.GONE);
-                        regionView.setVisibility(View.GONE);
-                    }
-                }
-            }
-        }*/
 
         firstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -238,14 +199,15 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
             if (GlobalValues.countries != null) {
                 for (int i = 0; i < GlobalValues.countries.size(); i++) {
-//                    if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry()) || GlobalValues.countries.get(i).getName_AR().equals(authenticatedUser.getCountry())) {
                     if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry())) {
                         if (SamanApp.isEnglishVersion) {
                             countryName.setText(GlobalValues.countries.get(i).getName());
                         } else {
                             countryName.setText(GlobalValues.countries.get(i).getName_AR());
                         }
+                        GlobalValues.setSelectedCountry(this, GlobalValues.countries.get(i).getSortname());
                     }
+
                     Picasso.get().load(GlobalValues.countries.get(i).getFlag()).transform(new CircleTransform()).into(countryFlag);
                 }
             }
@@ -258,32 +220,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 regionView.setVisibility(View.GONE);
             }
         }
-
-//      countryName.setText(authenticatedUser.getCountry());
-        /*if (authenticatedUser.getShippingAddress() != null) {
-            if (authenticatedUser.getShippingAddress().getAddressLine1() != null) {
-                if (authenticatedUser.getShippingAddress().getCity() != null) {
-                    if (authenticatedUser.getShippingAddress().getCountry() != null) {
-                        addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1() + "," + authenticatedUser.getShippingAddress().getCity() + "," + authenticatedUser.getShippingAddress().getCountry());
-                    } else {
-                        addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1() + "," + authenticatedUser.getShippingAddress().getCity());
-                    }
-                } else {
-                    addressEditText.setText(authenticatedUser.getShippingAddress().getAddressLine1());
-                }
-            } else {
-                if (authenticatedUser.getShippingAddress().getCity() != null) {
-
-                    if (authenticatedUser.getShippingAddress().getCountry() != null) {
-                        addressEditText.setText(authenticatedUser.getShippingAddress().getCity() + "," + authenticatedUser.getShippingAddress().getCountry());
-                    } else {
-                        addressEditText.setText(authenticatedUser.getShippingAddress().getCity());
-                    }
-                } else if (authenticatedUser.getShippingAddress().getCountry() != null) {
-                    addressEditText.setText(authenticatedUser.getShippingAddress().getCountry());
-                }
-            }
-        }*/
 
         Log.e("FLAG000", "--getShippingAddress--" + authenticatedUser.getShippingAddress());
         if (authenticatedUser.getShippingAddress() != null) {
@@ -364,13 +300,11 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         DatePickerDialog dialog = new DatePickerDialog(MyDetailsActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
-//        dialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
         dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
         dialog.show();
     }
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             // TODO Auto-generated method stub
@@ -417,33 +351,10 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String phone = ccp.getText().toString() + phoneEditText.getText().toString();
         String region = regionName.getText().toString();
 
-     /* if (!dayEditText.getText().toString().equals("") && !TextUtils.isEmpty(dayEditText.getText().toString())) {
-            choose_date = Integer.parseInt(dayEditText.getText().toString());
-            day = String.valueOf(choose_date);
-        }
-        if (!monthEditText.getText().toString().equals("") && !TextUtils.isEmpty(monthEditText.getText().toString())) {
-            mon = Integer.parseInt(monthEditText.getText().toString());
-            month = String.valueOf(mon);
-        }
-        if (!yearEditText.getText().toString().equals("") && !TextUtils.isEmpty(yearEditText.getText().toString())) {
-            yr = Integer.parseInt(yearEditText.getText().toString());
-            year = String.valueOf(yr);
-        }*/
-
         String day = dayEditText.getText().toString();
         String month = monthEditText.getText().toString();
         String year = yearEditText.getText().toString();
         String dob = month + "-" + day + "-" + year;
-
-//        String day = String.valueOf(choose_date);
-//        String month = String.valueOf(mon);
-//        String year = String.valueOf(yr);
-
-    /*    if (!month.equals("") && !day.equals("") && !year.equals("")) {
-
-        } else {
-            Constants.showAlert(getString(R.string.my_details), getString(R.string.dob_missing), getString(R.string.okay), MyDetailsActivity.this);
-        }*/
 
         if (isDataValid(firstName, lastName, gender, address, day, month, year, phone, dob)) {
             phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
@@ -487,20 +398,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {
                 String returnedResult = data.getData().toString();
-//                countryName.setText(returnedResult);
-//                if (GlobalValues.countries != null) {
-//                    for (int i = 0; i < GlobalValues.countries.size(); i++) {
-//                        if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(MyDetailsActivity.this))) {
-//                            selectedCountry = GlobalValues.countries.get(i);
-//                            Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-//                            if (SamanApp.isEnglishVersion) {
-//                                countryName.setText(selectedCountry.getName());
-//                            } else {
-//                                countryName.setText(selectedCountry.getName_AR());
-//                            }
-//                        }
-//                    }
-//                }
 
                 if (returnedResult != null && !returnedResult.isEmpty()) {
                     if (GlobalValues.countries != null) {
@@ -538,7 +435,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 ShippingAddress shippingAddress = (ShippingAddress) data.getExtras().getSerializable("DATA");
                 Log.e("SHIPPINGADD00", "----shipping--add--" + new Gson().toJson(shippingAddress));
 
-//              String address = new Gson().toJson(shippingAddress);
                 if (shippingAddress != null) {
                     setShippingAddress(shippingAddress);
                 }
@@ -695,65 +591,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         progressBar.setVisibility(View.INVISIBLE);
     }
 
-  /*  @Override
-    public void updateResponse(boolean success, User user) {
-        if (success) {
-            authenticatedUser.setFirstName(firstNameEditText.getText().toString());
-            authenticatedUser.setLastName(lastNameEditText.getText().toString());
-            authenticatedUser.setGender(genderText.getText().toString());
-            authenticatedUser.setCountry(countryName.getText().toString());
-            authenticatedUser.setRegion(regionName.getText().toString());
-            authenticatedUser.setPhoneNumber(ccp.getText().toString() + "-" + phoneEditText.getText().toString());
-            if (authenticatedUser.getShippingAddress() != null) {
-                String arr[] = addressEditText.getText().toString().split(",");
-                authenticatedUser.getShippingAddress().setAddressLine1(arr[0] + "," + arr[1]);
-                if (arr.length > 2) {
-                    authenticatedUser.getShippingAddress().setCity(arr[2]);
-                }
-                if (arr.length > 3) {
-                    authenticatedUser.getShippingAddress().setCountry(arr[3]);
-                }
-                if (addressID != 0) {
-                    authenticatedUser.getShippingAddress().setiD(addressID);
-                    addressID = 0;
-                }
-            } else {
-                ShippingAddress shippingAddress = new ShippingAddress();
-                shippingAddress.setiD(addressID);
-                String arr[] = addressEditText.getText().toString().split(",");
-                shippingAddress.setAddressLine1(arr[0] + "," + arr[1]);
-                if (arr.length > 2) {
-                    shippingAddress.setCity(arr[2]);
-                }
-                if (arr.length > 3) {
-                    shippingAddress.setCountry(arr[3]);
-                }
-                addressID = 0;
-                authenticatedUser.setShippingAddress(shippingAddress);
-            }
-
-            if (selectedDateInMillis != 0) {
-                authenticatedUser.setDateOfBirth(String.valueOf(selectedDateInMillis));
-            }
-            GlobalValues.saveUser(MyDetailsActivity.this, authenticatedUser);
-//            authenticatedUser = GlobalValues.getUser(this);
-//            setProfile();
-
-            GlobalValues.setSelectedCodeFlag(MyDetailsActivity.this, codeflag);
-            if (isRequest) {
-                setResult(RESULT_OK);
-                finish();
-            } else {
-                Constants.showAlertWithActivityFinish("", getString(R.string.update_profile_success), getString(R.string.okay), MyDetailsActivity.this);
-            }
-        } else {
-            if (isRequest) {
-                Constants.showAlertWithActivityFinish("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
-            } else {
-                Constants.showAlert("", getString(R.string.update_profile_fail), getString(R.string.try_again), MyDetailsActivity.this);
-            }
-        }
-    }*/
 
     @Override
     public void updateResponse(boolean success, User user) {

@@ -21,4 +21,5 @@
     <color name="indigo_button_pressed">#aa7E236A</color>
     <color name="indigo_button_focused">#aa7E236A</color>
     <color name="indigo_button_default">#7E236A</color>
+
 </resources>

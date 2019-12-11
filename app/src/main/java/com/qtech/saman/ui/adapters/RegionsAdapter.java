@@ -29,6 +29,7 @@ public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int VIEW_TYPE_LOADING = 1;
     List<Country> regions = new ArrayList<>();
     private Context mContext;
+    int sel_pos = -1;
 
     public RegionsAdapter(Context mContext, List<Country> regions) {
         this.regions = regions;
@@ -60,9 +61,16 @@ public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             regionViewHolder.countryCode.setVisibility(View.GONE);
             regionViewHolder.flag.setVisibility(View.GONE);
 
+            if (sel_pos == position){
+                regionViewHolder.countryName.setTextColor(mContext.getResources().getColor(R.color.grey));
+            }else {
+                regionViewHolder.countryName.setTextColor(mContext.getResources().getColor(R.color.black));
+            }
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    sel_pos = holder.getAdapterPosition();
                     Intent data = new Intent();
                     String text = regions.get(holder.getAdapterPosition()).getName();
                     data.setData(Uri.parse(text));

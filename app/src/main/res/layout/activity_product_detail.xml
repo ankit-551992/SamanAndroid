@@ -142,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="60 OMR"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:textSize="16sp"
                         android:textStyle="bold"/>
 
@@ -288,7 +288,6 @@
                         android:tint="@color/black" />
 
                 </LinearLayout>
-
             </RelativeLayout>
 
             <View

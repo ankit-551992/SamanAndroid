@@ -167,6 +167,8 @@
                                android:layout_below="@+id/tv_product_price"
                                android:gravity="center"
                                android:text="100 OMR"
+                               android:textColor="@color/black"
+                               android:textStyle="bold"
                                android:textSize="12sp" />
 
                        </RelativeLayout>

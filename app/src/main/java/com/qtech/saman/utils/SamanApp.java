@@ -24,7 +24,7 @@ import java.util.Locale;
 
 public class SamanApp extends MultiDexApplication {
 
-    //    public final String TWITTER_KEY = "zYtdb8neQYt8ph1XoyPmwNWIR";
+//    public final String TWITTER_KEY = "zYtdb8neQYt8ph1XoyPmwNWIR";
 //    public final String TWITTER_SECRET = "a5Jo7xEwsNh4BhuHodycFOILfV0OEBkNOHNikt5Cf3VhABSxnp";
 //    public final String TWITTER_KEY = "znuy2ISz592d0rOCumQ1vSA96";
 //    public final String TWITTER_SECRET = "XXpiOWuV2DUKyPyAvXDZDViu90oTHe7DObtDbBNtVSubBXMscU";
@@ -74,7 +74,7 @@ public class SamanApp extends MultiDexApplication {
 
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
-//      printHashKey(this);
+        printHashKey(this);
         FirebaseAnalytics.getInstance(this);
     }
 

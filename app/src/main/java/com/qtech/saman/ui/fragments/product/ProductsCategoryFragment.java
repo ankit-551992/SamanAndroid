@@ -193,13 +193,13 @@ public class ProductsCategoryFragment extends BaseFragment {
 //                            }
                             productAdapter.notifyDataSetChanged();
                         }
-                    }
-
-                    if (displayData.size() > 0) {
-                        empty.setVisibility(View.GONE);
-                    } else {
-                        empty.setVisibility(View.VISIBLE);
-                        empty.setText(context.getResources().getString(R.string.no_product_found));
+                    }else {
+                        if (displayData.size() > 0) {
+                            empty.setVisibility(View.GONE);
+                        } else {
+                            empty.setVisibility(View.VISIBLE);
+                            empty.setText(getResources().getString(R.string.no_product_found));
+                        }
                     }
                     swipeRefreshLayout.setRefreshing(false);
                 }
