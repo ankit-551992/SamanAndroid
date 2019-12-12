@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.Country;
+import com.qtech.saman.utils.GlobalValues;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,6 @@ public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int VIEW_TYPE_LOADING = 1;
     List<Country> regions = new ArrayList<>();
     private Context mContext;
-    int sel_pos = -1;
 
     public RegionsAdapter(Context mContext, List<Country> regions) {
         this.regions = regions;
@@ -61,24 +61,27 @@ public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             regionViewHolder.countryCode.setVisibility(View.GONE);
             regionViewHolder.flag.setVisibility(View.GONE);
 
-            if (sel_pos == position){
-                regionViewHolder.countryName.setTextColor(mContext.getResources().getColor(R.color.grey));
-            }else {
-                regionViewHolder.countryName.setTextColor(mContext.getResources().getColor(R.color.black));
+            if (!GlobalValues.getSelectedRegion(mContext).equals("")) {
+                if (regions.get(holder.getAdapterPosition()).getName().equalsIgnoreCase(GlobalValues.getSelectedRegion(mContext))) {
+                    regionViewHolder.iv_selected_country.setVisibility(View.VISIBLE);
+                } else {
+                    regionViewHolder.iv_selected_country.setVisibility(View.GONE);
+                }
+            } else {
+                regionViewHolder.iv_selected_country.setVisibility(View.GONE);
             }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    sel_pos = holder.getAdapterPosition();
                     Intent data = new Intent();
                     String text = regions.get(holder.getAdapterPosition()).getName();
+                    GlobalValues.setSelectedRegion(mContext, text);
                     data.setData(Uri.parse(text));
                     ((Activity) mContext).setResult(RESULT_OK, data);
                     ((Activity) mContext).finish();
                 }
             });
-
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -97,6 +100,8 @@ public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView countryCode;
         @BindView(R.id.imgViewFlag)
         ImageView flag;
+        @BindView(R.id.iv_selected_country)
+        ImageView iv_selected_country;
 
         public RegionViewHolder(View v) {
             super(v);
@@ -104,7 +109,7 @@ public class RegionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public LoadingViewHolder(View itemView) {

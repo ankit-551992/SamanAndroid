@@ -215,6 +215,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 regionView.setVisibility(View.VISIBLE);
                 regionSelectionLinearLayout.setVisibility(View.VISIBLE);
                 regionName.setText(authenticatedUser.getRegion());
+                GlobalValues.setSelectedRegion(this, authenticatedUser.getRegion());
             } else {
                 regionSelectionLinearLayout.setVisibility(View.GONE);
                 regionView.setVisibility(View.GONE);
@@ -415,6 +416,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     }
                 }
                 if (returnedResult.equalsIgnoreCase("oman")) {
+                    GlobalValues.setSelectedRegion(this,"");
                     regionView.setVisibility(View.VISIBLE);
                     regionSelectionLinearLayout.setVisibility(View.VISIBLE);
                 } else {
@@ -502,7 +504,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             public void onClick(View view) {
                 dialog.dismiss();
             }
-    });
+        });
 
         TextView done = (TextView) dialog.findViewById(R.id.tv_done);
 

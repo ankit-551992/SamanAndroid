@@ -6,7 +6,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -82,9 +81,7 @@ public class CountriesListingActivity extends BaseActivity {
     }
 
     private void setData() {
-
         if (cartlist_code == 1) {
-            Log.e("COUNTRY", "---cartlist_code--");
             GlobalValues.countries = new ArrayList<>();
             getCountriesAPI();
             setAdapter();
@@ -93,9 +90,7 @@ public class CountriesListingActivity extends BaseActivity {
                 GlobalValues.countries = new ArrayList<>();
                 getCountries();
                 setAdapter();
-                Log.e("COUNTRY", "---getCountries---if---");
             } else {
-                Log.e("COUNTRY", "---getCountries---else-");
                 GlobalValues.countries = new ArrayList<>();
                 getCountries();
                 setAdapter();

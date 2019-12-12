@@ -156,6 +156,19 @@ public class GlobalValues {
         return sharedPreferences.getString("SelectedCountry", "OM");
     }
 
+
+    public static void setSelectedRegion(Context ctx, String regionName) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("SelectedRegion", regionName);
+        editor.apply();
+    }
+
+    public static String getSelectedRegion(Context ctx) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPreferences.getString("SelectedRegion", "");
+    }
+
     public static void setSelectedCodeFlag(Context ctx, String codeFlag) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor editor = sharedPreferences.edit();
