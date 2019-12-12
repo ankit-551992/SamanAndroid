@@ -318,7 +318,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                         promoAmount = promoAmount + bagArrayList.get(p).getPrice();
                                     }
                                 }*/
-
                                 if (promoVerify.getResult().getDiscountType() == 1) {
                                     //Percentage
                                     float calculateDiscount = subTotal / 100.0f;
