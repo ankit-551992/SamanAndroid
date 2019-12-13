@@ -135,7 +135,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
+//                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         mGoogleApiClient.connect();
@@ -507,7 +507,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                     e.printStackTrace();
                                 }
 
-
                                 try {
                                     socialEmail = object.getString("email");
                                 } catch (Exception e) {
@@ -617,11 +616,11 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                 GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
                                 Intent mainIntent = new Intent(LoginActivity.this, DashboardActivity.class);
                                 if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getCountry() == null) {
-                                    mainIntent.putExtra("NavItem", 4);
+                                    mainIntent.putExtra("NavItem", 0);
                                     mainIntent.putExtra("OpenDetails", true);
                                 } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
                                         || user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
-                                    mainIntent.putExtra("NavItem", 4);
+                                    mainIntent.putExtra("NavItem", 0);
                                     mainIntent.putExtra("OpenDetails", true);
                                 }
                                 startActivity(mainIntent);
@@ -680,5 +679,14 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.stopAutoManage(LoginActivity.this);
+            mGoogleApiClient.disconnect();
+        }
     }
 }

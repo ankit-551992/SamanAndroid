@@ -92,6 +92,7 @@ public class CustomerSupportListActivity extends BaseActivity {
                 }
                 if (customerSupportList.size() < 1) {
                     empty.setVisibility(View.VISIBLE);
+                    empty.setText(getResources().getString(R.string.no_items_customer_service));
                 }
                 customerSupportListAdapter.notifyDataSetChanged();
             }

@@ -190,18 +190,10 @@ public class ProductsActivity extends BaseActivity {
     public void tab() {
         setupViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-//      tabLayout.setupWithViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager, false);
         setUpCustomTabs();
         viewPager.beginFakeDrag();
         viewPager.setSwipeable(false);
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0).setVisibility(View.GONE);
-//            }
-//        }, 200);
     }
 
     private void setUpCustomTabs() {

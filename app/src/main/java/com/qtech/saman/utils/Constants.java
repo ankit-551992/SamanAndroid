@@ -296,7 +296,7 @@ public class Constants {
         return arr;
     }
 
-    public static void showCustomPopUp(Context mContext, String title, String message, String closeButtonText, String nextButtonText, final int type) {
+    public static void showCustomPopUp(Context mContext, String title, String message, String closeButtonText, String nextButtonText, final int type, boolean is_continue) {
         // view favourite & add to cart dialog
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -304,11 +304,11 @@ public class Constants {
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
-        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
-        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
-        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
 
         titleTextView.setText(title);
         messageTextView.setText(message);
@@ -318,6 +318,12 @@ public class Constants {
         closePopUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (is_continue) {
+                    Intent intent = new Intent(mContext, DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("NavItem", 0);
+                    ((Activity) mContext).startActivity(intent);
+                }
                 dialog.dismiss();
             }
         });

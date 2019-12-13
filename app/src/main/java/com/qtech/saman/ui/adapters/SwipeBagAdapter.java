@@ -50,12 +50,14 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     private Context mContext;
     private BagFragment bagFragment;
     private float grandTotal = 0.0f;
-    private float final_displayprice = 0.0f;
-    private float total = 0.0f;
-    private float product_discount = 0.0f;
-    DecimalFormat df = new DecimalFormat("#.##");
+    private float final_displayprice;
+    private float total;
+    //    DecimalFormat df = new DecimalFormat("#.##");
+    DecimalFormat df = new DecimalFormat("0.00");
+
 
     private User authenticatedUser;
+    Dialog dialog;
 
     public SwipeBagAdapter(Context mContext, List<Product> productArrayList, BagFragment bagFragment) {
         this.productArrayList = productArrayList;
@@ -112,36 +114,36 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 }
             }
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
-                Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
-                        .into(bagViewHolder.productImageView);
+                Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL()).into(bagViewHolder.productImageView);
             }
 
             if (product.getIsSaleProduct().equals("true")) {
                 if (product.getSaleDiscountedType().equals("1")) {
-                    product_discount = product.getSalePrice();
                     product.setProductDiscountPrice(product.getSalePrice());
                     final_displayprice = product.getPrice() - product.getSalePrice();
+//                    final_displayprice = Float.valueOf(df.format(final_displayprice));
                 } else if (product.getSaleDiscountedType().equals("2")) {
                     float calculateDiscount = product.getPrice() / 100.0f;
                     float dis = calculateDiscount * product.getSalePrice();
                     product.setProductDiscountPrice(dis);
-                    product_discount = dis;
                     final_displayprice = product.getPrice() - dis;
+//                  final_displayprice = Float.valueOf(df.format(final_displayprice));
                 } else {
                     final_displayprice = product.getPrice();
+//                  final_displayprice = Float.valueOf(df.format(final_displayprice));
                 }
             } else {
                 final_displayprice = product.getPrice();
             }
 
-//            final_displayprice = product.getSetTotalSalePrice();
+            if (SamanApp.isEnglishVersion) {
+                final_displayprice = Float.valueOf(df.format(final_displayprice));
+            }
 
-            final_displayprice = Float.valueOf(df.format(final_displayprice));
-//          bagViewHolder.price.setText(product.getPrice() + mContext.getResources().getString(R.string.currency_omr));
             bagViewHolder.price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.currency_omr));
 //          float total = product.getPrice() * product.getQuantity();
             total = final_displayprice * product.getQuantity();
-            total = Float.valueOf(df.format(total));
+//          total = Float.valueOf(df.format(total));
             grandTotal = grandTotal + total;
             bagViewHolder.total.setText(total + " " + mContext.getResources().getString(R.string.currency_omr));
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
@@ -183,11 +185,12 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         ((DashboardActivity) mContext).updateBagCount();
                     }
                     bagFragment.updateCount(productArrayList.size());
-                    showPopUp(mContext.getString(R.string.added_to_fav),
+
+                    Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
                             mContext.getString(R.string.item_added_message),
                             mContext.getString(R.string.continue_shopping),
                             mContext.getString(R.string.view_fav),
-                            1, position);
+                            1, true);
                     mItemManger.closeAllItems();
                 }
             });
@@ -197,11 +200,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 public void onClick(View view) {
                     Product p = productArrayList.get(position);
                     if (SamanApp.localDB.deleteItemFromCart(p)) {
-
-//                        Constants.showAlert(mContext.getString(R.string.remove_from_bag),mContext.getString(R.string.removed_from_bag),mContext.getString(R.string.okay),mContext);
-//                        productArrayList.remove(position);
-//                        updateNotify();
-//                        ((DashboardActivity) mContext).updateBagCount();
 
                         showPopUp(mContext.getString(R.string.remove_from_bag),
                                 "",
@@ -290,17 +288,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
         @OnClick(R.id.iv_add_quantity)
         void addItem() {
-            Log.e("SHOPBAG", "----shop-available--bag-quantity---" + productArrayList.get(getPosition).getAvailableQuantity());
-            Log.e("SHOPBAG", "----shop---bag-quantity---" + productArrayList.get(getPosition).getQuantity());
-          /*  SamanApp.localDB.addToCart(
-                    productArrayList.get(getPosition),
-                    productArrayList.get(getPosition).getOptionValues(),
-                    productArrayList.get(getPosition).getOptions(),
-                    productArrayList.get(getPosition).getOptions(),
-                    1);
-
-            productArrayList.get(getPosition).setQuantity(productArrayList.get(getPosition).getQuantity() + 1);
-            updateNotify();*/
 
             if (productArrayList.get(getPosition).getAvailableQuantity() > productArrayList.get(getPosition).getQuantity()) {
                 SamanApp.localDB.addToCart(
@@ -356,8 +343,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         }
     }
 
-    Dialog dialog;
-
     private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type, int position) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -365,11 +350,11 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
-        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
-        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
-        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
 
         titleTextView.setText(title);
         messageTextView.setText(message);

@@ -111,7 +111,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         Log.e("222PRODUCT", "-000---product---quantity---" + productArrayList.size());
         int quan1 = 0;
         quan1 = quan1 + productArrayList.size();
-        // quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.items, quan));
         quantity.setText(quan1 + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, quan1));
         ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
         if (productArrayList.size() > 0) {

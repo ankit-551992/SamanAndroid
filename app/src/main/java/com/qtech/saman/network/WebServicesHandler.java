@@ -235,7 +235,9 @@ public class WebServicesHandler {
                            float TotalPrice,
                            String PaymentType,
                            String discount_couponId,
-                           String discount_price, JSONArray array,
+                           String discount_price,
+                           String couponCode,
+                           JSONArray array,
                            Callback<PlaceOrderResponse> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
@@ -247,6 +249,7 @@ public class WebServicesHandler {
         parameters.put("TotalPrice", TotalPrice);
         parameters.put("DiscountCoupanID", discount_couponId);
         parameters.put("Discount", discount_price);
+        parameters.put("DiscountCouponCode", couponCode);
         parameters.put("OrderItems_", array);
       /*  for (int i = 0; i < array.length(); i++) {
             try {
@@ -264,8 +267,6 @@ public class WebServicesHandler {
             }
         }*/
         Log.e("PARAMETER", "---order--parameter---" + parameters.toString());
-//      parameters.put("OrderItems", array);
-
         Call<PlaceOrderResponse> call = webServices.placeOrder(parameters);
         call.enqueue(callback);
     }

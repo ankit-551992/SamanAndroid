@@ -229,16 +229,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             } else {
                 favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
             }
-          /* showPopUp(getString(R.string.added_to_fav),
-                    getString(R.string.item_added_message),
-                    getString(R.string.continue_shopping),
-                    getString(R.string.view_fav),
-                    1);*/
             Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.added_to_fav),
                     getString(R.string.item_added_message),
                     getString(R.string.continue_shopping),
                     getString(R.string.view_fav),
-                    1);
+                    1, false);
         }
     }
 
@@ -259,16 +254,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(),
                             Integer.parseInt(productCount.getText().toString()), product.getProductDiscountPrice())) {
-                      /*showPopUp(getString(R.string.item_added_bag),
-                                getString(R.string.item_added_message),
-                                getString(R.string.continue_shopping),
-                                getString(R.string.view_bag),
-                                0);*/
                         Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.item_added_bag),
                                 getString(R.string.item_added_message),
                                 getString(R.string.continue_shopping),
                                 getString(R.string.view_bag),
-                                0);
+                                0, false);
                     }
                 } else {
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
@@ -286,7 +276,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.button_notify)
     public void notifyItem() {
-//        showAlert(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), 0);
         showPopUp(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), getString(R.string.no),
                 getString(R.string.yes), 0);
     }
@@ -412,11 +401,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             specificationsLayout.addView(child);
         }
 
-//        if (!atributes.equals("")) {
-//            attributes.setText(atributes);
-//        } else {
-//            attributes.setText(getString(R.string.no_specifications));
-//        }
         if (product.getQuantity() <= 0) {
             // addToCart.setEnabled(false);
             removeQuantity.setEnabled(false);

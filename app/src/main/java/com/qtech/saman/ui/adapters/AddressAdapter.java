@@ -109,7 +109,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                     String text = messageViewHolder.address.getText().toString();
                     data.putExtra("ID", id);
                     data.putExtra("DATA", shippingAddresses.get(position));
-//                    data.putExtra("DATA", text);
+//                  data.putExtra("DATA", text);
                     ((Activity) mContext).setResult(RESULT_OK, data);
                     ((Activity) mContext).finish();
                 }

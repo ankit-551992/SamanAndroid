@@ -236,7 +236,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         }, DELAY_MS, PERIOD_MS);*/
     }
 
-
     private void setBestSellers(List<Slider> sliderList) {
         bestSellersAdapter = new BestSellerPagerAdapter(getContext(), sliderList);
         bestSellersPager.setAdapter(bestSellersAdapter);

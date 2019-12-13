@@ -24,7 +24,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:padding="20dp"
-            android:text="No items found!"
+            android:text="@string/no_items_found"
             android:textColor="@color/black"
             android:visibility="gone" />
 

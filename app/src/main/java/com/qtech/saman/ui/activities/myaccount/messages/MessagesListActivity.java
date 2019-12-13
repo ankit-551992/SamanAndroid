@@ -118,6 +118,7 @@ public class MessagesListActivity extends BaseActivity {
 
                 if(conversationArrayList.size()<1){
                     empty.setVisibility(View.VISIBLE);
+                    empty.setText(getResources().getString(R.string.no_message_conversation));
                 }else {
                     empty.setVisibility(View.GONE);
                 }

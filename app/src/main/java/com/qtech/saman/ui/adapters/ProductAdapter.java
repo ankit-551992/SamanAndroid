@@ -203,7 +203,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
-                                1);
+                                1, false);
                     }
                 }
             });
@@ -271,7 +271,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 mContext.getString(R.string.item_added_message),
                                                 mContext.getString(R.string.continue_shopping),
                                                 mContext.getString(R.string.view_bag),
-                                                0);
+                                                0, false);
                                     }
                                 } else {
                                     Constants.showAlert(mContext.getString(R.string.title_my_bag),

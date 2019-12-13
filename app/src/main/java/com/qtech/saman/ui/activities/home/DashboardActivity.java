@@ -47,7 +47,6 @@ import com.qtech.saman.data.model.apis.GetProducts;
 import com.qtech.saman.data.model.apis.UserResponse;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.login.LoginActivity;
-import com.qtech.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.qtech.saman.ui.activities.search.SearchActivity;
 import com.qtech.saman.ui.activities.settings.SettingsActivity;
 import com.qtech.saman.ui.fragments.bag.BagFragment;
@@ -133,11 +132,11 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        if (openDetails) {
-            Intent intent = new Intent(this, MyDetailsActivity.class);
-            intent.putExtra("ShowAlert", true);
-            startActivity(intent);
-        }
+//        if (openDetails) {
+//            Intent intent = new Intent(this, MyDetailsActivity.class);
+//            intent.putExtra("ShowAlert", true);
+//            startActivity(intent);
+//        }
 //       updateMessagesCount(3);
     }
 

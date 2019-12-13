@@ -108,7 +108,7 @@
     <string name="we_accept">نحن نقبل</string>
     <string name="place_order">إرسال الطلب</string>
     <string name="price_to_pay">المبلغ للدفع</string>
-    <string name="promo_saved">قسيمة التخفيض خزنت</string>
+    <string name="promo_saved">خصم</string>
     <!--Shopping cart-->
 
     <!--Checkout-->
@@ -176,7 +176,7 @@
     <string name="low_price">أقل سعر</string>
     <string name="new_in">جديد</string>
     <string name="order_number">رقم الطلب</string>
-    <string name="categories">التصنيفات</string>
+    <string name="categories">تصنيفات</string>
     <string name="Done">تم</string>
     <string name="best_sell">الأفضل مبيعاً</string>
     <string name="sort_by">الترتيب</string>
@@ -242,7 +242,7 @@
 
 
     <!--Home-->
-    <string name="Stores">المتاجر</string>
+    <string name="Stores">تخفيضات</string>
     <string name="best_sellers">أفضل البائعين</string>
     <string name="latest_product">المنتجات الأخيرة</string>
     <string name="hot_pick">الأكثر اختياراً</string>
@@ -375,7 +375,10 @@
     <string name="terms_agreed">أنا أوافق على الشروط</string>
     <string name="send">إرسال</string>
     <string name="no_items_found">لم يتم العثور على العناصر!</string>
-    <string name="no_product_found">لا يوجد منتجات</string>
+    <string name="no_product_found"> لم يتم العثور على منتجات</string>
+    <string name="no_wishitems_found">لا يوجد عنصر في قائمة الأمنيات</string>
+    <string name="no_items_customer_service">لا يوجد عنصر في قائمة خدمة العملاء</string>
+    <string name="no_message_conversation">لا توجد محادثة في قائمة الرسائل</string>
     <string name="agreement_order">من خلال تقديم طلبك فإنك توافق على \n</string>
     <string name="add_new_card">الائتمان / الخصم \n البطاقة \n إضافة جديد</string>
     <string name="app_language">تم تغيير لغة التطبيق بنجاح ، يرجى إغلاق التطبيق وإعادة فتحه مرة أخرى</string>
@@ -441,11 +444,19 @@
     </plurals>
 
     <plurals name="bag_wish_items">
-        <item quantity="zero">منتج</item>
-        <item quantity="one">عنصر</item>
-        <item quantity="few">منتج</item>
-        <item quantity="two">منتج</item>
-        <item quantity="many">منتج</item>
+        <item quantity="zero">الأمنيات</item>
+        <item quantity="one">الأمنيات</item>
+        <item quantity="few">الأمنيات</item>
+        <item quantity="two">الأمنيات</item>
+        <item quantity="many">الأمنيات</item>
+    </plurals>
+
+    <plurals name="bag_items">
+        <item quantity="zero">منتجات</item>
+        <item quantity="one">منتجات</item>
+        <item quantity="few">منتجات</item>
+        <item quantity="two">منتجات</item>
+        <item quantity="many">منتجات</item>
     </plurals>
 
     <string name="large_text">
@@ -538,7 +549,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
-
     <!--translate from my(IBL) side-->
     <string name="pay_error_could_not_update_session">لا يمكن تحديث الجلسة</string>
     <string name="view_invoice">عرض الفاتورة</string>
@@ -578,7 +588,7 @@
     <string name="choose_region">اختيار المنطقة</string>
     <string name="select_region">اختر المنطقة</string>
     <string name="all">الكل</string>
-    <string name="products">تخفيضات</string>
+    <string name="products">منتجات</string>
     <string name="sale">تخفيض السعر</string>
     <string name="verification_code_required">رمز التحقق مطلوب</string>
     <string name="number_verification_required">يرجى التحقق من الرقم.</string>

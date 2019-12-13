@@ -51,7 +51,6 @@ public class BagFragment extends BaseFragment {
 
     float grandTotal;
     User authenticatedUser;
-    Product product;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,7 +100,7 @@ public class BagFragment extends BaseFragment {
             } else {
                 tv_empty_bag.setVisibility(View.VISIBLE);
             }
-            quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, productArrayList.size()));
+            quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
         }
     }
 
@@ -119,12 +118,12 @@ public class BagFragment extends BaseFragment {
         } else {
             tv_empty_bag.setVisibility(View.VISIBLE);
         }
-        quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, productArrayList.size()));
+        quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
     }
 
     public void updateQuantity() {
         if (SamanApp.localDB != null) {
-            quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, productArrayList.size()));
+            quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
         }
     }
 

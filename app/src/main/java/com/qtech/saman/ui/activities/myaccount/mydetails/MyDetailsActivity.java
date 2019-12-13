@@ -431,7 +431,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             }
         } else if (requestCode == 1414) {
             if (resultCode == RESULT_OK) {
-//                String d = data.getExtras().getString("DATA");
+//              String d = data.getExtras().getString("DATA");
                 addressID = data.getExtras().getInt("ID");
 //              addressEditText.setText(d);
                 ShippingAddress shippingAddress = (ShippingAddress) data.getExtras().getSerializable("DATA");

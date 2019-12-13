@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mastercard.gateway.android.sdk.Gateway;
 import com.mastercard.gateway.android.sdk.Gateway3DSecureCallback;
@@ -31,7 +32,9 @@ import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.CardDs;
 import com.qtech.saman.data.model.Country;
+import com.qtech.saman.data.model.Coupon;
 import com.qtech.saman.data.model.Product;
+import com.qtech.saman.data.model.ShippingAddress;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.PlaceOrderResponse;
 import com.qtech.saman.data.model.apis.PromoVerify;
@@ -136,12 +139,13 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     TagsAdapter tagsAdapter;
 
     Country selectedCountry;
-    float price;
-    float subTotal;
+    float price = 0.0f;
+    float subTotal = 0.0f;
     float deliveryCost = 0.0f;
     float priceToPay;
     float promoSaved = 0.0f;
     float promoTotalSaved = 0.0f;
+    String couponCode = "";
 
     int addressID = -1;
 
@@ -165,6 +169,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     String discount_couponId = "";
     String discount_price = "";
 
+    float final_displayprice = 0.0f;
+    float dis_product = 0.0f;
+    double couponDiscount_price = 0.0f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +181,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.check_out));
-        promoSavedTextView.setVisibility(View.GONE);
         price = (float) getIntent().getFloatExtra("Price", 0);
         subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " " + getString(R.string.OMR));
         appliedProducts = new ArrayList<>();
@@ -184,7 +191,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
-
         setBag();
         setTagView();
 
@@ -198,27 +204,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         GlobalValues.countries = new ArrayList<>();
         getCountriesAPI();
 
-      /* for (int i = 0; i < GlobalValues.countries.size(); i++) {
-            Log.e("COUNTRY", "---GlobalValues.countries----size---" + GlobalValues.countries.size());
-            if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
-                selectedCountry = GlobalValues.countries.get(i);
-                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                countryName.setText(selectedCountry.getName());
-            }
-        }*/
         authenticatedUser = GlobalValues.getUser(ShoppingCartActivity.this);
 
         if (authenticatedUser.getShippingAddress() != null) {
-            Log.e("121212", "---" + authenticatedUser.getShippingAddress());
-//            String address = authenticatedUser.getShippingAddress().getAddressLine1().replace(",", "\n\n");
-            String address = authenticatedUser.getShippingAddress().getAddressLine1().replace(",", ", ");
-//            address = address + "\n\n" + authenticatedUser.getShippingAddress().getCity();
-            // address = address + "\n\n" + authenticatedUser.getShippingAddress().getCountry();
-            address = address + ", " + authenticatedUser.getShippingAddress().getCity();
-
-            address = address + ", " + authenticatedUser.getShippingAddress().getCountry();
-            shipmentAddress.setText(address);
             addressID = authenticatedUser.getShippingAddress().getiD();
+            setShippingAddress(authenticatedUser.getShippingAddress());
         }
 
         cardNameTextView.setText(getString(R.string.card_delivery));
@@ -239,6 +229,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             Log.e(ShoppingCartActivity.class.getSimpleName(), "Invalid Gateway region value provided", e);
         }
         apiController.createSession(new CreateSessionCallback());
+
+        promoSavedTextView.setVisibility(View.VISIBLE);
+        promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
     }
 
 
@@ -307,83 +300,15 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     if (promoVerify.getSuccess() == 1) {
                         Log.e("PRODUCT888", "--promoVerify--getSuccess-");
                         if (promoVerify.getResult().getCouponType() == 1) {
-                            Log.e("PRODUCT888", "-ifff-promoVerify--getCouponType-");
                             if (!isGeneralApplied) {
                                 isGeneralApplied = true;
-
-                                float promoAmount = 0.0f;
-                               /* for (int p = 0; p < bagArrayList.size(); p++) {
-                                    int productId = bagArrayList.get(p).getID();
-                                    if (!appliedProducts.contains(productId)) {
-                                        promoAmount = promoAmount + bagArrayList.get(p).getPrice();
-                                    }
-                                }*/
-                                if (promoVerify.getResult().getDiscountType() == 1) {
-                                    //Percentage
-                                    float calculateDiscount = subTotal / 100.0f;
-//                                    float calculateDiscount = promoAmount / 100.0f;
-                                    promoSaved = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
-                                } else if (promoVerify.getResult().getDiscountType() == 2) {
-                                    //Price
-                                    promoSaved = (float) promoVerify.getResult().getDiscount();
-                                }
-//                              promoSaved = Math.round(promoSaved);
-                                Log.e("NUMBER000", "---promoSaved---" + promoSaved);
-                                promoSaved = Float.valueOf(df.format(promoSaved));
-                                Log.e("NUMBER000", "--format---promoSaved---" + promoSaved);
-
-                                promoSavedTextView.setVisibility(View.VISIBLE);
-                                promoTotalSaved = promoTotalSaved + promoSaved;
-                                promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
-                                price = price - promoSaved;
-                                priceToPay = price + deliveryCost;
-                                priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
+                                setPromoDiscountWithPrice(promoVerify.getResult());
                             } else {
                                 Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply),
                                         getString(R.string.close), ShoppingCartActivity.this);
                             }
                         } else {
-
-                            if (promoVerify.getResult().getDiscountType() == 1) {
-                                float calculateDiscount = subTotal / 100.0f;
-                                float dis = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
-//                                Log.e("Dis", bagArrayList.get(p).getProductName() + " " + dis);
-                                promoSaved = promoSaved + dis;
-                            } else if (promoVerify.getResult().getDiscountType() == 2) {
-                                //Price
-                                float dis = (float) promoVerify.getResult().getDiscount();
-                                promoSaved = promoSaved + dis;
-                            }
-                          /*  for (int p = 0; p < bagArrayList.size(); p++) {
-                                int productId = bagArrayList.get(p).getID();
-                                if (promoVerify.getResult().getProductID().contains(productId)) {
-                                    if (!appliedProducts.contains(productId)) {
-                                        if (promoVerify.getResult().getDiscountType() == 1) {
-                                            //Percentage
-                                            float calculateDiscount = bagArrayList.get(p).getPrice() / 100.0f;
-                                            float dis = calculateDiscount * ((float) promoVerify.getResult().getDiscount());
-                                            Log.e("Dis", bagArrayList.get(p).getProductName() + " " + dis);
-                                            promoSaved = promoSaved + dis;
-                                        } else if (promoVerify.getResult().getDiscountType() == 2) {
-                                            //Price
-                                            float dis = (float) promoVerify.getResult().getDiscount();
-                                            promoSaved = promoSaved + dis;
-                                        }
-                                        appliedProducts.add(productId);
-                                    } else {
-                                        Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply_on_same_product), getString(R.string.close), ShoppingCartActivity.this);
-                                    }
-                                }
-                            }*/
-//                          promoSaved = Math.round(promoSaved);
-                            promoSaved = Float.valueOf(df.format(promoSaved));
-
-                            promoSavedTextView.setVisibility(View.VISIBLE);
-                            promoTotalSaved = promoTotalSaved + promoSaved;
-                            promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
-                            price = subTotal - promoSaved;
-                            priceToPay = price + deliveryCost;
-                            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
+                            setPromoDiscountWithPrice(promoVerify.getResult());
                         }
                         if (promoSaved > 0) {
                             tagsList.add(promoEditText.getText().toString());
@@ -395,7 +320,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         discount_price = String.valueOf(promoSaved);
                     } else {
                         Constants.showAlert(getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again), ShoppingCartActivity.this);
-//                      Constants.showErrorPopUp(ShoppingCartActivity.this, getString(R.string.apply_coupon), promoVerify.getMessage(), getString(R.string.try_again));
                     }
                 }
                 promoEditText.setText("");
@@ -407,6 +331,31 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 Constants.dismissSpinner();
             }
         });
+    }
+
+    private void setPromoDiscountWithPrice(Coupon coupon) {
+
+        if (coupon.getDiscountType() == 1) {
+            //Percentage
+            float calculateDiscount = subTotal / 100.0f;
+            float dis = calculateDiscount * ((float) coupon.getDiscount());
+            promoSaved = promoSaved + dis;
+        } else if (coupon.getDiscountType() == 2) {
+            //Price
+            float dis = (float) coupon.getDiscount();
+            promoSaved = promoSaved + dis;
+        }
+        // promoSaved = Math.round(promoSaved);
+        promoSaved = Float.valueOf(df.format(promoSaved));
+
+        promoSavedTextView.setVisibility(View.VISIBLE);
+        promoTotalSaved = promoTotalSaved + promoSaved;
+        promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
+        price = subTotal - promoSaved;
+        priceToPay = price + deliveryCost;
+        priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
+
+        couponCode = coupon.getCouponCode();
     }
 
     @OnClick({R.id.tv_delivery_address_change, R.id.iv_delivery_address_change})
@@ -427,8 +376,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         super.onBackPressed();
     }
 
-    float final_displayprice = 0.0f;
-    float dis_product = 0.0f;
 
     @OnClick(R.id.button_place_order)
     void placeOrder() {
@@ -444,7 +391,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         for (int p = 0; p < bagArrayList.size(); p++) {
 
             int product_quantity = bagArrayList.get(p).getQuantity();
-            float product_price = bagArrayList.get(p).getPrice();
 
             if (bagArrayList.get(p).getIsSaleProduct().equals("true")) {
                 if (bagArrayList.get(p).getSaleDiscountedType().equals("1")) {
@@ -453,7 +399,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 } else if (bagArrayList.get(p).getSaleDiscountedType().equals("2")) {
                     float calculateDiscount = bagArrayList.get(p).getPrice() / 100.0f;
                     dis_product = calculateDiscount * bagArrayList.get(p).getSalePrice();
-                    Log.e("Dis", "---dis--" + dis_product);
                     final_displayprice = bagArrayList.get(p).getPrice() - dis_product;
                 } else {
                     dis_product = 0.0f;
@@ -466,7 +411,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
             float product_quantity_price = final_displayprice * product_quantity;
             float p1 = product_quantity_price * 100;
-            float couponDiscount_price = p1 / subTotal;
+            couponDiscount_price = p1 / subTotal;
+            couponDiscount_price = couponDiscount_price * promoSaved / 100;
+            couponDiscount_price = Double.parseDouble(df.format(couponDiscount_price));
 
             obj = new JSONObject();
             try {
@@ -493,6 +440,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 e.printStackTrace();
             }
         }
+        Log.e("PARAMETER", "-array--order--parameter---" + array);
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
         apiClient.placeOrder(authenticatedUser.getId(),
@@ -503,6 +451,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 paymentType,
                 discount_couponId,
                 discount_price,
+                couponCode,
                 array,
                 new Callback<PlaceOrderResponse>() {
                     @Override
@@ -665,10 +614,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             }
         } else if (requestCode == 1204) {
             if (resultCode == RESULT_OK) {
-                String d = data.getExtras().getString("DATA");
                 addressID = data.getExtras().getInt("ID");
-//                shipmentAddress.setText(d.replace(",", "\n\n"));
-                shipmentAddress.setText(d.replace(",", ", "));
+                ShippingAddress shippingAddress = (ShippingAddress) data.getExtras().getSerializable("DATA");
+                Log.e("SHIPPINGADD00", "----shipping--add--" + new Gson().toJson(shippingAddress));
+                setShippingAddress(shippingAddress);
             }
         } else if (requestCode == 2019) {
             if (resultCode == RESULT_OK) {
@@ -677,6 +626,46 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 progressBar.setVisibility(View.GONE);
             }
         }
+    }
+
+    String setaddress = "";
+    String AddressLine1, floor, apt, city, usercountry, userregion, landmark;
+    String latitude, longitude;
+
+    private void setShippingAddress(ShippingAddress shippingAddress) {
+        if (shippingAddress.getAddressLine1() != null) {
+            setaddress = shippingAddress.getAddressLine1();
+            AddressLine1 = shippingAddress.getAddressLine1();
+        }
+        if (shippingAddress.getFloor() != null) {
+            setaddress = setaddress + ", " + shippingAddress.getFloor();
+            floor = shippingAddress.getFloor();
+        }
+        if (shippingAddress.getApt() != null) {
+            setaddress = setaddress + ", " + shippingAddress.getApt();
+            apt = shippingAddress.getApt();
+        }
+        if (shippingAddress.getAddressLine2() != null) {
+            setaddress = setaddress + ", " + shippingAddress.getAddressLine2();
+            landmark = shippingAddress.getAddressLine2();
+        }
+        if (shippingAddress.getCity() != null) {
+            setaddress = setaddress + ", " + shippingAddress.getCity();
+            city = shippingAddress.getCity();
+        }
+        if (shippingAddress.getCountry() != null) {
+            setaddress = setaddress + ", " + shippingAddress.getCountry();
+            usercountry = shippingAddress.getCountry();
+        }
+        if (shippingAddress.getRegion() != null) {
+            setaddress = setaddress + ", " + shippingAddress.getRegion();
+            userregion = shippingAddress.getRegion();
+        }
+        if (shippingAddress.getLatitude() != null && shippingAddress.getLongitude() != null) {
+            latitude = shippingAddress.getLatitude();
+            longitude = shippingAddress.getLongitude();
+        }
+        shipmentAddress.setText(setaddress);
     }
 
     private void setTagView() {
