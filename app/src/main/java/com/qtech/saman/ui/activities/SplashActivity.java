@@ -3,13 +3,16 @@ package com.qtech.saman.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
+import com.qtech.saman.data.model.ApiViewCount;
 import com.qtech.saman.data.model.Country;
+import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.login.LoginActivity;
 import com.qtech.saman.utils.Constants;
@@ -23,6 +26,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashActivity extends BaseActivity {
 
@@ -35,6 +41,7 @@ public class SplashActivity extends BaseActivity {
     private final int SPLASH_DISPLAY_LENGTH = 2500;
     public static boolean isEnglishVersion;
 
+
     /**
      * Called when the activity is first created.
      */
@@ -44,6 +51,8 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         getCountries();
+
+        setAppViewCountApi();
 
         Animation animation;
         animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash_fade_in);
@@ -92,6 +101,24 @@ public class SplashActivity extends BaseActivity {
 //        Log.d("TAG", first);
 //        Log.d("TAG", second);
     }
+
+    private void setAppViewCountApi() {
+
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+
+        apiClient.getAppViewCount(new Callback<ApiViewCount>() {
+            @Override
+            public void onResponse(Call<ApiViewCount> call, Response<ApiViewCount> response) {
+                Log.e("onSuccess", "response-----" +response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ApiViewCount> call, Throwable t) {
+                Log.e("onFailure", "" + t.getMessage());
+            }
+        });
+    }
+
 
     private void getCountries() {
         GlobalValues.countries = new ArrayList<>();

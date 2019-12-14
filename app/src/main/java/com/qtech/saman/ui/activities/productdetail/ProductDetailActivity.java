@@ -233,7 +233,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     getString(R.string.item_added_message),
                     getString(R.string.continue_shopping),
                     getString(R.string.view_fav),
-                    1, false);
+                    1, 0);
         }
     }
 
@@ -258,7 +258,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                                 getString(R.string.item_added_message),
                                 getString(R.string.continue_shopping),
                                 getString(R.string.view_bag),
-                                0, false);
+                                0, 0);
                     }
                 } else {
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
@@ -423,7 +423,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 salePrice.setText(final_display_salePrice + " " + getString(R.string.OMR));
                 ll_display_sale.setVisibility(View.VISIBLE);
                 salePrice.setVisibility(View.VISIBLE);
-                saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + "Off";
+                saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + getResources().getString(R.string.off);
                 productPrice.setText(product.getPrice() + " ");
                 productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 productPrice.setTextColor(getResources().getColor(R.color.grey));
@@ -438,7 +438,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 productPrice.setText(product.getPrice() + " ");
                 ll_display_sale.setVisibility(View.VISIBLE);
                 salePrice.setVisibility(View.VISIBLE);
-                saleString = product.getSalePrice() + " " + getString(R.string.percent_sign) + " " + "Off";
+                saleString = product.getSalePrice() + " " + getString(R.string.percent_sign) + " " + getResources().getString(R.string.off);
                 productPrice.setTextColor(getResources().getColor(R.color.grey));
                 productPrice.setPaintFlags(productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {

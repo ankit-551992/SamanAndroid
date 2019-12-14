@@ -99,6 +99,7 @@
     <string name="OMR">OMR</string>
     <string name="send">Send</string>
     <string name="shopping_cart">Shopping Bag</string>
+    <string name="off">Off</string>
     <!--Shopping cart-->
     <string name="drawer_cart">Shopping Bag</string>
     <string name="apply_coupon">Coupon</string>
@@ -120,10 +121,10 @@
     <string name="price_to_pay">Price to pay</string>
     <string name="promo_saved">Discount</string>
     <string name="no_items_found">No items found!</string>
-    <string name="no_product_found">No Product found!</string>
+    <string name="no_product_found">No products found</string>
     <string name="no_wishitems_found">No items in the Wishlist!</string>
-    <string name="no_items_customer_service">No item in the customer service!</string>
-    <string name="no_message_conversation">No any conversation in the message list!</string>
+    <string name="no_items_customer_service">No tickets found</string>
+    <string name="no_message_conversation">No conversation found</string>
     <string name="agreement_order">By placing your order you agree to our\n</string>
     <string name="cart_dummy">Mr. Jesus\n\nMusqat\n\nMusqat\n\nOman\n\n115\n\n77777</string>
     <string name="check_out_thank_you">Thank You For Your Order</string>

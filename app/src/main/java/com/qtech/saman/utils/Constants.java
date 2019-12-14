@@ -296,7 +296,7 @@ public class Constants {
         return arr;
     }
 
-    public static void showCustomPopUp(Context mContext, String title, String message, String closeButtonText, String nextButtonText, final int type, boolean is_continue) {
+    public static void showCustomPopUp(Context mContext, String title, String message, String closeButtonText, String nextButtonText, final int type, int is_continue) {
         // view favourite & add to cart dialog
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -318,13 +318,16 @@ public class Constants {
         closePopUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (is_continue) {
+                if (is_continue == 1) {
+                    dialog.dismiss();
+                } else if (is_continue == 0) {
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 0);
                     ((Activity) mContext).startActivity(intent);
+                } else {
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 

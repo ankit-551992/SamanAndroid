@@ -126,6 +126,7 @@
     <string name="return_policy"><u>سياسة الإسترجاع</u></string>
     <string name="received">تم الاستلام</string>
     <string name="Cancel_order_before_24h">إلغاء الطلب (24 ساعة)</string>
+    <string name="off">إيقاف</string>
     <!--Checkout-->
 
     <!--customer Support List-->
@@ -375,10 +376,10 @@
     <string name="terms_agreed">أنا أوافق على الشروط</string>
     <string name="send">إرسال</string>
     <string name="no_items_found">لم يتم العثور على العناصر!</string>
-    <string name="no_product_found"> لم يتم العثور على منتجات</string>
-    <string name="no_wishitems_found">لا يوجد عنصر في قائمة الأمنيات</string>
-    <string name="no_items_customer_service">لا يوجد عنصر في قائمة خدمة العملاء</string>
-    <string name="no_message_conversation">لا توجد محادثة في قائمة الرسائل</string>
+    <string name="no_product_found">لم يتم العثور على منتجات</string>
+    <string name="no_wishitems_found">لم يتم العثور على منتجات</string>
+    <string name="no_items_customer_service">لم يتم العثور على محادثات</string>
+    <string name="no_message_conversation">لم يتم العثور على محادثات</string>
     <string name="agreement_order">من خلال تقديم طلبك فإنك توافق على \n</string>
     <string name="add_new_card">الائتمان / الخصم \n البطاقة \n إضافة جديد</string>
     <string name="app_language">تم تغيير لغة التطبيق بنجاح ، يرجى إغلاق التطبيق وإعادة فتحه مرة أخرى</string>

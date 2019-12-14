@@ -199,11 +199,20 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
                                 1);*/
-                        Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_fav),
-                                1, false);
+                        if (isHome) {
+                            Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
+                                    mContext.getString(R.string.item_added_message),
+                                    mContext.getString(R.string.continue_shopping),
+                                    mContext.getString(R.string.view_fav),
+                                    1, 1);
+                        } else {
+                            Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
+                                    mContext.getString(R.string.item_added_message),
+                                    mContext.getString(R.string.continue_shopping),
+                                    mContext.getString(R.string.view_fav),
+                                    1, 0);
+                        }
+
                     }
                 }
             });
@@ -271,7 +280,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 mContext.getString(R.string.item_added_message),
                                                 mContext.getString(R.string.continue_shopping),
                                                 mContext.getString(R.string.view_bag),
-                                                0, false);
+                                                0, 0);
                                     }
                                 } else {
                                     Constants.showAlert(mContext.getString(R.string.title_my_bag),

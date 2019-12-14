@@ -4,6 +4,7 @@ package com.qtech.saman.network;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.qtech.saman.data.model.ApiViewCount;
 import com.qtech.saman.data.model.ShippingAddress;
 import com.qtech.saman.data.model.apis.AddAddressApi;
 import com.qtech.saman.data.model.apis.CustomerSupport;
@@ -127,7 +128,7 @@ public class WebServicesHandler {
         parameters.put("LastName", lName);
         parameters.put("Email", email);
         parameters.put("deviceType", "2");
-      /*  parameters.put("Password", "");
+      /*parameters.put("Password", "");
         parameters.put("Gender", "");
         parameters.put("Country", "");
         parameters.put("ShippingAddress", "");
@@ -593,4 +594,10 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getAppViewCount(Callback<ApiViewCount> callback) {
+
+        int deviceType = 2;
+        Call<ApiViewCount> call = webServices.getAppViewCountApi(deviceType);
+        call.enqueue(callback);
+    }
 }

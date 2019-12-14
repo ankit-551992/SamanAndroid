@@ -137,7 +137,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             }
 
             if (SamanApp.isEnglishVersion) {
-                final_displayprice = Float.valueOf(df.format(final_displayprice));
+//                final_displayprice = Float.valueOf(df.format(final_displayprice));
             }
 
             bagViewHolder.price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.currency_omr));
@@ -190,7 +190,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                             mContext.getString(R.string.item_added_message),
                             mContext.getString(R.string.continue_shopping),
                             mContext.getString(R.string.view_fav),
-                            1, true);
+                            1, 0);
                     mItemManger.closeAllItems();
                 }
             });
