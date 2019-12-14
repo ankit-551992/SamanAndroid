@@ -29,8 +29,8 @@ public class MyDetailsPresenter implements DetailContractor.Presenter {
         apiClient.updateUser(id, fName, lName, gender, country, address, dob, phone, region, new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                UserResponse simpleSuccess = response.body();
 
+                UserResponse simpleSuccess = response.body();
                 if (simpleSuccess != null) {
                     if (simpleSuccess.getSuccess() == 1) {
                         if (simpleSuccess.getUser() != null) {

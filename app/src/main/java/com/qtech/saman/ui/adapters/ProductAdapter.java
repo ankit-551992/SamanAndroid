@@ -271,16 +271,20 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (SamanApp.localDB != null) {
                                 if (cartProduct.getQuantity() != 0) {
                                     if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1, product_discount)) {
-                                     /*   showPopUp(mContext.getString(R.string.item_added_bag),
-                                                mContext.getString(R.string.item_added_message),
-                                                mContext.getString(R.string.continue_shopping),
-                                                mContext.getString(R.string.view_bag),
-                                                0);*/
-                                        Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
-                                                mContext.getString(R.string.item_added_message),
-                                                mContext.getString(R.string.continue_shopping),
-                                                mContext.getString(R.string.view_bag),
-                                                0, 0);
+
+                                        if (isHome) {
+                                            Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
+                                                    mContext.getString(R.string.item_added_message),
+                                                    mContext.getString(R.string.continue_shopping),
+                                                    mContext.getString(R.string.view_bag),
+                                                    0, 1);
+                                        } else {
+                                            Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
+                                                    mContext.getString(R.string.item_added_message),
+                                                    mContext.getString(R.string.continue_shopping),
+                                                    mContext.getString(R.string.view_bag),
+                                                    0, 0);
+                                        }
                                     }
                                 } else {
                                     Constants.showAlert(mContext.getString(R.string.title_my_bag),

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.qtech.saman.R;
@@ -42,6 +43,9 @@ public class AllStores extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.tv_empty)
+    TextView txt_empty;
     RecyclerView.LayoutManager layoutManager;
     List<Store> storeArrayList = new ArrayList<>();
     StoresAdapter adapter;
@@ -51,7 +55,7 @@ public class AllStores extends BaseFragment {
     int storeID;
     boolean isBannerStore = false;
     String userID;
-    int pageIndex  = 0;
+    int pageIndex = 0;
     int pageSize = 30;
 
     public static AllStores newInstance(String search_query, int storeID, boolean b) {
@@ -95,9 +99,9 @@ public class AllStores extends BaseFragment {
         progressBar.setVisibility(View.VISIBLE);
 
         Log.e("SEARCH000", "--search--all---store---");
-        if (isBannerStore){
+        if (isBannerStore) {
             getBannerStore();
-        }else {
+        } else {
             getStores();
         }
 
@@ -108,9 +112,9 @@ public class AllStores extends BaseFragment {
                 adapter = new StoresAdapter(getContext(), storeArrayList);
                 recyclerView.setAdapter(adapter);
                 currentPage = 1;
-                if (isBannerStore){
+                if (isBannerStore) {
                     getBannerStore();
-                }else {
+                } else {
                     getStores();
                 }
             }
@@ -120,7 +124,7 @@ public class AllStores extends BaseFragment {
 
     private void getBannerStore() {
 
-        WebServicesHandler.instance.getBannerProduct(storeID,userID,pageIndex,pageSize,new retrofit2.Callback<GetStores>() {
+        WebServicesHandler.instance.getBannerProduct(storeID, userID, pageIndex, pageSize, new retrofit2.Callback<GetStores>() {
             @Override
             public void onResponse(Call<GetStores> call, Response<GetStores> response) {
                 Log.e("PRODUCT888", "--response--" + new Gson().toJson(response));
@@ -132,6 +136,7 @@ public class AllStores extends BaseFragment {
                 GetStores getStores = response.body();
                 if (getStores != null) {
                     if (getStores.getSuccess() == 1) {
+                        txt_empty.setVisibility(View.GONE);
                         isGetAll = true;
 //                if(getStores.getLastPage()==currentPage){
 //                    isGetAll=true;
@@ -155,9 +160,15 @@ public class AllStores extends BaseFragment {
                             getSearchStore(search, storeArrayList);
                         }
                         adapter.notifyDataSetChanged();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
+                        isLoading = false;
+                        txt_empty.setVisibility(View.VISIBLE);
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<GetStores> call, Throwable t) {
 
@@ -178,6 +189,7 @@ public class AllStores extends BaseFragment {
                 GetStores getStores = response.body();
                 if (getStores != null) {
                     if (getStores.getSuccess() == 1) {
+                        txt_empty.setVisibility(View.GONE);
                         isGetAll = true;
 //                if(getStores.getLastPage()==currentPage){
 //                    isGetAll=true;
@@ -201,12 +213,21 @@ public class AllStores extends BaseFragment {
                             getSearchStore(search, storeArrayList);
                         }
                         adapter.notifyDataSetChanged();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
+                        isLoading = false;
+                        txt_empty.setVisibility(View.VISIBLE);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<GetStores> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
+                isLoading = false;
+                txt_empty.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -251,9 +272,9 @@ public class AllStores extends BaseFragment {
                 adapter.notifyItemInserted(storeArrayList.size() - 1);
                 isLoading = true;
                 currentPage++;
-                if (isBannerStore){
+                if (isBannerStore) {
                     getBannerStore();
-                }else {
+                } else {
                     getStores();
                 }
             }
