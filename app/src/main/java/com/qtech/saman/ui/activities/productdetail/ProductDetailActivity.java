@@ -262,14 +262,13 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     }
                 } else {
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
-
-                    Constants.showAlert(getString(R.string.title_my_bag), text, getString(R.string.cancel), this);
+                    Constants.showAlert(getString(R.string.title_my_bag), text, getString(R.string.cancel), ProductDetailActivity.this);
                 }
             } else {
                 Constants.showAlert(getString(R.string.title_my_bag),
                         getString(R.string.out_of_stock),
                         getString(R.string.cancel),
-                        this);
+                        ProductDetailActivity.this);
             }
         }
     }
@@ -283,7 +282,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @OnClick(R.id.iv_share)
     public void share() {
         inviteFriends();
-//        Constants.showAlert(getString(R.string.sorry), getString(R.string.no_implemented), getString(R.string.close), ProductDetailActivity.this);
+//      Constants.showAlert(getString(R.string.sorry), getString(R.string.no_implemented), getString(R.string.close), ProductDetailActivity.this);
     }
 
     @OnClick(R.id.left_nav)

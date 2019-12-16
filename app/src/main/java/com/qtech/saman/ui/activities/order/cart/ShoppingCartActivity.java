@@ -629,7 +629,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     }
 
     String setaddress = "";
-    String AddressLine1, floor, apt, city, usercountry, userregion, landmark;
+    String AddressLine1, floor, apt, city, usercountry, landmark;
+    String userregion = "";
     String latitude, longitude;
 
     private void setShippingAddress(ShippingAddress shippingAddress) {
@@ -666,6 +667,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             longitude = shippingAddress.getLongitude();
         }
         shipmentAddress.setText(setaddress);
+        setShipmentCost();
     }
 
     private void setTagView() {
@@ -685,38 +687,63 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
     private void setBag() {
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        layoutManager = new GridLayoutManager(this, 3);
+//      layoutManager = new GridLayoutManager(this, 3);
         bagRecyclerView.setLayoutManager(layoutManager);
         bagRecyclerView.setNestedScrollingEnabled(false);
         bagArrayList = new ArrayList<>();
         bagCartAdapter = new BagCartAdapter(this, bagArrayList);
         bagRecyclerView.setAdapter(bagCartAdapter);
-//      bagRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
 
         if (SamanApp.localDB != null) {
             bagArrayList.addAll(SamanApp.localDB.getCartProducts());
             bagCartAdapter.notifyDataSetChanged();
-//            Log.e("C",""+SamanApp.localDB.getCartAllProductsCounting());
-            if (price < 35) {
-//                switch (bagArrayList.size()) {
-                switch (SamanApp.localDB.getCartAllProductsCounting()) {
+        }
+    }
+
+    private void setShipmentCost() {
+        if (SamanApp.localDB != null) {
+            if (userregion.equalsIgnoreCase(getResources().getString(R.string.muscat))) {    // Insideside of Muscat
+                if (price < 35) {
+                    switch (SamanApp.localDB.getCartAllProductsCounting()) {
+                        case 1:
+                            deliveryCost = 1.0f;
+                            break;
+                        case 2:
+                            deliveryCost = 1.0f;
+                            break;
+                        case 3:
+                            deliveryCost = 1.5f;
+                            break;
+                        case 4:
+                            deliveryCost = 1.6f;
+                            break;
+                        default:
+                            deliveryCost = 2.0f;
+                            break;
+                    }
+                } else {
+                    deliveryCost = 0.0f;
+                }
+            } else {
+                switch (SamanApp.localDB.getCartAllProductsCounting()) {    // Outside of Muscat
                     case 1:
-                        deliveryCost = 1.0f;
+                        deliveryCost = 1.3f;
                         break;
                     case 2:
-                        deliveryCost = 1.0f;
+                        deliveryCost = 1.3f;
                         break;
                     case 3:
-                        deliveryCost = 1.5f;
+                        deliveryCost = 1.95f;
                         break;
                     case 4:
-                        deliveryCost = 1.6f;
+                        deliveryCost = 2.2f;
                         break;
                     default:
-                        deliveryCost = 2.0f;
+                        deliveryCost = 2.7f;
                         break;
                 }
             }
+            Log.e("DELIVERYCOST", "------deliveryCost---" + deliveryCost);
             priceToPay = deliveryCost + price;
             priceToPay = priceToPay - promoSaved;
             deliveryCostTextView.setText(getString(R.string.delivery_cost) + " : " + deliveryCost + " " + getString(R.string.OMR));
@@ -753,7 +780,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     @Override
     public void on3DSecureError(String errorMessage) {
         Toast.makeText(ShoppingCartActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-
     }
 
     @Override
@@ -784,8 +810,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     class CreateSessionCallback implements ApiController.CreateSessionCallback {
         @Override
         public void onSuccess(String sessionId, String apiVersion) {
-
-            Log.i("CreateSessionTask", "Session established");
             sId = sessionId;
             apiVer = apiVersion;
 

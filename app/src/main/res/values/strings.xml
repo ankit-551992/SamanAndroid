@@ -548,6 +548,8 @@
     <string name="oman">oman</string>
     <string name="Oman">Oman</string>
 
+    <string name="muscat">Governorate of Muscat</string>
+
     <!--place Order dialog-->
     <string name="percent_sign">&#x0025;</string>
     <string name="terms_sale">This price includes discount</string>

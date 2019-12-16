@@ -299,10 +299,16 @@ public class AddShippingAddressActivity extends BaseActivity {
         if (countryEditText.getText() == null || countryEditText.getText().toString().equals("") || countryEditText.getText().toString().isEmpty()) {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.country) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
+        }else {
+            if (countryEditText.getText().toString().equalsIgnoreCase(getResources().getString(R.string.Oman))) {
+                if (region_name.getText() == null || region_name.getText().toString().equals("") || region_name.getText().toString().isEmpty()) {
+                    Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.region) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
+                    return;
+                }
+            }
         }
+
         String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString();
-//        String addressLine = streetEditText.getText().toString() + "," + buildingEditText.getText().toString() + ","
-//                + buildingFloor.getText().toString() + "," + buildingApt.getText().toString();
 
         String floor = buildingFloor.getText().toString();
         String apartment = buildingApt.getText().toString();

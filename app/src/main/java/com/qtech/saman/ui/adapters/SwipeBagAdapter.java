@@ -52,7 +52,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
     private float grandTotal = 0.0f;
     private float final_displayprice;
     private float total;
-    //    DecimalFormat df = new DecimalFormat("#.##");
+    //DecimalFormat df = new DecimalFormat("#.##");
     DecimalFormat df = new DecimalFormat("0.00");
 
 

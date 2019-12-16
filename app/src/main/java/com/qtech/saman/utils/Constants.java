@@ -151,7 +151,7 @@ public class Constants {
         Button nextButton = dialog.findViewById(R.id.button_pop_next);
 
         nextButton.setText(buttonText);
-//        titleTextView.setText(context.getString(R.string.error));
+//      titleTextView.setText(context.getString(R.string.error));
         if (!title.equals("") && title.toString() != null) {
             titleTextView.setVisibility(View.VISIBLE);
             titleTextView.setText(title);
@@ -160,7 +160,7 @@ public class Constants {
         }
 
         messageTextView.setText(message);
-//        messageTextView.setText(context.getString(R.string.missing_options));
+//      messageTextView.setText(context.getString(R.string.missing_options));
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +216,7 @@ public class Constants {
         }
 
         messageTextView.setText(message);
-//        messageTextView.setText(context.getString(R.string.missing_options));
+//      messageTextView.setText(context.getString(R.string.missing_options));
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -321,6 +321,7 @@ public class Constants {
                 if (is_continue == 1) {
                     dialog.dismiss();
                 } else if (is_continue == 0) {
+                    dialog.dismiss();
                     Intent intent = new Intent(mContext, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("NavItem", 0);
@@ -362,8 +363,7 @@ public class Constants {
         animation = AnimationUtils.loadAnimation(mContext,
                 R.anim.fade_in);
 
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
 
