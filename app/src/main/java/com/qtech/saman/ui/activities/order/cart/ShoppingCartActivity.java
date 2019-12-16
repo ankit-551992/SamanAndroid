@@ -345,7 +345,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             float dis = (float) coupon.getDiscount();
             promoSaved = promoSaved + dis;
         }
-        // promoSaved = Math.round(promoSaved);
+        //promoSaved = Math.round(promoSaved);
         promoSaved = Float.valueOf(df.format(promoSaved));
 
         promoSavedTextView.setVisibility(View.VISIBLE);

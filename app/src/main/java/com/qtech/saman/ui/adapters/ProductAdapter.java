@@ -89,7 +89,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 productViewHolder.productDescription.setText(product.getProductNameAR());
                 productViewHolder.storeName.setText(product.getStoreNameAR());
             }
-
 //            productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
 
             if (product.getIsSaleProduct() != null) {
@@ -130,7 +129,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
                         .into(productViewHolder.productImageView);
             } else {
-                Picasso.get().load(Constants.URLS.BaseURLImages).placeholder(R.drawable.no_image)
+                Picasso.get().load(Constants.URLS.BaseURLImages)
+                        .placeholder(R.drawable.no_image)
                         .into(productViewHolder.productImageView);
             }
 //            else if(product.getProductImagesURLs().size()>0 && product.getProductImagesURLs().get(0)!=null && !product.getProductImagesURLs().get(0).isEmpty()){
@@ -212,7 +212,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     mContext.getString(R.string.view_fav),
                                     1, 0);
                         }
-
                     }
                 }
             });
