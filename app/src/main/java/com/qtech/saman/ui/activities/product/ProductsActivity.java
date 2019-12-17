@@ -108,7 +108,7 @@ public class ProductsActivity extends BaseActivity {
 
         toolbarTitle.setText(getString(R.string.products));
         toolbarBack.setVisibility(View.VISIBLE);
-        toolbarSearch.setVisibility(View.GONE);
+        toolbarSearch.setVisibility(View.VISIBLE);
         rl_search.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));

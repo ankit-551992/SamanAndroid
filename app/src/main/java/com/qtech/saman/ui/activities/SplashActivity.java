@@ -109,7 +109,7 @@ public class SplashActivity extends BaseActivity {
         apiClient.getAppViewCount(new Callback<ApiViewCount>() {
             @Override
             public void onResponse(Call<ApiViewCount> call, Response<ApiViewCount> response) {
-                Log.e("onSuccess", "response-----" +response.body());
+                Log.e("onSuccess", "response-----" + response.body());
             }
 
             @Override

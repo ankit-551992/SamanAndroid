@@ -46,12 +46,18 @@ public class HomePresenter implements HomeContractor.Presenter {
                     }
                 }else {
                     if (view != null) {
+                        view.hideProgress();
                         view.error("null");
                     }
+
                 }
             }
             @Override
             public void onFailure(Call<HomeScreenAPI> call, Throwable t) {
+                if (view != null) {
+                    view.hideProgress();
+                    view.error("null");
+                }
                 Log.e("onFailure", "" + t.getMessage());
             }
         });

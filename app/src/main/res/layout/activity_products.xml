@@ -48,7 +48,8 @@
                 android:drawableStart="@drawable/ic_search_grey"
                 android:padding="10dp"
                 android:hint="@string/search"
-                android:textColor="@color/grey" />
+                android:textColor="@color/grey"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 

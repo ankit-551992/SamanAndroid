@@ -420,7 +420,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 product.setProductDiscountPrice(product.getSalePrice());
                 final_display_salePrice = product.getPrice() - product.getSalePrice();
                 salePrice.setText(final_display_salePrice + " " + getString(R.string.OMR));
-                ll_display_sale.setVisibility(View.VISIBLE);
+                ll_display_sale.setVisibility(View.GONE);
                 salePrice.setVisibility(View.VISIBLE);
                 saleString = product.getSalePrice() + " " + getString(R.string.OMR) + " " + getResources().getString(R.string.off);
                 productPrice.setText(product.getPrice() + " ");
@@ -435,7 +435,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 final_display_salePrice = product.getPrice() - dis;
                 salePrice.setText(final_display_salePrice + " " + getString(R.string.OMR));
                 productPrice.setText(product.getPrice() + " ");
-                ll_display_sale.setVisibility(View.VISIBLE);
+                ll_display_sale.setVisibility(View.GONE);
                 salePrice.setVisibility(View.VISIBLE);
                 saleString = product.getSalePrice() + " " + getString(R.string.percent_sign) + " " + getResources().getString(R.string.off);
                 productPrice.setTextColor(getResources().getColor(R.color.grey));

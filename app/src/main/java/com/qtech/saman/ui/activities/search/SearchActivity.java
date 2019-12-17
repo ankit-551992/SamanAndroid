@@ -86,6 +86,7 @@ public class SearchActivity extends BaseActivity {
     int sortType = 1;
     boolean isGetAll = false;
     String query;
+    private boolean isLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,8 @@ public class SearchActivity extends BaseActivity {
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                         return true;
                     } else {
-                        Constants.showAlert(getString(R.string.search), getString(R.string.search_query), getString(R.string.okay), SearchActivity.this);
+                        Constants.showAlert(getString(R.string.search), getString(R.string.search_query),
+                                getString(R.string.okay), SearchActivity.this);
                     }
                 }
                 return false;
@@ -308,7 +310,6 @@ public class SearchActivity extends BaseActivity {
         searchRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
     }
 
-    private boolean isLoading;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
 

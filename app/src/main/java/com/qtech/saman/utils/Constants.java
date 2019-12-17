@@ -69,8 +69,7 @@ public class Constants {
     }
 
     public static boolean isNetworkAvailable(Context c) {
-        ConnectivityManager cm = (ConnectivityManager) c
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }

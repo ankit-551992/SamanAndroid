@@ -29,7 +29,7 @@
         android:padding="20dp"
         android:textColor="@color/black"
         android:background="@color/white"
-        android:text="@string/no_wishitems_found"
+        android:text="@string/no_product_found"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

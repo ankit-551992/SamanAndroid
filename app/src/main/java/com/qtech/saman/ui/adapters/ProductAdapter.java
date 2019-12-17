@@ -89,7 +89,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 productViewHolder.productDescription.setText(product.getProductNameAR());
                 productViewHolder.storeName.setText(product.getStoreNameAR());
             }
-//            productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
+//          productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
 
             if (product.getIsSaleProduct() != null) {
                 if (product.getIsSaleProduct().equals("true")) {
@@ -172,7 +172,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productViewHolder.favoriteImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     if (GlobalValues.getGuestLoginStatus(mContext)) {
                         Constants.showLoginDialog(mContext);
                         return;
@@ -182,8 +181,9 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     if (productArrayList.get(productViewHolder.getAdapterPosition()).getFavorite()) {
 
-//                        showAlert(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure), productViewHolder.favoriteImageView, productViewHolder.getAdapterPosition());
-                        showPopUp(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure), mContext.getString(R.string.no), mContext.getString(R.string.yes), productViewHolder.favoriteImageView, productViewHolder.getAdapterPosition());
+                        showPopUp(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure),
+                                mContext.getString(R.string.no), mContext.getString(R.string.yes),
+                                productViewHolder.favoriteImageView, productViewHolder.getAdapterPosition());
 
                     } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

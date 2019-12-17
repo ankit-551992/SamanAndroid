@@ -173,6 +173,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     float dis_product = 0.0f;
     double couponDiscount_price = 0.0f;
 
+    String setaddress = "";
+    String AddressLine1, floor, apt, city, usercountry, landmark;
+    String userregion = "";
+    String latitude, longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,7 +200,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         setTagView();
 
         currency = "OMR";
-        // random 3ds/order/txn IDs for example purposes
+        //random 3ds/order/txn IDs for example purposes
         orderId = UUID.randomUUID().toString();
         orderId = orderId.substring(0, orderId.indexOf('-'));
         transactionId = UUID.randomUUID().toString();
@@ -628,10 +633,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         }
     }
 
-    String setaddress = "";
-    String AddressLine1, floor, apt, city, usercountry, landmark;
-    String userregion = "";
-    String latitude, longitude;
 
     private void setShippingAddress(ShippingAddress shippingAddress) {
         if (shippingAddress.getAddressLine1() != null) {
