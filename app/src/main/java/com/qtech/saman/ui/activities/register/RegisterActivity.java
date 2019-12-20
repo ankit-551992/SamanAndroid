@@ -366,7 +366,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // get selected radio button from radioGroup
                 int selectedId = radioGroup.getCheckedRadioButtonId();
 
@@ -592,14 +591,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     Country country = new Country();
-
                     country.setId(jsonObject.getInt("id"));
                     country.setSortname(jsonObject.getString("sortname"));
                     country.setName(jsonObject.getString("name"));
                     country.setName_AR(jsonObject.getString("name_AR"));
                     country.setFlag("https://www.saman.om/Flags/flag_" + jsonObject.getString("sortname").toLowerCase() + ".png");
                     country.setPhoneCode("" + jsonObject.getInt("phoneCode"));
-
                     GlobalValues.countries.add(country);
                 }
             } catch (JSONException e) {

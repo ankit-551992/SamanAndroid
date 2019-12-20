@@ -36,7 +36,6 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-
 public interface WebServices {
 
     @FormUrlEncoded

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "944916770217-pktjbs0sflggskj24sguspn02ujg3m7p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qtech.saman",
+            "certificate_hash": "8fb204ba4ef31fac7b420cae5b05f490c990adff"
+          }
+        },
+        {
           "client_id": "944916770217-9shd1cequv585kc9vdanj7lfao21i2tl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

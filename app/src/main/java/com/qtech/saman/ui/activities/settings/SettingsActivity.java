@@ -231,11 +231,9 @@ public class SettingsActivity extends BaseActivity {
         });
 
         Animation animation;
-        animation = AnimationUtils.loadAnimation(SettingsActivity.this,
-                R.anim.slide_bottom_to_top);
+        animation = AnimationUtils.loadAnimation(SettingsActivity.this, R.anim.slide_bottom_to_top);
 
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
     }
 

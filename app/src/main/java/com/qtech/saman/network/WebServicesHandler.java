@@ -45,6 +45,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
@@ -63,6 +64,7 @@ public class WebServicesHandler {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(Constants.URLS.BaseURLApis)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(httpClient.build());
 
         Retrofit retrofit = builder.build();

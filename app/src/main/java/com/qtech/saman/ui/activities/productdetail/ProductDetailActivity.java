@@ -211,7 +211,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         if (!allOptionsSelected()) {
 //          showPopUp();
-            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options), getString(R.string.okay));
+            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error),
+                    getString(R.string.missing_options), getString(R.string.okay));
             return;
         }
 
@@ -262,7 +263,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     }
                 } else {
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
-                    Constants.showAlert(getString(R.string.title_my_bag), text, getString(R.string.cancel), ProductDetailActivity.this);
+                    Constants.showAlert(getString(R.string.title_my_bag), text, getString(R.string.cancel),
+                            ProductDetailActivity.this);
                 }
             } else {
                 Constants.showAlert(getString(R.string.title_my_bag),
@@ -408,7 +410,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             productCount.setText("0");
 
             if (product.getIsNotificationSubscribed().equals("true")) {
-                button_notify.setVisibility(View.GONE);
+                button_notify.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkPressed));
+                button_notify.setClickable(false);
+                button_notify.setVisibility(View.VISIBLE);
             } else {
                 button_notify.setVisibility(View.VISIBLE);
             }
@@ -485,7 +489,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     value.setTitleAR(getString(R.string.select));
                     optionsList.add(0, value);
 
-                    ArrayAdapter valuesAdapter = new ArrayAdapter(ProductDetailActivity.this, android.R.layout.simple_spinner_item, optionsList);
+                    ArrayAdapter valuesAdapter = new ArrayAdapter(ProductDetailActivity.this,
+                            android.R.layout.simple_spinner_item, optionsList);
                     optionValuesSpinner.setAdapter(valuesAdapter);
                 }
                 for (int i = 0; i < productOption.getOptionValues().size(); i++) {

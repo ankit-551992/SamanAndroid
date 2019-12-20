@@ -257,7 +257,8 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @OnClick(R.id.button_cancel_order)
     void cancelOrder() {
-        showAlertOrderCancel(getString(R.string.order_title), getString(R.string.order_cancel_msg), getString(R.string.yes), CheckoutOrderActivity.this);
+        showAlertOrderCancel(getString(R.string.order_title), getString(R.string.order_cancel_msg),
+                getString(R.string.yes), CheckoutOrderActivity.this);
     }
 
     private void cancelOrderApi(int orderID, String comment, int orderStatus, int userId) {
@@ -338,7 +339,6 @@ public class CheckoutOrderActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 orderStatus = 8;
-
                 Log.e("RES00000", "--nexttt-orderID---" + orderID + "-orderStatus-" + orderStatus + "-orderItemId-" + orderItemId + "-userId--" + userId);
                 cancelOrderApi(cancel_orderID, getString(R.string.order_cancel), orderStatus,userId);
                 dialog.dismiss();
