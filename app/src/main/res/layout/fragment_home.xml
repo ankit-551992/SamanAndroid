@@ -128,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:contentDescription="@string/contentDescription"
-                        android:src="@drawable/bingo" />
+                        android:src="@drawable/ads" />
 
                 </LinearLayout>
 

@@ -41,7 +41,6 @@ import com.qtech.saman.network.OmanNetServiceHandler;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.myaccount.payment.OmanNetCardDetailActivity;
-import com.qtech.saman.ui.activities.onboarding.WelcomeActivity;
 import com.qtech.saman.ui.activities.password.ForgotPasswordActivity;
 import com.qtech.saman.ui.activities.register.RegisterActivity;
 import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
@@ -89,7 +88,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     boolean isShowing = false;
 
     //Social Login
-    private static final String TAG = WelcomeActivity.class.getSimpleName();
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInClient googleApiClient;

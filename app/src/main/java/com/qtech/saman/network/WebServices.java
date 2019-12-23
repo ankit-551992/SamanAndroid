@@ -58,7 +58,6 @@ public interface WebServices {
     @POST("User/UpdateDeviceToken")
     Call<UserResponse> updateDeviceToken(@FieldMap Map<String, Object> parameters);
 
-
     @FormUrlEncoded
     @POST("User/ForgetPassword")
     Call<SimpleSuccess> forgetPassword(@FieldMap Map<String, Object> parameters);

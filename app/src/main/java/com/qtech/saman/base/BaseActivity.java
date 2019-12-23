@@ -36,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (is_firebase_msgnotify) {
             is_firebase_msgnotify = false;
             Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//          intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         } else {

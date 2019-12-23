@@ -73,6 +73,8 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
     TextView unreadMessageCount;
     @BindView(R.id.iv_profile)
     ImageView profile;
+    @BindView(R.id.version_code)
+    TextView version_code;
 
     User authenticatedUser;
 
@@ -106,6 +108,9 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
         }
     }
 
+    long longVersionCode;
+    String versionName;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_account, container, false);
@@ -114,14 +119,28 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
         authenticatedUser = GlobalValues.getUser(getContext());
         myAccountPresenter = new MyAccountPresenter(this);
 
-        Log.e("AUTH00","-getCountry--"+authenticatedUser.getCountry());
-        if (authenticatedUser.getId() != null){
+        Log.e("AUTH00", "-getCountry--" + authenticatedUser.getCountry());
+        if (authenticatedUser.getId() != null) {
             myAccountPresenter.getUsetInfoApi(authenticatedUser.getId());
         }
         userName.setText(getContext().getString(R.string.Welcome) + "," + authenticatedUser.getFirstName());
         userEmail.setText(authenticatedUser.getEmail());
         setProfileImage();
 
+      /*  try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            versionName = pInfo.versionName;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                longVersionCode = pInfo.getLongVersionCode();
+            } else {
+                longVersionCode = pInfo.versionCode;
+            }
+            Log.e("VERSION00", "-versionName--" + versionName + "---versionCode--" + longVersionCode);
+            Log.e("VERSION00", "-versionName--" + BuildConfig.VERSION_NAME);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }*/
+        version_code.setText("v" + BuildConfig.VERSION_NAME);
         return view;
     }
 
@@ -508,7 +527,6 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = scale;
         Bitmap bitmap = BitmapFactory.decodeFile(filePath, o2);
-//        Bitmap b = ExifUtils.rotateBitmap(filePath, b1);
         return bitmap;
     }
 

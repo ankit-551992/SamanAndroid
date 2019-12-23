@@ -36,7 +36,6 @@ public class FullScreenAdapter extends PagerAdapter {
                 .error(R.drawable.ic_account_img)
                 .into(imageView);
         collection.addView(imageLayout, 0);
-
         return imageLayout;
     }
 

@@ -104,7 +104,6 @@ public class ProductPresenter implements ProductContractor.Presenter {
 
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-
             }
         });
     }

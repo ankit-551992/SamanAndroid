@@ -1,25 +1,18 @@
 package com.qtech.saman.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.qtech.saman.R;
-import com.qtech.saman.data.model.apis.CustomerSupportListApi;
-import com.qtech.saman.ui.activities.CustomerSupport.SupportDetailsActivity;
 import com.qtech.saman.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +32,7 @@ public class CustomerSupportImageAdapter extends RecyclerView.Adapter<CustomerSu
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewHolder viewHolder;
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_photo, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_photo, parent, false);
         viewHolder = new ViewHolder(view);
         return viewHolder;
     }

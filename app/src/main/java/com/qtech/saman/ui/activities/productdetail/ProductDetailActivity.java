@@ -52,12 +52,6 @@ import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 
 public class ProductDetailActivity extends BaseActivity implements ProductContractor.View {
 
-    //    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
-//    @BindView(R.id.toolbar_title)
-//    TextView toolbarTitle;
-//    @BindView(R.id.toolbar_back)
-//    ImageView toolbarBack;
     @BindView(R.id.viewpager)
     ViewPager mPager;
     @BindView(R.id.options_layout)
@@ -246,13 +240,15 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
         if (!allOptionsSelected()) {
 //          showPopUp();
-            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error), getString(R.string.missing_options), getString(R.string.okay));
+            Constants.showErrorPopUp(ProductDetailActivity.this, getString(R.string.error),
+                    getString(R.string.missing_options), getString(R.string.okay));
             return;
         }
 
         if (SamanApp.localDB != null) {
             if (product.getQuantity() != 0) {
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
+//                    outOfStockTextView.setVisibility(View.GONE);
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(),
                             Integer.parseInt(productCount.getText().toString()), product.getProductDiscountPrice())) {
                         Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.item_added_bag),
@@ -262,11 +258,13 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                                 0, 0);
                     }
                 } else {
+//                  outOfStockTextView.setVisibility(View.VISIBLE);
                     String text = String.format(getString(R.string.items_available_count), product.getQuantity());
                     Constants.showAlert(getString(R.string.title_my_bag), text, getString(R.string.cancel),
                             ProductDetailActivity.this);
                 }
             } else {
+//              outOfStockTextView.setVisibility(View.VISIBLE);
                 Constants.showAlert(getString(R.string.title_my_bag),
                         getString(R.string.out_of_stock),
                         getString(R.string.cancel),
@@ -277,7 +275,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.button_notify)
     public void notifyItem() {
-        showPopUp(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message), getString(R.string.no),
+        showPopUp(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message),
+                getString(R.string.no),
                 getString(R.string.yes), 0);
     }
 
@@ -302,14 +301,16 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         Log.e("PRODCTID", "--getQuantity---" + product.getQuantity());
         int current = Integer.parseInt(productCount.getText().toString());
         if (product.getQuantity() > current) {
+            outOfStockTextView.setVisibility(View.GONE);
             current++;
             productCount.setText(String.valueOf(current));
         } else {
-            String text = String.format(getString(R.string.items_available_count), product.getQuantity());
-            Constants.showAlert("",
-                    getString(R.string.out_of_stock),
-                    getString(R.string.okay),
-                    ProductDetailActivity.this);
+            outOfStockTextView.setVisibility(View.VISIBLE);
+//            String text = String.format(getString(R.string.items_available_count), product.getQuantity());
+//            Constants.showAlert("",
+//                    getString(R.string.out_of_stock),
+//                    getString(R.string.okay),
+//                    ProductDetailActivity.this);
         }
     }
 
@@ -354,7 +355,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (SamanApp.isEnglishVersion) {
-//                productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+//              productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_COMPACT));
                 productDescription.setText(Html.fromHtml(product.getDescription(), Html.FROM_HTML_MODE_LEGACY));
             } else {
 //              productDescription.setText(Html.fromHtml(product.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
@@ -389,8 +390,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 //            }
             ProductAttribute productAttribute = product.getProductAttributes().get(i);
             View child = inflater.inflate(R.layout.item_specifications_row, null);
-            TextView name = (TextView) child.findViewById(R.id.tv_attributeName);
-            TextView value = (TextView) child.findViewById(R.id.tv_attributeValue);
+            TextView name = child.findViewById(R.id.tv_attributeName);
+            TextView value = child.findViewById(R.id.tv_attributeValue);
 
             if (SamanApp.isEnglishVersion) {
                 name.setText(productAttribute.getTitle());
@@ -403,7 +404,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         if (product.getQuantity() <= 0) {
-            // addToCart.setEnabled(false);
+            //addToCart.setEnabled(false);
             removeQuantity.setEnabled(false);
             addQuantity.setEnabled(false);
             outOfStockTextView.setVisibility(View.VISIBLE);
@@ -521,25 +522,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (urls.size() == 0) {
             urls.add("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350");
         }
-        /*After setting the adapter use the timer */
-//        final Handler handler = new Handler();
-//        final Runnable Update = new Runnable() {
-//            public void run() {
-//                mPager.setCurrentItem(currentPage, true);
-//                currentPage++;
-//                if (currentPage == urls.size()) {
-//                    currentPage = 0;
-//                }
-//            }
-//        };
-//
-//        timer = new Timer(); // This will create a new Thread
-//        timer.schedule(new TimerTask() { // task to be scheduled
-//            @Override
-//            public void run() {
-//                handler.post(Update);
-//            }
-//        }, DELAY_MS, PERIOD_MS);
         customPagerAdapter.notifyDataSetChanged();
     }
 
@@ -558,17 +540,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 .focusable(true)
                 .build()
                 .show();
-
-//        new SimpleTooltip.Builder(this)
-//                .anchorView(view)
-//                .text(R.string.coupon_discount)
-//                .gravity(Gravity.BOTTOM)
-//                .showArrow(true)
-//                .modal(true)
-//                .animated(false)
-//                .backgroundColor(Color.WHITE)
-//                .build()
-//                .show();
     }
 
     @Override

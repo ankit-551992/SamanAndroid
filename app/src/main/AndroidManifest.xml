@@ -124,13 +124,6 @@
         <!-- android:name=".ui.activities.PopupActivity" -->
         <!-- android:theme="@style/ThemeTransparent"/> -->
         <activity
-            android:name=".ui.activities.PopupActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:taskAffinity=""
-            android:theme="@style/ThemeTransparent" />
-        <activity
             android:name=".ui.activities.myaccount.myorders.MyOrdersActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -172,12 +165,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.store.StoreDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.InvoiceViewerActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.invoice.ViewInvoice"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.password.NumberVerificationActivity"

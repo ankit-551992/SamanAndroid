@@ -64,7 +64,6 @@ import com.qtech.saman.ui.activities.country.RegionListingActivity;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.login.LoginActivity;
 import com.qtech.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
-import com.qtech.saman.ui.activities.onboarding.WelcomeActivity;
 import com.qtech.saman.ui.activities.password.NumberVerificationActivity;
 import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
 import com.qtech.saman.utils.CircleTransform;
@@ -156,7 +155,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     ArrayAdapter<String> arrayAdapter;
 
     //Social Login
-    private static final String TAG = WelcomeActivity.class.getSimpleName();
+    private static final String TAG = RegisterActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
     private GoogleApiClient mGoogleApiClient;
 
@@ -220,7 +219,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 String phone = ccp.getText().toString();
                 if (hasFocus) {
                     if (TextUtils.isEmpty(phone)) {
-                        chooseCountryCode();
+                          chooseCountryCode();
 //                        Constants.showAlert(getString(R.string.sign_up), getString(R.string.enter_countrycode), getString(R.string.okay), RegisterActivity.this);
                     } else {
                     }
@@ -257,7 +256,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         phone = phone.replace("+", "");
 
         if (TextUtils.isEmpty(phone)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.Phone_Number_Required), getString(R.string.okay), RegisterActivity.this);
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.Phone_Number_Required), getString(R.string.okay),
+                    RegisterActivity.this);
             return;
         } else if (phone.length() < 10) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.Not_Valid), getString(R.string.okay), RegisterActivity.this);
@@ -281,7 +281,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             if (!isAfterToday(year, monthOfYear, dayOfMonth)) {
                 updateLabel();
             } else {
-                Constants.showAlert(getString(R.string.my_details), getString(R.string.invalid_date), getString(R.string.okay), RegisterActivity.this);
+                Constants.showAlert(getString(R.string.my_details), getString(R.string.invalid_date),
+                        getString(R.string.okay), RegisterActivity.this);
             }
         }
     };
@@ -401,15 +402,14 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     @OnClick(R.id.iv_pin)
     public void userAddress() {
 //        try {
-//            Intent intent =
+//          Intent intent =
 //                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
 //                            .build(this);
 //            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
 //        } catch (GooglePlayServicesRepairableException e) {
-//            // TODO: Handle the error.
+//
 //        } catch (GooglePlayServicesNotAvailableException e) {
-//            // TODO: Handle the error.
-//        }
+//       }
         Intent intent = new Intent(RegisterActivity.this, AddShippingAddressActivity.class);
         intent.putExtra("Type", 2);
         startActivityForResult(intent, 1414);
@@ -484,7 +484,8 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         if (isDataValid(firstName, lastName, email, password, confirmPassword, gender, country, address, day, month, year, phone)) {
             if (countryName.getText().toString().equalsIgnoreCase("oman")) {
                 if (region == null || TextUtils.isEmpty(region)) {
-                    Constants.showAlert(getString(R.string.sign_up), getString(R.string.region_required), getString(R.string.okay), RegisterActivity.this);
+                    Constants.showAlert(getString(R.string.sign_up), getString(R.string.region_required),
+                            getString(R.string.okay), RegisterActivity.this);
                     return;
                 }
             } else {
@@ -760,10 +761,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     private boolean isDataValid(String fName, String lName, String email, String password, String confrim, String gender, String country, String address, String day, String month, String year, String phone) {
         if (TextUtils.isEmpty(fName)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.first_name_required), getString(R.string.okay), RegisterActivity.this);
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.first_name_required),
+                    getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(lName)) {
-            Constants.showAlert(getString(R.string.sign_up), getString(R.string.last_name_required), getString(R.string.okay), RegisterActivity.this);
+            Constants.showAlert(getString(R.string.sign_up), getString(R.string.last_name_required),
+                    getString(R.string.okay), RegisterActivity.this);
             return false;
         } else if (TextUtils.isEmpty(email)) {
             Constants.showAlert(getString(R.string.sign_up), getString(R.string.email_required), getString(R.string.okay), RegisterActivity.this);
@@ -868,9 +871,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 socialPhotoUrl = acct.getPhotoUrl().toString();
             }
             socialEmail = acct.getEmail();
-
             socialLogin(1);
-
 //            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
 //            startActivity(intent);
         }
@@ -1072,7 +1073,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
         ).executeAsync();
     }
 
-
     //Facebook Region End
 
     //socialID ----> 1 for G+,2 for Twitter, 3 for Facebook
@@ -1134,7 +1134,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     }
 
     //Social Login
-
 
     void addSpinner() {
 //        ArrayList<String> yearList = new ArrayList<>();

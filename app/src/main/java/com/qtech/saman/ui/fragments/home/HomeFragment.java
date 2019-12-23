@@ -144,7 +144,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
 
     @OnClick(R.id.iv_header_below_banner)
     void banner() {
-//        Log.e("BannerType",""+bannerType);
 //        if (bannerType == 5) {
         if (bannerType == 2) {
             Intent intent = new Intent(getContext(), SalesProductActivity.class);
@@ -216,24 +215,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         middle_banner_indicator.setViewPager(banner_viewpager);
 //      middle_banner_indicator.setCurrentItem(median);
 
-        /*     *//*After setting the adapter use the timer *//*
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                bestSellersPager.setCurrentItem(current_bannerPage,true);
-                current_bannerPage++;
-                if (current_bannerPage == sliderList.size()) {
-                    current_bannerPage = 0;
-                }
-            }
-        };
-        timer = new Timer(); // This will create a new Thread
-        timer.schedule(new TimerTask() { // task to be scheduled
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, DELAY_MS, PERIOD_MS);*/
     }
 
     private void setBestSellers(List<Slider> sliderList) {

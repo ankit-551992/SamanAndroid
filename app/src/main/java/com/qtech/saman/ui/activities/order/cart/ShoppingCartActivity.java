@@ -1,6 +1,5 @@
 package com.qtech.saman.ui.activities.order.cart;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -39,7 +38,6 @@ import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.PlaceOrderResponse;
 import com.qtech.saman.data.model.apis.PromoVerify;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
-import com.qtech.saman.listeners.DialogOnClick;
 import com.qtech.saman.network.ApiController;
 import com.qtech.saman.network.OmanNetServiceHandler;
 import com.qtech.saman.network.WebServicesHandler;
@@ -77,7 +75,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecureCallback, DialogOnClick.OnDialogResponse {
+public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecureCallback {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -384,7 +382,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
     @OnClick(R.id.button_place_order)
     void placeOrder() {
-
         if (addressID == -1) {
             Constants.showAlert(getString(R.string.check_out), getString(R.string.add_shipping_address), getString(R.string.okay), ShoppingCartActivity.this);
             return;
@@ -500,13 +497,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         Log.e("onFailure", "" + t.getMessage());
                     }
                 });
-    }
-
-    @Override
-    public void OnResponseDialogClick(Context context, String response) {
-        Log.e("2222", "--OnResponseDialogClick--response-" + response);
-//        if (response.equals("nextclick")){
-//        }
     }
 
     @Override

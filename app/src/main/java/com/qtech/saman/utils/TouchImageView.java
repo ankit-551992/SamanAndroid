@@ -59,7 +59,6 @@ public class TouchImageView extends ImageView{
         setScaleType(ScaleType.MATRIX);
 
         setOnTouchListener(new OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mScaleDetector.onTouchEvent(event);

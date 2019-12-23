@@ -319,8 +319,20 @@
 
             </RelativeLayout>
 
-
         </LinearLayout>
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/version_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="right"
+        android:text="v 1.2.1(1)"
+        android:textSize="14sp"
+        android:textColor="@color/grey" />
+
 </LinearLayout>

@@ -144,6 +144,12 @@ public class Constants {
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+        dialog.show();
+
         TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
         TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
         ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
@@ -174,12 +180,6 @@ public class Constants {
                 dialog.dismiss();
             }
         });
-
-        Animation animation;
-        animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-
-        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
-        dialog.show();
     }
 
     public static void showAlertWithActivityFinish(String title, String message, String buttonText, final Context context) {
