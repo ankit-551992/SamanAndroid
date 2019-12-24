@@ -74,12 +74,15 @@
                     android:textColor="@color/black"/>
 
                 <TextView
+                    android:id="@+id/tv_discount_price"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:layout_marginLeft="3dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
                     android:textSize="12sp"
                     android:gravity="start"
+                    android:textStyle="bold"
                     android:textColor="@color/black"/>
 
 

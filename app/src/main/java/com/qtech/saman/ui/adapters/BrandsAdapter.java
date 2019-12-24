@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
@@ -52,6 +53,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Product cartProduct;
     float dpWidth;
     float dpHeight;
+    float final_displayprice = 0.0f;
 
     public BrandsAdapter(Context mContext, List<Product> brandArrayList, int userID) {
         this.brandArrayList = brandArrayList;
@@ -100,7 +102,40 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 brandViewHolder.productDescription.setText(product.getProductNameAR());
                 brandViewHolder.storeName.setText(product.getStoreNameAR());
             }
-            brandViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getResources().getString(R.string.OMR));
+
+            if (product.getIsSaleProduct() != null) {
+                if (product.getIsSaleProduct().equals("true")) {
+                    if (product.getSaleDiscountedType().equals("1")) {
+                        final_displayprice = product.getPrice() - product.getSalePrice();
+                        brandViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
+                        brandViewHolder.productPrice.setText(product.getPrice() + " ");
+                        brandViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
+                        brandViewHolder.productPrice.setPaintFlags(brandViewHolder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    } else if (product.getSaleDiscountedType().equals("2")) {
+                        float calculateDiscount = product.getPrice() / 100.0f;
+                        float dis = calculateDiscount * product.getSalePrice();
+                        final_displayprice = product.getPrice() - dis;
+                        brandViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
+                        brandViewHolder.productPrice.setText(product.getPrice() + " ");
+                        brandViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
+                        brandViewHolder.productPrice.setPaintFlags(brandViewHolder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    } else {
+                        brandViewHolder.discount_price.setText("");
+                        brandViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
+                        brandViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
+                    }
+                } else {
+                    final_displayprice = product.getPrice();
+                    brandViewHolder.discount_price.setText("");
+                    brandViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
+                    brandViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
+                }
+            } else {
+                brandViewHolder.discount_price.setText("");
+                brandViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
+                brandViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getResources().getString(R.string.OMR));
+            }
+//            brandViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getResources().getString(R.string.OMR));
 
             if (product.getLogoURL() != null && !product.getLogoURL().isEmpty()) {
                 Picasso.get().load(Constants.URLS.BaseURLImages + product.getLogoURL())
@@ -190,6 +225,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ImageView favoriteImageView;
         private ImageView cartImageView;
         private CardView cardView;
+        private TextView discount_price;
 
         public BrandViewHolder(View v) {
             super(v);
@@ -200,6 +236,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             favoriteImageView = (ImageView) v.findViewById(R.id.iv_favorite);
             cartImageView = (ImageView) v.findViewById(R.id.iv_add_to_cart);
             cardView = (CardView) v.findViewById(R.id.cardView);
+            discount_price = v.findViewById(R.id.tv_discount_price);
         }
     }
 

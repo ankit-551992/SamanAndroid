@@ -248,7 +248,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (SamanApp.localDB != null) {
             if (product.getQuantity() != 0) {
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
-//                    outOfStockTextView.setVisibility(View.GONE);
+//                  outOfStockTextView.setVisibility(View.GONE);
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(),
                             Integer.parseInt(productCount.getText().toString()), product.getProductDiscountPrice())) {
                         Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.item_added_bag),
@@ -320,6 +320,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         if (current > 1) {
             current--;
         }
+        outOfStockTextView.setVisibility(View.GONE);
         productCount.setText(String.valueOf(current));
     }
 

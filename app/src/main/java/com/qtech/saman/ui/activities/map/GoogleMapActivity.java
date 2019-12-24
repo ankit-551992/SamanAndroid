@@ -219,7 +219,9 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_LOCATION_CODE: {
-                if (grantResults.length > 0 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     checkGPSEnable();
                     mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
@@ -304,7 +306,8 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     public void moveCameraToCurrent() {
         GPSTracker gpsTracker = new GPSTracker(GoogleMapActivity.this);
 
-        if (GlobalValues.getUserLat(GoogleMapActivity.this) != null && GlobalValues.getUserLng(GoogleMapActivity.this) != null
+        if (GlobalValues.getUserLat(GoogleMapActivity.this) != null &&
+                GlobalValues.getUserLng(GoogleMapActivity.this) != null
                 && GlobalValues.getUserLat(GoogleMapActivity.this) != "" &&
                 GlobalValues.getUserLng(GoogleMapActivity.this) != "") {
             double lat = Double.parseDouble(GlobalValues.getUserLat(GoogleMapActivity.this));

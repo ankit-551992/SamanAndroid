@@ -22,23 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activities.onboarding.WelcomeActivity"
-            android:screenOrientation="portrait">
-
-            <!-- <intent-filter> -->
-            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-            <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
-
-
-            <!-- <data -->
-            <!-- android:host="test.com" -->
-            <!-- android:scheme="http"/> -->
-
-            <!-- <action android:name="android.intent.action.VIEW" /> -->
-
-            <!-- </intent-filter> -->
-        </activity>
         <!-- .ui.activities.map.GoogleMapActivity -->
         <activity
             android:name=".ui.activities.map.GoogleMapActivity"
