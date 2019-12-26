@@ -25,9 +25,8 @@
             android:id="@+id/iv_profile"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_below="@id/iv_profile_background"
+            android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-55dp"
             android:contentDescription="@string/contentDescription"
             android:src="@drawable/photo" />
 
@@ -35,11 +34,12 @@
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@+id/user_email"
+            android:gravity="bottom"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/iv_profile"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="25dp"
             android:text="@string/Welcome"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -51,7 +51,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:text="@string/email_hint"
             android:textColor="@color/black" />
