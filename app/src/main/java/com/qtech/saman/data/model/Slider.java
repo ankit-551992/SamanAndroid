@@ -3,6 +3,8 @@ package com.qtech.saman.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Slider {
 
     @SerializedName("ID")
@@ -14,10 +16,12 @@ public class Slider {
     @SerializedName("SliderURL")
     @Expose
     private String bannerURL = null;
-
     @SerializedName("SortOrder")
     @Expose
     private String sortOrder;
+    @SerializedName("ProductID")
+    @Expose
+    private ArrayList<String> productIDlist;
 
     public Integer getiD() {
         return iD;
@@ -49,5 +53,24 @@ public class Slider {
 
     public void setSortOrder(String sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public ArrayList<String> getProductIDlist() {
+        return productIDlist;
+    }
+
+    public void setProductIDlist(ArrayList<String> productIDlist) {
+        this.productIDlist = productIDlist;
+    }
+
+    @Override
+    public String toString() {
+        return "Slider{" +
+                "iD=" + iD +
+                ", Type=" + Type +
+                ", bannerURL='" + bannerURL + '\'' +
+                ", sortOrder='" + sortOrder + '\'' +
+                ", productIDlist=" + productIDlist +
+                '}';
     }
 }

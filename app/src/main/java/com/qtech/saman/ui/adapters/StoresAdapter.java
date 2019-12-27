@@ -27,9 +27,9 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     List<Store> storeArrayList = new ArrayList<>();
     private Context mContext;
 
-    public StoresAdapter(Context mContext,List<Store> storeArrayList){
-        this.storeArrayList=storeArrayList;
-        this.mContext=mContext;
+    public StoresAdapter(Context mContext, List<Store> storeArrayList) {
+        this.storeArrayList = storeArrayList;
+        this.mContext = mContext;
     }
 
     @Override
@@ -54,25 +54,25 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof StoreViewHolder) {
             StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
 
-            if(SamanApp.isEnglishVersion) {
+            if (SamanApp.isEnglishVersion) {
                 storeViewHolder.storeName.setText(storeArrayList.get(position).getStoreName());
-            }else {
+            } else {
                 storeViewHolder.storeName.setText(storeArrayList.get(position).getStoreNameAR());
             }
 
-            String url=Constants.URLS.BaseURLImages +storeArrayList.get(position).getLogoURL();
+            String url = Constants.URLS.BaseURLImages + storeArrayList.get(position).getLogoURL();
             Picasso.get().load(url)
                     .into(((StoreViewHolder) holder).storeImage);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        Intent intent=new Intent(mContext, StoreDetailActivity.class);
-                        intent.putExtra("Function",2); //2 for Store Products
-                        intent.putExtra("StoreName",storeArrayList.get(position).getStoreName());
-                        intent.putExtra("StoreNameAr",storeArrayList.get(position).getStoreNameAR());
-                        intent.putExtra("StoreID",storeArrayList.get(position).getID());
-                        mContext.startActivity(intent);
+                    Intent intent = new Intent(mContext, StoreDetailActivity.class);
+                    intent.putExtra("Function", 2); //2 for Store Products
+                    intent.putExtra("StoreName", storeArrayList.get(position).getStoreName());
+                    intent.putExtra("StoreNameAr", storeArrayList.get(position).getStoreNameAR());
+                    intent.putExtra("StoreID", storeArrayList.get(position).getID());
+                    mContext.startActivity(intent);
                 }
             });
         } else if (holder instanceof LoadingViewHolder) {

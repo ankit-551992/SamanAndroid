@@ -557,6 +557,8 @@
     <!--order cancel successfull-->
     <string name="map_dialog_msg">Only Oman country is valid for shipping.</string>
 
+    <string name="subscribe">Subscribed</string>
+
     <string name="select_address">Shipping Address</string>
     <string name="order_fail_msg">Order Failed</string>
     <string name="limited_stock">Limited stock</string>

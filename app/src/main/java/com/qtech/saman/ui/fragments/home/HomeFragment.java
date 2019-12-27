@@ -110,6 +110,11 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     int bannerType = 0;
     int current_bannerPage = 0;
 
+    int currentPage = 0;
+    Timer timer;
+    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
+    final long PERIOD_MS = 5 * 1000; // time in milliseconds between successive task executions.
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -130,7 +135,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     void products() {
 //      Intent intent=new Intent(getContext(), ProductListingActivity.class);
 //      intent.putExtra("Function",1); //1 for Latest Products
-//      startActivity(intent);
         Intent intent = new Intent(getContext(), ProductsActivity.class);
         startActivity(intent);
     }
@@ -169,10 +173,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         productRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, getContext()));
     }
 
-    int currentPage = 0;
-    Timer timer;
-    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
-    final long PERIOD_MS = 5 * 1000; // time in milliseconds between successive task executions.
 
     private void header(final List<String> urls) {
         customPagerAdapter = new CustomPagerAdapter(getContext(), urls);
@@ -214,7 +214,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         banner_viewpager.setCurrentItem(median);
         middle_banner_indicator.setViewPager(banner_viewpager);
 //      middle_banner_indicator.setCurrentItem(median);
-
     }
 
     private void setBestSellers(List<Slider> sliderList) {
@@ -297,7 +296,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
                     .into(headerBelowBanner);
 
             bannerType = screenApi.getBannerType();
-            Log.e("BANNERTYPE", "--bannerType---" + bannerType);
         }
 
         if (screenApi.getMiddleURLs() != null && !screenApi.getMiddleURLs().equals("")) {

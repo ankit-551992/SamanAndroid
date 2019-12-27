@@ -160,7 +160,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
         try {
             addresses = geocoder.getFromLocation(mLatLong.latitude, mLatLong.longitude, 1);
             try {
-//                address = addresses.get(0).getAddressLine(0);
+//              address = addresses.get(0).getAddressLine(0);
                 address += addresses.get(0).getLocality() + ",";
                 // address += addresses.get(0).getAdminArea() + ",";
                 // address += addresses.get(0).getPostalCode() + ",";
@@ -180,7 +180,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-//        https://developers.google.com/maps/documentation/android-sdk/map
+//      https://developers.google.com/maps/documentation/android-sdk/map
         gmap = googleMap;
         gmap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         gmap.getUiSettings().setZoomControlsEnabled(true);
@@ -342,7 +342,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
-                            // Logic to handle location object
+//                          Logic to handle location object
 //                          GlobalValues.setUserLat(GoogleMapActivity.this, "" + location.getLatitude());
 //                          GlobalValues.setUserLng(GoogleMapActivity.this, "" + location.getLongitude());
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -385,13 +385,12 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                         JSONObject result = results.getJSONObject(i);
                         if (result.has("types")) {
                             JSONArray types = result.getJSONArray("types");
-                            // search for locality or sub locality
+//                          search for locality or sub locality
 //                          sub locality is preferred
                             for (int k = 0; k < types.length(); k++) {
                                 if ("locality".equals(types.getString(k))) {
                                     if (result.has("formatted_address")) {
                                         adress = result.getString("formatted_address");
-
                                     }
                                 }
 //                                "administrative_area_level_1"
@@ -428,8 +427,8 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     private void saveSelectedAddress(String address) {
 
         String arr[] = address.split(",");
-//                selected_country = arr[4];
-//                Log.e("LAT0LNG0", "---selected_country---" +selected_country);
+//       selected_country = arr[4];
+//       Log.e("LAT0LNG0", "---selected_country---" +selected_country);
         if (arr.length >= 0) {
             Log.e("LAT0LNG0", "----selected_country---" + arr[3]);
             if (!arr[3].isEmpty() && arr[3].equals(getResources().getString(R.string.Oman))) {

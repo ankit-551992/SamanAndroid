@@ -150,7 +150,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         authenticatedUser = GlobalValues.getUser(this);
         if (authenticatedUser.getId() != 0 && Constants.isLoginRequest) {
             Constants.isLoginRequest = false;
-//            setupNavigationDrawer();
+//          setupNavigationDrawer();
             MenuItem menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
             menuItemLogout.setVisible(true);
             MenuItem menuItemAccount = navigationView.getMenu().findItem(R.id.nav_my_account);

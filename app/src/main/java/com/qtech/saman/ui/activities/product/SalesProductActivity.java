@@ -87,12 +87,12 @@ public class SalesProductActivity extends BaseActivity {
         viewPager.beginFakeDrag();
         viewPager.setSwipeable(false);
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0).setVisibility(View.GONE);
-//            }
-//        }, 200);
+/*        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0).setVisibility(View.GONE);
+            }
+        }, 200);*/
     }
 
     private void setUpCustomTabs() {

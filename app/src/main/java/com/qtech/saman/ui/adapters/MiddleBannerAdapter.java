@@ -3,6 +3,7 @@ package com.qtech.saman.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import com.qtech.saman.R;
 import com.qtech.saman.data.model.Slider;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.product.ProductsActivity;
+import com.qtech.saman.ui.activities.productdetail.ProductDetailActivity;
+import com.qtech.saman.ui.activities.store.StoreDetailActivity;
 import com.qtech.saman.utils.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +38,7 @@ public class MiddleBannerAdapter extends PagerAdapter {
         assert imageLayout != null;
         ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
 
+        Log.e("BANNERLIST", "--sliderList--" + sliderList.toString());
 //      Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerCrop().into(imageView);
 //      Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerInside().into(imageView);
         Picasso.get().load(Constants.URLS.BaseURLImages + sliderList.get(position).getBannerURL()).fit().into(imageView);
@@ -50,12 +54,24 @@ public class MiddleBannerAdapter extends PagerAdapter {
                     intent.putExtra("IsCategoryProduct", true);
                     mContext.startActivity(intent);
                 } else if (sliderList.get(position).getType() == 7) {   // middle banner  open Store
-                    ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());
+                    if (sliderList.get(position).getProductIDlist().size() == 1) {
+                        Intent intent = new Intent(mContext, StoreDetailActivity.class);
+                        intent.putExtra("StoreID", Integer.parseInt(sliderList.get(position).getProductIDlist().get(0)));
+                        mContext.startActivity(intent);
+                    } else {
+                        ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());
+                    }
                 } else if (sliderList.get(position).getType() == 8) {   // middle banner  open Product
-                    Intent intent = new Intent(mContext, ProductsActivity.class);
-                    intent.putExtra("BannerID", sliderList.get(position).getiD());
-                    intent.putExtra("IsBannerProduct", true);
-                    mContext.startActivity(intent);
+                    if (sliderList.get(position).getProductIDlist().size() == 1) {
+                        Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                        intent.putExtra("ProductID", Integer.parseInt(sliderList.get(position).getProductIDlist().get(0)));
+                        mContext.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mContext, ProductsActivity.class);
+                        intent.putExtra("BannerID", sliderList.get(position).getiD());
+                        intent.putExtra("IsBannerProduct", true);
+                        mContext.startActivity(intent);
+                    }
                 }
             }
         });

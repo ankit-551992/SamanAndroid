@@ -12,6 +12,8 @@ import com.qtech.saman.R;
 import com.qtech.saman.data.model.Slider;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.product.ProductsActivity;
+import com.qtech.saman.ui.activities.productdetail.ProductDetailActivity;
+import com.qtech.saman.ui.activities.store.StoreDetailActivity;
 import com.qtech.saman.utils.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -35,25 +37,31 @@ public class BestSellerPagerAdapter extends PagerAdapter {
         assert imageLayout != null;
         ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
 
-//      Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerCrop().into(imageView);
-//      Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerInside().into(imageView);
         Picasso.get().load(Constants.URLS.BaseURLImages + sliderList.get(position).getBannerURL()).fit().into(imageView);
         collection.addView(imageLayout, 0);
 
         imageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//               Product = 4 , Sales_category = 9
                 if (sliderList.get(position).getType() == 3) {             // bottom banner  Store = 3
-                    ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());
-
+                    if (sliderList.get(position).getProductIDlist().size() == 1) {
+                        Intent intent = new Intent(mContext, StoreDetailActivity.class);
+                        intent.putExtra("StoreID", Integer.parseInt(sliderList.get(position).getProductIDlist().get(0)));
+                        mContext.startActivity(intent);
+                    } else {
+                        ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());
+                    }
                 } else if (sliderList.get(position).getType() == 4) {           // bottom banner  Product =4
-//                    Intent intent = new Intent(mContext, ProductDetailActivity.class);
-//                    intent.putExtra("ProductID", sliderList.get(position).getiD());
-                    Intent intent = new Intent(mContext, ProductsActivity.class);
-                    intent.putExtra("BannerID", sliderList.get(position).getiD());
-                    intent.putExtra("IsBannerProduct", true);
-                    mContext.startActivity(intent);
+                    if (sliderList.get(position).getProductIDlist().size() == 1) {
+                        Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                        intent.putExtra("ProductID", Integer.parseInt(sliderList.get(position).getProductIDlist().get(0)));
+                        mContext.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mContext, ProductsActivity.class);
+                        intent.putExtra("BannerID", sliderList.get(position).getiD());
+                        intent.putExtra("IsBannerProduct", true);
+                        mContext.startActivity(intent);
+                    }
                 } else if (sliderList.get(position).getType() == 9) {           // bottom banner Product_category =9
 //                  Intent intent=new Intent(mContext, SalesProductActivity.class);
                     Intent intent = new Intent(mContext, ProductsActivity.class);
@@ -62,6 +70,22 @@ public class BestSellerPagerAdapter extends PagerAdapter {
                     mContext.startActivity(intent);
                 }
             }
+
+                /*  if (sliderList.get(position).getType() == 3) {             // bottom banner  Store = 3
+                        ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());
+                    } else if (sliderList.get(position).getType() == 4) {           // bottom banner  Product =4
+                        Intent intent = new Intent(mContext, ProductsActivity.class);
+                        intent.putExtra("BannerID", sliderList.get(position).getiD());
+                        intent.putExtra("IsBannerProduct", true);
+                        mContext.startActivity(intent);
+                    } else if (sliderList.get(position).getType() == 9) {           // bottom banner Product_category =9
+//                      Intent intent=new Intent(mContext, SalesProductActivity.class);
+                        Intent intent = new Intent(mContext, ProductsActivity.class);
+                        intent.putExtra("CategoryBannerID", sliderList.get(position).getiD());
+                        intent.putExtra("IsCategoryProduct", true);
+                        mContext.startActivity(intent);
+                    }
+                }*/
         });
         return imageLayout;
     }

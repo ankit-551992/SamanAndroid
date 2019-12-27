@@ -128,7 +128,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
 //      setSupportActionBar(toolbar);
@@ -410,13 +409,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             addQuantity.setEnabled(false);
             outOfStockTextView.setVisibility(View.VISIBLE);
             productCount.setText("0");
-
+            button_notify.setVisibility(View.VISIBLE);
             if (product.getIsNotificationSubscribed().equals("true")) {
-                button_notify.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkPressed));
-                button_notify.setClickable(false);
-                button_notify.setVisibility(View.VISIBLE);
+                button_notify.setText(getString(R.string.subscribe));
             } else {
-                button_notify.setVisibility(View.VISIBLE);
+                button_notify.setText(getString(R.string.notify_me));
             }
         }
 
@@ -686,10 +683,12 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @Override
     public void addProductNotifyResponse(SimpleSuccess simpleSuccess) {
+        button_notify.setVisibility(View.VISIBLE);
         if (simpleSuccess.getResult().equals(true)) {
             Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
-            button_notify.setVisibility(View.GONE);
+            button_notify.setText(getString(R.string.subscribe));
         } else {
+            button_notify.setText(getString(R.string.notify_me));
             Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
