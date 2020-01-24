@@ -175,6 +175,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     String AddressLine1, floor, apt, city, usercountry, landmark;
     String userregion = "";
     String latitude, longitude;
+    private boolean isSelect = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,15 +286,25 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 break;
             }
         }
-
-        if (!isNewPromo || isGeneralApplied) {
+        isSelect = tagsList.size() > 0;
+        if (!isNewPromo) {
             Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply),
                     getString(R.string.close), ShoppingCartActivity.this);
             return;
         }
 
+        if (isSelect) {
+            Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.only_one_time_apply),
+                    getString(R.string.close), ShoppingCartActivity.this);
+            return;
+        }
+//        if (!isNewPromo && isGeneralApplied) {
+//            Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply),
+//                    getString(R.string.close), ShoppingCartActivity.this);
+//            return;
+//        }
         Constants.showSpinner(getString(R.string.apply_coupon), ShoppingCartActivity.this);
-        WebServicesHandler.instance.applyPromo(promoEditText.getText().toString(), new retrofit2.Callback<PromoVerify>() {
+        WebServicesHandler.instance.applyPromo(promoEditText.getText().toString(), new Callback<PromoVerify>() {
             @Override
             public void onResponse(Call<PromoVerify> call, Response<PromoVerify> response) {
                 PromoVerify promoVerify = response.body();
@@ -338,6 +349,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
     private void setPromoDiscountWithPrice(Coupon coupon) {
 
+        for (Product product : bagArrayList) {
+
+
+        }
         if (coupon.getDiscountType() == 1) {
             //Percentage
             float calculateDiscount = subTotal / 100.0f;
@@ -935,7 +950,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 , selectedCard.getExpireDate().split("/")[1]
                 , selectedCard.getCardHolder()
                 , selectedCard.getCvc()
-                , new retrofit2.Callback<ResponseBody>() {
+                , new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
@@ -975,7 +990,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     }
 
     private void getCountriesAPI() {
-        WebServicesHandler.instance.getCountries(new retrofit2.Callback<ResponseBody>() {
+        WebServicesHandler.instance.getCountries(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {

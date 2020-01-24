@@ -97,7 +97,8 @@
     <string name="drawer_cart">الحقيبة</string>
     <string name="apply_coupon">تفعيل القسيمة</string>
     <string name="invalid_coupon">قسيمة غير صالحة</string>
-    <string name="already_apply">طبق بالفعل</string>
+    <string name="already_apply">الكوبون الخاص بك مطبق بالفعل</string>
+    <string name="only_one_time_apply">قسيمة واحدة يمكن أن تطبق في وقت واحد</string>
     <string name="delivery_to">توصيل إلى</string>
     <string name="delivery_options">خيارات التوصيل</string>
     <string name="delivery_cost">تكلفة التوصيل</string>

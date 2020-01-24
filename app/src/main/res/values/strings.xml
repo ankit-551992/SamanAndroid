@@ -105,7 +105,8 @@
     <string name="apply_coupon">Coupon</string>
     <!--   <string name="apply_coupon">Apply Coupon</string>-->
     <string name="invalid_coupon">Invalid Coupon</string>
-    <string name="already_apply">Already Applied</string>
+    <string name="already_apply">Your coupon is already applied</string>
+    <string name="only_one_time_apply">One coupon can apply at one time</string>
     <string name="delivery_to">Delivery To</string>
     <string name="delivery_options">Delivery Options</string>
     <string name="delivery_cost">Delivery Cost</string>
