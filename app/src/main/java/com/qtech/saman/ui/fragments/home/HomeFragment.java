@@ -29,7 +29,6 @@ import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.product.ProductsActivity;
 import com.qtech.saman.ui.activities.product.SalesProductActivity;
 import com.qtech.saman.ui.activities.productdetail.CustomPagerAdapter;
-
 import com.qtech.saman.ui.adapters.BestSellerPagerAdapter;
 import com.qtech.saman.ui.adapters.BrandsAdapter;
 import com.qtech.saman.ui.adapters.MiddleBannerAdapter;
@@ -159,7 +158,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         layoutManager = new GridLayoutManager(getActivity(), 3);
         storesRecyclerView.setLayoutManager(layoutManager);
         storesRecyclerView.setNestedScrollingEnabled(false);
-        storesAdapter = new StoresAdapter(getContext(), storeArrayList);
+        storesAdapter = new StoresAdapter(getContext(), storeArrayList, 0);
         storesRecyclerView.setAdapter(storesAdapter);
         storesRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false, getContext()));
     }

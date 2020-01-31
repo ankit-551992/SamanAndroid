@@ -72,7 +72,7 @@ public class Tabs extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         storeArrayList = new ArrayList<>();
-        adapter = new StoresAdapter(getContext(), storeArrayList);
+        adapter = new StoresAdapter(getContext(), storeArrayList, 0);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false, getContext()));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
@@ -84,7 +84,7 @@ public class Tabs extends BaseFragment {
             @Override
             public void onRefresh() {
                 storeArrayList = new ArrayList<>();
-                adapter = new StoresAdapter(getContext(), storeArrayList);
+                adapter = new StoresAdapter(getContext(), storeArrayList, 0);
                 recyclerView.setAdapter(adapter);
                 currentPage = 1;
                 getStores();

@@ -93,7 +93,7 @@ public class ProductsActivity extends BaseActivity {
         if (getIntent().hasExtra("CategoryID")) {
             categoryID = bundle.getInt("CategoryID");
 //          categoryID = 4;
-            ProductsCategoryFragment.newInstance(categoryID, "", false);
+            ProductsCategoryFragment.newInstance(categoryID, "", false, bannerID);
         }
 
         User user = GlobalValues.getUser(ProductsActivity.this);
@@ -255,30 +255,30 @@ public class ProductsActivity extends BaseActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         if (FLAG_SEARCH_PRODUCT) {
-            adapter.addFrag(ProductsCategoryFragment.newInstance(CATEGORYID, search, false), getString(R.string.all));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(CATEGORYID, search, false, bannerID), getString(R.string.all));
 
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
                 adapter.addFrag(
-                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), "", false),
+                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), "", false, bannerID),
                         GlobalValues.storeCategories.get(i).getTitle());
             }
         } else if (isBannerProduct) {
             isBannerProduct = false;
             tabLayout.setVisibility(View.GONE);
-            adapter.addFrag(ProductsCategoryFragment.newInstance(bannerID, "", true), getString(R.string.all));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(CATEGORYID, "", true, bannerID), getString(R.string.all));
         } else if (isCategoryProduct) {
             for (int i = 0; i < banner_storeCategories.size(); i++) {
                 adapter.addFrag(
-                        ProductsCategoryFragment.newInstance(banner_storeCategories.get(i).getID(), "", false),
+                        ProductsCategoryFragment.newInstance(banner_storeCategories.get(i).getID(), "", false, bannerID),
                         banner_storeCategories.get(i).getTitle());
             }
         } else {
 //          adapter.addFrag(AllProductsFragment.newInstance(false), getString(R.string.all));
-            adapter.addFrag(ProductsCategoryFragment.newInstance(0, "", false), getString(R.string.all));
-            adapter.addFrag(ProductsCategoryFragment.newInstance(1, "", false), getString(R.string.new_in));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(0, "", false, bannerID), getString(R.string.all));
+            adapter.addFrag(ProductsCategoryFragment.newInstance(1, "", false, bannerID), getString(R.string.new_in));
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {
                 adapter.addFrag(
-                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), "", false),
+                        ProductsCategoryFragment.newInstance(GlobalValues.storeCategories.get(i).getID(), "", false, bannerID),
                         GlobalValues.storeCategories.get(i).getTitle());
             }
         }

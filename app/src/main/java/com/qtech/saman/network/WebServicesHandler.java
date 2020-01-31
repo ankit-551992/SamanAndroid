@@ -347,6 +347,11 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getProductsByStoreAndCategoryForBanner(int bannerID, int StoreId, int categoryId, int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getProductsByStoreAndCategoryForBanner(bannerID, StoreId, categoryId, userID, pageIndex, pageSize);
+        call.enqueue(callback);
+    }
+
     public void getLatestProducts(int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
         Call<GetProducts> call = webServices.getLatestProducts(userID, pageIndex, pageSize);
         call.enqueue(callback);
@@ -359,6 +364,11 @@ public class WebServicesHandler {
 
     public void getProductsByCategory(int categoryId, int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
         Call<GetProducts> call = webServices.getProductsByCategory(categoryId, userID, pageIndex, pageSize);
+        call.enqueue(callback);
+    }
+
+    public void getProductsByCategoryForBanner(int bannerID, int categoryId, int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getProductsByCategoryForBanner(bannerID, categoryId, userID, pageIndex, pageSize);
         call.enqueue(callback);
     }
 

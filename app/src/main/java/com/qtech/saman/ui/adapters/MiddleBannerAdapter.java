@@ -52,11 +52,13 @@ public class MiddleBannerAdapter extends PagerAdapter {
                     Intent intent = new Intent(mContext, ProductsActivity.class);
                     intent.putExtra("CategoryBannerID", sliderList.get(position).getiD());
                     intent.putExtra("IsCategoryProduct", true);
+                    intent.putExtra("BannerID", sliderList.get(position).getiD());
                     mContext.startActivity(intent);
                 } else if (sliderList.get(position).getType() == 7) {   // middle banner  open Store
                     if (sliderList.get(position).getProductIDlist().size() == 1) {
                         Intent intent = new Intent(mContext, StoreDetailActivity.class);
                         intent.putExtra("StoreID", Integer.parseInt(sliderList.get(position).getProductIDlist().get(0)));
+                        intent.putExtra("BannerID", sliderList.get(position).getiD());
                         mContext.startActivity(intent);
                     } else {
                         ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());

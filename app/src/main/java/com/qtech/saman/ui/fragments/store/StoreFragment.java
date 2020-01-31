@@ -50,7 +50,7 @@ public class StoreFragment extends BaseFragment {
     String search = "";
     //  @BindView(R.id.toolbar_search)
 //  ImageView toolbar_search;
-    int storeID;
+    int bannerStoreID;
     boolean banner_store;
 
 //    public static StoreFragment newInstance() {
@@ -74,9 +74,9 @@ public class StoreFragment extends BaseFragment {
 //            Log.e("SEARCH000", "--search--00--readBundle---store---" + search);
 //        }
         if (bundle != null) {
-            storeID = bundle.getInt("BannerID", 0);
+            bannerStoreID = bundle.getInt("BannerID", 0);
             banner_store = bundle.getBoolean("BannerStore", false);
-            Log.e("SEARCH000", "--banner_store---storeID---" + storeID + "--" + banner_store);
+            Log.e("SEARCH000", "--banner_store---bannerStoreID---" + bannerStoreID + "--" + banner_store);
         }
     }
 
@@ -206,7 +206,7 @@ public class StoreFragment extends BaseFragment {
             adapter.addFrag(AllStores.newInstance(search, 0, false), getString(R.string.all));
         } else if (banner_store) {
             tabLayout.setVisibility(View.GONE);
-            adapter.addFrag(AllStores.newInstance("", storeID, true), getString(R.string.all));
+            adapter.addFrag(AllStores.newInstance("", bannerStoreID, true), getString(R.string.all));
         } else {
             adapter.addFrag(new AllStores(), getString(R.string.all));
             for (int i = 0; i < GlobalValues.storeCategories.size(); i++) {

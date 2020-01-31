@@ -66,6 +66,7 @@ public class StoreDetailActivity extends BaseActivity {
 
     int function = 0;
     int storeID = 0;
+    int bannerID = 0;
     String storeName = "";
     String storeNameAr = "";
 
@@ -90,6 +91,8 @@ public class StoreDetailActivity extends BaseActivity {
         if (bundle != null) {
             function = bundle.getInt("Function");
             storeID = bundle.getInt("StoreID");
+            bannerID = bundle.getInt("BannerID");
+
             if (bundle.containsKey("StoreName")) {
                 storeName = bundle.getString("StoreName");
                 storeNameAr = bundle.getString("StoreNameAr");
@@ -104,7 +107,7 @@ public class StoreDetailActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         storeCategoryList = new ArrayList<>();
-        storeCategoriesAdapter = new StoreCategoriesAdapter(this, storeCategoryList, storeID, storeName, storeNameAr);
+        storeCategoriesAdapter = new StoreCategoriesAdapter(this, storeCategoryList, storeID, storeName, storeNameAr, bannerID);
         recyclerView.setAdapter(storeCategoriesAdapter);
         getStore();
     }

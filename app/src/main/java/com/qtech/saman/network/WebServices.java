@@ -106,6 +106,10 @@ public interface WebServices {
     @GET("Product/GetListByStoreAndCategory?")
     Call<GetProducts> getProductsByStoreAndCategory(@Query("storeID") int storeID, @Query("categoryID") int categoryID, @Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
+    @GET("Product/GetListByStoreIDAndBannesId?")
+    Call<GetProducts> getProductsByStoreAndCategoryForBanner(@Query("bannerID") int bannerID, @Query("storeID") int storeID, @Query("categoryID") int categoryID, @Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
+
+
     @GET("Product/GetLatestProducts?")
     Call<GetProducts> getLatestProducts(@Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
@@ -114,6 +118,9 @@ public interface WebServices {
 
     @GET("Product/GetListByCategory?")
     Call<GetProducts> getProductsByCategory(@Query("categoryID") int categoryID, @Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
+
+    @GET("Product/GetListByCategoryAndBannesId?")
+    Call<GetProducts> getProductsByCategoryForBanner(@Query("bannerID") int bannerID, @Query("categoryID") int categoryID, @Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
     @GET("Product/GetSaleProducts?")
     Call<GetProducts> getSaleProducts(@Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);

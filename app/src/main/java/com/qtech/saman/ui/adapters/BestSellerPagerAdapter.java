@@ -47,6 +47,7 @@ public class BestSellerPagerAdapter extends PagerAdapter {
                     if (sliderList.get(position).getProductIDlist().size() == 1) {
                         Intent intent = new Intent(mContext, StoreDetailActivity.class);
                         intent.putExtra("StoreID", Integer.parseInt(sliderList.get(position).getProductIDlist().get(0)));
+                        intent.putExtra("BannerID", sliderList.get(position).getiD());
                         mContext.startActivity(intent);
                     } else {
                         ((DashboardActivity) mContext).callStoreNav(true, sliderList.get(position).getiD());

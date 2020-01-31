@@ -92,7 +92,7 @@ public class AllStores extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         storeArrayList = new ArrayList<>();
-        adapter = new StoresAdapter(getContext(), storeArrayList);
+        adapter = new StoresAdapter(getContext(), storeArrayList, storeID);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false, getContext()));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
@@ -109,7 +109,7 @@ public class AllStores extends BaseFragment {
             @Override
             public void onRefresh() {
                 storeArrayList = new ArrayList<>();
-                adapter = new StoresAdapter(getContext(), storeArrayList);
+                adapter = new StoresAdapter(getContext(), storeArrayList, storeID);
                 recyclerView.setAdapter(adapter);
                 currentPage = 1;
                 if (isBannerStore) {

@@ -33,6 +33,7 @@ import static com.qtech.saman.utils.GlobalValues.CATEGORYID;
 
 public class ProductsCategoryFragment extends BaseFragment {
 
+    private static int bannerID;
     @BindView(R.id.tv_empty)
     TextView empty;
     @BindView(R.id.native_progress_bar)
@@ -53,13 +54,15 @@ public class ProductsCategoryFragment extends BaseFragment {
     String search_category_product;
     boolean isBannerProduct = false;
 
-    public static ProductsCategoryFragment newInstance(int categoryID, String search, boolean b) {
+    public static ProductsCategoryFragment newInstance(int categoryID, String search, boolean b, int bannerID) {
+        ProductsCategoryFragment.bannerID = bannerID;
         Bundle bundle = new Bundle();
         bundle.putInt("CategoryID", categoryID);
         bundle.putString("SEARCH", search);
         bundle.putBoolean("IsBannerProduct", b);
         ProductsCategoryFragment fragment = new ProductsCategoryFragment();
         fragment.setArguments(bundle);
+
         return fragment;
     }
 
@@ -90,7 +93,8 @@ public class ProductsCategoryFragment extends BaseFragment {
 
         if (isBannerProduct) {
 //            isBannerProduct = false;
-            getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
+//            getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
+            getProductsBanner(categoryID, currentPage, pageSize);
         } else {
             getProducts(categoryID, currentPage, pageSize);
         }
@@ -104,7 +108,9 @@ public class ProductsCategoryFragment extends BaseFragment {
                 recyclerView.setAdapter(productAdapter);
                 currentPage = 0;
                 if (isBannerProduct) {
-                    getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
+//                    getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
+                    getProductsBanner(categoryID, currentPage, pageSize);
+
                 } else {
                     getProducts(categoryID, currentPage, pageSize);
                 }
@@ -157,6 +163,60 @@ public class ProductsCategoryFragment extends BaseFragment {
         });
     }
 
+    private void getProductsBanner(int categoryID, int pageIndex, int pageSize) {
+        CATEGORYID = categoryID;
+        if (categoryID == 0) {
+            //for All
+            getLatestProducts(pageIndex, pageSize, 0);
+        } else if (categoryID == 1) {
+            //for new in
+            getLatestProducts(pageIndex, pageSize, 1);
+        } else {
+            WebServicesHandler.instance.getProductsByCategoryForBanner(bannerID, categoryID, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
+                @Override
+                public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                    progressBar.setVisibility(View.GONE);
+                    GetProducts getProducts = response.body();
+                    if (getProducts != null) {
+                        if (getProducts.getSuccess() == 1) {
+                            if (displayData.size() > 0 && displayData.get(displayData.size() - 1) == null) {
+                                displayData.remove(displayData.size() - 1);
+                                productAdapter.notifyItemRemoved(displayData.size());
+                            }
+                            if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
+                                displayData.addAll(getProducts.getProduct());
+                            } else {
+                                isGetAll = true;
+                            }
+                            isLoading = false;
+                            if (!search_category_product.equals("")) {
+                                getSearchCategory(search_category_product, displayData);
+                            }
+//                            if (category_flag) {
+//                                if (!search_category_product.equals("")) {
+//                                    getSearchCategory(search_category_product, displayData);
+//                                }
+//                            }
+                            productAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        if (displayData.size() > 0) {
+                            empty.setVisibility(View.GONE);
+                        } else {
+                            empty.setVisibility(View.VISIBLE);
+                            empty.setText(getResources().getString(R.string.no_product_found));
+                        }
+                    }
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+
+                @Override
+                public void onFailure(Call<GetProducts> call, Throwable t) {
+                }
+            });
+        }
+    }
+
     private void getProducts(int categoryID, int pageIndex, int pageSize) {
         CATEGORYID = categoryID;
         if (categoryID == 0) {
@@ -193,7 +253,7 @@ public class ProductsCategoryFragment extends BaseFragment {
 //                            }
                             productAdapter.notifyDataSetChanged();
                         }
-                    }else {
+                    } else {
                         if (displayData.size() > 0) {
                             empty.setVisibility(View.GONE);
                         } else {

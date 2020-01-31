@@ -26,10 +26,12 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final int VIEW_TYPE_LOADING = 1;
     List<Store> storeArrayList = new ArrayList<>();
     private Context mContext;
+    private int bannerID;
 
-    public StoresAdapter(Context mContext, List<Store> storeArrayList) {
+    public StoresAdapter(Context mContext, List<Store> storeArrayList, int bannerID) {
         this.storeArrayList = storeArrayList;
         this.mContext = mContext;
+        this.bannerID = bannerID;
     }
 
     @Override
@@ -70,6 +72,7 @@ public class StoresAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(mContext, StoreDetailActivity.class);
                     intent.putExtra("Function", 2); //2 for Store Products
                     intent.putExtra("StoreName", storeArrayList.get(position).getStoreName());
+                    intent.putExtra("BannerID", bannerID);
                     intent.putExtra("StoreNameAr", storeArrayList.get(position).getStoreNameAR());
                     intent.putExtra("StoreID", storeArrayList.get(position).getID());
                     mContext.startActivity(intent);

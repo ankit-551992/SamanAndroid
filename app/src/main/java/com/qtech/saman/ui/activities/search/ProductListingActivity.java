@@ -55,13 +55,14 @@ public class ProductListingActivity extends BaseActivity {
     List<Product> displayData = new ArrayList<>();
     ProductAdapter productAdapter;
 
-    int function=0;
-    int storeID=0;
-    int categoryID=0;
-    String storeName="";
-    String storeNameAr="";
-    String categoryName="";
-    String categoryNameAr="";
+    int function = 0;
+    int storeID = 0;
+    int bannerID = 0;
+    int categoryID = 0;
+    String storeName = "";
+    String storeNameAr = "";
+    String categoryName = "";
+    String categoryNameAr = "";
 
     User authenticatedUser;
 
@@ -69,147 +70,6 @@ public class ProductListingActivity extends BaseActivity {
     int pageSize = 20;
     boolean isGetAll = false;
     private boolean isLoading;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        ButterKnife.bind(this);
-        Bundle bundle= getIntent().getExtras();
-        authenticatedUser = GlobalValues.getUser(this);
-        if(bundle!=null){
-            function=bundle.getInt("Function");
-            if(function==2){
-                storeID=bundle.getInt("StoreID");
-                categoryID=bundle.getInt("categoryID");
-                storeName=bundle.getString("StoreName");
-                storeNameAr=bundle.getString("StoreNameAr");
-                categoryName=bundle.getString("categoryName");
-                categoryNameAr=bundle.getString("categoryNameAr");
-            }
-        }
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        search.setVisibility(View.GONE);
-        if (function==1){
-            toolbarTitle.setText(getString(R.string.new_in));
-        }else if (function==2){
-            if(SamanApp.isEnglishVersion) {
-                toolbarTitle.setText(storeName);
-            }else {
-                toolbarTitle.setText(storeNameAr);
-            }
-        }
-
-        toolbarTitle.setAllCaps(true);
-        toolbarBack.setVisibility(View.VISIBLE);
-        searchBar.setVisibility(View.GONE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-        }else {
-            toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
-        }
-        setProductsAdapter();
-    }
-
-    @OnClick(R.id.toolbar_search)
-    void search() {
-            Intent intent = new Intent(ProductListingActivity.this, SearchActivity.class);
-            startActivity(intent);
-    }
-
-    @OnClick(R.id.toolbar_back)
-    public void back() {
-        super.onBackPressed();
-    }
-
-    private void setProductsAdapter() {
-        productLayoutManager = new GridLayoutManager(this, 2);
-        searchRecyclerView.setLayoutManager(productLayoutManager);
-        searchRecyclerView.setNestedScrollingEnabled(false);
-        displayData = new ArrayList<>();
-        productAdapter = new ProductAdapter(this, displayData,authenticatedUser.getId(),false);
-        searchRecyclerView.setAdapter(productAdapter);
-        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false,this));
-        searchRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-
-        progressBar.setVisibility(View.VISIBLE);
-        if(function==2) {
-            getProductsByStoreID(storeID,categoryID,currentPage,pageSize);
-        }else {
-            getLatestProducts(currentPage,pageSize);
-        }
-    }
-
-    private void getProductsByStoreID(int storeID,int categoryId,int pageIndex,int pageSize) {
-
-        WebServicesHandler.instance.getProductsByStoreAndCategory(storeID,categoryId,authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
-            @Override
-            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
-                GetProducts getProducts = response.body();
-                progressBar.setVisibility(View.GONE);
-                if (getProducts != null) {
-                    if (getProducts.getSuccess() == 1){
-                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1)==null) {
-                            displayData.remove(displayData.size() - 1);
-                            productAdapter.notifyItemRemoved(displayData.size());
-                        }
-                        if(getProducts.getProduct()!=null && getProducts.getProduct().size()>0) {
-                            displayData.addAll(getProducts.getProduct());
-                            productAdapter.notifyDataSetChanged();
-                        }else {
-                            isGetAll=true;
-                        }
-                        isLoading = false;
-                    }
-                }
-                if(displayData.size()>0){
-                    empty.setVisibility(View.GONE);
-                }else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-            }
-            @Override
-            public void onFailure(Call<GetProducts> call, Throwable t) {
-            }
-        });
-    }
-
-    private void getLatestProducts(int pageIndex,int pageSize) {
-
-        WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(),pageIndex,pageSize,new retrofit2.Callback<GetProducts>() {
-            @Override
-            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
-                progressBar.setVisibility(View.GONE);
-                GetProducts getProducts = response.body();
-                if (getProducts != null) {
-                    if (getProducts.getSuccess() == 1) {
-                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1)==null) {
-                            displayData.remove(displayData.size() - 1);
-                            productAdapter.notifyItemRemoved(displayData.size());
-                        }
-                        if(getProducts.getProduct()!=null && getProducts.getProduct().size()>0) {
-                            displayData.addAll(getProducts.getProduct());
-                            productAdapter.notifyDataSetChanged();
-                        }else {
-                            isGetAll=true;
-                        }
-                        isLoading = false;
-                    }
-                }
-                if(displayData.size()>0){
-                    empty.setVisibility(View.GONE);
-                }else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetProducts> call, Throwable t) {
-            }
-        });
-    }
-
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
 
         @Override
@@ -227,12 +87,195 @@ public class ProductListingActivity extends BaseActivity {
                 productAdapter.notifyItemInserted(displayData.size() - 1);
                 isLoading = true;
                 currentPage++;
-                if(function==2) {
-                    getProductsByStoreID(storeID,categoryID,currentPage,pageSize);
-                }else {
-                    getLatestProducts(currentPage,pageSize);
+                if (function == 2) {
+                    getProductsByStoreID(storeID, categoryID, currentPage, pageSize);
+                } else {
+                    getLatestProducts(currentPage, pageSize);
                 }
             }
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        ButterKnife.bind(this);
+        Bundle bundle = getIntent().getExtras();
+        authenticatedUser = GlobalValues.getUser(this);
+        if (bundle != null) {
+            function = bundle.getInt("Function");
+            if (function == 2) {
+                storeID = bundle.getInt("StoreID");
+                bannerID = bundle.getInt("BannerID");
+                categoryID = bundle.getInt("categoryID");
+                storeName = bundle.getString("StoreName");
+                storeNameAr = bundle.getString("StoreNameAr");
+                categoryName = bundle.getString("categoryName");
+                categoryNameAr = bundle.getString("categoryNameAr");
+            }
+        }
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        search.setVisibility(View.GONE);
+        if (function == 1) {
+            toolbarTitle.setText(getString(R.string.new_in));
+        } else if (function == 2) {
+            if (SamanApp.isEnglishVersion) {
+                toolbarTitle.setText(storeName);
+            } else {
+                toolbarTitle.setText(storeNameAr);
+            }
+        }
+
+        toolbarTitle.setAllCaps(true);
+        toolbarBack.setVisibility(View.VISIBLE);
+        searchBar.setVisibility(View.GONE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
+        } else {
+            toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
+        }
+        setProductsAdapter();
+    }
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
+
+    @OnClick(R.id.toolbar_search)
+    void search() {
+        Intent intent = new Intent(ProductListingActivity.this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+    private void setProductsAdapter() {
+        productLayoutManager = new GridLayoutManager(this, 2);
+        searchRecyclerView.setLayoutManager(productLayoutManager);
+        searchRecyclerView.setNestedScrollingEnabled(false);
+        displayData = new ArrayList<>();
+        productAdapter = new ProductAdapter(this, displayData, authenticatedUser.getId(), false);
+        searchRecyclerView.setAdapter(productAdapter);
+        searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, this));
+        searchRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        if (function == 2) {
+            if (bannerID != 0) {
+                getProductsByStoreIDForBanner(bannerID, storeID, categoryID, currentPage, pageSize);
+            } else {
+                getProductsByStoreID(storeID, categoryID, currentPage, pageSize);
+            }
+
+        } else {
+            getLatestProducts(currentPage, pageSize);
+        }
+    }
+
+    private void getProductsByStoreID(int storeID, int categoryId, int pageIndex, int pageSize) {
+
+        WebServicesHandler.instance.getProductsByStoreAndCategory(storeID, categoryId, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
+            @Override
+            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                GetProducts getProducts = response.body();
+                progressBar.setVisibility(View.GONE);
+                if (getProducts != null) {
+                    if (getProducts.getSuccess() == 1) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1) == null) {
+                            displayData.remove(displayData.size() - 1);
+                            productAdapter.notifyItemRemoved(displayData.size());
+                        }
+                        if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
+                            displayData.addAll(getProducts.getProduct());
+                            productAdapter.notifyDataSetChanged();
+                        } else {
+                            isGetAll = true;
+                        }
+                        isLoading = false;
+                    }
+                }
+                if (displayData.size() > 0) {
+                    empty.setVisibility(View.GONE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetProducts> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getProductsByStoreIDForBanner(int bannerID, int storeID, int categoryId, int pageIndex, int pageSize) {
+
+        WebServicesHandler.instance.getProductsByStoreAndCategoryForBanner(bannerID, storeID, categoryId, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
+            @Override
+            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                GetProducts getProducts = response.body();
+                progressBar.setVisibility(View.GONE);
+                if (getProducts != null) {
+                    if (getProducts.getSuccess() == 1) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1) == null) {
+                            displayData.remove(displayData.size() - 1);
+                            productAdapter.notifyItemRemoved(displayData.size());
+                        }
+                        if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
+                            displayData.addAll(getProducts.getProduct());
+                            productAdapter.notifyDataSetChanged();
+                        } else {
+                            isGetAll = true;
+                        }
+                        isLoading = false;
+                    }
+                }
+                if (displayData.size() > 0) {
+                    empty.setVisibility(View.GONE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetProducts> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getLatestProducts(int pageIndex, int pageSize) {
+
+        WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
+            @Override
+            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                progressBar.setVisibility(View.GONE);
+                GetProducts getProducts = response.body();
+                if (getProducts != null) {
+                    if (getProducts.getSuccess() == 1) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1) == null) {
+                            displayData.remove(displayData.size() - 1);
+                            productAdapter.notifyItemRemoved(displayData.size());
+                        }
+                        if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
+                            displayData.addAll(getProducts.getProduct());
+                            productAdapter.notifyDataSetChanged();
+                        } else {
+                            isGetAll = true;
+                        }
+                        isLoading = false;
+                    }
+                }
+                if (displayData.size() > 0) {
+                    empty.setVisibility(View.GONE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetProducts> call, Throwable t) {
+            }
+        });
+    }
 }

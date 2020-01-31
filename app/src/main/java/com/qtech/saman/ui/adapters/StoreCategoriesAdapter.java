@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.StoreCategory;
 import com.qtech.saman.ui.activities.search.ProductListingActivity;
@@ -27,15 +28,18 @@ public class StoreCategoriesAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private Context mContext;
 
     int storeID=0;
+    int bannerId = 0;
     String storeName="";
     String storeNameAr="";
 
-    public StoreCategoriesAdapter(Context mContext, List<StoreCategory> categories,int storeID,String storeName,String storeNameAr) {
+
+    public StoreCategoriesAdapter(Context mContext, List<StoreCategory> categories, int storeID, String storeName, String storeNameAr, int bannerID) {
         this.categories = categories;
         this.mContext = mContext;
         this.storeID = storeID;
         this.storeName = storeName;
         this.storeNameAr = storeNameAr;
+        this.bannerId = bannerID;
     }
 
     @Override
@@ -77,6 +81,7 @@ public class StoreCategoriesAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     intent.putExtra("categoryNameAr",categories.get(position).getTitleAR());
                     intent.putExtra("StoreNameAr",storeNameAr);
                     intent.putExtra("StoreID",storeID);
+                    intent.putExtra("BannerID", bannerId);
                     mContext.startActivity(intent);
                 }
             });
