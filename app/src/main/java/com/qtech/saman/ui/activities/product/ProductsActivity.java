@@ -269,7 +269,7 @@ public class ProductsActivity extends BaseActivity {
         } else if (isCategoryProduct) {
             for (int i = 0; i < banner_storeCategories.size(); i++) {
                 adapter.addFrag(
-                        ProductsCategoryFragment.newInstance(banner_storeCategories.get(i).getID(), "", false, bannerID),
+                        ProductsCategoryFragment.newInstance(banner_storeCategories.get(i).getID(), "", true, bannerID),
                         banner_storeCategories.get(i).getTitle());
             }
         } else {

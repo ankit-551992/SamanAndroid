@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -240,6 +241,7 @@ public class ProductListingActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<GetProducts> call, Throwable t) {
+                Log.e("onFailure", "onFailure: " + t.getMessage());
             }
         });
     }
