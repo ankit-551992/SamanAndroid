@@ -161,7 +161,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     String paymentType = "COD";
     boolean requestAgain = false;
     boolean isGeneralApplied = false;
-    DecimalFormat df = new DecimalFormat("#.#");
+    //    DecimalFormat df = new DecimalFormat("0.000");
     //    DecimalFormat df = new DecimalFormat("#.##");
 //    DecimalFormat df = new DecimalFormat("#00.0#");
     String discount_couponId = "";
@@ -176,6 +176,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     String userregion = "";
     String latitude, longitude;
     private boolean isSelect = false;
+    private DecimalFormat decimalFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,8 +186,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.check_out));
-        price = (float) getIntent().getFloatExtra("Price", 0);
-        subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " " + getString(R.string.OMR));
+        price = getIntent().getFloatExtra("Price", 0);
+        decimalFormat = new DecimalFormat("0.000");
+        subtotalTextView.setText(getString(R.string.subtotal) + " " + decimalFormat.format(price) + " " + getString(R.string.OMR));
+//        subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " " + getString(R.string.OMR));
         appliedProducts = new ArrayList<>();
         subTotal = price;
         toolbarBack.setVisibility(View.VISIBLE);
@@ -235,7 +238,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         apiController.createSession(new CreateSessionCallback());
 
         promoSavedTextView.setVisibility(View.VISIBLE);
-        promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
+        promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + decimalFormat.format(promoTotalSaved) + " " + getString(R.string.OMR));
     }
 
 
@@ -288,13 +291,13 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         }
         isSelect = tagsList.size() > 0;
         if (!isNewPromo) {
-            Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply),
+            Constants.showAlert("", getString(R.string.already_apply),
                     getString(R.string.close), ShoppingCartActivity.this);
             return;
         }
 
         if (isSelect) {
-            Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.only_one_time_apply),
+            Constants.showAlert("", getString(R.string.only_one_time_apply),
                     getString(R.string.close), ShoppingCartActivity.this);
             return;
         }
@@ -318,7 +321,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 isGeneralApplied = true;
                                 setPromoDiscountWithPrice(promoVerify.getResult());
                             } else {
-                                Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply),
+                                Constants.showAlert("", getString(R.string.already_apply),
                                         getString(R.string.close), ShoppingCartActivity.this);
                             }
                         } else {
@@ -327,7 +330,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         if (promoSaved > 0) {
                             tagsList.add(promoEditText.getText().toString());
                             setTagData();
-                            String msg = getString(R.string.coupon_discount_is_) + " " + promoSaved + " " + getString(R.string.OMR);
+                            String msg = getString(R.string.coupon_discount_is_) + " " + decimalFormat.format(promoSaved) + " " + getString(R.string.OMR);
                             Constants.showAlert(getString(R.string.coupon_discount), msg, getString(R.string.Okay), ShoppingCartActivity.this);
                         }
                         discount_couponId = String.valueOf(promoVerify.getResult().getID());
@@ -364,14 +367,14 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             promoSaved = promoSaved + dis;
         }
         //promoSaved = Math.round(promoSaved);
-        promoSaved = Float.valueOf(df.format(promoSaved));
+        promoSaved = Float.valueOf(decimalFormat.format(promoSaved));
 
         promoSavedTextView.setVisibility(View.VISIBLE);
         promoTotalSaved = promoTotalSaved + promoSaved;
-        promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + promoTotalSaved + " " + getString(R.string.OMR));
+        promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + decimalFormat.format(promoTotalSaved) + " " + getString(R.string.OMR));
         price = subTotal - promoSaved;
         priceToPay = price + deliveryCost;
-        priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
+        priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + decimalFormat.format(priceToPay) + " " + getString(R.string.OMR));
 
         couponCode = coupon.getCouponCode();
     }
@@ -430,7 +433,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             float p1 = product_quantity_price * 100;
             couponDiscount_price = p1 / subTotal;
             couponDiscount_price = couponDiscount_price * promoSaved / 100;
-            couponDiscount_price = Double.parseDouble(df.format(couponDiscount_price));
+            couponDiscount_price = Double.parseDouble(decimalFormat.format(couponDiscount_price));
 
             obj = new JSONObject();
             try {
@@ -752,8 +755,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             Log.e("DELIVERYCOST", "------deliveryCost---" + deliveryCost);
             priceToPay = deliveryCost + price;
             priceToPay = priceToPay - promoSaved;
-            deliveryCostTextView.setText(getString(R.string.delivery_cost) + " : " + deliveryCost + " " + getString(R.string.OMR));
-            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + priceToPay + " " + getString(R.string.OMR));
+
+            deliveryCostTextView.setText(getString(R.string.delivery_cost) + " : " + decimalFormat.format(deliveryCost) + " " + getString(R.string.OMR));
+            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + decimalFormat.format(priceToPay) + " " + getString(R.string.OMR));
         }
     }
 
