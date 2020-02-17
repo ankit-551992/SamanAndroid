@@ -205,7 +205,7 @@ public class ProductsActivity extends BaseActivity {
             LinearLayout bg = (LinearLayout) customTab.findViewById(R.id.tab_layout);
 
             if (isCategoryProduct) {
-                isCategoryProduct = false;
+//                isCategoryProduct = false;
                 if (SamanApp.isEnglishVersion) {
                     textView.setText(banner_storeCategories.get(i).getTitle());
                 } else {

@@ -93,8 +93,11 @@ public class ProductsCategoryFragment extends BaseFragment {
 
         if (isBannerProduct) {
 //            isBannerProduct = false;
-//            getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
-            getProductsBanner(categoryID, currentPage, pageSize);
+            if (categoryID != 0) {
+                getProductsBanner(categoryID, currentPage, pageSize);
+            } else {
+                getBannerProductList(bannerID, authenticatedUser.getId(), currentPage, pageSize);
+            }
         } else {
             getProducts(categoryID, currentPage, pageSize);
         }
@@ -120,10 +123,10 @@ public class ProductsCategoryFragment extends BaseFragment {
         return view;
     }
 
-    private void getBannerProductList(int categoryID, Integer id, int currentPage, int pageSize) {
+    private void getBannerProductList(int bannerId, Integer id, int currentPage, int pageSize) {
 
         String userId = String.valueOf(authenticatedUser.getId());
-        WebServicesHandler.instance.getBannerProductList(categoryID, userId, currentPage, pageSize, new retrofit2.Callback<GetProducts>() {
+        WebServicesHandler.instance.getBannerProductList(bannerId, userId, currentPage, pageSize, new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
 
@@ -306,15 +309,16 @@ public class ProductsCategoryFragment extends BaseFragment {
                         }
                         newdisplayData.addAll(getProducts.getProduct());
                         if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
-                            if (categoryID == 0) {
-                                displayData.addAll(getProducts.getProduct());
-                            } else {
-                                for (Product product : newdisplayData) {
-                                    if (product.getIsNewIn().equals("true")) {
-                                        displayData.add(product);
-                                    }
-                                }
-                            }
+                            displayData.addAll(getProducts.getProduct());
+//                            if (categoryID == 0) {
+//                                displayData.addAll(getProducts.getProduct());
+//                            } else {
+//                                for (Product product : newdisplayData) {
+//                                    if (product.getIsNewIn().equals("true")) {
+//                                        displayData.add(product);
+//                                    }
+//                                }
+//                            }
                             if (!search_category_product.equals("")) {
                                 getSearchCategory(search_category_product, displayData);
                             }

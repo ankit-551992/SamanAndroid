@@ -376,6 +376,8 @@ public class CustomerSupportActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 dialog2.dismiss();
+                Intent intent = new Intent(CustomerSupportActivity.this, CustomerSupportListActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
