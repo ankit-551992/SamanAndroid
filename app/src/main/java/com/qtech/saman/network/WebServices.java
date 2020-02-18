@@ -113,6 +113,9 @@ public interface WebServices {
     @GET("Product/GetLatestProducts?")
     Call<GetProducts> getLatestProducts(@Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
+    @GET("Product/GetNewInProductList?")
+    Call<GetProducts> getNewInProductList(@Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
+
     @GET("Product/GetLatestProducts?")
     Call<GetProducts> getAllProducts(@Query("userID") int userID, @Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
@@ -223,16 +226,16 @@ public interface WebServices {
     Call<CustomerSupportListApi> getTicketByID(@Query("Id") int ticketId);
 
     @POST("User/AddNotifyProduct?")
-    Call<SimpleSuccess> addNotifyProduct(@Query("UserID") int userId,@Query("ProductID") int productId);
+    Call<SimpleSuccess> addNotifyProduct(@Query("UserID") int userId, @Query("ProductID") int productId);
 
     @GET("User/GetByID?")
     Call<UserResponse> getUserInfo(@Query("userID") int userId);
 
     @POST("Order/UpdateOrderStatus?")
     Call<SimpleSuccess> cancelOrder(@Query("orderID") int orderId,
-                                   @Query("comment") String comment,
-                                   @Query("status") int orderStatus,
-                                   @Query("UserId") int userId);
+                                    @Query("comment") String comment,
+                                    @Query("status") int orderStatus,
+                                    @Query("UserId") int userId);
 
     @GET("product/GetProductLisByBannesId?")
     Call<GetStores> getProductListByBannerId(@Query("bannerID") int bannerID,
@@ -242,15 +245,15 @@ public interface WebServices {
 
     @GET("product/GetProductLisByBannesId?")
     Call<GetProducts> getBannerProductList(@Query("bannerID") int bannerID,
-                                             @Query("userID") String userId,
-                                             @Query("pageIndex") int pageIndex,
-                                             @Query("pageSize") int pageSize);
+                                           @Query("userID") String userId,
+                                           @Query("pageIndex") int pageIndex,
+                                           @Query("pageSize") int pageSize);
 
     @GET("product/GetProductLisByBannesId?")
     Call<GetCategoriesList> getBannerProductCategory(@Query("bannerID") int bannerID,
-                                                 @Query("userID") String userId,
-                                                 @Query("pageIndex") int pageIndex,
-                                                 @Query("pageSize") int pageSize);
+                                                     @Query("userID") String userId,
+                                                     @Query("pageIndex") int pageIndex,
+                                                     @Query("pageSize") int pageSize);
 
     @POST("home/AppViewCount?")
     Call<ApiViewCount> getAppViewCountApi(@Query("DeviceType") int deviceType);

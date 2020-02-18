@@ -173,7 +173,8 @@ public class ProductsCategoryFragment extends BaseFragment {
             getLatestProducts(pageIndex, pageSize, 0);
         } else if (categoryID == 1) {
             //for new in
-            getLatestProducts(pageIndex, pageSize, 1);
+//            getLatestProducts(pageIndex, pageSize, 0);
+            getNewInProductList(pageIndex, pageSize, 1);
         } else {
             WebServicesHandler.instance.getProductsByCategoryForBanner(bannerID, categoryID, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
                 @Override
@@ -227,7 +228,8 @@ public class ProductsCategoryFragment extends BaseFragment {
             getLatestProducts(pageIndex, pageSize, 0);
         } else if (categoryID == 1) {
             //for new in
-            getLatestProducts(pageIndex, pageSize, 1);
+//            getLatestProducts(pageIndex, pageSize, 1);
+            getNewInProductList(pageIndex, pageSize, 1);
         } else {
             WebServicesHandler.instance.getProductsByCategory(categoryID, authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
                 @Override
@@ -293,6 +295,60 @@ public class ProductsCategoryFragment extends BaseFragment {
     private void getLatestProducts(int pageIndex, int pageSize, int categoryID) {
 
         WebServicesHandler.instance.getLatestProducts(authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
+            @Override
+            public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
+                progressBar.setVisibility(View.GONE);
+                GetProducts getProducts = response.body();
+                if (getProducts != null) {
+                    if (getProducts.getSuccess() == 1) {
+                        if (displayData.size() > 0 && displayData.get(displayData.size() - 1) == null) {
+                            displayData.remove(displayData.size() - 1);
+                            productAdapter.notifyItemRemoved(displayData.size());
+                        }
+
+                        if (newdisplayData.size() > 0) {
+                            newdisplayData.clear();
+                        }
+                        newdisplayData.addAll(getProducts.getProduct());
+                        if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
+                            displayData.addAll(getProducts.getProduct());
+//                            if (categoryID == 0) {
+//                                displayData.addAll(getProducts.getProduct());
+//                            } else {
+//                                for (Product product : newdisplayData) {
+//                                    if (product.getIsNewIn().equals("true")) {
+//                                        displayData.add(product);
+//                                    }
+//                                }
+//                            }
+                            if (!search_category_product.equals("")) {
+                                getSearchCategory(search_category_product, displayData);
+                            }
+                            productAdapter.notifyDataSetChanged();
+                        } else {
+                            isGetAll = true;
+                        }
+                        isLoading = false;
+                    }
+                }
+                if (displayData.size() > 0) {
+                    empty.setVisibility(View.GONE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                    empty.setText(getResources().getString(R.string.no_product_found));
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<GetProducts> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getNewInProductList(int pageIndex, int pageSize, int categoryID) {
+
+        WebServicesHandler.instance.getNewInProductList(authenticatedUser.getId(), pageIndex, pageSize, new retrofit2.Callback<GetProducts>() {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 progressBar.setVisibility(View.GONE);

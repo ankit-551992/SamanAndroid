@@ -279,5 +279,7 @@ public class ProductListingActivity extends BaseActivity {
             public void onFailure(Call<GetProducts> call, Throwable t) {
             }
         });
+
     }
+
 }

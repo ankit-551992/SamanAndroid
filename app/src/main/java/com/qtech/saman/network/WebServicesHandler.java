@@ -357,6 +357,11 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getNewInProductList(int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
+        Call<GetProducts> call = webServices.getNewInProductList(userID, pageIndex, pageSize);
+        call.enqueue(callback);
+    }
+
     public void getAllProducts(int userID, int pageIndex, int pageSize, Callback<GetProducts> callback) {
         Call<GetProducts> call = webServices.getAllProducts(userID, pageIndex, pageSize);
         call.enqueue(callback);
