@@ -96,6 +96,10 @@ public interface WebServices {
     @GET("Seller/Get/{id}")
     Call<GetStore> getStore(@Path("id") int storeId);
 
+    //Seller/GetStoreByIdAndBanner?id=18&bannerID=1238
+    @GET("Seller/GetStoreByIdAndBanner?")
+    Call<GetStore> getStoreByIdAndBanner(@Query("id") int storeId, @Query("bannerID") int bannerID);
+
     @GET("Seller/GetByCategory?")
 //    Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID, @Query("page") String page);
     Call<GetStores> getStoresByCategoryID(@Query("categoryID") String categoryID);

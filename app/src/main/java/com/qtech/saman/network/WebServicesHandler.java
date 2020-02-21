@@ -305,6 +305,11 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
+    public void getStoreByIdAndBanner(int storeId, int bannerId, Callback<GetStore> callback) {
+        Call<GetStore> call = webServices.getStoreByIdAndBanner(storeId, bannerId);
+        call.enqueue(callback);
+    }
+
     public void getStoresByCategory(String categoryID, Callback<GetStores> callback) {
         Call<GetStores> call = webServices.getStoresByCategoryID(categoryID);
         call.enqueue(callback);

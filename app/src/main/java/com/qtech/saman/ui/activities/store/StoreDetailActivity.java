@@ -109,7 +109,11 @@ public class StoreDetailActivity extends BaseActivity {
         storeCategoryList = new ArrayList<>();
         storeCategoriesAdapter = new StoreCategoriesAdapter(this, storeCategoryList, storeID, storeName, storeNameAr, bannerID);
         recyclerView.setAdapter(storeCategoriesAdapter);
-        getStore();
+        if (bannerID == 0) {
+            getStore();
+        } else {
+            getStoreByBannerId();
+        }
     }
 
     @OnClick(R.id.toolbar_search)
@@ -125,6 +129,76 @@ public class StoreDetailActivity extends BaseActivity {
 
     private void getStore() {
         WebServicesHandler.instance.getStore(storeID, new retrofit2.Callback<GetStore>() {
+            @Override
+            public void onResponse(Call<GetStore> call, Response<GetStore> response) {
+                GetStore getStore = response.body();
+                if (getStore != null) {
+                    if (getStore.getSuccess() == 1) {
+                        if (getStore.getStore() != null) {
+                            store = getStore.getStore();
+
+                            String url = Constants.URLS.BaseURLImages + store.getLogoURL();
+                            Picasso.get().load(url).fit().centerCrop()
+                                    .transform(new CircleTransform())
+                                    .into(logo);
+
+                            Picasso.get().load(Constants.URLS.BaseURLImages + store.getBannerURL())
+                                    .fit()
+                                    .centerCrop()
+                                    .into(bg);
+
+                            storeName = store.getStoreName();
+                            storeNameAr = store.getStoreNameAR();
+                            if (SamanApp.isEnglishVersion) {
+                                storeNameTextView.setText(storeName);
+                            } else {
+                                storeNameTextView.setText(storeNameAr);
+                            }
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                if (store.getDescription() != null) {
+                                    if (SamanApp.isEnglishVersion) {
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+                                    } else {
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR(), Html.FROM_HTML_MODE_COMPACT));
+                                    }
+                                } else {
+                                    storeDescriptionTextView.setVisibility(View.GONE);
+                                }
+                            } else {
+                                if (store.getDescription() != null) {
+                                    if (SamanApp.isEnglishVersion) {
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescription()));
+                                    } else {
+                                        storeDescriptionTextView.setText(Html.fromHtml(store.getDescriptionAR()));
+                                    }
+                                } else {
+                                    storeDescriptionTextView.setVisibility(View.GONE);
+                                }
+                            }
+                            storeCategoryList.addAll(store.getStoreCategoryList());
+                            storeCategoriesAdapter.notifyDataSetChanged();
+                            storeCategoriesAdapter.setNames(storeName, storeNameAr);
+                        }
+                    }
+                }
+                storeCategoriesAdapter.notifyDataSetChanged();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loading.setVisibility(View.GONE);
+                    }
+                }, 1500);
+            }
+
+            @Override
+            public void onFailure(Call<GetStore> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getStoreByBannerId() {
+        WebServicesHandler.instance.getStoreByIdAndBanner(storeID, bannerID, new retrofit2.Callback<GetStore>() {
             @Override
             public void onResponse(Call<GetStore> call, Response<GetStore> response) {
                 GetStore getStore = response.body();
