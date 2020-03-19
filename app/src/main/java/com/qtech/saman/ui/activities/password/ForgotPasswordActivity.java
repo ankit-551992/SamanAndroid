@@ -100,7 +100,7 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
                 presenter.recoveryEmail(email, null);
             }
         } else if (selectedOption == SelectedOption.PHONE) {
-            String phone = ccp.getText().toString() + phoneEditText.getText().toString();
+            String phone = ccp.getText().toString().replace("+", "") + phoneEditText.getText().toString();
             if (isDataValidPhone(phone)) {
                 phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
                 presenter.recoveryEmail(null, phone);

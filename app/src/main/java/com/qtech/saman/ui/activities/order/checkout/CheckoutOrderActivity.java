@@ -28,6 +28,7 @@ import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.Product;
 import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.CustomerSupport;
 import com.qtech.saman.data.model.apis.PlaceOrderResponse;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
@@ -50,6 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CheckoutOrderActivity extends BaseActivity {
@@ -91,7 +93,7 @@ public class CheckoutOrderActivity extends BaseActivity {
     RatingBar ratingBar;
     Button sendButton;
     String orderID;
-    int orderItemId,orderStatus,cancel_orderID;
+    int orderItemId, orderStatus, cancel_orderID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +123,8 @@ public class CheckoutOrderActivity extends BaseActivity {
             cross.setImageDrawable(getResources().getDrawable(R.drawable.ic_cross));
         }
 
-         user = GlobalValues.getUser(CheckoutOrderActivity.this);
-        if (user != null){
+        user = GlobalValues.getUser(CheckoutOrderActivity.this);
+        if (user != null) {
             userId = user.getId();
         }
 
@@ -141,7 +143,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         }
 
         if (placeOrderResponse.getResult().getOrderNumber() != null) {
-            cancel_orderID =placeOrderResponse.getResult().getId();
+            cancel_orderID = placeOrderResponse.getResult().getId();
         }
 
         if (placeOrderResponse.getResult().getDeliveryDate() != null) {
@@ -262,7 +264,7 @@ public class CheckoutOrderActivity extends BaseActivity {
     }
 
     private void cancelOrderApi(int orderID, String comment, int orderStatus, int userId) {
-        WebServicesHandler.instance.getCancelOrderApi(orderID, comment,orderStatus,userId, new retrofit2.Callback<SimpleSuccess>() {
+        WebServicesHandler.instance.getCancelOrderApi(orderID, comment, orderStatus, userId, new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 Log.e("RES00", "---response---" + new Gson().toJson(response));
@@ -339,9 +341,30 @@ public class CheckoutOrderActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 orderStatus = 8;
+                WebServicesHandler apiClient = WebServicesHandler.instance;
+                apiClient.uploadToSupport(userId, "Cancel Order " + cancel_orderID, "Cancel Order " + cancel_orderID, new ArrayList<>(), new Callback<CustomerSupport>() {
+                    @Override
+                    public void onResponse(Call<CustomerSupport> call, Response<CustomerSupport> response) {
+                        Constants.dismissSpinner();
+                        CustomerSupport customerSupport = response.body();
+                        Log.e("CUSTOMSUPPORT", "---000----CustomerSupport-----" + new Gson().toJson(response.body()));
+                        if (customerSupport != null) {
+                            if (customerSupport.getSuccess() == 1) {
+                                dialog.dismiss();
+                                Constants.showAlertWithActivityFinish("", "Your message is taking care by us,will contact you shortly.", getString(R.string.okay), CheckoutOrderActivity.this);
+//                    Constants.showAlertWithActivityFinish(getString(R.string.customer_service), getString(R.string.ticket_created_success), getString(R.string.okay), CustomerSupportActivity.this);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CustomerSupport> call, Throwable t) {
+                        Constants.dismissSpinner();
+                    }
+                });
                 Log.e("RES00000", "--nexttt-orderID---" + orderID + "-orderStatus-" + orderStatus + "-orderItemId-" + orderItemId + "-userId--" + userId);
-                cancelOrderApi(cancel_orderID, getString(R.string.order_cancel), orderStatus,userId);
-                dialog.dismiss();
+//                cancelOrderApi(cancel_orderID, getString(R.string.order_cancel), orderStatus, userId);
+
             }
         });
 

@@ -21,10 +21,14 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.Country;
+import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.ChangeLanguage;
+import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.PoliciesActivity;
 import com.qtech.saman.ui.activities.SplashActivity;
 import com.qtech.saman.ui.activities.country.CountriesListingActivity;
@@ -39,6 +43,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -212,18 +219,17 @@ public class SettingsActivity extends BaseActivity {
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
 
                 if (radioButton.isChecked()) {
+                    int type = 0;
                     if (radioButton.getId() == R.id.radio_arabic) {
+                        type = 2;
                         GlobalValues.setAppLanguage(getApplicationContext(), "ar");
                     } else {
+                        type = 1;
                         GlobalValues.setAppLanguage(getApplicationContext(), "en");
                     }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
-
-                    Intent refresh = new Intent(SettingsActivity.this, SplashActivity.class);
-                    //refresh.putExtra(currentLang, localeName);
-                    startActivity(refresh);
-                    dialog.dismiss();
+                    changeLanguage(type);
 //                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
 //                    Constants.showAlert(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                 }
@@ -235,6 +241,31 @@ public class SettingsActivity extends BaseActivity {
 
         ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
+    }
+
+    private void changeLanguage(int type) {
+        User user = GlobalValues.getUser(this);
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+
+        apiClient.getChangeLanguage(String.valueOf(user.getId()), type, new Callback<ChangeLanguage>() {
+            @Override
+            public void onResponse(Call<ChangeLanguage> call, Response<ChangeLanguage> response) {
+                ChangeLanguage changeLanguage = response.body();
+                if (changeLanguage != null && changeLanguage.result) {
+                    Intent refresh = new Intent(SettingsActivity.this, SplashActivity.class);
+                    //refresh.putExtra(currentLang, localeName);
+                    startActivity(refresh);
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(SettingsActivity.this, "Please try again...!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChangeLanguage> call, Throwable t) {
+
+            }
+        });
     }
 
     public static void showAlertLanguage(String title, String message, String buttonText, Context context) {
