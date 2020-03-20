@@ -82,7 +82,7 @@ public class CustomerSupportActivity extends BaseActivity {
     private int REQUEST_TAKE_PHOTO = 1;
     private int REQUEST_CHOOSE_PHOTO = 2;
     private int mCount = 300;
-
+    private String orderId = "";
     Dialog dialog;
     Dialog dialog2;
     String selectedSubject = "";
@@ -97,6 +97,7 @@ public class CustomerSupportActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.customer_service));
         toolbarBack.setVisibility(View.VISIBLE);
+        orderId = getIntent().getStringExtra("order_id");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
         } else {
@@ -105,28 +106,35 @@ public class CustomerSupportActivity extends BaseActivity {
 
         files = new ArrayList<>();
         files.add(null);
-        layoutManager = new GridLayoutManager(CustomerSupportActivity.this, 3);
-        photos.setLayoutManager(layoutManager);
-        photos.setNestedScrollingEnabled(false);
-        customerSupportAdapter = new CustomerSupportAdapter(CustomerSupportActivity.this, files);
-        photos.setAdapter(customerSupportAdapter);
-        photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, this));
+        if (orderId != null && !orderId.isEmpty()) {
+            photos.setVisibility(View.GONE);
+            subjectSelectionEditText.setText(getString(R.string.cancel_order_of) + " " + orderId + ".");
+        } else {
+            photos.setVisibility(View.VISIBLE);
+            layoutManager = new GridLayoutManager(CustomerSupportActivity.this, 3);
+            photos.setLayoutManager(layoutManager);
+            photos.setNestedScrollingEnabled(false);
+            customerSupportAdapter = new CustomerSupportAdapter(CustomerSupportActivity.this, files);
+            photos.setAdapter(customerSupportAdapter);
+            photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, this));
+            messageSelectionEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    Log.e("FLAG000", "---hasFocus---" + hasFocus);
+                    if (hasFocus) {
+                        if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
+                            Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
+                            return;
+                        }
+                    } else {
+                    }
+                }
+            });
+        }
+
 //        messageSelectionEditText.addTextChangedListener(txwatcher);
 //        setCount(mCount);
 
-        messageSelectionEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.e("FLAG000", "---hasFocus---" + hasFocus);
-                if (hasFocus) {
-                    if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
-                        Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
-                        return;
-                    }
-                } else {
-                }
-            }
-        });
     }
 
     private void setCount(int count) {
@@ -208,7 +216,7 @@ public class CustomerSupportActivity extends BaseActivity {
 
     @OnClick(R.id.button_upload)
     public void upload() {
-        if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
+        if (orderId == null || orderId.isEmpty() && selectedSubject.equals("") && selectedSubject.isEmpty()) {
             Constants.showAlert(getString(R.string.subject_prompt), "", getString(R.string.okay), CustomerSupportActivity.this);
             return;
         }
@@ -225,6 +233,9 @@ public class CustomerSupportActivity extends BaseActivity {
             uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
         } else {
             List<File> uFiles = new ArrayList<>();
+            if (orderId != null && !orderId.isEmpty()) {
+                selectedSubject = subjectSelectionEditText.getText().toString();
+            }
             uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
         }
     }
@@ -276,7 +287,9 @@ public class CustomerSupportActivity extends BaseActivity {
 
     @OnClick(R.id.editText_subject)
     public void selectSubjectClick() {
-        selectSubject();
+        if (orderId == null || orderId.isEmpty()) {
+            selectSubject();
+        }
     }
 
     private void selectSubject() {

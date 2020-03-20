@@ -187,6 +187,7 @@ public class WebServicesHandler {
 
 
     public void forgetPassword(String email, String phone, Callback<SimpleSuccess> callback) {
+
         Map<String, Object> parameters = new HashMap<>();
         if (email != null) {
             parameters.put("email", email);
