@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseFragment;
@@ -83,7 +82,7 @@ public class BagFragment extends BaseFragment {
             intent.putExtra("Price", grandTotal);
             startActivity(intent);
         } else {
-            Toast.makeText(context, "your order is less than 5 OMR", Toast.LENGTH_SHORT).show();
+            Constants.showAlert(getActivity().getResources().getString(R.string.app_name), getActivity().getResources().getString(R.string.hint_validation), getActivity().getResources().getString(R.string.okay), getContext());
         }
     }
 

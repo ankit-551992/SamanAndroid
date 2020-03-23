@@ -255,7 +255,7 @@ public interface WebServices {
                                            @Query("pageSize") int pageSize);
 
     //  https://staging.saman.om/api/User/ChangeLanguage?UserID=2078&Language=2
-    @GET("User/ChangeLanguage?")
+    @POST("User/ChangeLanguage?")
     Call<ChangeLanguage> getChangeLanguage(@Query("userID") String userId,
                                            @Query("Language") int language);
 

@@ -229,8 +229,8 @@ public class SettingsActivity extends BaseActivity {
                     }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
-                    changeLanguage(type);
-//                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
+//                    changeLanguage(type);
+                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
 //                    Constants.showAlert(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                 }
             }
@@ -253,7 +253,7 @@ public class SettingsActivity extends BaseActivity {
                 ChangeLanguage changeLanguage = response.body();
                 if (changeLanguage != null && changeLanguage.result) {
                     Intent refresh = new Intent(SettingsActivity.this, SplashActivity.class);
-                    //refresh.putExtra(currentLang, localeName);
+//                    refresh.putExtra(currentLang, localeName);
                     startActivity(refresh);
                     dialog.dismiss();
                 } else {
