@@ -9,6 +9,8 @@
     <string name="title_my_bag">حقيبتي</string>
     <string name="title_settings">الإعدادات</string>
     <string name="title_my_account">حسابي</string>
+    <string name="cancel_order_of">إلغاء أمر</string>
+    <string name="hint_validation">لا يمكنك المتابعة، الحد الأدنى للتسوق هو 5 ريالات.</string>
     <string name="title_logout">تسجيل خروج</string>
     <string name="yes">نعم</string>
     <string name="forgot_password"><u>نسيت كلمة المرور؟</u></string>

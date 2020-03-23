@@ -1,11 +1,12 @@
 package com.qtech.saman.network;
 
+import com.qtech.saman.data.model.paymentgateway.PaymentGateWay;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -25,7 +26,7 @@ public class OmanNetServiceHandler {
 
         Retrofit.Builder builder = new Retrofit.Builder()
 //                .baseUrl("https://ethaar.om/Endownment/")
-                .baseUrl("https://www.saman.om/api/Order/")
+                .baseUrl("https://staging.saman.om/api/Order/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build());
 
@@ -33,7 +34,7 @@ public class OmanNetServiceHandler {
         webServices = retrofit.create(OmanNetService.class);
     }
 
-    public void invoice(Callback<ResponseBody> callback) {
+    public void invoice(Callback<PaymentGateWay> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
 //        parameters.put("fullname", "Fahad Khalid");
@@ -47,17 +48,17 @@ public class OmanNetServiceHandler {
         parameters.put("CardHolderName", "Ahmed");
         parameters.put("CVV", "200");
 
-        Call<ResponseBody> call = webServices.Invoice(parameters);
+        Call<PaymentGateWay> call = webServices.Invoice(parameters);
         call.enqueue(callback);
 
     }
 
-    public void invoice(int orderID,String creditCardNumber,
+    public void invoice(int orderID, String creditCardNumber,
                         String expiryMonth,
                         String expiryYear,
                         String cardHolderName,
                         String CVV,
-                        Callback<ResponseBody> callback) {
+                        Callback<PaymentGateWay> callback) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("orderID", orderID);
@@ -67,7 +68,7 @@ public class OmanNetServiceHandler {
         parameters.put("CardHolderName", cardHolderName);
         parameters.put("CVV", CVV);
 
-        Call<ResponseBody> call = webServices.Invoice(parameters);
+        Call<PaymentGateWay> call = webServices.Invoice(parameters);
         call.enqueue(callback);
 
     }

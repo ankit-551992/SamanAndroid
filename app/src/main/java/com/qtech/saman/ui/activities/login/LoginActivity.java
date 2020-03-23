@@ -37,10 +37,8 @@ import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.UserResponse;
-import com.qtech.saman.network.OmanNetServiceHandler;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
-import com.qtech.saman.ui.activities.myaccount.payment.OmanNetCardDetailActivity;
 import com.qtech.saman.ui.activities.password.ForgotPasswordActivity;
 import com.qtech.saman.ui.activities.register.RegisterActivity;
 import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
@@ -57,7 +55,6 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -65,7 +62,6 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -639,46 +635,46 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     }
     //Social Login
 
-    private void getInvoice() {
-        OmanNetServiceHandler.instance.invoice(new retrofit2.Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    JSONObject JObject = new JSONObject(response.body().string());
-                    Log.e("Invoice", JObject.toString());
-                    if (JObject != null) {
-                        JSONObject result = JObject.getJSONObject("result");
-                        if (result != null) {
-                            if (result.has("status")) {
-                                if (result.getString("status").equalsIgnoreCase("success")) {
-                                    JSONObject message = result.getJSONObject("message");
-                                    if (message != null) {
-                                        if (message.has("PayUrl")) {
-                                            String payURL = message.getString("PayUrl");
-                                            if (payURL != null && !payURL.equals("")) {
-                                                Intent intent = new Intent(LoginActivity.this, OmanNetCardDetailActivity.class);
-                                                intent.putExtra("PayURL", payURL);
-                                                startActivity(intent);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
-        });
-    }
+//    private void getInvoice() {
+//        OmanNetServiceHandler.instance.invoice(new retrofit2.Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                try {
+//                    JSONObject JObject = new JSONObject(response.body().string());
+//                    Log.e("Invoice", JObject.toString());
+//                    if (JObject != null) {
+//                        JSONObject result = JObject.getJSONObject("result");
+//                        if (result != null) {
+//                            if (result.has("status")) {
+//                                if (result.getString("status").equalsIgnoreCase("success")) {
+//                                    JSONObject message = result.getJSONObject("message");
+//                                    if (message != null) {
+//                                        if (message.has("PayUrl")) {
+//                                            String payURL = message.getString("PayUrl");
+//                                            if (payURL != null && !payURL.equals("")) {
+//                                                Intent intent = new Intent(LoginActivity.this, OmanNetCardDetailActivity.class);
+//                                                intent.putExtra("PayURL", payURL);
+//                                                startActivity(intent);
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//            }
+//        });
+//    }
 
     @Override
     protected void onStop() {

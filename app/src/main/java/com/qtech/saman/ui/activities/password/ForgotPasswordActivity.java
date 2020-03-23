@@ -102,7 +102,7 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
         } else if (selectedOption == SelectedOption.PHONE) {
             String phone = ccp.getText().toString() + phoneEditText.getText().toString();
             if (isDataValidPhone(phone)) {
-                phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
+                phone = ccp.getText().toString().replace("+", "") + " " + phoneEditText.getText().toString();
                 presenter.recoveryEmail(null, phone);
             }
         }

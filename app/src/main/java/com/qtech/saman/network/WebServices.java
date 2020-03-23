@@ -2,6 +2,7 @@ package com.qtech.saman.network;
 
 import com.qtech.saman.data.model.ApiViewCount;
 import com.qtech.saman.data.model.apis.AddAddressApi;
+import com.qtech.saman.data.model.apis.ChangeLanguage;
 import com.qtech.saman.data.model.apis.CustomerSupport;
 import com.qtech.saman.data.model.apis.CustomerSupportListApi;
 import com.qtech.saman.data.model.apis.GetAddressApi;
@@ -252,6 +253,11 @@ public interface WebServices {
                                            @Query("userID") String userId,
                                            @Query("pageIndex") int pageIndex,
                                            @Query("pageSize") int pageSize);
+
+    //  https://staging.saman.om/api/User/ChangeLanguage?UserID=2078&Language=2
+    @POST("User/ChangeLanguage?")
+    Call<ChangeLanguage> getChangeLanguage(@Query("userID") String userId,
+                                           @Query("Language") int language);
 
     @GET("product/GetProductLisByBannesId?")
     Call<GetCategoriesList> getBannerProductCategory(@Query("bannerID") int bannerID,

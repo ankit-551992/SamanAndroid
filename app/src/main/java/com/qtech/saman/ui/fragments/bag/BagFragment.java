@@ -77,11 +77,12 @@ public class BagFragment extends BaseFragment {
         }
         authenticatedUser = GlobalValues.getUser(getContext());
 
-        if (productArrayList.size() > 0) {
+        if (grandTotal >= 5 && productArrayList.size() > 0) {
             Intent intent = new Intent(getContext(), ShoppingCartActivity.class);
             intent.putExtra("Price", grandTotal);
             startActivity(intent);
         } else {
+            Constants.showAlert(getActivity().getResources().getString(R.string.app_name), getActivity().getResources().getString(R.string.hint_validation), getActivity().getResources().getString(R.string.okay), getContext());
         }
     }
 

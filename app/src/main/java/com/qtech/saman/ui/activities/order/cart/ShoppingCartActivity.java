@@ -38,6 +38,7 @@ import com.qtech.saman.data.model.User;
 import com.qtech.saman.data.model.apis.PlaceOrderResponse;
 import com.qtech.saman.data.model.apis.PromoVerify;
 import com.qtech.saman.data.model.apis.SimpleSuccess;
+import com.qtech.saman.data.model.paymentgateway.PaymentGateWay;
 import com.qtech.saman.network.ApiController;
 import com.qtech.saman.network.OmanNetServiceHandler;
 import com.qtech.saman.network.WebServicesHandler;
@@ -954,41 +955,30 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 , selectedCard.getExpireDate().split("/")[1]
                 , selectedCard.getCardHolder()
                 , selectedCard.getCvc()
-                , new Callback<ResponseBody>() {
+                , new Callback<PaymentGateWay>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    public void onResponse(Call<PaymentGateWay> call, Response<PaymentGateWay> response) {
                         try {
-                            JSONObject JObject = new JSONObject(response.body().string());
-                            Log.e("Invoice", JObject.toString());
-                            if (JObject != null) {
-                                JSONObject result = JObject.getJSONObject("result");
-                                if (result != null) {
-                                    if (result.has("status")) {
-                                        if (result.getString("status").equalsIgnoreCase("success")) {
-                                            JSONObject message = result.getJSONObject("message");
-                                            if (message != null) {
-                                                if (message.has("PayUrl")) {
-                                                    String payURL = message.getString("PayUrl");
-                                                    if (payURL != null && !payURL.equals("")) {
-                                                        Intent intent = new Intent(ShoppingCartActivity.this, OmanNetCardDetailActivity.class);
-                                                        intent.putExtra("PayURL", payURL);
-                                                        startActivityForResult(intent, 2019);
-                                                    }
-                                                }
-                                            }
+                            PaymentGateWay paymentGateWay = response.body();
+                            if (paymentGateWay != null) {
+                                if (paymentGateWay.getResult() != null) {
+                                    if (paymentGateWay.getResult().getStatus().equalsIgnoreCase("success")) {
+                                        if (paymentGateWay.getResult().getMessage().getPayUrl() != null && !paymentGateWay.getResult().getMessage().getPayUrl().isEmpty()) {
+                                            Intent intent = new Intent(ShoppingCartActivity.this, OmanNetCardDetailActivity.class);
+                                            intent.putExtra("PayURL", paymentGateWay.getResult().getMessage().getPayUrl());
+                                            startActivityForResult(intent, 2019);
                                         }
                                     }
                                 }
+
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
+                        } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    public void onFailure(Call<PaymentGateWay> call, Throwable t) {
                     }
                 });
     }

@@ -563,6 +563,8 @@
     <string name="select_address">Shipping Address</string>
     <string name="order_fail_msg">Order Failed</string>
     <string name="limited_stock">Limited stock</string>
+    <string name="cancel_order_of">Cancel order</string>
+    <string name="hint_validation">You can’t proceed, minimum shopping is 5 OMR</string>
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>

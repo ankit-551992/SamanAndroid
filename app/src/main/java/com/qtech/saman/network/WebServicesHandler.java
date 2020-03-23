@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.qtech.saman.data.model.ApiViewCount;
 import com.qtech.saman.data.model.ShippingAddress;
 import com.qtech.saman.data.model.apis.AddAddressApi;
+import com.qtech.saman.data.model.apis.ChangeLanguage;
 import com.qtech.saman.data.model.apis.CustomerSupport;
 import com.qtech.saman.data.model.apis.CustomerSupportListApi;
 import com.qtech.saman.data.model.apis.GetAddressApi;
@@ -186,6 +187,7 @@ public class WebServicesHandler {
 
 
     public void forgetPassword(String email, String phone, Callback<SimpleSuccess> callback) {
+
         Map<String, Object> parameters = new HashMap<>();
         if (email != null) {
             parameters.put("email", email);
@@ -620,6 +622,12 @@ public class WebServicesHandler {
 
         int deviceType = 2;
         Call<ApiViewCount> call = webServices.getAppViewCountApi(deviceType);
+        call.enqueue(callback);
+    }
+
+    public void getChangeLanguage(String userID, int lang, Callback<ChangeLanguage> callback) {
+        int deviceType = 2;
+        Call<ChangeLanguage> call = webServices.getChangeLanguage(userID, lang);
         call.enqueue(callback);
     }
 }
