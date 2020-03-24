@@ -274,9 +274,14 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.button_notify)
     public void notifyItem() {
-        showPopUp(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message),
-                getString(R.string.no),
-                getString(R.string.yes), 0);
+        if (button_notify.getText().equals(getString(R.string.unsunscribe))) {
+            showPopUp(getString(R.string.out_of_stock_title), getString(R.string.remove_notify_message), getString(R.string.no),
+                    getString(R.string.yes), 0);
+        } else {
+            showPopUp(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message),
+                    getString(R.string.no),
+                    getString(R.string.yes), 0);
+        }
     }
 
     @OnClick(R.id.iv_share)
@@ -411,7 +416,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             productCount.setText("0");
             button_notify.setVisibility(View.VISIBLE);
             if (product.getIsNotificationSubscribed().equals("true")) {
-                button_notify.setText(getString(R.string.subscribe));
+                button_notify.setText(getString(R.string.unsunscribe));
             } else {
                 button_notify.setText(getString(R.string.notify_me));
             }
@@ -686,7 +691,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         button_notify.setVisibility(View.VISIBLE);
         if (simpleSuccess.getResult().equals(true)) {
             Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
-            button_notify.setText(getString(R.string.subscribe));
+            button_notify.setText(getString(R.string.unsunscribe));
         } else {
             button_notify.setText(getString(R.string.notify_me));
             Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();

@@ -261,6 +261,7 @@
 
     <!--Product out-of-stock-->
     <string name="out_of_stock_message">هل ترغب في الحصول على إشعار عندما يأتي العنصر في الأوراق المالية؟</string>
+    <string name="remove_notify_message">هل متأكد من رغبتك في الغاء خاصية التنبيه؟</string>
     <string name="out_of_stock_title">هل أنت واثق؟</string>
     <string name="address_msg">هل تود حذف العنوان؟</string>
     <string name="notify_me">اعلمني</string>
