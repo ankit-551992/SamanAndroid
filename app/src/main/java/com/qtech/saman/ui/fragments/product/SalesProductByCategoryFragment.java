@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseFragment;
 import com.qtech.saman.data.model.Product;
@@ -19,8 +20,10 @@ import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.adapters.ProductAdapter;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.GridSpacingItemDecoration;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;

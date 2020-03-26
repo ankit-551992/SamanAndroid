@@ -54,7 +54,7 @@
             android:orientation="vertical">
 
             <RadioButton
-                android:id="@+id/radio_report_issue"
+                android:id="@+id/radio_my_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -70,7 +70,7 @@
                 android:background="@color/grey" />
 
             <RadioButton
-                android:id="@+id/radio_ask_help"
+                android:id="@+id/radio_report_prodcut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -86,7 +86,7 @@
                 android:background="@color/grey" />
 
             <RadioButton
-                android:id="@+id/radio_report_prodcut"
+                android:id="@+id/radio_report_store"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -102,7 +102,7 @@
                 android:background="@color/grey" />
 
             <RadioButton
-                android:id="@+id/radio_report_store"
+                android:id="@+id/radio_general_inquires"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"

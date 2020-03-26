@@ -74,54 +74,26 @@ public class ProductsCategoryFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_store_tabs, container, false);
-        ButterKnife.bind(this, view);
-        readBundle(getArguments());
-        currentPage = 0;
-        authenticatedUser = GlobalValues.getUser(getContext());
-        layoutManager = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setNestedScrollingEnabled(false);
-        displayData = new ArrayList<>();
-        productAdapter = new ProductAdapter(getContext(), displayData, authenticatedUser.getId(), false);
-        recyclerView.setAdapter(productAdapter);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, getContext()));
-        recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-        progressBar.setVisibility(View.VISIBLE);
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
-        if (isBannerProduct) {
-//            isBannerProduct = false;
-            if (categoryID != 0) {
-                getProductsBanner(categoryID, currentPage, pageSize);
-            } else {
-                getBannerProductList(bannerID, authenticatedUser.getId(), currentPage, pageSize);
+            int visibleThreshold = 5;
+            int lastVisibleItem, totalItemCount;
+            totalItemCount = linearLayoutManager.getItemCount();
+            lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+            if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                displayData.add(null);
+                productAdapter.notifyItemInserted(displayData.size() - 1);
+                isLoading = true;
+                currentPage++;
+                getProducts(categoryID, currentPage, pageSize);
             }
-        } else {
-            getProducts(categoryID, currentPage, pageSize);
         }
-
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                displayData = new ArrayList<>();
-                productAdapter = new ProductAdapter(getContext(), displayData, authenticatedUser.getId(), false);
-                recyclerView.setAdapter(productAdapter);
-                currentPage = 0;
-                if (isBannerProduct) {
-//                    getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
-                    getProductsBanner(categoryID, currentPage, pageSize);
-
-                } else {
-                    getProducts(categoryID, currentPage, pageSize);
-                }
-
-            }
-        });
-        return view;
-    }
+    };
 
     private void getBannerProductList(int bannerId, Integer id, int currentPage, int pageSize) {
 
@@ -407,24 +379,52 @@ public class ProductsCategoryFragment extends BaseFragment {
 
     private boolean isLoading;
 
-    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_store_tabs, container, false);
+        ButterKnife.bind(this, view);
+        readBundle(getArguments());
+        currentPage = 0;
+        authenticatedUser = GlobalValues.getUser(getContext());
+        layoutManager = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
+        displayData = new ArrayList<>();
+        productAdapter = new ProductAdapter(getContext(), displayData, authenticatedUser.getId(), false);
+        recyclerView.setAdapter(productAdapter);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, getContext()));
+        recyclerView.setOnScrollListener(recyclerViewOnScrollListener);
+        progressBar.setVisibility(View.VISIBLE);
 
-            int visibleThreshold = 5;
-            int lastVisibleItem, totalItemCount;
-            totalItemCount = linearLayoutManager.getItemCount();
-            lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-
-            if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                displayData.add(null);
-//              productAdapter.notifyItemInserted(displayData.size() + 1);
-                isLoading = true;
-                currentPage++;
-                getProducts(categoryID, currentPage, pageSize);
+        if (isBannerProduct) {
+//            isBannerProduct = false;
+            if (categoryID != 0) {
+                getProductsBanner(categoryID, currentPage, pageSize);
+            } else {
+                getBannerProductList(bannerID, authenticatedUser.getId(), currentPage, pageSize);
             }
+        } else {
+            getProducts(categoryID, currentPage, pageSize);
         }
-    };
+
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                displayData = new ArrayList<>();
+                productAdapter = new ProductAdapter(getContext(), displayData, authenticatedUser.getId(), false);
+                recyclerView.setAdapter(productAdapter);
+                currentPage = 0;
+                if (isBannerProduct) {
+//                    getBannerProductList(categoryID, authenticatedUser.getId(), currentPage, pageSize);
+                    getProductsBanner(categoryID, currentPage, pageSize);
+
+                } else {
+                    getProducts(categoryID, currentPage, pageSize);
+                }
+
+            }
+        });
+        return view;
+    }
 }

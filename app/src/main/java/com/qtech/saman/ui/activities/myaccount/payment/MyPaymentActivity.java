@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.CardDs;
@@ -29,7 +30,6 @@ import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.ResourceUtil;
 import com.qtech.saman.utils.SamanApp;
 import com.qtech.saman.utils.SwipeHelper;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Collection;

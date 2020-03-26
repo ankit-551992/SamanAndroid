@@ -10,12 +10,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.User;
 import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="75dp"
     android:orientation="vertical"
     android:gravity="center"
     android:id="@+id/tab_layout"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -20,8 +18,10 @@
     <TextView
         android:textSize="@dimen/text_small"
         android:id="@+id/tv_tab"
+        android:layout_width="75dp"
+        android:gravity="center"
         android:layout_marginTop="5dp"
-        android:layout_width="wrap_content"
+        android:singleLine="true"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

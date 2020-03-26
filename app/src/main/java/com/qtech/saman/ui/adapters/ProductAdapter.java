@@ -79,7 +79,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ProductViewHolder) {
+        if (holder.getItemViewType() == VIEW_TYPE_ITEM) {
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             Product product = productArrayList.get(position);
             if (SamanApp.isEnglishVersion) {
@@ -91,24 +91,24 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 //          productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
 
-            if (product.getIsSaleProduct() != null) {
-                if (product.getIsSaleProduct().equals("true")) {
-                    if (product.getSaleDiscountedType().equals("1")) {
+            if (productArrayList.get(position).getIsSaleProduct() != null) {
+                if (productArrayList.get(position).getIsSaleProduct().equals("true")) {
+                    if (product.getSaleDiscountedType().equalsIgnoreCase("1")) {
                         final_displayprice = product.getPrice() - product.getSalePrice();
-                        productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
-                        productViewHolder.productPrice.setText(product.getPrice() + " ");
                         productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
-                        productViewHolder.productPrice.setPaintFlags(productViewHolder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    } else if (product.getSaleDiscountedType().equals("2")) {
+                        productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
+                        productViewHolder.productPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        productViewHolder.productPrice.setText(product.getPrice() + " ");
+                    } else if (productArrayList.get(position).getSaleDiscountedType().equalsIgnoreCase("2")) {
                         float calculateDiscount = product.getPrice() / 100.0f;
                         float dis = calculateDiscount * product.getSalePrice();
                         Log.e("Dis", "---dis--" + dis);
                         final_displayprice = product.getPrice() - dis;
                         productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
-                        productViewHolder.productPrice.setText(product.getPrice() + " ");
                         productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
-                        productViewHolder.productPrice.setPaintFlags(productViewHolder.productPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    } else {
+                        productViewHolder.productPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        productViewHolder.productPrice.setText(product.getPrice() + " ");
+                    } else if (productArrayList.get(position).getSaleDiscountedType().equalsIgnoreCase("0")) {
                         productViewHolder.discount_price.setText("");
                         productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                         productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
@@ -142,7 +142,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, ProductDetailActivity.class);
-                    intent.putExtra("ProductID", productArrayList.get(productViewHolder.getAdapterPosition()).getID());
+                    intent.putExtra("ProductID", productArrayList.get(position).getID());
                     mContext.startActivity(intent);
                 }
             });
@@ -150,8 +150,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productViewHolder.cartImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (productArrayList.get(productViewHolder.getAdapterPosition()).getQuantity() != 0) {
-                        getProductDetails(productArrayList.get(productViewHolder.getAdapterPosition()).getID());
+                    if (productArrayList.get(position).getQuantity() != 0) {
+                        getProductDetails(productArrayList.get(position).getID());
                     } else {
                         Constants.showAlert(mContext.getString(R.string.title_my_bag),
                                 mContext.getString(R.string.out_of_stock),
@@ -179,11 +179,11 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     User authenticatedUser = GlobalValues.getUser(mContext);
                     userID = authenticatedUser.getId();
 
-                    if (productArrayList.get(productViewHolder.getAdapterPosition()).getFavorite()) {
+                    if (productArrayList.get(position).getFavorite()) {
 
                         showPopUp(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure),
                                 mContext.getString(R.string.no), mContext.getString(R.string.yes),
-                                productViewHolder.favoriteImageView, productViewHolder.getAdapterPosition());
+                                productViewHolder.favoriteImageView, position);
 
                     } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -191,8 +191,8 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         } else {
                             productViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
                         }
-                        GlobalValues.markFavourite(userID, productArrayList.get(productViewHolder.getAdapterPosition()).getID(), null, 1);
-                        productArrayList.get(productViewHolder.getAdapterPosition()).setFavorite(true);
+                        GlobalValues.markFavourite(userID, productArrayList.get(position).getID(), null, 1);
+                        productArrayList.get(position).setFavorite(true);
 
                      /*   showPopUp(mContext.getString(R.string.added_to_fav),
                                 mContext.getString(R.string.item_added_message),
@@ -216,7 +216,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
-        } else if (holder instanceof LoadingViewHolder) {
+        } else if (holder.getItemViewType() == VIEW_TYPE_LOADING) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
         }

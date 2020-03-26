@@ -117,6 +117,7 @@ public class CustomerSupportActivity extends BaseActivity {
             customerSupportAdapter = new CustomerSupportAdapter(CustomerSupportActivity.this, files);
             photos.setAdapter(customerSupportAdapter);
             photos.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, this));
+            photos.requestFocus();
             messageSelectionEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
@@ -132,8 +133,8 @@ public class CustomerSupportActivity extends BaseActivity {
             });
         }
 
-//        messageSelectionEditText.addTextChangedListener(txwatcher);
-//        setCount(mCount);
+        messageSelectionEditText.addTextChangedListener(txwatcher);
+        setCount(mCount);
 
     }
 
@@ -159,13 +160,12 @@ public class CustomerSupportActivity extends BaseActivity {
 
     @OnClick(R.id.editText_message)
     public void textmessage() {
-        if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
-            Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
-            return;
-        } else {
-            messageSelectionEditText.addTextChangedListener(txwatcher);
-            setCount(mCount);
-        }
+//        if (selectedSubject.equals("")) {
+//            Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
+//        } else {
+//            messageSelectionEditText.addTextChangedListener(txwatcher);
+//            setCount(mCount);
+//        }
     }
 
     @Override
@@ -300,7 +300,16 @@ public class CustomerSupportActivity extends BaseActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
-
+        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+        RadioButton radioButton = radioGroup.findViewById(R.id.radio_my_account);
+        if (getString(R.string.ask_help).equals(subjectSelectionEditText.getText().toString())) {
+            radioButton = radioGroup.findViewById(R.id.radio_report_prodcut);
+        } else if (getString(R.string.report_prodcut).equals(subjectSelectionEditText.getText().toString())) {
+            radioButton = radioGroup.findViewById(R.id.radio_report_store);
+        } else if (getString(R.string.report_store).equals(subjectSelectionEditText.getText().toString())) {
+            radioButton = radioGroup.findViewById(R.id.radio_general_inquires);
+        }
+        radioButton.setChecked(true);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -316,7 +325,6 @@ public class CustomerSupportActivity extends BaseActivity {
             }
         });
 
-        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override

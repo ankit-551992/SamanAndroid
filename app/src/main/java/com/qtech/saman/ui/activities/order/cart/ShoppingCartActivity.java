@@ -484,7 +484,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 if (isCOD) {
                                     Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
                                     intent.putExtra("Response", placeOrderResponse);
-                                    intent.putExtra("OrderTotal", priceToPay);
+                                    intent.putExtra("OrderTotal", decimalFormat.format(priceToPay));
                                     startActivity(intent);
                                     finish();
                                 } else {
@@ -1020,19 +1020,19 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         }
                     }
                     if (GlobalValues.countries != null) {
+                        selectedCountry = GlobalValues.countries.get(0);
+                        Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+                        countryName.setText(selectedCountry.getName());
                         for (int i = 0; i < GlobalValues.countries.size(); i++) {
                             Log.e("COUNTRY", "---GlobalValues.countries----size---" + GlobalValues.countries.size());
-                            selectedCountry = GlobalValues.countries.get(i);
-                            Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                            countryName.setText(selectedCountry.getName());
-                           /* if (GlobalValues.countries.get(i).getFlag().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
-                                selectedCountry = GlobalValues.countries.get(i);
-                                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                                countryName.setText(selectedCountry.getName());
-                            }*/
+//                            if (GlobalValues.countries.get(i).getFlag().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
+//                                selectedCountry = GlobalValues.countries.get(i);
+//                                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
+//                                countryName.setText(selectedCountry.getName());
+//                            }
                         }
                     }
-                    Log.e("COUNTRYAPI", "-- GlobalValues.countries---api---" + GlobalValues.countries);
+                    Log.e("COUNTRYAPI", "-- GlobalValues.countries---cusapi---" + GlobalValues.countries);
                     // countriesAdapter.notifyDataSetChanged();
                 } catch (IOException e) {
                     e.printStackTrace();

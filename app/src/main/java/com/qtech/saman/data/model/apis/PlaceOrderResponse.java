@@ -1,8 +1,8 @@
 package com.qtech.saman.data.model.apis;
 
-import com.qtech.saman.data.model.OrderInfo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.qtech.saman.data.model.OrderInfo;
 
 import java.io.Serializable;
 

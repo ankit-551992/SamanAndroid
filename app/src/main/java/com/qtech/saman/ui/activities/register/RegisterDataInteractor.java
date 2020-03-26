@@ -2,9 +2,9 @@ package com.qtech.saman.ui.activities.register;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.qtech.saman.data.model.apis.UserResponse;
 import com.qtech.saman.network.WebServicesHandler;
-import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;

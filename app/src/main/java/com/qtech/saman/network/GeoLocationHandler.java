@@ -1,7 +1,7 @@
 package com.qtech.saman.network;
 
-import com.qtech.saman.utils.Constants;
 import com.google.android.gms.maps.model.LatLng;
+import com.qtech.saman.utils.Constants;
 
 import java.util.concurrent.TimeUnit;
 

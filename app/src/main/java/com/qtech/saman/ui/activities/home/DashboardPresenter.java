@@ -3,10 +3,10 @@ package com.qtech.saman.ui.activities.home;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.qtech.saman.data.model.apis.GetCategoriesList;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.utils.GlobalValues;
-import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;

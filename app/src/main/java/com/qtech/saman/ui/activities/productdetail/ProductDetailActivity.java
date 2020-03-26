@@ -215,19 +215,21 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             showPopUp(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), getString(R.string.no),
                     getString(R.string.yes), 1);
         } else {
-            String[] optionIDs = getOptionsData().split(",");
-            presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
-            product.setFavorite(true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));
-            } else {
-                favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
+            if (!productCount.getText().toString().equalsIgnoreCase("0")) {
+                String[] optionIDs = getOptionsData().split(",");
+                presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
+                product.setFavorite(true);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));
+                } else {
+                    favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
+                }
+                Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.added_to_fav),
+                        getString(R.string.item_added_message),
+                        getString(R.string.continue_shopping),
+                        getString(R.string.view_fav),
+                        1, 0);
             }
-            Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.added_to_fav),
-                    getString(R.string.item_added_message),
-                    getString(R.string.continue_shopping),
-                    getString(R.string.view_fav),
-                    1, 0);
         }
     }
 

@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.qtech.saman.R;
 import com.qtech.saman.ui.fragments.store.OnLoadMoreListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
