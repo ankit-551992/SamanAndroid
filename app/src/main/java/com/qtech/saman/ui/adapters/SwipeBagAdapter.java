@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.qtech.saman.R;
 import com.qtech.saman.data.model.OptionValue;
 import com.qtech.saman.data.model.Product;
@@ -31,8 +33,6 @@ import com.qtech.saman.ui.fragments.bag.BagFragment;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
