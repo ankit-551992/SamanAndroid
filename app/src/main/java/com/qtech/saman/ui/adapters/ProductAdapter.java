@@ -92,35 +92,48 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //          productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
 
             if (productArrayList.get(position).getIsSaleProduct() != null) {
+                Log.e("getIsSaleProduct", "======position: " + position + "=======" + productArrayList.get(position).getIsSaleProduct() + "=========discount======" + productArrayList.get(position).getSaleDiscountedType());
                 if (productArrayList.get(position).getIsSaleProduct().equals("true")) {
                     if (product.getSaleDiscountedType().equalsIgnoreCase("1")) {
                         final_displayprice = product.getPrice() - product.getSalePrice();
-                        productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
+                        productViewHolder.discount_price.setVisibility(View.VISIBLE);
+                        productViewHolder.productDisPrice.setVisibility(View.VISIBLE);
+                        productViewHolder.productPrice.setVisibility(View.GONE);
                         productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
-                        productViewHolder.productPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                        productViewHolder.productPrice.setText(product.getPrice() + " ");
+                        productViewHolder.productDisPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
+                        productViewHolder.productDisPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        productViewHolder.productDisPrice.setText(product.getPrice() + " ");
                     } else if (productArrayList.get(position).getSaleDiscountedType().equalsIgnoreCase("2")) {
                         float calculateDiscount = product.getPrice() / 100.0f;
                         float dis = calculateDiscount * product.getSalePrice();
                         Log.e("Dis", "---dis--" + dis);
                         final_displayprice = product.getPrice() - dis;
+                        productViewHolder.discount_price.setVisibility(View.VISIBLE);
+                        productViewHolder.productPrice.setVisibility(View.GONE);
+                        productViewHolder.productDisPrice.setVisibility(View.VISIBLE);
                         productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
-                        productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
-                        productViewHolder.productPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                        productViewHolder.productPrice.setText(product.getPrice() + " ");
+                        productViewHolder.productDisPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
+                        productViewHolder.productDisPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        productViewHolder.productDisPrice.setText(product.getPrice() + " ");
                     } else if (productArrayList.get(position).getSaleDiscountedType().equalsIgnoreCase("0")) {
-                        productViewHolder.discount_price.setText("");
+                        productViewHolder.discount_price.setVisibility(View.GONE);
+                        productViewHolder.productDisPrice.setVisibility(View.GONE);
+                        productViewHolder.productPrice.setVisibility(View.VISIBLE);
                         productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                         productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
                     }
                 } else {
                     final_displayprice = product.getPrice();
-                    productViewHolder.discount_price.setText("");
+                    productViewHolder.discount_price.setVisibility(View.GONE);
+                    productViewHolder.productDisPrice.setVisibility(View.GONE);
+                    productViewHolder.productPrice.setVisibility(View.VISIBLE);
                     productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                     productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
                 }
             } else {
-                productViewHolder.discount_price.setText("");
+                productViewHolder.discount_price.setVisibility(View.GONE);
+                productViewHolder.productDisPrice.setVisibility(View.GONE);
+                productViewHolder.productPrice.setVisibility(View.VISIBLE);
                 productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                 productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
             }
@@ -230,6 +243,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         private TextView productDescription;
         private TextView productPrice;
+        private TextView productDisPrice;
         private TextView discount_price;
         private TextView storeName;
         private ImageView productImageView;
@@ -242,6 +256,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             productDescription = (TextView) v.findViewById(R.id.tv_product_description);
             storeName = (TextView) v.findViewById(R.id.tv_store_name);
             productPrice = (TextView) v.findViewById(R.id.tv_product_price);
+            productDisPrice = (TextView) v.findViewById(R.id.tv_product_dis_price);
             discount_price = (TextView) v.findViewById(R.id.tv_discount_price);
             favoriteImageView = (ImageView) v.findViewById(R.id.iv_favorite);
             cartImageView = (ImageView) v.findViewById(R.id.iv_add_to_cart);

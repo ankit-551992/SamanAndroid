@@ -484,7 +484,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 if (isCOD) {
                                     Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
                                     intent.putExtra("Response", placeOrderResponse);
-                                    intent.putExtra("OrderTotal", decimalFormat.format(priceToPay));
+                                    String v1 = decimalFormat.format(priceToPay);
+                                    intent.putExtra("OrderTotal", v1);
                                     startActivity(intent);
                                     finish();
                                 } else {
@@ -740,13 +741,13 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         deliveryCost = 1.3f;
                         break;
                     case 2:
-                        deliveryCost = 1.3f;
+                        deliveryCost = 0.65f;
                         break;
                     case 3:
-                        deliveryCost = 1.95f;
+                        deliveryCost = 0.65f;
                         break;
                     case 4:
-                        deliveryCost = 2.2f;
+                        deliveryCost = 0.55f;
                         break;
                     default:
                         deliveryCost = 2.7f;
@@ -892,7 +893,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 if (isPaid) {
                     Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
                     intent.putExtra("Response", placeOrderResponse);
-                    intent.putExtra("OrderTotal", priceToPay);
+                    String v1 = decimalFormat.format(priceToPay);
+                    intent.putExtra("OrderTotal", v1);
                     startActivity(intent);
                     finish();
                 } else {
@@ -927,7 +929,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     if (simpleSuccess.getSuccess() == 1) {
                         Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
                         intent.putExtra("Response", placeOrderResponse);
-                        intent.putExtra("OrderTotal", priceToPay);
+                        String v1 = decimalFormat.format(priceToPay);
+                        intent.putExtra("OrderTotal", v1);
                         startActivity(intent);
                         finish();
                     } else if (simpleSuccess.getSuccess() == 0) {

@@ -84,7 +84,7 @@ public class CheckoutOrderActivity extends BaseActivity {
     //Bag
 
     PlaceOrderResponse placeOrderResponse;
-    float orderTotal = 0;
+    String orderTotal = "0";
     User user;
     int userId;
     Dialog dialog;
@@ -113,7 +113,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             placeOrderResponse = (PlaceOrderResponse) getIntent().getSerializableExtra("Response");
-            orderTotal = getIntent().getFloatExtra("OrderTotal", 0);
+            orderTotal = getIntent().getStringExtra("OrderTotal");
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

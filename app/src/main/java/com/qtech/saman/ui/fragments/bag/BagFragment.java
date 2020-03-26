@@ -75,14 +75,26 @@ public class BagFragment extends BaseFragment {
             Constants.showLoginDialog(getContext());
             return;
         }
-        authenticatedUser = GlobalValues.getUser(getContext());
+        boolean isOutOfStock = false;
+        for (Product p : productArrayList) {
+            if (p != null) {
+                if (p.getAvailableQuantity() < p.getQuantity()) {
+                    isOutOfStock = true;
+                }
+            }
+        }
 
-        if (grandTotal >= 5 && productArrayList.size() > 0) {
+        authenticatedUser = GlobalValues.getUser(getContext());
+        if (isOutOfStock) {
+            Constants.showAlert("",
+                    getResources().getString(R.string.out_of_stock),
+                    getResources().getString(R.string.okay), getContext());
+        } else if (grandTotal >= 5 && productArrayList.size() > 0) {
             Intent intent = new Intent(getContext(), ShoppingCartActivity.class);
             intent.putExtra("Price", grandTotal);
             startActivity(intent);
         } else {
-            Constants.showAlert(getActivity().getResources().getString(R.string.app_name), getActivity().getResources().getString(R.string.hint_validation), getActivity().getResources().getString(R.string.okay), getContext());
+            Constants.showAlert(getResources().getString(R.string.app_name), getResources().getString(R.string.hint_validation), getResources().getString(R.string.okay), getContext());
         }
     }
 
