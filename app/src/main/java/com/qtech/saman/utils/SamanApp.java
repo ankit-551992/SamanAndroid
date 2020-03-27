@@ -55,11 +55,13 @@ public class SamanApp extends MultiDexApplication {
         if (GlobalValues.getAppLanguage(getApplicationContext()).equals("")) {
             GlobalValues.changeLanguage(Locale.getDefault().getLanguage(), getApplicationContext());
             if (Locale.getDefault().getLanguage().equals("ar")) {
+                Log.e("TAG", "onCreate:--if " + isEnglishVersion);
                 isEnglishVersion = false;
             }
         } else {
             GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()), getApplicationContext());
             if (GlobalValues.getAppLanguage(getApplicationContext()).equals("ar")) {
+                Log.e("TAG", "onCreate:--else " + isEnglishVersion);
                 isEnglishVersion = false;
             }
         }

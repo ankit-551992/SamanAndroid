@@ -127,7 +127,7 @@ public class CheckoutOrderActivity extends BaseActivity {
             userId = user.getId();
         }
 
-        orderTotalTextView.setText(String.valueOf(orderTotal) + " " + getString(R.string.OMR));
+        orderTotalTextView.setText(orderTotal + " " + getString(R.string.OMR));
         if (placeOrderResponse.getResult().getOrderNumber() != null) {
             orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber() + placeOrderResponse.getResult().getId());
             orderID = placeOrderResponse.getResult().getOrderNumber();
@@ -150,7 +150,7 @@ public class CheckoutOrderActivity extends BaseActivity {
             Date date = new Date(dateTimeStamp);
             DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy", Locale.ENGLISH);
             String dateFormatted = formatter.format(date);
-            deliveryDateTextView.setText(dateFormatted.toString());
+            deliveryDateTextView.setText(dateFormatted);
         }
         setBag();
 
