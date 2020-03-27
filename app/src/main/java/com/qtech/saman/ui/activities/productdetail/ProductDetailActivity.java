@@ -212,7 +212,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         authenticatedUser = GlobalValues.getUser(ProductDetailActivity.this);
         if (product.getFavorite()) {
 //          showAlert(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), 1);
-            showPopUp(getString(R.string.ask_remove_from_fav), getString(R.string.remove_sure), getString(R.string.no),
+            showPopUp("", getString(R.string.remove_sure), getString(R.string.no),
                     getString(R.string.yes), 1);
         } else {
             if (!productCount.getText().toString().equalsIgnoreCase("0")) {
@@ -712,7 +712,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
         TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
         TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
-
+        if (title.isEmpty()) {
+            titleTextView.setVisibility(View.GONE);
+        }
         titleTextView.setText(title);
         messageTextView.setText(message);
         closePopUp.setText(closeButtonText);

@@ -239,6 +239,7 @@
     <string name="reset">إعادة تفعيل</string>
     <string name="password_changed">"تم تغير رمز الدخول بنجاح"</string>
     <string name="token_hint">إستلم في البريد الإلكتروني</string>
+    <string name="subscribe">الغاء التنبيه</string>
 
     <!--Password-->
     <string name="select_method">الرجاء إختيار نوع نظام الدفع</string>
@@ -387,13 +388,14 @@
     <string name="agreement_order">من خلال تقديم طلبك فإنك توافق على \n</string>
     <string name="add_new_card">الائتمان / الخصم \n البطاقة \n إضافة جديد</string>
     <string name="app_language">تم تغيير لغة التطبيق بنجاح ، يرجى إغلاق التطبيق وإعادة فتحه مرة أخرى</string>
-    <string name="added_to_fav">تمت إضافة العنصر إلى قائمة أمنياتك</string>
+    <string name="added_to_fav">تمت إضافة المنتج إلى قائمة أمنياتك</string>
     <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات؟</string>
    <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
     <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
-    <string name="remove_sure">هل أنت متأكد من أنك تريد إزالة هذا العنصر من قائمة المفضلات؟</string>
+    <string name="remove_sure">هل ترغب في الحصول على اشعار عند توفر المنتج؟</string>
     <string name="view_fav">عرض قائمة الامنيات</string>
     <string name="yeah">نعم</string>
+    <string name="unsunscribe">غير مخدر</string>
     <string name="invalid_date">تاريخ غير صالح</string>
     <string name="select_country_req">الرجاء اختيار الدولة</string>
     <string name="select_location">ختر موقعا</string>

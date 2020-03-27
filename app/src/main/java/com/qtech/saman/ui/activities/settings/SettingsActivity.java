@@ -36,6 +36,7 @@ import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.password.ChangePasswordActivity;
 import com.qtech.saman.utils.CircleTransform;
 import com.qtech.saman.utils.GlobalValues;
+import com.qtech.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
@@ -199,6 +200,11 @@ public class SettingsActivity extends BaseActivity {
 
         TextView done = (TextView) dialog.findViewById(R.id.tv_done);
 
+        RadioButton rbEnglish = dialog.findViewById(R.id.radio_english);
+        RadioButton rbArabic = dialog.findViewById(R.id.radio_arabic);
+        rbArabic.setChecked(!SamanApp.isEnglishVersion);
+        rbEnglish.setChecked(SamanApp.isEnglishVersion);
+
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -229,8 +235,8 @@ public class SettingsActivity extends BaseActivity {
                     }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
-//                    changeLanguage(type);
-                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
+                    changeLanguage(type);
+//                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
 //                    Constants.showAlert(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                 }
             }
