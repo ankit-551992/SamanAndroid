@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -202,8 +203,16 @@ public class SettingsActivity extends BaseActivity {
 
         RadioButton rbEnglish = dialog.findViewById(R.id.radio_english);
         RadioButton rbArabic = dialog.findViewById(R.id.radio_arabic);
-        rbArabic.setChecked(!SamanApp.isEnglishVersion);
-        rbEnglish.setChecked(SamanApp.isEnglishVersion);
+
+        if (SamanApp.isEnglishVersion) {
+            rbEnglish.setChecked(true);
+            rbArabic.setChecked(false);
+        } else {
+            rbArabic.setChecked(true);
+            rbEnglish.setChecked(false);
+        }
+
+        Log.e("isEnglishVersion", "selectLanguage: " + SamanApp.isEnglishVersion);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,9 +238,11 @@ public class SettingsActivity extends BaseActivity {
                     if (radioButton.getId() == R.id.radio_arabic) {
                         type = 2;
                         GlobalValues.setAppLanguage(getApplicationContext(), "ar");
+                        SamanApp.isEnglishVersion = false;
                     } else {
                         type = 1;
                         GlobalValues.setAppLanguage(getApplicationContext(), "en");
+                        SamanApp.isEnglishVersion = true;
                     }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
