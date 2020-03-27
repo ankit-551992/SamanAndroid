@@ -22,6 +22,7 @@
                 android:id="@+id/iv_filer_close"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
                 android:contentDescription="@string/contentDescription"
                 android:src="@drawable/ic_cross"
                 android:tint="@color/grey" />
@@ -38,8 +39,6 @@
                 android:id="@+id/tv_done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:fontFamily="@font/neo_sans"
                 android:text="@string/Done"
                 android:textColor="@color/colorPrimary" />

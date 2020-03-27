@@ -22,6 +22,7 @@
                 android:id="@+id/iv_filer_close"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
                 android:contentDescription="@string/contentDescription"
                 android:src="@drawable/ic_cross"
                 android:tint="@color/grey" />
@@ -38,8 +39,6 @@
                 android:id="@+id/tv_done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:fontFamily="@font/neo_sans"
                 android:text="@string/Done"
                 android:textColor="@color/colorPrimary" />
@@ -57,10 +56,10 @@
                 android:id="@+id/radio_my_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"
                 android:padding="15dp"
                 android:text="@string/report_issue"
-                android:textSize="20sp"
-                android:buttonTint="@color/colorPrimary"/>
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -73,10 +72,10 @@
                 android:id="@+id/radio_report_prodcut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"
                 android:padding="15dp"
                 android:text="@string/ask_help"
-                android:textSize="20sp"
-                android:buttonTint="@color/colorPrimary" />
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -89,10 +88,10 @@
                 android:id="@+id/radio_report_store"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"
                 android:padding="15dp"
                 android:text="@string/report_prodcut"
-                android:textSize="20sp"
-                android:buttonTint="@color/colorPrimary" />
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -105,10 +104,10 @@
                 android:id="@+id/radio_general_inquires"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"
                 android:padding="15dp"
                 android:text="@string/report_store"
-                android:textSize="20sp"
-                android:buttonTint="@color/colorPrimary" />
+                android:textSize="20sp" />
 
         </RadioGroup>
 
