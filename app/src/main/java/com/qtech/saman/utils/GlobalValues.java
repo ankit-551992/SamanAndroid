@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -194,21 +195,16 @@ public class GlobalValues {
     }
 
     public static void changeLanguage(String language, Context context) {
-        String languageToLoad = language; // your language
-        Locale locale = new Locale(languageToLoad);
-        Locale.setDefault(locale);
         Resources res = context.getResources();
-        Configuration config = new Configuration(res.getConfiguration());
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
 
-        if (Build.VERSION.SDK_INT >= 17) {
-            config.setLocale(locale);
-            context = context.createConfigurationContext(config);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            conf.setLocale(new Locale(language)); // API 17+ only.
         } else {
-            config.locale = locale;
-            res.updateConfiguration(config, res.getDisplayMetrics());
+            conf.locale = new Locale(language);
         }
-//        config.locale = locale;
-//        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+        res.updateConfiguration(conf, dm);
     }
 
     public static Object fromJson(String jsonString, Type type) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
 import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
 import android.util.Log;
@@ -93,5 +94,10 @@ public class SamanApp extends MultiDexApplication {
         } catch (Exception e) {
             Log.e("HashKey", "Error", e);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

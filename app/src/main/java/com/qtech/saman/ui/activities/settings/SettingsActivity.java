@@ -33,9 +33,9 @@ import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.PoliciesActivity;
 import com.qtech.saman.ui.activities.SplashActivity;
 import com.qtech.saman.ui.activities.country.CountriesListingActivity;
-import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.password.ChangePasswordActivity;
 import com.qtech.saman.utils.CircleTransform;
+import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
@@ -234,20 +234,8 @@ public class SettingsActivity extends BaseActivity {
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
 
                 if (radioButton.isChecked()) {
-                    int type = 0;
-                    if (radioButton.getId() == R.id.radio_arabic) {
-                        type = 2;
-                        GlobalValues.setAppLanguage(getApplicationContext(), "ar");
-                        SamanApp.isEnglishVersion = false;
-                    } else {
-                        type = 1;
-                        GlobalValues.setAppLanguage(getApplicationContext(), "en");
-                        SamanApp.isEnglishVersion = true;
-                    }
-                    selectedLanguage = radioButton.getText().toString();
-                    languageTextView.setText(radioButton.getText().toString());
-                    changeLanguage(type);
-//                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
+
+                    changeLanguage(radioButton);
 //                    Constants.showAlert(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                 }
             }
@@ -260,19 +248,33 @@ public class SettingsActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void changeLanguage(int type) {
-        User user = GlobalValues.getUser(this);
-        WebServicesHandler apiClient = WebServicesHandler.instance;
+    private void changeLanguage(RadioButton radioButton) {
 
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+        int type = 1;
+        if (radioButton.getId() == R.id.radio_arabic) {
+            type = 2;
+        }
+        User user = GlobalValues.getUser(this);
+        Constants.showSpinner(getString(R.string.language), this);
         apiClient.getChangeLanguage(String.valueOf(user.getId()), type, new Callback<ChangeLanguage>() {
             @Override
             public void onResponse(Call<ChangeLanguage> call, Response<ChangeLanguage> response) {
+                Constants.dismissSpinner();
                 ChangeLanguage changeLanguage = response.body();
                 if (changeLanguage != null && changeLanguage.result) {
-                    Intent refresh = new Intent(SettingsActivity.this, SplashActivity.class);
-//                    refresh.putExtra(currentLang, localeName);
-                    startActivity(refresh);
-                    dialog.dismiss();
+                    if (radioButton.getId() == R.id.radio_arabic) {
+
+                        GlobalValues.setAppLanguage(getApplicationContext(), "ar");
+                        SamanApp.isEnglishVersion = false;
+                    } else {
+
+                        GlobalValues.setAppLanguage(getApplicationContext(), "en");
+                        SamanApp.isEnglishVersion = true;
+                    }
+                    selectedLanguage = radioButton.getText().toString();
+                    languageTextView.setText(radioButton.getText().toString());
+                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                 } else {
                     Toast.makeText(SettingsActivity.this, "Please try again...!", Toast.LENGTH_SHORT).show();
                 }
@@ -280,22 +282,27 @@ public class SettingsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ChangeLanguage> call, Throwable t) {
-
+                Constants.dismissSpinner();
+                Toast.makeText(SettingsActivity.this, "Please try again...!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public static void showAlertLanguage(String title, String message, String buttonText, Context context) {
+    public void showAlertLanguage(String title, String message, String buttonText, Context context) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent refresh = new Intent(context, DashboardActivity.class);
-                        //refresh.putExtra(currentLang, localeName);
-                        context.startActivity(refresh);
                         dialog.dismiss();
+                        Intent refresh = new Intent(context, SplashActivity.class);
+
+                        refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        //refresh.putExtra(currentLang, localeName);
+                        startActivity(refresh);
+                        finishAffinity();
                     }
                 });
         alertDialog.show();

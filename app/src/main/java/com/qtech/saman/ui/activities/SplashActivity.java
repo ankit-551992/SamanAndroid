@@ -23,12 +23,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.qtech.saman.utils.SamanApp.isEnglishVersion;
 
 public class SplashActivity extends BaseActivity {
 
@@ -39,7 +42,6 @@ public class SplashActivity extends BaseActivity {
      * Duration of wait
      **/
     private final int SPLASH_DISPLAY_LENGTH = 2500;
-    public static boolean isEnglishVersion;
 
 
     /**
@@ -48,6 +50,19 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        if (GlobalValues.getAppLanguage(getApplicationContext()).equals("")) {
+            GlobalValues.changeLanguage(Locale.getDefault().getLanguage(), getApplicationContext());
+            if (Locale.getDefault().getLanguage().equals("ar")) {
+                Log.e("TAG", "onCreate:--if " + isEnglishVersion);
+                isEnglishVersion = false;
+            }
+        } else {
+            GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()), getApplicationContext());
+            if (GlobalValues.getAppLanguage(getApplicationContext()).equals("ar")) {
+                Log.e("TAG", "onCreate:--else " + isEnglishVersion);
+                isEnglishVersion = false;
+            }
+        }
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         getCountries();

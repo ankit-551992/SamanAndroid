@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.CustomerSupport.SupportDetailsActivity"></activity>
+        <activity android:name=".ui.activities.CustomerSupport.SupportDetailsActivity" />
         <activity android:name=".ui.activities.myaccount.customersupports.CustomerSupportListActivity" />
         <activity android:name=".ui.activities.settings.NotifyOptionActivity" />
         <activity

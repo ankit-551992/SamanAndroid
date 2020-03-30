@@ -63,9 +63,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -188,7 +190,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.check_out));
         price = getIntent().getFloatExtra("Price", 0);
-        decimalFormat = new DecimalFormat("0.000");
+        decimalFormat = new DecimalFormat("0.000", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         subtotalTextView.setText(getString(R.string.subtotal) + " " + decimalFormat.format(price) + " " + getString(R.string.OMR));
 //        subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " " + getString(R.string.OMR));
         appliedProducts = new ArrayList<>();
