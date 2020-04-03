@@ -19,8 +19,11 @@ import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,11 +121,14 @@ public class BagFragment extends BaseFragment {
     }
 
     public void updateTotal(float total, float vat) {
+
+        DecimalFormat decimalFormat = new DecimalFormat("0.000", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         grandTotal = total + vat;
-        productsTotal.setText(getString(R.string.total) + " " + total + " " + getString(R.string.currency_omr));
-        productsSubTotal.setText(getString(R.string.subtotal) + " " + total + " " + getString(R.string.currency_omr));
-        productsVAT.setText(getString(R.string.VAT) + " " + vat + " " + getString(R.string.currency_omr));
-        productsGrandTotal.setText(getString(R.string.total) + " " + grandTotal + " " + getString(R.string.currency_omr));
+
+        productsTotal.setText(getString(R.string.total) + " " + decimalFormat.format(total) + " " + getString(R.string.currency_omr));
+        productsSubTotal.setText(getString(R.string.subtotal) + " " + decimalFormat.format(total) + " " + getString(R.string.currency_omr));
+        productsVAT.setText(getString(R.string.VAT) + " " + decimalFormat.format(vat) + " " + getString(R.string.currency_omr));
+        productsGrandTotal.setText(getString(R.string.total) + " " + decimalFormat.format(grandTotal) + " " + getString(R.string.currency_omr));
     }
 
     public void updateCount(int size) {

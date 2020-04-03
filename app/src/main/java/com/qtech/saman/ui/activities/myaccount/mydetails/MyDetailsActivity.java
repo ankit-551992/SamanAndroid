@@ -181,7 +181,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
         if (SamanApp.isEnglishVersion) {
             Log.e("FLAG000", "--isEnglishVersion--getGender-" + selectedGender);
-            if (selectedGender.equals(getResources().getString(R.string.female))) {
+            if (selectedGender != null && selectedGender.equals(getResources().getString(R.string.female))) {
                 genderText.setText(getResources().getString(R.string.female));
             } else {
                 genderText.setText(getResources().getString(R.string.male));
@@ -189,7 +189,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 //          genderText.setText(selectedGender);
         } else {
             Log.e("FLAG000", "--else---getGender--" + selectedGender);
-            if (selectedGender.equals(getResources().getString(R.string.female))) {
+            if (selectedGender != null && selectedGender.equals(getResources().getString(R.string.female))) {
                 genderText.setText(getResources().getString(R.string.female));
             } else {
                 genderText.setText(getResources().getString(R.string.male));
@@ -227,13 +227,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             setShippingAddress(authenticatedUser.getShippingAddress());
         }
 
-        Long datetimestamp = Long.parseLong(authenticatedUser.getDateOfBirth().replaceAll("\\D", ""));
+        long datetimestamp = Long.parseLong(authenticatedUser.getDateOfBirth().replaceAll("\\D", ""));
         if (datetimestamp < Calendar.getInstance().getTimeInMillis()) {
             Date date = new Date(datetimestamp);
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
             String dateFormatted = formatter.format(date);
-            String sepDate[] = dateFormatted.split("/");
-            if (!isAfterToday(Integer.valueOf(sepDate[0]), Integer.valueOf(sepDate[1]), Integer.valueOf(sepDate[2]))) {
+            String[] sepDate = dateFormatted.split("/");
+            if (!isAfterToday(Integer.parseInt(sepDate[0]), Integer.parseInt(sepDate[1]), Integer.parseInt(sepDate[2]))) {
                 dayEditText.setText(sepDate[0]);
                 monthEditText.setText(sepDate[1]);
                 yearEditText.setText(sepDate[2]);

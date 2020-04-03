@@ -206,7 +206,9 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
                             unreadMessageCount.setVisibility(View.VISIBLE);
                             unreadMessageCount.setText("" + unread);
                         }
-                        ((DashboardActivity) getActivity()).updateMessagesCount(unread);
+                        if (getActivity() != null) {
+                            ((DashboardActivity) getActivity()).updateMessagesCount(unread);
+                        }
                     }
                 }
             }

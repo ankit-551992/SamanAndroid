@@ -36,7 +36,9 @@ import com.qtech.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -139,13 +141,13 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
             if (SamanApp.isEnglishVersion) {
 //                final_displayprice = Float.valueOf(df.format(final_displayprice));
             }
-
-            bagViewHolder.price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.currency_omr));
+            DecimalFormat decimalFormat = new DecimalFormat("0.000", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+            bagViewHolder.price.setText(decimalFormat.format(final_displayprice) + " " + mContext.getResources().getString(R.string.currency_omr));
 //          float total = product.getPrice() * product.getQuantity();
             total = final_displayprice * product.getQuantity();
 //          total = Float.valueOf(df.format(total));
             grandTotal = grandTotal + total;
-            bagViewHolder.total.setText(total + " " + mContext.getResources().getString(R.string.currency_omr));
+            bagViewHolder.total.setText(decimalFormat.format(total) + " " + mContext.getResources().getString(R.string.currency_omr));
             bagViewHolder.quantity.setText(String.valueOf(product.getQuantity()));
 
             bagFragment.updateTotal(grandTotal, 0);

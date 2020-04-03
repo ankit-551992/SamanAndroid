@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -176,8 +177,10 @@
 
             <TextView
                 android:id="@+id/tv_shipment_address"
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:lineSpacingExtra="4dp"
+                tools:text="akbfksajdfbjsgdfksafgbkdsjfbkjsabdfkjsbdfkjsbfjsdbfksdbfskjdbfjkbskdjfksbbsdfsjdkbfksbdfjk" />
 
             <View
                 android:layout_width="match_parent"
@@ -355,14 +358,12 @@
             <TextView
                 android:id="@+id/tv_products_subtotal"
                 android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
                 android:text="@string/subtotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_delivery_cost"
                 android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="2dp"
                 android:text="@string/delivery_cost"
                 android:layout_width="wrap_content"
@@ -372,7 +373,6 @@
             <TextView
                 android:id="@+id/tv_promo_saved"
                 android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="2dp"
                 android:text="@string/promo_saved"
                 android:layout_width="wrap_content"

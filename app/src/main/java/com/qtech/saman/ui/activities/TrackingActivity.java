@@ -114,35 +114,36 @@ public class TrackingActivity extends BaseActivity {
 
     private void setData() {
         keys = new ArrayList<>();
+        if (orderHistory.getOrderItems() != null) {
+            for (int i = 0; i < orderHistory.getOrderItems().size(); i++) {
 
-        for (int i = 0; i < orderHistory.getOrderItems().size(); i++) {
+                int key = orderHistory.getOrderItems().get(i).getProduct().getID();
 
-            int key = orderHistory.getOrderItems().get(i).getProduct().getID();
+                for (int j = 0; j < orderHistory.getOrderItems().get(i).getOrderTrackList().size(); j++) {
 
-            for (int j = 0; j < orderHistory.getOrderItems().get(i).getOrderTrackList().size(); j++) {
+                    if (orderTrackArrayList.containsKey(key)) {
 
-                if (orderTrackArrayList.containsKey(key)) {
+                        List<OrderTrack> list = orderTrackArrayList.get(key);
+                        OrderTrack orderTrack = orderHistory.getOrderItems().get(i).getOrderTrackList().get(j);
+                        orderTrack.setProductName(orderHistory.getOrderItems().get(i).getProduct().getProductName());
+                        orderTrack.setProductNameAR(orderHistory.getOrderItems().get(i).getProduct().getProductNameAR());
 
-                    List<OrderTrack> list = orderTrackArrayList.get(key);
-                    OrderTrack orderTrack = orderHistory.getOrderItems().get(i).getOrderTrackList().get(j);
-                    orderTrack.setProductName(orderHistory.getOrderItems().get(i).getProduct().getProductName());
-                    orderTrack.setProductNameAR(orderHistory.getOrderItems().get(i).getProduct().getProductNameAR());
+                        list.add(orderTrack);
 
-                    list.add(orderTrack);
+                    } else {
+                        List<OrderTrack> list = new ArrayList<OrderTrack>();
+                        OrderTrack orderTrack = orderHistory.getOrderItems().get(i).getOrderTrackList().get(j);
+                        orderTrack.setProductName(orderHistory.getOrderItems().get(i).getProduct().getProductName());
+                        orderTrack.setProductNameAR(orderHistory.getOrderItems().get(i).getProduct().getProductNameAR());
+                        list.add(orderTrack);
 
-                } else {
-                    List<OrderTrack> list = new ArrayList<OrderTrack>();
-                    OrderTrack orderTrack = orderHistory.getOrderItems().get(i).getOrderTrackList().get(j);
-                    orderTrack.setProductName(orderHistory.getOrderItems().get(i).getProduct().getProductName());
-                    orderTrack.setProductNameAR(orderHistory.getOrderItems().get(i).getProduct().getProductNameAR());
-                    list.add(orderTrack);
+                        orderTrackArrayList.put(key, list);
 
-                    orderTrackArrayList.put(key, list);
+                        keys.add(key);
 
-                    keys.add(key);
+                    }
 
                 }
-
             }
         }
 //        Collections.sort(orderTrackArrayList, new Comparator<OrderTrack>() {

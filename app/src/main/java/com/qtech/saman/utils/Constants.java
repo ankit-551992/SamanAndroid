@@ -142,12 +142,13 @@ public class Constants {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_customer_support);
         dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Animation animation;
+            animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
 
-        Animation animation;
-        animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-
-        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+            ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+        }
         dialog.show();
 
         TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
@@ -157,7 +158,7 @@ public class Constants {
 
         nextButton.setText(buttonText);
 //      titleTextView.setText(context.getString(R.string.error));
-        if (!title.equals("") && title.toString() != null) {
+        if (title != null && !title.equals("")) {
             titleTextView.setVisibility(View.VISIBLE);
             titleTextView.setText(title);
         } else {

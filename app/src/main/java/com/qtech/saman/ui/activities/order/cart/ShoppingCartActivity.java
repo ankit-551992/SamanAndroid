@@ -256,7 +256,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
-        spanTxt.append(" & ");
+        spanTxt.append(getString(R.string.and));
         spanTxt.append(getString(R.string.privacy));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
@@ -967,8 +967,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             PaymentGateWay paymentGateWay = response.body();
                             if (paymentGateWay != null) {
                                 if (paymentGateWay.getResult() != null) {
-                                    if (paymentGateWay.getResult().getStatus().equalsIgnoreCase("success")) {
-                                        if (paymentGateWay.getResult().getMessage().getPayUrl() != null && !paymentGateWay.getResult().getMessage().getPayUrl().isEmpty()) {
+                                    if (paymentGateWay.getResult().getStatus() != null && paymentGateWay.getResult().getStatus().equalsIgnoreCase("success")) {
+                                        if (paymentGateWay.getResult().getMessage() != null && paymentGateWay.getResult().getMessage().getPayUrl() != null && !paymentGateWay.getResult().getMessage().getPayUrl().isEmpty()) {
                                             Intent intent = new Intent(ShoppingCartActivity.this, OmanNetCardDetailActivity.class);
                                             intent.putExtra("PayURL", paymentGateWay.getResult().getMessage().getPayUrl());
                                             startActivityForResult(intent, 2019);

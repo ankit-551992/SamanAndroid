@@ -119,13 +119,15 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
     @OnClick(R.id.toolbar_search)
     public void done() {
-        GlobalValues.setUserLat(GoogleMapActivity.this, "" + markedLocation.latitude);
-        GlobalValues.setUserLng(GoogleMapActivity.this, "" + markedLocation.longitude);
-        address = getAddressFromLatLong(markedLocation);
-        if (!address.isEmpty() && !address.equals("")) {
-            saveSelectedAddress(address);
-        } else {
-            getLocationAddress(markedLocation);
+        if (markedLocation != null) {
+            GlobalValues.setUserLat(GoogleMapActivity.this, "" + markedLocation.latitude);
+            GlobalValues.setUserLng(GoogleMapActivity.this, "" + markedLocation.longitude);
+            address = getAddressFromLatLong(markedLocation);
+            if (!address.isEmpty() && !address.equals("")) {
+                saveSelectedAddress(address);
+            } else {
+                getLocationAddress(markedLocation);
+            }
         }
     }
 
@@ -354,16 +356,21 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                             search.setVisibility(View.VISIBLE);
                             markedLocation = latLng;
                         } else {
-                            double lati = Double.parseDouble(GlobalValues.getUserLat(GoogleMapActivity.this));
-                            double lngi = Double.parseDouble(GlobalValues.getUserLng(GoogleMapActivity.this));
-                            LatLng latLng = new LatLng(lati, lngi);
-                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                            if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                                gmap.setMyLocationEnabled(true);
+                            if (GlobalValues.getUserLat(GoogleMapActivity.this) != null &&
+                                    GlobalValues.getUserLng(GoogleMapActivity.this) != null
+                                    && !GlobalValues.getUserLat(GoogleMapActivity.this).equals("") &&
+                                    !GlobalValues.getUserLng(GoogleMapActivity.this).equals("")) {
+                                double lati = Double.parseDouble(GlobalValues.getUserLat(GoogleMapActivity.this));
+                                double lngi = Double.parseDouble(GlobalValues.getUserLng(GoogleMapActivity.this));
+                                LatLng latLng = new LatLng(lati, lngi);
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                                if (ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(GoogleMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                    gmap.setMyLocationEnabled(true);
+                                }
+                                gmap.animateCamera(cameraUpdate);
+                                search.setVisibility(View.VISIBLE);
+                                markedLocation = latLng;
                             }
-                            gmap.animateCamera(cameraUpdate);
-                            search.setVisibility(View.VISIBLE);
-                            markedLocation = latLng;
                         }
                     }
                 });
@@ -404,8 +411,8 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                     }
                     if (adress != null) {
                         address = adress;
+                        saveSelectedAddress(address);
                     }
-                    saveSelectedAddress(address);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -426,22 +433,22 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 
     private void saveSelectedAddress(String address) {
 
-        String arr[] = address.split(",");
+        String[] arr = address.split(",");
 //       selected_country = arr[4];
 //       Log.e("LAT0LNG0", "---selected_country---" +selected_country);
-        if (arr.length >= 0) {
+
+        if (arr.length >= 4 && !arr[3].isEmpty() && arr[3].equals(getResources().getString(R.string.Oman))) {
             Log.e("LAT0LNG0", "----selected_country---" + arr[3]);
-            if (!arr[3].isEmpty() && arr[3].equals(getResources().getString(R.string.Oman))) {
-                Log.e("OMAN00", "--address--Oman-----" + address);
-                Intent data = new Intent();
-                data.setData(Uri.parse(address));
-                setResult(RESULT_OK, data);
-                finish();
-            } else {
-                Constants.showErrorPopUp(GoogleMapActivity.this, getResources().getString(R.string.select_address), getResources().getString(R.string.map_dialog_msg), getResources().getString(R.string.okay));
-                Log.e("OMAN00", "--please--select----Oman-----");
-            }
+            Log.e("OMAN00", "--address--Oman-----" + address);
+            Intent data = new Intent();
+            data.setData(Uri.parse(address));
+            setResult(RESULT_OK, data);
+            finish();
+        } else {
+            Constants.showErrorPopUp(GoogleMapActivity.this, getResources().getString(R.string.select_address), getResources().getString(R.string.map_dialog_msg), getResources().getString(R.string.okay));
+            Log.e("OMAN00", "--please--select----Oman-----");
         }
+
     }
 
     @Override

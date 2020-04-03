@@ -87,6 +87,26 @@ public class CustomerSupportActivity extends BaseActivity {
     Dialog dialog2;
     String selectedSubject = "";
 
+    TextWatcher txwatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (selectedSubject.equals("")) {
+                Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
+                return;
+            }
+            setCount(mCount - s.length());
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private void setCount(int count) {
+        countTextView.setText(count + " " + getString(R.string.character));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +129,8 @@ public class CustomerSupportActivity extends BaseActivity {
         if (orderId != null && !orderId.isEmpty()) {
             photos.setVisibility(View.GONE);
             subjectSelectionEditText.setText(getString(R.string.cancel_order_of) + " " + orderId + ".");
+            selectedSubject = subjectSelectionEditText.getText().toString();
+
         } else {
             photos.setVisibility(View.VISIBLE);
             layoutManager = new GridLayoutManager(CustomerSupportActivity.this, 3);
@@ -137,26 +159,6 @@ public class CustomerSupportActivity extends BaseActivity {
         setCount(mCount);
 
     }
-
-    private void setCount(int count) {
-        countTextView.setText(count + " " + getString(R.string.character));
-    }
-
-    TextWatcher txwatcher = new TextWatcher() {
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (selectedSubject.equals("") && selectedSubject.isEmpty()) {
-                Constants.showAlert(getString(R.string.customer_service), getString(R.string.subject_prompt), getString(R.string.okay), CustomerSupportActivity.this);
-                return;
-            }
-            setCount(mCount - s.length());
-        }
-
-        public void afterTextChanged(Editable s) {
-        }
-    };
 
     @OnClick(R.id.editText_message)
     public void textmessage() {
@@ -301,15 +303,19 @@ public class CustomerSupportActivity extends BaseActivity {
 
         ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
         final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
-        RadioButton radioButton = radioGroup.findViewById(R.id.radio_my_account);
-        if (getString(R.string.ask_help).equals(subjectSelectionEditText.getText().toString())) {
+        RadioButton radioButton = null;
+        if (getString(R.string.report_issue).equals(subjectSelectionEditText.getText().toString())) {
+            radioButton = radioGroup.findViewById(R.id.radio_my_account);
+        } else if (getString(R.string.ask_help).equals(subjectSelectionEditText.getText().toString())) {
             radioButton = radioGroup.findViewById(R.id.radio_report_prodcut);
         } else if (getString(R.string.report_prodcut).equals(subjectSelectionEditText.getText().toString())) {
             radioButton = radioGroup.findViewById(R.id.radio_report_store);
         } else if (getString(R.string.report_store).equals(subjectSelectionEditText.getText().toString())) {
             radioButton = radioGroup.findViewById(R.id.radio_general_inquires);
         }
-        radioButton.setChecked(true);
+        if (radioButton != null) {
+            radioButton.setChecked(true);
+        }
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

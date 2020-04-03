@@ -98,7 +98,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         final_displayprice = product.getPrice() - product.getSalePrice();
                         productViewHolder.discount_price.setVisibility(View.VISIBLE);
                         productViewHolder.productDisPrice.setVisibility(View.VISIBLE);
-                        productViewHolder.productPrice.setVisibility(View.GONE);
+                        productViewHolder.productPrice.setText("");
                         productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
                         productViewHolder.productDisPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
                         productViewHolder.productDisPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -109,30 +109,30 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         Log.e("Dis", "---dis--" + dis);
                         final_displayprice = product.getPrice() - dis;
                         productViewHolder.discount_price.setVisibility(View.VISIBLE);
-                        productViewHolder.productPrice.setVisibility(View.GONE);
+                        productViewHolder.productPrice.setText("");
                         productViewHolder.productDisPrice.setVisibility(View.VISIBLE);
                         productViewHolder.discount_price.setText(final_displayprice + " " + mContext.getResources().getString(R.string.OMR));
                         productViewHolder.productDisPrice.setTextColor(mContext.getResources().getColor(R.color.grey));
                         productViewHolder.productDisPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         productViewHolder.productDisPrice.setText(product.getPrice() + " ");
                     } else if (productArrayList.get(position).getSaleDiscountedType().equalsIgnoreCase("0")) {
-                        productViewHolder.discount_price.setVisibility(View.GONE);
-                        productViewHolder.productDisPrice.setVisibility(View.GONE);
+                        productViewHolder.discount_price.setText("");
+                        productViewHolder.productDisPrice.setText("");
                         productViewHolder.productPrice.setVisibility(View.VISIBLE);
                         productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                         productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
                     }
                 } else {
                     final_displayprice = product.getPrice();
-                    productViewHolder.discount_price.setVisibility(View.GONE);
-                    productViewHolder.productDisPrice.setVisibility(View.GONE);
+                    productViewHolder.discount_price.setText("");
+                    productViewHolder.productDisPrice.setText("");
                     productViewHolder.productPrice.setVisibility(View.VISIBLE);
                     productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                     productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
                 }
             } else {
-                productViewHolder.discount_price.setVisibility(View.GONE);
-                productViewHolder.productDisPrice.setVisibility(View.GONE);
+                productViewHolder.discount_price.setText("");
+                productViewHolder.productDisPrice.setText("");
                 productViewHolder.productPrice.setVisibility(View.VISIBLE);
                 productViewHolder.productPrice.setTextColor(mContext.getResources().getColor(R.color.black));
                 productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));

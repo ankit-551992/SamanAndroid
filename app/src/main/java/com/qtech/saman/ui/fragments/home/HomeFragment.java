@@ -332,7 +332,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     @Override
     public void error(String message) {
         if (message.equalsIgnoreCase("null")) {
-            showAlert("Server Error", "Please check you internet connection and try again", getString(R.string.try_again), getContext());
+            showAlert(getString(R.string.server_error), getString(R.string.please_check_try_agin), getString(R.string.try_again), getContext());
         }
     }
 
@@ -347,7 +347,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
                         presenter.getHomeData(authenticatedUser.getId());
                     }
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Close",
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.close),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

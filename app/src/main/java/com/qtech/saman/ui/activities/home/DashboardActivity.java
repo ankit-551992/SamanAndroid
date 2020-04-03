@@ -537,8 +537,9 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
             String counter = Integer.toString(count);
             String s = before + "   " + counter + " ";
             SpannableString sColored = new SpannableString(s);
-            sColored.setSpan(new BackgroundColorSpan(Color.GRAY), s.length() - (counter.length() + 2), s.length(), 0);
-            sColored.setSpan(new ForegroundColorSpan(Color.WHITE), s.length() - (counter.length() + 2), s.length(), 0);
+            int start = s.length() - (counter.length() + 2);
+            sColored.setSpan(new BackgroundColorSpan(Color.GRAY), start, s.length(), 0);
+            sColored.setSpan(new ForegroundColorSpan(Color.WHITE), start, s.length(), 0);
             element.setTitle(sColored);
 
             GlobalValues.setBadgeCount(this, count);
@@ -589,6 +590,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                                 }
                             }
                         }
+
                         updateMessagesCount(unreadCount);
                     }
                 }

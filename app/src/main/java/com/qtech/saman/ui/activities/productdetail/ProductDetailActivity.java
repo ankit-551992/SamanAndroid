@@ -27,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
@@ -274,17 +273,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
     }
 
-    @OnClick(R.id.button_notify)
-    public void notifyItem() {
-        if (button_notify.getText().equals(getString(R.string.unsunscribe))) {
-            showPopUp(getString(R.string.out_of_stock_title), getString(R.string.remove_notify_message), getString(R.string.no),
-                    getString(R.string.yes), 0);
-        } else {
-            showPopUp(getString(R.string.out_of_stock_title), getString(R.string.out_of_stock_message),
-                    getString(R.string.no),
-                    getString(R.string.yes), 0);
-        }
-    }
+    ArrayList<Product> arrayLst = new ArrayList<>();
 
     @OnClick(R.id.iv_share)
     public void share() {
@@ -302,21 +291,15 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         mPager.arrowScroll(View.FOCUS_RIGHT);
     }
 
-    @OnClick(R.id.iv_add_quantity)
-    void addItem() {
-        Log.e("PRODCTID", "--getQuantity---" + product.getQuantity());
-        int current = Integer.parseInt(productCount.getText().toString());
-        if (product.getQuantity() > current) {
-            outOfStockTextView.setVisibility(View.GONE);
-            current++;
-            productCount.setText(String.valueOf(current));
+    @OnClick(R.id.button_notify)
+    public void notifyItem() {
+        if (button_notify.getText().equals(getString(R.string.unsunscribe))) {
+            showPopUp("", getString(R.string.remove_notify_message), getString(R.string.no),
+                    getString(R.string.yes), 0);
         } else {
-            outOfStockTextView.setVisibility(View.VISIBLE);
-//            String text = String.format(getString(R.string.items_available_count), product.getQuantity());
-//            Constants.showAlert("",
-//                    getString(R.string.out_of_stock),
-//                    getString(R.string.okay),
-//                    ProductDetailActivity.this);
+            showPopUp("", getString(R.string.out_of_stock_message),
+                    getString(R.string.no),
+                    getString(R.string.yes), 0);
         }
     }
 
@@ -344,6 +327,31 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 loading.setVisibility(View.GONE);
             }
         }, 1500);
+    }
+
+    @OnClick(R.id.iv_add_quantity)
+    void addItem() {
+        Log.e("PRODCTID", "--getQuantity---" + product.getQuantity());
+        int current = Integer.parseInt(productCount.getText().toString());
+        int cartProductCount = 0;
+        for (int i = 0; i < arrayLst.size(); i++) {
+            Product p = arrayLst.get(i);
+            if (p.getID().equals(product.getID())) {
+                cartProductCount = p.getQuantity();
+            }
+        }
+        if (product.getQuantity() > current + cartProductCount) {
+            outOfStockTextView.setVisibility(View.GONE);
+            current++;
+            productCount.setText(String.valueOf(current));
+        } else {
+            outOfStockTextView.setVisibility(View.VISIBLE);
+//            String text = String.format(getString(R.string.items_available_count), product.getQuantity());
+            Constants.showAlert("",
+                    getString(R.string.out_of_stock),
+                    getString(R.string.okay),
+                    ProductDetailActivity.this);
+        }
     }
 
     @Override
@@ -410,7 +418,18 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             specificationsLayout.addView(child);
         }
 
-        if (product.getQuantity() <= 0) {
+
+        if (SamanApp.localDB != null) {
+            arrayLst = SamanApp.localDB.getCartProducts();
+        }
+        boolean isOutOfStock = false;
+        for (int i = 0; i < arrayLst.size(); i++) {
+            Product p = arrayLst.get(i);
+            if (p.getID().equals(product.getID())) {
+                isOutOfStock = p.getQuantity() >= product.getQuantity();
+            }
+        }
+        if (product.getQuantity() <= 0 || isOutOfStock) {
             //addToCart.setEnabled(false);
             removeQuantity.setEnabled(false);
             addQuantity.setEnabled(false);
@@ -420,7 +439,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             if (product.getIsNotificationSubscribed().equals("true")) {
                 button_notify.setText(getString(R.string.unsunscribe));
             } else {
-                button_notify.setText(getString(R.string.notify_me));
+                button_notify.setText(getString(R.string.subscribe));
             }
         }
 
@@ -692,11 +711,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     public void addProductNotifyResponse(SimpleSuccess simpleSuccess) {
         button_notify.setVisibility(View.VISIBLE);
         if (simpleSuccess.getResult().equals(true)) {
-            Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
             button_notify.setText(getString(R.string.unsunscribe));
         } else {
-            button_notify.setText(getString(R.string.notify_me));
-            Toast.makeText(this, "" + simpleSuccess.getMessage(), Toast.LENGTH_SHORT).show();
+            button_notify.setText(getString(R.string.subscribe));
         }
     }
 

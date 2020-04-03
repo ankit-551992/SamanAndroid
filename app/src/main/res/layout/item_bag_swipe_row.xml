@@ -61,6 +61,8 @@
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
                         android:gravity="center_vertical"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:orientation="vertical"
                         android:padding="2dp">
 
@@ -69,7 +71,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_store"
-                            android:drawableLeft="@drawable/ic_store"
                             android:drawablePadding="10dp"
                             android:gravity="center"
                             android:text="@string/ud_store" />
@@ -99,25 +100,12 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.25">
 
-                        <RelativeLayout
-                            android:id="@+id/rl_quantity"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
                             android:layout_height="match_parent"
-                            android:layout_centerVertical="true">
-
-                            <TextView
-                                android:id="@+id/tv_quantity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/text_bg"
-                                android:paddingStart="7dp"
-                                android:paddingLeft="7dp"
-                                android:paddingTop="3dp"
-                                android:paddingEnd="7dp"
-                                android:paddingRight="7dp"
-                                android:paddingBottom="3dp"
-                                android:text="5" />
+                            android:id="@+id/rl_quantity"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:orientation="vertical">
 
                             <ImageView
                                 android:id="@+id/iv_add_quantity"
@@ -127,7 +115,17 @@
                                 android:layout_marginBottom="1dp"
                                 android:src="@drawable/ic_add"
                                 android:tint="@color/black" />
-
+                            <TextView
+                                android:id="@+id/tv_quantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/text_bg"
+                                android:paddingStart="7dp"
+                                android:paddingTop="3dp"
+                                android:paddingEnd="7dp"
+                                android:paddingBottom="3dp"
+                                android:text="5" />
                             <ImageView
                                 android:id="@+id/iv_remove_quantity"
                                 android:layout_width="20dp"
@@ -137,18 +135,13 @@
                                 android:src="@drawable/ic_remove"
                                 android:tint="@color/black" />
 
-                        </RelativeLayout>
+                        </LinearLayout>
 
                        <RelativeLayout
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_gravity="center_vertical"
-                           android:layout_toEndOf="@id/rl_quantity"
-                           android:layout_toRightOf="@id/rl_quantity"
-                           android:layout_centerVertical="true"
-                           android:layout_alignParentEnd="true"
-                           android:layout_alignParentRight="true"
-                           android:layout_marginLeft="5dp">
+                           android:layout_marginStart="5dp">
 
                            <TextView
                                android:id="@+id/tv_product_price"

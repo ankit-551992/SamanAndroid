@@ -80,10 +80,10 @@
     </string-array>
 
     <string name="item_"># العدد</string>
-    <string name="privacy">سياسة الخصوصية</string>
+    <string name="privacy">&#160;سياسات الإرجاع&#160;</string>
     <string name="language">اللغة</string>
     <string name="notifications">التنبيهات</string>
-    <string name="term">الشروط والأحكام</string>
+    <string name="term">&#160;الشروط والأحكام الخصوصية&#160;</string>
     <string name="description">التوصيف</string>
     <string name="specifications">المواصفات</string>
     <string name="no_specifications">لا توجد مواصفات</string>
@@ -385,7 +385,7 @@
     <string name="no_wishitems_found">لم يتم العثور على منتجات</string>
     <string name="no_items_customer_service">لم يتم العثور على محادثات</string>
     <string name="no_message_conversation">لم يتم العثور على محادثات</string>
-    <string name="agreement_order">من خلال تقديم طلبك فإنك توافق على \n</string>
+    <string name="agreement_order">من خلال تقديم طلبك فإنك توافق على </string>
     <string name="add_new_card">الائتمان / الخصم \n البطاقة \n إضافة جديد</string>
     <string name="app_language">تم تغيير لغة التطبيق بنجاح ، يرجى إغلاق التطبيق وإعادة فتحه مرة أخرى</string>
     <string name="added_to_fav">تمت إضافة المنتج إلى قائمة أمنياتك</string>
@@ -614,11 +614,11 @@
     <string name="missing_options">يرجى تحديد جميع الخيارات</string>
     <string name="product_details">تفاصيل المنتج</string>
     <string name="product_info_care">معلومات المنتج والعناية</string>
-
+    <string name="and">&#160;و&#160;</string>
     <string name="coupon_discount">خصم القسيمة</string>
     <string name="coupon_discount_is_">خصم القسيمة الخاص بك هو</string>
     <string name="already_apply_on_same_product">تم تطبيق الكوبون بالفعل على نفس المنتج</string>
-    <string name="term_message">والموافقة على تخزين بعض بياناتك بواسطة Saman والتي يمكن استخدامها لصنع تجارب تسوق في المستقبل من أجلك</string>
+    <string name="term_message">&#160;والموافقة على تخزين بعض بياناتك بواسطة Saman والتي يمكن استخدامها لصنع تجارب تسوق في المستقبل من أجلك&#160;</string>
 
     <string name="order_status_notify">حالة الطلب</string>
     <string name="message_notify">اشعار الرسالة</string>
@@ -626,6 +626,7 @@
     <string name="feedback_notify">ردود الفعل الإخطار</string>
     <string name="item_stock_notify">العنصر مرة أخرى من المخزون</string>
 
+    <string name="please_check_try_agin">يرجى التحقق من اتصال الإنترنت وإعادة المحاولة</string>
     <string-array name="regions">
         <item>محافظة مسقط</item>
         <item>محافظة ظفار</item>

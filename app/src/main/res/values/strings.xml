@@ -83,10 +83,10 @@
     <string name="item_"># Items</string>
 
     <string name="flavor">Flavor</string>
-    <string name="privacy">Privacy Policy</string>
+    <string name="privacy">&#160;return policies&#160;</string>
     <string name="language">Language</string>
     <string name="notifications">Notifications</string>
-    <string name="term">Terms and Conditions</string>
+    <string name="term">&#160;terms and conditions privacy&#160;</string>
     <string name="description">Description</string>
     <string name="specifications">Specifications</string>
     <string name="no_specifications">No Specifications</string>
@@ -126,7 +126,7 @@
     <string name="no_wishitems_found">No items in the Wishlist!</string>
     <string name="no_items_customer_service">No tickets found</string>
     <string name="no_message_conversation">No conversation found</string>
-    <string name="agreement_order">By placing your order you agree to our\n</string>
+    <string name="agreement_order">By placing your order you agree to our</string>
     <string name="cart_dummy">Mr. Jesus\n\nMusqat\n\nMusqat\n\nOman\n\n115\n\n77777</string>
     <string name="check_out_thank_you">Thank You For Your Order</string>
     <!--Shopping cart-->
@@ -534,7 +534,7 @@
     <string name="coupon_discount">Coupon Discount</string>
     <string name="coupon_discount_is_">Your coupon discount is</string>
     <string name="already_apply_on_same_product">Coupon already applied on same product</string>
-    <string name="term_message">and consent to some of your data being stored by Saman which may be used to make future shopping experiences for you</string>
+    <string name="term_message">&#160;and consent to some of your data being stored by Saman which may be used to make future shopping experiences for you&#160;</string>
 
     <string name="order_status_notify">Order Status</string>
     <string name="message_notify">Message Notification</string>
@@ -567,6 +567,8 @@
     <string name="cancel_order_of">Cancel order</string>
     <string name="hint_validation">You can’t proceed, minimum shopping is 5 OMR</string>
     <string name="unsunscribe">Unsubscribed</string>
+    <string name="and">&#160;and&#160;</string>
+    <string name="please_check_try_agin">Please check you internet connection and try again</string>
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>

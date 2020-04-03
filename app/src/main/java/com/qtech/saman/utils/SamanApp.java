@@ -1,11 +1,9 @@
 package com.qtech.saman.utils;
 
 
-import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.content.res.Configuration;
 import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
 import android.util.Log;
@@ -20,7 +18,6 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class SamanApp extends MultiDexApplication {
@@ -76,11 +73,11 @@ public class SamanApp extends MultiDexApplication {
 
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
-        printHashKey(this);
+        printHashKey();
         FirebaseAnalytics.getInstance(this);
     }
 
-    private void printHashKey(Context pContext) {
+    private void printHashKey() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
@@ -89,15 +86,9 @@ public class SamanApp extends MultiDexApplication {
                 String hashKey = new String(Base64.encode(md.digest(), 0));
                 Log.i("Hash Key", hashKey);
             }
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("HashKey", "Error", e);
         } catch (Exception e) {
             Log.e("HashKey", "Error", e);
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
 }
