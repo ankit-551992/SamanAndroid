@@ -265,7 +265,7 @@
     <!--Messaging-->
     <string name="no_message">No Message Found!</string>
     <string name="out_of_stock_message">Do you want to get notification when item will come in stock?</string>
-    <string name="remove_notify_message">Do you want to remove the notify me option ?</string>
+    <string name="remove_notify_message">Are you sure you want to remove the notify me option ?</string>
     <!--Messaging-->
 
     <!--Product out-of-stock-->
