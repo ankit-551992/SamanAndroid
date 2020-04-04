@@ -228,6 +228,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                         getString(R.string.continue_shopping),
                         getString(R.string.view_fav),
                         1, 0);
+            } else {
+                Constants.showAlert(getResources().getString(R.string.app_name),
+                        getResources().getString(R.string.out_of_stock),
+                        getResources().getString(R.string.okay), this);
             }
         }
     }
@@ -437,9 +441,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             productCount.setText("0");
             button_notify.setVisibility(View.VISIBLE);
             if (product.getIsNotificationSubscribed().equals("true")) {
-                button_notify.setText(getString(R.string.unsunscribe));
+                button_notify.setText(getString(R.string.unnotify));
             } else {
-                button_notify.setText(getString(R.string.subscribe));
+                button_notify.setText(getString(R.string.notify));
             }
         }
 
@@ -711,9 +715,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     public void addProductNotifyResponse(SimpleSuccess simpleSuccess) {
         button_notify.setVisibility(View.VISIBLE);
         if (simpleSuccess.getResult().equals(true)) {
-            button_notify.setText(getString(R.string.unsunscribe));
+            button_notify.setText(getString(R.string.unnotify));
         } else {
-            button_notify.setText(getString(R.string.subscribe));
+            button_notify.setText(getString(R.string.notify));
         }
     }
 

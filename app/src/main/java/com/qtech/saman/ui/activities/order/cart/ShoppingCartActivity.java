@@ -738,22 +738,27 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     deliveryCost = 0.0f;
                 }
             } else {
-                switch (SamanApp.localDB.getCartAllProductsCounting()) {    // Outside of Muscat
-                    case 1:
-                        deliveryCost = 1.3f;
-                        break;
-                    case 2:
-                        deliveryCost = 0.65f;
-                        break;
-                    case 3:
-                        deliveryCost = 0.65f;
-                        break;
-                    case 4:
-                        deliveryCost = 0.55f;
-                        break;
-                    default:
-                        deliveryCost = 2.7f;
-                        break;
+                if (price < 35) {
+
+                    switch (SamanApp.localDB.getCartAllProductsCounting()) {    // Outside of Muscat
+                        case 1:
+                            deliveryCost = 1.3f;
+                            break;
+                        case 2:
+                            deliveryCost = 0.65f;
+                            break;
+                        case 3:
+                            deliveryCost = 0.65f;
+                            break;
+                        case 4:
+                            deliveryCost = 0.55f;
+                            break;
+                        default:
+                            deliveryCost = 2.7f;
+                            break;
+                    }
+                } else {
+                    deliveryCost = 0.0f;
                 }
             }
             Log.e("DELIVERYCOST", "------deliveryCost---" + deliveryCost);

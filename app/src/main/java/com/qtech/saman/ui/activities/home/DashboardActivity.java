@@ -1,6 +1,7 @@
 package com.qtech.saman.ui.activities.home;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -47,6 +49,7 @@ import com.qtech.saman.data.model.apis.GetProducts;
 import com.qtech.saman.data.model.apis.UserResponse;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.login.LoginActivity;
+import com.qtech.saman.ui.activities.myaccount.mydetails.MyDetailsActivity;
 import com.qtech.saman.ui.activities.search.SearchActivity;
 import com.qtech.saman.ui.activities.settings.SettingsActivity;
 import com.qtech.saman.ui.fragments.bag.BagFragment;
@@ -106,6 +109,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     int unreadCount = 0;
     boolean isBannerStore = false;
     int isBannerStoreId;
+    private final int REQUEST_UPDATE_DETAIL = 1010;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,11 +136,12 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-//        if (openDetails) {
-//            Intent intent = new Intent(this, MyDetailsActivity.class);
-//            intent.putExtra("ShowAlert", true);
-//            startActivity(intent);
-//        }
+        if (openDetails) {
+            Intent intent = new Intent(this, MyDetailsActivity.class);
+            intent.putExtra("ShowAlert", true);
+            intent.putExtra("Request", true);
+            startActivityForResult(intent, REQUEST_UPDATE_DETAIL);
+        }
 //       updateMessagesCount(3);
     }
 
@@ -181,6 +186,16 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            if (requestCode == REQUEST_UPDATE_DETAIL) {
+                finishAffinity();
+            }
+        }
     }
 
     @OnClick(R.id.toolbar_search)

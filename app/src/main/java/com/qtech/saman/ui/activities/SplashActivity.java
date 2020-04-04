@@ -12,6 +12,7 @@ import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.ApiViewCount;
 import com.qtech.saman.data.model.Country;
+import com.qtech.saman.data.model.User;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.login.LoginActivity;
@@ -82,7 +83,16 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 if (GlobalValues.getUserLoginStatus(SplashActivity.this)) {
                     GlobalValues.setGuestLoginStatus(SplashActivity.this, false);
+                    User user = GlobalValues.getUser(SplashActivity.this);
                     Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
+                    if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getCountry() == null) {
+                        mainIntent.putExtra("NavItem", 0);
+                        mainIntent.putExtra("OpenDetails", true);
+                    } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
+                            || user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
+                        mainIntent.putExtra("NavItem", 0);
+                        mainIntent.putExtra("OpenDetails", true);
+                    }
                     startActivity(mainIntent);
                     finish();
                 } else {

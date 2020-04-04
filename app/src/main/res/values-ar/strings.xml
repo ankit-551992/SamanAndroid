@@ -8,8 +8,10 @@
     <string name="title_bag">السلة</string>
     <string name="title_my_bag">حقيبتي</string>
     <string name="title_settings">الإعدادات</string>
+    <string name="notify">تنبيه</string>
+    <string name="unnotify">إلغاء التنبيه</string>
     <string name="title_my_account">حسابي</string>
-    <string name="cancel_order_of">إلغاء أمر</string>
+    <string name="cancel_order_of">إلغاء طلب</string>
     <string name="hint_validation">لا يمكنك المتابعة، الحد الأدنى للتسوق هو 5 ريالات.</string>
     <string name="title_logout">تسجيل خروج</string>
     <string name="yes">نعم</string>
@@ -119,7 +121,7 @@
     <string name="check_out_email_msg">يرجى التحقق من بريدك الإلكتروني لتأكيد الطلب</string>
     <string name="check_out">تأكيد الطلب</string>
     <string name="check_out_success">تم الطلب بنجاح</string>
-    <string name="order_cancel_msg">بعض المنتجات لا يمكن تغيرها، الرجاء التواصل معنا </string>
+    <string name="order_cancel_msg">بعض المنتجات لا يمكن إلغاءها، الرجاء التواصل معنا</string>
     <string name="order_total">المبلغ</string>
     <string name="checkout_order_total">اجمالي المبلغ</string>
     <string name="order_reference">معلومات الطلب</string>
@@ -139,7 +141,7 @@
     <string name="customer_message">الرسالة</string>
     <string name="customer_reply">الرد</string>
     <string name="customer_reply_msg">لا يوجد أي رد</string>
-    <string name="customer_status">قيد الانتظار</string>
+    <string name="customer_status">قيد التنفيذ</string>
     <string name="customer_Image">الصور</string>
     <string name="Ticket_Status">حالة الخدمة</string>
     <string name="ticket_resolve">حل</string>
@@ -263,7 +265,6 @@
     <!--Product out-of-stock-->
     <string name="out_of_stock_message">هل ترغب في الحصول على إشعار عندما يأتي العنصر في الأوراق المالية؟</string>
     <string name="remove_notify_message">هل متأكد من رغبتك في الغاء خاصية التنبيه؟</string>
-    <string name="out_of_stock_title">هل أنت واثق؟</string>
     <string name="address_msg">هل تود حذف العنوان؟</string>
     <string name="notify_me">اعلمني</string>
 
@@ -433,7 +434,7 @@
     <string name="cart_dummy">Mr. Jesus\n\nMusqat\n\nMusqat\n\nOman\n\n115\n\n77777</string>
 
     <string name="building">بناء</string>
-    <string name="building_floor">أرضية</string>
+    <string name="building_floor">الطابق</string>
     <string name="building_apartment">شقة</string>
 
 
@@ -650,7 +651,6 @@
     محافظة البريمي"-->
 
     <!--place Order dialog-->
-    <string name="order_title">هل أنت واثق؟</string>
     <string name="order_message">هل حقا تريد وضع النظام؟</string>
 
     <!--order cancel successfull-->

@@ -218,7 +218,7 @@ public class CustomerSupportActivity extends BaseActivity {
 
     @OnClick(R.id.button_upload)
     public void upload() {
-        if (orderId == null || orderId.isEmpty() && selectedSubject.equals("") && selectedSubject.isEmpty()) {
+        if ((orderId == null || orderId.isEmpty()) && selectedSubject.equals("") && selectedSubject.isEmpty()) {
             Constants.showAlert(getString(R.string.subject_prompt), "", getString(R.string.okay), CustomerSupportActivity.this);
             return;
         }
@@ -327,6 +327,7 @@ public class CustomerSupportActivity extends BaseActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 dialog.dismiss();
             }
         });

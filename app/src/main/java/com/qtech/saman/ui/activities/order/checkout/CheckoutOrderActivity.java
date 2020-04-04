@@ -45,7 +45,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -136,7 +135,7 @@ public class CheckoutOrderActivity extends BaseActivity {
 
         if (placeOrderResponse.getResult().getOrderStatus() != null) {
             if (!placeOrderResponse.getResult().getOrderStatus().equals("")) {
-                orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
+                //     orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
 //              orderStatus = placeOrderResponse.getResult().getOrderStatus();
             }
         }
@@ -148,7 +147,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         if (placeOrderResponse.getResult().getDeliveryDate() != null) {
             Long dateTimeStamp = Long.parseLong(placeOrderResponse.getResult().getDeliveryDate().replaceAll("\\D", ""));
             Date date = new Date(dateTimeStamp);
-            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy", Locale.ENGLISH);
+            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy");
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted);
         }
@@ -258,7 +257,7 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @OnClick(R.id.button_cancel_order)
     void cancelOrder() {
-        showAlertOrderCancel(getString(R.string.order_title), getString(R.string.order_cancel_msg),
+        showAlertOrderCancel("", getString(R.string.order_cancel_msg),
                 getString(R.string.yes), CheckoutOrderActivity.this);
     }
 
@@ -314,7 +313,9 @@ public class CheckoutOrderActivity extends BaseActivity {
         ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
         Button nextButton = dialog.findViewById(R.id.button_pop_next);
         Button closeButton = dialog.findViewById(R.id.button_close_pop_up);
-
+        if (title.isEmpty()) {
+            titleTextView.setVisibility(View.GONE);
+        }
         nextButton.setText(buttonText);
         closeButton.setText(getString(R.string.no));
 //      titleTextView.setText(context.getString(R.string.error));

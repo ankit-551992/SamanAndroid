@@ -76,13 +76,13 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             ShippingAddress address = shippingAddresses.get(position);
 
             String userAddress = address.getAddressLine1();
-            if (address.getFloor() != null){
+            if (address.getFloor() != null) {
                 userAddress = userAddress + ", " + address.getFloor();
             }
-            if(address.getApt() != null){
+            if (address.getApt() != null) {
                 userAddress = userAddress + ", " + address.getApt();
             }
-            if(address.getAddressLine2() != null){
+            if (address.getAddressLine2() != null) {
                 userAddress = userAddress + ", " + address.getAddressLine2();
             }
             if (address.getCity() != null) {
@@ -133,7 +133,7 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             messageViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopUp(mContext.getString(R.string.out_of_stock_title),
+                    showPopUp("",
                             mContext.getString(R.string.address_msg),
                             mContext.getString(R.string.no),
                             mContext.getString(R.string.yes),
@@ -224,7 +224,9 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
         Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
         TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
         TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
-
+        if (title.isEmpty()) {
+            titleTextView.setVisibility(View.GONE);
+        }
         titleTextView.setText(title);
         messageTextView.setText(message);
         closePopUp.setText(closeButtonText);

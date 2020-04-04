@@ -199,31 +199,37 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 productViewHolder.favoriteImageView, position);
 
                     } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            productViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
-                        } else {
-                            productViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
-                        }
-                        GlobalValues.markFavourite(userID, productArrayList.get(position).getID(), null, 1);
-                        productArrayList.get(position).setFavorite(true);
+                        if (productArrayList.get(position).getQuantity() != 0) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                productViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
+                            } else {
+                                productViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
+                            }
+                            GlobalValues.markFavourite(userID, productArrayList.get(position).getID(), null, 1);
+                            productArrayList.get(position).setFavorite(true);
 
                      /*   showPopUp(mContext.getString(R.string.added_to_fav),
                                 mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
                                 1);*/
-                        if (isHome) {
-                            Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
-                                    mContext.getString(R.string.item_added_message),
-                                    mContext.getString(R.string.continue_shopping),
-                                    mContext.getString(R.string.view_fav),
-                                    1, 1);
+                            if (isHome) {
+                                Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
+                                        mContext.getString(R.string.item_added_message),
+                                        mContext.getString(R.string.continue_shopping),
+                                        mContext.getString(R.string.view_fav),
+                                        1, 1);
+                            } else {
+                                Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
+                                        mContext.getString(R.string.item_added_message),
+                                        mContext.getString(R.string.continue_shopping),
+                                        mContext.getString(R.string.view_fav),
+                                        1, 0);
+                            }
                         } else {
-                            Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
-                                    mContext.getString(R.string.item_added_message),
-                                    mContext.getString(R.string.continue_shopping),
-                                    mContext.getString(R.string.view_fav),
-                                    1, 0);
+                            Constants.showAlert(mContext.getResources().getString(R.string.app_name),
+                                    mContext.getResources().getString(R.string.out_of_stock),
+                                    mContext.getResources().getString(R.string.okay), mContext);
                         }
                     }
                 }

@@ -269,7 +269,7 @@
     <!--Messaging-->
 
     <!--Product out-of-stock-->
-    <string name="out_of_stock_title">Are you sure?</string>
+
     <string name="address_msg">Delete address?</string>
     <string name="notify_me">Notify Me</string>
     <string name="Welcome">Welcome</string>
@@ -544,7 +544,6 @@
     <string name="item_stock_notify">Item back from Out of Stock</string>
 
     <!--notification types -->
-    <string name="order_title">Are you sure?</string>
     <string name="order_message">Do you really want to place order?</string>
     <string name="Order_canceled_msg">Order Cancelled Successfully</string>
     <string name="oman">oman</string>
@@ -569,6 +568,8 @@
     <string name="unsunscribe">Unsubscribed</string>
     <string name="and">&#160;and&#160;</string>
     <string name="please_check_try_agin">Please check you internet connection and try again</string>
+    <string name="notify">Notify</string>
+    <string name="unnotify">UnNotify </string>
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>

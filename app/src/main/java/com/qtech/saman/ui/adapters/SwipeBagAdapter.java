@@ -176,24 +176,31 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         Constants.showLoginDialog(mContext);
                         return;
                     }
-                    authenticatedUser = GlobalValues.getUser(mContext);
-                    Log.e("Values " + position, productArrayList.get(position).getOptionValues());
-                    String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
-                    GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs, Integer.valueOf(bagViewHolder.quantity.getText().toString()));
-                    Product p = productArrayList.get(position);
-                    if (SamanApp.localDB.deleteItemFromCart(p)) {
-                        productArrayList.remove(p);
-                        updateNotify();
-                        ((DashboardActivity) mContext).updateBagCount();
-                    }
-                    bagFragment.updateCount(productArrayList.size());
+                    if (productArrayList.get(position).getQuantity() != 0) {
+                        authenticatedUser = GlobalValues.getUser(mContext);
+                        Log.e("Values " + position, productArrayList.get(position).getOptionValues());
+                        String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
+                        GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs, Integer.valueOf(bagViewHolder.quantity.getText().toString()));
+                        Product p = productArrayList.get(position);
+                        if (SamanApp.localDB.deleteItemFromCart(p)) {
+                            productArrayList.remove(p);
+                            updateNotify();
+                            ((DashboardActivity) mContext).updateBagCount();
+                        }
+                        bagFragment.updateCount(productArrayList.size());
 
-                    Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
-                            mContext.getString(R.string.item_added_message),
-                            mContext.getString(R.string.continue_shopping),
-                            mContext.getString(R.string.view_fav),
-                            1, 0);
-                    mItemManger.closeAllItems();
+                        Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_fav),
+                                1, 0);
+                        mItemManger.closeAllItems();
+                    } else {
+                        Constants.showAlert(
+                                mContext.getResources().getString(R.string.app_name),
+                                mContext.getResources().getString(R.string.out_of_stock),
+                                mContext.getResources().getString(R.string.okay), mContext);
+                    }
                 }
             });
 

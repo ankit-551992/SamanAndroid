@@ -252,6 +252,21 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         startActivityForResult(intent, 1414);
     }
 
+    @Override
+    public void onBackPressed() {
+        User user = GlobalValues.getUser(this);
+        if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getCountry() == null) {
+            setResult(RESULT_CANCELED);
+            finishAffinity();
+        } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
+                || user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
+            setResult(RESULT_CANCELED);
+            finishAffinity();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @OnClick(R.id.iv_pin)
     public void userAddress() {
 //        try {
@@ -416,7 +431,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     }
                 }
                 if (returnedResult.equalsIgnoreCase("oman")) {
-                    GlobalValues.setSelectedRegion(this,"");
+                    GlobalValues.setSelectedRegion(this, "");
                     regionView.setVisibility(View.VISIBLE);
                     regionSelectionLinearLayout.setVisibility(View.VISIBLE);
                 } else {

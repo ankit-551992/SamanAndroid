@@ -188,19 +188,25 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (brandArrayList.get(position).getFavorite()) {
                         showAlert(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure), brandViewHolder.favoriteImageView, position);
                     } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
-                        } else {
-                            brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
-                        }
-                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null, 1);
-                        brandArrayList.get(position).setFavorite(true);
+                        if (brandArrayList.get(position).getQuantity() != 0) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
+                            } else {
+                                brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
+                            }
+                            GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null, 1);
+                            brandArrayList.get(position).setFavorite(true);
 
-                        showPopUp(mContext.getString(R.string.added_to_fav),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_fav),
-                                1);
+                            showPopUp(mContext.getString(R.string.added_to_fav),
+                                    mContext.getString(R.string.item_added_message),
+                                    mContext.getString(R.string.continue_shopping),
+                                    mContext.getString(R.string.view_fav),
+                                    1);
+                        } else {
+                            Constants.showAlert(mContext.getResources().getString(R.string.app_name),
+                                    mContext.getResources().getString(R.string.out_of_stock),
+                                    mContext.getResources().getString(R.string.okay), mContext);
+                        }
                     }
                 }
             });
