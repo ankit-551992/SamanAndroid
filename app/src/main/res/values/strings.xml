@@ -269,7 +269,7 @@
     <!--Messaging-->
 
     <!--Product out-of-stock-->
-
+    <string name="out_of_stock_title">Are you sure?</string>
     <string name="address_msg">Delete address?</string>
     <string name="notify_me">Notify Me</string>
     <string name="Welcome">Welcome</string>
@@ -304,7 +304,7 @@
     <string name="customer_subject">Subject</string>
     <string name="customer_message">Message</string>
     <string name="customer_reply">Reply</string>
-    <string name="customer_reply_msg">No any Reply</string>
+    <string name="customer_reply_msg">No Reply</string>
     <string name="customer_status">Pending</string>
     <string name="customer_Image">Pictures</string>
     <string name="Ticket_Status">Ticket Status</string>
@@ -544,6 +544,7 @@
     <string name="item_stock_notify">Item back from Out of Stock</string>
 
     <!--notification types -->
+    <string name="order_title">Are you sure?</string>
     <string name="order_message">Do you really want to place order?</string>
     <string name="Order_canceled_msg">Order Cancelled Successfully</string>
     <string name="oman">oman</string>

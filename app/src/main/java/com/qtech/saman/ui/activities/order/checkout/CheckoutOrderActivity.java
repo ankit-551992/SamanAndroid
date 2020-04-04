@@ -89,7 +89,7 @@ public class CheckoutOrderActivity extends BaseActivity {
     Dialog dialog;
     EditText editText;
     RatingBar ratingBar;
-    Button sendButton;
+    Button sendButton, cancelButton;
     String orderID;
     int orderItemId, orderStatus, cancel_orderID;
 
@@ -180,7 +180,14 @@ public class CheckoutOrderActivity extends BaseActivity {
         editText = dialog.findViewById(R.id.editText_review);
         ratingBar = dialog.findViewById(R.id.ratting);
         sendButton = dialog.findViewById(R.id.button_feedback);
+        cancelButton = dialog.findViewById(R.id.button_cancel);
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -257,8 +264,14 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @OnClick(R.id.button_cancel_order)
     void cancelOrder() {
-        showAlertOrderCancel("", getString(R.string.order_cancel_msg),
-                getString(R.string.yes), CheckoutOrderActivity.this);
+        if (SamanApp.isEnglishVersion) {
+            showAlertOrderCancel(getString(R.string.order_title), getString(R.string.order_cancel_msg),
+                    getString(R.string.yes), CheckoutOrderActivity.this);
+        } else {
+            showAlertOrderCancel("", getString(R.string.order_cancel_msg),
+                    getString(R.string.yes), CheckoutOrderActivity.this);
+        }
+
     }
 
     private void cancelOrderApi(int orderID, String comment, int orderStatus, int userId) {
@@ -267,7 +280,7 @@ public class CheckoutOrderActivity extends BaseActivity {
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 Log.e("RES00", "---response---" + new Gson().toJson(response));
 //                Constants.showAlert("", getString(R.string.Order_canceled_msg), getString(R.string.okay), CheckoutOrderActivity.this);
-                Constants.showAlertWithActivityFinish("", getString(R.string.Order_canceled_msg), getString(R.string.okay), CheckoutOrderActivity.this);
+//                Constants.showAlertWithActivityFinish(if(SamanApp.isEnglishVersion){getString(R.string.order_title)}else "", getString(R.string.Order_canceled_msg), getString(R.string.okay), CheckoutOrderActivity.this);
             }
 
             @Override

@@ -140,7 +140,7 @@
     <string name="customer_subject">الموضوع</string>
     <string name="customer_message">الرسالة</string>
     <string name="customer_reply">الرد</string>
-    <string name="customer_reply_msg">لا يوجد أي رد</string>
+    <string name="customer_reply_msg">لا يوجد رد</string>
     <string name="customer_status">قيد التنفيذ</string>
     <string name="customer_Image">الصور</string>
     <string name="Ticket_Status">حالة الخدمة</string>

@@ -199,7 +199,7 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 productViewHolder.favoriteImageView, position);
 
                     } else {
-                        if (productArrayList.get(position).getQuantity() != 0) {
+//                        if (productArrayList.get(position).getQuantity() != 0) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 productViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
                             } else {
@@ -226,11 +226,11 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         mContext.getString(R.string.view_fav),
                                         1, 0);
                             }
-                        } else {
-                            Constants.showAlert(mContext.getResources().getString(R.string.app_name),
-                                    mContext.getResources().getString(R.string.out_of_stock),
-                                    mContext.getResources().getString(R.string.okay), mContext);
-                        }
+//                        } else {
+//                            Constants.showAlert(mContext.getResources().getString(R.string.app_name),
+//                                    mContext.getResources().getString(R.string.out_of_stock),
+//                                    mContext.getResources().getString(R.string.okay), mContext);
+//                        }
                     }
                 }
             });

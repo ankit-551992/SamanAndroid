@@ -183,7 +183,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                         mItemManger.closeAllItems();
                     }*/
 
-                    if (productArrayList.get(position).getQuantity() > 0) {
+                    if (productArrayList.get(position).getAvailableQuantity() > 0) {
                         String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
                         getProductDetails(productArrayList.get(position));
                         markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);

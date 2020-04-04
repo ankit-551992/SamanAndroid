@@ -66,11 +66,14 @@ public class ProductsCategoryFragment extends BaseFragment {
             lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
             if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                displayData.add(null);
-                productAdapter.notifyItemInserted(displayData.size() - 1);
-                isLoading = true;
-                currentPage++;
-                getProducts(categoryID, currentPage, pageSize);
+
+                if (categoryID != 1) {
+                    displayData.add(null);
+                    productAdapter.notifyItemInserted(displayData.size() - 1);
+                    isLoading = true;
+                    currentPage++;
+                    getProducts(categoryID, currentPage, pageSize);
+                }
             }
         }
     };

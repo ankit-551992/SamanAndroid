@@ -176,7 +176,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         Constants.showLoginDialog(mContext);
                         return;
                     }
-                    if (productArrayList.get(position).getQuantity() != 0) {
+//                    if (productArrayList.get(position).getQuantity() != 0) {
                         authenticatedUser = GlobalValues.getUser(mContext);
                         Log.e("Values " + position, productArrayList.get(position).getOptionValues());
                         String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
@@ -195,12 +195,12 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                                 mContext.getString(R.string.view_fav),
                                 1, 0);
                         mItemManger.closeAllItems();
-                    } else {
-                        Constants.showAlert(
-                                mContext.getResources().getString(R.string.app_name),
-                                mContext.getResources().getString(R.string.out_of_stock),
-                                mContext.getResources().getString(R.string.okay), mContext);
-                    }
+//                    } else {
+//                        Constants.showAlert(
+//                                mContext.getResources().getString(R.string.app_name),
+//                                mContext.getResources().getString(R.string.out_of_stock),
+//                                mContext.getResources().getString(R.string.okay), mContext);
+//                    }
                 }
             });
 

@@ -26,6 +26,7 @@ import com.qtech.saman.data.model.apis.SimpleSuccess;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.myaccount.addresses.AddShippingAddressActivity;
 import com.qtech.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
+import com.qtech.saman.utils.SamanApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,11 +134,19 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
             messageViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showPopUp("",
-                            mContext.getString(R.string.address_msg),
-                            mContext.getString(R.string.no),
-                            mContext.getString(R.string.yes),
-                            1, position);
+                    if (SamanApp.isEnglishVersion) {
+                        showPopUp(mContext.getString(R.string.out_of_stock_title),
+                                mContext.getString(R.string.address_msg),
+                                mContext.getString(R.string.no),
+                                mContext.getString(R.string.yes),
+                                1, position);
+                    } else {
+                        showPopUp("",
+                                mContext.getString(R.string.address_msg),
+                                mContext.getString(R.string.no),
+                                mContext.getString(R.string.yes),
+                                1, position);
+                    }
                     mItemManger.closeAllItems();
                 }
             });
