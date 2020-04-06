@@ -263,7 +263,7 @@
     <!--Messaging-->
 
     <!--Product out-of-stock-->
-    <string name="out_of_stock_message">هل ترغب في الحصول على إشعار عندما يأتي العنصر في الأوراق المالية؟</string>
+    <string name="out_of_stock_message">هل ترغب في الحصول على اشعار عند توفر المنتج؟</string>
     <string name="remove_notify_message">هل متأكد من رغبتك في الغاء خاصية التنبيه؟</string>
     <string name="address_msg">هل تود حذف العنوان؟</string>
     <string name="notify_me">اعلمني</string>
@@ -381,7 +381,7 @@
     <string name="flavor">نكهة</string>
     <string name="terms_agreed">أنا أوافق على الشروط</string>
     <string name="send">إرسال</string>
-    <string name="no_items_found">لم يتم العثور على العناصر!</string>
+    <string name="no_items_found">لم يتم العثور على متاجر!</string>
     <string name="no_product_found">لم يتم العثور على منتجات</string>
     <string name="no_wishitems_found">لم يتم العثور على منتجات</string>
     <string name="no_items_customer_service">لم يتم العثور على محادثات</string>
@@ -393,7 +393,7 @@
     <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات؟</string>
    <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
     <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
-    <string name="remove_sure">هل ترغب في الحصول على اشعار عند توفر المنتج؟</string>
+    <string name="remove_sure">هل أنت متأكد أنك تريد إزالة هذا العنصر من قائمة الرغبات؟</string>
     <string name="view_fav">عرض قائمة الامنيات</string>
     <string name="yeah">نعم</string>
     <string name="unsunscribe">غير مخدر</string>

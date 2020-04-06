@@ -297,7 +297,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.button_notify)
     public void notifyItem() {
-        if (button_notify.getText().equals(getString(R.string.unsunscribe))) {
+        if (button_notify.getText().equals(getString(R.string.unnotify))) {
             showPopUp("", getString(R.string.remove_notify_message), getString(R.string.no),
                     getString(R.string.yes), 0);
         } else {
