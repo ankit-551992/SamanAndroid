@@ -25,7 +25,7 @@
     <string name="Okay">موافق</string>
     <string name="ud_store">UD Store</string>
     <string name="upload_photos">رفع الصور</string>
-    <string name="write_here">أدخل رسالتك</string>
+    <string name="write_here">إلغاء، إرسال</string>
     <string name="feedback_here">اكتب ملاحظاتك هنا</string>
     <string name="search">البحث</string>
     <string name="search_query">خانة البحث فارغة، الرجاء الكتابة للبحث</string>
@@ -228,7 +228,7 @@
     <string name="change_password_message">الرجاء إدخل رمز الدخل القديم للتأكيد والرمز الجديد لتغير رمز الدخول</string>
     <string name="forgot_password_message">الرجاء إدخل البريد الإلكتروني لتغير رمز الدخول</string>
     <string name="reset_password_message">الرجاء إدخل الرمز المستلم وإدخل رمز الدخول الجديد</string>
-    <string name="old_password">رمز الدخول القديم</string>
+    <string name="old_password">قديم الدخول القديم</string>
     <string name="new_password">رمز الدخول الجديد</string>
     <string name="change">تغير</string>
     <string name="apply">تفعيل</string>
@@ -425,7 +425,7 @@
     <string name="Card_otp_msg">الرجاء استخدام OTP 5548 لإكمال معاملتك مع رمز إنهاء البطاقة 7078. إذا لم تكن قد قمت ببدء هذه الدفعة. أي استفسارات ، يرجى الاتصال بجهة إصدار البطاقة</string>
     <string name="title_activity_scrolling">نشاط التمرير</string>
     <string name="action_settings">الإعدادات</string>
-    <string name="feedback_message">أرسل ملاحظاتك حول هذا الطلب</string>
+    <string name="feedback_message">نسعد بمعرفة تقييمك</string>
     <string name="feedback">ردود الفعل...</string>
 
     <string name="email_hint">example@saman.com</string>

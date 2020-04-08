@@ -17,5 +17,6 @@
     <color name="Color_RoyalBlue">#4169E1</color>
     <color name="order_color">#7FA0FD</color>
     <color name="maroon">#800000</color>
+    <color name="color_link">#0000EE</color>
 
 </resources>
