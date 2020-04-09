@@ -237,7 +237,7 @@ public class WebServicesHandler {
                            int BillingAddressID,
                            int ShippingAddressID,
                            float ShippingTotal,
-                           float TotalPrice,
+                           double TotalPrice,
                            String PaymentType,
                            String discount_couponId,
                            String discount_price,

@@ -89,7 +89,7 @@ public class BagFragment extends BaseFragment {
 
         authenticatedUser = GlobalValues.getUser(getContext());
         if (isOutOfStock) {
-            Constants.showAlert(getResources().getString(R.string.app_name),
+            Constants.showAlert("",
                     getResources().getString(R.string.out_of_stock),
                     getResources().getString(R.string.okay), getContext());
         } else if (grandTotal >= 5 && productArrayList.size() > 0) {

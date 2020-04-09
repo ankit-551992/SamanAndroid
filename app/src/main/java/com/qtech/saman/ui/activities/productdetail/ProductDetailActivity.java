@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
@@ -105,12 +106,22 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     @BindView(R.id.loading)
     RelativeLayout loading;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @BindView(R.id.toolbar_back)
+    ImageView toolbarBack;
     LayoutInflater inflater;
     int currentPage = 0;
     Timer timer;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
     final long PERIOD_MS = 5 * 1000; // time in milliseconds between successive task executions.
 
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
     boolean fromFavorite = false;
 
     String selectedOptions = "";
@@ -129,8 +140,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
-//      setSupportActionBar(toolbar);
-//      getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         authenticatedUser = GlobalValues.getUser(this);
 //        if (getIntent().hasExtra("ProductID1")) {
 //            String productID = getIntent().getStringExtra("ProductID1");
@@ -170,13 +181,14 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         presenter = new ProductPresenter(this);
 
-//        toolbarTitle.setVisibility(View.GONE);
-//        toolbarBack.setVisibility(View.VISIBLE);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
-//        } else {
-//            toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
-//        }
+        toolbarTitle.setVisibility(View.VISIBLE);
+        toolbarTitle.setText(R.string.product_details);
+        toolbarBack.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
+        } else {
+            toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
+        }
         urls = new ArrayList<>();
         customPagerAdapter = new CustomPagerAdapter(this, urls);
         mPager.setAdapter(customPagerAdapter);
@@ -189,10 +201,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         presenter.destroy();
     }
 
-    @OnClick(R.id.toolbar_back)
-    public void back() {
-        super.onBackPressed();
-    }
+
 
     @OnClick(R.id.iv_favorite)
     public void favoriteButton() {
@@ -215,19 +224,19 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     getString(R.string.yes), 1);
         } else {
             // if (!productCount.getText().toString().equalsIgnoreCase("0")) {
-                String[] optionIDs = getOptionsData().split(",");
-                presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
-                product.setFavorite(true);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));
-                } else {
-                    favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
-                }
-                Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.added_to_fav),
-                        getString(R.string.item_added_message),
-                        getString(R.string.continue_shopping),
-                        getString(R.string.view_fav),
-                        1, 0);
+            String[] optionIDs = getOptionsData().split(",");
+            presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
+            product.setFavorite(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));
+            } else {
+                favoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
+            }
+            Constants.showCustomPopUp(ProductDetailActivity.this, getString(R.string.added_to_fav),
+                    getString(R.string.item_added_message),
+                    getString(R.string.continue_shopping),
+                    getString(R.string.view_fav),
+                    1, 0);
 //            } else {
 //                Constants.showAlert(getResources().getString(R.string.app_name),
 //                        getResources().getString(R.string.out_of_stock),
@@ -708,8 +717,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     public void addProductNotifyResponse(SimpleSuccess simpleSuccess) {
         button_notify.setVisibility(View.VISIBLE);
         if (simpleSuccess.getResult().equals(true)) {
+            Constants.showAlert("", getString(R.string.subscribe), getString(R.string.okay), this);
             button_notify.setText(getString(R.string.unnotify));
         } else {
+            Constants.showAlert("", getString(R.string.unsunscribe), getString(R.string.okay), this);
             button_notify.setText(getString(R.string.notify));
         }
     }

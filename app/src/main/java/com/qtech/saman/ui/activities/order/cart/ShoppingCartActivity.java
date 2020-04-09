@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -140,12 +142,12 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     TagsAdapter tagsAdapter;
 
     Country selectedCountry;
-    float price = 0.0f;
-    float subTotal = 0.0f;
+    double price = 0.0f;
+    double subTotal = 0.0f;
     float deliveryCost = 0.0f;
-    float priceToPay;
-    float promoSaved = 0.0f;
-    float promoTotalSaved = 0.0f;
+    double priceToPay;
+    double promoSaved = 0.0f;
+    double promoTotalSaved = 0.0f;
     String couponCode = "";
 
     int addressID = -1;
@@ -243,29 +245,100 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         promoSavedTextView.setVisibility(View.VISIBLE);
         promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + decimalFormat.format(promoTotalSaved) + " " + getString(R.string.OMR));
     }
-
+//    @objc func filterProducts(productIDs:[Int], coupon:Coupon) {
+//        var productsExist = [Int]()
+//        for product in self.products {
+//            let doesExistIn = productIDs.filter { (productID) -> Bool in
+//                return (product.ID == productID)
+//            }
+//            if doesExistIn.count > 0 {
+//                productsExist.append(doesExistIn[0])
+//            }
+//        }
+//        if coupon.DiscountType == 1 {
+//            for product in self.products {
+//                if productsExist.contains(where: { (ID) -> Bool in
+//                    return product.ID == ID
+//                }) == true {
+//                    if !appliedProductsIDs.contains(product.ID!) {
+//                        appliedProductsIDs.append(product.ID!)
+//                        let discount = (product.discountedPrice*Double(product.Quantity!))*coupon.Discount!/100
+//                        overAllDiscount += discount
+//                    }
+//          else {
+//                        isGeneralApplied = true
+//                        self.showAlert(title: "", message: "Coupon already applied on the same product".localized, controller: self)
+//                    }
+//                }
+//            }
+//        }
+//    else {
+//            for product in self.products {
+//                if productsExist.contains(where: { (ID) -> Bool in
+//                    return product.ID == ID
+//                }) == true {
+//                    if !appliedProductsIDs.contains(product.ID!) {
+//                        appliedProductsIDs.append(product.ID!)
+////            overAllDiscount += coupon.Discount!*(Double(product.Quantity!))
+//                        overAllDiscount += coupon.Discount!*Double(productsExist.count)
+//                    }
+//          else {
+//                        isGeneralApplied = true
+//                        self.showAlert(title: "", message: "Coupon already applied on the same product".localized, controller: self)
+//                    }
+//                }
+//            }
+////      overAllDiscount += coupon.Discount!*Double(productsExist.count)
+////      print(overAllDiscount)
+//        }
+//        if overAllDiscount != 0 || overAllDiscount != 0.0 {
+//            isGeneralApplied = true
+//            self.showAlert(title: "Coupon Discount", message: "Your coupon discount is".localized + " " + "\(overAllDiscount.(toPlaces: 3))" + " " + "OMR", controller: self)
+//            self.discountLbl.text = "Discount".localized + " : " + "\(overAllDiscount.rounded(toPlaces: 3).roundToCustomPlaces(toPlacroundToCustomPlaceses: 3))" + " " + "OMR".localized
+//            let lbltext = (self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - overAllDiscount.rounded(toPlaces: 3)).roundToCustomPlaces(toPlaces: 3)
+//            self.priceToPayLbl.text = "Price to Pay".localized + " : " + " \(lbltext)" + " " + "OMR"
+//            self.totalPriceAfterDiscount = self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - (overAllDiscount.rounded(toPlaces: 3))
+//            self.transaction?.amount = "\(self.totalPriceAfterDiscount.roundToCustomPlaces(toPlaces: 3))"
+//            //tags
+//            if productsExist.count > 0 {
+//                self.tagListView.isHidden = false
+//                self.tagListViewHeight.constant = 100
+//                self.deliveryAddressTopY.constant = 112.5
+//                self.tagListView.textFont = UIFont.systemFont(ofSize: 14)
+//                self.tagListView.addTag("\(self.couponNumberTxtF.text ?? "")")
+//                self.couponNumberTxtF.text = ""
+//            }
+//        }
+//    else {
+//            self.showAlert(title: "Coupon Discount", message: "Coupon is not valid", controller: self)
+//        }
+//    }
 
     private void customTextView(TextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(getString(R.string.agreement_order));
+        ForegroundColorSpan foregroundSpan = new ForegroundColorSpan(Color.RED);
         spanTxt.append(getString(R.string.term));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
+                view.setTextColor(ContextCompat.getColor(ShoppingCartActivity.this, R.color.colorPrimary));
                 Intent intent = new Intent(ShoppingCartActivity.this, PoliciesActivity.class);
                 intent.putExtra("type", 1);
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
+//        spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
         spanTxt.append(getString(R.string.and));
         spanTxt.append(getString(R.string.privacy));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
-            public void onClick(View widget) {
+            public void onClick(@NonNull View widget) {
                 Intent intent = new Intent(ShoppingCartActivity.this, PoliciesActivity.class);
                 intent.putExtra("type", 0);
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
+//        spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
         spanTxt.append(" " + getString(R.string.term_message));
         spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
@@ -353,24 +426,190 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         });
     }
 
+
+    //    @objc func checkCouponValidation() {
+//    if couponNumberTxtF.text != "" {
+//      for tagView in tagListView.tagViews {
+//        if tagView.titleLabel?.text == couponNumberTxtF.text {
+//          self.showAlert(title: "", message: "Your coupon is already applied".localized, controller: self)
+//          return
+//        }
+//      }
+//      if isGeneralApplied == true {
+//        self.showAlert(title: "", message: "One coupon can apply at one time".localized, controller: self)
+//        return
+//      }
+//      couponCode = couponNumberTxtF.text ?? ""
+//      SVProgressHUD.show()
+//      let params: Parameters = [
+//        "code":"\(couponNumberTxtF.text!)"
+//      ]
+////      let url = "\(checkCouponDiscount)\(couponNumberTxtF.text!)".toURL()
+//      let url = "\(checkCouponDiscount)".toURL()
+//      Alamofire.request(url!, method: .get, parameters:params).responseJSON { (response) in
+//        //print(response)
+//        SVProgressHUD.dismiss()
+//        if response.result.isSuccess == true{
+//          if let JSON = response.result.value {
+//            if isLogEnable {
+//              print("checkCouponDiscount Response is : \(JSON)")
+//            }
+//            guard let dic = JSON as? [String : Any] else { return }
+//            let success = dic["success"] as? Bool
+//            if success == true {
+//              let allRepresentation = dic["result"] as? [String : Any]
+//              if allRepresentation != nil {
+//                self.coupon = Coupon.init(dic: allRepresentation!)
+//                if self.coupon.CouponType == 1 {
+//                  self.isGeneralApplied = true
+//                  var newPromoAmount = Double()
+//                  for item in self.products {
+//                    if !(self.appliedProductsIDs.contains(item.ID!)) {
+//                      newPromoAmount = newPromoAmount+(item.discountedPrice*Double(item.Quantity!))
+//                    }
+//                  }
+//                  if self.coupon.DiscountType == 1 {
+////                    self.coupon.Discount = (self.totalPriceWithoutDiscount-self.deliveryCost)*self.coupon.Discount!/100
+//                    self.coupon.Discount = (newPromoAmount)*self.coupon.Discount!/100
+//                  }
+//                  self.overAllDiscount += self.coupon.Discount ?? 0
+//                  if self.coupon.Discount == 0 || self.coupon.Discount == 0.0 {
+//                    self.showAlert(title: "Coupon Discount".localized, message: "Coupon is not valid".localized, controller: self)
+//                  }
+//                  else {
+////                    self.showAlert(title: "Coupon Discount", message: "Your coupon discount is \(self.overAllDiscount) OMR", controller: self)
+//                    self.showAlert(title: "Coupon Discount".localized, message: "Your coupon discount is".localized + " " + " \(self.coupon.Discount ?? 0)" + " " + "OMR", controller: self, false)
+//                    self.discountLbl.text = "Discount".localized + " : " + "\(self.overAllDiscount.rounded(toPlaces: 3).roundToCustomPlaces(toPlaces: 3))" + " " + "OMR".localized
+//                    let lbltext = (self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - (self.overAllDiscount.rounded(toPlaces: 3))).roundToCustomPlaces(toPlaces: 3)
+//                    self.priceToPayLbl.text = "Price to Pay".localized + " : " + lbltext + " " + "OMR".localized
+//                    self.totalPriceAfterDiscount = self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - (self.overAllDiscount.rounded(toPlaces: 3))
+//                    self.transaction?.amount = "\(self.totalPriceAfterDiscount.roundToCustomPlaces(toPlaces: 3))"
+//                    //tags
+//                    self.tagListView.isHidden = false
+//                    self.tagListViewHeight.constant = 100
+//                    self.deliveryAddressTopY.constant = 112.5
+////                    tagListView.textFont = UIFont.init(name: "NeoSansArabic", size: 16.0)!
+//                    self.tagListView.textFont = UIFont.systemFont(ofSize: 14)
+////                    tagListView.alignment = .center // possible values are .Left, .Center, and .Right
+//                    self.tagListView.addTag("\(self.couponNumberTxtF.text ?? "")")
+////                    self.tagListView.addTags(["XYZ456", "THIRD", "4TH"])
+////                    tagListView.insertTag("This should be the second tag", at: 1)
+////                    tagListView.setTitle("New Title", at:6) // to replace the title a tag
+////                    tagListView.removeTag("meow") // all tags with title “meow” will be removed
+////                    tagListView.removeAllTags()
+//                  }
+//                  self.couponNumberTxtF.text = ""
+//                }
+//                else {
+//                  self.filterProducts(productIDs: self.coupon.ProductIDs, coupon: self.coupon)
+//                }
+//              }
+//            }
+//            else {
+//              let error = dic["message"] as! String
+//              self.showAlert(title: "", message: "\(error)".localized, controller: self)
+//            }
+//          }
+//        }
+//      }
+//    }
+//    else {
+//      self.showAlert(title: "Coupon", message: "Enter coupon code", controller: self)
+//    }
+//  }
+//  @objc func filterProducts(productIDs:[Int], coupon:Coupon) {
+//    var productsExist = [Int]()
+//    for product in self.products {
+//      let doesExistIn = productIDs.filter { (productID) -> Bool in
+//        return (product.ID == productID)
+//      }
+//      if doesExistIn.count > 0 {
+//        productsExist.append(doesExistIn[0])
+//      }
+//    }
+//    if coupon.DiscountType == 1 {
+//      for product in self.products {
+//        if productsExist.contains(where: { (ID) -> Bool in
+//          return product.ID == ID
+//        }) == true {
+//          if !appliedProductsIDs.contains(product.ID!) {
+//            appliedProductsIDs.append(product.ID!)
+//            let discount = (product.discountedPrice*Double(product.Quantity!))*coupon.Discount!/100
+//            overAllDiscount += discount
+//          }
+//          else {
+//            isGeneralApplied = true
+//            self.showAlert(title: "", message: "Coupon already applied on the same product".localized, controller: self)
+//          }
+//        }
+//      }
+//    }
+//    else {
+//      for product in self.products {
+//        if productsExist.contains(where: { (ID) -> Bool in
+//          return product.ID == ID
+//        }) == true {
+//          if !appliedProductsIDs.contains(product.ID!) {
+//            appliedProductsIDs.append(product.ID!)
+////            overAllDiscount += coupon.Discount!*(Double(product.Quantity!))
+//            overAllDiscount += coupon.Discount!*Double(productsExist.count)
+//          }
+//          else {
+//            isGeneralApplied = true
+//            self.showAlert(title: "", message: "Coupon already applied on the same product".localized, controller: self)
+//          }
+//        }
+//      }
+////      overAllDiscount += coupon.Discount!*Double(productsExist.count)
+////      print(overAllDiscount)
+//    }
+//    if overAllDiscount != 0 || overAllDiscount != 0.0 {
+//      isGeneralApplied = true
+//      self.showAlert(title: "Coupon Discount", message: "Your coupon discount is".localized + " " + "\(overAllDiscount.roundToCustomPlaces(toPlaces: 3))" + " " + "OMR", controller: self)
+//      self.discountLbl.text = "Discount".localized + " : " + "\(overAllDiscount.rounded(toPlaces: 3).roundToCustomPlaces(toPlaces: 3))" + " " + "OMR".localized
+//      let lbltext = (self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - overAllDiscount.rounded(toPlaces: 3)).roundToCustomPlaces(toPlaces: 3)
+//      self.priceToPayLbl.text = "Price to Pay".localized + " : " + " \(lbltext)" + " " + "OMR"
+//      self.totalPriceAfterDiscount = self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - (overAllDiscount.rounded(toPlaces: 3))
+//      self.transaction?.amount = "\(self.totalPriceAfterDiscount.roundToCustomPlaces(toPlaces: 3))"
+//      //tags
+//      if productsExist.count > 0 {
+//        self.tagListView.isHidden = false
+//        self.tagListViewHeight.constant = 100
+//        self.deliveryAddressTopY.constant = 112.5
+//        self.tagListView.textFont = UIFont.systemFont(ofSize: 14)
+//        self.tagListView.addTag("\(self.couponNumberTxtF.text ?? "")")
+//        self.couponNumberTxtF.text = ""
+//      }
+//    }
+//    else {
+//      self.showAlert(title: "Coupon Discount", message: "Coupon is not valid", controller: self)
+//    }
+//  }
     private void setPromoDiscountWithPrice(Coupon coupon) {
-
+        double newPromoAmount = 0;
         for (Product product : bagArrayList) {
-
-
+            if (product.getID().toString().contains(coupon.getProductID().toString())) {
+                newPromoAmount = newPromoAmount + (product.getProductDiscountPrice() * Double.valueOf(product.getQuantity()));
+            }
         }
+
+
+//                    self.coupon.Discount = (newPromoAmount)*self.coupon.Discount!/100
         if (coupon.getDiscountType() == 1) {
             //Percentage
-            float calculateDiscount = subTotal / 100.0f;
-            float dis = calculateDiscount * ((float) coupon.getDiscount());
-            promoSaved = promoSaved + dis;
+            double di = (priceToPay - deliveryCost) * coupon.getDiscount() / 100;
+            di = (newPromoAmount) * di / 100;
+            promoSaved += di;
+//            float calculateDiscount = subTotal / 100.0f;
+//            float dis = calculateDiscount * ((float) coupon.getDiscount());
+//            promoSaved = promoSaved + dis;
         } else if (coupon.getDiscountType() == 2) {
             //Price
             float dis = (float) coupon.getDiscount();
             promoSaved = promoSaved + dis;
         }
         //promoSaved = Math.round(promoSaved);
-        promoSaved = Float.valueOf(decimalFormat.format(promoSaved));
+        promoSaved = Double.parseDouble(decimalFormat.format(promoSaved));
 
         promoSavedTextView.setVisibility(View.VISIBLE);
         promoTotalSaved = promoTotalSaved + promoSaved;
@@ -634,7 +873,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 addressID = data.getExtras().getInt("ID");
                 ShippingAddress shippingAddress = (ShippingAddress) data.getExtras().getSerializable("DATA");
                 Log.e("SHIPPINGADD00", "----shipping--add--" + new Gson().toJson(shippingAddress));
-                setShippingAddress(shippingAddress);
+                if (shippingAddress != null) {
+                    setShippingAddress(shippingAddress);
+                }
             }
         } else if (requestCode == 2019) {
             if (resultCode == RESULT_OK) {
@@ -722,13 +963,12 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             deliveryCost = 1.0f;
                             break;
                         case 2:
-                            deliveryCost = 1.0f;
-                            break;
                         case 3:
-                            deliveryCost = 1.5f;
+                            deliveryCost = 0.5f;
                             break;
                         case 4:
-                            deliveryCost = 1.6f;
+                        case 5:
+                            deliveryCost = 0.4f;
                             break;
                         default:
                             deliveryCost = 2.0f;
@@ -745,12 +985,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             deliveryCost = 1.3f;
                             break;
                         case 2:
-                            deliveryCost = 0.65f;
-                            break;
                         case 3:
                             deliveryCost = 0.65f;
                             break;
                         case 4:
+                        case 5:
                             deliveryCost = 0.55f;
                             break;
                         default:

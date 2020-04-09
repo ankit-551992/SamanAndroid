@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<include-->
-    <!--android:id="@+id/toolbar"-->
-    <!--layout="@layout/toolbar" />-->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <FrameLayout
+        android:layout_below="@id/toolbar"
         android:id="@+id/frame_product_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -38,10 +39,10 @@
             android:tint="@color/white" />
 
         <ImageView
-            android:id="@+id/toolbar_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:visibility="gone"
             android:contentDescription="@string/contentDescription"
             android:src="@drawable/ic_back" />
 
@@ -63,32 +64,32 @@
                 android:layout_marginStart="7dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginTop="10dp"
-               android:layout_marginRight="7dp" >
+                android:layout_marginRight="7dp">
 
-            <TextView
-                android:id="@+id/tv_store_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_store"
-                android:drawableLeft="@drawable/ic_store"
-                android:drawablePadding="10dp"
-                android:gravity="center"
-                android:text="@string/ud_store" />
+                <TextView
+                    android:id="@+id/tv_store_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_store"
+                    android:drawableLeft="@drawable/ic_store"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="@string/ud_store" />
 
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:id="@+id/button_notify"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:background="@drawable/yellow_button"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:text="@string/notify_me"
-                android:textAllCaps="false"
-                android:textColor="#fff"
-                android:textSize="13sp"
-                android:layout_marginEnd="7dp"
-                android:visibility="gone"/>
+                <Button
+                    android:id="@+id/button_notify"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="7dp"
+                    android:background="@drawable/yellow_button"
+                    android:text="@string/notify_me"
+                    android:textAllCaps="false"
+                    android:textColor="#fff"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -144,7 +145,7 @@
                         android:text="60 OMR"
                         android:textColor="@color/grey"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_sale_price"
@@ -200,38 +201,38 @@
 
             </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_display_sale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/ll_display_sale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/tv_display_sale"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:text="8.0 OMR Off"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_display_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:text="8.0 OMR Off"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_sale_link"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:text="TC"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:layout_marginLeft="3dp"
-                android:visibility="visible"/>
+                <TextView
+                    android:id="@+id/tv_sale_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
+                    android:text="TC"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
 
-        </LinearLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

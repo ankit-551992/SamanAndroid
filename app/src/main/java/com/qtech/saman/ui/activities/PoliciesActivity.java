@@ -135,13 +135,13 @@ public class PoliciesActivity extends BaseActivity {
     String privacy = "<p>This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make a purchase from SAMAN MOBILE APP</p>\n" +
             "<p>&nbsp;</p>\n" +
             "<p><strong>PERSONAL INFORMATION WE COLLECT</strong></p>\n" +
-            "<p><br />When you visit the APP, we automatically collect certain information about your device, including information  <span style=\"color: #ff0000;\">about your web browser, IP address, time zone, and some of the cookies that are installed on your device.</span> Additionally, as you browse the APP, we collect information about the individual pages or products that you view, what app or search terms referred you to the Site, and information about how you interact with the application. We refer to this automatically-collected information as &ldquo;Device Information.&rdquo;</p>\n" +
+            "<p><br />When you visit the APP, we automatically collect certain information about your device, including information  <span >about your web browser, IP address, time zone, and some of the cookies that are installed on your device.</span> Additionally, as you browse the APP, we collect information about the individual pages or products that you view, what app or search terms referred you to the Site, and information about how you interact with the application. We refer to this automatically-collected information as &ldquo;Device Information.&rdquo;</p>\n" +
             "<p>&nbsp;</p>\n" +
             "<p>We collect Device Information using the following technologies:</p>\n" +
             "<ul>\n" +
-            "<li><span style=\"color: #ff0000;\">&ldquo;Cookies&rdquo; are data files that are placed on your device or computer and often include an anonymous unique identifier. For more information about cookies, and how to disable cookies, visit</span> <span style=\"color: #0000EE;\"><a style=\"color: #0000EE;\" href=\"http://www.allaboutcookies.org\">http://www.allaboutcookies.org</a></span><span style=\"color: #0000EE;\">.</span>&nbsp; &nbsp;</li>\n" +
-            "<li><span style=\"color: #ff0000;\">&ldquo;Log files&rdquo; track actions occurring on the Site, and collect data including your IP address, browser type, Internet service provider, referring/exit pages, and date/time stamps.</span></li>\n" +
-            "<li><span style=\"color: #ff0000;\">&ldquo;Web beacons,&rdquo; &ldquo;tags,&rdquo; and &ldquo;pixels&rdquo; are electronic files used to record information about how you browse the Site.</span></li>\n" +
+            "<li><span >&ldquo;Cookies&rdquo; are data files that are placed on your device or computer and often include an anonymous unique identifier. For more information about cookies, and how to disable cookies, visit</span> <span style=\"color: #0000EE;\"><a style=\"color: #0000EE;\" href=\"http://www.allaboutcookies.org\">http://www.allaboutcookies.org</a></span><span style=\"color: #0000EE;\">.</span>&nbsp; &nbsp;</li>\n" +
+            "<li><span >&ldquo;Log files&rdquo; track actions occurring on the Site, and collect data including your IP address, browser type, Internet service provider, referring/exit pages, and date/time stamps.</span></li>\n" +
+            "<li><span >&ldquo;Web beacons,&rdquo; &ldquo;tags,&rdquo; and &ldquo;pixels&rdquo; are electronic files used to record information about how you browse the Site.</span></li>\n" +
             "</ul>" +
             "<p><br />Additionally, when you make a purchase or attempt to make a purchase through the application, we collect certain information from you, including your name, billing address, shipping address, payment information (including credit card or debit card numbers, email address, and phone number. We refer to this information as &ldquo;Order Information.&rdquo;</p>\n" +
             "<p><br />When we talk about &ldquo;Personal Information&rdquo; in this Privacy Policy, we are talking both about Device Information and Order Information.</p>\n" +
@@ -197,14 +197,14 @@ public class PoliciesActivity extends BaseActivity {
             "<p><br />Only regular priced items may be refunded, unfortunately sale items cannot be refunded.</p>\n" +
             "<p>&nbsp;</p>\n" +
             "<p><strong>Exchanges (if applicable)</strong></p>\n" +
-            "<p><br />We only replace items if they are defective or damaged. If you need to exchange it for the same item, send us an email at Saman@saman.om and send your item to:  <span style=\"color: #ff0000;\">Muscat, Muscat, MA, 115, Oman.</span></p>\n" +
+            "<p><br />We only replace items if they are defective or damaged. If you need to exchange it for the same item, send us an email at Saman@saman.om and send your item to:  <span >Muscat, Muscat, MA, 115, Oman.</span></p>\n" +
             "<p>&nbsp;</p>\n" +
             "<p><strong>Gifts</strong></p>\n" +
             "<p><br />If the item was marked as a gift when purchased and shipped directly to you, you&rsquo;ll receive a gift credit for the value of your return. Once the returned item is received, a gift certificate will be mailed to you.</p>\n" +
             "<p><br />If the item wasn&rsquo;t marked as a gift when purchased, or the gift giver had the order shipped to themselves to give to you later, we will send a refund to the gift giver and he will find out about your return.</p>\n" +
             "<p>&nbsp;</p>\n" +
             "<p><strong>Shipping</strong></p>\n" +
-            "<p><br />To return your product, you should mail your product to <span style=\"color: #ff0000;\">Muscat, Muscat, MA, 115, Oman.</span></p>\n" +
+            "<p><br />To return your product, you should mail your product to <span >Muscat, Muscat, MA, 115, Oman.</span></p>\n" +
             "<p><br />You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are non-refundable. If you receive a refund, the cost of return shipping will be deducted from your refund.</p>\n" +
             "<p><br />Depending on where you live, the time it may take for your exchanged product to reach you, may vary.</p>\n" +
             "<p><br />If you are shipping an item over 30 OMR, you should consider using a trackable shipping service or purchasing shipping insurance. We don&rsquo;t guarantee that we will receive your returned item.</p>\n" +
