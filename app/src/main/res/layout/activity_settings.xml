@@ -155,7 +155,7 @@
             android:id="@+id/tv_privacy_policy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/privacy"
+            android:text="@string/privacy_policy"
             android:textColor="@color/black" />
 
         <View

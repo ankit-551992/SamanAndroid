@@ -329,7 +329,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
 //        spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
         spanTxt.append(getString(R.string.and));
-        spanTxt.append(getString(R.string.privacy));
+        spanTxt.append(getString(R.string.privacy_policy));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
@@ -337,7 +337,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 intent.putExtra("type", 0);
                 startActivity(intent);
             }
-        }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
+        }, spanTxt.length() - getString(R.string.privacy_policy).length(), spanTxt.length(), 0);
 //        spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
         spanTxt.append(" " + getString(R.string.term_message));
         spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
@@ -586,27 +586,41 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 //    }
 //  }
     private void setPromoDiscountWithPrice(Coupon coupon) {
-        double newPromoAmount = 0;
-        for (Product product : bagArrayList) {
-            if (product.getID().toString().contains(coupon.getProductID().toString())) {
-                newPromoAmount = newPromoAmount + (product.getProductDiscountPrice() * Double.valueOf(product.getQuantity()));
-            }
-        }
 
 
 //                    self.coupon.Discount = (newPromoAmount)*self.coupon.Discount!/100
         if (coupon.getDiscountType() == 1) {
             //Percentage
-            double di = (priceToPay - deliveryCost) * coupon.getDiscount() / 100;
-            di = (newPromoAmount) * di / 100;
-            promoSaved += di;
+            for (Product product : bagArrayList) {
+                double newPromoAmount = 0;
+                for (int i = 0; i < coupon.getProductID().size(); i++) {
+                    if (product.getID().equals(coupon.getProductID().get(i))) {
+                        newPromoAmount += newPromoAmount + (coupon.getDiscount() * Double.valueOf(product.getQuantity()));
+                        float price = product.getPrice() * product.getQuantity();
+                        double di = (price - deliveryCost) * coupon.getDiscount() / 100;
+                        di = (newPromoAmount) * di / 100;
+                        promoSaved = di;
+                    }
+                }
+            }
+
+
 //            float calculateDiscount = subTotal / 100.0f;
 //            float dis = calculateDiscount * ((float) coupon.getDiscount());
 //            promoSaved = promoSaved + dis;
         } else if (coupon.getDiscountType() == 2) {
             //Price
-            float dis = (float) coupon.getDiscount();
-            promoSaved = promoSaved + dis;
+            ArrayList<Integer> exist = new ArrayList<>();
+            for (Product product : bagArrayList) {
+                for (int i = 0; i < coupon.getProductID().size(); i++) {
+                    if (product.getID().equals(coupon.getProductID().get(i))) {
+                        exist.add(product.getID());
+                    }
+                }
+            }
+            promoSaved = coupon.getDiscount() * (double) exist.size();
+//            float dis = (float) coupon.getDiscount();
+//            promoSaved = promoSaved + dis;
         }
         //promoSaved = Math.round(promoSaved);
         promoSaved = Double.parseDouble(decimalFormat.format(promoSaved));

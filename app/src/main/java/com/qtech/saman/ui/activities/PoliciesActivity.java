@@ -226,7 +226,7 @@ public class PoliciesActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         if (type == 0) {
             show = privacy;
-            toolbarTitle.setText(getString(R.string.privacy));
+            toolbarTitle.setText(getString(R.string.privacy_policy));
         } else if (type == 1) {
             show = terms;
             toolbarTitle.setText(getString(R.string.term));

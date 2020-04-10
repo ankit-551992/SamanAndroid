@@ -445,7 +445,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
             setResult(RESULT_OK, data);
             finish();
         } else {
-            Constants.showErrorPopUp(GoogleMapActivity.this, getResources().getString(R.string.select_address), getResources().getString(R.string.map_dialog_msg), getResources().getString(R.string.okay));
+            Constants.showErrorPopUp(GoogleMapActivity.this, "", getResources().getString(R.string.map_dialog_msg), getResources().getString(R.string.okay));
             Log.e("OMAN00", "--please--select----Oman-----");
         }
 
