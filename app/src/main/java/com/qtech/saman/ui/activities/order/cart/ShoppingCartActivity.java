@@ -360,7 +360,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
         boolean isNewPromo = true;
         for (int t = 0; t < tagsList.size(); t++) {
-            if (promoEditText.getText().toString().equalsIgnoreCase(tagsList.get(t))) {
+            if (!promoEditText.getText().toString().isEmpty() && promoEditText.getText().toString().equalsIgnoreCase(tagsList.get(t))) {
                 isNewPromo = false;
                 break;
             }
@@ -408,6 +408,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             setTagData();
                             String msg = getString(R.string.coupon_discount_is_) + " " + decimalFormat.format(promoSaved) + " " + getString(R.string.OMR);
                             Constants.showAlert(getString(R.string.coupon_discount), msg, getString(R.string.Okay), ShoppingCartActivity.this);
+                        } else {
+                            isGeneralApplied = false;
+                            Constants.showAlert(getString(R.string.coupon_discount), getString(R.string.invalid_coupon), getString(R.string.okay), ShoppingCartActivity.this);
                         }
                         discount_couponId = String.valueOf(promoVerify.getResult().getID());
                         discount_price = String.valueOf(promoSaved);
@@ -427,168 +430,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     }
 
 
-    //    @objc func checkCouponValidation() {
-//    if couponNumberTxtF.text != "" {
-//      for tagView in tagListView.tagViews {
-//        if tagView.titleLabel?.text == couponNumberTxtF.text {
-//          self.showAlert(title: "", message: "Your coupon is already applied".localized, controller: self)
-//          return
-//        }
-//      }
-//      if isGeneralApplied == true {
-//        self.showAlert(title: "", message: "One coupon can apply at one time".localized, controller: self)
-//        return
-//      }
-//      couponCode = couponNumberTxtF.text ?? ""
-//      SVProgressHUD.show()
-//      let params: Parameters = [
-//        "code":"\(couponNumberTxtF.text!)"
-//      ]
-////      let url = "\(checkCouponDiscount)\(couponNumberTxtF.text!)".toURL()
-//      let url = "\(checkCouponDiscount)".toURL()
-//      Alamofire.request(url!, method: .get, parameters:params).responseJSON { (response) in
-//        //print(response)
-//        SVProgressHUD.dismiss()
-//        if response.result.isSuccess == true{
-//          if let JSON = response.result.value {
-//            if isLogEnable {
-//              print("checkCouponDiscount Response is : \(JSON)")
-//            }
-//            guard let dic = JSON as? [String : Any] else { return }
-//            let success = dic["success"] as? Bool
-//            if success == true {
-//              let allRepresentation = dic["result"] as? [String : Any]
-//              if allRepresentation != nil {
-//                self.coupon = Coupon.init(dic: allRepresentation!)
-//                if self.coupon.CouponType == 1 {
-//                  self.isGeneralApplied = true
-//                  var newPromoAmount = Double()
-//                  for item in self.products {
-//                    if !(self.appliedProductsIDs.contains(item.ID!)) {
-//                      newPromoAmount = newPromoAmount+(item.discountedPrice*Double(item.Quantity!))
-//                    }
-//                  }
-//                  if self.coupon.DiscountType == 1 {
-////                    self.coupon.Discount = (self.totalPriceWithoutDiscount-self.deliveryCost)*self.coupon.Discount!/100
-//                    self.coupon.Discount = (newPromoAmount)*self.coupon.Discount!/100
-//                  }
-//                  self.overAllDiscount += self.coupon.Discount ?? 0
-//                  if self.coupon.Discount == 0 || self.coupon.Discount == 0.0 {
-//                    self.showAlert(title: "Coupon Discount".localized, message: "Coupon is not valid".localized, controller: self)
-//                  }
-//                  else {
-////                    self.showAlert(title: "Coupon Discount", message: "Your coupon discount is \(self.overAllDiscount) OMR", controller: self)
-//                    self.showAlert(title: "Coupon Discount".localized, message: "Your coupon discount is".localized + " " + " \(self.coupon.Discount ?? 0)" + " " + "OMR", controller: self, false)
-//                    self.discountLbl.text = "Discount".localized + " : " + "\(self.overAllDiscount.rounded(toPlaces: 3).roundToCustomPlaces(toPlaces: 3))" + " " + "OMR".localized
-//                    let lbltext = (self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - (self.overAllDiscount.rounded(toPlaces: 3))).roundToCustomPlaces(toPlaces: 3)
-//                    self.priceToPayLbl.text = "Price to Pay".localized + " : " + lbltext + " " + "OMR".localized
-//                    self.totalPriceAfterDiscount = self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - (self.overAllDiscount.rounded(toPlaces: 3))
-//                    self.transaction?.amount = "\(self.totalPriceAfterDiscount.roundToCustomPlaces(toPlaces: 3))"
-//                    //tags
-//                    self.tagListView.isHidden = false
-//                    self.tagListViewHeight.constant = 100
-//                    self.deliveryAddressTopY.constant = 112.5
-////                    tagListView.textFont = UIFont.init(name: "NeoSansArabic", size: 16.0)!
-//                    self.tagListView.textFont = UIFont.systemFont(ofSize: 14)
-////                    tagListView.alignment = .center // possible values are .Left, .Center, and .Right
-//                    self.tagListView.addTag("\(self.couponNumberTxtF.text ?? "")")
-////                    self.tagListView.addTags(["XYZ456", "THIRD", "4TH"])
-////                    tagListView.insertTag("This should be the second tag", at: 1)
-////                    tagListView.setTitle("New Title", at:6) // to replace the title a tag
-////                    tagListView.removeTag("meow") // all tags with title “meow” will be removed
-////                    tagListView.removeAllTags()
-//                  }
-//                  self.couponNumberTxtF.text = ""
-//                }
-//                else {
-//                  self.filterProducts(productIDs: self.coupon.ProductIDs, coupon: self.coupon)
-//                }
-//              }
-//            }
-//            else {
-//              let error = dic["message"] as! String
-//              self.showAlert(title: "", message: "\(error)".localized, controller: self)
-//            }
-//          }
-//        }
-//      }
-//    }
-//    else {
-//      self.showAlert(title: "Coupon", message: "Enter coupon code", controller: self)
-//    }
-//  }
-//  @objc func filterProducts(productIDs:[Int], coupon:Coupon) {
-//    var productsExist = [Int]()
-//    for product in self.products {
-//      let doesExistIn = productIDs.filter { (productID) -> Bool in
-//        return (product.ID == productID)
-//      }
-//      if doesExistIn.count > 0 {
-//        productsExist.append(doesExistIn[0])
-//      }
-//    }
-//    if coupon.DiscountType == 1 {
-//      for product in self.products {
-//        if productsExist.contains(where: { (ID) -> Bool in
-//          return product.ID == ID
-//        }) == true {
-//          if !appliedProductsIDs.contains(product.ID!) {
-//            appliedProductsIDs.append(product.ID!)
-//            let discount = (product.discountedPrice*Double(product.Quantity!))*coupon.Discount!/100
-//            overAllDiscount += discount
-//          }
-//          else {
-//            isGeneralApplied = true
-//            self.showAlert(title: "", message: "Coupon already applied on the same product".localized, controller: self)
-//          }
-//        }
-//      }
-//    }
-//    else {
-//      for product in self.products {
-//        if productsExist.contains(where: { (ID) -> Bool in
-//          return product.ID == ID
-//        }) == true {
-//          if !appliedProductsIDs.contains(product.ID!) {
-//            appliedProductsIDs.append(product.ID!)
-////            overAllDiscount += coupon.Discount!*(Double(product.Quantity!))
-//            overAllDiscount += coupon.Discount!*Double(productsExist.count)
-//          }
-//          else {
-//            isGeneralApplied = true
-//            self.showAlert(title: "", message: "Coupon already applied on the same product".localized, controller: self)
-//          }
-//        }
-//      }
-////      overAllDiscount += coupon.Discount!*Double(productsExist.count)
-////      print(overAllDiscount)
-//    }
-//    if overAllDiscount != 0 || overAllDiscount != 0.0 {
-//      isGeneralApplied = true
-//      self.showAlert(title: "Coupon Discount", message: "Your coupon discount is".localized + " " + "\(overAllDiscount.roundToCustomPlaces(toPlaces: 3))" + " " + "OMR", controller: self)
-//      self.discountLbl.text = "Discount".localized + " : " + "\(overAllDiscount.rounded(toPlaces: 3).roundToCustomPlaces(toPlaces: 3))" + " " + "OMR".localized
-//      let lbltext = (self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - overAllDiscount.rounded(toPlaces: 3)).roundToCustomPlaces(toPlaces: 3)
-//      self.priceToPayLbl.text = "Price to Pay".localized + " : " + " \(lbltext)" + " " + "OMR"
-//      self.totalPriceAfterDiscount = self.totalPriceWithoutDiscount.rounded(toPlaces: 3) - (overAllDiscount.rounded(toPlaces: 3))
-//      self.transaction?.amount = "\(self.totalPriceAfterDiscount.roundToCustomPlaces(toPlaces: 3))"
-//      //tags
-//      if productsExist.count > 0 {
-//        self.tagListView.isHidden = false
-//        self.tagListViewHeight.constant = 100
-//        self.deliveryAddressTopY.constant = 112.5
-//        self.tagListView.textFont = UIFont.systemFont(ofSize: 14)
-//        self.tagListView.addTag("\(self.couponNumberTxtF.text ?? "")")
-//        self.couponNumberTxtF.text = ""
-//      }
-//    }
-//    else {
-//      self.showAlert(title: "Coupon Discount", message: "Coupon is not valid", controller: self)
-//    }
-//  }
     private void setPromoDiscountWithPrice(Coupon coupon) {
 
-
-//                    self.coupon.Discount = (newPromoAmount)*self.coupon.Discount!/100
         if (coupon.getDiscountType() == 1) {
             //Percentage
             for (Product product : bagArrayList) {
@@ -599,7 +442,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         float price = product.getPrice() * product.getQuantity();
                         double di = (price - deliveryCost) * coupon.getDiscount() / 100;
                         di = (newPromoAmount) * di / 100;
-                        promoSaved = di;
+                        promoSaved += di;
                     }
                 }
             }
@@ -611,14 +454,16 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         } else if (coupon.getDiscountType() == 2) {
             //Price
             ArrayList<Integer> exist = new ArrayList<>();
+            double exist1 = 0;
             for (Product product : bagArrayList) {
                 for (int i = 0; i < coupon.getProductID().size(); i++) {
                     if (product.getID().equals(coupon.getProductID().get(i))) {
                         exist.add(product.getID());
+                        exist1 += product.getQuantity();
                     }
                 }
             }
-            promoSaved = coupon.getDiscount() * (double) exist.size();
+            promoSaved = coupon.getDiscount() * exist1;
 //            float dis = (float) coupon.getDiscount();
 //            promoSaved = promoSaved + dis;
         }
@@ -970,7 +815,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
     private void setShipmentCost() {
         if (SamanApp.localDB != null) {
-            if (userregion.equalsIgnoreCase(getResources().getString(R.string.muscat))) {    // Insideside of Muscat
+            if (userregion.equalsIgnoreCase("Governorate of Muscat") || userregion.equalsIgnoreCase("محافظة مسقط")) {    // Insideside of Muscat
                 if (price < 35) {
                     switch (SamanApp.localDB.getCartAllProductsCounting()) {
                         case 1:

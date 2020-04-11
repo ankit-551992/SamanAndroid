@@ -216,7 +216,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                                 mContext.getString(R.string.yes),
                                 4, position);
                     }
-                    bagFragment.updateCount(productArrayList.size());
+
                     mItemManger.closeAllItems();
                 }
             });
@@ -340,6 +340,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
         bagFragment.updateQuantity();
         grandTotal = 0;
         notifyDataSetChanged();
+        bagFragment.updateCount(productArrayList.size());
     }
 
     class LoadingViewHolder extends RecyclerView.ViewHolder {

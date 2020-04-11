@@ -320,7 +320,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
             }
         }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
         spanTxt.append(" & ");
-        spanTxt.append(getString(R.string.privacy));
+        spanTxt.append(getString(R.string.privacy_policy));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
@@ -328,7 +328,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 intent.putExtra("type", 0);
                 startActivity(intent);
             }
-        }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
+        }, spanTxt.length() - getString(R.string.privacy_policy).length(), spanTxt.length(), 0);
         spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
         view.setText(spanTxt, TextView.BufferType.SPANNABLE);

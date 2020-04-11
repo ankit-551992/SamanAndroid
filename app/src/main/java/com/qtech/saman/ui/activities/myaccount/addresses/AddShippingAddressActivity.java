@@ -159,7 +159,7 @@ public class AddShippingAddressActivity extends BaseActivity {
             }
             if (shippingAddress.getCountry() != null) {
                 countryEditText.setText(shippingAddress.getCountry());
-                if (shippingAddress.getCountry().equalsIgnoreCase(getResources().getString(R.string.oman))) {
+                if (shippingAddress.getCountry().equalsIgnoreCase("oman")) {
                     ll_region.setVisibility(View.VISIBLE);
                     if (shippingAddress.getRegion() != null) {
                         region_name.setText(shippingAddress.getRegion());

@@ -451,6 +451,7 @@
        <!-- <item quantity="one">بند</item>-->
       <!--  <item quantity="many">العناصر</item>-->
     </plurals>
+    <string name="term_of_use">شروط الاستخدام</string>
 
     <plurals name="bag_wish_items">
         <item quantity="zero">الأمنيات</item>

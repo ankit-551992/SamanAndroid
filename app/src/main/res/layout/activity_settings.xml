@@ -169,7 +169,7 @@
             android:id="@+id/tv_terms_of_uses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/term"
+            android:text="@string/term_of_use"
             android:textColor="@color/black" />
 
         <View
