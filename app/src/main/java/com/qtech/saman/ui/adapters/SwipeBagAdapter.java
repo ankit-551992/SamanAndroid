@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -177,24 +178,24 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         return;
                     }
 //                    if (productArrayList.get(position).getQuantity() != 0) {
-                        authenticatedUser = GlobalValues.getUser(mContext);
-                        Log.e("Values " + position, productArrayList.get(position).getOptionValues());
-                        String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
-                        GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs, Integer.valueOf(bagViewHolder.quantity.getText().toString()));
-                        Product p = productArrayList.get(position);
-                        if (SamanApp.localDB.deleteItemFromCart(p)) {
-                            productArrayList.remove(p);
-                            updateNotify();
-                            ((DashboardActivity) mContext).updateBagCount();
-                        }
-                        bagFragment.updateCount(productArrayList.size());
+                    authenticatedUser = GlobalValues.getUser(mContext);
+                    Log.e("Values " + position, productArrayList.get(position).getOptionValues());
+                    String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
+                    GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs, Integer.valueOf(bagViewHolder.quantity.getText().toString()));
+                    Product p = productArrayList.get(position);
+                    if (SamanApp.localDB.deleteItemFromCart(p)) {
+                        productArrayList.remove(p);
+                        updateNotify();
+                        ((DashboardActivity) mContext).updateBagCount();
+                    }
+                    bagFragment.updateCount(productArrayList.size());
 
-                        Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_fav),
-                                1, 0);
-                        mItemManger.closeAllItems();
+                    Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
+                            mContext.getString(R.string.item_added_message),
+                            mContext.getString(R.string.continue_shopping),
+                            mContext.getString(R.string.view_fav),
+                            1, 0);
+                    mItemManger.closeAllItems();
 //                    } else {
 //                        Constants.showAlert(
 //                                mContext.getResources().getString(R.string.app_name),
@@ -297,6 +298,15 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
         @OnClick(R.id.iv_add_quantity)
         void addItem() {
+            boolean isOutOfStock = false;
+            ArrayList<Product> arrayLst = new ArrayList<>();
+            arrayLst = SamanApp.localDB.getCartProducts();
+            for (int i = 0; i < arrayLst.size(); i++) {
+                Product p = arrayLst.get(i);
+                if (p.getID().equals(productArrayList.get(getPosition).getID())) {
+                    //       isOutOfStock = p.getQuantity() + productArrayList.get(getPosition).getUserQuantity() >= productArrayList.get(getPosition).getQuantity();
+                }
+            }
 
             if (productArrayList.get(getPosition).getAvailableQuantity() > productArrayList.get(getPosition).getQuantity()) {
                 SamanApp.localDB.addToCart(

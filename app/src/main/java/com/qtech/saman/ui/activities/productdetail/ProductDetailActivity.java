@@ -121,6 +121,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     public void back() {
         super.onBackPressed();
     }
+
     boolean fromFavorite = false;
 
     String selectedOptions = "";
@@ -201,7 +202,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     }
 
 
-
     @OnClick(R.id.iv_favorite)
     public void favoriteButton() {
         if (GlobalValues.getGuestLoginStatus(ProductDetailActivity.this)) {
@@ -258,7 +258,14 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         }
 
         if (SamanApp.localDB != null) {
-            if (product.getQuantity() != 0) {
+            boolean isOutOfStock = false;
+            for (int i = 0; i < arrayLst.size(); i++) {
+                Product p = arrayLst.get(i);
+                if (p.getID().equals(product.getID())) {
+                    isOutOfStock = p.getQuantity() >= product.getQuantity();
+                }
+            }
+            if (!isOutOfStock) {
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
 //                  outOfStockTextView.setVisibility(View.GONE);
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(),
@@ -345,7 +352,15 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     void addItem() {
         Log.e("PRODCTID", "--getQuantity---" + product.getQuantity());
         int current = Integer.parseInt(productCount.getText().toString());
-        if (product.getQuantity() > current) {
+        int cart = 0;
+
+        for (int i = 0; i < arrayLst.size(); i++) {
+            Product p = arrayLst.get(i);
+            if (p.getID().equals(product.getID())) {
+                cart = p.getQuantity();
+            }
+        }
+        if (product.getQuantity() > current + cart) {
             outOfStockTextView.setVisibility(View.GONE);
             current++;
             productCount.setText(String.valueOf(current));
@@ -434,7 +449,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                 isOutOfStock = p.getQuantity() >= product.getQuantity();
             }
         }
-        if (product.getQuantity() <= 0 /*|| isOutOfStock*/) {
+        if (product.getQuantity() <= 0 || isOutOfStock) {
             //addToCart.setEnabled(false);
             removeQuantity.setEnabled(false);
             addQuantity.setEnabled(false);

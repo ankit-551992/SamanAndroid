@@ -200,32 +200,32 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     } else {
 //                        if (productArrayList.get(position).getQuantity() != 0) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                productViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
-                            } else {
-                                productViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
-                            }
-                            GlobalValues.markFavourite(userID, productArrayList.get(position).getID(), null, 1);
-                            productArrayList.get(position).setFavorite(true);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            productViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
+                        } else {
+                            productViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
+                        }
+                        GlobalValues.markFavourite(userID, productArrayList.get(position).getID(), null, 1);
+                        productArrayList.get(position).setFavorite(true);
 
                      /*   showPopUp(mContext.getString(R.string.added_to_fav),
                                 mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
                                 mContext.getString(R.string.view_fav),
                                 1);*/
-                            if (isHome) {
-                                Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
-                                        mContext.getString(R.string.item_added_message),
-                                        mContext.getString(R.string.continue_shopping),
-                                        mContext.getString(R.string.view_fav),
-                                        1, 1);
-                            } else {
-                                Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
-                                        mContext.getString(R.string.item_added_message),
-                                        mContext.getString(R.string.continue_shopping),
-                                        mContext.getString(R.string.view_fav),
-                                        1, 0);
-                            }
+                        if (isHome) {
+                            Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
+                                    mContext.getString(R.string.item_added_message),
+                                    mContext.getString(R.string.continue_shopping),
+                                    mContext.getString(R.string.view_fav),
+                                    1, 1);
+                        } else {
+                            Constants.showCustomPopUp(mContext, mContext.getString(R.string.added_to_fav),
+                                    mContext.getString(R.string.item_added_message),
+                                    mContext.getString(R.string.continue_shopping),
+                                    mContext.getString(R.string.view_fav),
+                                    1, 0);
+                        }
 //                        } else {
 //                            Constants.showAlert(mContext.getResources().getString(R.string.app_name),
 //                                    mContext.getResources().getString(R.string.out_of_stock),
@@ -289,7 +289,16 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             cartProduct = getProduct.getProduct();
                             Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (cartProduct.getQuantity() != 0) {
+                                boolean isOutOfStock = false;
+                                ArrayList<Product> arrayLst = new ArrayList<>();
+                                arrayLst = SamanApp.localDB.getCartProducts();
+                                for (int i = 0; i < arrayLst.size(); i++) {
+                                    Product p = arrayLst.get(i);
+                                    if (p.getID().equals(cartProduct.getID())) {
+                                        isOutOfStock = p.getQuantity() >= cartProduct.getQuantity();
+                                    }
+                                }
+                                if (!isOutOfStock) {
                                     if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1, product_discount)) {
 
                                         if (isHome) {

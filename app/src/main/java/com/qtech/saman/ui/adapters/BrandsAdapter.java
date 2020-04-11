@@ -37,6 +37,7 @@ import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -189,19 +190,19 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         showAlert(mContext.getString(R.string.ask_remove_from_fav), mContext.getString(R.string.remove_sure), brandViewHolder.favoriteImageView, position);
                     } else {
 //                        if (brandArrayList.get(position).getQuantity() != 0) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
-                            } else {
-                                brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
-                            }
-                            GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null, 1);
-                            brandArrayList.get(position).setFavorite(true);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            brandViewHolder.favoriteImageView.setImageDrawable(mContext.getDrawable(R.drawable.fav));
+                        } else {
+                            brandViewHolder.favoriteImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav));
+                        }
+                        GlobalValues.markFavourite(userID, brandArrayList.get(position).getID(), null, 1);
+                        brandArrayList.get(position).setFavorite(true);
 
-                            showPopUp(mContext.getString(R.string.added_to_fav),
-                                    mContext.getString(R.string.item_added_message),
-                                    mContext.getString(R.string.continue_shopping),
-                                    mContext.getString(R.string.view_fav),
-                                    1);
+                        showPopUp(mContext.getString(R.string.added_to_fav),
+                                mContext.getString(R.string.item_added_message),
+                                mContext.getString(R.string.continue_shopping),
+                                mContext.getString(R.string.view_fav),
+                                1);
 //                        } else {
 //                            Constants.showAlert(mContext.getResources().getString(R.string.app_name),
 //                                    mContext.getResources().getString(R.string.out_of_stock),
@@ -331,7 +332,16 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             Log.e("DefaultOptions", getOptionsData());
                             Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
-                                if (cartProduct.getQuantity() != 0) {
+                                boolean isOutOfStock = false;
+                                ArrayList<Product> arrayLst = new ArrayList<>();
+                                arrayLst = SamanApp.localDB.getCartProducts();
+                                for (int i = 0; i < arrayLst.size(); i++) {
+                                    Product p = arrayLst.get(i);
+                                    if (p.getID().equals(cartProduct.getID())) {
+                                        isOutOfStock = p.getQuantity() >= cartProduct.getQuantity();
+                                    }
+                                }
+                                if (!isOutOfStock) {
                                     if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1, 0.0f)) {
                                         showPopUp(mContext.getString(R.string.item_added_bag),
                                                 mContext.getString(R.string.item_added_message),

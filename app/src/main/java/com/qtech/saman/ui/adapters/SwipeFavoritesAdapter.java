@@ -182,8 +182,18 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                                 mContext);
                         mItemManger.closeAllItems();
                     }*/
-
-                    if (productArrayList.get(position).getAvailableQuantity() > 0) {
+                    boolean isOutOfStock = false;
+                    if (SamanApp.localDB != null) {
+                        ArrayList<Product> arrayLst = new ArrayList<>();
+                        arrayLst = SamanApp.localDB.getCartProducts();
+                        for (int i = 0; i < arrayLst.size(); i++) {
+                            Product p = arrayLst.get(i);
+                            if (p.getID().equals(productArrayList.get(position).getID())) {
+                                isOutOfStock = p.getQuantity() + productArrayList.get(position).getUserQuantity() > productArrayList.get(position).getQuantity();
+                            }
+                        }
+                    }
+                    if (!isOutOfStock) {
                         String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
                         getProductDetails(productArrayList.get(position));
                         markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
@@ -375,8 +385,8 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     private void getProductDetails(Product product1) {
         cartProduct = product1;
         Log.e("DefaultOptions", getOptionsData());
-
         if (SamanApp.localDB != null) {
+
             if (cartProduct.getQuantity() != 0) {
                 if (cartProduct.getQuantity() >= product1.getUserQuantity()) {
                     if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), product1.getUserQuantity(), product1.getProductDiscountPrice())) {
