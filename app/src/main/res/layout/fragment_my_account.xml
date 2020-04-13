@@ -19,7 +19,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/contentDescription"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_account_img" />
+            android:src="@drawable/ic_ban" />
 
         <ImageView
             android:id="@+id/iv_profile"
