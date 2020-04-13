@@ -44,7 +44,7 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.RowVie
         Log.e("ORDERLIST00", "-orderTrackArrayList---" + orderTrackArrayList.toString());
 
         if (SamanApp.isEnglishVersion) {
-            if (orderTrack.getComment() != null && !orderTrack.getComment().isEmpty()) {
+            if (orderTrack.getComment() != null && orderTrack.getComment() != null && !orderTrack.getComment().isEmpty()) {
                 holder.messageTextView.setText(orderTrack.getComment());
             } else {
                 holder.messageTextView.setVisibility(View.GONE);
@@ -52,7 +52,7 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.RowVie
             holder.statusTextView.setText(orderTrack.getProductName() + " - " + getStatus(orderTrack.getStatus()));
 
         } else {
-            if (orderTrack.getComment() != null && !orderTrack.getCommentAR().isEmpty()) {
+            if (orderTrack.getComment() != null && orderTrack.getCommentAR() != null && !orderTrack.getCommentAR().isEmpty()) {
                 holder.messageTextView.setText(orderTrack.getCommentAR());
             } else {
                 holder.messageTextView.setVisibility(View.GONE);

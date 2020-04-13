@@ -187,6 +187,7 @@
                 android:layout_height="0.1dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:visibility="gone"
                 android:background="@color/light_grey" />
             <LinearLayout
                 android:visibility="gone"

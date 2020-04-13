@@ -434,19 +434,41 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
         if (coupon.getDiscountType() == 1) {
             //Percentage
-            for (Product product : bagArrayList) {
-                double newPromoAmount = 0;
-                for (int i = 0; i < coupon.getProductID().size(); i++) {
+
+
+            double newPromoAmount = 0;
+            for (int i = 0; i < coupon.getProductID().size(); i++) {
+                for (Product product : bagArrayList) {
                     if (product.getID().equals(coupon.getProductID().get(i))) {
-                        newPromoAmount += newPromoAmount + (coupon.getDiscount() * Double.valueOf(product.getQuantity()));
-                        float price = product.getPrice() * product.getQuantity();
-                        double di = (price - deliveryCost) * coupon.getDiscount() / 100;
-                        di = (newPromoAmount) * di / 100;
-                        promoSaved += di;
+                        float price = 0;
+//                        newPromoAmount += newPromoAmount + (coupon.getDiscount() * Double.valueOf(product.getQuantity()));
+                        if (product.getIsSaleProduct().equals("true")) {
+                            if (product.getSaleDiscountedType().equals("1")) {
+                                product.setProductDiscountPrice(product.getSalePrice());
+                                price = product.getPrice() - product.getSalePrice();
+                            } else if (product.getSaleDiscountedType().equals("2")) {
+                                float calculateDiscount = product.getPrice() / 100.0f;
+                                float dis = calculateDiscount * product.getSalePrice();
+                                product.setProductDiscountPrice(dis);
+                                price = product.getPrice() - dis;
+                            } else {
+                                price = product.getPrice();
+                            }
+                        } else {
+                            price = product.getPrice();
+                        }
+                        price = price * product.getQuantity();
+//                        double di = (price - deliveryCost) * coupon.getDiscount() / 100;
+                        promoSaved += (price * coupon.getDiscount()) / 100;
                     }
                 }
             }
-
+            for (Product product : bagArrayList) {
+                if (!coupon.getProductID().contains(product.getID())) {
+                    promoSaved = 0;
+                }
+                Log.i("==========jeel====", "setPromoDiscountWithPrice: " + !coupon.getProductID().contains(product.getID()));
+            }
 
 //            float calculateDiscount = subTotal / 100.0f;
 //            float dis = calculateDiscount * ((float) coupon.getDiscount());
@@ -455,15 +477,21 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             //Price
             ArrayList<Integer> exist = new ArrayList<>();
             double exist1 = 0;
-            for (Product product : bagArrayList) {
-                for (int i = 0; i < coupon.getProductID().size(); i++) {
+
+            for (int i = 0; i < coupon.getProductID().size(); i++) {
+                for (Product product : bagArrayList) {
                     if (product.getID().equals(coupon.getProductID().get(i))) {
                         exist.add(product.getID());
-                        exist1 += product.getQuantity();
                     }
                 }
             }
-            promoSaved = coupon.getDiscount() * exist1;
+            promoSaved = coupon.getDiscount() * exist.size();
+            for (Product product : bagArrayList) {
+                if (!coupon.getProductID().contains(product.getID())) {
+                    promoSaved = 0;
+                }
+                Log.i("==========jeel====", "setPromoDiscountWithPrice: " + !coupon.getProductID().contains(product.getID()));
+            }
 //            float dis = (float) coupon.getDiscount();
 //            promoSaved = promoSaved + dis;
         }

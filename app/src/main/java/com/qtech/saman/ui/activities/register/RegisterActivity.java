@@ -310,7 +310,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
     private void customTextView(TextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(
                 getString(R.string.sign_up_agreement));
-        spanTxt.append(getString(R.string.term));
+        spanTxt.append(getString(R.string.term_of_use));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
@@ -318,7 +318,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                 intent.putExtra("type", 1);
                 startActivity(intent);
             }
-        }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
+        }, spanTxt.length() - getString(R.string.term_of_use).length(), spanTxt.length(), 0);
         spanTxt.append(" & ");
         spanTxt.append(getString(R.string.privacy_policy));
         spanTxt.setSpan(new ClickableSpan() {

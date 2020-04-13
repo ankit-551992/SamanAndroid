@@ -229,7 +229,7 @@ public class PoliciesActivity extends BaseActivity {
             toolbarTitle.setText(getString(R.string.privacy_policy));
         } else if (type == 1) {
             show = terms;
-            toolbarTitle.setText(getString(R.string.term));
+            toolbarTitle.setText(getString(R.string.term_of_use));
         } else if (type == 2) {
             show = returnPolicy;
             toolbarTitle.setText(getString(R.string.return_policy));
