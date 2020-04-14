@@ -316,7 +316,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
     private void customTextView(TextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(getString(R.string.agreement_order));
-        ForegroundColorSpan foregroundSpan = new ForegroundColorSpan(Color.RED);
+        ForegroundColorSpan foregroundSpan = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary));
+        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
         spanTxt.append(getString(R.string.term));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
@@ -327,8 +328,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
-//        spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
+        spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
         spanTxt.append(getString(R.string.and));
+        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), spanTxt.length() - getString(R.string.and).length(), spanTxt.length(), 0);
         spanTxt.append(getString(R.string.privacy_policy));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
@@ -338,9 +340,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 startActivity(intent);
             }
         }, spanTxt.length() - getString(R.string.privacy_policy).length(), spanTxt.length(), 0);
-//        spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
+        spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
         spanTxt.append(" " + getString(R.string.term_message));
-        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), 0, spanTxt.length(), 0);
+        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), spanTxt.length() - getString(R.string.term_message).length(), spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
         view.setText(spanTxt, TextView.BufferType.SPANNABLE);
     }
@@ -395,13 +397,13 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         if (promoVerify.getResult().getCouponType() == 1) {
                             if (!isGeneralApplied) {
                                 isGeneralApplied = true;
-                                setPromoDiscountWithPrice(promoVerify.getResult());
+                                setPromoDiscountWithPrice(promoVerify.getResult(), 1);
                             } else {
                                 Constants.showAlert("", getString(R.string.already_apply),
                                         getString(R.string.close), ShoppingCartActivity.this);
                             }
                         } else {
-                            setPromoDiscountWithPrice(promoVerify.getResult());
+                            setPromoDiscountWithPrice(promoVerify.getResult(), 2);
                         }
                         if (promoSaved > 0) {
                             tagsList.add(promoEditText.getText().toString());
@@ -430,71 +432,82 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     }
 
 
-    private void setPromoDiscountWithPrice(Coupon coupon) {
+    private void setPromoDiscountWithPrice(Coupon coupon, int type) {
 
-        if (coupon.getDiscountType() == 1) {
-            //Percentage
+        if (type == 2) {
+            if (coupon.getDiscountType() == 1) {
+                //Percentage
 
 
-            double newPromoAmount = 0;
-            for (int i = 0; i < coupon.getProductID().size(); i++) {
-                for (Product product : bagArrayList) {
-                    if (product.getID().equals(coupon.getProductID().get(i))) {
-                        float price = 0;
+                double newPromoAmount = 0;
+                for (int i = 0; i < coupon.getProductID().size(); i++) {
+                    for (Product product : bagArrayList) {
+                        if (product.getID().equals(coupon.getProductID().get(i))) {
+                            float price = 0;
 //                        newPromoAmount += newPromoAmount + (coupon.getDiscount() * Double.valueOf(product.getQuantity()));
-                        if (product.getIsSaleProduct().equals("true")) {
-                            if (product.getSaleDiscountedType().equals("1")) {
-                                product.setProductDiscountPrice(product.getSalePrice());
-                                price = product.getPrice() - product.getSalePrice();
-                            } else if (product.getSaleDiscountedType().equals("2")) {
-                                float calculateDiscount = product.getPrice() / 100.0f;
-                                float dis = calculateDiscount * product.getSalePrice();
-                                product.setProductDiscountPrice(dis);
-                                price = product.getPrice() - dis;
+                            if (product.getIsSaleProduct().equals("true")) {
+                                if (product.getSaleDiscountedType().equals("1")) {
+                                    product.setProductDiscountPrice(product.getSalePrice());
+                                    price = product.getPrice() - product.getSalePrice();
+                                } else if (product.getSaleDiscountedType().equals("2")) {
+                                    float calculateDiscount = product.getPrice() / 100.0f;
+                                    float dis = calculateDiscount * product.getSalePrice();
+                                    product.setProductDiscountPrice(dis);
+                                    price = product.getPrice() - dis;
+                                } else {
+                                    price = product.getPrice();
+                                }
                             } else {
                                 price = product.getPrice();
                             }
-                        } else {
-                            price = product.getPrice();
-                        }
-                        price = price * product.getQuantity();
+                            price = price * product.getQuantity();
 //                        double di = (price - deliveryCost) * coupon.getDiscount() / 100;
-                        promoSaved += (price * coupon.getDiscount()) / 100;
+                            promoSaved += (price * coupon.getDiscount()) / 100;
+                        }
                     }
                 }
-            }
-            for (Product product : bagArrayList) {
-                if (!coupon.getProductID().contains(product.getID())) {
-                    promoSaved = 0;
-                }
-                Log.i("==========jeel====", "setPromoDiscountWithPrice: " + !coupon.getProductID().contains(product.getID()));
-            }
-
-//            float calculateDiscount = subTotal / 100.0f;
-//            float dis = calculateDiscount * ((float) coupon.getDiscount());
-//            promoSaved = promoSaved + dis;
-        } else if (coupon.getDiscountType() == 2) {
-            //Price
-            ArrayList<Integer> exist = new ArrayList<>();
-            double exist1 = 0;
-
-            for (int i = 0; i < coupon.getProductID().size(); i++) {
                 for (Product product : bagArrayList) {
-                    if (product.getID().equals(coupon.getProductID().get(i))) {
-                        exist.add(product.getID());
+                    if (!coupon.getProductID().contains(product.getID())) {
+                        promoSaved = 0;
+                    }
+                    Log.i("==========jeel====", "setPromoDiscountWithPrice: " + !coupon.getProductID().contains(product.getID()));
+                }
+
+
+            } else if (coupon.getDiscountType() == 2) {
+                //Price
+                ArrayList<Integer> exist = new ArrayList<>();
+                double exist1 = 0;
+
+                for (int i = 0; i < coupon.getProductID().size(); i++) {
+                    for (Product product : bagArrayList) {
+                        if (product.getID().equals(coupon.getProductID().get(i))) {
+                            exist.add(product.getID());
+                        }
                     }
                 }
-            }
-            promoSaved = coupon.getDiscount() * exist.size();
-            for (Product product : bagArrayList) {
-                if (!coupon.getProductID().contains(product.getID())) {
-                    promoSaved = 0;
+                promoSaved = coupon.getDiscount() * exist.size();
+                for (Product product : bagArrayList) {
+                    if (!coupon.getProductID().contains(product.getID())) {
+                        promoSaved = 0;
+                    }
+                    Log.i("==========jeel====", "setPromoDiscountWithPrice: " + !coupon.getProductID().contains(product.getID()));
                 }
-                Log.i("==========jeel====", "setPromoDiscountWithPrice: " + !coupon.getProductID().contains(product.getID()));
+
             }
-//            float dis = (float) coupon.getDiscount();
-//            promoSaved = promoSaved + dis;
+        } else {
+            if (coupon.getDiscountType() == 1) {
+                //Percentage
+                double calculateDiscount = subTotal / 100.0f;
+                double dis = calculateDiscount * ((float) coupon.getDiscount());
+                promoSaved = promoSaved + dis;
+            } else if (coupon.getDiscountType() == 2) {
+                float dis = (float) coupon.getDiscount();
+                promoSaved = promoSaved + dis;
+            }
+
         }
+
         //promoSaved = Math.round(promoSaved);
         promoSaved = Double.parseDouble(decimalFormat.format(promoSaved));
 

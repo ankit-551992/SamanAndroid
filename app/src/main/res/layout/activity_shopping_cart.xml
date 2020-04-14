@@ -413,6 +413,7 @@
                 android:layout_gravity="center"
                 android:textColorLink="@color/colorPrimary"
                 android:textColor="@color/black"
+                android:lineSpacingExtra="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="20dp"
