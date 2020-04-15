@@ -520,7 +520,7 @@
           android:layout_height="wrap_content"
           android:layout_marginTop="20dp"
           android:gravity="center"
-          android:lineSpacingMultiplier="1.2"
+          android:lineSpacingExtra="4dp"
           android:text="@string/sign_up_agreement"
           android:textColor="@color/grey" />
 

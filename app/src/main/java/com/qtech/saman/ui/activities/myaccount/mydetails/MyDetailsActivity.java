@@ -45,7 +45,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -230,7 +229,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         long datetimestamp = Long.parseLong(authenticatedUser.getDateOfBirth().replaceAll("\\D", ""));
         if (datetimestamp < Calendar.getInstance().getTimeInMillis()) {
             Date date = new Date(datetimestamp);
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             String dateFormatted = formatter.format(date);
             String[] sepDate = dateFormatted.split("/");
             if (!isAfterToday(Integer.parseInt(sepDate[0]), Integer.parseInt(sepDate[1]), Integer.parseInt(sepDate[2]))) {
@@ -346,7 +345,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
 
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         String dateSelected = sdf.format(myCalendar.getTime());
         String sepDate[] = dateSelected.split("/");
         dayEditText.setText(sepDate[0]);

@@ -51,6 +51,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         ButterKnife.bind(this, view);
+        GlobalValues.isFromHome = false;
         authenticatedUser = GlobalValues.getUser(getContext());
         layoutManager = new LinearLayoutManager(getActivity());
         favoritesRecyclerView.setLayoutManager(layoutManager);

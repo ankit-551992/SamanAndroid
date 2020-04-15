@@ -83,6 +83,7 @@ public class StoreFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_store, container, false);
+        GlobalValues.isFromHome = false;
         ButterKnife.bind(this, view);
         readBundle(getArguments());
         tab();

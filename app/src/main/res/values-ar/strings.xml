@@ -126,11 +126,12 @@
     <string name="checkout_order_total">اجمالي المبلغ</string>
     <string name="order_reference">معلومات الطلب</string>
     <string name="order_status">حالة الطلب</string>
-    <string name="checkout_order_status"> قيد التنفيذ</string>
+    <string name="checkout_order_status">حالة الطلب</string>
     <string name="delivery_date">تاريخ التوصيل</string>
     <string name="return_policy"><u>سياسة الإسترجاع</u></string>
     <string name="received">تم الاستلام</string>
     <string name="Cancel_order_before_24h">إلغاء الطلب (24 ساعة)</string>
+    <string name="out_of_stock_bag">هناك انخفاض في المخزون، الرجاء تعديل العدد</string>
     <string name="off">إيقاف</string>
     <!--Checkout-->
 
@@ -157,7 +158,7 @@
     <!--Bag-->
     <string name="subtotal">المجموع : </string>
     <string name="VAT">الضرائب  : </string>
-   <!-- <string name="total">المجموع: </string>-->
+    <!-- <string name="total">المجموع: </string>-->
     <string name="total">الإجمالي:</string>
     <string name="proceed">الدفع</string>
     <string name="order_date">التاريخ</string>
@@ -391,7 +392,7 @@
     <string name="app_language">تم تغيير لغة التطبيق بنجاح ، يرجى إغلاق التطبيق وإعادة فتحه مرة أخرى</string>
     <string name="added_to_fav">تمت إضافة المنتج إلى قائمة أمنياتك</string>
     <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات؟</string>
-   <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
+    <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
     <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
     <string name="remove_sure">هل أنت متأكد أنك تريد إزالة هذا العنصر من قائمة الرغبات؟</string>
     <string name="view_fav">عرض قائمة الامنيات</string>
@@ -448,8 +449,8 @@
         <item quantity="few">منتجات</item>
         <item quantity="two">منتجات</item>
         <item quantity="many">منتجات</item>
-       <!-- <item quantity="one">بند</item>-->
-      <!--  <item quantity="many">العناصر</item>-->
+        <!-- <item quantity="one">بند</item>-->
+        <!--  <item quantity="many">العناصر</item>-->
     </plurals>
     <string name="term_of_use">شروط الاستخدام</string>
 

@@ -517,6 +517,7 @@
     <string name="verification_code_required">Verification Code Required</string>
     <string name="number_verification_required">Please Verify Number.</string>
     <string name="out_of_stock">Product out of stock</string>
+    <string name="out_of_stock_bag">Product out of stock</string>
     <string name="out_of_stock_">Out of stock</string>
     <string name="items_available_count">Only %1$d available in stock</string>
     <string name="region_required">Region required</string>

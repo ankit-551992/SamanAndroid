@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +51,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
         Long datetimestamp = Long.parseLong(orderHistory.getCreatedAt().replaceAll("\\D", ""));
         Date date = new Date(datetimestamp);
 //        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy G 'at' HH:mm:ss z");
-        DateFormat formatter = new SimpleDateFormat("EEE, d MMM, yyyy 'at' hh:mm a", Locale.ENGLISH);
+        DateFormat formatter = new SimpleDateFormat("EEE, d MMM, yyyy 'at' hh:mm a");
         String dateFormatted = formatter.format(date);
         holder.dateTextView.setText(dateFormatted.toString());
         holder.orderNUmberTextView.setText(orderHistory.getOrderNumber());

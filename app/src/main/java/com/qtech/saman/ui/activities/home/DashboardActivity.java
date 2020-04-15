@@ -149,7 +149,11 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
     protected void onResume() {
         super.onResume();
         if (GlobalValues.orderPlaced) {
-            onNavigationItemSelected(navigationView.getMenu().getItem(1));
+            if (GlobalValues.isFromHome) {
+                onNavigationItemSelected(navigationView.getMenu().getItem(0));
+            } else {
+                onNavigationItemSelected(navigationView.getMenu().getItem(1));
+            }
             GlobalValues.orderPlaced = false;
         }
         authenticatedUser = GlobalValues.getUser(this);

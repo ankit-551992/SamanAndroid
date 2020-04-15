@@ -17,7 +17,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +62,7 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.RowVie
         Long dateTimeStamp = Long.parseLong(orderTrack.getDate().replaceAll("\\D", ""));
 //        Long dateTimeStamp = Long.parseLong("1548406244312");
         Date date = new Date(dateTimeStamp);
-        DateFormat formatter = new SimpleDateFormat("EEE, d MMM, yyyy 'at' hh:mm a", Locale.ENGLISH);
+        DateFormat formatter = new SimpleDateFormat("EEE, d MMM, yyyy 'at' hh:mm a");
         String dateFormatted = formatter.format(date);
         holder.dateTextView.setText(dateFormatted.toString());
         holder.statusTextView.setText(getStatus(orderTrack.getStatus()) + " - " + dateFormatted.toString());

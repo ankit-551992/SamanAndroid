@@ -37,6 +37,7 @@ public class GlobalValues {
     public static int favCount = 0;
 
     public static boolean orderPlaced = false;
+    public static boolean isFromHome = false;
 
     public static String order_notify = "ORDER_NOTIFY";
     public static String msg_notify = "MESSAGE_NOTIFY";

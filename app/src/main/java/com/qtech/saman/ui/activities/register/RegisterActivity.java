@@ -86,7 +86,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -299,7 +298,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         String dateSelected = sdf.format(myCalendar.getTime());
         String sepDate[] = dateSelected.split("/");
         dayEditText.setText(sepDate[0]);

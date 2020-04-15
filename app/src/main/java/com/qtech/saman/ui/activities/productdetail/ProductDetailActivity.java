@@ -224,7 +224,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         } else {
             // if (!productCount.getText().toString().equalsIgnoreCase("0")) {
             String[] optionIDs = getOptionsData().split(",");
-            presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
+            if (productCount.getText().toString().equalsIgnoreCase("0")) {
+                presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, 1);
+            } else {
+                presenter.markFavorite(authenticatedUser.getId(), productID, optionIDs, Integer.parseInt(productCount.getText().toString()));
+            }
             product.setFavorite(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 favoriteImageView.setImageDrawable(getDrawable(R.drawable.fav));

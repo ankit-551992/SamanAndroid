@@ -59,7 +59,6 @@ public class BagFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bag, container, false);
         ButterKnife.bind(this, view);
-
         layoutManager = new LinearLayoutManager(getActivity());
         bagRecyclerView.setLayoutManager(layoutManager);
         bagRecyclerView.setNestedScrollingEnabled(false);
@@ -90,7 +89,7 @@ public class BagFragment extends BaseFragment {
         authenticatedUser = GlobalValues.getUser(getContext());
         if (isOutOfStock) {
             Constants.showAlert("",
-                    getResources().getString(R.string.out_of_stock),
+                    getResources().getString(R.string.out_of_stock_bag),
                     getResources().getString(R.string.okay), getContext());
         } else if (grandTotal >= 5 && productArrayList.size() > 0) {
             Intent intent = new Intent(getContext(), ShoppingCartActivity.class);

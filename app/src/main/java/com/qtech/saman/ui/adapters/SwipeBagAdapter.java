@@ -323,7 +323,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 //                        productArrayList.get(getPosition).getQuantity());
 
                 Constants.showAlert("",
-                        mContext.getResources().getString(R.string.out_of_stock),
+                        mContext.getResources().getString(R.string.out_of_stock_bag),
                         mContext.getResources().getString(R.string.okay), mContext);
             }
         }

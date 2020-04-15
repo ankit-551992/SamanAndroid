@@ -183,17 +183,19 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                         mItemManger.closeAllItems();
                     }*/
                     boolean isOutOfStock = false;
+                    int count = 0;
                     if (SamanApp.localDB != null) {
                         ArrayList<Product> arrayLst = new ArrayList<>();
                         arrayLst = SamanApp.localDB.getCartProducts();
                         for (int i = 0; i < arrayLst.size(); i++) {
                             Product p = arrayLst.get(i);
                             if (p.getID().equals(productArrayList.get(position).getID())) {
+                                count += p.getQuantity();
                                 isOutOfStock = p.getQuantity() + productArrayList.get(position).getUserQuantity() > productArrayList.get(position).getQuantity();
                             }
                         }
                     }
-                    if (!isOutOfStock) {
+                    if (productArrayList.get(position).getQuantity() >= productArrayList.get(position).getUserQuantity() + count) {
                         String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
                         getProductDetails(productArrayList.get(position));
                         markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);

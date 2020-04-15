@@ -3,8 +3,10 @@ package com.qtech.saman.ui.fragments.home;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,6 +39,7 @@ import com.qtech.saman.ui.adapters.StoresAdapter;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.GridSpacingItemDecoration;
+import com.qtech.saman.utils.SamanApp;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -118,6 +121,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
+        GlobalValues.isFromHome = true;
         authenticatedUser = GlobalValues.getUser(getContext());
         presenter = new HomePresenter(this);
         presenter.getHomeData(authenticatedUser.getId());
@@ -339,6 +343,21 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
     public void showAlert(String title, String message, String buttonText, Context context) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
+        TextView textView = new TextView(getContext());
+        if (getActivity() != null) {
+            Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "font/neo_sans.ttf");
+            textView.setTypeface(face);
+            textView.setText(title);
+            if (SamanApp.isEnglishVersion) {
+                textView.setPadding(20, 10, 0, 0);
+            } else {
+                textView.setPadding(0, 10, 20, 0);
+            }
+            textView.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
+        }
+
+        alertDialog.setCustomTitle(textView);
+
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
                 new DialogInterface.OnClickListener() {
@@ -354,5 +373,7 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
                     }
                 });
         alertDialog.show();
+
+
     }
 }
