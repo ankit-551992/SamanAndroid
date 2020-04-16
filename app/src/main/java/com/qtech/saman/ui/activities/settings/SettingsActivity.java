@@ -4,9 +4,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
@@ -290,7 +292,18 @@ public class SettingsActivity extends BaseActivity {
 
     public void showAlertLanguage(String title, String message, String buttonText, Context context) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle(title);
+        TextView textView = new TextView(this);
+
+        Typeface face = Typeface.createFromAsset(getAssets(), "font/neo_sans.ttf");
+        textView.setTypeface(face);
+        textView.setText(title);
+        if (SamanApp.isEnglishVersion) {
+            textView.setPadding(20, 10, 0, 0);
+        } else {
+            textView.setPadding(0, 10, 20, 0);
+        }
+        textView.setTextColor(ContextCompat.getColor(this, R.color.black));
+        alertDialog.setCustomTitle(textView);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
                 new DialogInterface.OnClickListener() {
