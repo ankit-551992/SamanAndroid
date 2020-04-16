@@ -271,7 +271,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
                     isOutOfStock = p.getQuantity() >= product.getQuantity();
                 }
             }
-            if (!(count >= product.getQuantity()) || !productCount.getText().toString().equalsIgnoreCase("0")) {
+            if (!(count >= product.getQuantity()) && !productCount.getText().toString().equalsIgnoreCase("0")) {
                 if (product.getQuantity() >= Integer.parseInt(productCount.getText().toString())) {
 //                  outOfStockTextView.setVisibility(View.GONE);
                     if (SamanApp.localDB.addToCart(product, getOptionsData(), getOptionsName(), getOptionsNameAR(),

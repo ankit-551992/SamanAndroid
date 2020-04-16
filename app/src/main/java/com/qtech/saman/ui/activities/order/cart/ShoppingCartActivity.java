@@ -788,7 +788,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
     private void setShipmentCost() {
         if (SamanApp.localDB != null) {
-            if (userregion.equalsIgnoreCase("Governorate of Muscat") || userregion.equalsIgnoreCase("محافظة مسقط")) {    // Insideside of Muscat
+            if (userregion.contains("Governorate of Muscat") || userregion.contains("محافظة مسقط")) {    // Insideside of Muscat
                 if (price < 35) {
                     switch (SamanApp.localDB.getCartAllProductsCounting()) {
                         case 1:
