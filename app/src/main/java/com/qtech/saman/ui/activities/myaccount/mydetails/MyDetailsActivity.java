@@ -595,7 +595,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         } else if (TextUtils.isEmpty(country)) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.country_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
-        } else if (TextUtils.isEmpty(region)) {
+        } else if (country.contains(getString(R.string.oman)) && TextUtils.isEmpty(region)) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.region_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
         } else {
