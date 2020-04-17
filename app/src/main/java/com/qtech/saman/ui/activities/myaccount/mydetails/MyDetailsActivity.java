@@ -371,7 +371,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String year = yearEditText.getText().toString();
         String dob = month + "-" + day + "-" + year;
 
-        if (isDataValid(firstName, lastName, gender, address, day, month, year, phone, dob)) {
+        if (isDataValid(firstName, lastName, gender, address, day, month, year, phone, dob, country, region)) {
             phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
 
             JSONObject jsonObject = new JSONObject();
@@ -557,7 +557,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         dialog.show();
     }
 
-    private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year, String phone, String dob) {
+    private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year, String phone, String dob, String country, String region) {
         if (TextUtils.isEmpty(fName)) {
             //firstNameEditText.setError(getString(R.string.first_name_required));
             Constants.showAlert(getString(R.string.my_details), getString(R.string.first_name_required), getString(R.string.okay), MyDetailsActivity.this);
@@ -591,6 +591,12 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             return false;
         } else if (TextUtils.isEmpty(dob)) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.dob_missing), getString(R.string.okay), MyDetailsActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(country)) {
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.country_missing), getString(R.string.okay), MyDetailsActivity.this);
+            return false;
+        } else if (TextUtils.isEmpty(region)) {
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.region_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
         } else {
             return true;

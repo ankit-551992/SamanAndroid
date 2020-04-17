@@ -210,8 +210,10 @@
     <string name="date">اليوم/الشهر/السنة</string>
     <string name="day">اليوم</string>
     <string name="day_missing">الرجاء أختيار اليوم</string>
+    <string name="region_missing">الرجاء أختيار منطقة</string>
     <string name="month">الشهر</string>
     <string name="month_missing">الرجاء أختيار الشهر</string>
+    <string name="country_missing">الرجاء أختيار البلد</string>
     <string name="year">السنة</string>
     <string name="year2">السنة</string>
     <string name="year_missing">الرجاء أختيار السنة</string>
