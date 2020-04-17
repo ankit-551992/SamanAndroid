@@ -399,6 +399,8 @@
     <string name="yeah">نعم</string>
     <string name="unsunscribe">تم إلغاء الإشتراك</string>
     <string name="invalid_date">تاريخ غير صالح</string>
+    <string name="delivered">التوصيل</string>
+    <string name="denied">رفض</string>
     <string name="select_country_req">الرجاء اختيار الدولة</string>
     <string name="select_location">ختر موقعا</string>
     <string name="privacy_policy">سياسة الخصوصية</string>

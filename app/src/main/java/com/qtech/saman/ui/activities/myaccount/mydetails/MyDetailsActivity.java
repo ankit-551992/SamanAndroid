@@ -254,10 +254,10 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     @Override
     public void onBackPressed() {
         User user = GlobalValues.getUser(this);
-        if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getCountry() == null) {
+        if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getShippingAddress().getState() == null || user.getShippingAddress().getFloor() == null || user.getCountry() == null) {
             setResult(RESULT_CANCELED);
             finishAffinity();
-        } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
+        } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getShippingAddress().getState().isEmpty() || user.getShippingAddress().getFloor().isEmpty() || user.getCountry().isEmpty()
                 || user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
             setResult(RESULT_CANCELED);
             finishAffinity();

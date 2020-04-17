@@ -69,11 +69,36 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
             }
             holder.productPrice.setText(options);
             if (orderItem.getStatus() != null) {
-                if (SamanApp.isEnglishVersion) {
-                    holder.productStatus.setText(orderItem.getStatus());
-                } else {
-                    holder.productStatus.setText(orderItem.getStatus());
+
+                //Shipped
+                //Delivered
+                //Pending
+                //Processing
+                //Cancelled
+                //Refunded
+                //Reversed
+                //Cancelled By Customer
+                //Denied
+                if (orderItem.getStatus().equalsIgnoreCase("Shipped")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.shipped));
+                } else if (orderItem.getStatus().equalsIgnoreCase("Delivered")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.shipping));
+                } else if (orderItem.getStatus().equalsIgnoreCase("Pending")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.pending));
+                } else if (orderItem.getStatus().equalsIgnoreCase("Processing")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.processing));
+                } else if (orderItem.getStatus().equalsIgnoreCase("Cancelled")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.canceled));
+                } else if (orderItem.getStatus().equalsIgnoreCase("Refunded")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.refunded));
+                } else if (orderItem.getStatus().equalsIgnoreCase("Reversed")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.reversed));
+                } else if (orderItem.getStatus().equalsIgnoreCase("Cancelled By Customer")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.cancelled_by_customer));
+                } else if (orderItem.getStatus().equalsIgnoreCase("Denied")) {
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.denied));
                 }
+
             }
 //            holder.productPrice.setText(orderItem.getProduct().getPrice()+ " OMR x "+orderItem.getProduct().getQuantity());
             if (orderItem.getProduct().getLogoURL() != null && !orderItem.getProduct().getLogoURL().isEmpty()) {

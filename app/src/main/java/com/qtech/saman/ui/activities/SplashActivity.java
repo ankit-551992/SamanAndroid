@@ -106,10 +106,10 @@ public class SplashActivity extends BaseActivity {
                     GlobalValues.setGuestLoginStatus(SplashActivity.this, false);
                     User user = GlobalValues.getUser(SplashActivity.this);
                     Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
-                    if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getCountry() == null) {
+                    if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getShippingAddress().getState() == null || user.getShippingAddress().getFloor() == null || user.getCountry() == null) {
                         mainIntent.putExtra("NavItem", 0);
                         mainIntent.putExtra("OpenDetails", true);
-                    } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getCountry().isEmpty()
+                    } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getShippingAddress().getState().isEmpty() || user.getShippingAddress().getFloor().isEmpty() || user.getCountry().isEmpty()
                             || user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
                         mainIntent.putExtra("NavItem", 0);
                         mainIntent.putExtra("OpenDetails", true);
