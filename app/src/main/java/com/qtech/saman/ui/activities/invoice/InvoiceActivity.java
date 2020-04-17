@@ -153,7 +153,7 @@ public class InvoiceActivity extends BaseActivity {
             Long dateTimeStamp = Long.parseLong(orderHistory.getDeliveryDate().replaceAll("\\D", ""));
             Date date = new Date(dateTimeStamp);
 //            DateFormat formatter = new SimpleDateFormat("EEEE, d MMM, yyyy",Locale.ENGLISH);
-            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm aa");
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy ");
             String dateFormatted = formatter.format(date);
             deliveryDateTextView.setText(dateFormatted.toString());
 

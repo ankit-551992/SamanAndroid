@@ -475,7 +475,7 @@
     <string name="feedback">Feedback...</string>
     <string name="pay_error_could_not_update_session">Could not update session</string>
     <string name="view_invoice">View invoice</string>
-    <string name="shipping">Shipping</string>
+    <string name="shipping">Delivery</string>
     <string name="track_order">Track order</string>
 
     <string name="track">Track</string>
@@ -493,7 +493,7 @@
     <string name="processing">Processing</string>
     <string name="shipped">Shipped</string>
 
-    <string name="complete">Complete</string>
+    <string name="complete">Completed</string>
     <string name="canceled">Canceled</string>
     <string name="refunded">Refunded</string>
     <string name="reversed">Reversed</string>

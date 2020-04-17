@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.qtech.saman.R;
+import com.qtech.saman.data.model.OptionValue;
 import com.qtech.saman.data.model.Product;
 import com.qtech.saman.ui.activities.productdetail.ProductDetailActivity;
 import com.qtech.saman.utils.Constants;
@@ -64,6 +65,7 @@ public class BagCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, ProductDetailActivity.class);
                     intent.putExtra("ProductID", products.get(position).getID());
+                    intent.putExtra("Options", products.get(position).getOptionValues());
                     mContext.startActivity(intent);
                 }
             });
@@ -71,6 +73,23 @@ public class BagCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
         }
+    }
+
+    private String getOptionsData(Product product1) {
+        View v = null;
+        OptionValue optionValue = null;
+        String ids = "";
+        if (product1.getOptionValues() != null) {
+            for (int i = 0; i < product1.getProductOptions().size(); i++) {
+                optionValue = product1.getProductOptions().get(i).getOptionValues().get(0);
+                if (ids.equals("")) {
+                    ids = "" + optionValue.getID();
+                } else {
+                    ids = ids + "," + optionValue.getID();
+                }
+            }
+        }
+        return ids;
     }
 
     @Override

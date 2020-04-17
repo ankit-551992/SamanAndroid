@@ -398,12 +398,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         }
                     }
                 }
-                for (Product product : bagArrayList) {
-                    if (!coupon.getProductID().contains(product.getID())) {
-                        promoSaved = 0;
-                    }
-                    Log.i("==========jeel====", "setPromoDiscountWithPrice: " + !coupon.getProductID().contains(product.getID()));
-                }
 
 
             } else if (coupon.getDiscountType() == 2) {
@@ -419,12 +413,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     }
                 }
                 promoSaved = coupon.getDiscount() * exist.size();
-                for (Product product : bagArrayList) {
-                    if (!coupon.getProductID().contains(product.getID())) {
-                        promoSaved = 0;
-                    }
-                    Log.i("==========jeel====", "setPromoDiscountWithPrice: " + !coupon.getProductID().contains(product.getID()));
-                }
 
             }
         } else {

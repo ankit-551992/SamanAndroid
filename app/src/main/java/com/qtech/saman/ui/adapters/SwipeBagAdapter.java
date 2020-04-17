@@ -162,6 +162,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                     Intent intent = new Intent(mContext, ProductDetailActivity.class);
                     intent.putExtra("ProductID", productArrayList.get(position).getID());
 //                  intent.putExtra("Options", getOptionsData(productArrayList.get(position)));
+                    intent.putExtra("Options", productArrayList.get(position).getOptionValues());
                     mContext.startActivity(intent);
                 }
             });

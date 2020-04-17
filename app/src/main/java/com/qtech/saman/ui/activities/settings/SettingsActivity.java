@@ -265,6 +265,7 @@ public class SettingsActivity extends BaseActivity {
                 Constants.dismissSpinner();
                 ChangeLanguage changeLanguage = response.body();
                 if (changeLanguage != null && changeLanguage.result) {
+                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                     if (radioButton.getId() == R.id.radio_arabic) {
 
                         GlobalValues.setAppLanguage(getApplicationContext(), "ar");
@@ -276,7 +277,6 @@ public class SettingsActivity extends BaseActivity {
                     }
                     selectedLanguage = radioButton.getText().toString();
                     languageTextView.setText(radioButton.getText().toString());
-                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
                 } else {
                     Toast.makeText(SettingsActivity.this, "Please try again...!", Toast.LENGTH_SHORT).show();
                 }

@@ -394,7 +394,7 @@
     <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات؟</string>
     <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
     <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
-    <string name="remove_sure">هل أنت متأكد أنك تريد إزالة هذا العنصر من قائمة الرغبات؟</string>
+    <string name="remove_sure">هل أنت متأكد أنك تريد إزالة هذا المنتج من قائمة الرغبات؟</string>
     <string name="view_fav">عرض قائمة الامنيات</string>
     <string name="yeah">نعم</string>
     <string name="unsunscribe">تم إلغاء الإشتراك</string>
@@ -563,12 +563,12 @@
     <!--translate from my(IBL) side-->
     <string name="pay_error_could_not_update_session">لا يمكن تحديث الجلسة</string>
     <string name="view_invoice">عرض الفاتورة</string>
-    <string name="shipping">تم الشحن</string>
+    <string name="shipping">التوصيل</string>
     <string name="track_order">تتبع الطلبات</string>
     <string name="track">تتبع الطلب</string>
     <string name="credit_card">بطاقة الائتمان</string>
     <string name="cod">الدفع عن الاستلام</string>
-    <string name="free">حر</string>
+    <string name="free">مجاني</string>
     <string name="invalid_token">رمز غير صالح</string>
 
     <string name="reset_with_email">البريد الإلكتروني</string>
@@ -580,7 +580,7 @@
     <string name="cancelled_by_customer">تم الإلغاء بواسطة العميل</string>
     <string name="processing">قيد التنفيذ</string>
     <string name="shipped">تم الشحن</string>
-    <string name="complete">اكتمال</string>
+    <string name="complete">تم التوصيل</string>
     <string name="canceled">ألغيت</string>
     <string name="refunded">ردها</string>
     <string name="reversed">عكس</string>
