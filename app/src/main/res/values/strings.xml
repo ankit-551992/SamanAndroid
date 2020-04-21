@@ -495,7 +495,7 @@
     <string name="shipped">Shipped</string>
 
     <string name="complete">Completed</string>
-    <string name="canceled">Canceled</string>
+    <string name="canceled">Cancelled</string>
     <string name="refunded">Refunded</string>
     <string name="reversed">Reversed</string>
     <string name="failed">Failed</string>
@@ -578,6 +578,7 @@
     <string name="denied">Denied</string>
     <string name="country_missing">Please Select Country</string>
     <string name="region_missing">Please Select Region</string>
+    <string name="dob_validation">Date of birth is not valid</string>
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>

@@ -159,7 +159,7 @@ public class AddShippingAddressActivity extends BaseActivity {
             }
             if (shippingAddress.getCountry() != null) {
                 countryEditText.setText(shippingAddress.getCountry());
-                if (shippingAddress.getCountry().equalsIgnoreCase("oman")) {
+                if (shippingAddress.getCountry().contains("oman")) {
                     ll_region.setVisibility(View.VISIBLE);
                     if (shippingAddress.getRegion() != null) {
                         region_name.setText(shippingAddress.getRegion());
@@ -230,7 +230,7 @@ public class AddShippingAddressActivity extends BaseActivity {
 
                 if (returnedResult != null && !returnedResult.isEmpty()) {
                     countryEditText.setText(returnedResult);
-                    if (countryEditText.getText().toString().equalsIgnoreCase(getResources().getString(R.string.oman))) {
+                    if (countryEditText.getText().toString().equalsIgnoreCase(getResources().getString(R.string.oman)) || countryEditText.getText().toString().equalsIgnoreCase("oman")) {
                         ll_region.setVisibility(View.VISIBLE);
                     } else {
                         ll_region.setVisibility(View.GONE);
@@ -299,7 +299,7 @@ public class AddShippingAddressActivity extends BaseActivity {
         if (countryEditText.getText() == null || countryEditText.getText().toString().equals("") || countryEditText.getText().toString().isEmpty()) {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.country) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
-        }else {
+        } else {
             if (countryEditText.getText().toString().equalsIgnoreCase(getResources().getString(R.string.Oman))) {
                 if (region_name.getText() == null || region_name.getText().toString().equals("") || region_name.getText().toString().isEmpty()) {
                     Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.region) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);

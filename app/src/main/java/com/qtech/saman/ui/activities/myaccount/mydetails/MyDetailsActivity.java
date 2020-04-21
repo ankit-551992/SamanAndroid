@@ -42,9 +42,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -198,7 +200,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         if (authenticatedUser.getCountry() != null && !authenticatedUser.getCountry().isEmpty()) {
             if (GlobalValues.countries != null) {
                 for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                    if (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry())) {
+                    if (authenticatedUser.getCountry() != null && (GlobalValues.countries.get(i).getName().equals(authenticatedUser.getCountry()) || GlobalValues.countries.get(i).getName_AR().equals(authenticatedUser.getCountry()))) {
                         if (SamanApp.isEnglishVersion) {
                             countryName.setText(GlobalValues.countries.get(i).getName());
                         } else {
@@ -210,7 +212,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     Picasso.get().load(GlobalValues.countries.get(i).getFlag()).transform(new CircleTransform()).into(countryFlag);
                 }
             }
-            if (authenticatedUser.getCountry().equalsIgnoreCase("oman")) {
+            if (authenticatedUser.getCountry().equalsIgnoreCase(getString(R.string.Oman)) || authenticatedUser.getCountry().equalsIgnoreCase("oman")) {
                 regionView.setVisibility(View.VISIBLE);
                 regionSelectionLinearLayout.setVisibility(View.VISIBLE);
                 regionName.setText(authenticatedUser.getRegion());
@@ -371,41 +373,65 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         String year = yearEditText.getText().toString();
         String dob = month + "-" + day + "-" + year;
 
-        if (isDataValid(firstName, lastName, gender, address, day, month, year, phone, dob, country, region)) {
-            phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
 
-            JSONObject jsonObject = new JSONObject();
-            try {
-                if (addressID == 0) {
-                    jsonObject.put("ID", authenticatedUser.getShippingAddress().getiD());
+        try {
+            if (isDataValid(firstName, lastName, gender, address, day, month, year, phone, dob, country, region)) {
+                phone = ccp.getText().toString() + "-" + phoneEditText.getText().toString();
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    if (addressID == 0) {
+                        jsonObject.put("ID", authenticatedUser.getShippingAddress().getiD());
+                    } else {
+                        jsonObject.put("ID", addressID);
+                    }
+                    jsonObject.put("AddressLine1", AddressLine1);
+                    jsonObject.put("Floor", floor);
+                    jsonObject.put("Apt", apt);
+                    jsonObject.put("AddressLine2", landmark);
+                    jsonObject.put("City", city);
+                    jsonObject.put("UserCountry", usercountry);
+                    jsonObject.put("UserRegion", userregion);
+                    jsonObject.put("Latitude", latitude);
+                    jsonObject.put("Longitude", longitude);
+                    jsonObject.put("isDefault", true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //            if (countryName.getText().toString().equalsIgnoreCase("oman")) {
+                if (countryName.getText().toString().equalsIgnoreCase(getResources().getString(R.string.Oman)) || countryName.getText().toString().equalsIgnoreCase("oman")) {
+                    if (region == null || TextUtils.isEmpty(region)) {
+                        Constants.showAlert(getString(R.string.my_details), getString(R.string.region_required), getString(R.string.okay), MyDetailsActivity.this);
+                        return;
+                    }
                 } else {
-                    jsonObject.put("ID", addressID);
+                    region = "";
                 }
-                jsonObject.put("AddressLine1", AddressLine1);
-                jsonObject.put("Floor", floor);
-                jsonObject.put("Apt", apt);
-                jsonObject.put("AddressLine2", landmark);
-                jsonObject.put("City", city);
-                jsonObject.put("UserCountry", usercountry);
-                jsonObject.put("UserRegion", userregion);
-                jsonObject.put("Latitude", latitude);
-                jsonObject.put("Longitude", longitude);
-                jsonObject.put("isDefault", true);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-//            if (countryName.getText().toString().equalsIgnoreCase("oman")) {
-            if (countryName.getText().toString().equalsIgnoreCase(getResources().getString(R.string.oman))) {
-                if (region == null || TextUtils.isEmpty(region)) {
-                    Constants.showAlert(getString(R.string.my_details), getString(R.string.region_required), getString(R.string.okay), MyDetailsActivity.this);
-                    return;
+                if (!SamanApp.isEnglishVersion) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+                    Date parseddate = sdf.parse(dob);
+                    dob = sdf.format(parseddate);
                 }
-            } else {
-                region = "";
+                presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject, dob, phone, region);
             }
-            presenter.updateUser(authenticatedUser.getId(), firstName, lastName, gender, country, jsonObject, dob, phone, region);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+    }
+
+    public static boolean dobdateValidate(String date) throws ParseException {
+        boolean result = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        Date parseddate = sdf.parse(date);
+        Calendar c2 = Calendar.getInstance();
+        c2.add(Calendar.YEAR, -14);
+        Date dateObj2 = new Date(System.currentTimeMillis());
+        if (parseddate.before(c2.getTime())) {
+            result = true;
+        }
+
+        return result;
     }
 
     @Override
@@ -429,7 +455,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                         }
                     }
                 }
-                if (returnedResult.equalsIgnoreCase("oman")) {
+                if (returnedResult.equalsIgnoreCase("oman") || returnedResult.equalsIgnoreCase(getString(R.string.Oman))) {
                     GlobalValues.setSelectedRegion(this, "");
                     regionView.setVisibility(View.VISIBLE);
                     regionSelectionLinearLayout.setVisibility(View.VISIBLE);
@@ -557,7 +583,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         dialog.show();
     }
 
-    private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year, String phone, String dob, String country, String region) {
+    private boolean isDataValid(String fName, String lName, String gender, String address, String day, String month, String year, String phone, String dob, String country, String region) throws ParseException {
         if (TextUtils.isEmpty(fName)) {
             //firstNameEditText.setError(getString(R.string.first_name_required));
             Constants.showAlert(getString(R.string.my_details), getString(R.string.first_name_required), getString(R.string.okay), MyDetailsActivity.this);
@@ -592,10 +618,13 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         } else if (TextUtils.isEmpty(dob)) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.dob_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
+        } else if (!TextUtils.isEmpty(dob) && !dobdateValidate(dob)) {
+            Constants.showAlert(getString(R.string.my_details), getString(R.string.dob_validation), getString(R.string.okay), MyDetailsActivity.this);
+            return false;
         } else if (TextUtils.isEmpty(country)) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.country_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
-        } else if (country.contains(getString(R.string.oman)) && TextUtils.isEmpty(region)) {
+        } else if (country.contains(getString(R.string.Oman)) && TextUtils.isEmpty(region)) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.region_missing), getString(R.string.okay), MyDetailsActivity.this);
             return false;
         } else {
