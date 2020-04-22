@@ -82,7 +82,7 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.RowViewH
                 if (orderItem.getStatus().equalsIgnoreCase("Shipped")) {
                     holder.productStatus.setText(mContext.getResources().getString(R.string.shipped));
                 } else if (orderItem.getStatus().equalsIgnoreCase("Delivered")) {
-                    holder.productStatus.setText(mContext.getResources().getString(R.string.shipping));
+                    holder.productStatus.setText(mContext.getResources().getString(R.string.delivered));
                 } else if (orderItem.getStatus().equalsIgnoreCase("Pending")) {
                     holder.productStatus.setText(mContext.getResources().getString(R.string.pending));
                 } else if (orderItem.getStatus().equalsIgnoreCase("Processing")) {

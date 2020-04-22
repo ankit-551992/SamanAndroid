@@ -212,7 +212,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                     Picasso.get().load(GlobalValues.countries.get(i).getFlag()).transform(new CircleTransform()).into(countryFlag);
                 }
             }
-            if (authenticatedUser.getCountry().equalsIgnoreCase(getString(R.string.Oman)) || authenticatedUser.getCountry().equalsIgnoreCase("oman")) {
+            if (authenticatedUser.getCountry().equalsIgnoreCase(getString(R.string.Oman)) || authenticatedUser.getCountry().toLowerCase().equalsIgnoreCase("oman") || authenticatedUser.getCountry().toLowerCase().equalsIgnoreCase("عمان")) {
                 regionView.setVisibility(View.VISIBLE);
                 regionSelectionLinearLayout.setVisibility(View.VISIBLE);
                 regionName.setText(authenticatedUser.getRegion());
@@ -317,7 +317,9 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         DatePickerDialog dialog = new DatePickerDialog(MyDetailsActivity.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH));
-        dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -14);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         dialog.show();
     }
 

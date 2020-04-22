@@ -393,7 +393,7 @@
     <string name="add_new_card">الائتمان / الخصم \n البطاقة \n إضافة جديد</string>
     <string name="app_language">تم تغيير لغة التطبيق بنجاح ، يرجى إغلاق التطبيق وإعادة فتحه مرة أخرى</string>
     <string name="added_to_fav">تمت إضافة المنتج إلى قائمة أمنياتك</string>
-    <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات؟</string>
+    <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات</string>
     <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
     <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
     <string name="remove_sure">هل تود حذف المنتج من قائمة الامنيات</string>
