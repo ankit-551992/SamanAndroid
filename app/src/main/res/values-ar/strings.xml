@@ -396,12 +396,12 @@
     <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات؟</string>
     <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
     <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
-    <string name="remove_sure">هل أنت متأكد أنك تريد إزالة هذا المنتج من قائمة الرغبات؟</string>
+    <string name="remove_sure">هل تود حذف المنتج من قائمة الامنيات</string>
     <string name="view_fav">عرض قائمة الامنيات</string>
     <string name="yeah">نعم</string>
     <string name="unsunscribe">تم إلغاء الإشتراك</string>
     <string name="invalid_date">تاريخ غير صالح</string>
-    <string name="delivered">التوصيل</string>
+    <string name="delivered">تم التوصيل</string>
     <string name="denied">رفض</string>
     <string name="select_country_req">الرجاء اختيار الدولة</string>
     <string name="select_location">ختر موقعا</string>

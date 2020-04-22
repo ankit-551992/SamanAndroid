@@ -68,6 +68,13 @@ public class TrackOrderAdapter extends RecyclerView.Adapter<TrackOrderAdapter.Ro
             layoutManager = new LinearLayoutManager(mContext);
             holder.trackRecyclerView.setLayoutManager(layoutManager);
             holder.trackRecyclerView.setNestedScrollingEnabled(false);
+
+            Collections.sort(orderTrackList, new Comparator<OrderTrack>() {
+                @Override
+                public int compare(OrderTrack orderTrack, OrderTrack t1) {
+                    return orderTrack.getStatus().compareTo(t1.getStatus());
+                }
+            });
             trackingAdapter = new TrackingAdapter(mContext, orderTrackList);
             holder.trackRecyclerView.setAdapter(trackingAdapter);
 
