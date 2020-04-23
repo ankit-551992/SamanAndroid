@@ -263,7 +263,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.term).length(), spanTxt.length(), 0);
         spanTxt.append(getString(R.string.and));
         spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), spanTxt.length() - getString(R.string.and).length(), spanTxt.length(), 0);
-        spanTxt.append(getString(R.string.privacy_policy));
+        spanTxt.append(getString(R.string.privacy));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
@@ -271,10 +271,10 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 intent.putExtra("type", 0);
                 startActivity(intent);
             }
-        }, spanTxt.length() - getString(R.string.privacy_policy).length(), spanTxt.length(), 0);
+        }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
         spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
-        spanTxt.append(" " + getString(R.string.term_message));
-        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), spanTxt.length() - getString(R.string.term_message).length(), spanTxt.length(), 0);
+//        spanTxt.append(" " + getString(R.string.term_message));
+//        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), spanTxt.length() - getString(R.string.term_message).length(), spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
         view.setText(spanTxt, TextView.BufferType.SPANNABLE);
     }
