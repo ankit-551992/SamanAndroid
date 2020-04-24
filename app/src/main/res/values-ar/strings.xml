@@ -396,7 +396,7 @@
     <string name="removed_from_fav">هل تود حذفه من قائمة الأمنيات</string>
     <!-- <string name="removed_from_fav">تمت إزالة العنصر من قائمة أمنياتك</string>-->
     <string name="ask_remove_from_fav">تمت إزالته من قائمة الامنيات</string>
-    <string name="remove_sure">هل تود حذف المنتج من قائمة الامنيات</string>
+    <string name="remove_sure">هل تود حذف المنتج من قائمة الامنيات؟</string>
     <string name="view_fav">عرض قائمة الامنيات</string>
     <string name="yeah">نعم</string>
     <string name="unsunscribe">تم إلغاء الإشتراك</string>

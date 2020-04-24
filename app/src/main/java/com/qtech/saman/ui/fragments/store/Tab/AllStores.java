@@ -22,6 +22,7 @@ import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.adapters.StoresAdapter;
 import com.qtech.saman.utils.GlobalValues;
 import com.qtech.saman.utils.GridSpacingItemDecoration;
+import com.qtech.saman.utils.SamanApp;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -235,15 +236,23 @@ public class AllStores extends BaseFragment {
     private void getSearchStore(String search, List<Store> storeList) {
         List<Store> seachstorelist = new ArrayList<>();
         for (Store storename : storeList) {
+            if (SamanApp.isEnglishVersion) {
 //            if (storename.getStoreName() != null && storename.getStoreName().contains(search)) {
-            if (storename.getStoreName().toLowerCase().contains(search.toLowerCase())) {
-                seachstorelist.add(storename);
+                if (storename.getStoreName().toLowerCase().contains(search.toLowerCase())) {
+                    seachstorelist.add(storename);
+                }
+            } else {
+                if (storename.getStoreNameAR().contains(search.toLowerCase())) {
+                    seachstorelist.add(storename);
+                }
             }
         }
         if (storeArrayList != null) {
             storeArrayList.clear();
         }
-        storeArrayList.addAll(seachstorelist);
+        if (storeArrayList != null) {
+            storeArrayList.addAll(seachstorelist);
+        }
         Log.e("SEARCH000", "--search--22--storeArrayList----" + new Gson().toJson(storeArrayList));
         adapter.notifyDataSetChanged();
     }

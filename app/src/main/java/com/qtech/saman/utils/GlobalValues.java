@@ -135,14 +135,14 @@ public class GlobalValues {
     }
 
     public static void setUserToken(Context ctx, String token) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences("token", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("UserToken", token);
         editor.apply();
     }
 
     public static String getUserToken(Context ctx) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences("token", Context.MODE_PRIVATE);
         return sharedPreferences.getString("UserToken", null);
     }
 
