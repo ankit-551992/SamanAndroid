@@ -54,7 +54,7 @@ public class Constants {
         //new staging App Login
         String BaseURLApis = "https://staging.saman.om/api/";
         String BaseURLImages = "https://staging.saman.om";
-        String Invoice_url = "https://staomging.saman./Order/Invoice/";
+        String Invoice_url = "https://staging.saman.om/Order/Invoice/";
 
         //http local staging App Login
 //        String BaseURLApis = "http://96.127.174.114/plesk-site-preview/staging.saman.om/api/";
