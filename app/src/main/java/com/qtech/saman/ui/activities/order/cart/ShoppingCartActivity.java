@@ -809,6 +809,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                             deliveryCost = 0.65f;
                             break;
                         case 4:
+                        case 5:
                             deliveryCost = 0.55f;
                             break;
                         default:
