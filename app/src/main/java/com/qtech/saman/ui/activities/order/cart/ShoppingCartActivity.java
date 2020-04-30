@@ -778,7 +778,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         if (SamanApp.localDB != null) {
             if (userregion.contains("Governorate of Muscat") || userregion.contains("محافظة مسقط") || userregion.contains("Muscat")) {    // Insideside of Muscat
                 if (price < 35) {
-                    switch (SamanApp.localDB.getCartAllProductsCounting()) {
+                    switch (SamanApp.localDB.getCartAllProductsCount()) {
                         case 1:
                             deliveryCost = 1.0f;
                             break;
@@ -800,7 +800,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             } else {
                 if (price < 35) {
 
-                    switch (SamanApp.localDB.getCartAllProductsCounting()) {    // Outside of Muscat
+                    switch (SamanApp.localDB.getCartAllProductsCount()) {    // Outside of Muscat
                         case 1:
                             deliveryCost = 1.3f;
                             break;
