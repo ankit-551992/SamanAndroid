@@ -72,20 +72,16 @@ public class CustomerSupportActivity extends BaseActivity {
     RecyclerView photos;
     RecyclerView.LayoutManager layoutManager;
     CustomerSupportAdapter customerSupportAdapter;
-    private List<File> files;
-
     User authenticatedUser;
-
     File file = null;
     String mCurrentPhotoPath;
-    private int REQUEST_TAKE_PHOTO = 1;
-    private int REQUEST_CHOOSE_PHOTO = 2;
-    private int mCount = 300;
-    private String orderId = "";
     Dialog dialog;
     Dialog dialog2;
     String selectedSubject = "";
-
+    private List<File> files;
+    private int REQUEST_TAKE_PHOTO = 1;
+    private int REQUEST_CHOOSE_PHOTO = 2;
+    private int mCount = 300;
     TextWatcher txwatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
@@ -101,6 +97,7 @@ public class CustomerSupportActivity extends BaseActivity {
         public void afterTextChanged(Editable s) {
         }
     };
+    private String orderId = "";
 
     private void setCount(int count) {
         countTextView.setText(count + " " + getString(R.string.character));
@@ -300,8 +297,8 @@ public class CustomerSupportActivity extends BaseActivity {
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
-        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+        ImageView close = dialog.findViewById(R.id.iv_filer_close);
+        final RadioGroup radioGroup = dialog.findViewById(R.id.radio_group);
         RadioButton radioButton = null;
         if (getString(R.string.report_issue).equals(subjectSelectionEditText.getText().toString())) {
             radioButton = radioGroup.findViewById(R.id.radio_my_account);
@@ -315,37 +312,23 @@ public class CustomerSupportActivity extends BaseActivity {
         if (radioButton != null) {
             radioButton.setChecked(true);
         }
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        close.setOnClickListener(view -> dialog.dismiss());
+
+        TextView done = dialog.findViewById(R.id.tv_done);
+        close.setOnClickListener(view -> dialog.dismiss());
+
+
+        done.setOnClickListener(view -> {
+            // get selected radio button from radioGroup
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+
+            // find the radiobutton by returned id
+            RadioButton radioButton1 = dialog.findViewById(selectedId);
+
+            if (radioButton1.isChecked()) {
+                selectedSubject = radioButton1.getText().toString();
+                subjectSelectionEditText.setText(radioButton1.getText().toString());
                 dialog.dismiss();
-            }
-        });
-
-        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-            }
-        });
-
-
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // get selected radio button from radioGroup
-                int selectedId = radioGroup.getCheckedRadioButtonId();
-
-                // find the radiobutton by returned id
-                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
-
-                if (radioButton.isChecked()) {
-                    selectedSubject = radioButton.getText().toString();
-                    subjectSelectionEditText.setText(radioButton.getText().toString());
-                    dialog.dismiss();
-                }
             }
         });
 
@@ -388,15 +371,12 @@ public class CustomerSupportActivity extends BaseActivity {
         dialog2.setCancelable(false);
         dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog2.findViewById(R.id.iv_pop_up_close);
-        Button nextButton = (Button) dialog2.findViewById(R.id.button_pop_next);
+        ImageView close = dialog2.findViewById(R.id.iv_pop_up_close);
+        Button nextButton = dialog2.findViewById(R.id.button_pop_next);
 
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog2.dismiss();
-                finish();
-            }
+        close.setOnClickListener(view -> {
+            dialog2.dismiss();
+            finish();
         });
 
         nextButton.setOnClickListener(new View.OnClickListener() {

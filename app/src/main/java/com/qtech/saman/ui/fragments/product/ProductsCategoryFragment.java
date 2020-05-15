@@ -64,9 +64,7 @@ public class ProductsCategoryFragment extends BaseFragment {
             int lastVisibleItem, totalItemCount;
             totalItemCount = linearLayoutManager.getItemCount();
             lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-
             if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-
                 if (categoryID != 1) {
                     displayData.add(null);
                     productAdapter.notifyItemInserted(displayData.size() - 1);

@@ -23,7 +23,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.Product;
@@ -41,6 +40,7 @@ import com.qtech.saman.utils.SamanApp;
 import com.qtech.saman.utils.SwipeHelper;
 
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -102,7 +102,6 @@ public class CheckoutOrderActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitle.setText(getString(R.string.check_out_success));
-//      toolbarBack.setVisibility(View.VISIBLE);
         cross.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarBack.setImageDrawable(getDrawable(R.drawable.ic_back));
@@ -127,23 +126,23 @@ public class CheckoutOrderActivity extends BaseActivity {
             userId = user.getId();
         }
 
-        orderTotalTextView.setText(orderTotal + " " + getString(R.string.OMR));
+        orderTotalTextView.setText(MessageFormat.format("{0} {1}", orderTotal, getString(R.string.OMR)));
         if (placeOrderResponse.getResult().getOrderNumber() != null) {
-            orderNumberTextView.setText(placeOrderResponse.getResult().getOrderNumber() + placeOrderResponse.getResult().getId());
+            orderNumberTextView.setText(MessageFormat.format("{0}{1}", placeOrderResponse.getResult().getOrderNumber(), placeOrderResponse.getResult().getId()));
             orderID = placeOrderResponse.getResult().getOrderNumber();
             orderItemId = Integer.parseInt(placeOrderResponse.getResult().getOrderNumber());
         }
 
         if (placeOrderResponse.getResult().getOrderStatus() != null) {
             if (!placeOrderResponse.getResult().getOrderStatus().equals("")) {
-                //     orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
-//              orderStatus = placeOrderResponse.getResult().getOrderStatus();
             }
         }
 
         if (placeOrderResponse.getResult().getOrderNumber() != null) {
             cancel_orderID = placeOrderResponse.getResult().getId();
         }
+        if(placeOrderResponse.getResult().getOrderStatus()!=null)
+            orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
 
         if (placeOrderResponse.getResult().getDeliveryDate() != null) {
             Long dateTimeStamp = Long.parseLong(placeOrderResponse.getResult().getDeliveryDate().replaceAll("\\D", ""));
@@ -161,12 +160,7 @@ public class CheckoutOrderActivity extends BaseActivity {
                         getString(R.string.cancel),
                         ResourceUtil.getBitmap(CheckoutOrderActivity.this, R.drawable.ic_cross),
                         Color.parseColor("#FF3C30"),
-                        new SwipeHelper.UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                Constants.showAlert(getString(R.string.sorry), getString(R.string.order_cancel_msg), getString(R.string.okay), CheckoutOrderActivity.this);
-                            }
-                        }
+                        pos -> Constants.showAlert(getString(R.string.sorry), getString(R.string.order_cancel_msg), getString(R.string.okay), CheckoutOrderActivity.this)
                 ));
             }
         };
@@ -183,24 +177,16 @@ public class CheckoutOrderActivity extends BaseActivity {
         sendButton = dialog.findViewById(R.id.button_feedback);
         cancelButton = dialog.findViewById(R.id.button_cancel);
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        cancelButton.setOnClickListener(view -> dialog.dismiss());
+        sendButton.setOnClickListener(view -> {
+            if (ratingBar.getRating() > 0) {
+                updateOrderFeedback(Integer.parseInt(orderID), ratingBar.getRating(), editText.getText().toString());
                 dialog.dismiss();
+                finish();
+            } else {
+                Toast.makeText(CheckoutOrderActivity.this, getString(R.string.rating_required), Toast.LENGTH_SHORT).show();
             }
-        });
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ratingBar.getRating() > 0) {
-                    updateOrderFeedback(Integer.parseInt(orderID), ratingBar.getRating(), editText.getText().toString());
-                    dialog.dismiss();
-                    finish();
-                } else {
-                    Toast.makeText(CheckoutOrderActivity.this, getString(R.string.rating_required), Toast.LENGTH_SHORT).show();
-                }
-                dialog.dismiss();
-            }
+            dialog.dismiss();
         });
         dialog.show();
     }
@@ -209,10 +195,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         WebServicesHandler.instance.updateOrderFeedback(orderID, rating, feedback, new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-//                Log.e("RES",""+response.body().getSuccess());
-                //    Toast.makeText(CheckoutOrderActivity.this, "Thank you for give me Feedback", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
                 Log.e("RES", "Failed Feedback Response" + t.getMessage());
@@ -241,10 +224,6 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-//        if(SamanApp.localDB!=null){
-//            SamanApp.localDB.clearCart();
-//        }
-//        super.onBackPressed();
     }
 
     @OnClick(R.id.toolbar_back)
@@ -260,7 +239,6 @@ public class CheckoutOrderActivity extends BaseActivity {
         Intent intent = new Intent(CheckoutOrderActivity.this, PoliciesActivity.class);
         intent.putExtra("type", 2);
         startActivity(intent);
-//        new FinestWebView.Builder(CheckoutOrderActivity.this).show(Constants.URLS.returnPolicy);
     }
 
     @OnClick(R.id.button_cancel_order)
@@ -273,22 +251,6 @@ public class CheckoutOrderActivity extends BaseActivity {
                     getString(R.string.yes), CheckoutOrderActivity.this);
         }
 
-    }
-
-    private void cancelOrderApi(int orderID, String comment, int orderStatus, int userId) {
-        WebServicesHandler.instance.getCancelOrderApi(orderID, comment, orderStatus, userId, new retrofit2.Callback<SimpleSuccess>() {
-            @Override
-            public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-                Log.e("RES00", "---response---" + new Gson().toJson(response));
-//                Constants.showAlert("", getString(R.string.Order_canceled_msg), getString(R.string.okay), CheckoutOrderActivity.this);
-//                Constants.showAlertWithActivityFinish(if(SamanApp.isEnglishVersion){getString(R.string.order_title)}else "", getString(R.string.Order_canceled_msg), getString(R.string.okay), CheckoutOrderActivity.this);
-            }
-
-            @Override
-            public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-                Log.e("RES00", "Failed Feedback Response" + t.getMessage());
-            }
-        });
     }
 
     private void setBag() {
@@ -307,7 +269,7 @@ public class CheckoutOrderActivity extends BaseActivity {
             productArrayList.addAll(SamanApp.localDB.getCartProducts());
             checkOutProductAdapter.notifyDataSetChanged();
         }
-        quantity.setText(productArrayList.size() + " " + getResources().getQuantityString(R.plurals.items, productArrayList.size()));
+        quantity.setText(MessageFormat.format("{0} {1}", productArrayList.size(), getResources().getQuantityString(R.plurals.items, productArrayList.size())));
         if (SamanApp.localDB != null) {
             SamanApp.localDB.clearCart();
         }
@@ -317,7 +279,6 @@ public class CheckoutOrderActivity extends BaseActivity {
 
         dialog = new Dialog(context, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(R.layout.dialog_customer_support);
         dialog.setContentView(R.layout.dailog_information_pop_up);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -332,55 +293,20 @@ public class CheckoutOrderActivity extends BaseActivity {
         }
         nextButton.setText(buttonText);
         closeButton.setText(getString(R.string.no));
-//      titleTextView.setText(context.getString(R.string.error));
         titleTextView.setText(title);
         messageTextView.setText(message);
-//      messageTextView.setText(context.getString(R.string.missing_options));
         close.setVisibility(View.GONE);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        close.setOnClickListener(view -> dialog.dismiss());
 
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        closeButton.setOnClickListener(view -> dialog.dismiss());
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                orderStatus = 8;
-                dialog.dismiss();
-                startActivity(new Intent(CheckoutOrderActivity.this, CustomerSupportActivity.class).putExtra("order_id", orderID));
-//                WebServicesHandler apiClient = WebServicesHandler.instance;
-//                apiClient.uploadToSupport(userId, "Cancel Order " + cancel_orderID, "Cancel Order " + cancel_orderID, new ArrayList<>(), new Callback<CustomerSupport>() {
-//                    @Override
-//                    public void onResponse(Call<CustomerSupport> call, Response<CustomerSupport> response) {
-//                        Constants.dismissSpinner();
-//                        CustomerSupport customerSupport = response.body();
-//                        Log.e("CUSTOMSUPPORT", "---000----CustomerSupport-----" + new Gson().toJson(response.body()));
-//                        if (customerSupport != null) {
-//                            if (customerSupport.getSuccess() == 1) {
-//                                Constants.showAlertWithActivityFinish("", "Your message is taking care by us,will contact you shortly.", getString(R.string.okay), CheckoutOrderActivity.this);
-////                    Constants.showAlertWithActivityFinish(getString(R.string.customer_service), getString(R.string.ticket_created_success), getString(R.string.okay), CustomerSupportActivity.this);
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<CustomerSupport> call, Throwable t) {
-//                        Constants.dismissSpinner();
-//                    }
-//                });
-                Log.e("RES00000", "--nexttt-orderID---" + orderID + "-orderStatus-" + orderStatus + "-orderItemId-" + orderItemId + "-userId--" + userId);
-//                cancelOrderApi(cancel_orderID, getString(R.string.order_cancel), orderStatus, userId);
+        nextButton.setOnClickListener(view -> {
+            orderStatus = 8;
+            dialog.dismiss();
+            startActivity(new Intent(CheckoutOrderActivity.this, CustomerSupportActivity.class).putExtra("order_id", orderID));
+            finish();
+            Log.e("RES00000", "--nexttt-orderID---" + orderID + "-orderStatus-" + orderStatus + "-orderItemId-" + orderItemId + "-userId--" + userId);
 
-            }
         });
 
         Animation animation;

@@ -73,9 +73,7 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         getCountries();
-
         setAppViewCountApi();
-
         Animation animation;
         animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash_fade_in);
         logo.startAnimation(animation);
@@ -99,53 +97,37 @@ public class SplashActivity extends BaseActivity {
 //        ShortcutBadger.removeCount(this);
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (GlobalValues.getUserLoginStatus(SplashActivity.this)) {
-                    GlobalValues.setGuestLoginStatus(SplashActivity.this, false);
-                    User user = GlobalValues.getUser(SplashActivity.this);
+        new Handler().postDelayed(() -> {
+            if (GlobalValues.getUserLoginStatus(SplashActivity.this)) {
+                GlobalValues.setGuestLoginStatus(SplashActivity.this, false);
+                User user = GlobalValues.getUser(SplashActivity.this);
+                Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
+                if (user.getPhoneNumber() == null ||user.getShippingAddress()==null ||user.getShippingAddress().getAddressLine1() == null || user.getShippingAddress().getState() == null || user.getShippingAddress().getFloor() == null || user.getCountry() == null) {
+                    mainIntent.putExtra("NavItem", 0);
+                    mainIntent.putExtra("OpenDetails", true);
+                } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getShippingAddress().getState().isEmpty() || user.getShippingAddress().getFloor().isEmpty() || user.getCountry().isEmpty()
+                        || user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
+                    mainIntent.putExtra("NavItem", 0);
+                    mainIntent.putExtra("OpenDetails", true);
+                }
+                startActivity(mainIntent);
+                finish();
+            } else {
+                if (GlobalValues.getGuestLoginStatus(SplashActivity.this)) {
                     Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
-                    if (user.getPhoneNumber() == null || user.getShippingAddress().getAddressLine1() == null || user.getShippingAddress().getState() == null || user.getShippingAddress().getFloor() == null || user.getCountry() == null) {
-                        mainIntent.putExtra("NavItem", 0);
-                        mainIntent.putExtra("OpenDetails", true);
-                    } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getShippingAddress().getState().isEmpty() || user.getShippingAddress().getFloor().isEmpty() || user.getCountry().isEmpty()
-                            || user.getPhoneNumber().equalsIgnoreCase("") || user.getShippingAddress().getAddressLine1().equalsIgnoreCase("") || user.getCountry().equalsIgnoreCase("")) {
-                        mainIntent.putExtra("NavItem", 0);
-                        mainIntent.putExtra("OpenDetails", true);
-                    }
                     startActivity(mainIntent);
                     finish();
                 } else {
-                    if (GlobalValues.getGuestLoginStatus(SplashActivity.this)) {
-                        Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
-                        startActivity(mainIntent);
-                        finish();
-                    } else {
-                        GlobalValues.setGuestLoginStatus(SplashActivity.this, false);
-                        Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
-                        mainIntent.putExtra("GuestTry", false);
-                        startActivity(mainIntent);
-                        finish();
-                    }
+                    GlobalValues.setGuestLoginStatus(SplashActivity.this, false);
+                    Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                    mainIntent.putExtra("GuestTry", false);
+                    startActivity(mainIntent);
+                    finish();
                 }
             }
         }, SPLASH_DISPLAY_LENGTH);
 
-        // http://twitter.com/status/1234
-//        Uri data = getIntent().getData();
-//        Uri data = Uri.parse("http://test.com/status/1234");
-//        Log.d("TAG", data.toString());
-//        String scheme = data.getScheme(); // "http"
-//        Log.d("TAG", scheme);
-//        String host = data.getHost(); // "twitter.com"
-//        Log.d("TAG", host);
-//        String inurl = data.toString();
-//        List<String> params = data.getPathSegments();
-//        String first = params.get(0); // "status"
-//        String second = params.get(1); // "1234"
-//        Log.d("TAG", first);
-//        Log.d("TAG", second);
+
     }
 
     private void setAppViewCountApi() {
@@ -175,14 +157,12 @@ public class SplashActivity extends BaseActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Country country = new Country();
-
                 country.setId(jsonObject.getInt("id"));
                 country.setSortname(jsonObject.getString("sortname"));
                 country.setName(jsonObject.getString("name"));
                 country.setName_AR(jsonObject.getString("name_AR"));
                 country.setFlag("https://www.saman.om/Flags/flag_" + jsonObject.getString("sortname").toLowerCase() + ".png");
                 country.setPhoneCode("" + jsonObject.getInt("phoneCode"));
-
                 GlobalValues.countries.add(country);
             }
         } catch (JSONException e) {
