@@ -67,6 +67,10 @@ import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity implements LoginView, GoogleApiClient.OnConnectionFailedListener {
 
+    //Social Login
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final int RC_SIGN_IN = 007;
+    private static final String EMAIL = "email";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
@@ -82,24 +86,86 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     boolean isShowing = false;
-
-    //Social Login
-    private static final String TAG = LoginActivity.class.getSimpleName();
-    private static final int RC_SIGN_IN = 007;
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleSignInClient googleApiClient;
-
     TwitterAuthClient mTwitterAuthClient;
     CallbackManager callbackManager;
-    private static final String EMAIL = "email";
-
     // Social Login
     String socialName = "";
     String socialEmail = "";
     String socialPhotoUrl = "";
-
     LoginPresenter mPresenter;
     boolean isGuestTry = false;
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInClient googleApiClient;
+    private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            // App code
+            GraphRequest request = GraphRequest.newMeRequest(
+                    loginResult.getAccessToken(),
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response) {
+                            Log.v("LoginActivity", response.toString());
+
+                            // Application code
+                            try {
+                                String fbId;
+                                String location;
+                                socialName = object.getString("name");
+                                String birthday; // 01/31/1980 format
+
+                                try {
+                                    fbId = object.getString("id");
+                                } catch (Exception e) {
+                                    fbId = "";
+                                    e.printStackTrace();
+                                }
+
+                                try {
+                                    socialEmail = object.getString("email");
+                                } catch (Exception e) {
+                                    socialEmail = fbId + "@facebook.com";
+                                    e.printStackTrace();
+                                }
+
+                                try {
+                                    birthday = object.getString("birthday");
+                                } catch (Exception e) {
+                                    birthday = "";
+                                    e.printStackTrace();
+                                }
+
+                                try {
+                                    JSONObject jsonobject_location = object.getJSONObject("location");
+                                    location = jsonobject_location.getString("name");
+
+                                } catch (Exception e) {
+                                    location = "";
+                                    e.printStackTrace();
+                                }
+                                fbProfileImage();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,email,gender,birthday");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
+
+        @Override
+        public void onCancel() {
+            // App code
+        }
+
+        @Override
+        public void onError(FacebookException exception) {
+            // App code
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,6 +344,9 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         Constants.showAlert(getString(R.string.login_failed), message, getString(R.string.try_again), LoginActivity.this);
     }
 
+    //Social Login
+    // Google Plus Region
+
     private boolean isDataValid(String userName, String password) {
         if (TextUtils.isEmpty(userName)) {
             Constants.showAlert(getString(R.string.Login), getString(R.string.email_required), getString(R.string.okay), LoginActivity.this);
@@ -294,9 +363,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             return true;
         }
     }
-
-    //Social Login
-    // Google Plus Region
 
     @OnClick(R.id.google_signIn)
     public void googleSignIn() {
@@ -367,6 +433,8 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         }
     }
 
+    // Google Plus Region End
+
     private void handleSignInResult(Task<GoogleSignInAccount> task) {
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -387,8 +455,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             Log.w("TAG", "signInResult:failed code=" + e.getLocalizedMessage());
         }
     }
-
-    // Google Plus Region End
 
     //Twitter Region
     @OnClick(R.id.twitter_signIn)
@@ -476,77 +542,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                 Arrays.asList("user_photos", "email", "user_birthday", "public_profile")
         );
     }
-
-    private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
-        @Override
-        public void onSuccess(LoginResult loginResult) {
-            // App code
-            GraphRequest request = GraphRequest.newMeRequest(
-                    loginResult.getAccessToken(),
-                    new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(JSONObject object, GraphResponse response) {
-                            Log.v("LoginActivity", response.toString());
-
-                            // Application code
-                            try {
-                                String fbId;
-                                String location;
-                                socialName = object.getString("name");
-                                String birthday; // 01/31/1980 format
-
-                                try {
-                                    fbId = object.getString("id");
-                                } catch (Exception e) {
-                                    fbId = "";
-                                    e.printStackTrace();
-                                }
-
-                                try {
-                                    socialEmail = object.getString("email");
-                                } catch (Exception e) {
-                                    socialEmail = fbId + "@facebook.com";
-                                    e.printStackTrace();
-                                }
-
-                                try {
-                                    birthday = object.getString("birthday");
-                                } catch (Exception e) {
-                                    birthday = "";
-                                    e.printStackTrace();
-                                }
-
-                                try {
-                                    JSONObject jsonobject_location = object.getJSONObject("location");
-                                    location = jsonobject_location.getString("name");
-
-                                } catch (Exception e) {
-                                    location = "";
-                                    e.printStackTrace();
-                                }
-                                fbProfileImage();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    });
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender,birthday");
-            request.setParameters(parameters);
-            request.executeAsync();
-        }
-
-        @Override
-        public void onCancel() {
-            // App code
-        }
-
-        @Override
-        public void onError(FacebookException exception) {
-            // App code
-        }
-    };
 
     private void fbProfileImage() {
 

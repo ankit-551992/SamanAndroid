@@ -72,7 +72,6 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         getCountries();
-        SamanApp.getInstance().printHashKey();
         setAppViewCountApi();
         Animation animation;
         animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash_fade_in);
