@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "944916770217-rrabc6gl1pih600045mog61olg8e10vv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qtech.saman",
+            "certificate_hash": "fd22f914004b71035c52a5ebb40c9f8e1cda86f9"
+          }
+        },
+        {
+          "client_id": "944916770217-54dc55uavgtj3bg8bnslso7fcdq5bo3a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qtech.saman",
+            "certificate_hash": "827fb678698e9d4e6b9d2681df7c2d01a16aab34"
+          }
+        },
+        {
           "client_id": "944916770217-pktjbs0sflggskj24sguspn02ujg3m7p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -72,10 +88,10 @@
               "client_type": 3
             },
             {
-              "client_id": "944916770217-k0o9nldrvkjnovi1uqar610joibhdf7q.apps.googleusercontent.com",
+              "client_id": "944916770217-gep9vcjvdgoh3rneser70kkmdkld1ou3.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.qtech.saman"
+                "bundle_id": "com.soughatalkhaleej.saman"
               }
             }
           ]

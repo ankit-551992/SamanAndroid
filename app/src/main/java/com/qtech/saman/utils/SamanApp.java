@@ -77,7 +77,7 @@ public class SamanApp extends MultiDexApplication {
         FirebaseAnalytics.getInstance(this);
     }
 
-    private void printHashKey() {
+    public void printHashKey() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {

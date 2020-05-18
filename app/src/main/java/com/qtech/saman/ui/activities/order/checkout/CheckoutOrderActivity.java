@@ -182,7 +182,6 @@ public class CheckoutOrderActivity extends BaseActivity {
             if (ratingBar.getRating() > 0) {
                 updateOrderFeedback(Integer.parseInt(orderID), ratingBar.getRating(), editText.getText().toString());
                 dialog.dismiss();
-                finish();
             } else {
                 Toast.makeText(CheckoutOrderActivity.this, getString(R.string.rating_required), Toast.LENGTH_SHORT).show();
             }
@@ -195,6 +194,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         WebServicesHandler.instance.updateOrderFeedback(orderID, rating, feedback, new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
+                Toast.makeText(CheckoutOrderActivity.this, response.message(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {

@@ -22,6 +22,7 @@ import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.login.LoginActivity;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
+import com.qtech.saman.utils.SamanApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,14 +43,12 @@ import static com.qtech.saman.utils.SamanApp.isEnglishVersion;
 
 public class SplashActivity extends BaseActivity {
 
-    @BindView(R.id.imageView_logo)
-    ImageView logo;
-
     /**
      * Duration of wait
      **/
     private final int SPLASH_DISPLAY_LENGTH = 2500;
-
+    @BindView(R.id.imageView_logo)
+    ImageView logo;
 
     /**
      * Called when the activity is first created.
@@ -73,6 +72,7 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         getCountries();
+        SamanApp.getInstance().printHashKey();
         setAppViewCountApi();
         Animation animation;
         animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash_fade_in);
@@ -102,7 +102,7 @@ public class SplashActivity extends BaseActivity {
                 GlobalValues.setGuestLoginStatus(SplashActivity.this, false);
                 User user = GlobalValues.getUser(SplashActivity.this);
                 Intent mainIntent = new Intent(SplashActivity.this, DashboardActivity.class);
-                if (user.getPhoneNumber() == null ||user.getShippingAddress()==null ||user.getShippingAddress().getAddressLine1() == null || user.getShippingAddress().getState() == null || user.getShippingAddress().getFloor() == null || user.getCountry() == null) {
+                if (user.getPhoneNumber() == null || user.getShippingAddress() == null || user.getShippingAddress().getAddressLine1() == null || user.getShippingAddress().getState() == null || user.getShippingAddress().getFloor() == null || user.getCountry() == null) {
                     mainIntent.putExtra("NavItem", 0);
                     mainIntent.putExtra("OpenDetails", true);
                 } else if (user.getPhoneNumber().isEmpty() || user.getShippingAddress().getAddressLine1().isEmpty() || user.getShippingAddress().getState().isEmpty() || user.getShippingAddress().getFloor().isEmpty() || user.getCountry().isEmpty()
