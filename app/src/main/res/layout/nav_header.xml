@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/headerView"
     android:background="@color/colorAccent"
     android:layout_height="@dimen/navDrawer_header_height"
     android:gravity="bottom"

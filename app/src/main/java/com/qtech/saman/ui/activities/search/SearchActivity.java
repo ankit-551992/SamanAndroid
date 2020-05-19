@@ -16,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -79,7 +78,6 @@ public class SearchActivity extends BaseActivity {
 
     User authenticatedUser;
 
-    String[] d = {"PHONE FINDER", "SAMSUNG", "APPLE", "NOKIA", "SONY", "LG", "MOTOROLA", "GOOGLE", "BLACKBERRY"};
 
     int currentPage = 0;
     int pageSize = 20;
@@ -87,6 +85,27 @@ public class SearchActivity extends BaseActivity {
     boolean isGetAll = false;
     String query;
     private boolean isLoading;
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+            int visibleThreshold = 2;
+            int lastVisibleItem, totalItemCount;
+            totalItemCount = linearLayoutManager.getItemCount();
+            lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+            if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                displayData.add(null);
+                productAdapter.notifyItemInserted(displayData.size() - 1);
+                isLoading = true;
+                currentPage++;
+                searchProduct(query, currentPage, pageSize, sortType);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +200,8 @@ public class SearchActivity extends BaseActivity {
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
-        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+        ImageView close = dialog.findViewById(R.id.iv_filer_close);
+        TextView done = dialog.findViewById(R.id.tv_done);
 
         highPrice = dialog.findViewById(R.id.checkbox_high_price);
         lowPrice = dialog.findViewById(R.id.checkbox_low_price);
@@ -199,63 +218,51 @@ public class SearchActivity extends BaseActivity {
             bestSell.setChecked(true);
         }
 
-        highPrice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    isHighPrice = true;
-                    isNewIn = false;
-                    isBestSell = false;
-                    isLowPrice = false;
-                    bestSell.setChecked(false);
-                    lowPrice.setChecked(false);
-                    newIn.setChecked(false);
-                }
+        highPrice.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                isHighPrice = true;
+                isNewIn = false;
+                isBestSell = false;
+                isLowPrice = false;
+                bestSell.setChecked(false);
+                lowPrice.setChecked(false);
+                newIn.setChecked(false);
             }
         });
 
-        lowPrice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    isHighPrice = false;
-                    isNewIn = false;
-                    isBestSell = false;
-                    isLowPrice = true;
-                    bestSell.setChecked(false);
-                    highPrice.setChecked(false);
-                    newIn.setChecked(false);
-                }
+        lowPrice.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                isHighPrice = false;
+                isNewIn = false;
+                isBestSell = false;
+                isLowPrice = true;
+                bestSell.setChecked(false);
+                highPrice.setChecked(false);
+                newIn.setChecked(false);
             }
         });
 
-        newIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    isHighPrice = false;
-                    isNewIn = true;
-                    isBestSell = false;
-                    isLowPrice = false;
-                    highPrice.setChecked(false);
-                    lowPrice.setChecked(false);
-                    bestSell.setChecked(false);
-                }
+        newIn.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                isHighPrice = false;
+                isNewIn = true;
+                isBestSell = false;
+                isLowPrice = false;
+                highPrice.setChecked(false);
+                lowPrice.setChecked(false);
+                bestSell.setChecked(false);
             }
         });
 
-        bestSell.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    isHighPrice = false;
-                    isNewIn = false;
-                    isBestSell = true;
-                    isLowPrice = false;
-                    highPrice.setChecked(false);
-                    lowPrice.setChecked(false);
-                    newIn.setChecked(false);
-                }
+        bestSell.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                isHighPrice = false;
+                isNewIn = false;
+                isBestSell = true;
+                isLowPrice = false;
+                highPrice.setChecked(false);
+                lowPrice.setChecked(false);
+                newIn.setChecked(false);
             }
         });
 
@@ -309,29 +316,6 @@ public class SearchActivity extends BaseActivity {
         searchRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 30, false, this));
         searchRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
     }
-
-
-    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-            int visibleThreshold = 2;
-            int lastVisibleItem, totalItemCount;
-            totalItemCount = linearLayoutManager.getItemCount();
-            lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-
-            if (!isGetAll && !isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                displayData.add(null);
-                productAdapter.notifyItemInserted(displayData.size() - 1);
-                isLoading = true;
-                currentPage++;
-                searchProduct(query, currentPage, pageSize, sortType);
-            }
-        }
-    };
 //    HighToLow = 1,
 //    LowToHigh = 2,
 //    Latest = 3,

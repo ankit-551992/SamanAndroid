@@ -62,7 +62,6 @@
                 android:background="@color/light_grey" />
 
             <RelativeLayout
-                android:id="@+id/bag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

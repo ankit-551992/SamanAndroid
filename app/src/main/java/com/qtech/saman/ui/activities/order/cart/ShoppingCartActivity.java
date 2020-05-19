@@ -82,18 +82,17 @@ import retrofit2.Response;
 
 public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecureCallback {
 
+    public String sId, apiVer;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar_back)
     ImageView toolbarBack;
-
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.editText_promo)
     EditText promoEditText;
-
     @BindView(R.id.iv_country_flag)
     ImageView countryFlag;
     @BindView(R.id.tv_country_name)
@@ -108,7 +107,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     TextView priceToPayTextView;
     @BindView(R.id.tv_promo_saved)
     TextView promoSavedTextView;
-
     //CARD
     @BindView(R.id.iv_card)
     ImageView cardImage;
@@ -118,10 +116,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     TextView cardNameTextView;
     @BindView(R.id.tv_card_expiry)
     TextView cardExpiryTextView;
+    //CARD
     @BindView(R.id.tv_agreement_order)
     TextView agreementOrder;
-    //CARD
-
     //Bag
     @BindView(R.id.bag_recyclerView)
     RecyclerView bagRecyclerView;
@@ -132,7 +129,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     BagCartAdapter bagCartAdapter;
     //Bag
     User authenticatedUser;
-
     //Tags
     @BindView(R.id.tags_recyclerView)
     RecyclerView tagRecyclerView;
@@ -140,7 +136,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     List<String> tagsList = new ArrayList<>();
     List<Integer> appliedProducts = new ArrayList<>();
     TagsAdapter tagsAdapter;
-
     Country selectedCountry;
     double price = 0.0f;
     double subTotal = 0.0f;
@@ -149,13 +144,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     double promoSaved = 0.0f;
     double promoTotalSaved = 0.0f;
     String couponCode = "";
-
     int addressID = -1;
-
     PlaceOrderResponse placeOrderResponse;
     ApiController apiController = ApiController.getInstance();
-    public String sId, apiVer;
-    private CardDs selectedCard = null;
     boolean isCOD = true;
     boolean isOmanNet = false;
     Gateway paymentGateway;
@@ -171,15 +162,14 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 //    DecimalFormat df = new DecimalFormat("#00.0#");
     String discount_couponId = "";
     String discount_price = "";
-
     float final_displayprice = 0.0f;
     float dis_product = 0.0f;
     double couponDiscount_price = 0.0f;
-
     String setaddress = "";
     String AddressLine1, floor, apt, city, usercountry, landmark;
     String userregion = "";
     String latitude, longitude;
+    private CardDs selectedCard = null;
     private boolean isSelect = false;
     private DecimalFormat decimalFormat;
 
@@ -193,8 +183,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         toolbarTitle.setText(getString(R.string.check_out));
         price = getIntent().getFloatExtra("Price", 0);
         decimalFormat = new DecimalFormat("0.000", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-        subtotalTextView.setText(getString(R.string.subtotal) + " " + decimalFormat.format(price) + " " + getString(R.string.OMR));
-//        subtotalTextView.setText(getString(R.string.subtotal) + " " + price + " " + getString(R.string.OMR));
+        subtotalTextView.setText(String.format("%s %s %s", getString(R.string.subtotal), decimalFormat.format(price), getString(R.string.OMR)));
         appliedProducts = new ArrayList<>();
         subTotal = price;
         toolbarBack.setVisibility(View.VISIBLE);
@@ -243,7 +232,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         apiController.createSession(new CreateSessionCallback());
 
         promoSavedTextView.setVisibility(View.VISIBLE);
-        promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + decimalFormat.format(promoTotalSaved) + " " + getString(R.string.OMR));
+        promoSavedTextView.setText(String.format("%s: %s %s", getString(R.string.promo_saved), decimalFormat.format(promoTotalSaved), getString(R.string.OMR)));
     }
 
     private void customTextView(TextView view) {
@@ -273,8 +262,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             }
         }, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
         spanTxt.setSpan(foregroundSpan, spanTxt.length() - getString(R.string.privacy).length(), spanTxt.length(), 0);
-//        spanTxt.append(" " + getString(R.string.term_message));
-//        spanTxt.setSpan(new ForegroundColorSpan(Color.GRAY), spanTxt.length() - getString(R.string.term_message).length(), spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
         view.setText(spanTxt, TextView.BufferType.SPANNABLE);
     }
@@ -311,11 +298,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     getString(R.string.close), ShoppingCartActivity.this);
             return;
         }
-//        if (!isNewPromo && isGeneralApplied) {
-//            Constants.showAlert(getString(R.string.apply_coupon), getString(R.string.already_apply),
-//                    getString(R.string.close), ShoppingCartActivity.this);
-//            return;
-//        }
+
         Constants.showSpinner(getString(R.string.apply_coupon), ShoppingCartActivity.this);
         WebServicesHandler.instance.applyPromo(promoEditText.getText().toString(), new Callback<PromoVerify>() {
             @Override
@@ -376,7 +359,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     for (Product product : bagArrayList) {
                         if (product.getID().equals(coupon.getProductID().get(i))) {
                             float price = 0;
-//                        newPromoAmount += newPromoAmount + (coupon.getDiscount() * Double.valueOf(product.getQuantity()));
                             if (product.getIsSaleProduct().equals("true")) {
                                 if (product.getSaleDiscountedType().equals("1")) {
                                     product.setProductDiscountPrice(product.getSalePrice());
@@ -393,7 +375,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                                 price = product.getPrice();
                             }
                             price = price * product.getQuantity();
-//                        double di = (price - deliveryCost) * coupon.getDiscount() / 100;
                             promoSaved += (price * coupon.getDiscount()) / 100;
                         }
                     }
@@ -428,15 +409,14 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
         }
 
-        //promoSaved = Math.round(promoSaved);
         promoSaved = Double.parseDouble(decimalFormat.format(promoSaved));
 
         promoSavedTextView.setVisibility(View.VISIBLE);
         promoTotalSaved = promoTotalSaved + promoSaved;
-        promoSavedTextView.setText(getString(R.string.promo_saved) + ": " + decimalFormat.format(promoTotalSaved) + " " + getString(R.string.OMR));
+        promoSavedTextView.setText(String.format("%s: %s %s", getString(R.string.promo_saved), decimalFormat.format(promoTotalSaved), getString(R.string.OMR)));
         price = subTotal - promoSaved;
         priceToPay = price + deliveryCost;
-        priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + decimalFormat.format(priceToPay) + " " + getString(R.string.OMR));
+        priceToPayTextView.setText(String.format("%s : %s %s", getString(R.string.price_to_pay), decimalFormat.format(priceToPay), getString(R.string.OMR)));
 
         couponCode = coupon.getCouponCode();
     }
@@ -500,7 +480,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             obj = new JSONObject();
             try {
                 obj.put("ProductID", bagArrayList.get(p).getID());
-//              obj.put("AttributeID", bagArrayList.get(p).getCartAttributeID());
                 obj.put("ProductQuantity", bagArrayList.get(p).getQuantity());
                 obj.put("ProductPrice", bagArrayList.get(p).getPrice());
                 obj.put("Discount", dis_product);
@@ -594,11 +573,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         selectedCountry = GlobalValues.countries.get(i);
                         Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
                         countryName.setText(selectedCountry.getName());
-//                        if (SamanApp.isEnglishVersion){
-//                            countryName.setText(selectedCountry.getName());
-//                        }else {
-//                            countryName.setText(selectedCountry.getName_AR());
-//                        }
                     }
                 }
             }
@@ -606,6 +580,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             if (resultCode == RESULT_OK) {
                 String d = data.getExtras().getString("DATA");
 
+                assert d != null;
                 if (d.equalsIgnoreCase("CASH")) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         cardImage.setImageDrawable(getDrawable(R.drawable.cash_delivery));
@@ -799,7 +774,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 }
             } else {
                 if (price < 35) {
-
                     switch (SamanApp.localDB.getCartAllProductsCount()) {    // Outside of Muscat
                         case 1:
                             deliveryCost = 1.3f;
@@ -820,12 +794,16 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     deliveryCost = 0.0f;
                 }
             }
+
             Log.e("DELIVERYCOST", "------deliveryCost---" + deliveryCost);
             priceToPay = deliveryCost + price;
             priceToPay = priceToPay - promoSaved;
 
-            deliveryCostTextView.setText(getString(R.string.delivery_cost) + " : " + decimalFormat.format(deliveryCost) + " " + getString(R.string.OMR));
-            priceToPayTextView.setText(getString(R.string.price_to_pay) + " : " + decimalFormat.format(priceToPay) + " " + getString(R.string.OMR));
+            deliveryCostTextView.setText(String.format("%s : %s %s", getString(R.string.delivery_cost),
+                    decimalFormat.format(deliveryCost), getString(R.string.OMR)));
+            priceToPayTextView.setText(String.format("%s : %s %s", getString(R.string.price_to_pay),
+                    decimalFormat.format(priceToPay), getString(R.string.OMR)));
+
         }
     }
 
@@ -870,9 +848,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         // generate a random 3DSecureId for testing
         String threeDSId = UUID.randomUUID().toString();
         threeDSId = threeDSId.substring(0, threeDSId.indexOf('-'));
-
         Log.e("threeDSId", threeDSId);
-
         apiController.check3DSecureEnrollment(sId, amount, currency, threeDSId, new Check3DSecureEnrollmentCallback());
     }
 
@@ -883,70 +859,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     void doConfirm(String threeDSecureId) {
         amount = String.valueOf(priceToPay);
         apiController.completeSession(sId, orderId, transactionId, amount, currency, threeDSecureId, new CompleteSessionCallback());
-    }
-
-    class CreateSessionCallback implements ApiController.CreateSessionCallback {
-        @Override
-        public void onSuccess(String sessionId, String apiVersion) {
-            sId = sessionId;
-            apiVer = apiVersion;
-
-            if (requestAgain) {
-                updateCardOnGateway();
-                requestAgain = false;
-            }
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-            Toast.makeText(ShoppingCartActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    class UpdateSessionCallback implements GatewayCallback {
-
-        @Override
-        public void onSuccess(GatewayMap response) {
-            Log.i(ShoppingCartActivity.class.getSimpleName(), "Successful pay");
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-            Toast.makeText(ShoppingCartActivity.this, R.string.pay_error_could_not_update_session, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    class Check3DSecureEnrollmentCallback implements ApiController.Check3DSecureEnrollmentCallback {
-        @Override
-        public void onSuccess(String summaryStatus, String threeDSecureId, String html) {
-            if ("CARD_ENROLLED".equalsIgnoreCase(summaryStatus)) {
-                Gateway.start3DSecureActivity(ShoppingCartActivity.this, html);
-            } else if ("CARD_NOT_ENROLLED".equalsIgnoreCase(summaryStatus) || "AUTHENTICATION_NOT_AVAILABLE".equalsIgnoreCase(summaryStatus)) {
-                // for these 2 cases, you still provide the 3DSecureId with the pay operation
-                doConfirm(threeDSecureId);
-            } else {
-                doConfirm();
-            }
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-            throwable.printStackTrace();
-        }
-    }
-
-    class CompleteSessionCallback implements ApiController.CompleteSessionCallback {
-        @Override
-        public void onSuccess(String result) {
-            updatePaymentStatus(placeOrderResponse.getResult().getId(), 1, true);
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-            throwable.printStackTrace();
-            updatePaymentStatus(placeOrderResponse.getResult().getId(), 2, false);
-//            Toast.makeText(ShoppingCartActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
-        }
     }
 
     private void updatePaymentStatus(int orderID, int paymentStatus, final boolean isPaid) {
@@ -978,7 +890,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             }
         });
     }
-
 
     private void isPaymentSuccessFull(int orderID) {
         Constants.showSpinner(getString(R.string.completing_process), ShoppingCartActivity.this);
@@ -1015,7 +926,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             }
         });
     }
-
 
     private void omanNetPaymentVerification(int orderID) {
 
@@ -1094,18 +1004,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         countryName.setText(selectedCountry.getName());
                         for (int i = 0; i < GlobalValues.countries.size(); i++) {
                             Log.e("COUNTRY", "---GlobalValues.countries----size---" + GlobalValues.countries.size());
-//                            if (GlobalValues.countries.get(i).getFlag().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
-//                                selectedCountry = GlobalValues.countries.get(i);
-//                                Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-//                                countryName.setText(selectedCountry.getName());
-//                            }
                         }
                     }
                     Log.e("COUNTRYAPI", "-- GlobalValues.countries---cusapi---" + GlobalValues.countries);
                     // countriesAdapter.notifyDataSetChanged();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -1116,16 +1019,66 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         });
     }
 
-    private void setCountry() {
+    class CreateSessionCallback implements ApiController.CreateSessionCallback {
+        @Override
+        public void onSuccess(String sessionId, String apiVersion) {
+            sId = sessionId;
+            apiVer = apiVersion;
 
-        if (GlobalValues.countries != null) {
-            for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                if (GlobalValues.countries.get(i).getSortname().equalsIgnoreCase(GlobalValues.getSelectedCountry(ShoppingCartActivity.this))) {
-                    selectedCountry = GlobalValues.countries.get(i);
-                    Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
-                    countryName.setText(selectedCountry.getName());
-                }
+            if (requestAgain) {
+                updateCardOnGateway();
+                requestAgain = false;
             }
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            Toast.makeText(ShoppingCartActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class UpdateSessionCallback implements GatewayCallback {
+
+        @Override
+        public void onSuccess(GatewayMap response) {
+            Log.i(ShoppingCartActivity.class.getSimpleName(), "Successful pay");
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            Toast.makeText(ShoppingCartActivity.this, R.string.pay_error_could_not_update_session, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class Check3DSecureEnrollmentCallback implements ApiController.Check3DSecureEnrollmentCallback {
+        @Override
+        public void onSuccess(String summaryStatus, String threeDSecureId, String html) {
+            if ("CARD_ENROLLED".equalsIgnoreCase(summaryStatus)) {
+                Gateway.start3DSecureActivity(ShoppingCartActivity.this, html);
+            } else if ("CARD_NOT_ENROLLED".equalsIgnoreCase(summaryStatus) || "AUTHENTICATION_NOT_AVAILABLE".equalsIgnoreCase(summaryStatus)) {
+                // for these 2 cases, you still provide the 3DSecureId with the pay operation
+                doConfirm(threeDSecureId);
+            } else {
+                doConfirm();
+            }
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    class CompleteSessionCallback implements ApiController.CompleteSessionCallback {
+        @Override
+        public void onSuccess(String result) {
+            updatePaymentStatus(placeOrderResponse.getResult().getId(), 1, true);
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            throwable.printStackTrace();
+            updatePaymentStatus(placeOrderResponse.getResult().getId(), 2, false);
         }
     }
 }

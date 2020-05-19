@@ -69,7 +69,6 @@
                 android:background="@color/grey" />
 
             <RadioButton
-                android:id="@+id/radio_female"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"

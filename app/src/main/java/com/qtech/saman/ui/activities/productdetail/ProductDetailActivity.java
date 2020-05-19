@@ -51,11 +51,12 @@ import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 
 public class ProductDetailActivity extends BaseActivity implements ProductContractor.View {
 
+    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
+    final long PERIOD_MS = 5 * 1000; // time in milliseconds between successive task executions.
     @BindView(R.id.viewpager)
     ViewPager mPager;
     @BindView(R.id.options_layout)
     LinearLayout optionsLinearLayout;
-
     //Product
     @BindView(R.id.tv_product_name)
     TextView productName;
@@ -87,24 +88,19 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     TextView tv_sale_link;
     @BindView(R.id.ll_display_sale)
     LinearLayout ll_display_sale;
-
     //Product
     int productID;
     ArrayList<String> urls;
     CustomPagerAdapter customPagerAdapter;
-
     Product product;
     User authenticatedUser;
-
     @BindView(R.id.layout_specifications_parent)
     LinearLayout specificationParentLayout;
     @BindView(R.id.layout_specifications)
     LinearLayout specificationsLayout;
-
     ProductContractor.Presenter presenter;
     @BindView(R.id.loading)
     RelativeLayout loading;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
@@ -114,24 +110,20 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
     LayoutInflater inflater;
     int currentPage = 0;
     Timer timer;
-    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
-    final long PERIOD_MS = 5 * 1000; // time in milliseconds between successive task executions.
-
-    @OnClick(R.id.toolbar_back)
-    public void back() {
-        super.onBackPressed();
-    }
-
     boolean fromFavorite = false;
-
     String selectedOptions = "";
     String[] optionIDs;
     int selectedQuantity = -1;
     float final_display_salePrice = 0.0f;
     float product_discount = 0.0f;
-
     Dialog dialog;
     String saleString;
+    ArrayList<Product> arrayLst = new ArrayList<>();
+
+    @OnClick(R.id.toolbar_back)
+    public void back() {
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +193,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         presenter.destroy();
     }
 
-
     @OnClick(R.id.iv_favorite)
     public void favoriteButton() {
         if (GlobalValues.getGuestLoginStatus(ProductDetailActivity.this)) {
@@ -250,9 +241,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
 
     @OnClick(R.id.iv_add_to_cart)
     public void addToCart() {
-        if (product == null) {
+        if (product == null)
             return;
-        }
+
 
         if (!allOptionsSelected()) {
 //          showPopUp();
@@ -297,8 +288,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             }
         }
     }
-
-    ArrayList<Product> arrayLst = new ArrayList<>();
 
     @OnClick(R.id.iv_share)
     public void share() {
@@ -525,8 +514,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
             for (int p = 0; p < product.getProductOptions().size(); p++) {
                 ProductOption productOption = product.getProductOptions().get(p);
                 View child = inflater.inflate(R.layout.item_options_row, null);
-                TextView optionName = (TextView) child.findViewById(R.id.tv_option_name);
-                Spinner optionValuesSpinner = (Spinner) child.findViewById(R.id.spinner_option_value);
+                TextView optionName = child.findViewById(R.id.tv_option_name);
+                Spinner optionValuesSpinner = child.findViewById(R.id.spinner_option_value);
                 if (SamanApp.isEnglishVersion) {
                     optionName.setText(productOption.getTitle());
                 } else {
@@ -752,11 +741,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductContra
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
-        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
-        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
-        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
         if (title.isEmpty()) {
             titleTextView.setVisibility(View.GONE);
         }

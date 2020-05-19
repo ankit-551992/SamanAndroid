@@ -29,7 +29,6 @@
           android:textColor="@color/grey" />
 
       <LinearLayout
-          android:id="@+id/social_login_layout"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:orientation="horizontal">
@@ -117,7 +116,6 @@
             android:textColor="@color/black" />
 
         <ImageView
-            android:id="@+id/iv_firstName_cross"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="end|center_vertical"
@@ -148,7 +146,6 @@
             android:textColor="@color/black" />
 
         <ImageView
-            android:id="@+id/iv_lastName_cross"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="end|center_vertical"

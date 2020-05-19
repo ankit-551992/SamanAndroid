@@ -13,7 +13,6 @@
         android:layout_weight="0.37">
 
         <ImageView
-            android:id="@+id/iv_profile_background"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:adjustViewBounds="true"

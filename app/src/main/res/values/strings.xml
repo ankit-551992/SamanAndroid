@@ -14,10 +14,8 @@
     <string name="app_name">Saman</string>
     <string name="title_home">Home</string>
     <string name="title_store">Store</string>
-    <string name="title_favorite">Favorite</string>
     <string name="title_fav">Wish List</string>
     <string name="drawer_fav">Wish List</string>
-    <string name="title_bag">Bag</string>
     <string name="title_my_bag">My Bag</string>
     <string name="title_settings">Settings</string>
     <string name="title_my_account">My Account</string>
@@ -27,7 +25,6 @@
     <string name="forgot_password"><u>Forgot Password?</u></string>
     <string name="email_address">Email Address</string>
     <string name="email_hint">example@saman.com</string>
-    <string name="password_hint">********</string>
     <string name="sign_up"><u>Sign Up</u></string>
     <string name="update">Update</string>
     <string name="sign_in"><u>Sign In</u></string>
@@ -38,7 +35,6 @@
     <string name="upload_photos">Upload\nPhotos</string>
     <string name="dummy">Lige Brand Men Watches Automatic</string>
     <string name="write_here">Enter your messagee</string>
-    <string name="feedback_here">Write your feedback here</string>
     <string name="search">Search</string>
     <string name="search_query">Search Field Empty, Please write something to search</string>
     <string name="swipe">Swipe</string>
@@ -47,7 +43,6 @@
     <string name="currency_omr">OMR</string>
     <string name="logout_message">Are you sure want to logout from the app?</string>
     <string name="login_message">Log in to use\npersonalized content</string>
-    <string name="not_now">Not Now</string>
     <string name="logout">Log Out</string>
     <string name="contentDescription">Content Description</string>
     <string name="sign_up_agreement">By tapping Sign Up, you agree to our\n</string>
@@ -59,7 +54,6 @@
     <string name="navigation_drawer_open">Navigation Drawer Open</string>
 
     <string name="navigation_drawer_close">Navigation Drawer Close</string>
-    <string name="order_cancel">Canceled by Customer</string>
 
     <string name="male">Male</string>
 
@@ -88,9 +82,6 @@
     <string name="notifications">Notifications</string>
     <string name="term">&#160;Terms and conditions &#160;</string>
     <string name="description">Description</string>
-    <string name="specifications">Specifications</string>
-    <string name="no_specifications">No Specifications</string>
-    <string name="create_ticket">Create Ticket</string>
     <string name="submit">Submit</string>
     <string name="terms_agreed">I Agree To The Terms</string>
     <string name="character">Character</string>
@@ -117,17 +108,14 @@
     <string name="we_accept">We Accept</string>
     <string name="place_order">Place Order</string>
     <string name="invoice">Invoice</string>
-    <string name="download_invoice">Download Invoice</string>
     <string name="downloaded_invoice">Invoice is downloaded successfully</string>
     <string name="price_to_pay">Price to pay</string>
     <string name="promo_saved">Discount</string>
     <string name="no_items_found">No items found!</string>
     <string name="no_product_found">No products found</string>
-    <string name="no_wishitems_found">No items in the Wishlist!</string>
     <string name="no_items_customer_service">No tickets found</string>
     <string name="no_message_conversation">No conversation found</string>
     <string name="agreement_order">By placing your order you agree to our</string>
-    <string name="cart_dummy">Mr. Jesus\n\nMusqat\n\nMusqat\n\nOman\n\n115\n\n77777</string>
     <string name="check_out_thank_you">Thank You For Your Order</string>
     <!--Shopping cart-->
 
@@ -149,8 +137,6 @@
     <!--Checkout-->
 
     <!--Payment-->
-    <string name="add_new_card">Credit/Debit\n Card\nAdd New</string>
-    <string name="add_new">Add New</string>
     <string name="add">Add</string>
     <string name="app_language">App Language Changed Successfully, please close the app and reopen it again</string>
     <string name="add_payment_message">You have no payment method</string>
@@ -167,7 +153,6 @@
     <string name="delete">Remove</string>
     <string name="default_">Default</string>
     <string name="cancel">Cancel</string>
-    <string name="product_added_in_bag">Product Added successfully, Check Your Bag</string>
     <string name="add_to_cart">Move To Bag</string>
     <string name="add_to_fav">Move To Wishlist</string>
     <string name="added_to_fav">Item Has Been Added to Your Wishlist</string>
@@ -175,12 +160,7 @@
     <string name="ask_remove_from_fav">Removed from Wishlist</string>
     <string name="remove_sure">Are you sure you want to remove this item from wishlist?</string>
     <string name="view_fav">View Wishlist</string>
-    <string name="yeah">View Wishlist</string>
-    <string name="add_to_bag">Added to bag</string>
     <string name="remove_from_bag">Do you really want to remove from bag?</string>
-    <string name="removed_from_bag">Product Removed successfully</string>
-    <string name="move_to_fav">Product moved to wish list successfully</string>
-    <string name="best_rate">Best Rate</string>
     <!--Bag-->
 
     <!--Search-->
@@ -188,7 +168,6 @@
     <string name="low_price">Price Low</string>
     <string name="new_in">New In</string>
     <string name="order_number">Order Number</string>
-    <string name="categories">Categories</string>
     <string name="Done">Done</string>
     <string name="best_sell">Best Sell</string>
     <string name="sort_by">Sort By</string>
@@ -211,7 +190,6 @@
     <string name="country">Country</string>
     <string name="address">Address</string>
     <string name="Birthday">Date of birth</string>
-    <string name="date">DD/MM/YYYY</string>
     <string name="day">DD</string>
     <string name="day_missing">Please Select Day</string>
     <string name="month">MM</string>
@@ -223,12 +201,10 @@
     <string name="select_country">Country Selection</string>
     <string name="select_country_req">Please Select Country</string>
     <string name="select_location">Select Location</string>
-    <string name="address_hint">Oman, Street name, Building, Floor...</string>
     <string name="address_req">Address Required</string>
     <string name="have_account">Have Account?</string>
     <string name="dob_missing">Please Select Date Of Birth</string>
     <string name="code">Code</string>
-    <string name="enter_countrycode">Please enter country code</string>
     <string name="change_password_message">Please enter old password to confirm and new password to change password</string>
     <!--Sign Up-->
 
@@ -251,12 +227,9 @@
     <string name="select_method">Please Select payment method</string>
     <!--Password-->
 
-    <string name="cash_method">Cash on delivery method already added</string>
     <string name="Stores">Stores</string>
 
     <!--Home-->
-    <string name="best_sellers">Best Sellers</string>
-    <string name="latest_product">Latest Product</string>
     <string name="hot_pick">Hot Pick</string>
     <string name="see_all">See All</string>
     <string name="type_message">Type your message here ...</string>
@@ -285,11 +258,8 @@
     <string name="set_as_default">Set as default</string>
     <string name="my_details">My Details</string>
     <string name="my_orders">My Orders</string>
-    <string name="my_favorites">My Favorites</string>
-    <string name="update_profile">Update Profile</string>
     <string name="update_profile_success">Profile Updated Successfully</string>
     <string name="update_profile_fail">Profile Update Failed</string>
-    <string name="request_sent">Request Sent Successfully</string>
     <string name="ticket_created_success">Your message is taking care by us, will contact you shortly</string>
     <string name="address_added">Address Added Successfully</string>
     <string name="address_edit">Address Updated Successfully</string>
@@ -297,7 +267,6 @@
     <!--My Account-->
 
     <string name="submit_request">Submitting Request</string>
-    <string name="customer_detail_tilte">Customer Ticket</string>
 
     <!--customer Support List-->
     <string name="customer_id">Ticket Id #</string>
@@ -323,13 +292,11 @@
     <string name="try_again">Try Again</string>
     <string name="okay">Okay</string>
     <string name="continue_shopping">Continue Shopping</string>
-    <string name="go_to_check_out">Go to bag</string>
     <string name="view_bag">View Bag</string>
     <string name="item_added_bag">An Item Has Been Added to Your bag</string>
     <string name="item_added_message">What do you want to do now?</string>
     <string name="close">Close</string>
     <string name="sorry">Sorry</string>
-    <string name="no_implemented">Not implemented yet!</string>
     <string name="old_password_required">Please Enter Old Password</string>
     <string name="new_password_required">Please Enter New Password</string>
     <string name="confirm_new_password_required">Please Confirm New Password</string>
@@ -338,7 +305,6 @@
     <string name="street_no">Street Name</string>
     <!--Required-->
 
-    <string name="building_no">Building ,Floor, Apt.</string>
     <string name="building">Building Number</string>
 
     <string name="building_floor">Floor</string>
@@ -375,104 +341,9 @@
     <!--Card-->
     <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
     <string name="facebook_app_id">3125509047499383</string>
-    <string name="fb_login_protocol_scheme">fb293002707997112</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
-
-    <string name="large_text">
-        "Material is the metaphor.\n\n"
-
-        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
-        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
-        "technologically advanced and open to imagination and magic.\n"
-        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
-        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
-        "flexibility of the material creates new affordances that supercede those in the physical "
-        "world, without breaking the rules of physics.\n"
-        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
-        "interact, and exist in space and in relation to each other. Realistic lighting shows "
-        "seams, divides space, and indicates moving parts.\n\n"
-
-        "Bold, graphic, intentional.\n\n"
-
-        "The foundational elements of print based design typography, grids, space, scale, color, "
-        "and use of imagery guide visual treatments. These elements do far more than please the "
-        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
-        "imagery, large scale typography, and intentional white space create a bold and graphic "
-        "interface that immerse the user in the experience.\n"
-        "An emphasis on user actions makes core functionality immediately apparent and provides "
-        "waypoints for the user.\n\n"
-
-        "Motion provides meaning.\n\n"
-
-        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
-        "inflection points that initiate motion, transforming the whole design.\n"
-        "All action takes place in a single environment. Objects are presented to the user without "
-        "breaking the continuity of experience even as they transform and reorganize.\n"
-        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
-        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
-
-        "3D world.\n\n"
-
-        "The material environment is a 3D space, which means all objects have x, y, and z "
-        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
-        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
-        "position along the z-axis and has a standard 1dp thickness.\n"
-        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
-        "emulated by manipulating the y-axis.\n\n"
-
-        "Light and shadow.\n\n"
-
-        "Within the material environment, virtual lights illuminate the scene. Key lights create "
-        "directional shadows, while ambient light creates soft shadows from all angles.\n"
-        "Shadows in the material environment are cast by these two light sources. In Android "
-        "development, shadows occur when light sources are blocked by sheets of material at "
-        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
-        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
-
-        "Resting elevation.\n\n"
-
-        "All material objects, regardless of size, have a resting elevation, or default elevation "
-        "that does not change. If an object changes elevation, it should return to its resting "
-        "elevation as soon as possible.\n\n"
-
-        "Component elevations.\n\n"
-
-        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
-        "does not vary from 6dp in one app to 16dp in another app).\n"
-        "Components may have different resting elevations across platforms, depending on the depth "
-        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
-
-        "Responsive elevation and dynamic elevation offsets.\n\n"
-
-        "Some component types have responsive elevation, meaning they change elevation in response "
-        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
-        "changes are consistently implemented using dynamic elevation offsets.\n"
-        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
-        "to the component’s resting state. They ensure that elevation changes are consistent "
-        "across actions and component types. For example, all components that lift on press have "
-        "the same elevation change relative to their resting elevation.\n"
-        "Once the input event is completed or cancelled, the component will return to its resting "
-        "elevation.\n\n"
-
-        "Avoiding elevation interference.\n\n"
-
-        "Components with responsive elevations may encounter other components as they move between "
-        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
-        "through other material, components avoid interfering with one another any number of ways, "
-        "whether on a per component basis or using the entire app layout.\n"
-        "On a component level, components can move or be removed before they cause interference. "
-        "For example, a floating action button (FAB) can disappear or move off screen before a "
-        "user picks up a card, or it can move if a snackbar appears.\n"
-        "On the layout level, design your app layout to minimize opportunities for interference. "
-        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-        "when a user tries to pick up one of cards.\n\n"
-    </string>
-
-    <string name="action_settings">Settings</string>
 
     <string name="feedback_message">Send your feedback about this order</string>
 
-    <string name="feedback">Feedback...</string>
     <string name="pay_error_could_not_update_session">Could not update session</string>
     <string name="view_invoice">View invoice</string>
     <string name="shipping">Delivery</string>
@@ -480,7 +351,6 @@
     <string name="track_order">Track order</string>
 
     <string name="track">Track</string>
-    <string name="credit_card">Credit Card</string>
     <string name="cod">Cash on delivery</string>
     <string name="free">Free</string>
     <string name="invalid_token">Invalid Token</string>
@@ -535,8 +405,6 @@
 
     <string name="coupon_discount">Coupon Discount</string>
     <string name="coupon_discount_is_">Your coupon discount is</string>
-    <string name="already_apply_on_same_product">Coupon already applied on same product</string>
-    <string name="term_message">&#160;and consent to some of your data being stored by Saman which may be used to make future shopping experiences for you&#160;</string>
 
     <string name="order_status_notify">Order Status</string>
     <string name="message_notify">Message Notification</string>
@@ -547,12 +415,8 @@
 
     <!--notification types -->
     <string name="order_title">Are you sure?</string>
-    <string name="order_message">Do you really want to place order?</string>
-    <string name="Order_canceled_msg">Order Cancelled Successfully</string>
     <string name="oman">oman</string>
     <string name="Oman">Oman</string>
-
-    <string name="muscat">Governorate of Muscat</string>
 
     <!--place Order dialog-->
     <string name="percent_sign">&#x0025;</string>
@@ -563,9 +427,7 @@
 
     <string name="subscribe">Subscribed successfully</string>
 
-    <string name="select_address">Shipping Address</string>
     <string name="order_fail_msg">Order Failed</string>
-    <string name="limited_stock">Limited stock</string>
     <string name="cancel_order_of">Cancel order</string>
     <string name="hint_validation">You can’t proceed, minimum shopping is 5 OMR</string>
     <string name="unsunscribe">Unsubscribe</string>
@@ -579,25 +441,6 @@
     <string name="country_missing">Please Select Country</string>
     <string name="region_missing">Please Select Region</string>
     <string name="dob_validation">Date of birth is not valid</string>
-    <string-array name="genders">
-        <item>Male</item>
-        <item>Female</item>
-    </string-array>
-    <string-array name="subjects">
-        <item>Reporting issue</item>
-        <item>Ask for help</item>
-        <item>Report Product</item>
-        <item>Report Store</item>
-    </string-array>
-    <string-array name="languages">
-        <item>English</item>
-        <item>Arabic</item>
-    </string-array>
-    <string-array name="flavors">
-        <item>Chocolate</item>
-        <item>PineApple</item>
-        <item>Mango</item>
-    </string-array>
 
     <string-array name="regions">
         <item>Governorate of Muscat</item>

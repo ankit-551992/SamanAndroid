@@ -16,7 +16,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/headerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -136,7 +135,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/stores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
@@ -175,7 +173,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/latest_products"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="11dp"

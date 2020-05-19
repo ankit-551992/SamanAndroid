@@ -38,7 +38,6 @@
                     android:textColor="@color/black" />
 
                 <ImageView
-                    android:id="@+id/iv_firstName_cross"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="end|center_vertical"
@@ -69,7 +68,6 @@
                     android:textColor="@color/black" />
 
                 <ImageView
-                    android:id="@+id/iv_lastName_cross"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="end|center_vertical"
@@ -329,7 +327,6 @@
 
 
             <LinearLayout
-                android:id="@+id/layout_addressSelection"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
