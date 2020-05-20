@@ -157,7 +157,6 @@ public class ForgotPasswordActivity extends BaseActivity implements PasswordCont
 
     @Override
     public void forgotResponse(String message) {
-        Log.e("FORGOT111", "--forge--response--message----" + message);
         Intent intent = new Intent(ForgotPasswordActivity.this, ResetPasswordActivity.class);
         startActivity(intent);
         finish();

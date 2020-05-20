@@ -57,7 +57,7 @@ public class MyDetailsPresenter implements DetailContractor.Presenter {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
                 view.hideProgress();
                 view.updateResponseFail(false);
             }

@@ -59,13 +59,11 @@ public class SplashActivity extends BaseActivity {
         if (GlobalValues.getAppLanguage(getApplicationContext()).equals("")) {
             GlobalValues.changeLanguage(Locale.getDefault().getLanguage(), getApplicationContext());
             if (Locale.getDefault().getLanguage().equals("ar")) {
-                Log.e("TAG", "onCreate:--if " + isEnglishVersion);
                 isEnglishVersion = false;
             }
         } else {
             GlobalValues.changeLanguage(GlobalValues.getAppLanguage(getApplicationContext()), getApplicationContext());
             if (GlobalValues.getAppLanguage(getApplicationContext()).equals("ar")) {
-                Log.e("TAG", "onCreate:--else " + isEnglishVersion);
                 isEnglishVersion = false;
             }
         }
@@ -136,12 +134,11 @@ public class SplashActivity extends BaseActivity {
         apiClient.getAppViewCount(new Callback<ApiViewCount>() {
             @Override
             public void onResponse(Call<ApiViewCount> call, Response<ApiViewCount> response) {
-                Log.e("onSuccess", "response-----" + response.body());
             }
 
             @Override
             public void onFailure(Call<ApiViewCount> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
             }
         });
     }

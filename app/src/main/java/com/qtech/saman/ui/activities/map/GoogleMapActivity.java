@@ -175,7 +175,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                 e.printStackTrace();
             }
         } catch (IOException e) {
-            Log.e("GEOCODE SERVICE", e.getMessage());
+            e.printStackTrace();
         }
         return address;
     }
@@ -438,15 +438,12 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
 //       Log.e("LAT0LNG0", "---selected_country---" +selected_country);
 
         if (arr.length >= 4 && !arr[3].isEmpty() && arr[3].equals(getResources().getString(R.string.Oman))) {
-            Log.e("LAT0LNG0", "----selected_country---" + arr[3]);
-            Log.e("OMAN00", "--address--Oman-----" + address);
             Intent data = new Intent();
             data.setData(Uri.parse(address));
             setResult(RESULT_OK, data);
             finish();
         } else {
             Constants.showErrorPopUp(GoogleMapActivity.this, "", getResources().getString(R.string.map_dialog_msg), getResources().getString(R.string.okay));
-            Log.e("OMAN00", "--please--select----Oman-----");
         }
 
     }

@@ -302,7 +302,6 @@ public class HomeFragment extends BaseFragment implements HomeContractor.View {
         }
 
         if (screenApi.getMiddleURLs() != null && !screenApi.getMiddleURLs().equals("")) {
-            Log.e("BANNERTYPE", "--getMiddleURLs---" + screenApi.getMiddleURLs());
             setHeaderBelowBanner(screenApi.getMiddleURLs());
         }
 

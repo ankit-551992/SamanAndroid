@@ -27,12 +27,9 @@ public class MyAccountPresenter implements MyAccountContractor.Presenter {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse userResponse = response.body();
-                Log.e("ACCOUNT00", "---get--user---body---" + response.body().toString());
-                Log.e("ACCOUNT00", "---get--user---detail---" + new Gson().toJson(userResponse));
                 if (userResponse != null) {
                     if (userResponse.getSuccess() == 1) {
                         if (userResponse.getUser() != null) {
-                            Log.e("IMAGEW000", "--userResponse.getUser()-----" + userResponse.getUser());
                             if (view != null) {
                                 view.response(userResponse.getUser());
                             }
@@ -43,7 +40,7 @@ public class MyAccountPresenter implements MyAccountContractor.Presenter {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
             }
         });
     }

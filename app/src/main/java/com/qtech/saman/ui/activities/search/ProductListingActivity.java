@@ -241,7 +241,6 @@ public class ProductListingActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<GetProducts> call, Throwable t) {
-                Log.e("onFailure", "onFailure: " + t.getMessage());
             }
         });
     }

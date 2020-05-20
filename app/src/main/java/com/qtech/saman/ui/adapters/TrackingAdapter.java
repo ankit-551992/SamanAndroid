@@ -40,8 +40,6 @@ public class TrackingAdapter extends RecyclerView.Adapter<TrackingAdapter.RowVie
     @Override
     public void onBindViewHolder(RowViewHolder holder, int position) {
         OrderTrack orderTrack = orderTrackArrayList.get(position);
-        Log.e("ORDERLIST00", "-orderTrackArrayList---" + orderTrackArrayList.toString());
-
         if (SamanApp.isEnglishVersion) {
             if (orderTrack.getComment() != null && orderTrack.getComment() != null && !orderTrack.getComment().isEmpty()) {
                 holder.messageTextView.setText(orderTrack.getComment());

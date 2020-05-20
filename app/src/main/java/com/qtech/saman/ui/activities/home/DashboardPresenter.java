@@ -48,7 +48,7 @@ public class DashboardPresenter implements DashboardContractor.Presenter {
 
             @Override
             public void onFailure(Call<GetCategoriesList> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
             }
         });
     }

@@ -58,7 +58,6 @@ public class HomePresenter implements HomeContractor.Presenter {
                     view.hideProgress();
                     view.error("null");
                 }
-                Log.e("onFailure", "" + t.getMessage());
             }
         });
     }

@@ -81,12 +81,6 @@ public class AllProductsFragment extends BaseFragment {
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
 
-//        if (isNewIn) {
-//            Log.e("2222NEWPRODUCT", "---isNewIn------");
-//            getLatestProducts(currentPage, pageSize);
-//        } else {
-//            getAllProducts(currentPage, pageSize);
-//        }
         getAllProducts(currentPage, pageSize);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -159,7 +153,6 @@ public class AllProductsFragment extends BaseFragment {
                         }
                         if (getProducts.getProduct() != null && getProducts.getProduct().size() > 0) {
                             displayData.addAll(getProducts.getProduct());
-                            Log.e("2222NEWPRODUCT", "-00-ALL-displayData--size--" + displayData.size());
                         } else {
                             isGetAll = true;
                         }

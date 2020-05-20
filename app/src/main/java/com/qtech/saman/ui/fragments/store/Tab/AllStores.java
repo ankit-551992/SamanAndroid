@@ -76,7 +76,6 @@ public class AllStores extends BaseFragment {
             search = bundle.getString("SEARCH", "");
             storeID = bundle.getInt("StoreID", 0);
             isBannerStore = bundle.getBoolean("BannerStore", false);
-            Log.e("SEARCH000", "--search--00--readBundle---store---" + search);
         }
     }
 
@@ -98,8 +97,6 @@ public class AllStores extends BaseFragment {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, 20, false, getContext()));
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         progressBar.setVisibility(View.VISIBLE);
-
-        Log.e("SEARCH000", "--search--all---store---");
         if (isBannerStore) {
             getBannerStore();
         } else {
@@ -128,8 +125,6 @@ public class AllStores extends BaseFragment {
         WebServicesHandler.instance.getBannerProduct(storeID, userID, pageIndex, pageSize, new retrofit2.Callback<GetStores>() {
             @Override
             public void onResponse(Call<GetStores> call, Response<GetStores> response) {
-                Log.e("PRODUCT888", "--response--" + new Gson().toJson(response));
-
                 if (storeArrayList.size() > 0 && storeArrayList.get(storeArrayList.size() - 1) == null) {
                     storeArrayList.remove(storeArrayList.size() - 1);
                     adapter.notifyItemRemoved(storeArrayList.size());
@@ -253,7 +248,6 @@ public class AllStores extends BaseFragment {
         if (storeArrayList != null) {
             storeArrayList.addAll(seachstorelist);
         }
-        Log.e("SEARCH000", "--search--22--storeArrayList----" + new Gson().toJson(storeArrayList));
         adapter.notifyDataSetChanged();
     }
 

@@ -41,10 +41,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        Log.e("SENDER_ID", "----senderId---" + messages.get(position).getSender().getId());
-        Log.e("SENDER_ID", "--authenticatedUser--senderId---" + authenticatedUser.getId());
-
-        // if (messages.get(position).getSender().getId() == authenticatedUser.getId()) {
         if (!messages.get(position).getSender().getId().equals(authenticatedUser.getId())) {
             return VIEW_TYPE_OTHER;
         } else {

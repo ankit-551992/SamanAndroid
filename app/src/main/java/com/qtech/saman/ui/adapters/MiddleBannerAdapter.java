@@ -38,7 +38,6 @@ public class MiddleBannerAdapter extends PagerAdapter {
         assert imageLayout != null;
         ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imageView);
 
-        Log.e("BANNERLIST", "--sliderList--" + sliderList.toString());
 //      Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerCrop().into(imageView);
 //      Picasso.get().load(Constants.URLS.BaseURLImages+ sliderList.get(position).getBannerURL()).fit().centerInside().into(imageView);
         Picasso.get().load(Constants.URLS.BaseURLImages + sliderList.get(position).getBannerURL()).fit().into(imageView);

@@ -52,15 +52,11 @@ public class Constants {
         //String BaseURLImages = "http://96.127.174.114/plesk-site-preview/staging.saman.om";
 
         //new staging App Login
-        String BaseURLApis = "https://staging.saman.om/api/";
-//        String BaseURLApis = "https://samanapp.azurewebsites.net/api/";
+//        String BaseURLApis = "https://staging.saman.om/api/";
+        String BaseURLApis = "https://samanapp.azurewebsites.net/api/";
         String BaseURLImages = "https://staging.saman.om";
         String Invoice_url = "https://staging.saman.om/Order/Invoice/";
 
-        //http local staging App Login
-//        String BaseURLApis = "http://96.127.174.114/plesk-site-preview/staging.saman.om/api/";
-//        String BaseURLImages = "http://96.127.174.114/plesk-site-preview/staging.saman.om";
-//        String Invoice_url = "http://96.127.174.114/plesk-site-preview/staging.saman.om/Order/Invoice/";
 
         String GeoCodeApis = "https://maps.googleapis.com/maps/api/geocode/";
         String returnPolicy = "https://www.algorepublic.com/";
@@ -169,19 +165,9 @@ public class Constants {
         messageTextView.setText(message);
 //      messageTextView.setText(context.getString(R.string.missing_options));
 
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        close.setOnClickListener(view -> dialog.dismiss());
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        nextButton.setOnClickListener(view -> dialog.dismiss());
     }
 
     public static void showAlertWithActivityFinish(String title, String message, String buttonText, final Context context) {

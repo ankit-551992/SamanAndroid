@@ -89,11 +89,9 @@ public class NumberVerificationActivity extends BaseActivity {
             @Override
             public void onResponse(Call<PhoneCodeResponse> call, Response<PhoneCodeResponse> response) {
                 phoneCodeResponse = response.body();
-                Log.e("RESPNSE", "--phoneCodeResponse--" + response.body());
-                Log.e("RESPNSE", "--phoneCodeResponse-0000-" + phoneCodeResponse);
+
                 if (phoneCodeResponse != null) {
                     if (phoneCodeResponse.getSuccess() == 1) {
-                        Log.e("Code", phoneCodeResponse.getResult());
                         Toast.makeText(NumberVerificationActivity.this, phoneCodeResponse.getResult(), Toast.LENGTH_LONG).show();
                     }
                 }

@@ -198,7 +198,6 @@ public class CheckoutOrderActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-                Log.e("RES", "Failed Feedback Response" + t.getMessage());
             }
         });
     }
@@ -305,7 +304,6 @@ public class CheckoutOrderActivity extends BaseActivity {
             dialog.dismiss();
             startActivity(new Intent(CheckoutOrderActivity.this, CustomerSupportActivity.class).putExtra("order_id", orderID));
             finish();
-            Log.e("RES00000", "--nexttt-orderID---" + orderID + "-orderStatus-" + orderStatus + "-orderItemId-" + orderItemId + "-userId--" + userId);
 
         });
 

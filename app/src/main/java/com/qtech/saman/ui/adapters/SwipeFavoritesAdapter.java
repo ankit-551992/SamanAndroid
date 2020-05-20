@@ -49,11 +49,11 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     List<Product> productArrayList = new ArrayList<>();
+    FavoritesFragment favoritesFragment;
+    Dialog dialog;
     private Context mContext;
     private User authenticatedUser;
-    FavoritesFragment favoritesFragment;
     private Product cartProduct;
-    Dialog dialog;
 
     public SwipeFavoritesAdapter(Context mContext, List<Product> productArrayList, FavoritesFragment favoritesFragment) {
         this.productArrayList = productArrayList;
@@ -97,8 +97,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                 if (SamanApp.isEnglishVersion) {
                     favoritesViewHolder.price.setText(getOptionsName(productArrayList.get(position)));
                 } else {
-//                  Log.e("DES",product.getOptionsAR());
-//                  product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
                     favoritesViewHolder.price.setText(getOptionsNameAR(productArrayList.get(position)));
                 }
             } else {
@@ -256,46 +254,6 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         return R.id.swipe;
     }
 
-    static class FavoritesViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.swipe)
-        SwipeLayout swipeLayout;
-
-        @BindView(R.id.layout1)
-        LinearLayout layout1;
-
-        @BindView(R.id.layout2)
-        LinearLayout layout2;
-
-        @BindView(R.id.iv_icon1)
-        ImageView favIcon;
-
-        @BindView(R.id.tv_1)
-        TextView textView1;
-
-        @BindView(R.id.tv_product_name)
-        TextView name;
-        @BindView(R.id.tv_store_name)
-        TextView storeName;
-        @BindView(R.id.tv_price)
-        TextView price;
-        @BindView(R.id.iv_product)
-        ImageView productImageView;
-
-        public FavoritesViewHolder(View v) {
-            super(v);
-            ButterKnife.bind(this, v);
-        }
-    }
-
-    static class LoadingViewHolder extends RecyclerView.ViewHolder {
-        public ProgressBar progressBar;
-
-        public LoadingViewHolder(View itemView) {
-            super(itemView);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.native_progress_bar);
-        }
-    }
-
     private void showPopUp(String title, String message, String closeButtonText, String nextButtonText, final int type, int position) {
         dialog = new Dialog(mContext, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -303,11 +261,11 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
-        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
-        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
-        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
 
         titleTextView.setText(title);
         messageTextView.setText(message);
@@ -351,54 +309,13 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
         dialog.show();
     }
 
-    /*private void getProductDetails(int productID) {
-        WebServicesHandler.instance.getFavProductDetail(String.valueOf(productID), String.valueOf(authenticatedUser.getId()), new retrofit2.Callback<GetProduct>() {
-            @Override
-            public void onResponse(Call<GetProduct> call, Response<GetProduct> response) {
-                GetProduct getProduct = response.body();
-                if (getProduct != null) {
-                    if (getProduct.getSuccess() == 1) {
-                        if (getProduct.getProduct() != null) {
-                            cartProduct = getProduct.getProduct();
-                            Log.e("DefaultOptions", getOptionsData());
-                            if (SamanApp.localDB != null) {
-                                if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), 1)) {
-                                    showPopUp(mContext.getString(R.string.item_added_bag),
-                                            mContext.getString(R.string.item_added_message),
-                                            mContext.getString(R.string.continue_shopping),
-                                            mContext.getString(R.string.view_bag),
-                                            0);
-                                }
-                            }
-                            ((DashboardActivity) mContext).updateBagCount();
-                            notifyDataSetChanged();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetProduct> call, Throwable t) {
-                Log.e("Failure", t.getMessage());
-            }
-        });
-    }*/
-
     private void getProductDetails(Product product1) {
         cartProduct = product1;
-        Log.e("DefaultOptions", getOptionsData());
         if (SamanApp.localDB != null) {
 
             if (cartProduct.getQuantity() != 0) {
                 if (cartProduct.getQuantity() >= product1.getUserQuantity()) {
                     if (SamanApp.localDB.addToCart(cartProduct, getOptionsData(), getOptionsName(), getOptionsNameAR(), product1.getUserQuantity(), product1.getProductDiscountPrice())) {
-/*
-                        showPopUp(mContext.getString(R.string.item_added_bag),
-                                mContext.getString(R.string.item_added_message),
-                                mContext.getString(R.string.continue_shopping),
-                                mContext.getString(R.string.view_bag),
-                                0);
-*/
                         Constants.showCustomPopUp(mContext, mContext.getString(R.string.item_added_bag),
                                 mContext.getString(R.string.item_added_message),
                                 mContext.getString(R.string.continue_shopping),
@@ -527,5 +444,45 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 
             }
         });
+    }
+
+    static class FavoritesViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.swipe)
+        SwipeLayout swipeLayout;
+
+        @BindView(R.id.layout1)
+        LinearLayout layout1;
+
+        @BindView(R.id.layout2)
+        LinearLayout layout2;
+
+        @BindView(R.id.iv_icon1)
+        ImageView favIcon;
+
+        @BindView(R.id.tv_1)
+        TextView textView1;
+
+        @BindView(R.id.tv_product_name)
+        TextView name;
+        @BindView(R.id.tv_store_name)
+        TextView storeName;
+        @BindView(R.id.tv_price)
+        TextView price;
+        @BindView(R.id.iv_product)
+        ImageView productImageView;
+
+        public FavoritesViewHolder(View v) {
+            super(v);
+            ButterKnife.bind(this, v);
+        }
+    }
+
+    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.native_progress_bar);
+        }
     }
 }

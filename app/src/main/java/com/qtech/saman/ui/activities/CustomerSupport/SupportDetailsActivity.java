@@ -159,7 +159,7 @@ public class SupportDetailsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<CustomerSupportListApi> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
             }
         });
     }

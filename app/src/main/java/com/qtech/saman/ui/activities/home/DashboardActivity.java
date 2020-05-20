@@ -587,7 +587,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
             @Override
             public void onFailure(Call<GetProducts> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
 //                getConversation();
             }
         });

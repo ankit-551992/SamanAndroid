@@ -66,8 +66,6 @@ public class OmanNetCardDetailActivity extends BaseActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
-            Log.e("shouldOverride", url);
-//            Uri myUri = Uri.parse(url);
             if (url.equalsIgnoreCase("saman://backtoapp")) {
                 Intent data = new Intent();
                 data.putExtra("ID", -30);

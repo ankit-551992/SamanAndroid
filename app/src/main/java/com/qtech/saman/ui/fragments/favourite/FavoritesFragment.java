@@ -102,14 +102,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         isLoading = false;
         productArrayList.addAll(product);
         favoritesAdapter.notifyDataSetChanged();
-      /*  int quan = 0;
-        for (int i = 0; i < productArrayList.size(); i++) {
-            Log.e("222PRODUCT", "-11---product---response---" + productArrayList.toString());
-            quan = quan + productArrayList.get(i).getQuantity();
-            Log.e("222PRODUCT", "-000---product---quantity---" + quan);
-            Log.e("222PRODUCT", "-1111---product-list--quantity---" + productArrayList.get(i).getQuantity());
-        }*/
-        Log.e("222PRODUCT", "-000---product---quantity---" + productArrayList.size());
         int quan1 = 0;
         quan1 = quan1 + productArrayList.size();
         quantity.setText(quan1 + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, quan1));

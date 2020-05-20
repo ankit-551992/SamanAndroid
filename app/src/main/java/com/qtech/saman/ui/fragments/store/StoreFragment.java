@@ -69,14 +69,9 @@ public class StoreFragment extends BaseFragment {
     }
 
     private void readBundle(Bundle bundle) {
-//        if (bundle != null) {
-//            search = bundle.getString("SEARCH");
-//            Log.e("SEARCH000", "--search--00--readBundle---store---" + search);
-//        }
         if (bundle != null) {
             bannerStoreID = bundle.getInt("BannerID", 0);
             banner_store = bundle.getBoolean("BannerStore", false);
-            Log.e("SEARCH000", "--banner_store---bannerStoreID---" + bannerStoreID + "--" + banner_store);
         }
     }
 
@@ -102,7 +97,6 @@ public class StoreFragment extends BaseFragment {
                         search = search_store.getText().toString();
                         tab();
                         adapter.notifyDataSetChanged();
-                        Log.e("SEARCH000", "--search--onTextChanged---store---" + search);
                         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
                         inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
                         return true;
@@ -118,18 +112,10 @@ public class StoreFragment extends BaseFragment {
         });
     }
 
-//    @OnClick(R.id.toolbar_search)
-//    void OnClickToolbar_search() {
-//        Log.e("SEARCH", "----on-click----");
-//    }
-
 
     @OnClick(R.id.search_store)
     void search() {
         searchTextListner();
-//        Intent intent=new Intent(getContext(), SearchActivity.class);
-//        intent.putExtra("Function",0); //0 for Search Products
-//        startActivity(intent);
     }
 
     public void tab() {
@@ -150,8 +136,6 @@ public class StoreFragment extends BaseFragment {
 
     private void setUpCustomTabs() {
 
-        Log.e("SEARCH000", "--search--GlobalValues---storeCategories---" + GlobalValues.storeCategories);
-//        for (int i = 1; i < tabLayout.getTabCount(); i++) {
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             View customTab = LayoutInflater.from(getActivity()).inflate(R.layout.tab_custom_view, null, false);//get custom view
             TextView textView =  customTab.findViewById(R.id.tv_tab);

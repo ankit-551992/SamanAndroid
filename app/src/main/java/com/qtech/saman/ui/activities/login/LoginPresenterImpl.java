@@ -18,7 +18,6 @@ public class LoginPresenterImpl implements LoginPresenter, LoginData.OnResponseL
     public void onResponse(UserResponse response) {
         if (loginView != null) {
             loginView.hideProgress();
-            Log.e("LOGIN_URL", "--loginView----response--" + response);
             if (response != null) {
                 if (response.getSuccess() == 1) {
                     loginView.loginResponse(response.getUser());

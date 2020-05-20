@@ -76,13 +76,9 @@ public class CustomerSupportListActivity extends BaseActivity {
 
     private void getCustomerListHistory() {
         WebServicesHandler apiClient = WebServicesHandler.instance;
-        Log.e("USERID", "--custom-authenticatedUser--id--" + authenticatedUser.getId());
-
         apiClient.getSupportListByUser(authenticatedUser.getId(), new Callback<CustomerSupportListApi>() {
             @Override
             public void onResponse(Call<CustomerSupportListApi> call, Response<CustomerSupportListApi> response) {
-
-                Log.e("USERID", "--custom-response--id--" + response.body());
                 CustomerSupportListApi customerSupportListApi = response.body();
                 loading.setVisibility(View.GONE);
                 if (customerSupportListApi != null) {
@@ -99,7 +95,7 @@ public class CustomerSupportListActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<CustomerSupportListApi> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
             }
         });
     }

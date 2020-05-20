@@ -20,7 +20,6 @@ public class RegisterDataInteractor implements RegisterData {
         apiClient.register(fName, lName, email, password, deviceToken, gender, country, address, dob, phone, region, new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                Log.e("SIGNUP_URL", "----sign---up---onResponse---" + new Gson().toJson(response));
                 responseListener.onResponse(response.body());
             }
 

@@ -169,7 +169,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 //            values.put(CART_PRODUCT_UPDATED_BY, product.getUpdateBy());
             values.put(CART_PRODUCT_OPTIONS, optionValues);
 
-            Log.e("LOCALARRAYLIST", "---local---values-----" + values.toString());
             SQLiteDatabase db = this.getWritableDatabase();
             long rowInserted = db.insert(TABLE_CART, null, values);
             db.close();

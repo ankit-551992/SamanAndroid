@@ -47,7 +47,6 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
-                    Log.e("onFailure", "" + t.getMessage());
                 }
             });
         }
@@ -78,7 +77,7 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
 
                 @Override
                 public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-                    Log.e("onFailure", "" + t.getMessage());
+
                 }
             });
         }
@@ -88,7 +87,6 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
     @Override
     public void recoveryEmail(String email, String phone) {
         if (view != null) {
-            Log.e("SMS000", "--SMS000---");
             view.showProgress();
             WebServicesHandler apiClient = WebServicesHandler.instance;
 
@@ -97,7 +95,6 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
                 public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
 
                     SimpleSuccess simpleSuccess = response.body();
-                    Log.e("SMS000", "--SMS---onResponse---" + simpleSuccess);
                     if (view != null) {
                         view.hideProgress();
                         if (simpleSuccess != null) {
@@ -112,7 +109,7 @@ public class PasswordPresenter implements PasswordContractor.Presenter {
 
                 @Override
                 public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-                    Log.e("onFailure", "" + t.getMessage());
+
                 }
             });
         }

@@ -93,7 +93,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
 
             bagViewHolder.getPosition = holder.getAdapterPosition();
             Product product = productArrayList.get(bagViewHolder.getPosition);
-            Log.e("DATA00", "-cart--product---" + productArrayList.get(bagViewHolder.getPosition));
             if (SamanApp.isEnglishVersion) {
                 bagViewHolder.name.setText(product.getProductName());
                 bagViewHolder.storeName.setText(product.getStoreName());
@@ -105,8 +104,6 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 if (SamanApp.isEnglishVersion) {
                     bagViewHolder.description.setText(product.getOptions());
                 } else {
-//                  Log.e("DES",product.getOptionsAR());
-//                  product.setOptionsAR(product.getOptionsAR().replaceAll("،","U+060C"));
                     bagViewHolder.description.setText(product.getOptionsAR());
                 }
             } else {
@@ -124,16 +121,13 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                 if (product.getSaleDiscountedType().equals("1")) {
                     product.setProductDiscountPrice(product.getSalePrice());
                     final_displayprice = product.getPrice() - product.getSalePrice();
-//                    final_displayprice = Float.valueOf(df.format(final_displayprice));
                 } else if (product.getSaleDiscountedType().equals("2")) {
                     float calculateDiscount = product.getPrice() / 100.0f;
                     float dis = calculateDiscount * product.getSalePrice();
                     product.setProductDiscountPrice(dis);
                     final_displayprice = product.getPrice() - dis;
-//                  final_displayprice = Float.valueOf(df.format(final_displayprice));
                 } else {
                     final_displayprice = product.getPrice();
-//                  final_displayprice = Float.valueOf(df.format(final_displayprice));
                 }
             } else {
                 final_displayprice = product.getPrice();
@@ -178,9 +172,7 @@ public class SwipeBagAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolde
                         Constants.showLoginDialog(mContext);
                         return;
                     }
-//                    if (productArrayList.get(position).getQuantity() != 0) {
                     authenticatedUser = GlobalValues.getUser(mContext);
-                    Log.e("Values " + position, productArrayList.get(position).getOptionValues());
                     String[] optionIDs = productArrayList.get(position).getOptionValues().split(",");
                     GlobalValues.markFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs, Integer.valueOf(bagViewHolder.quantity.getText().toString()));
                     Product p = productArrayList.get(position);

@@ -329,8 +329,6 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (getProduct.getSuccess() == 1) {
                         if (getProduct.getProduct() != null) {
                             cartProduct = getProduct.getProduct();
-                            Log.e("DefaultOptions", getOptionsData());
-                            Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
                                 boolean isOutOfStock = false;
                                 ArrayList<Product> arrayLst = new ArrayList<>();
@@ -364,7 +362,6 @@ public class BrandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             @Override
             public void onFailure(Call<GetProduct> call, Throwable t) {
-                Log.e("Failure", t.getMessage());
             }
         });
     }

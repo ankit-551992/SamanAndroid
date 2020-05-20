@@ -23,7 +23,6 @@ public class LoginDataInteractor implements LoginData {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e("onFailure",""+t.getMessage());
             }
         });
     }

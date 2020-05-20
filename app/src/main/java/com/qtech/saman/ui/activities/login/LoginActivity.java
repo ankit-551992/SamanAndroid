@@ -102,53 +102,48 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             // App code
             GraphRequest request = GraphRequest.newMeRequest(
                     loginResult.getAccessToken(),
-                    new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(JSONObject object, GraphResponse response) {
-                            Log.v("LoginActivity", response.toString());
+                    (object, response) -> {
+                        // Application code
+                        try {
+                            String fbId;
+                            String location;
+                            socialName = object.getString("name");
+                            String birthday; // 01/31/1980 format
 
-                            // Application code
                             try {
-                                String fbId;
-                                String location;
-                                socialName = object.getString("name");
-                                String birthday; // 01/31/1980 format
-
-                                try {
-                                    fbId = object.getString("id");
-                                } catch (Exception e) {
-                                    fbId = "";
-                                    e.printStackTrace();
-                                }
-
-                                try {
-                                    socialEmail = object.getString("email");
-                                } catch (Exception e) {
-                                    socialEmail = fbId + "@facebook.com";
-                                    e.printStackTrace();
-                                }
-
-                                try {
-                                    birthday = object.getString("birthday");
-                                } catch (Exception e) {
-                                    birthday = "";
-                                    e.printStackTrace();
-                                }
-
-                                try {
-                                    JSONObject jsonobject_location = object.getJSONObject("location");
-                                    location = jsonobject_location.getString("name");
-
-                                } catch (Exception e) {
-                                    location = "";
-                                    e.printStackTrace();
-                                }
-                                fbProfileImage();
-                            } catch (JSONException e) {
+                                fbId = object.getString("id");
+                            } catch (Exception e) {
+                                fbId = "";
                                 e.printStackTrace();
                             }
 
+                            try {
+                                socialEmail = object.getString("email");
+                            } catch (Exception e) {
+                                socialEmail = fbId + "@facebook.com";
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                birthday = object.getString("birthday");
+                            } catch (Exception e) {
+                                birthday = "";
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                JSONObject jsonobject_location = object.getJSONObject("location");
+                                location = jsonobject_location.getString("name");
+
+                            } catch (Exception e) {
+                                location = "";
+                                e.printStackTrace();
+                            }
+                            fbProfileImage();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+
                     });
             Bundle parameters = new Bundle();
             parameters.putString("fields", "id,name,email,gender,birthday");
@@ -323,7 +318,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
     @Override
     public void loginResponse(User user) {
-        Log.e("LOGIN_URL", "-----response---login---" + user.toString());
         if (isGuestTry) {
             GlobalValues.saveUser(LoginActivity.this, user);
             GlobalValues.setUserLoginStatus(LoginActivity.this, true);
@@ -397,7 +391,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
     @Override
@@ -415,7 +408,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
@@ -423,7 +415,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
             if (acct.getPhotoUrl() != null) {
                 socialPhotoUrl = acct.getPhotoUrl().toString();
-                Log.e("PHOTO00", "--socialPhotoUrl----" + socialPhotoUrl);
             }
             socialEmail = acct.getEmail();
 
@@ -438,21 +429,18 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     private void handleSignInResult(Task<GoogleSignInAccount> task) {
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
-            Log.w("TAG", "signInResult:" + account.getEmail());
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
 
             socialName = acct.getDisplayName();
             if (acct != null) {
                 if (acct.getPhotoUrl() != null) {
                     socialPhotoUrl = acct.getPhotoUrl().toString();
-                    Log.e("PHOTO00", "--socialPhotoUrl----" + socialPhotoUrl);
                 }
             }
             socialEmail = acct.getEmail();
             socialLogin(1);
         } catch (ApiException e) {
-            Log.w("TAG", "signInResult:failed code=" + e.toString());
-            Log.w("TAG", "signInResult:failed code=" + e.getLocalizedMessage());
+            e.printStackTrace();
         }
     }
 
@@ -469,7 +457,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             @Override
             public void failure(TwitterException exception) {
                 //If failure occurs while login handle it here
-                Log.d("TwitterKit", "Login with Twitter failure", exception);
             }
         });
     }
@@ -494,7 +481,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                 if (socialName.equalsIgnoreCase("")) {
                     getTwitterData(true);
                 } else {
-                    Log.e("Twitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
                     socialLogin(2);
                 }
             }
@@ -523,7 +509,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                 String photoUrlMiniSize = userResult.data.profileImageUrl.replace("_normal", "_mini");
                 String photoUrlOriginalSize = userResult.data.profileImageUrl.replace("_normal", "");
                 if (tryAgain) {
-                    Log.e("TTwitter", socialName + "\n" + socialEmail + "\n" + socialPhotoUrl);
                     socialLogin(2);
                 }
             }
@@ -583,8 +568,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         apiClient.socialLogin(names[0], lastName, socialEmail, GlobalValues.getUserToken(LoginActivity.this), socialPhotoUrl, new retrofit2.Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                Log.e("SOCIAL_LOGIN", "---google--socialLogin----response---" + new Gson().toJson(response));
-                // Log.e("SOCIAL_LOGIN", "---google--socialLogin----response---" + response.body().toString());
                 hideProgress();
                 User user = null;
                 UserResponse userResponse = response.body();
@@ -598,9 +581,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                                 GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
                                 finish();
                             } else {
-                                Log.e("SOCIAL_LOGIN", "--google--socialID--" + socialID + "--getProfileImagePath--" + user.getProfileImagePath());
                                 user.setSocialID(socialID);
-//                                user.setProfileImagePath(socialPhotoUrl);
                                 GlobalValues.saveUser(LoginActivity.this, user);
                                 GlobalValues.setUserLoginStatus(LoginActivity.this, true);
                                 GlobalValues.setGuestLoginStatus(LoginActivity.this, false);
@@ -623,7 +604,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
                 hideProgress();
             }
         });

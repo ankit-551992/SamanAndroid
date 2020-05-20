@@ -65,7 +65,6 @@ public class ShippingAddressActivity extends BaseActivity {
         } else {
             toolbarBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back));
         }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setImageDrawable(getDrawable(R.drawable.ic_add));
             settings.setColorFilter(Color.argb(255, 255, 255, 255));
@@ -113,7 +112,6 @@ public class ShippingAddressActivity extends BaseActivity {
             public void onResponse(Call<GetAddressApi> call, Response<GetAddressApi> response) {
                 GetAddressApi addressApi = response.body();
                 if (addressApi != null) {
-                    Log.e("UPDATERESPONSE","-addressApi---response---"+new Gson().toJson(addressApi));
                     if (addressApi.getSuccess() == 1) {
                         if (addressApi.getResult() != null) {
                             shippingAddresses.addAll(addressApi.getResult());

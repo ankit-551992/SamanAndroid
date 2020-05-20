@@ -35,7 +35,6 @@ public class FavoritesPresenter implements FavoritesContractor.Presenter {
             @Override
             public void onResponse(Call<GetProducts> call, Response<GetProducts> response) {
                 GetProducts getProducts = response.body();
-                Log.e("PRODUCT", "--Response--product---" + new Gson().toJson(response.body()));
                 if (getProducts != null) {
                     if (getProducts.getSuccess() == 1) {
                         if (getProducts.getProduct() != null) {
@@ -54,7 +53,6 @@ public class FavoritesPresenter implements FavoritesContractor.Presenter {
 
             @Override
             public void onFailure(Call<GetProducts> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
             }
         });
     }

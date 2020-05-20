@@ -102,7 +102,7 @@ public class MyOrdersActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<OrderHistoryAPI> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
             }
         });
     }

@@ -124,9 +124,8 @@ public class InvoiceActivity extends BaseActivity {
     }
 
     private void setOrderDetails() {
-        Log.e("USERID", "--orderHistory--id--setOrderDetails--" + new Gson().toJson(orderHistory));
         if (orderHistory != null) {
-            orderTotalTextView.setText(String.valueOf(orderHistory.getTotalPrice()) + " " + getString(R.string.OMR));
+            orderTotalTextView.setText(String.format("%s %s", String.valueOf(orderHistory.getTotalPrice()), getString(R.string.OMR)));
             if (orderHistory.getOrderNumber() != null) {
                 orderNumberTextView.setText(orderHistory.getOrderNumber());
             }
@@ -142,7 +141,7 @@ public class InvoiceActivity extends BaseActivity {
             }
 
             if (orderHistory.getShippingTotal() != 0) {
-                shippingFee.setText(String.valueOf(orderHistory.getShippingTotal()) + " " + getString(R.string.OMR));
+                shippingFee.setText(String.format("%s %s", String.valueOf(orderHistory.getShippingTotal()), getString(R.string.OMR)));
             }
 
             Long orderDateStamp = Long.parseLong(orderHistory.getCreatedAt().replaceAll("\\D", ""));
@@ -175,17 +174,12 @@ public class InvoiceActivity extends BaseActivity {
     private void getInvoiceDetailes(int orderID) {
 
         WebServicesHandler apiClient = WebServicesHandler.instance;
-        Log.e("USERID", "--order--id--authenticatedUser--id--" + orderID);
         apiClient.getOrderIdDetailes(orderID, new Callback<OrderHistoryAPI>() {
             @Override
             public void onResponse(Call<OrderHistoryAPI> call, Response<OrderHistoryAPI> response) {
-
-                Log.e("USERID", "--order--id--response----" + response.body());
                 OrderHistoryAPI orderHistoryAPI = response.body();
                 if (orderHistoryAPI != null) {
                     if (orderHistoryAPI.getResult() != null) {
-                        Log.e("USERID", "--order--id--response----" + orderHistoryAPI.getResult());
-
                         orderHistoryList = new ArrayList<>();
                         orderHistoryList.addAll(orderHistoryAPI.getResult());
                         orderHistory = orderHistoryList.get(0);
@@ -196,7 +190,6 @@ public class InvoiceActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<OrderHistoryAPI> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
             }
         });
     }
@@ -277,7 +270,6 @@ public class InvoiceActivity extends BaseActivity {
             c.setDoOutput(true);
             c.connect();
             String PATH = Environment.getExternalStorageDirectory().toString() + "/load";
-            Log.e("PATH", PATH);
             File file = new File(PATH);
             file.mkdirs();
             File outputFile = new File(String.valueOf(file));
@@ -375,7 +367,7 @@ public class InvoiceActivity extends BaseActivity {
                 input.close();
                 return folder + fileName;
             } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
+                e.printStackTrace();
             }
             return null;
         }

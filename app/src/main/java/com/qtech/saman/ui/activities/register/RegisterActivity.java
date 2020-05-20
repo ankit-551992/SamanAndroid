@@ -980,7 +980,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
                     new GraphRequest.GraphJSONObjectCallback() {
                         @Override
                         public void onCompleted(JSONObject object, GraphResponse response) {
-                            Log.v("LoginActivity", response.toString());
 
                             // Application code
                             try {
@@ -1126,7 +1125,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Goog
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
                 hideProgress();
             }
         });

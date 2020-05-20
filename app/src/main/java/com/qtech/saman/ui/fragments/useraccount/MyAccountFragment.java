@@ -115,28 +115,12 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
         GlobalValues.isFromHome = false;
         authenticatedUser = GlobalValues.getUser(getContext());
         myAccountPresenter = new MyAccountPresenter(this);
-
-        Log.e("AUTH00", "-getCountry--" + authenticatedUser.getCountry());
         if (authenticatedUser.getId() != null) {
             myAccountPresenter.getUsetInfoApi(authenticatedUser.getId());
         }
         userName.setText(getContext().getString(R.string.Welcome) + "," + authenticatedUser.getFirstName());
         userEmail.setText(authenticatedUser.getEmail());
         setProfileImage();
-
-      /*  try {
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            versionName = pInfo.versionName;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                longVersionCode = pInfo.getLongVersionCode();
-            } else {
-                longVersionCode = pInfo.versionCode;
-            }
-            Log.e("VERSION00", "-versionName--" + versionName + "---versionCode--" + longVersionCode);
-            Log.e("VERSION00", "-versionName--" + BuildConfig.VERSION_NAME);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }*/
         version_code.setText("v" + BuildConfig.VERSION_NAME);
         return view;
     }
@@ -446,7 +430,6 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
     }
 
     private void uploadToServer(File file) {
-        Log.e("IMAGEW000", "--file---image---upload---" + file.getAbsolutePath());
         Constants.showSpinner("Picture Uploading", getContext());
         WebServicesHandler apiClient = WebServicesHandler.instance;
         apiClient.uploadImage(authenticatedUser.getId(), file, new Callback<UserResponse>() {
@@ -458,7 +441,6 @@ public class MyAccountFragment extends BaseFragment implements MyAccountContract
                 if (userResponse != null) {
                     if (userResponse.getSuccess() == 1) {
                         if (userResponse.getUser() != null) {
-                            Log.e("IMAGEW000", "--userResponse.getUser()-----" + userResponse.getUser());
                             GlobalValues.saveUser(getContext(), userResponse.getUser());
                             authenticatedUser = GlobalValues.getUser(getContext());
                             if (authenticatedUser.getProfileImagePath() != null && !authenticatedUser.getProfileImagePath().isEmpty()) {

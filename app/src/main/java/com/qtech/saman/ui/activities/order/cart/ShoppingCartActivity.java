@@ -227,7 +227,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             Gateway.Region region = Gateway.Region.valueOf(BuildConfig.GATEWAY_REGION);
             paymentGateway.setRegion(region);
         } catch (Exception e) {
-            Log.e(ShoppingCartActivity.class.getSimpleName(), "Invalid Gateway region value provided", e);
+            e.printStackTrace();
         }
         apiController.createSession(new CreateSessionCallback());
 
@@ -304,11 +304,9 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             @Override
             public void onResponse(Call<PromoVerify> call, Response<PromoVerify> response) {
                 PromoVerify promoVerify = response.body();
-                Log.e("PRODUCT888", "--promoVerify--" + promoVerify);
                 Constants.dismissSpinner();
                 if (promoVerify != null) {
                     if (promoVerify.getSuccess() == 1) {
-                        Log.e("PRODUCT888", "--promoVerify--getSuccess-");
                         if (promoVerify.getResult().getCouponType() == 1) {
                             if (!isGeneralApplied) {
                                 isGeneralApplied = true;
@@ -501,8 +499,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                 e.printStackTrace();
             }
         }
-        Log.e("PARAMETER", "-array--order--parameter---" + array);
-
         WebServicesHandler apiClient = WebServicesHandler.instance;
         apiClient.placeOrder(authenticatedUser.getId(),
                 addressID,
@@ -519,7 +515,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     public void onResponse(Call<PlaceOrderResponse> call, Response<PlaceOrderResponse> response) {
                         placeOrderResponse = response.body();
                         if (placeOrderResponse != null) {
-                            Log.e("ORDERPLACE", "--placeOrderResponse----" + placeOrderResponse);
                             if (placeOrderResponse.getSuccess() == 1) {
                                 if (isCOD) {
                                     Intent intent = new Intent(ShoppingCartActivity.this, CheckoutOrderActivity.class);
@@ -554,7 +549,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         Constants.showErrorPopUp(ShoppingCartActivity.this, getResources().getString(R.string.error),
                                 getResources().getString(R.string.order_fail_msg), getResources().getString(R.string.okay));
                         progressBar.setVisibility(View.GONE);
-                        Log.e("onFailure", "" + t.getMessage());
+
                     }
                 });
     }
@@ -667,7 +662,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             if (resultCode == RESULT_OK) {
                 addressID = data.getExtras().getInt("ID");
                 ShippingAddress shippingAddress = (ShippingAddress) data.getExtras().getSerializable("DATA");
-                Log.e("SHIPPINGADD00", "----shipping--add--" + new Gson().toJson(shippingAddress));
                 if (shippingAddress != null) {
                     setShippingAddress(shippingAddress);
                 }
@@ -794,8 +788,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     deliveryCost = 0.0f;
                 }
             }
-
-            Log.e("DELIVERYCOST", "------deliveryCost---" + deliveryCost);
             priceToPay = deliveryCost + price;
             priceToPay = priceToPay - promoSaved;
 
@@ -848,7 +840,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
         // generate a random 3DSecureId for testing
         String threeDSId = UUID.randomUUID().toString();
         threeDSId = threeDSId.substring(0, threeDSId.indexOf('-'));
-        Log.e("threeDSId", threeDSId);
         apiController.check3DSecureEnrollment(sId, amount, currency, threeDSId, new Check3DSecureEnrollmentCallback());
     }
 
@@ -883,7 +874,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
 
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
-                Log.e("onFailure", "" + t.getMessage());
+
                 Constants.dismissSpinner();
                 progressBar.setVisibility(View.GONE);
                 Constants.showAlert(getString(R.string.failed), getString(R.string.server_error), getString(R.string.try_again), ShoppingCartActivity.this);
@@ -920,7 +911,7 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
                 Constants.dismissSpinner();
-                Log.e("onFailure", "" + t.getMessage());
+
                 progressBar.setVisibility(View.GONE);
                 Constants.showAlert(getString(R.string.failed), getString(R.string.server_error), getString(R.string.try_again), ShoppingCartActivity.this);
             }
@@ -973,10 +964,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     if (status == 0) {
                         getCountriesAPI();
                     } else if (status == 1) {
-                        Log.e("COUNTRYAPI", "--country---api-status--" + status);
                         if (JObject.has("result")) {
                             JSONArray jsonArray = JObject.getJSONArray("result");
-                            Log.e("COUNTRYAPI", "--country---api-jsonArray--" + jsonArray);
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -1003,10 +992,8 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                         Picasso.get().load(selectedCountry.getFlag()).transform(new CircleTransform()).into(countryFlag);
                         countryName.setText(selectedCountry.getName());
                         for (int i = 0; i < GlobalValues.countries.size(); i++) {
-                            Log.e("COUNTRY", "---GlobalValues.countries----size---" + GlobalValues.countries.size());
                         }
                     }
-                    Log.e("COUNTRYAPI", "-- GlobalValues.countries---cusapi---" + GlobalValues.countries);
                     // countriesAdapter.notifyDataSetChanged();
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();

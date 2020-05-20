@@ -92,7 +92,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //          productViewHolder.productPrice.setText(product.getPrice() + " " + mContext.getString(R.string.OMR));
 
             if (productArrayList.get(position).getIsSaleProduct() != null) {
-                Log.e("getIsSaleProduct", "======position: " + position + "=======" + productArrayList.get(position).getIsSaleProduct() + "=========discount======" + productArrayList.get(position).getSaleDiscountedType());
                 if (productArrayList.get(position).getIsSaleProduct().equals("true")) {
                     if (product.getSaleDiscountedType().equalsIgnoreCase("1")) {
                         final_displayprice = product.getPrice() - product.getSalePrice();
@@ -106,7 +105,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else if (productArrayList.get(position).getSaleDiscountedType().equalsIgnoreCase("2")) {
                         float calculateDiscount = product.getPrice() / 100.0f;
                         float dis = calculateDiscount * product.getSalePrice();
-                        Log.e("Dis", "---dis--" + dis);
                         final_displayprice = product.getPrice() - dis;
                         productViewHolder.discount_price.setVisibility(View.VISIBLE);
                         productViewHolder.productPrice.setText("");
@@ -287,7 +285,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (getProduct.getSuccess() == 1) {
                         if (getProduct.getProduct() != null) {
                             cartProduct = getProduct.getProduct();
-                            Log.e("DefaultOptions", getOptionsData());
                             if (SamanApp.localDB != null) {
                                 boolean isOutOfStock = false;
                                 ArrayList<Product> arrayLst = new ArrayList<>();
@@ -332,7 +329,6 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             @Override
             public void onFailure(Call<GetProduct> call, Throwable t) {
-                Log.e("Failure", t.getMessage());
             }
         });
     }
