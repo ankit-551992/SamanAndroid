@@ -262,21 +262,6 @@ public class WebServicesHandler {
         parameters.put("Discount", discount_price);
         parameters.put("DiscountCouponCode", couponCode);
         parameters.put("OrderItems_", array);
-      /*  for (int i = 0; i < array.length(); i++) {
-            try {
-                JSONObject jsonObject = array.getJSONObject(i);
-                parameters.put("OrderItems[" + i + "].ProductID", jsonObject.getInt("ProductID"));
-                parameters.put("OrderItems[" + i + "].ProductQuantity", jsonObject.getInt("ProductQuantity"));
-                parameters.put("OrderItems[" + i + "].ProductPrice", jsonObject.getInt("ProductPrice"));
-                JSONArray optionsArray = jsonObject.getJSONArray("OrderOptionValue");
-                for (int j = 0; j < optionsArray.length(); j++) {
-                    JSONObject jsonObj = optionsArray.getJSONObject(j);
-                    parameters.put("OrderItems[" + i + "].OrderOptionValue[" + j + "].ID", jsonObj.getInt("ID"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }*/
         Log.e("PARAMETER", "---order--parameter---" + parameters.toString());
         Call<PlaceOrderResponse> call = webServices.placeOrder(parameters);
         call.enqueue(callback);

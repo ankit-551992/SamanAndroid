@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mastercard.gateway.android.sdk.Gateway;
 import com.mastercard.gateway.android.sdk.Gateway3DSecureCallback;
@@ -157,9 +156,6 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
     String paymentType = "COD";
     boolean requestAgain = false;
     boolean isGeneralApplied = false;
-    //    DecimalFormat df = new DecimalFormat("0.000");
-    //    DecimalFormat df = new DecimalFormat("#.##");
-//    DecimalFormat df = new DecimalFormat("#00.0#");
     String discount_couponId = "";
     String discount_price = "";
     float final_displayprice = 0.0f;

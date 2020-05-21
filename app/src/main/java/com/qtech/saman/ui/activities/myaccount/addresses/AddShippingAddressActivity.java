@@ -247,16 +247,7 @@ public class AddShippingAddressActivity extends BaseActivity {
 
     @OnClick(R.id.toolbar_search)
     public void userAddress() {
-//        try {
-//            Intent intent =
-//                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-//                            .build(this);
-//            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-//        } catch (GooglePlayServicesRepairableException e) {
-//            // TODO: Handle the error.
-//        } catch (GooglePlayServicesNotAvailableException e) {
-//            // TODO: Handle the error.
-//        }
+
         Intent intent = new Intent(AddShippingAddressActivity.this, GoogleMapActivity.class);
         startActivityForResult(intent, 1414);
     }

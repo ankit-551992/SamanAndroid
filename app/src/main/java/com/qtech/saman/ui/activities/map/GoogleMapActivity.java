@@ -281,26 +281,23 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
         builder.setAlwaysShow(true);
 
         PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
-                final Status status = locationSettingsResult.getStatus();
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        Log.i("AlgoRepublic", "All location settings are satisfied.");
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        Log.i("AlgoRepublic", "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
-                        try {
-                            status.startResolutionForResult(GoogleMapActivity.this, 0x1);
-                        } catch (IntentSender.SendIntentException e) {
-                            Log.i("AlgoRepublic", "PendingIntent unable to execute request.");
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        Log.i("AlgoRepublic", "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
-                        break;
-                }
+        result.setResultCallback(locationSettingsResult -> {
+            final Status status = locationSettingsResult.getStatus();
+            switch (status.getStatusCode()) {
+                case LocationSettingsStatusCodes.SUCCESS:
+                    Log.i("AlgoRepublic", "All location settings are satisfied.");
+                    break;
+                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                    Log.i("AlgoRepublic", "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
+                    try {
+                        status.startResolutionForResult(GoogleMapActivity.this, 0x1);
+                    } catch (IntentSender.SendIntentException e) {
+                        Log.i("AlgoRepublic", "PendingIntent unable to execute request.");
+                    }
+                    break;
+                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                    Log.i("AlgoRepublic", "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
+                    break;
             }
         });
     }
@@ -400,12 +397,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                                         adress = result.getString("formatted_address");
                                     }
                                 }
-//                                "administrative_area_level_1"
-//                                if ("sublocality".equals(types.getString(k))) {
-//                                    if (result.has("formatted_address")) {
-//                                        adress = result.getString("formatted_address");
-//                                    }
-//                                }
+
                             }
                         }
                     }
@@ -413,9 +405,7 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
                         address = adress;
                         saveSelectedAddress(address);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -434,8 +424,6 @@ public class GoogleMapActivity extends BaseActivity implements OnMapReadyCallbac
     private void saveSelectedAddress(String address) {
 
         String[] arr = address.split(",");
-//       selected_country = arr[4];
-//       Log.e("LAT0LNG0", "---selected_country---" +selected_country);
 
         if (arr.length >= 4 && !arr[3].isEmpty() && arr[3].equals(getResources().getString(R.string.Oman))) {
             Intent data = new Intent();

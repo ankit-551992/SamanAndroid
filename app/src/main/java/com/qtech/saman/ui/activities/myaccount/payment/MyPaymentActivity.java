@@ -101,15 +101,12 @@ public class MyPaymentActivity extends BaseActivity {
                         getString(R.string.delete),
                         ResourceUtil.getBitmap(MyPaymentActivity.this, R.drawable.ic_delete_ic),
                         Color.parseColor("#FF3C30"),
-                        new SwipeHelper.UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: onDelete
-                                if (pos != 0 && pos != 1) {
-                                    deleteCard(pos);
-                                } else {
-                                    Constants.showAlert(getString(R.string.payment_method), getString(R.string.default_card_msg), getString(R.string.close), MyPaymentActivity.this);
-                                }
+                        pos -> {
+                            // TODO: onDelete
+                            if (pos != 0 && pos != 1) {
+                                deleteCard(pos);
+                            } else {
+                                Constants.showAlert(getString(R.string.payment_method), getString(R.string.default_card_msg), getString(R.string.close), MyPaymentActivity.this);
                             }
                         }
                 ));
@@ -140,72 +137,55 @@ public class MyPaymentActivity extends BaseActivity {
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
-        final LinearLayout layoutCard = (LinearLayout) dialog.findViewById(R.id.layout_card);
-        final LinearLayout layoutCash = (LinearLayout) dialog.findViewById(R.id.layout_cash);
+        ImageView close =  dialog.findViewById(R.id.iv_filer_close);
+        final LinearLayout layoutCard =  dialog.findViewById(R.id.layout_card);
+        final LinearLayout layoutCash =  dialog.findViewById(R.id.layout_cash);
 
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        close.setOnClickListener(view -> dialog.dismiss());
 
-        Button add = (Button) dialog.findViewById(R.id.button_add_card);
+        Button add =  dialog.findViewById(R.id.button_add_card);
 
-        layoutCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isOmanNetSelected = false;
-                layoutCash.setBackground(getResources().getDrawable(R.drawable.favorites_background));
-                if (!isMasterCardSelected) {
-                    isMasterCardSelected = true;
-                    layoutCard.setBackground(getResources().getDrawable(R.drawable.selected_bg));
-                } else {
-                    isMasterCardSelected = false;
-                    layoutCard.setBackground(getResources().getDrawable(R.drawable.favorites_background));
-                }
-            }
-        });
-
-        layoutCash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        layoutCard.setOnClickListener(view -> {
+            isOmanNetSelected = false;
+            layoutCash.setBackground(getResources().getDrawable(R.drawable.favorites_background));
+            if (!isMasterCardSelected) {
+                isMasterCardSelected = true;
+                layoutCard.setBackground(getResources().getDrawable(R.drawable.selected_bg));
+            } else {
                 isMasterCardSelected = false;
                 layoutCard.setBackground(getResources().getDrawable(R.drawable.favorites_background));
-                if (!isOmanNetSelected) {
-                    isOmanNetSelected = true;
-                    layoutCash.setBackground(getResources().getDrawable(R.drawable.selected_bg));
-                } else {
-                    isOmanNetSelected = false;
-                    layoutCash.setBackground(getResources().getDrawable(R.drawable.favorites_background));
-                }
             }
         });
 
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isMasterCardSelected) {
-                    Intent intent = new Intent(MyPaymentActivity.this, AddCardActivity.class);
-                    intent.putExtra("Type",0);
-                    startActivityForResult(intent, 1010);
-                    dialog.dismiss();
-                    isMasterCardSelected = false;
-                } else if (isOmanNetSelected) {
-//                    Intent intent = new Intent(MyPaymentActivity.this, AddCardActivity.class);
-//                    intent.putExtra("Type",1);
-//                    startActivityForResult(intent, 1010);
-                    Intent data = new Intent();
-                    String text = "OMANNET";
-                    data.putExtra("DATA",text);
-                    setResult(RESULT_OK, data);
-                    finish();
-                    dialog.dismiss();
-                    isOmanNetSelected = false;
-                } else {
-                    Constants.showAlert(getString(R.string.payment_method), getString(R.string.select_method), getString(R.string.okay), MyPaymentActivity.this);
-                }
+        layoutCash.setOnClickListener(view -> {
+            isMasterCardSelected = false;
+            layoutCard.setBackground(getResources().getDrawable(R.drawable.favorites_background));
+            if (!isOmanNetSelected) {
+                isOmanNetSelected = true;
+                layoutCash.setBackground(getResources().getDrawable(R.drawable.selected_bg));
+            } else {
+                isOmanNetSelected = false;
+                layoutCash.setBackground(getResources().getDrawable(R.drawable.favorites_background));
+            }
+        });
+
+        add.setOnClickListener(view -> {
+            if (isMasterCardSelected) {
+                Intent intent = new Intent(MyPaymentActivity.this, AddCardActivity.class);
+                intent.putExtra("Type",0);
+                startActivityForResult(intent, 1010);
+                dialog.dismiss();
+                isMasterCardSelected = false;
+            } else if (isOmanNetSelected) {
+                Intent data = new Intent();
+                String text = "OMANNET";
+                data.putExtra("DATA",text);
+                setResult(RESULT_OK, data);
+                finish();
+                dialog.dismiss();
+                isOmanNetSelected = false;
+            } else {
+                Constants.showAlert(getString(R.string.payment_method), getString(R.string.select_method), getString(R.string.okay), MyPaymentActivity.this);
             }
         });
 

@@ -44,12 +44,7 @@ public class Constants {
     public static boolean is_firebase_msgnotify = false;
 
     public interface URLS {
-        //        String BaseURLApis = "https://petradiamond.herokuapp.com/";
-        // String BaseURLApis = "https://www.saman.om/api/";
 
-        //String BaseURLApis = "http://96.127.174.114/plesk-site-preview/staging.saman.om/api/";
-        // String BaseURLImages = "https://www.saman.om";
-        //String BaseURLImages = "http://96.127.174.114/plesk-site-preview/staging.saman.om";
 
         //new staging App Login
 //        String BaseURLApis = "https://staging.saman.om/api/";
@@ -368,7 +363,6 @@ public class Constants {
         Button nextButton = dialog.findViewById(R.id.button_pop_next);
 
         nextButton.setText(nextButtonText);
-//        titleTextView.setText(context.getString(R.string.error));
         if (title == null) {
             titleTextView.setVisibility(View.GONE);
         } else {
@@ -376,77 +370,16 @@ public class Constants {
             titleTextView.setText(title);
         }
         messageTextView.setText(message);
-//        messageTextView.setText(context.getString(R.string.missing_options));
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
 
         Animation animation;
         animation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
 
         ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
+        close.setOnClickListener(view -> dialog.dismiss());
+
+        nextButton.setOnClickListener(view -> dialog.dismiss());
+
     }
 
-    /*@Override
-    public void onDialogClick(Context context, String title, String message,String closeButtonText, String nextButtonText, final int type) {
-        dialog = new Dialog(context, R.style.CustomDialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dailog_information_pop_up);
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
-        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
-        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
-        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
-
-        titleTextView.setText("Are you sure?");
-        messageTextView.setText("Do you really want to place order?");
-        closePopUp.setText(closeButtonText);
-        nextButton.setText(nextButtonText);
-
-        closePopUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                new ShoppingCartActivity().OnResponseDialogClick(context,"nextclick");
-            }
-        });
-
-        Animation animation;
-        animation = AnimationUtils.loadAnimation(context,
-                R.anim.fade_in);
-
-        ((ViewGroup) dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(animation);
-        dialog.show();
-    }
-*/
 }
