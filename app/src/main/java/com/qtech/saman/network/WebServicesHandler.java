@@ -497,19 +497,20 @@ public class WebServicesHandler {
         call.enqueue(callback);
     }
 
-    public void uploadToSupport(int userID, String subject, String message, List<File> files, Callback<CustomerSupport> callback) {
+    public void uploadToSupport(int userID, String subject, int orderId,String message, List<File> files, Callback<CustomerSupport> callback) {
 
         if (files.size() > 0) {
             MultipartBody.Part[] SupportImages = new MultipartBody.Part[files.size()];
 
             for (int index = 0; index < files.size(); index++) {
                 RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), files.get(index));
-                SupportImages[index] = MultipartBody.Part.createFormData("SupportImages[" + index + "]", files.get(index).getName(), surveyBody);
+                SupportImages[index] = MultipartBody.Part.createFormData("SupportImages[" + index + "]", files.get(index).getName(),
+                        surveyBody);
             }
-            Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, message, SupportImages);
+            Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, String.valueOf(orderId), message, SupportImages);
             call.enqueue(callback);
         } else {
-            Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, message);
+            Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, String.valueOf(orderId), message);
             call.enqueue(callback);
         }
     }

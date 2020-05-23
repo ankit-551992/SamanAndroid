@@ -205,12 +205,14 @@ public interface WebServices {
     @POST("Support/CreateTicket?")
     Call<CustomerSupport> uploadToSupport(@Query("UserID") int userID,
                                           @Query("Subject") String subject,
+                                          @Query("OrderID") String oderId,
                                           @Query("Message") String message,
                                           @Part MultipartBody.Part[] images);
 
     @POST("Support/CreateTicket?")
     Call<CustomerSupport> uploadToSupport(@Query("UserID") int userID,
                                           @Query("Subject") String subject,
+                                          @Query("OrderID") String oderId,
                                           @Query("Message") String message);
 
     @FormUrlEncoded

@@ -228,13 +228,13 @@ public class CustomerSupportActivity extends BaseActivity {
             for (int i = 1; i < files.size(); i++) {
                 uFiles.add(files.get(i));
             }
-            uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
+            uploadToServer(authenticatedUser.getId(), selectedSubject, Integer.parseInt(orderId),messageSelectionEditText.getText().toString(), uFiles);
         } else {
             List<File> uFiles = new ArrayList<>();
             if (orderId != null && !orderId.isEmpty()) {
                 selectedSubject = subjectSelectionEditText.getText().toString();
             }
-            uploadToServer(authenticatedUser.getId(), selectedSubject, messageSelectionEditText.getText().toString(), uFiles);
+            uploadToServer(authenticatedUser.getId(), selectedSubject, Integer.parseInt(orderId),messageSelectionEditText.getText().toString(), uFiles);
         }
     }
 
@@ -340,10 +340,10 @@ public class CustomerSupportActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void uploadToServer(int userID, String subject, String message, List<File> files) {
+    private void uploadToServer(int userID, String subject, int orderID,String message, List<File> files) {
         Constants.showSpinner(getString(R.string.submit_request), CustomerSupportActivity.this);
         WebServicesHandler apiClient = WebServicesHandler.instance;
-        apiClient.uploadToSupport(userID, subject, message, files, new Callback<CustomerSupport>() {
+        apiClient.uploadToSupport(userID, subject,orderID, message, files, new Callback<CustomerSupport>() {
             @Override
             public void onResponse(Call<CustomerSupport> call, Response<CustomerSupport> response) {
                 Constants.dismissSpinner();

@@ -1,9 +1,5 @@
 package com.qtech.saman.ui.activities.home;
 
-
-import android.util.Log;
-
-import com.google.gson.Gson;
 import com.qtech.saman.data.model.apis.GetCategoriesList;
 import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.utils.GlobalValues;
@@ -35,7 +31,6 @@ public class DashboardPresenter implements DashboardContractor.Presenter {
         apiClient.getStoreCategories(new Callback<GetCategoriesList>() {
             @Override
             public void onResponse(Call<GetCategoriesList> call, Response<GetCategoriesList> response) {
-                Log.e("SIGNUP_URL", "----GetCategoriesList---onResponse---" + new Gson().toJson(response));
                 GetCategoriesList getCategoriesList = response.body();
                 if (getCategoriesList != null) {
                     if (getCategoriesList.getSuccess() == 1) {
