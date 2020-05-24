@@ -23,14 +23,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.Country;
 import com.qtech.saman.data.model.ShippingAddress;
 import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.UserResponse;
+import com.qtech.saman.network.WebServicesHandler;
 import com.qtech.saman.ui.activities.country.CountriesListingActivity;
 import com.qtech.saman.ui.activities.country.RegionListingActivity;
+import com.qtech.saman.ui.activities.home.DashboardActivity;
+import com.qtech.saman.ui.activities.login.LoginActivity;
 import com.qtech.saman.ui.activities.myaccount.addresses.ShippingAddressActivity;
 import com.qtech.saman.utils.CircleTransform;
 import com.qtech.saman.utils.Constants;
@@ -51,6 +56,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MyDetailsActivity extends BaseActivity implements DetailContractor.View {
 
@@ -105,7 +112,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     MyDetailsPresenter presenter;
     boolean isRequest = false;
     long selectedDateInMillis = 0;
-
     boolean showAlert = false;
     String codeflag;
     Dialog dialog;
@@ -113,6 +119,38 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
     String setaddress = "";
     String AddressLine1, floor, apt, city, usercountry, userregion, landmark;
     String latitude, longitude;
+    GoogleApiClient mGoogleApiClient;
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            if (!isAfterToday(year, monthOfYear, dayOfMonth)) {
+                selectedDateInMillis = myCalendar.getTimeInMillis();
+                updateLabel();
+            } else {
+                Constants.showAlert(getString(R.string.my_details), getString(R.string.invalid_date), getString(R.string.okay), MyDetailsActivity.this);
+            }
+        }
+    };
+    private DashboardActivity dashboardActivity;
+
+    public static boolean dobdateValidate(String date) throws ParseException {
+        boolean result = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        Date parseddate = sdf.parse(date);
+        Calendar c2 = Calendar.getInstance();
+        c2.add(Calendar.YEAR, -14);
+        Date dateObj2 = new Date(System.currentTimeMillis());
+        if (parseddate.before(c2.getTime())) {
+            result = true;
+        }
+
+        return result;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,8 +181,24 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         showAlert = getIntent().getBooleanExtra("ShowAlert", false);
         if (showAlert) {
             Constants.showAlert(getString(R.string.my_details), getString(R.string.profile_alert), getString(R.string.okay), this);
+
+            toolbarBack.setOnClickListener(v -> {
+                SamanApp.db.putString(Constants.CARD_LIST, "");
+                if (SamanApp.localDB != null) {
+                    SamanApp.localDB.clearCart();
+                }
+                
+
+                GlobalValues.setUserLoginStatus(this, false);
+                GlobalValues.setUserLogout(this, false);
+                Intent mainIntent = new Intent(this, LoginActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+                finish();
+            });
         }
     }
+
 
     private void setProfile() {
 
@@ -326,42 +380,25 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         dialog.show();
     }
 
-    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            // TODO Auto-generated method stub
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-            if (!isAfterToday(year, monthOfYear, dayOfMonth)) {
-                selectedDateInMillis = myCalendar.getTimeInMillis();
-                updateLabel();
-            } else {
-                Constants.showAlert(getString(R.string.my_details), getString(R.string.invalid_date), getString(R.string.okay), MyDetailsActivity.this);
-            }
-        }
-    };
-
     public boolean isAfterToday(int year, int month, int day) {
         Calendar today = Calendar.getInstance();
         Calendar myDate = Calendar.getInstance();
         myDate.set(year, month, day);
         return myDate.after(today);
     }
+//    int choose_date, mon, yr;
+//    String day, month, year;
+//    String dob;
 
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         String dateSelected = sdf.format(myCalendar.getTime());
-        String sepDate[] = dateSelected.split("/");
+        String[] sepDate = dateSelected.split("/");
         dayEditText.setText(sepDate[0]);
         monthEditText.setText(sepDate[1]);
         yearEditText.setText(sepDate[2]);
     }
-//    int choose_date, mon, yr;
-//    String day, month, year;
-//    String dob;
 
     @OnClick(R.id.button_update)
     public void registerButton() {
@@ -423,20 +460,6 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    public static boolean dobdateValidate(String date) throws ParseException {
-        boolean result = false;
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        Date parseddate = sdf.parse(date);
-        Calendar c2 = Calendar.getInstance();
-        c2.add(Calendar.YEAR, -14);
-        Date dateObj2 = new Date(System.currentTimeMillis());
-        if (parseddate.before(c2.getTime())) {
-            result = true;
-        }
-
-        return result;
     }
 
     @Override
@@ -542,7 +565,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
+        ImageView close = dialog.findViewById(R.id.iv_filer_close);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -551,7 +574,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             }
         });
 
-        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+        TextView done = dialog.findViewById(R.id.tv_done);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -560,7 +583,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
             }
         });
 
-        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+        final RadioGroup radioGroup = dialog.findViewById(R.id.radio_group);
 
 
         done.setOnClickListener(new View.OnClickListener() {
@@ -571,7 +594,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 int selectedId = radioGroup.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
-                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+                RadioButton radioButton = dialog.findViewById(selectedId);
 
                 if (radioButton.isChecked()) {
                     selectedGender = radioButton.getText().toString();

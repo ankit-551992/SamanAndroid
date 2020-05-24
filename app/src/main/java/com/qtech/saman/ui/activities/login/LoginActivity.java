@@ -1,17 +1,31 @@
 package com.qtech.saman.ui.activities.login;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -36,14 +50,18 @@ import com.google.gson.Gson;
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
 import com.qtech.saman.data.model.User;
+import com.qtech.saman.data.model.apis.ChangeLanguage;
 import com.qtech.saman.data.model.apis.UserResponse;
 import com.qtech.saman.network.WebServicesHandler;
+import com.qtech.saman.ui.activities.SplashActivity;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.password.ForgotPasswordActivity;
 import com.qtech.saman.ui.activities.register.RegisterActivity;
+import com.qtech.saman.ui.activities.settings.SettingsActivity;
 import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
+import com.qtech.saman.utils.SamanApp;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -65,12 +83,15 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.qtech.saman.utils.Constants.dialog;
+
 public class LoginActivity extends BaseActivity implements LoginView, GoogleApiClient.OnConnectionFailedListener {
 
     //Social Login
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
     private static final String EMAIL = "email";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
@@ -85,6 +106,8 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     ImageView passwordVisibilityImageView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.tv_language)
+    TextView languageTextView;
     boolean isShowing = false;
     TwitterAuthClient mTwitterAuthClient;
     CallbackManager callbackManager;
@@ -93,6 +116,8 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     String socialEmail = "";
     String socialPhotoUrl = "";
     LoginPresenter mPresenter;
+    String selectedLanguage = "";
+
     boolean isGuestTry = false;
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInClient googleApiClient;
@@ -168,6 +193,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
         isGuestTry = getIntent().getBooleanExtra("GuestTry", false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -182,8 +208,17 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         //Social Login
         initializeGoogle();
 //      getInvoice();
-    }
 
+        if (GlobalValues.getAppLanguage(this).equals("ar")) {
+            languageTextView.setText(getString(R.string.arabic));
+        } else {
+            languageTextView.setText(getString(R.string.english));
+        }
+    }
+    @OnClick(R.id.layout_language)
+    public void languageSelection() {
+        selectLanguage();
+    }
     private void setGlobals() {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -275,15 +310,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
         mPresenter.onDestroy();
     }
 
-    private boolean isValidEmailId(String email) {
 
-        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
-                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
-    }
 
     @OnClick(R.id.iv_email_cross)
     public void emailCross() {
@@ -660,4 +687,138 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             mGoogleApiClient.disconnect();
         }
     }
+
+    private void selectLanguage() {
+        dialog = new Dialog(LoginActivity.this, R.style.CustomDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_language_selection);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+
+        RadioButton rbEnglish = dialog.findViewById(R.id.radio_english);
+        RadioButton rbArabic = dialog.findViewById(R.id.radio_arabic);
+
+        if (SamanApp.isEnglishVersion) {
+            rbEnglish.setChecked(true);
+            rbArabic.setChecked(false);
+        } else {
+            rbArabic.setChecked(true);
+            rbEnglish.setChecked(false);
+        }
+
+        Log.e("isEnglishVersion", "selectLanguage: " + SamanApp.isEnglishVersion);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // get selected radio button from radioGroup
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+                if (radioButton.isChecked()) {
+
+                    changeLanguage(radioButton);
+//                    Constants.showAlert(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), SettingsActivity.this);
+                }
+            }
+        });
+
+        Animation animation;
+        animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.slide_bottom_to_top);
+
+        ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
+        dialog.show();
+    }
+    private void changeLanguage(RadioButton radioButton) {
+
+        WebServicesHandler apiClient = WebServicesHandler.instance;
+        int type = 1;
+        if (radioButton.getId() == R.id.radio_arabic) {
+            type = 2;
+        }
+        User user = GlobalValues.getUser(this);
+        Constants.showSpinner(getString(R.string.language), this);
+        apiClient.getChangeLanguage(String.valueOf(58), type, new retrofit2.Callback<ChangeLanguage>() {
+            @Override
+            public void onResponse(Call<ChangeLanguage> call, Response<ChangeLanguage> response) {
+                Constants.dismissSpinner();
+                ChangeLanguage changeLanguage = response.body();
+                if (changeLanguage != null && changeLanguage.result) {
+                    showAlertLanguage(getString(R.string.title_settings), getString(R.string.app_language), getString(R.string.okay), LoginActivity.this);
+                    if (radioButton.getId() == R.id.radio_arabic) {
+
+                        GlobalValues.setAppLanguage(getApplicationContext(), "ar");
+                        SamanApp.isEnglishVersion = false;
+                    } else {
+
+                        GlobalValues.setAppLanguage(getApplicationContext(), "en");
+                        SamanApp.isEnglishVersion = true;
+                    }
+                    selectedLanguage = radioButton.getText().toString();
+                    languageTextView.setText(radioButton.getText().toString());
+                } else {
+                    Toast.makeText(LoginActivity.this, "Please try again...!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChangeLanguage> call, Throwable t) {
+                Constants.dismissSpinner();
+                Toast.makeText(LoginActivity.this, "Please try again...!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void showAlertLanguage(String title, String message, String buttonText, Context context) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        TextView textView = new TextView(this);
+
+        Typeface face = Typeface.createFromAsset(getAssets(), "font/neo_sans.ttf");
+        textView.setTypeface(face);
+        textView.setText(title);
+        if (SamanApp.isEnglishVersion) {
+            textView.setPadding(20, 10, 0, 0);
+        } else {
+            textView.setPadding(0, 10, 20, 0);
+        }
+        textView.setTextColor(ContextCompat.getColor(this, R.color.black));
+        alertDialog.setCustomTitle(textView);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, buttonText,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent refresh = new Intent(context, SplashActivity.class);
+
+                        refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        //refresh.putExtra(currentLang, localeName);
+                        startActivity(refresh);
+                        finishAffinity();
+                    }
+                });
+        alertDialog.show();
+    }
+
 }

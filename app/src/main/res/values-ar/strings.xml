@@ -222,6 +222,7 @@
     <!--Messaging-->
 
     <!--Product out-of-stock-->
+    <string name="out_of_stock_title">هل أنت متأكد؟</string>
     <string name="out_of_stock_message">هل ترغب في الحصول على اشعار عند توفر المنتج؟</string>
     <string name="remove_notify_message">هل متأكد من رغبتك في الغاء خاصية التنبيه؟</string>
     <string name="address_msg">هل تود حذف العنوان؟</string>
@@ -493,13 +494,16 @@
 
     <string name="oman">سلطنة عمان</string>
     <string name="Oman">عمان</string>
+    <string name="order_title">هل أنت متأكد؟</string>
 
     <!--"Governorate of Muscat = محافظة مسقط", "Governorate of Dhofar = محافظة ظفار ", "Governorate of Al Batinah North = محافظة شمال الباطنة ", "Governorate of Al Sharqiya South = محافظة جنوب الشرقية ", "Governorate of Al Dahira North = محافظة شمال الظاهرة ", "Governorate of Dakhiliyah = محافظة الداخلية ", "Governorate of Al Wusta = محافظة الوسطى ", "Governorate of Musandam = محافظة مسندم ", "Governorate of Al Batinah South = محافظة جنوب الباطنة ", "Governorate of Al Sharqiya North = محافظة شمال الشرقية ", "Governorate of Al Buraimi =
     محافظة البريمي"-->
 
     <!--place Order dialog-->
+    <string name="percent_sign">&#x0025;</string>
 
     <!--order cancel successfull-->
+    <string name="dob_validation">تاريخ الميلاد غير صالح</string>
 
     <string name="terms_sale">هذا السعر يشمل الخصم</string>
     <string name="map_dialog_msg">الرجاء أختيار عنوان في عمان</string>

@@ -626,7 +626,7 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
 
     }
 
-    private void removeToken() {
+    public void removeToken() {
         WebServicesHandler.instance.updateDeviceToken(authenticatedUser.getId(), "", new retrofit2.Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
@@ -646,82 +646,73 @@ public class DashboardActivity extends BaseActivity implements DashboardContract
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
-        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
-        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
-        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close =  dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp =  dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton =  dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView =  dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView =  dialog.findViewById(R.id.tv_pop_up_message);
 
         titleTextView.setText(message);
         messageTextView.setText("");
         closePopUp.setText(closeButtonText);
         nextButton.setText(nextButtonText);
 
-        closePopUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        closePopUp.setOnClickListener(view -> dialog.dismiss());
 
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        close.setOnClickListener(view -> dialog.dismiss());
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SamanApp.db.putString(Constants.CARD_LIST, "");
-                if (SamanApp.localDB != null) {
-                    SamanApp.localDB.clearCart();
-                }
-                removeToken();
-
-                if (authenticatedUser.getSocialID() == 1) {
-                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                            new ResultCallback<Status>() {
-                                @Override
-                                public void onResult(Status status) {
-                                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
-                                    GlobalValues.setUserLogout(DashboardActivity.this, false);
-                                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(mainIntent);
-                                    finish();
-                                }
-                            });
-                } else if (authenticatedUser.getSocialID() == 2) {
-                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
-                    GlobalValues.setUserLogout(DashboardActivity.this, false);
-                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(mainIntent);
-                    finish();
-                } else if (authenticatedUser.getSocialID() == 3) {
-                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
-                    GlobalValues.setUserLogout(DashboardActivity.this, false);
-                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(mainIntent);
-                    finish();
-                } else {
-                    GlobalValues.setUserLoginStatus(DashboardActivity.this, false);
-                    GlobalValues.setUserLogout(DashboardActivity.this, false);
-                    Intent mainIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(mainIntent);
-                    finish();
-                }
-                dialog.dismiss();
-            }
+        nextButton.setOnClickListener(view -> {
+            logOut(this);
+            dialog.dismiss();
         });
 
         Animation animation;
         animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         ((ViewGroup) dialog.getWindow().getDecorView()).getChildAt(0).startAnimation(animation);
         dialog.show();
+    }
+
+    public void logOut(Context context) {
+        SamanApp.db.putString(Constants.CARD_LIST, "");
+        if (SamanApp.localDB != null) {
+            SamanApp.localDB.clearCart();
+        }
+        removeToken();
+
+        if (authenticatedUser.getSocialID() == 1) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            GlobalValues.setUserLoginStatus(context, false);
+                            GlobalValues.setUserLogout(context, false);
+                            Intent mainIntent = new Intent(context, LoginActivity.class);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(mainIntent);
+                            finish();
+                        }
+                    });
+        } else if (authenticatedUser.getSocialID() == 2) {
+            GlobalValues.setUserLoginStatus(context, false);
+            GlobalValues.setUserLogout(context, false);
+            Intent mainIntent = new Intent(context, LoginActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+            finish();
+        } else if (authenticatedUser.getSocialID() == 3) {
+            GlobalValues.setUserLoginStatus(context, false);
+            GlobalValues.setUserLogout(context, false);
+            Intent mainIntent = new Intent(context, LoginActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+            finish();
+        } else {
+            GlobalValues.setUserLoginStatus(context, false);
+            GlobalValues.setUserLogout(context, false);
+            Intent mainIntent = new Intent(context, LoginActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+            finish();
+        }
     }
 }
