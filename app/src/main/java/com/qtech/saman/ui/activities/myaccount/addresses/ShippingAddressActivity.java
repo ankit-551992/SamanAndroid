@@ -117,7 +117,7 @@ public class ShippingAddressActivity extends BaseActivity {
                             shippingAddresses.addAll(addressApi.getResult());
                         }
                         if (shippingAddresses.size() > 2) {
-                            settings.setVisibility(View.GONE);
+                            settings.setVisibility(View.VISIBLE);
                         } else {
                             settings.setVisibility(View.VISIBLE);
                         }

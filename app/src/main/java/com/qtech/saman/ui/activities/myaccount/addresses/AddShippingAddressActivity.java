@@ -159,6 +159,7 @@ public class AddShippingAddressActivity extends BaseActivity {
             }
             if (shippingAddress.getCountry() != null) {
                 countryEditText.setText(shippingAddress.getCountry());
+                region_name.setText(shippingAddress.getRegion());
                 if (shippingAddress.getCountry().contains("oman")) {
                     ll_region.setVisibility(View.VISIBLE);
                     if (shippingAddress.getRegion() != null) {
@@ -197,8 +198,7 @@ public class AddShippingAddressActivity extends BaseActivity {
         Intent intent = new Intent(AddShippingAddressActivity.this, CountriesListingActivity.class);
         intent.putExtra("cartlist", 1);
         startActivityForResult(intent, 1199);
-//      Intent intent = new Intent(AddShippingAddressActivity.this, CountriesListingActivity.class);
-//      startActivityForResult(intent, 1199);
+
     }
 
     @Override
@@ -290,10 +290,12 @@ public class AddShippingAddressActivity extends BaseActivity {
         if (countryEditText.getText() == null || countryEditText.getText().toString().equals("") || countryEditText.getText().toString().isEmpty()) {
             Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.country) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
             return;
-        } else {
+        }else {
             if (countryEditText.getText().toString().equalsIgnoreCase(getResources().getString(R.string.Oman))) {
-                if (region_name.getText() == null || region_name.getText().toString().equals("") || region_name.getText().toString().isEmpty()) {
-                    Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.region) + " " + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
+                if (region_name.getText() == null || region_name.getText().toString().equals("") ||
+                        region_name.getText().toString().isEmpty()) {
+                    Constants.showAlert(getString(R.string.add_shipping_address), getString(R.string.region) + " "
+                            + getString(R.string.required), getString(R.string.okay), AddShippingAddressActivity.this);
                     return;
                 }
             }
@@ -313,7 +315,9 @@ public class AddShippingAddressActivity extends BaseActivity {
                 longitude = GlobalValues.getUserLng(AddShippingAddressActivity.this);
             }
 
-            WebServicesHandler.instance.addAddress(authenticatedUser.getId(), addressLine, floor, apartment, addressLine2, cityEditText.getText().toString(), state, countryEditText.getText().toString(), region_name.getText().toString(), latitude, longitude, isChecked, new retrofit2.Callback<AddAddressApi>() {
+            WebServicesHandler.instance.addAddress(authenticatedUser.getId(), addressLine, floor, apartment, addressLine2,
+                    cityEditText.getText().toString(), state, countryEditText.getText().toString(), region_name.getText().toString(),
+                    latitude, longitude, isChecked, new retrofit2.Callback<AddAddressApi>() {
                 @Override
                 public void onResponse(Call<AddAddressApi> call, Response<AddAddressApi> response) {
                     progressBar.setVisibility(View.GONE);
