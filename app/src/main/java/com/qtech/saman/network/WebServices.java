@@ -207,13 +207,15 @@ public interface WebServices {
                                           @Query("Subject") String subject,
                                           @Query("OrderID") String oderId,
                                           @Query("Message") String message,
+                                          @Query("status") String status,
                                           @Part MultipartBody.Part[] images);
 
     @POST("Support/CreateTicket?")
     Call<CustomerSupport> uploadToSupport(@Query("UserID") int userID,
                                           @Query("Subject") String subject,
                                           @Query("OrderID") String oderId,
-                                          @Query("Message") String message);
+                                          @Query("Message") String message,
+                                          @Query("status") String status);
 
     @FormUrlEncoded
     @POST("User/SendVerificationCode")

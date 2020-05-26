@@ -57,7 +57,6 @@ import com.qtech.saman.ui.activities.SplashActivity;
 import com.qtech.saman.ui.activities.home.DashboardActivity;
 import com.qtech.saman.ui.activities.password.ForgotPasswordActivity;
 import com.qtech.saman.ui.activities.register.RegisterActivity;
-import com.qtech.saman.ui.activities.settings.SettingsActivity;
 import com.qtech.saman.utils.AsteriskPasswordTransformationMethod;
 import com.qtech.saman.utils.Constants;
 import com.qtech.saman.utils.GlobalValues;
@@ -75,7 +74,6 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -703,7 +701,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             }
         });
 
-        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+        TextView done =  dialog.findViewById(R.id.tv_done);
 
         RadioButton rbEnglish = dialog.findViewById(R.id.radio_english);
         RadioButton rbArabic = dialog.findViewById(R.id.radio_arabic);

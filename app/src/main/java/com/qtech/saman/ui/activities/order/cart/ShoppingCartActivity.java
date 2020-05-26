@@ -784,11 +784,11 @@ public class ShoppingCartActivity extends BaseActivity implements Gateway3DSecur
                     deliveryCost = 0.0f;
                 }
             }
-            priceToPay = deliveryCost + price;
+            priceToPay =SamanApp.localDB.getCartAllProductsCount()*deliveryCost + price;
             priceToPay = priceToPay - promoSaved;
 
             deliveryCostTextView.setText(String.format("%s : %s %s", getString(R.string.delivery_cost),
-                    decimalFormat.format(deliveryCost), getString(R.string.OMR)));
+                    decimalFormat.format(SamanApp.localDB.getCartAllProductsCount()*deliveryCost), getString(R.string.OMR)));
             priceToPayTextView.setText(String.format("%s : %s %s", getString(R.string.price_to_pay),
                     decimalFormat.format(priceToPay), getString(R.string.OMR)));
 

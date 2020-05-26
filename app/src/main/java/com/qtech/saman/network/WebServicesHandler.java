@@ -507,10 +507,10 @@ public class WebServicesHandler {
                 SupportImages[index] = MultipartBody.Part.createFormData("SupportImages[" + index + "]", files.get(index).getName(),
                         surveyBody);
             }
-            Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, String.valueOf(orderId), message, SupportImages);
+            Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, String.valueOf(orderId), message,"Cancel", SupportImages);
             call.enqueue(callback);
         } else {
-            Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, String.valueOf(orderId), message);
+            Call<CustomerSupport> call = webServices.uploadToSupport(userID, subject, String.valueOf(orderId), message,"Cancel");
             call.enqueue(callback);
         }
     }
