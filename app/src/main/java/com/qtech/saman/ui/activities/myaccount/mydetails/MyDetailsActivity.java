@@ -171,12 +171,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
         }
         myCalendar = Calendar.getInstance();
 
-        firstNameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                firstNameEditText.setHint("firstName");
-            }
-        });
+        firstNameEditText.setOnFocusChangeListener((v, hasFocus) -> firstNameEditText.setHint("firstName"));
         setProfile();
         showAlert = getIntent().getBooleanExtra("ShowAlert", false);
         if (showAlert) {
@@ -187,7 +182,7 @@ public class MyDetailsActivity extends BaseActivity implements DetailContractor.
                 if (SamanApp.localDB != null) {
                     SamanApp.localDB.clearCart();
                 }
-                
+
 
                 GlobalValues.setUserLoginStatus(this, false);
                 GlobalValues.setUserLogout(this, false);

@@ -171,8 +171,8 @@ public class WebServicesHandler {
             parameters.put("ShippingAddress.ID", address.get("ID"));
             parameters.put("ShippingAddress.AddressLine1", address.get("AddressLine1"));
             parameters.put("ShippingAddress.Floor", address.get("Floor"));
-            parameters.put("ShippingAddress.Apt",address.get("Apt"));
-            parameters.put("ShippingAddress.City", address.get("City"));
+            parameters.put("ShippingAddress.Apt",address.get("Apt")
+            parameters.put("ShippingAddress.City", address.get("Ci);ty"));
             parameters.put("ShippingAddress.UserCountry",address.get("UserCountry"));
             parameters.put("ShippingAddress.UserRegion", address.get("UserRegion"));
         } catch (JSONException e) {

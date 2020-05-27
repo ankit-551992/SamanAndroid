@@ -73,6 +73,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -545,7 +546,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
     @OnClick(R.id.facebook_signIn)
     public void facebookSignIn() {
 
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Collections.singletonList("public_profile"));
 
         LoginManager.getInstance().logInWithReadPermissions(
                 this,
@@ -629,7 +630,6 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-
                 hideProgress();
             }
         });
@@ -723,7 +723,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
             }
         });
 
-        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+        final RadioGroup radioGroup = dialog.findViewById(R.id.radio_group);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -733,7 +733,7 @@ public class LoginActivity extends BaseActivity implements LoginView, GoogleApiC
                 int selectedId = radioGroup.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
-                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+                RadioButton radioButton =  dialog.findViewById(selectedId);
 
                 if (radioButton.isChecked()) {
 
