@@ -1,9 +1,9 @@
 package com.qtech.saman.ui.fragments.favourite;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,7 +123,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         } else {
             tv_empty_bag.setVisibility(View.VISIBLE);
         }
-        int quan = 0;
+        int quan = size;
         for (int i = 0; i < productArrayList.size(); i++) {
             quan = quan + productArrayList.get(i).getQuantity();
         }

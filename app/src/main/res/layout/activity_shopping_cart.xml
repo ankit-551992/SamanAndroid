@@ -81,7 +81,7 @@
                     android:text="@string/see_all"
                     android:textColor="@color/colorPrimary"/>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/bag_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
             </LinearLayout>
 
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:id="@+id/tags_recyclerView"

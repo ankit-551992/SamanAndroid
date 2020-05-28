@@ -3,7 +3,7 @@ package com.qtech.saman.ui.activities.myaccount.payment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;

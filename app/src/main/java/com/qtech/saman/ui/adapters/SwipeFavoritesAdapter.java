@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -211,9 +210,7 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
                 }
             });
 
-            favoritesViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            favoritesViewHolder.layout2.setOnClickListener(view -> {
 
 //                    String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
 //                    markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
@@ -228,13 +225,12 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
 //                            mContext.getString(R.string.okay),
 //                            mContext.getString(R.string.view_fav),
 //                            1,position);
-                    showPopUp(mContext.getString(R.string.removed_from_fav),
-                            "",
-                            mContext.getString(R.string.no),
-                            mContext.getString(R.string.yes),
-                            1, position);
-                    mItemManger.closeAllItems();
-                }
+                showPopUp(mContext.getString(R.string.removed_from_fav),
+                        "",
+                        mContext.getString(R.string.no),
+                        mContext.getString(R.string.yes),
+                        1, position);
+                mItemManger.closeAllItems();
             });
             // mItemManger is member in RecyclerSwipeAdapter Class
             mItemManger.bindView(favoritesViewHolder.itemView, position);

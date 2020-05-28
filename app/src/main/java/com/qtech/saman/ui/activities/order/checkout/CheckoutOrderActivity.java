@@ -7,10 +7,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -194,7 +194,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         WebServicesHandler.instance.updateOrderFeedback(orderID, rating, feedback, new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-                Toast.makeText(CheckoutOrderActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                //Todo proper msg
             }
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {

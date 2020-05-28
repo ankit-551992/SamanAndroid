@@ -49,8 +49,8 @@ public class Constants {
         //new staging App Login
 //        String BaseURLApis = "https://staging.saman.om/api/";
         String BaseURLApis = "https://samanapp.azurewebsites.net/api/";
-        String BaseURLImages = "https://staging.saman.om";
-        String Invoice_url = "https://staging.saman.om/Order/Invoice/";
+        String BaseURLImages = "https://samanapp.azurewebsites.net";
+        String Invoice_url = "https://samanapp.azurewebsites.net/Order/Invoice/";
 
 
         String GeoCodeApis = "https://maps.googleapis.com/maps/api/geocode/";

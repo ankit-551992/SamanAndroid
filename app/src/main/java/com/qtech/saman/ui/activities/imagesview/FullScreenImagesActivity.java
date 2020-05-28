@@ -1,7 +1,7 @@
 package com.qtech.saman.ui.activities.imagesview;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;

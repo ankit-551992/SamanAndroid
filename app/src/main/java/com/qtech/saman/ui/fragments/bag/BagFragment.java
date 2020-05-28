@@ -2,8 +2,8 @@ package com.qtech.saman.ui.fragments.bag;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +115,7 @@ public class BagFragment extends BaseFragment {
             } else {
                 tv_empty_bag.setVisibility(View.VISIBLE);
             }
-            quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
+            quantity.setText(productArrayList.size() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
         }
     }
 
@@ -136,12 +136,12 @@ public class BagFragment extends BaseFragment {
         } else {
             tv_empty_bag.setVisibility(View.VISIBLE);
         }
-        quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
+        quantity.setText(productArrayList.size() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
     }
 
     public void updateQuantity() {
         if (SamanApp.localDB != null) {
-            quantity.setText(SamanApp.localDB.getCartAllProductsCounting() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
+            quantity.setText(productArrayList.size() + " " + getActivity().getResources().getQuantityString(R.plurals.bag_items, productArrayList.size()));
         }
     }
 
