@@ -8,10 +8,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +21,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
@@ -72,6 +73,8 @@ public class SettingsActivity extends BaseActivity {
 
     Locale myLocale;
     String currentLanguage = "en", currentLang;
+    Dialog dialog;
+    String selectedLanguage = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,8 +149,14 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.tv_change_password)
     void changePassword() {
-        Intent intent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
-        startActivity(intent);
+        User user = GlobalValues.getUser(this);
+
+        if (user.getLogin_Type() != 2) {
+            Intent intent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
+            startActivity(intent);
+        }else {
+            Toast.makeText(this, R.string.password_cant_change, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick(R.id.tv_privacy_policy)
@@ -169,6 +178,7 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1299) {
             if (resultCode == RESULT_OK) {
                 if (GlobalValues.countries != null) {
@@ -183,9 +193,6 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    Dialog dialog;
-    String selectedLanguage = "";
-
     private void selectLanguage() {
         dialog = new Dialog(SettingsActivity.this, R.style.CustomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -193,7 +200,7 @@ public class SettingsActivity extends BaseActivity {
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_filer_close);
+        ImageView close = dialog.findViewById(R.id.iv_filer_close);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,7 +208,7 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
-        TextView done = (TextView) dialog.findViewById(R.id.tv_done);
+        TextView done = dialog.findViewById(R.id.tv_done);
 
         RadioButton rbEnglish = dialog.findViewById(R.id.radio_english);
         RadioButton rbArabic = dialog.findViewById(R.id.radio_arabic);
@@ -223,7 +230,7 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
-        final RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radio_group);
+        final RadioGroup radioGroup = dialog.findViewById(R.id.radio_group);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,7 +240,7 @@ public class SettingsActivity extends BaseActivity {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
-                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+                RadioButton radioButton = dialog.findViewById(selectedId);
 
                 if (radioButton.isChecked()) {
 

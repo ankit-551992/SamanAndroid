@@ -1,14 +1,14 @@
 package com.qtech.saman.ui.fragments.favourite;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseFragment;
@@ -104,7 +104,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesAdapter.notifyDataSetChanged();
         int quan1 = 0;
         quan1 = quan1 + productArrayList.size();
-        quantity.setText(quan1 + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, quan1));
+        quantity.setText(String.format("%d %s", quan1, getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, quan1)));
         ((DashboardActivity) getActivity()).updateFavCount(productArrayList.size());
         if (productArrayList.size() > 0) {
             tv_empty_bag.setVisibility(View.GONE);
@@ -127,7 +127,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         for (int i = 0; i < productArrayList.size(); i++) {
             quan = quan + productArrayList.get(i).getQuantity();
         }
-        quantity.setText(quan + " " + getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, quan));
+        quantity.setText(String.format("%d %s", size, getActivity().getResources().getQuantityString(R.plurals.bag_wish_items, quan)));
     }
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {

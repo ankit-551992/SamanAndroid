@@ -476,6 +476,7 @@
     <string name="sales_notify">الترقيات والمبيعات</string>
     <string name="feedback_notify">ردود الفعل الإخطار</string>
     <string name="item_stock_notify">العنصر مرة أخرى من المخزون</string>
+    <string name="address_isrequired">يجب أن يكون هناك عنوان واحد على الأقل في حسابك</string>
 
     <string name="please_check_try_agin">يرجى التحقق من اتصال الإنترنت وإعادة المحاولة</string>
     <string-array name="regions">
@@ -509,5 +510,6 @@
     <string name="map_dialog_msg">الرجاء أختيار عنوان في عمان</string>
 
     <string name="order_fail_msg">فشل الطلب</string>
+    <string name="password_cant_change">لا يمكن تحديث كلمة المرور لمستخدمي التواصل الاجتماعي</string>
 
 </resources>

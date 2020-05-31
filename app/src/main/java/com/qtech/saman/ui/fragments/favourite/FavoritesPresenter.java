@@ -1,8 +1,5 @@
 package com.qtech.saman.ui.fragments.favourite;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
 import com.qtech.saman.data.model.apis.GetProducts;
 import com.qtech.saman.network.WebServicesHandler;
 

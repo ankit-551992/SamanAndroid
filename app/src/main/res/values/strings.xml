@@ -441,6 +441,8 @@
     <string name="country_missing">Please Select Country</string>
     <string name="region_missing">Please Select Region</string>
     <string name="dob_validation">Date of birth is not valid</string>
+    <string name="address_isrequired">At least one address should be stored in your account</string>
+    <string name="password_cant_change">Password cannot be changed for social media users</string>
 
     <string-array name="regions">
         <item>Governorate of Muscat</item>

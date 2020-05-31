@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
@@ -43,8 +45,8 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     List<ShippingAddress> shippingAddresses = new ArrayList<>();
-    private Context mContext;
     Dialog dialog;
+    private Context mContext;
 
     public AddressAdapter(Context mContext, List<ShippingAddress> shippingAddresses) {
         this.shippingAddresses = shippingAddresses;
@@ -131,25 +133,26 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
                 }
             });
 
-            messageViewHolder.layout2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (SamanApp.isEnglishVersion) {
-                        showPopUp(mContext.getString(R.string.out_of_stock_title),
-                                mContext.getString(R.string.address_msg),
-                                mContext.getString(R.string.no),
-                                mContext.getString(R.string.yes),
-                                1, position);
-                    } else {
-                        showPopUp("",
-                                mContext.getString(R.string.address_msg),
-                                mContext.getString(R.string.no),
-                                mContext.getString(R.string.yes),
-                                1, position);
+            messageViewHolder.layout2.setOnClickListener(view -> {
+                        if (shippingAddresses.size() > 1) {
+                            if (SamanApp.isEnglishVersion) {
+                                showPopUp(mContext.getString(R.string.out_of_stock_title),
+                                        mContext.getString(R.string.address_msg),
+                                        mContext.getString(R.string.no),
+                                        mContext.getString(R.string.yes),
+                                        1, position);
+                            } else {
+                                showPopUp("",
+                                        mContext.getString(R.string.address_msg),
+                                        mContext.getString(R.string.no),
+                                        mContext.getString(R.string.yes),
+                                        1, position);
+                            }
+                            mItemManger.closeAllItems();
+                        }else
+                            Toast.makeText(mContext, R.string.address_isrequired, Toast.LENGTH_SHORT).show();
                     }
-                    mItemManger.closeAllItems();
-                }
-            });
+            );
             // mItemManger is member in RecyclerSwipeAdapter Class
             mItemManger.bindView(messageViewHolder.itemView, position);
 
@@ -168,42 +171,6 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
     public int getSwipeLayoutResourceId(int position) {
         return R.id.swipe;
     }
-
-    static class MessageViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.swipe)
-        SwipeLayout swipeLayout;
-
-        @BindView(R.id.layout1)
-        LinearLayout layout1;
-
-        @BindView(R.id.layout2)
-        LinearLayout layout2;
-
-        @BindView(R.id.iv_icon1)
-        ImageView editIcon;
-
-        @BindView(R.id.tv_1)
-        TextView textView1;
-
-        @BindView(R.id.tv_address)
-        TextView address;
-
-        public MessageViewHolder(View v) {
-            super(v);
-            ButterKnife.bind(this, v);
-        }
-    }
-
-    static class LoadingViewHolder extends RecyclerView.ViewHolder {
-        public ProgressBar progressBar;
-
-        public LoadingViewHolder(View itemView) {
-            super(itemView);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.native_progress_bar);
-        }
-    }
-
 
     private void deleteAddress(int Id) {
 
@@ -228,11 +195,11 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        ImageView close = (ImageView) dialog.findViewById(R.id.iv_pop_up_close);
-        Button closePopUp = (Button) dialog.findViewById(R.id.button_close_pop_up);
-        Button nextButton = (Button) dialog.findViewById(R.id.button_pop_next);
-        TextView titleTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_title);
-        TextView messageTextView = (TextView) dialog.findViewById(R.id.tv_pop_up_message);
+        ImageView close = dialog.findViewById(R.id.iv_pop_up_close);
+        Button closePopUp = dialog.findViewById(R.id.button_close_pop_up);
+        Button nextButton = dialog.findViewById(R.id.button_pop_next);
+        TextView titleTextView = dialog.findViewById(R.id.tv_pop_up_title);
+        TextView messageTextView = dialog.findViewById(R.id.tv_pop_up_message);
         if (title.isEmpty()) {
             titleTextView.setVisibility(View.GONE);
         }
@@ -273,5 +240,40 @@ public class AddressAdapter extends RecyclerSwipeAdapter<RecyclerView.ViewHolder
         ((ViewGroup) dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(animation);
         dialog.show();
+    }
+
+    static class MessageViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.swipe)
+        SwipeLayout swipeLayout;
+
+        @BindView(R.id.layout1)
+        LinearLayout layout1;
+
+        @BindView(R.id.layout2)
+        LinearLayout layout2;
+
+        @BindView(R.id.iv_icon1)
+        ImageView editIcon;
+
+        @BindView(R.id.tv_1)
+        TextView textView1;
+
+        @BindView(R.id.tv_address)
+        TextView address;
+
+        public MessageViewHolder(View v) {
+            super(v);
+            ButterKnife.bind(this, v);
+        }
+    }
+
+    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.native_progress_bar);
+        }
     }
 }

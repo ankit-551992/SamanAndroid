@@ -282,18 +282,15 @@ public class SwipeFavoritesAdapter extends RecyclerSwipeAdapter<RecyclerView.Vie
             }
         });
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
-                markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
-                productArrayList.remove(position);
-                notifyDataSetChanged();
-                ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
-                favoritesFragment.updateCount(productArrayList.size());
+        nextButton.setOnClickListener(view -> {
+            String[] optionIDs = getOptionsData(productArrayList.get(position)).split(",");
+            markUnFavourite(authenticatedUser.getId(), productArrayList.get(position).getID(), optionIDs);
+            productArrayList.remove(position);
+            notifyDataSetChanged();
+            ((DashboardActivity) mContext).updateFavCount(productArrayList.size());
+            favoritesFragment.updateCount(productArrayList.size());
 //                mItemManger.closeAllItems();
-                dialog.dismiss();
-            }
+            dialog.dismiss();
         });
 
         Animation animation;

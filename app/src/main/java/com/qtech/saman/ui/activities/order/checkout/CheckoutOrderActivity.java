@@ -7,10 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.qtech.saman.R;
 import com.qtech.saman.base.BaseActivity;
@@ -93,6 +93,7 @@ public class CheckoutOrderActivity extends BaseActivity {
     Button sendButton, cancelButton;
     String orderID;
     int orderItemId, orderStatus, cancel_orderID;
+    private Boolean IsFeedback = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,7 @@ public class CheckoutOrderActivity extends BaseActivity {
         if (placeOrderResponse.getResult().getOrderNumber() != null) {
             cancel_orderID = placeOrderResponse.getResult().getId();
         }
-        if(placeOrderResponse.getResult().getOrderStatus()!=null)
+        if (placeOrderResponse.getResult().getOrderStatus() != null)
             orderStatusTextView.setText(placeOrderResponse.getResult().getOrderStatus());
 
         if (placeOrderResponse.getResult().getDeliveryDate() != null) {
@@ -168,6 +169,12 @@ public class CheckoutOrderActivity extends BaseActivity {
 
     @OnClick(R.id.iv_survey)
     public void survey() {
+        if (IsFeedback)
+            feedBackApply();
+
+    }
+
+    private void feedBackApply() {
         dialog = new Dialog(CheckoutOrderActivity.this);
         //tell the Dialog to use the dialog.xml as it's layout description
         dialog.setContentView(R.layout.dialog_feedback);
@@ -179,6 +186,7 @@ public class CheckoutOrderActivity extends BaseActivity {
 
         cancelButton.setOnClickListener(view -> dialog.dismiss());
         sendButton.setOnClickListener(view -> {
+
             if (ratingBar.getRating() > 0) {
                 updateOrderFeedback(Integer.parseInt(orderID), ratingBar.getRating(), editText.getText().toString());
                 dialog.dismiss();
@@ -194,8 +202,9 @@ public class CheckoutOrderActivity extends BaseActivity {
         WebServicesHandler.instance.updateOrderFeedback(orderID, rating, feedback, new retrofit2.Callback<SimpleSuccess>() {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
-                //Todo proper msg
+                IsFeedback = false;
             }
+
             @Override
             public void onFailure(Call<SimpleSuccess> call, Throwable t) {
             }

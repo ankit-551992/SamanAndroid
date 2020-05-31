@@ -77,6 +77,9 @@ public class User {
     @SerializedName("Region")
     @Expose
     private String region;
+    @SerializedName("LoginType")
+    @Expose
+    private Integer login_Type;
 
     private Integer socialID=0;
 
@@ -293,7 +296,13 @@ public class User {
     public void setRegion(String region) {
         this.region = region;
     }
+    public Integer getLogin_Type() {
+        return login_Type;
+    }
 
+    public void setLogin_Type(Integer login_Type) {
+        this.login_Type = login_Type;
+    }
     @Override
     public String toString() {
         return "User{" +
@@ -323,6 +332,9 @@ public class User {
                 ", region='" + region + '\'' +
                 ", socialID=" + socialID +
                 ", addressID=" + addressID +
+                ", login_Type=" + login_Type +
                 '}';
     }
+
+
 }
