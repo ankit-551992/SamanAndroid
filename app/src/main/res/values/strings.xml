@@ -31,7 +31,6 @@
     <string name="no">No</string>
     <string name="OR">OR</string>
     <string name="Okay">Okay</string>
-    <string name="ud_store">UD Store</string>
     <string name="upload_photos">Upload\nPhotos</string>
     <string name="dummy">Lige Brand Men Watches Automatic</string>
     <string name="write_here">Enter your messagee</string>
@@ -443,6 +442,7 @@
     <string name="dob_validation">Date of birth is not valid</string>
     <string name="address_isrequired">At least one address should be stored in your account</string>
     <string name="password_cant_change">Password cannot be changed for social media users</string>
+    <string name="feedback_send">The feedback has been sent</string>
 
     <string-array name="regions">
         <item>Governorate of Muscat</item>

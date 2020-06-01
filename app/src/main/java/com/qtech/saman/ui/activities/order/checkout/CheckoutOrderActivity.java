@@ -203,6 +203,7 @@ public class CheckoutOrderActivity extends BaseActivity {
             @Override
             public void onResponse(Call<SimpleSuccess> call, Response<SimpleSuccess> response) {
                 IsFeedback = false;
+                Toast.makeText(CheckoutOrderActivity.this, getString(R.string.feedback_send), Toast.LENGTH_SHORT).show();
             }
 
             @Override

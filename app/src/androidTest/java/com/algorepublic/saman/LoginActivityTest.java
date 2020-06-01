@@ -1,8 +1,9 @@
-package com.qtech.saman;
+package com.algorepublic.saman;
 
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.qtech.saman.R;
 import com.qtech.saman.ui.activities.login.LoginActivity;
 
 import org.junit.Rule;

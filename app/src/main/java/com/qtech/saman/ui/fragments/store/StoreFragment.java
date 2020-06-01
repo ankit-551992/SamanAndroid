@@ -86,29 +86,26 @@ public class StoreFragment extends BaseFragment {
     }
 
     private void searchTextListner() {
-        search_store.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    if (search_store.getText() != null && !search_store.getText().toString().isEmpty() &&
-                            search_store.getText().length() > 0) {
-                        tabLayout.setVisibility(View.GONE);
-                        FLAG_SEARCH = true;
-                        search = search_store.getText().toString();
-                        tab();
-                        adapter.notifyDataSetChanged();
-                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-                        return true;
-                    } else {
-                        FLAG_SEARCH = false;
-                        tabLayout.setVisibility(View.VISIBLE);
-                        tab();
-                        adapter.notifyDataSetChanged();
-                    }
+        search_store.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                if (search_store.getText() != null && !search_store.getText().toString().isEmpty() &&
+                        search_store.getText().length() > 0) {
+                    tabLayout.setVisibility(View.GONE);
+                    FLAG_SEARCH = true;
+                    search = search_store.getText().toString();
+                    tab();
+                    adapter.notifyDataSetChanged();
+                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                    return true;
+                } else {
+                    FLAG_SEARCH = false;
+                    tabLayout.setVisibility(View.VISIBLE);
+                    tab();
+                    adapter.notifyDataSetChanged();
                 }
-                return false;
             }
+            return false;
         });
     }
 

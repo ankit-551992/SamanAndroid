@@ -51,9 +51,9 @@ public class ApiController {
 
     private static final ApiController INSTANCE = new ApiController();
 
-    static final Gson GSON = new GsonBuilder().create();
+    private static final Gson GSON = new GsonBuilder().create();
 
-    String merchantServerUrl;
+    private String merchantServerUrl;
 
 
     public interface CreateSessionCallback {

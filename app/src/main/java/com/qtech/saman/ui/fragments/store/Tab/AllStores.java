@@ -1,5 +1,6 @@
 package com.qtech.saman.ui.fragments.store.Tab;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -101,23 +102,20 @@ public class AllStores extends BaseFragment {
         } else {
             getStores();
         }
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                storeArrayList = new ArrayList<>();
-                adapter = new StoresAdapter(getContext(), storeArrayList, storeID);
-                recyclerView.setAdapter(adapter);
-                currentPage = 1;
-                if (isBannerStore) {
-                    getBannerStore();
-                } else {
-                    getStores();
-                }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            storeArrayList = new ArrayList<>();
+            adapter = new StoresAdapter(getContext(), storeArrayList, storeID);
+            recyclerView.setAdapter(adapter);
+            currentPage = 1;
+            if (isBannerStore) {
+                getBannerStore();
+            } else {
+                getStores();
             }
         });
         return view;
     }
+
 
     private void getBannerStore() {
 
@@ -133,23 +131,13 @@ public class AllStores extends BaseFragment {
                     if (getStores.getSuccess() == 1) {
                         txt_empty.setVisibility(View.GONE);
                         isGetAll = true;
-//                if(getStores.getLastPage()==currentPage){
-//                    isGetAll=true;
-//                }else {
-//                    currentPage++;
-//                }
                         progressBar.setVisibility(View.GONE);
                         storeArrayList.addAll(getStores.getStores());
                         progressBar.setVisibility(View.GONE);
                         swipeRefreshLayout.setRefreshing(false);
                         isLoading = false;
 
-                        Collections.sort(storeArrayList, new Comparator<Store>() {
-                            @Override
-                            public int compare(Store s1, Store s2) {
-                                return s1.getStoreName().compareToIgnoreCase(s2.getStoreName());
-                            }
-                        });
+                        Collections.sort(storeArrayList, (s1, s2) -> s1.getStoreName().compareToIgnoreCase(s2.getStoreName()));
 
                         if (FLAG_SEARCH) {
                             getSearchStore(search, storeArrayList);
@@ -186,23 +174,13 @@ public class AllStores extends BaseFragment {
                     if (getStores.getSuccess() == 1) {
                         txt_empty.setVisibility(View.GONE);
                         isGetAll = true;
-//                if(getStores.getLastPage()==currentPage){
-//                    isGetAll=true;
-//                }else {
-//                    currentPage++;
-//                }
                         progressBar.setVisibility(View.GONE);
                         storeArrayList.addAll(getStores.getStores());
                         progressBar.setVisibility(View.GONE);
                         swipeRefreshLayout.setRefreshing(false);
                         isLoading = false;
 
-                        Collections.sort(storeArrayList, new Comparator<Store>() {
-                            @Override
-                            public int compare(Store s1, Store s2) {
-                                return s1.getStoreName().compareToIgnoreCase(s2.getStoreName());
-                            }
-                        });
+                        Collections.sort(storeArrayList, (s1, s2) -> s1.getStoreName().compareToIgnoreCase(s2.getStoreName()));
 
                         if (FLAG_SEARCH) {
                             getSearchStore(search, storeArrayList);
@@ -231,7 +209,6 @@ public class AllStores extends BaseFragment {
         List<Store> seachstorelist = new ArrayList<>();
         for (Store storename : storeList) {
             if (SamanApp.isEnglishVersion) {
-//            if (storename.getStoreName() != null && storename.getStoreName().contains(search)) {
                 if (storename.getStoreName().toLowerCase().contains(search.toLowerCase())) {
                     seachstorelist.add(storename);
                 }

@@ -55,6 +55,7 @@ public class GPSTracker extends Service implements LocationListener {
             locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 
             // getting GPS status
+            assert locationManager != null;
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
 
             // getting network status

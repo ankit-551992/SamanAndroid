@@ -199,10 +199,10 @@ public class ProductsActivity extends BaseActivity {
     private void setUpCustomTabs() {
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            View customTab = (View) LayoutInflater.from(this).inflate(R.layout.tab_custom_view, null);//get custom view
-            TextView textView = (TextView) customTab.findViewById(R.id.tv_tab);
-            ImageView imageView = (ImageView) customTab.findViewById(R.id.iv_tab);
-            LinearLayout bg = (LinearLayout) customTab.findViewById(R.id.tab_layout);
+            View customTab =  LayoutInflater.from(this).inflate(R.layout.tab_custom_view, null);//get custom view
+            TextView textView =  customTab.findViewById(R.id.tv_tab);
+            ImageView imageView =  customTab.findViewById(R.id.iv_tab);
+            LinearLayout bg =  customTab.findViewById(R.id.tab_layout);
 
             if (isCategoryProduct) {
 //                isCategoryProduct = false;
@@ -285,7 +285,7 @@ public class ProductsActivity extends BaseActivity {
         viewPager.setAdapter(adapter);
     }
 
-    public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+    public static class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mfragmentlist = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

@@ -1,4 +1,4 @@
-package com.qtech.saman;
+package com.algorepublic.saman;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -21,7 +21,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getContext();
 
         assertEquals("com.qtech.saman", appContext.getPackageName());
     }

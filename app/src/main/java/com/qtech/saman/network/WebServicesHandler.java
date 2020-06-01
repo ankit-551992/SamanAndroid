@@ -137,12 +137,7 @@ public class WebServicesHandler {
         parameters.put("LastName", lName);
         parameters.put("Email", email);
         parameters.put("deviceType", "2");
-      /*parameters.put("Password", "");
-        parameters.put("Gender", "");
-        parameters.put("Country", "");
-        parameters.put("ShippingAddress", "");
-        parameters.put("DateOfBirth", "");
-        parameters.put("MobileNumber", "");*/
+
         if (deviceToken != null) {
             parameters.put("deviceToken", deviceToken);
         } else {
